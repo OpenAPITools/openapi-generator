@@ -17,7 +17,113 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
+#include <regex>
 #include <unordered_set>
+
+namespace {
+
+    enum SerDeContentType {
+        BINARY,
+        JSON_DIALECT,
+        MULTIPART_FORM_DATA,
+        TEXT_PLAIN,
+        X_WWW_FORM_URLENCODED
+    };
+
+    std::pair<bool, utility::string_t> check_json_content_type(const std::unordered_set<utility::string_t>& content_types)
+    {
+        auto it_content_type = content_types.find(utility::conversions::to_string_t("application/json"));
+        if (it_content_type != content_types.end())
+        {
+            return std::make_pair(true, *it_content_type);
+        }
+
+        static const std::regex REGEX_JSON_CONTENT(R"(application/([a-zA-Z0-9]+\+)?json)");
+        auto it_regex_match = std::find_if(content_types.begin(), content_types.end(),
+            [](const utility::string_t& content_type) -> bool {
+                return std::regex_match(utility::conversions::to_utf8string(content_type), REGEX_JSON_CONTENT);
+            });
+
+        bool dialect_matched = it_regex_match != content_types.end();
+        return std::make_pair(
+            dialect_matched,
+            (dialect_matched) ? *it_regex_match : utility::conversions::to_string_t("")
+        );
+    }
+
+    std::pair<utility::string_t, SerDeContentType> select_expected_response_content_type(const std::unordered_set<utility::string_t>& responseContentTypes)
+    {
+        utility::string_t responseContentType;
+        SerDeContentType deserialiser;
+        // use JSON if possible
+        if ( responseContentTypes.size() == 0 )
+        {
+            responseContentType = utility::conversions::to_string_t("application/json");
+            deserialiser = JSON_DIALECT;
+        }
+        // JSON
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(responseContentTypes); supported_dialect)
+        {
+            responseContentType = dialect_family;
+            deserialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( responseContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != responseContentTypes.end() )
+        {
+            responseContentType = utility::conversions::to_string_t("multipart/form-data");
+            deserialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (responseContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != responseContentTypes.end())
+        {
+            responseContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            deserialiser = X_WWW_FORM_URLENCODED;
+        }
+        else
+        {
+            throw org::openapitools::client::api::ApiException(400, utility::conversions::to_string_t("StoreApi-> does not produce any supported media type"));
+        }
+
+        return make_pair(responseContentType, deserialiser);
+    }
+
+    std::pair<utility::string_t, SerDeContentType> select_request_content_type(std::unordered_set<utility::string_t>& requestContentTypes)
+    {
+        utility::string_t requestContentType;
+        SerDeContentType serialiser;
+
+        if ( requestContentTypes.size() == 0 ){
+            requestContentTypes.insert(utility::conversions::to_string_t("application/json"));
+            serialiser = JSON_DIALECT;
+        }
+
+        // JSON
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(requestContentTypes); supported_dialect)
+        {
+            requestContentType = dialect_family;
+            serialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( requestContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != requestContentTypes.end() )
+        {
+            requestContentType = utility::conversions::to_string_t("multipart/form-data");
+            serialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (requestContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != requestContentTypes.end())
+        {
+            requestContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            serialiser = X_WWW_FORM_URLENCODED;
+        }
+        else
+        {
+            throw org::openapitools::client::api::ApiException(415, utility::conversions::to_string_t("StoreApi-> does not consume any supported media type"));
+        }
+
+        return make_pair(requestContentType, serialiser);
+    }
+
+} // namespace anonymous
 
 namespace org {
 namespace openapitools {
@@ -50,53 +156,38 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId) const
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("StoreApi->deleteOrder does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("StoreApi->deleteOrder does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling deleteOrder: unsupported request type"));
     }
 
 
@@ -132,7 +223,7 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId) const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -154,53 +245,38 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("StoreApi->getInventory does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("StoreApi->getInventory does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling getInventory: unsupported request type"));
     }
 
     // authentication (api_key) required
@@ -244,13 +320,13 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
         std::map<utility::string_t, int32_t> localVarResult;
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
@@ -261,7 +337,7 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
                 localVarResult[localVarItem.first] = localVarItemObj;
             }
         }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }
@@ -291,53 +367,38 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId) const
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/xml") );
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("StoreApi->getOrderById does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("StoreApi->getOrderById does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling getOrderById: unsupported request type"));
     }
 
 
@@ -373,19 +434,19 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId) const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
         std::shared_ptr<Order> localVarResult(new Order());
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
             ModelBase::fromJson(localVarJson, localVarResult);
         }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }
@@ -420,40 +481,18 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/xml") );
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("StoreApi->placeOrder does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(body);
@@ -462,9 +501,8 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
         if(body.get())
@@ -476,13 +514,21 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("StoreApi->placeOrder does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling placeOrder: unsupported request type"));
     }
 
 
@@ -518,19 +564,19 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
         std::shared_ptr<Order> localVarResult(new Order());
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
             ModelBase::fromJson(localVarJson, localVarResult);
         }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }

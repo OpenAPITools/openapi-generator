@@ -17,7 +17,113 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
+#include <regex>
 #include <unordered_set>
+
+namespace {
+
+    enum SerDeContentType {
+        BINARY,
+        JSON_DIALECT,
+        MULTIPART_FORM_DATA,
+        TEXT_PLAIN,
+        X_WWW_FORM_URLENCODED
+    };
+
+    std::pair<bool, utility::string_t> check_json_content_type(const std::unordered_set<utility::string_t>& content_types)
+    {
+        auto it_content_type = content_types.find(utility::conversions::to_string_t("application/json"));
+        if (it_content_type != content_types.end())
+        {
+            return std::make_pair(true, *it_content_type);
+        }
+
+        static const std::regex REGEX_JSON_CONTENT(R"(application/([a-zA-Z0-9]+\+)?json)");
+        auto it_regex_match = std::find_if(content_types.begin(), content_types.end(),
+            [](const utility::string_t& content_type) -> bool {
+                return std::regex_match(utility::conversions::to_utf8string(content_type), REGEX_JSON_CONTENT);
+            });
+
+        bool dialect_matched = it_regex_match != content_types.end();
+        return std::make_pair(
+            dialect_matched,
+            (dialect_matched) ? *it_regex_match : utility::conversions::to_string_t("")
+        );
+    }
+
+    std::pair<utility::string_t, SerDeContentType> select_expected_response_content_type(const std::unordered_set<utility::string_t>& responseContentTypes)
+    {
+        utility::string_t responseContentType;
+        SerDeContentType deserialiser;
+        // use JSON if possible
+        if ( responseContentTypes.size() == 0 )
+        {
+            responseContentType = utility::conversions::to_string_t("application/json");
+            deserialiser = JSON_DIALECT;
+        }
+        // JSON
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(responseContentTypes); supported_dialect)
+        {
+            responseContentType = dialect_family;
+            deserialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( responseContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != responseContentTypes.end() )
+        {
+            responseContentType = utility::conversions::to_string_t("multipart/form-data");
+            deserialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (responseContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != responseContentTypes.end())
+        {
+            responseContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            deserialiser = X_WWW_FORM_URLENCODED;
+        }
+        else
+        {
+            throw org::openapitools::client::api::ApiException(400, utility::conversions::to_string_t("UserApi-> does not produce any supported media type"));
+        }
+
+        return make_pair(responseContentType, deserialiser);
+    }
+
+    std::pair<utility::string_t, SerDeContentType> select_request_content_type(std::unordered_set<utility::string_t>& requestContentTypes)
+    {
+        utility::string_t requestContentType;
+        SerDeContentType serialiser;
+
+        if ( requestContentTypes.size() == 0 ){
+            requestContentTypes.insert(utility::conversions::to_string_t("application/json"));
+            serialiser = JSON_DIALECT;
+        }
+
+        // JSON
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(requestContentTypes); supported_dialect)
+        {
+            requestContentType = dialect_family;
+            serialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( requestContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != requestContentTypes.end() )
+        {
+            requestContentType = utility::conversions::to_string_t("multipart/form-data");
+            serialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (requestContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != requestContentTypes.end())
+        {
+            requestContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            serialiser = X_WWW_FORM_URLENCODED;
+        }
+        else
+        {
+            throw org::openapitools::client::api::ApiException(415, utility::conversions::to_string_t("UserApi-> does not consume any supported media type"));
+        }
+
+        return make_pair(requestContentType, serialiser);
+    }
+
+} // namespace anonymous
 
 namespace org {
 namespace openapitools {
@@ -55,40 +161,18 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->createUser does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(body);
@@ -97,9 +181,8 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
         if(body.get())
@@ -111,13 +194,21 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->createUser does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling createUser: unsupported request type"));
     }
 
 
@@ -153,7 +244,7 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -174,40 +265,18 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->createUsersWithArrayInput does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
         {
@@ -223,9 +292,8 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
         {
@@ -241,13 +309,21 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->createUsersWithArrayInput does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling createUsersWithArrayInput: unsupported request type"));
     }
 
 
@@ -283,7 +359,7 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -304,40 +380,18 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->createUsersWithListInput does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
         {
@@ -353,9 +407,8 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
         {
@@ -371,13 +424,21 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->createUsersWithListInput does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling createUsersWithListInput: unsupported request type"));
     }
 
 
@@ -413,7 +474,7 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -435,53 +496,38 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username) const
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->deleteUser does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->deleteUser does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling deleteUser: unsupported request type"));
     }
 
 
@@ -517,7 +563,7 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username) const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -541,53 +587,38 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/xml") );
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->getUserByName does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->getUserByName does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling getUserByName: unsupported request type"));
     }
 
 
@@ -623,19 +654,19 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
         std::shared_ptr<User> localVarResult(new User());
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
             ModelBase::fromJson(localVarJson, localVarResult);
         }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }
@@ -664,33 +695,7 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/xml") );
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    // plain text
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("text/plain")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->loginUser does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
@@ -703,25 +708,31 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->loginUser does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling loginUser: unsupported request type"));
     }
 
 
@@ -757,23 +768,23 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
         utility::string_t localVarResult(utility::conversions::to_string_t(""));
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
             ModelBase::fromJson(localVarJson, localVarResult);
         }
-        else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
+        else if(responseDeserialiser == TEXT_PLAIN)
         {
             localVarResult = localVarResponse;
         }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }
@@ -800,53 +811,38 @@ pplx::task<void> UserApi::logoutUser() const
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->logoutUser does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->logoutUser does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling logoutUser: unsupported request type"));
     }
 
 
@@ -882,7 +878,7 @@ pplx::task<void> UserApi::logoutUser() const
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -910,40 +906,18 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UserApi->updateUser does not produce any supported media type"));
-    }
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(body);
@@ -952,9 +926,8 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
         if(body.get())
@@ -966,13 +939,21 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UserApi->updateUser does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling updateUser: unsupported request type"));
     }
 
 
@@ -1008,7 +989,7 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
             }
         }
 
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
