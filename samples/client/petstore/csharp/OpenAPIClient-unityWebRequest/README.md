@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**RolesReportGet**](DefaultApi.md#rolesreportget) | **GET** /roles/report | 
 *FakeApi* | [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -203,6 +204,8 @@ Class | Method | HTTP request | Description
  - [Model.QuadrilateralInterface](QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](ReadOnlyFirst.md)
  - [Model.Return](Return.md)
+ - [Model.RolesReportsHash](RolesReportsHash.md)
+ - [Model.RolesReportsHashRole](RolesReportsHashRole.md)
  - [Model.ScaleneTriangle](ScaleneTriangle.md)
  - [Model.Shape](Shape.md)
  - [Model.ShapeInterface](ShapeInterface.md)

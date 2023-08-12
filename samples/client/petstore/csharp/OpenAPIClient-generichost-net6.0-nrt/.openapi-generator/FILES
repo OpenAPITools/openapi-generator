@@ -78,6 +78,8 @@ docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
 docs/models/Return.md
+docs/models/RolesReportsHash.md
+docs/models/RolesReportsHashRole.md
 docs/models/ScaleneTriangle.md
 docs/models/Shape.md
 docs/models/ShapeInterface.md
@@ -200,6 +202,8 @@ src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/Return.cs
+src/Org.OpenAPITools/Model/RolesReportsHash.cs
+src/Org.OpenAPITools/Model/RolesReportsHashRole.cs
 src/Org.OpenAPITools/Model/ScaleneTriangle.cs
 src/Org.OpenAPITools/Model/Shape.cs
 src/Org.OpenAPITools/Model/ShapeInterface.cs

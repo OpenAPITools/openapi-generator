@@ -41,6 +41,17 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /roles/report:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RolesReport'
+                type: array
+          description: returns report
   /hello:
     get:
       description: Hello
@@ -1181,6 +1192,20 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    RolesReport:
+      description: Roles report
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+      type: array
+    RolesReportsHash:
+      description: Role report Hash
+      properties:
+        role_uuid:
+          format: uuid
+          type: string
+        role:
+          $ref: '#/components/schemas/RolesReportsHash_role'
+      type: object
     Foo:
       example:
         bar: bar
@@ -2422,6 +2447,11 @@ components:
         required:
         - country
         type: object
+    RolesReportsHash_role:
+      properties:
+        name:
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

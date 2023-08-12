@@ -114,6 +114,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
+            _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
+            _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
             _jsonOptions.Converters.Add(new ScaleneTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ShapeJsonConverter());
             _jsonOptions.Converters.Add(new ShapeInterfaceJsonConverter());
