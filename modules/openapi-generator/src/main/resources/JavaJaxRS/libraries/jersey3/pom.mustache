@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>{{groupId}}</groupId>
   <artifactId>{{artifactId}}</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>{{artifactId}}</name>
   <version>{{artifactVersion}}</version>
 
@@ -151,6 +151,11 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet-core</artifactId>
+      <version>${jersey3-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
       <version>${jersey3-version}</version>
     </dependency>
     <dependency>
