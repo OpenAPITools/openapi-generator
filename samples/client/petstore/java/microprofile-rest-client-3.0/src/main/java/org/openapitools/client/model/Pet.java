@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -259,4 +258,3 @@ public class Pet  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
