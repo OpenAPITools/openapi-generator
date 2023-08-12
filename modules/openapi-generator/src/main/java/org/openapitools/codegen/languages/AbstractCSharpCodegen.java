@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -1584,6 +1585,56 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+    }
+
+    /*
+     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+     */
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
+            // check if the pattern has any modifiers
+            // gmiyuvsd - ecma modifiers
+            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
+            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
+            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
+
+            int end = hasModifiers.matcher(pattern).find()
+                ? pattern.lastIndexOf('/')
+                : pattern.length() - 1;
+
+            int start = pattern.startsWith("/")
+                ? 1
+                : 0;
+
+            Map<Character, String> optionsMap = new HashMap();
+            optionsMap.put('i', "IgnoreCase");
+            optionsMap.put('m', "Multiline");
+            optionsMap.put('s', "SingleLine");
+            optionsMap.put('n', "ExplicitCapture");
+            optionsMap.put('x', "IgnorePatternWhitespace");
+
+            List<String> modifiers = new ArrayList<String>();
+            modifiers.add("CultureInvariant");
+
+            for (char c : pattern.substring(end).toCharArray()) {
+                if (optionsMap.containsKey(c)) {
+                    modifiers.add(optionsMap.get(c));
+                } else if (c == 'l'){
+                    modifiers.remove("CultureInvariant");
+                } else {
+                    vendorExtensions.put("x-modifier-" + c, c);
+                }
+            }
+
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 
