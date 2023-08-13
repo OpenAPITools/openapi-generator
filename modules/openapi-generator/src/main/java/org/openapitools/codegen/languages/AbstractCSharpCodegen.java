@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -1363,7 +1364,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override

@@ -17,6 +17,22 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /count:
+    get:
+      operationId: getCount
+      responses:
+        200:
+          description: Success
+          content:
+            '*/*':
+              schema:
+                type: integer
+        default:
+          description: Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
   /hello:
     get:
       summary: Hello
@@ -1276,6 +1292,15 @@ components:
       type: http
       scheme: signature
   schemas:
+    ErrorMessage:
+      type: string
+      enum:
+      - "Value\twith tab"
+      - "Duplicate\nvalue"
+      - "Duplicate\r\nvalue"
+      - 'Value with " quote'
+      - 'Value with escaped \" quote'
+
     Foo:
       type: object
       properties:

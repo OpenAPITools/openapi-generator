@@ -41,6 +41,22 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /count:
+    get:
+      operationId: getCount
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: integer
+          description: Success
+        default:
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Error
   /hello:
     get:
       description: Hello
@@ -1181,6 +1197,16 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    ErrorMessage:
+      enum:
+      - "Value\twith tab"
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      - Value with " quote
+      - Value with escaped \" quote
+      type: string
     Foo:
       example:
         bar: bar

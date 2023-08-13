@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static PetTypeEnum PetTypeEnumFromString(string value)
         {
-            if (value == "ChildCat")
+            if (value.Equals("ChildCat"))
                 return PetTypeEnum.ChildCat;
 
             throw new NotImplementedException($"Could not convert value to type PetTypeEnum: '{value}'");
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static PetTypeEnum? PetTypeEnumFromStringOrDefault(string value)
         {
-            if (value == "ChildCat")
+            if (value.Equals("ChildCat"))
                 return PetTypeEnum.ChildCat;
 
             return null;

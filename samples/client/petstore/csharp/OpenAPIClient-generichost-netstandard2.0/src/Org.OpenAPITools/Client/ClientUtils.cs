@@ -149,6 +149,8 @@ namespace Org.OpenAPITools.Client
                 return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
             if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
                 return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
+            if (obj is ErrorMessage errorMessage)
+                return ErrorMessageValueConverter.ToJsonValue(errorMessage);
             if (obj is MapTest.InnerEnum mapTestInnerEnum)
                 return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
             if (obj is Order.StatusEnum orderStatusEnum)

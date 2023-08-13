@@ -33,6 +33,7 @@ docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
 docs/EquilateralTriangle.md
+docs/ErrorMessage.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/File.md
@@ -151,6 +152,7 @@ src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
 src/Org.OpenAPITools/Model/EquilateralTriangle.cs
+src/Org.OpenAPITools/Model/ErrorMessage.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs

@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
+*DefaultApi* | [**GetCount**](DefaultApi.md#getcount) | **GET** /count | 
 *DefaultApi* | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello
 *FakeApi* | [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
@@ -163,6 +164,7 @@ Class | Method | HTTP request | Description
  - [Model.EnumClass](EnumClass.md)
  - [Model.EnumTest](EnumTest.md)
  - [Model.EquilateralTriangle](EquilateralTriangle.md)
+ - [Model.ErrorMessage](ErrorMessage.md)
  - [Model.File](File.md)
  - [Model.FileSchemaTestClass](FileSchemaTestClass.md)
  - [Model.Foo](Foo.md)

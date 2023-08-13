@@ -71,10 +71,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static InnerEnum InnerEnumFromString(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return InnerEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return InnerEnum.Lower;
 
             throw new NotImplementedException($"Could not convert value to type InnerEnum: '{value}'");
@@ -87,10 +87,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static InnerEnum? InnerEnumFromStringOrDefault(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return InnerEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return InnerEnum.Lower;
 
             return null;
