@@ -892,12 +892,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection" };
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
                 String nestedReturnType = operation.returnProperty.items.dataType;
                 operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+
+            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
                 operation.returnProperty.dataType = operation.returnType;
                 operation.returnProperty.datatypeWithEnum = operation.returnType;
             }
