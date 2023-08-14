@@ -17,6 +17,17 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /roles/report:
+    get:
+      responses:
+        '200':
+          description: returns report
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RolesReport'
   /hello:
     get:
       summary: Hello
@@ -1276,6 +1287,23 @@ components:
       type: http
       scheme: signature
   schemas:
+    RolesReport:
+      description: Roles report
+      type: array
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+    RolesReportsHash:
+      description: Role report Hash
+      type: object
+      properties:
+        role_uuid:
+          type: string
+          format: uuid
+        role:
+          type: object
+          properties:
+            name:
+              type: string
     Foo:
       type: object
       properties:

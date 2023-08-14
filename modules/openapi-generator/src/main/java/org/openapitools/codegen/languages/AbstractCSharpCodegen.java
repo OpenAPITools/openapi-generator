@@ -542,7 +542,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -552,7 +552,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -562,7 +562,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
             }
@@ -637,7 +637,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
-    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+    private void patchPropertyVendorExtensions(CodegenProperty property) {
         Boolean isValueType = isValueType(property);
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
@@ -657,7 +657,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        patchPropertyVendorExtensinos(property);
+        patchPropertyVendorExtensions(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
@@ -741,13 +741,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                     // Check return types for collection
                     if (operation.returnType != null) {
-                        String typeMapping;
                         int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        if (namespaceEnd > 0) {
-                            typeMapping = operation.returnType.substring(namespaceEnd);
-                        } else {
-                            typeMapping = operation.returnType;
-                        }
+                        String typeMapping = namespaceEnd > 0
+                                ? operation.returnType.substring(namespaceEnd)
+                                : operation.returnType;
 
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
@@ -895,7 +892,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        // default noop
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+
+            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+        });
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
