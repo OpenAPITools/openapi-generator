@@ -15,14 +15,19 @@
  */
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.EnumSet;
+
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
@@ -145,7 +150,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model.mustache", MODEL_PATH, "base_model.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 
@@ -220,7 +225,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model.mustache", MODEL_PATH, "base_model.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 

@@ -5,7 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server import util
 
 
@@ -19,12 +19,12 @@ class Tag(Model):
         """Tag - a model defined in OpenAPI
 
         :param id: The id of this Tag.  # noqa: E501
-        :type id: long
+        :type id: int
         :param name: The name of this Tag.  # noqa: E501
         :type name: str
         """
         self.openapi_types = {
-            'id': long,
+            'id': int,
             'name': str
         }
 
@@ -37,7 +37,7 @@ class Tag(Model):
         self._name = name
 
     @classmethod
-    def from_dict(cls, dikt):
+    def from_dict(cls, dikt) -> 'Tag':
         """Returns the dict as a model
 
         :param dikt: A dict.
@@ -53,7 +53,7 @@ class Tag(Model):
 
 
         :return: The id of this Tag.
-        :rtype: long
+        :rtype: int
         """
         return self._id
 
@@ -63,7 +63,7 @@ class Tag(Model):
 
 
         :param id: The id of this Tag.
-        :type id: long
+        :type id: int
         """
 
         self._id = id

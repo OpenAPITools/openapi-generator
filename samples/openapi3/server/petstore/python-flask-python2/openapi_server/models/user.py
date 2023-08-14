@@ -5,7 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server import util
 
 
@@ -19,7 +19,7 @@ class User(Model):
         """User - a model defined in OpenAPI
 
         :param id: The id of this User.  # noqa: E501
-        :type id: long
+        :type id: int
         :param username: The username of this User.  # noqa: E501
         :type username: str
         :param first_name: The first_name of this User.  # noqa: E501
@@ -36,7 +36,7 @@ class User(Model):
         :type user_status: int
         """
         self.openapi_types = {
-            'id': long,
+            'id': int,
             'username': str,
             'first_name': str,
             'last_name': str,
@@ -67,7 +67,7 @@ class User(Model):
         self._user_status = user_status
 
     @classmethod
-    def from_dict(cls, dikt):
+    def from_dict(cls, dikt) -> 'User':
         """Returns the dict as a model
 
         :param dikt: A dict.
@@ -83,7 +83,7 @@ class User(Model):
 
 
         :return: The id of this User.
-        :rtype: long
+        :rtype: int
         """
         return self._id
 
@@ -93,7 +93,7 @@ class User(Model):
 
 
         :param id: The id of this User.
-        :type id: long
+        :type id: int
         """
 
         self._id = id

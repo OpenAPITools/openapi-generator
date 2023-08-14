@@ -18,6 +18,7 @@ openapi_server/models/base_model.py
 openapi_server/models/category.py
 openapi_server/models/order.py
 openapi_server/models/pet.py
+openapi_server/models/status_enum.py
 openapi_server/models/tag.py
 openapi_server/models/user.py
 openapi_server/openapi/openapi.yaml
