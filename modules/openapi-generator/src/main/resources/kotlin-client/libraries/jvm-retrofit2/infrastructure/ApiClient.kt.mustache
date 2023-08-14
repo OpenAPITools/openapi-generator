@@ -61,8 +61,10 @@ import okhttp3.MediaType.Companion.toMediaType
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
-    private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
-    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
+    {{^kotlinx_serialization}}
+    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
+    {{/kotlinx_serialization}}
     private val callFactory : Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
         {{#useRxJava}}
