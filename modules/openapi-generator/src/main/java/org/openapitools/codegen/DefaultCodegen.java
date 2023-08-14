@@ -5176,6 +5176,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getStyle() != null) {
             codegenParameter.style = parameter.getStyle().toString();
             codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
+            codegenParameter.isMatrix = Parameter.StyleEnum.MATRIX == parameter.getStyle();
         }
 
         // the default value is false
