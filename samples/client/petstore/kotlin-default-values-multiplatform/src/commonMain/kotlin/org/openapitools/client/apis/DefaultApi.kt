@@ -81,7 +81,9 @@ open class DefaultApi(
                 fn1?.apply { append("fn1", fn1) }
                 fn2?.apply { append("fn2", fn2) }
                 fn3?.apply { append("fn3", fn3) }
-                fn4?.apply { append("fn4", fn4) }
+                fn4?.onEach {
+                    append("fn4[]", it)
+                }
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
