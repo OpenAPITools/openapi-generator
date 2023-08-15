@@ -22,7 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |null|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools|

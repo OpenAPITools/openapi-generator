@@ -7,6 +7,6 @@ object SerializerHelper {
     fun addEnumUnknownDefaultCase(moshiBuilder: Moshi.Builder): Moshi.Builder {
         return moshiBuilder
             .add(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java, EnumJsonAdapter.create(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java)
-                .withUnknownFallback(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName.unknownDefaultOpenApi))
+                .withUnknownFallback(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName.unknown_default_open_api))
     }
 }
