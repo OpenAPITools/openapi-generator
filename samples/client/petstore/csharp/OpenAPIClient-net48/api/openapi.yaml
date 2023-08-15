@@ -1156,6 +1156,17 @@ paths:
       responses:
         "200":
           description: OK
+  /test:
+    get:
+      operationId: Test
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+          description: Successful response
+      summary: Retrieve an existing Notificationtest's Elements
 components:
   requestBodies:
     UserArray:
@@ -2293,6 +2304,29 @@ components:
           - unknown
           - notUnknown
           type: string
+      type: object
+    Custom-Variableobject-Response:
+      additionalProperties: true
+      description: A Variable object without predefined property names
+      type: object
+    Field-pkiNotificationtestID:
+      type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+      example:
+        a_objVariableobject:
+        - null
+        - null
+        pkiNotificationtestID: 0
+      properties:
+        pkiNotificationtestID:
+          type: integer
+        a_objVariableobject:
+          items:
+            $ref: '#/components/schemas/Custom-Variableobject-Response'
+          type: array
+      required:
+      - a_objVariableobject
+      - pkiNotificationtestID
       type: object
     _foo_get_default_response:
       example:

@@ -53,6 +53,7 @@ docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
+docs/NotificationtestGetElementsV1ResponseMPayload.md
 docs/NullableClass.md
 docs/NullableGuidClass.md
 docs/NullableShape.md
@@ -170,6 +171,7 @@ src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
+src/Org.OpenAPITools/Model/NotificationtestGetElementsV1ResponseMPayload.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
 src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs

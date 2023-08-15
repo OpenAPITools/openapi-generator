@@ -662,15 +662,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
 
-        // fix incorrect data types for maps of maps
-        if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
-        if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            // fix incorrect data types for maps of maps
+            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+
+            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+        });
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {

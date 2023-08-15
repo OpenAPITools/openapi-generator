@@ -88,6 +88,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new Model200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new ModelClientJsonConverter());
             _jsonOptions.Converters.Add(new NameJsonConverter());
+            _jsonOptions.Converters.Add(new NotificationtestGetElementsV1ResponseMPayloadJsonConverter());
             _jsonOptions.Converters.Add(new NullableClassJsonConverter());
             _jsonOptions.Converters.Add(new NullableGuidClassJsonConverter());
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
