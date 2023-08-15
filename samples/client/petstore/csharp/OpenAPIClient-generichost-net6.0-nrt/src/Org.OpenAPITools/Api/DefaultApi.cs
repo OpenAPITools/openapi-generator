@@ -120,6 +120,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;List&lt;RolesReportsHash&gt;&gt;&gt;?&gt;</returns>
         Task<ApiResponse<List<List<RolesReportsHash>>>?> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieve an existing Notificationtest&#39;s Elements
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&lt;NotificationtestGetElementsV1ResponseMPayload&gt;&gt;</returns>
+        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestAsync(System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieve an existing Notificationtest&#39;s Elements
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;NotificationtestGetElementsV1ResponseMPayload&gt;?&gt;</returns>
+        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -206,6 +227,26 @@ namespace Org.OpenAPITools.Api
         internal void ExecuteOnErrorRolesReportGet(Exception exception)
         {
             OnErrorRolesReportGet?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<NotificationtestGetElementsV1ResponseMPayload>>? OnTest;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTest;
+
+        internal void ExecuteOnTest(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponse)
+        {
+            OnTest?.Invoke(this, new ApiResponseEventArgs<NotificationtestGetElementsV1ResponseMPayload>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTest(Exception exception)
+        {
+            OnErrorTest?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -767,6 +808,121 @@ namespace Org.OpenAPITools.Api
             {
                 OnErrorRolesReportGetDefaultImplementation(e, "/roles/report", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorRolesReportGet(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterTestDefaultImplementation(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar)
+        {
+            bool suppressDefaultLog = false;
+            AfterTest(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterTest(ref bool suppressDefaultLog, ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        private void OnErrorTestDefaultImplementation(Exception exception, string pathFormat, string path)
+        {
+            bool suppressDefaultLog = false;
+            OnErrorTest(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorTest(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        /// Retrieve an existing Notificationtest&#39;s Elements 
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
+        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retrieve an existing Notificationtest&#39;s Elements 
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
+        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/test";
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+                        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar = new ApiResponse<NotificationtestGetElementsV1ResponseMPayload>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterTestDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnTest(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorTestDefaultImplementation(e, "/test", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorTest(e);
                 throw;
             }
         }
