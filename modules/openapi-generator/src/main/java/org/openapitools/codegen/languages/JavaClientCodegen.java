@@ -885,6 +885,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     if (!operation.vendorExtensions.containsKey(VendorExtension.X_WEBCLIENT_BLOCKING.getName()) && webclientBlockingOperations) {
                         operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_BLOCKING.getName(), true);
                     }
+
+                    if (operation.isArray && !"string".equalsIgnoreCase(operation.returnBaseType)) {
+                        operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
+                    }
                 }
             }
         }
