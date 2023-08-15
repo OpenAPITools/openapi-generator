@@ -33,6 +33,17 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
+  /roles/report:
+    get:
+      responses:
+        '200':
+          description: returns report
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RolesReport'
   /hello:
     get:
       summary: Hello
@@ -1201,6 +1212,17 @@ paths:
       responses:
         '200':
           description: OK
+  /test:
+      get:
+          responses:
+              '200':
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+                  description: Successful response
+          operationId: Test
+          summary: Retrieve an existing Notificationtest's Elements
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1301,6 +1323,23 @@ components:
       - 'Value with " quote'
       - 'Value with escaped \" quote'
 
+    RolesReport:
+      description: Roles report
+      type: array
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+    RolesReportsHash:
+      description: Role report Hash
+      type: object
+      properties:
+        role_uuid:
+          type: string
+          format: uuid
+        role:
+          type: object
+          properties:
+            name:
+              type: string
     Foo:
       type: object
       properties:
@@ -2348,3 +2387,21 @@ components:
           enum:
             - unknown
             - notUnknown
+    Custom-Variableobject-Response:
+        description: A Variable object without predefined property names
+        type: object
+        additionalProperties: true
+    Field-pkiNotificationtestID:
+        type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+        required:
+            - pkiNotificationtestID
+            - a_objVariableobject
+        type: object
+        properties:
+            pkiNotificationtestID:
+                $ref: '#/components/schemas/Field-pkiNotificationtestID'
+            a_objVariableobject:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Custom-Variableobject-Response'

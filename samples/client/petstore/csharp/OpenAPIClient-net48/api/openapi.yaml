@@ -41,22 +41,17 @@ tags:
 - description: Operations about user
   name: user
 paths:
-  /count:
+  /roles/report:
     get:
-      operationId: getCount
       responses:
         "200":
           content:
-            '*/*':
+            application/json:
               schema:
-                type: integer
-          description: Success
-        default:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-          description: Error
+                items:
+                  $ref: '#/components/schemas/RolesReport'
+                type: array
+          description: returns report
   /hello:
     get:
       description: Hello
@@ -1161,6 +1156,17 @@ paths:
       responses:
         "200":
           description: OK
+  /test:
+    get:
+      operationId: Test
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+          description: Successful response
+      summary: Retrieve an existing Notificationtest's Elements
 components:
   requestBodies:
     UserArray:
@@ -1197,16 +1203,20 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
-    ErrorMessage:
-      enum:
-      - "Value\twith tab"
-      - |-
-        Duplicate
-        value
-      - "Duplicate\r\nvalue"
-      - Value with " quote
-      - Value with escaped \" quote
-      type: string
+    RolesReport:
+      description: Roles report
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+      type: array
+    RolesReportsHash:
+      description: Role report Hash
+      properties:
+        role_uuid:
+          format: uuid
+          type: string
+        role:
+          $ref: '#/components/schemas/RolesReportsHash_role'
+      type: object
     Foo:
       example:
         bar: bar
@@ -2295,6 +2305,29 @@ components:
           - notUnknown
           type: string
       type: object
+    Custom-Variableobject-Response:
+      additionalProperties: true
+      description: A Variable object without predefined property names
+      type: object
+    Field-pkiNotificationtestID:
+      type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+      example:
+        a_objVariableobject:
+        - null
+        - null
+        pkiNotificationtestID: 0
+      properties:
+        pkiNotificationtestID:
+          type: integer
+        a_objVariableobject:
+          items:
+            $ref: '#/components/schemas/Custom-Variableobject-Response'
+          type: array
+      required:
+      - a_objVariableobject
+      - pkiNotificationtestID
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2448,6 +2481,11 @@ components:
         required:
         - country
         type: object
+    RolesReportsHash_role:
+      properties:
+        name:
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
