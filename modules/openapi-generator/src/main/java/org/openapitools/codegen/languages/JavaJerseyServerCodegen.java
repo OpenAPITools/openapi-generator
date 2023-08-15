@@ -96,7 +96,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         
         // --- Imports for Swagger2 ------------- 
         if (this.isLibrary(LIBRARY_JERSEY3)) {
-        	model.imports.add("Schema");
+            model.imports.add("Schema");
         }
         
     }
@@ -110,13 +110,13 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             this.setLibrary(DEFAULT_JERSEY_LIBRARY);
             
         } else if (this.isLibrary(LIBRARY_JERSEY3)) {
-        	// --- Ensure to use Jakarta for jersey3 ----
-        	this.setUseJakartaEe(true);
-        	additionalProperties.put(USE_JAKARTA_EE, true);
-        	this.applyJakartaPackage();
-        	// --- Set Swagger2 annotations ---------------   
-        	annotationLibrary = AnnotationLibrary.SWAGGER2;
-        	
+            // --- Ensure to use Jakarta for jersey3 ----
+            this.setUseJakartaEe(true);
+            additionalProperties.put(USE_JAKARTA_EE, true);
+            this.applyJakartaPackage();
+            // --- Set Swagger2 annotations ---------------   
+            annotationLibrary = AnnotationLibrary.SWAGGER2;
+            
         }
         
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
