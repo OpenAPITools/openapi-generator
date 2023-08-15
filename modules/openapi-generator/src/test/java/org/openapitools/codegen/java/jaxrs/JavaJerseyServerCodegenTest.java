@@ -151,7 +151,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
                 .forEach(file -> {
                     // Jersey2 uses "javax.ws.rs"
                     // Let's confirm that "jakarta.ws" is not present
-                	TestUtils.assertFileNotContains(file.toPath(), "jakarta.ws");
+                    TestUtils.assertFileNotContains(file.toPath(), "jakarta.ws");
                 });
     }
     
@@ -169,7 +169,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
                 .forEach(file -> {
                     // Jersey2 uses "javax.ws.rs"
                     // Let's confirm that "jakarta.ws" is not present
-                	TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
+                    TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
                 });
     }
 
@@ -186,13 +186,13 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
             .forEach(file -> {
                 // Jersey3 uses "jakarta.ws.rs"
                 // Let's confirm that "javax.ws" is not present
-            	TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
+                TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
         });
     }
     
     @DataProvider(name = "codegenParameterMatrix")
     public Object[][] codegenParameterMatrix() {
-    	final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
+        final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
         final List<Object[]> rows = new ArrayList<Object[]>();
         for (final String jerseyLibrary: libraries) {
             for (final String dateLibrary: ImmutableList.of("joda", "java8")) {
