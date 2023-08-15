@@ -504,6 +504,11 @@
   infoLink: "http://www.stingray.com/"
   pinned: true
 -
+  caption: SumUp
+  image: "img/companies/sumup.png"
+  infoLink: "https://www.sumup.com/"
+  pinned: false
+-
   caption: Suva
   image: "img/companies/suva.svg"
   infoLink: "https://www.suva.ch/"

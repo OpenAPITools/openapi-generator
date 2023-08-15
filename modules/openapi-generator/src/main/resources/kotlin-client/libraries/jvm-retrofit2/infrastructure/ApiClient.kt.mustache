@@ -49,6 +49,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper
+{{/jackson}}
 
 {{#kotlinx_serialization}}
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -58,8 +61,10 @@ import okhttp3.MediaType.Companion.toMediaType
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
-    private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
-    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder{{/kotlinx_serialization}},
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
+    {{^kotlinx_serialization}}
+    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
+    {{/kotlinx_serialization}}
     private val callFactory : Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
         {{#useRxJava}}
@@ -123,7 +128,7 @@ import okhttp3.MediaType.Companion.toMediaType
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
@@ -147,7 +152,7 @@ import okhttp3.MediaType.Companion.toMediaType
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
         authName: String,
         username: String,
         password: String
@@ -160,7 +165,7 @@ import okhttp3.MediaType.Companion.toMediaType
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
         authName: String,
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
@@ -174,7 +179,7 @@ import okhttp3.MediaType.Companion.toMediaType
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
         authName: String,
         clientId: String,
         secret: String,
