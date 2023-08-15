@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
-        [JsonConstructor]
         public Category(long id, string name = @"default-name")
         {
             Id = id;
@@ -176,5 +176,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", category.Id);
             writer.WriteString("name", category.Name);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Category))]
+    internal partial class CategorySerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Category))]
+    internal partial class CategoryDeserializationContext : JsonSerializerContext
+    {
     }
 }

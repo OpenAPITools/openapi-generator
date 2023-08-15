@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -285,5 +286,17 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("map_of_enum_string");
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(MapTest))]
+    internal partial class MapTestSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(MapTest))]
+    internal partial class MapTestDeserializationContext : JsonSerializerContext
+    {
     }
 }

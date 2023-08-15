@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -73,7 +74,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            //sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -178,5 +179,22 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", category.Id);
             writer.WriteString("name", category.Name);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Category))]
+    [JsonSerializable(typeof(Dictionary<string, JsonElement>))]
+    public partial class CategorySerializationContext : JsonSerializerContext
+    {
+        public CategorySerializationContext(): base(null)
+        {
+            
+        }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Category))]
+    public partial class CategoryDeserializationContext : JsonSerializerContext
+    {
     }
 }

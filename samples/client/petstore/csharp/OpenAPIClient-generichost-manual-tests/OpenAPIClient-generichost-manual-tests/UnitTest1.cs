@@ -45,6 +45,23 @@ namespace OpenAPIClient_generichost_manual_tests
         }
 
         [TestMethod]
+        public void Category()
+        {
+            Category category = new(1, "test");
+            string categoryJson = JsonSerializer.Serialize(category, CategorySerializationContext.Default.Category);
+            Category? category2 = JsonSerializer.Deserialize(categoryJson, CategoryDeserializationContext.Default.Category);
+            Console.WriteLine();
+        }
+
+        [TestMethod]
+        public void Category2()
+        {
+            string categoryJson = "{\"name\": \"test\", \"id\": 1}";
+            Category? category = JsonSerializer.Deserialize(categoryJson, CategoryDeserializationContext.Default.Category);
+            Console.WriteLine();
+        }
+
+        [TestMethod]
         public void Apple()
         {
             Apple apple = new("#000000", "cultivar", "origin");
@@ -130,8 +147,8 @@ namespace OpenAPIClient_generichost_manual_tests
         public void ChildCat()
         {
             ChildCat childCat = new("some name", Org.OpenAPITools.Model.ChildCat.PetTypeEnum.ChildCat);
-            string childCatJson = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
-            ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, _jsonSerializerOptions);
+            string childCatJson = JsonSerializer.Serialize(childCat, ChildCatSerializationContext.Default.ChildCat);
+            ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, ChildCatDeserializationContext.Default.ChildCat);
             Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name.Equals(childCat2.Name));
         }
 

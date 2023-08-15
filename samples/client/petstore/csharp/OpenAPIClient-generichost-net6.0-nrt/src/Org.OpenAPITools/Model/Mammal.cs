@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="whale"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Mammal(Whale whale, string className)
         {
             Whale = whale;
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zebra"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Mammal(Zebra zebra, string className)
         {
             Zebra = zebra;
@@ -61,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pig"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Mammal(Pig pig, string className)
         {
             Pig = pig;
@@ -276,5 +277,17 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("className", mammal.ClassName);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Mammal))]
+    internal partial class MammalSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Mammal))]
+    internal partial class MammalDeserializationContext : JsonSerializerContext
+    {
     }
 }

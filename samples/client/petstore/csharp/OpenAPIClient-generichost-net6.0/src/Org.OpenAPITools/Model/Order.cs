@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
-        [JsonConstructor]
         public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
             Id = id;
@@ -345,5 +345,17 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteBoolean("complete", order.Complete);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Order))]
+    internal partial class OrderSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Order))]
+    internal partial class OrderDeserializationContext : JsonSerializerContext
+    {
     }
 }

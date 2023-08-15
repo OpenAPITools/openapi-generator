@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -32,7 +33,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List</param>
-        [JsonConstructor]
         public List(string var123List)
         {
             Var123List = var123List;
@@ -158,5 +158,17 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("123-list", list.Var123List);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(List))]
+    internal partial class ListSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(List))]
+    internal partial class ListDeserializationContext : JsonSerializerContext
+    {
     }
 }

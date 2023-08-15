@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="map">map</param>
         /// <param name="uuid">uuid</param>
         /// <param name="uuidWithPattern">uuidWithPattern</param>
-        [JsonConstructor]
         public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
             DateTime = dateTime;
@@ -102,11 +102,11 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // UuidWithPattern (Guid) pattern
-            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
-            if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
-            }
+Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
+if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
+{
+    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
+}
             yield break;
         }
     }
@@ -225,5 +225,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
             writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
+    internal partial class MixedPropertiesAndAdditionalPropertiesClassSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
+    internal partial class MixedPropertiesAndAdditionalPropertiesClassDeserializationContext : JsonSerializerContext
+    {
     }
 }

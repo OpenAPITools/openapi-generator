@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -32,7 +33,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
-        [JsonConstructor]
         public HealthCheckResult(string nullableMessage = default)
         {
             NullableMessage = nullableMessage;
@@ -155,5 +155,17 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(HealthCheckResult))]
+    internal partial class HealthCheckResultSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(HealthCheckResult))]
+    internal partial class HealthCheckResultDeserializationContext : JsonSerializerContext
+    {
     }
 }

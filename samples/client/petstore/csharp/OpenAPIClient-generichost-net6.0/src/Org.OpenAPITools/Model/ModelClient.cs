@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -32,7 +33,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient</param>
-        [JsonConstructor]
         public ModelClient(string varClient)
         {
             VarClient = varClient;
@@ -158,5 +158,17 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("client", modelClient.VarClient);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(ModelClient))]
+    internal partial class ModelClientSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(ModelClient))]
+    internal partial class ModelClientDeserializationContext : JsonSerializerContext
+    {
     }
 }

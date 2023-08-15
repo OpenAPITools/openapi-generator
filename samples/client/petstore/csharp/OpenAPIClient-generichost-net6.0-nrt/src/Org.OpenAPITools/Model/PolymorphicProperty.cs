@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varBool"></param>
-        [JsonConstructor]
+        //[JsonConstructor]
         internal PolymorphicProperty(bool varBool)
         {
             VarBool = varBool;
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varString"></param>
-        [JsonConstructor]
+        //[JsonConstructor]
         internal PolymorphicProperty(string varString)
         {
             VarString = varString;
@@ -56,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varObject"></param>
-        [JsonConstructor]
+        //[JsonConstructor]
         internal PolymorphicProperty(Object varObject)
         {
             VarObject = varObject;
@@ -67,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="list"></param>
-        [JsonConstructor]
+        //[JsonConstructor]
         internal PolymorphicProperty(List<string> list)
         {
             List = list;
@@ -240,5 +241,17 @@ namespace Org.OpenAPITools.Model
         {
 
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(PolymorphicProperty))]
+    internal partial class PolymorphicPropertySerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(PolymorphicProperty))]
+    internal partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
+    {
     }
 }

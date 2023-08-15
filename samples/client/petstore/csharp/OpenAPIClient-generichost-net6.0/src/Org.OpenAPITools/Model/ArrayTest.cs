@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +35,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
-        [JsonConstructor]
         public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
@@ -198,5 +198,17 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("array_of_string");
             JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(ArrayTest))]
+    internal partial class ArrayTestSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(ArrayTest))]
+    internal partial class ArrayTestDeserializationContext : JsonSerializerContext
+    {
     }
 }

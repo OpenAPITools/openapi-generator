@@ -1,0 +1,14 @@
+{{#useSourceGeneration}}
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof({{classname}}))]
+    internal partial class {{classname}}SerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof({{classname}}))]
+    internal partial class {{classname}}DeserializationContext : JsonSerializerContext
+    {
+    }
+{{/useSourceGeneration}}

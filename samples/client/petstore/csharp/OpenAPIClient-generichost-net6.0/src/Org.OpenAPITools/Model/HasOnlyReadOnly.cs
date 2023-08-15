@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
-        [JsonConstructor]
         internal HasOnlyReadOnly(string bar, string foo)
         {
             Bar = bar;
@@ -212,5 +212,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("bar", hasOnlyReadOnly.Bar);
             writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(HasOnlyReadOnly))]
+    internal partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(HasOnlyReadOnly))]
+    internal partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
+    {
     }
 }

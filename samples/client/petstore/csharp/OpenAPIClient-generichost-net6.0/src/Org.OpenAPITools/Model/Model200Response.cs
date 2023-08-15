@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
-        [JsonConstructor]
         public Model200Response(string varClass, int name)
         {
             VarClass = varClass;
@@ -176,5 +176,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("class", model200Response.VarClass);
             writer.WriteNumber("name", model200Response.Name);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Model200Response))]
+    internal partial class Model200ResponseSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Model200Response))]
+    internal partial class Model200ResponseDeserializationContext : JsonSerializerContext
+    {
     }
 }

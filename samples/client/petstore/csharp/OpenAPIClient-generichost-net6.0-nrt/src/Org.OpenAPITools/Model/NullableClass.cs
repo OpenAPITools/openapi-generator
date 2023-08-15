@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -376,5 +377,17 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
             writer.WriteString("string_prop", nullableClass.StringProp);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(NullableClass))]
+    internal partial class NullableClassSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(NullableClass))]
+    internal partial class NullableClassDeserializationContext : JsonSerializerContext
+    {
     }
 }

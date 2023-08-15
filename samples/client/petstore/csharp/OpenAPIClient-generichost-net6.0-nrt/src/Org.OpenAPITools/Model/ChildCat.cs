@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -221,5 +222,19 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("pet_type");
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(ChildCat))]
+    [JsonSerializable(typeof(ParentPet))]
+    [JsonSerializable(typeof(GrandparentAnimal))]
+    public partial class ChildCatSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(ChildCat))]
+    public partial class ChildCatDeserializationContext : JsonSerializerContext
+    {
     }
 }

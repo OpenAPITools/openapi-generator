@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -177,5 +178,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("shapeType", equilateralTriangle.ShapeType);
             writer.WriteString("triangleType", equilateralTriangle.TriangleType);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(EquilateralTriangle))]
+    internal partial class EquilateralTriangleSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(EquilateralTriangle))]
+    internal partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
+    {
     }
 }

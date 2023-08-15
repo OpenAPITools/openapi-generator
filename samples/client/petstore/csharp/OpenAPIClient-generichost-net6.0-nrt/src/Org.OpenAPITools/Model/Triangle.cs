@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="equilateralTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Triangle(EquilateralTriangle equilateralTriangle, string triangleType)
         {
             EquilateralTriangle = equilateralTriangle;
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Triangle(IsoscelesTriangle isoscelesTriangle, string triangleType)
         {
             IsoscelesTriangle = isoscelesTriangle;
@@ -61,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="scaleneTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
+        //[JsonConstructor]
         public Triangle(ScaleneTriangle scaleneTriangle, string triangleType)
         {
             ScaleneTriangle = scaleneTriangle;
@@ -276,5 +277,17 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("triangleType", triangle.TriangleType);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Triangle))]
+    internal partial class TriangleSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Triangle))]
+    internal partial class TriangleDeserializationContext : JsonSerializerContext
+    {
     }
 }

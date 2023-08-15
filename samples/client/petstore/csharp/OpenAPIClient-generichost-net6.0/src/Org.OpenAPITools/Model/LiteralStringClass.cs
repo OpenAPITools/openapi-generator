@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
-        [JsonConstructor]
         public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
             EscapedLiteralString = escapedLiteralString;
@@ -175,5 +175,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
             writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(LiteralStringClass))]
+    internal partial class LiteralStringClassSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(LiteralStringClass))]
+    internal partial class LiteralStringClassDeserializationContext : JsonSerializerContext
+    {
     }
 }

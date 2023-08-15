@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
-        [JsonConstructor]
         public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
             ATT_NAME = aTTNAME;
@@ -244,5 +244,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("smallCamel", capitalization.SmallCamel);
             writer.WriteString("small_Snake", capitalization.SmallSnake);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(Capitalization))]
+    internal partial class CapitalizationSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(Capitalization))]
+    internal partial class CapitalizationDeserializationContext : JsonSerializerContext
+    {
     }
 }

@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -32,7 +33,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid</param>
-        [JsonConstructor]
         public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;
@@ -161,5 +161,17 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(NullableGuidClass))]
+    internal partial class NullableGuidClassSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(NullableGuidClass))]
+    internal partial class NullableGuidClassDeserializationContext : JsonSerializerContext
+    {
     }
 }

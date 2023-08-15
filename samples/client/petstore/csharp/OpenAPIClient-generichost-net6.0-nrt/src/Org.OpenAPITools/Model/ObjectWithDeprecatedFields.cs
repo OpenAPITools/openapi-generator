@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -219,5 +220,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", objectWithDeprecatedFields.Id);
             writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
+    internal partial class ObjectWithDeprecatedFieldsSerializationContext : JsonSerializerContext
+    {
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
+    internal partial class ObjectWithDeprecatedFieldsDeserializationContext : JsonSerializerContext
+    {
     }
 }

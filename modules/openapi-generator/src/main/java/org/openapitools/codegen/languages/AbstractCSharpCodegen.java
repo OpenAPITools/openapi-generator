@@ -58,6 +58,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -1329,6 +1330,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public boolean getNullableReferencesTypes() {
         return this.nullReferenceTypesFlag;
+    }
+
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {
