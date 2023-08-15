@@ -101,6 +101,24 @@ open class PetApi(
     }
 
 
+
+    /**
+     * enum for parameter status
+     */
+    @Serializable
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
+        
+        @SerialName(value = "available")
+        available("available"),
+        
+        @SerialName(value = "pending")
+        pending("pending"),
+        
+        @SerialName(value = "sold")
+        sold("sold")
+        
+    }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -108,7 +126,7 @@ open class PetApi(
      * @return kotlin.collections.List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+    open suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): HttpResponse<kotlin.collections.List<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
