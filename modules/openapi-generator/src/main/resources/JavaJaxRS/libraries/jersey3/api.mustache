@@ -77,7 +77,7 @@ public class {{classname}}  {
             {{/responses}}
             }
     , tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} }) 
-//    ==> Previous Swagger1 annotations <==    
+//    ==> Previous Swagger1 annotations <== RESOLVED WITH THE ABOVE FOR SWAGGER 2.X   
 //    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
 //        {{#authMethods}}@io.swagger.annotations.Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
 //            {{#scopes}}@io.swagger.annotations.AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
@@ -90,13 +90,14 @@ public class {{classname}}  {
 //        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
 //        {{/responses}}
 //    })
-    {{#implicitHeadersParams.0}}
-    @io.swagger.annotations.ApiImplicitParams({
-        {{#implicitHeadersParams}}
-        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
-        {{/implicitHeadersParams}}
-        })
-    {{/implicitHeadersParams.0}}
+//    ==> Previous Swagger1 annotations <== HOW TO DEAL WITH THIS PART?
+//    {{#implicitHeadersParams.0}}
+//    @io.swagger.annotations.ApiImplicitParams({
+//        {{#implicitHeadersParams}}
+//        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+//        {{/implicitHeadersParams}}
+//        })
+//    {{/implicitHeadersParams.0}}
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.{{nickname}}({{#allParams}}{{#isFormParam}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{/isFormParam}}{{^isFile}}{{paramName}}{{/isFile}}{{^isFormParam}}{{#isFile}}{{paramName}}{{/isFile}}{{/isFormParam}}, {{/allParams}}securityContext);
