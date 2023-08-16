@@ -1,0 +1,36 @@
+// @ts-ignore
+import http from 'k6/http';
+// @ts-ignore
+import { FileData } from 'k6/http';
+
+{{#imports}}
+    {{#import}}
+import { {{classname}} } from './{{classname}}.js';
+    {{/import}}
+{{/imports}}
+
+export class {{classname}} {
+
+    constructor(private baseUrl: string) {}
+
+    {{#operations}}
+    {{#operation}}
+    public {{operationId}}({{#allParams}}{{{paramName}}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
+        {{#hasBodyParam}}
+        const payload: string = JSON.stringify({{#bodyParam}}{{paramName}}{{/bodyParam}});
+        {{/hasBodyParam}}
+        {{#hasFormParams}}
+
+        const form = {
+            {{#formParams}}
+            {{paramName}},
+            {{/formParams}}
+        };
+        {{/hasFormParams}}
+
+        return http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, payload{{/hasBodyParam}}{{#hasFormParams}}, form{{/hasFormParams}});
+    }
+    {{/operation}}
+    {{/operations}}
+}
