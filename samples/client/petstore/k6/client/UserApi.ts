@@ -11,21 +11,30 @@ export class UserApi {
 
     public createUser(user: User) {
         const url: string = `${this.baseUrl}/user`;
-        const payload: string = JSON.stringify(user);
 
-        return http.post(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.post(url, user);
     }
     public createUsersWithArrayInput(user: any[]) {
         const url: string = `${this.baseUrl}/user/createWithArray`;
-        const payload: string = JSON.stringify(user);
 
-        return http.post(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.post(url, user);
     }
     public createUsersWithListInput(user: any[]) {
         const url: string = `${this.baseUrl}/user/createWithList`;
-        const payload: string = JSON.stringify(user);
 
-        return http.post(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.post(url, user);
     }
     public deleteUser(username: string) {
         const url: string = `${this.baseUrl}/user/${username}`;
@@ -49,8 +58,11 @@ export class UserApi {
     }
     public updateUser(username: string, user: User) {
         const url: string = `${this.baseUrl}/user/${username}`;
-        const payload: string = JSON.stringify(user);
 
-        return http.put(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.put(url, user);
     }
 }

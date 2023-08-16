@@ -11,9 +11,12 @@ export class PetApi {
 
     public addPet(pet: Pet) {
         const url: string = `${this.baseUrl}/pet`;
-        const payload: string = JSON.stringify(pet);
 
-        return http.post(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.post(url, pet);
     }
     public deletePet(petId: number, apiKey: string) {
         const url: string = `${this.baseUrl}/pet/${petId}`;
@@ -37,9 +40,12 @@ export class PetApi {
     }
     public updatePet(pet: Pet) {
         const url: string = `${this.baseUrl}/pet`;
-        const payload: string = JSON.stringify(pet);
 
-        return http.put(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.put(url, pet);
     }
     public updatePetWithForm(petId: number, name: string, status: string) {
         const url: string = `${this.baseUrl}/pet/${petId}`;

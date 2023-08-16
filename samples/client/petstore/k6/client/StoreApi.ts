@@ -26,8 +26,11 @@ export class StoreApi {
     }
     public placeOrder(order: Order) {
         const url: string = `${this.baseUrl}/store/order`;
-        const payload: string = JSON.stringify(order);
 
-        return http.post(url, payload);
+        const headers = {
+            'Content-Type': ``
+        };
+
+        return http.post(url, order);
     }
 }
