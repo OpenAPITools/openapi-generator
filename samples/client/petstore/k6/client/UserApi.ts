@@ -13,7 +13,7 @@ export class UserApi {
         const url: string = `${this.baseUrl}/user`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.post(url, user);
@@ -22,7 +22,7 @@ export class UserApi {
         const url: string = `${this.baseUrl}/user/createWithArray`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.post(url, user);
@@ -31,7 +31,7 @@ export class UserApi {
         const url: string = `${this.baseUrl}/user/createWithList`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.post(url, user);
@@ -60,7 +60,7 @@ export class UserApi {
         const url: string = `${this.baseUrl}/user/${username}`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.put(url, user);

@@ -28,9 +28,15 @@ export class {{classname}} {
         {{#hasBodyParam}}
 
         const headers = {
-            'Content-Type': `{{#bodyParam}}{{contentType}}{{/bodyParam}}`
+            'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
         };
         {{/hasBodyParam}}
+        {{#hasFormParams}}
+
+        const headers = {
+            'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
+        };
+        {{/hasFormParams}}
 
         return http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form{{/hasFormParams}});
     }

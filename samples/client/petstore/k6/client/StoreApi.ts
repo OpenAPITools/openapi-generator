@@ -28,7 +28,7 @@ export class StoreApi {
         const url: string = `${this.baseUrl}/store/order`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.post(url, order);

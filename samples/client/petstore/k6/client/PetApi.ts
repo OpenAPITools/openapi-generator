@@ -13,7 +13,7 @@ export class PetApi {
         const url: string = `${this.baseUrl}/pet`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.post(url, pet);
@@ -42,7 +42,7 @@ export class PetApi {
         const url: string = `${this.baseUrl}/pet`;
 
         const headers = {
-            'Content-Type': ``
+            'Content-Type': `application/json`
         };
 
         return http.put(url, pet);
@@ -55,6 +55,10 @@ export class PetApi {
             status,
         };
 
+        const headers = {
+            'Content-Type': `application/x-www-form-urlencoded`
+        };
+
         return http.post(url, form);
     }
     public uploadFile(petId: number, additionalMetadata: string, file: FileData) {
@@ -63,6 +67,10 @@ export class PetApi {
         const form = {
             additionalMetadata,
             file,
+        };
+
+        const headers = {
+            'Content-Type': `multipart/form-data`
         };
 
         return http.post(url, form);
