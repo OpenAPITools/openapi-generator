@@ -24,7 +24,17 @@ export class StoreApi {
 
         const { code, headers: resHeaders, body } = http.delete(url);
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { map } - 200
@@ -40,7 +50,17 @@ export class StoreApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders, body: body as integer };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as integer };
     }
     /**
     * @returns { Order } - 200
@@ -58,7 +78,17 @@ export class StoreApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders, body: body as Order | undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as Order | undefined };
     }
     /**
     * @returns { Order } - 200
@@ -79,6 +109,16 @@ export class StoreApi {
 
         const { code, headers: resHeaders, body } = http.post(url, order, { headers: reqHeaders });
 
-        return { code, headers: resHeaders, body: body as Order | undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as Order | undefined };
     }
 }

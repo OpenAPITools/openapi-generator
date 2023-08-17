@@ -51,7 +51,17 @@ export class {{classname}} {
 
         const { code, headers: resHeaders, body } = http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}, { headers: reqHeaders }{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form, { headers: reqHeaders }{{/hasFormParams}});
 
-        return { code, headers: resHeaders, body: body as {{#uniqueResponseTypes}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{^isArray}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isArray}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}} };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as {{#uniqueResponseTypes}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{^isArray}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isArray}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}} };
     }
     {{/operation}}
     {{/operations}}

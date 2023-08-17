@@ -27,7 +27,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -47,7 +57,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -67,7 +87,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { undefined } - 400
@@ -84,7 +114,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.delete(url);
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { User } - 200
@@ -102,7 +142,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders, body: body as User | undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as User | undefined };
     }
     /**
     * @returns { string } - 200
@@ -119,7 +169,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders, body: body as string | undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as string | undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -135,7 +195,17 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
     * @returns { undefined } - 400
@@ -156,6 +226,16 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.put(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders, body: body as undefined };
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as undefined };
     }
 }
