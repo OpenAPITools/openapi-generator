@@ -1486,8 +1486,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("Arrays");
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
-            boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
-            if (canNotBeWrappedToNullable) {
+            if (!openApiNullable || !property.isNullable) { // cannot be wrapped to nullable
                 model.imports.add("JsonDeserialize");
                 property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
             }
