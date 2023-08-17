@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.tags.Tag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
@@ -315,6 +316,13 @@ public class CodegenOperation {
         if (pathParams.size() != 1) return false;
         String id = pathParams.get(0).baseName;
         return ("/{" + id + "}").equals(pathWithoutBaseName());
+    }
+
+    public List<String> uniqueResponseTypes() {
+        return responses.stream()
+                .map(response -> response.dataType)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -9,12 +9,16 @@ export class StoreApi {
 
     constructor(private baseUrl: string) {}
 
+    /**
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public deleteOrder(orderId: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/store/order/${orderId}`;
 
@@ -22,12 +26,15 @@ export class StoreApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { map } - 200
+    */
     public getInventory(): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: map,
     } {
         const url: string = `${this.baseUrl}/store/inventory`;
 
@@ -35,12 +42,17 @@ export class StoreApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { Order } - 200
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public getOrderById(orderId: number): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: Order | undefined,
     } {
         const url: string = `${this.baseUrl}/store/order/${orderId}`;
 
@@ -48,12 +60,16 @@ export class StoreApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { Order } - 200
+    * @returns { undefined } - 400
+    */
     public placeOrder(order: Order): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: Order | undefined,
     } {
         const url: string = `${this.baseUrl}/store/order`;
 

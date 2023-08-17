@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class K6ClientClientCodegen extends DefaultCodegen implements CodegenConfig {
-    public static final String PROJECT_NAME = "projectName";
+    public static final String PROJECT_NAME = "k6-client";
 
     private final Logger LOGGER = LoggerFactory.getLogger(K6ClientClientCodegen.class);
 
@@ -31,7 +31,6 @@ public class K6ClientClientCodegen extends DefaultCodegen implements CodegenConf
                     "integer",
                     "map",
                     "any[]",
-                    "ApiResponse",
                     "DateTime"
             );
 
@@ -44,7 +43,7 @@ public class K6ClientClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public String getHelp() {
-        return "Generates a k6-client client.";
+        return "Generates a k6 API client.";
     }
 
     public K6ClientClientCodegen() {

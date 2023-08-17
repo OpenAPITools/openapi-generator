@@ -15,12 +15,17 @@ export class {{classname}} {
 
     {{#operations}}
     {{#operation}}
+    /**
+    {{#responses}}
+    * @returns { {{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
+    {{/responses}}
+    */
     public {{operationId}}({{#allParams}}{{{paramName}}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: {{#uniqueResponseTypes}}{{#.}}{{.}}{{/.}}{{^.}}undefined{{/.}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
     } {
         const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
         {{#hasFormParams}}

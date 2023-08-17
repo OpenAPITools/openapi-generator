@@ -9,12 +9,15 @@ export class UserApi {
 
     constructor(private baseUrl: string) {}
 
+    /**
+    * @returns { undefined } - 0
+    */
     public createUser(user: User): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user`;
 
@@ -26,12 +29,15 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 0
+    */
     public createUsersWithArrayInput(user: any[]): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user/createWithArray`;
 
@@ -43,12 +49,15 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 0
+    */
     public createUsersWithListInput(user: any[]): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user/createWithList`;
 
@@ -60,12 +69,16 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public deleteUser(username: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user/${username}`;
 
@@ -73,12 +86,17 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { User } - 200
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public getUserByName(username: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: User | undefined,
     } {
         const url: string = `${this.baseUrl}/user/${username}`;
 
@@ -86,12 +104,16 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { string } - 200
+    * @returns { undefined } - 400
+    */
     public loginUser(username: string, password: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: string | undefined,
     } {
         const url: string = `${this.baseUrl}/user/login?username=${username}&password=${password}`;
 
@@ -99,12 +121,15 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 0
+    */
     public logoutUser(): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user/logout`;
 
@@ -112,12 +137,16 @@ export class UserApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public updateUser(username: string, user: User): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/user/${username}`;
 

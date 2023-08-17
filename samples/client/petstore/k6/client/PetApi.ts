@@ -3,18 +3,23 @@ import http from 'k6/http';
 // @ts-ignore
 import { FileData } from 'k6/http';
 
+import { ApiResponse } from './ApiResponse.js';
 import { Pet } from './Pet.js';
 
 export class PetApi {
 
     constructor(private baseUrl: string) {}
 
+    /**
+    * @returns { Pet } - 200
+    * @returns { undefined } - 405
+    */
     public addPet(pet: Pet): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: Pet | undefined,
     } {
         const url: string = `${this.baseUrl}/pet`;
 
@@ -26,12 +31,15 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 400
+    */
     public deletePet(petId: number, apiKey: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
@@ -39,12 +47,16 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { any[] } - 200
+    * @returns { undefined } - 400
+    */
     public findPetsByStatus(status: any[]): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: any[] | undefined,
     } {
         const url: string = `${this.baseUrl}/pet/findByStatus?status=${status}`;
 
@@ -52,12 +64,16 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { any[] } - 200
+    * @returns { undefined } - 400
+    */
     public findPetsByTags(tags: any[]): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: any[] | undefined,
     } {
         const url: string = `${this.baseUrl}/pet/findByTags?tags=${tags}`;
 
@@ -65,12 +81,17 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { Pet } - 200
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    */
     public getPetById(petId: number): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: Pet | undefined,
     } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
@@ -78,12 +99,18 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { Pet } - 200
+    * @returns { undefined } - 400
+    * @returns { undefined } - 404
+    * @returns { undefined } - 405
+    */
     public updatePet(pet: Pet): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: Pet | undefined,
     } {
         const url: string = `${this.baseUrl}/pet`;
 
@@ -95,12 +122,15 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { undefined } - 405
+    */
     public updatePetWithForm(petId: number, name: string, status: string): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: undefined,
     } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
@@ -117,12 +147,15 @@ export class PetApi {
 
         return { code, headers: resHeaders };
     }
+    /**
+    * @returns { ApiResponse } - 200
+    */
     public uploadFile(petId: number, additionalMetadata: string, file: FileData): {
         code: number,
         headers: {
             [key: string]: string,
         },
-        body?: string,
+        body?: ApiResponse,
     } {
         const url: string = `${this.baseUrl}/pet/${petId}/uploadImage`;
 
