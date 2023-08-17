@@ -324,11 +324,19 @@ public class CodegenOperation {
 
                     CodegenModel codegenModel = new CodegenModel();
                     if(response.isArray) {
+                        codegenModel.isMap = false;
                         codegenModel.isArray = true;
+                        codegenModel.isPrimitiveType = false;
                         codegenModel.arrayModelType = response.baseType;
+                    } else if (response.isMap) {
+                        codegenModel.isMap = true;
+                        codegenModel.isArray = false;
+                        codegenModel.isPrimitiveType = false;
                     } else {
                         codegenModel.isArray = false;
-                        codegenModel.dataType = response.baseType;
+                        codegenModel.isMap = false;
+                        codegenModel.isPrimitiveType = true;
+                        codegenModel.dataType = response.dataType;
                     }
 
                     return codegenModel;

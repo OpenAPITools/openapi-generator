@@ -44,7 +44,7 @@ export class StoreApi {
         headers: {
             [key: string]: string,
         },
-        body?: integer,
+        body?: { [key: string]: any },
     } {
         const url: string = `${this.baseUrl}/store/inventory`;
 
@@ -60,7 +60,7 @@ export class StoreApi {
             }
         }
 
-        return { code, headers: resHeaders, body: responseBody as integer };
+        return { code, headers: resHeaders, body: responseBody as { [key: string]: any } };
     }
     /**
     * @returns { Order } - 200

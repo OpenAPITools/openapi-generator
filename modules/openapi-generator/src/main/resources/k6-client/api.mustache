@@ -25,7 +25,7 @@ export class {{classname}} {
         headers: {
             [key: string]: string,
         },
-        body?: {{#uniqueResponseTypes}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{^isArray}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isArray}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
+        body?: {{#uniqueResponseTypes}}{{#isMap}}{ [key: string]: any }{{/isMap}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{#isPrimitiveType}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isPrimitiveType}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
     } {
         const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
         {{#hasFormParams}}
@@ -61,7 +61,7 @@ export class {{classname}} {
             }
         }
 
-        return { code, headers: resHeaders, body: responseBody as {{#uniqueResponseTypes}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{^isArray}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isArray}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}} };
+        return { code, headers: resHeaders, body: responseBody as {{#uniqueResponseTypes}}{{#isMap}}{ [key: string]: any }{{/isMap}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{#isPrimitiveType}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isPrimitiveType}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}} };
     }
     {{/operation}}
     {{/operations}}
