@@ -10,6 +10,8 @@ export class UserApi {
     constructor(private baseUrl: string) {}
 
     /**
+    * @summary Create user
+    *
     * @returns { undefined } - 0
     */
     public createUser(user: User): {
@@ -40,6 +42,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Creates list of users with given input array
+    *
     * @returns { undefined } - 0
     */
     public createUsersWithArrayInput(user: User[]): {
@@ -70,6 +74,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Creates list of users with given input array
+    *
     * @returns { undefined } - 0
     */
     public createUsersWithListInput(user: User[]): {
@@ -100,6 +106,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Delete user
+    *
     * @returns { undefined } - 400
     * @returns { undefined } - 404
     */
@@ -127,6 +135,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Get user by user name
+    *
     * @returns { User } - 200
     * @returns { undefined } - 400
     * @returns { undefined } - 404
@@ -155,6 +165,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as User | undefined };
     }
     /**
+    * @summary Logs user into the system
+    *
     * @returns { string } - 200
     * @returns { undefined } - 400
     */
@@ -182,6 +194,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as string | undefined };
     }
     /**
+    * @summary Logs out current logged in user session
+    *
     * @returns { undefined } - 0
     */
     public logoutUser(): {
@@ -208,6 +222,8 @@ export class UserApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Updated user
+    *
     * @returns { undefined } - 400
     * @returns { undefined } - 404
     */

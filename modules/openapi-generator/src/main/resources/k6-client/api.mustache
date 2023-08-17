@@ -16,6 +16,8 @@ export class {{classname}} {
     {{#operations}}
     {{#operation}}
     /**
+    * @summary {{ summary }}
+    *
     {{#responses}}
     * @returns { {{#dataType}}{{#isArray}}{{baseType}}[]{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
     {{/responses}}

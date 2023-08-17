@@ -11,6 +11,8 @@ export class PetApi {
     constructor(private baseUrl: string) {}
 
     /**
+    * @summary Add a new pet to the store
+    *
     * @returns { Pet } - 200
     * @returns { undefined } - 405
     */
@@ -42,6 +44,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as Pet | undefined };
     }
     /**
+    * @summary Deletes a pet
+    *
     * @returns { undefined } - 400
     */
     public deletePet(petId: number, apiKey: string): {
@@ -68,6 +72,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Finds Pets by status
+    *
     * @returns { Pet[] } - 200
     * @returns { undefined } - 400
     */
@@ -95,6 +101,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as Pet[] | undefined };
     }
     /**
+    * @summary Finds Pets by tags
+    *
     * @returns { Pet[] } - 200
     * @returns { undefined } - 400
     */
@@ -122,6 +130,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as Pet[] | undefined };
     }
     /**
+    * @summary Find pet by ID
+    *
     * @returns { Pet } - 200
     * @returns { undefined } - 400
     * @returns { undefined } - 404
@@ -150,6 +160,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as Pet | undefined };
     }
     /**
+    * @summary Update an existing pet
+    *
     * @returns { Pet } - 200
     * @returns { undefined } - 400
     * @returns { undefined } - 404
@@ -183,6 +195,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as Pet | undefined };
     }
     /**
+    * @summary Updates a pet in the store with form data
+    *
     * @returns { undefined } - 405
     */
     public updatePetWithForm(petId: number, name: string, status: string): {
@@ -218,6 +232,8 @@ export class PetApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary uploads an image
+    *
     * @returns { ApiResponse } - 200
     */
     public uploadFile(petId: number, additionalMetadata: string, file: FileData): {

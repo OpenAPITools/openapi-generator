@@ -10,6 +10,8 @@ export class StoreApi {
     constructor(private baseUrl: string) {}
 
     /**
+    * @summary Delete purchase order by ID
+    *
     * @returns { undefined } - 400
     * @returns { undefined } - 404
     */
@@ -37,6 +39,8 @@ export class StoreApi {
         return { code, headers: resHeaders, body: responseBody as undefined };
     }
     /**
+    * @summary Returns pet inventories by status
+    *
     * @returns { map } - 200
     */
     public getInventory(): {
@@ -63,6 +67,8 @@ export class StoreApi {
         return { code, headers: resHeaders, body: responseBody as { [key: string]: any } };
     }
     /**
+    * @summary Find purchase order by ID
+    *
     * @returns { Order } - 200
     * @returns { undefined } - 400
     * @returns { undefined } - 404
@@ -91,6 +97,8 @@ export class StoreApi {
         return { code, headers: resHeaders, body: responseBody as Order | undefined };
     }
     /**
+    * @summary Place an order for a pet
+    *
     * @returns { Order } - 200
     * @returns { undefined } - 400
     */
