@@ -332,6 +332,7 @@ public class CodegenOperation {
                         codegenModel.isMap = true;
                         codegenModel.isArray = false;
                         codegenModel.isPrimitiveType = false;
+                        codegenModel.dataType = response.baseType;
                     } else {
                         codegenModel.isArray = false;
                         codegenModel.isMap = false;
