@@ -17,7 +17,7 @@ export class {{classname}} {
     {{#operation}}
     /**
     {{#responses}}
-    * @returns { {{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
+    * @returns { {{#dataType}}{{#isArray}}{{baseType}}[]{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
     {{/responses}}
     */
     public {{operationId}}({{#allParams}}{{^isArray}}{{{paramName}}}: {{dataType}}{{/isArray}}{{#isArray}}{{{paramName}}}: {{baseType}}[]{{/isArray}}{{^-last}}, {{/-last}}{{/allParams}}): {
