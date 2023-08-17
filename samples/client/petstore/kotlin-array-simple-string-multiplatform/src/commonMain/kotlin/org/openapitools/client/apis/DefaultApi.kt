@@ -29,14 +29,12 @@ import kotlinx.serialization.encoding.*
 
 open class DefaultApi : ApiClient {
 
-    private lateinit var client: HttpClient
-
     constructor(
-        baseUrl: String,
-        httpClientEngine: HttpClientEngine?,
+        baseUrl: String = ApiClient.BASE_URL,
+        httpClientEngine: HttpClientEngine? = null,
         httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-        jsonBlock: Json,
-    ) : super(baseUrl = baseUrl, httpClientEngine = httpClientEngine, httpClientConfig = httpClientConfig, jsonBlock = jsonBlock)
+        jsonSerializer: Json = ApiClient.JSON_DEFAULT
+    ) : super(baseUrl = baseUrl, httpClientEngine = httpClientEngine, httpClientConfig = httpClientConfig, jsonBlock = jsonSerializer)
 
     constructor(
         baseUrl: String,
