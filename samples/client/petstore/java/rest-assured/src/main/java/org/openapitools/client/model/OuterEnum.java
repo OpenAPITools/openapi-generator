@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.annotations.SerializedName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
