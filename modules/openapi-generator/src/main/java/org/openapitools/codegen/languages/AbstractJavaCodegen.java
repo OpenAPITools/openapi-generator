@@ -1473,6 +1473,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if ("array".equals(property.containerType)) {
             model.imports.add("ArrayList");
+            model.imports.add("Arrays");
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
             boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
