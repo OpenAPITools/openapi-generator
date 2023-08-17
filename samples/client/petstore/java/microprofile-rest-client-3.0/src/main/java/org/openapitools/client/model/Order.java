@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
