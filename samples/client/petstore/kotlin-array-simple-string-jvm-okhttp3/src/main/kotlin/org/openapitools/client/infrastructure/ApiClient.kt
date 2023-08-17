@@ -110,7 +110,8 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                     )
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == OctetMediaType && content is ByteArray -> content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
+            mediaType == OctetMediaType && content is ByteArray ->
+                RequestBody.create(MediaType.parse(OctetMediaType), content)
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
         }
