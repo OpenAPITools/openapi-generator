@@ -9,45 +9,99 @@ export class PetApi {
 
     constructor(private baseUrl: string) {}
 
-    public addPet(pet: Pet) {
+    public addPet(pet: Pet): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, pet, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, pet, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public deletePet(petId: number, apiKey: string) {
+    public deletePet(petId: number, apiKey: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
-        return http.delete(url);
+        const { code, headers: resHeaders, body } = http.delete(url);
+
+        return { code, headers: resHeaders };
     }
-    public findPetsByStatus(status: any[]) {
+    public findPetsByStatus(status: any[]): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/findByStatus?status=${status}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public findPetsByTags(tags: any[]) {
+    public findPetsByTags(tags: any[]): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/findByTags?tags=${tags}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public getPetById(petId: number) {
+    public getPetById(petId: number): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public updatePet(pet: Pet) {
+    public updatePet(pet: Pet): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.put(url, pet, { headers });
+        const { code, headers: resHeaders, body } = http.put(url, pet, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public updatePetWithForm(petId: number, name: string, status: string) {
+    public updatePetWithForm(petId: number, name: string, status: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/${petId}`;
 
         const form = {
@@ -55,13 +109,21 @@ export class PetApi {
             status,
         };
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/x-www-form-urlencoded`
         };
 
-        return http.post(url, form, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, form, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public uploadFile(petId: number, additionalMetadata: string, file: FileData) {
+    public uploadFile(petId: number, additionalMetadata: string, file: FileData): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/pet/${petId}/uploadImage`;
 
         const form = {
@@ -69,10 +131,12 @@ export class PetApi {
             file,
         };
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `multipart/form-data`
         };
 
-        return http.post(url, form, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, form, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
 }

@@ -9,28 +9,60 @@ export class StoreApi {
 
     constructor(private baseUrl: string) {}
 
-    public deleteOrder(orderId: string) {
+    public deleteOrder(orderId: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/store/order/${orderId}`;
 
-        return http.delete(url);
+        const { code, headers: resHeaders, body } = http.delete(url);
+
+        return { code, headers: resHeaders };
     }
-    public getInventory() {
+    public getInventory(): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/store/inventory`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public getOrderById(orderId: number) {
+    public getOrderById(orderId: number): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/store/order/${orderId}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public placeOrder(order: Order) {
+    public placeOrder(order: Order): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/store/order`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, order, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, order, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
 }

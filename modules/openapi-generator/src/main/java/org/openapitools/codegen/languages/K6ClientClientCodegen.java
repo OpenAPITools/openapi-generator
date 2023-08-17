@@ -53,6 +53,7 @@ public class K6ClientClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.mustache", ".ts");
+
         embeddedTemplateDir = templateDir = "k6-client";
         apiPackage = "";
         modelPackage = "";

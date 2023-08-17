@@ -15,7 +15,13 @@ export class {{classname}} {
 
     {{#operations}}
     {{#operation}}
-    public {{operationId}}({{#allParams}}{{{paramName}}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    public {{operationId}}({{#allParams}}{{{paramName}}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
         {{#hasFormParams}}
 
@@ -27,18 +33,20 @@ export class {{classname}} {
         {{/hasFormParams}}
         {{#hasBodyParam}}
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
         };
         {{/hasBodyParam}}
         {{#hasFormParams}}
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
         };
         {{/hasFormParams}}
 
-        return http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}, { headers }{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form, { headers }{{/hasFormParams}});
+        const { code, headers: resHeaders, body } = http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}, { headers: reqHeaders }{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form, { headers: reqHeaders }{{/hasFormParams}});
+
+        return { code, headers: resHeaders };
     }
     {{/operation}}
     {{/operations}}

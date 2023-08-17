@@ -9,60 +9,124 @@ export class UserApi {
 
     constructor(private baseUrl: string) {}
 
-    public createUser(user: User) {
+    public createUser(user: User): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public createUsersWithArrayInput(user: any[]) {
+    public createUsersWithArrayInput(user: any[]): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/createWithArray`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public createUsersWithListInput(user: any[]) {
+    public createUsersWithListInput(user: any[]): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/createWithList`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user, { headers });
+        const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
-    public deleteUser(username: string) {
+    public deleteUser(username: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/${username}`;
 
-        return http.delete(url);
+        const { code, headers: resHeaders, body } = http.delete(url);
+
+        return { code, headers: resHeaders };
     }
-    public getUserByName(username: string) {
+    public getUserByName(username: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/${username}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public loginUser(username: string, password: string) {
+    public loginUser(username: string, password: string): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/login?username=${username}&password=${password}`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public logoutUser() {
+    public logoutUser(): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/logout`;
 
-        return http.get(url);
+        const { code, headers: resHeaders, body } = http.get(url);
+
+        return { code, headers: resHeaders };
     }
-    public updateUser(username: string, user: User) {
+    public updateUser(username: string, user: User): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: string,
+    } {
         const url: string = `${this.baseUrl}/user/${username}`;
 
-        const headers = {
+        const reqHeaders = {
             'Content-Type': `application/json`
         };
 
-        return http.put(url, user, { headers });
+        const { code, headers: resHeaders, body } = http.put(url, user, { headers: reqHeaders });
+
+        return { code, headers: resHeaders };
     }
 }
