@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
   * Describes the result of uploading an image resource
  **/
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse  {
   
   @JsonbProperty("code")

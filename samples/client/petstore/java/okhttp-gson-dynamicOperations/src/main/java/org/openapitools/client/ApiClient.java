@@ -69,6 +69,7 @@ import org.openapitools.client.auth.OAuthFlow;
 /**
  * <p>ApiClient class.</p>
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io:80/v2";

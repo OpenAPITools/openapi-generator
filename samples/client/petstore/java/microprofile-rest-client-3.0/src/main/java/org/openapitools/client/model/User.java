@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
   * A User who is purchasing from the pet store
  **/
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User  {
   
   @JsonbProperty("id")

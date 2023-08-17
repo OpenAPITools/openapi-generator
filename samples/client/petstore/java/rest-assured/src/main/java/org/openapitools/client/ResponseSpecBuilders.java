@@ -19,6 +19,7 @@ import io.restassured.specification.ResponseSpecification;
 
 import java.util.function.Function;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ResponseSpecBuilders {
 
     private ResponseSpecBuilders() {

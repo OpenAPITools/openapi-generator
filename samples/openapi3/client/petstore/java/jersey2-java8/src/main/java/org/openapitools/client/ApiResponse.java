@@ -21,6 +21,7 @@ import java.util.Map;
  *
  * @param <T> The type of data that is deserialized from response body
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiResponse<T> {
     private final int statusCode;
     private final Map<String, List<String>> headers;

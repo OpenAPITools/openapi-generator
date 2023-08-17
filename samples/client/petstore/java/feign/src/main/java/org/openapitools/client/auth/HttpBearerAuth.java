@@ -6,6 +6,7 @@ import feign.RequestTemplate;
 /**
  * An interceptor that adds the request header needed to use HTTP bearer authentication.
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBearerAuth implements RequestInterceptor {
   private final String scheme;
   private String bearerToken;

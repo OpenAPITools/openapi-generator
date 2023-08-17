@@ -26,6 +26,7 @@ import java.util.concurrent.Executor;
 /**
  * Creates {@link Call} instances that invoke underlying {@link WSClient}
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Play26CallFactory implements okhttp3.Call.Factory {
 
     /** PlayWS http client */

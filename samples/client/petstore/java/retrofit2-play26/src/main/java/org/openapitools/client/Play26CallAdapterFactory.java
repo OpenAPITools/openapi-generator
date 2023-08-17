@@ -14,6 +14,7 @@ import java.util.function.Function;
 /**
  * Creates {@link CallAdapter} instances that convert {@link Call} into {@link java.util.concurrent.CompletionStage}
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Play26CallAdapterFactory extends CallAdapter.Factory {
 
     private Function<RuntimeException, RuntimeException> exceptionConverter = Function.identity();

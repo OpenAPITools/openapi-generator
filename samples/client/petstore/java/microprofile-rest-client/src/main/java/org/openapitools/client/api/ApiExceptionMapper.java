@@ -18,6 +18,7 @@ import javax.ws.rs.ext.Provider;
 import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
 
 @Provider
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiExceptionMapper
     implements ResponseExceptionMapper<ApiException> {
 

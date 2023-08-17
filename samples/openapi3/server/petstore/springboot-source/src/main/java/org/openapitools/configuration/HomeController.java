@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
  * Home redirection to OpenAPI api documentation
  */
 @Controller
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HomeController {
 
     private static YAMLMapper yamlMapper = new YAMLMapper();

@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import javax.ws.rs.core.Response;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiException extends Exception {
 
   private static final long serialVersionUID = 1L;

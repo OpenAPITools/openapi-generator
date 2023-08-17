@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.io.InputStream;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PingApi {
     private ApiClient localVarApiClient;
     private int localHostIndex;

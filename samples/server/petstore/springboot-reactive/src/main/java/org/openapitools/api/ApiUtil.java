@@ -8,6 +8,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ApiUtil {
     public static Mono<Void> getExampleResponse(ServerWebExchange exchange, MediaType mediaType, String example) {
         ServerHttpResponse response = exchange.getResponse();

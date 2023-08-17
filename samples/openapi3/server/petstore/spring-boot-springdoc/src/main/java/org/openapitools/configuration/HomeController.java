@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Home redirection to OpenAPI api documentation
  */
 @Controller
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HomeController {
 
 }

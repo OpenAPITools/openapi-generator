@@ -47,6 +47,7 @@ import static io.restassured.http.Method.*;
 {{#swagger2AnnotationLibrary}}
 @Tag(name = "{{{baseName}}}")
 {{/swagger2AnnotationLibrary}}
+{{>generatedAnnotation}}
 public class {{classname}} {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;

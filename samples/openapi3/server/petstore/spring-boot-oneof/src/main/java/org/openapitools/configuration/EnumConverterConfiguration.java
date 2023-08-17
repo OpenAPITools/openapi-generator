@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
 @Configuration
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumConverterConfiguration {
 
     @Bean(name = "org.openapitools.configuration.EnumConverterConfiguration.fruitTypeConverter")

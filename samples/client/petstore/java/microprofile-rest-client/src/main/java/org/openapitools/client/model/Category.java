@@ -27,6 +27,7 @@ import javax.json.bind.annotation.JsonbProperty;
   * A category for a pet
  **/
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category  {
   
   @JsonbProperty("id")

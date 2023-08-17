@@ -3,6 +3,7 @@ package {{invokerPackage}}.auth;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
+{{>generatedAnnotation}}
 public class ApiKeyAuth implements RequestInterceptor {
     private final String location;
     private final String paramName;

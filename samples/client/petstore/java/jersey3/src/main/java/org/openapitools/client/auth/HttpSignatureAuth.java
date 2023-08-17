@@ -40,6 +40,7 @@ import org.tomitribe.auth.signatures.SigningAlgorithm;
 /**
  * A Configuration object for the HTTP message signature security scheme.
  */
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpSignatureAuth implements Authentication {
 
   private Signer signer;

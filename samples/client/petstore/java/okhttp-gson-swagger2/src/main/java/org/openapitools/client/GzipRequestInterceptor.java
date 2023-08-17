@@ -26,6 +26,7 @@ import java.io.IOException;
  *
  * Taken from https://github.com/square/okhttp/issues/350
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 class GzipRequestInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

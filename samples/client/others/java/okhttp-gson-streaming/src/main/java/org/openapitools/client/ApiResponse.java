@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * API response returned by API call.
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiResponse<T> {
     final private int statusCode;
     final private Map<String, List<String>> headers;

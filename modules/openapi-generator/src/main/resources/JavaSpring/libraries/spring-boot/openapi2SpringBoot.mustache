@@ -18,6 +18,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
     basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+{{>generatedAnnotation}}
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {

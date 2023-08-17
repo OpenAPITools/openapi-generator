@@ -51,6 +51,7 @@ import java.io.InputStream;
 {{/supportStreaming}}
 
 {{#operations}}
+{{>generatedAnnotation}}
 public class {{classname}} {
     private ApiClient localVarApiClient;
     private int localHostIndex;

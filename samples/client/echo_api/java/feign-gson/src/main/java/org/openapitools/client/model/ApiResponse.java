@@ -3,6 +3,7 @@ package org.openapitools.client.model;
 import java.util.Map;
 import java.util.List;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiResponse<T>{
 
     final private int statusCode;

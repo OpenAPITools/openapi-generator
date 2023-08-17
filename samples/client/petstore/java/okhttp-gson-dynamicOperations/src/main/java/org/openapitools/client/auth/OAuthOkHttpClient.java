@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OAuthOkHttpClient implements HttpClient {
     private OkHttpClient client;
 

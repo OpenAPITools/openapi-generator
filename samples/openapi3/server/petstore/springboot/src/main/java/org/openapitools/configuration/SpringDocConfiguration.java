@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpringDocConfiguration {
 
     @Bean(name = "org.openapitools.configuration.SpringDocConfiguration.apiInfo")

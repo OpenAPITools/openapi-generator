@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class JSON {
     private Gson gson;
     private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();

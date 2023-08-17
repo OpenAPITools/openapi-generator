@@ -5,6 +5,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ApiUtil {
     public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {
         try {

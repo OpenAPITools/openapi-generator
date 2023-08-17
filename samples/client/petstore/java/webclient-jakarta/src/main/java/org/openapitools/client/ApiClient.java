@@ -72,6 +72,7 @@ import org.openapitools.client.auth.OAuth;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 

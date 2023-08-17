@@ -21,7 +21,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.restassured.internal.mapping.Jackson2Mapper;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class JacksonObjectMapper extends Jackson2Mapper {
 
     private JacksonObjectMapper() {

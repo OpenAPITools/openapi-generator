@@ -27,6 +27,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
   * A tag for a pet
  **/
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Tag  {
   
   @JsonbProperty("id")

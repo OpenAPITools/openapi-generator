@@ -32,6 +32,7 @@ import javax.json.bind.annotation.JsonbProperty;
   * A pet for sale in the pet store
  **/
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet  {
   
   @JsonbProperty("id")

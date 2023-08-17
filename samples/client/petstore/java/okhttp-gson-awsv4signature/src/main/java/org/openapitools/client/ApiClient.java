@@ -64,6 +64,7 @@ import org.openapitools.client.auth.AWS4Auth;
 /**
  * <p>ApiClient class.</p>
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io/v2";
