@@ -31,6 +31,6 @@ export class StoreApi {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, order);
+        return http.post(url, order, { headers });
     }
 }

@@ -16,7 +16,7 @@ export class PetApi {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, pet);
+        return http.post(url, pet, { headers });
     }
     public deletePet(petId: number, apiKey: string) {
         const url: string = `${this.baseUrl}/pet/${petId}`;
@@ -45,7 +45,7 @@ export class PetApi {
             'Content-Type': `application/json`
         };
 
-        return http.put(url, pet);
+        return http.put(url, pet, { headers });
     }
     public updatePetWithForm(petId: number, name: string, status: string) {
         const url: string = `${this.baseUrl}/pet/${petId}`;
@@ -59,7 +59,7 @@ export class PetApi {
             'Content-Type': `application/x-www-form-urlencoded`
         };
 
-        return http.post(url, form);
+        return http.post(url, form, { headers });
     }
     public uploadFile(petId: number, additionalMetadata: string, file: FileData) {
         const url: string = `${this.baseUrl}/pet/${petId}/uploadImage`;
@@ -73,6 +73,6 @@ export class PetApi {
             'Content-Type': `multipart/form-data`
         };
 
-        return http.post(url, form);
+        return http.post(url, form, { headers });
     }
 }

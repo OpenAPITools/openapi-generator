@@ -38,7 +38,7 @@ export class {{classname}} {
         };
         {{/hasFormParams}}
 
-        return http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form{{/hasFormParams}});
+        return http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}, { headers }{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form, { headers }{{/hasFormParams}});
     }
     {{/operation}}
     {{/operations}}

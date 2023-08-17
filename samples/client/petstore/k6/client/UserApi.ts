@@ -16,7 +16,7 @@ export class UserApi {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user);
+        return http.post(url, user, { headers });
     }
     public createUsersWithArrayInput(user: any[]) {
         const url: string = `${this.baseUrl}/user/createWithArray`;
@@ -25,7 +25,7 @@ export class UserApi {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user);
+        return http.post(url, user, { headers });
     }
     public createUsersWithListInput(user: any[]) {
         const url: string = `${this.baseUrl}/user/createWithList`;
@@ -34,7 +34,7 @@ export class UserApi {
             'Content-Type': `application/json`
         };
 
-        return http.post(url, user);
+        return http.post(url, user, { headers });
     }
     public deleteUser(username: string) {
         const url: string = `${this.baseUrl}/user/${username}`;
@@ -63,6 +63,6 @@ export class UserApi {
             'Content-Type': `application/json`
         };
 
-        return http.put(url, user);
+        return http.put(url, user, { headers });
     }
 }
