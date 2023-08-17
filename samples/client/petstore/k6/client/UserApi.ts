@@ -32,7 +32,7 @@ export class UserApi {
     /**
     * @returns { undefined } - 0
     */
-    public createUsersWithArrayInput(user: any[]): {
+    public createUsersWithArrayInput(user: User[]): {
         code: number,
         headers: {
             [key: string]: string,
@@ -52,7 +52,7 @@ export class UserApi {
     /**
     * @returns { undefined } - 0
     */
-    public createUsersWithListInput(user: any[]): {
+    public createUsersWithListInput(user: User[]): {
         code: number,
         headers: {
             [key: string]: string,

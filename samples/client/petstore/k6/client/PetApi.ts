@@ -51,7 +51,7 @@ export class PetApi {
     * @returns { any[] } - 200
     * @returns { undefined } - 400
     */
-    public findPetsByStatus(status: any[]): {
+    public findPetsByStatus(status: string[]): {
         code: number,
         headers: {
             [key: string]: string,
@@ -68,7 +68,7 @@ export class PetApi {
     * @returns { any[] } - 200
     * @returns { undefined } - 400
     */
-    public findPetsByTags(tags: any[]): {
+    public findPetsByTags(tags: string[]): {
         code: number,
         headers: {
             [key: string]: string,

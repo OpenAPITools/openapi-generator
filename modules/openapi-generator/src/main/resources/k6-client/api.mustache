@@ -20,7 +20,7 @@ export class {{classname}} {
     * @returns { {{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
     {{/responses}}
     */
-    public {{operationId}}({{#allParams}}{{{paramName}}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}): {
+    public {{operationId}}({{#allParams}}{{^isArray}}{{{paramName}}}: {{dataType}}{{/isArray}}{{#isArray}}{{{paramName}}}: {{baseType}}[]{{/isArray}}{{^-last}}, {{/-last}}{{/allParams}}): {
         code: number,
         headers: {
             [key: string]: string,
