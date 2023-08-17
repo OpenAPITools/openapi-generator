@@ -29,7 +29,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.post(url, pet, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as Pet | undefined };
     }
     /**
     * @returns { undefined } - 400
@@ -45,7 +45,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.delete(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { any[] } - 200
@@ -62,7 +62,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as Pet[] | undefined };
     }
     /**
     * @returns { any[] } - 200
@@ -79,7 +79,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as Pet[] | undefined };
     }
     /**
     * @returns { Pet } - 200
@@ -97,7 +97,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as Pet | undefined };
     }
     /**
     * @returns { Pet } - 200
@@ -120,7 +120,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.put(url, pet, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as Pet | undefined };
     }
     /**
     * @returns { undefined } - 405
@@ -145,7 +145,7 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.post(url, form, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { ApiResponse } - 200
@@ -170,6 +170,6 @@ export class PetApi {
 
         const { code, headers: resHeaders, body } = http.post(url, form, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as ApiResponse };
     }
 }

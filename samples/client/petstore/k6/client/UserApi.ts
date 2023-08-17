@@ -27,7 +27,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -47,7 +47,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -67,7 +67,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.post(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { undefined } - 400
@@ -84,7 +84,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.delete(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { User } - 200
@@ -102,7 +102,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as User | undefined };
     }
     /**
     * @returns { string } - 200
@@ -119,7 +119,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as string | undefined };
     }
     /**
     * @returns { undefined } - 0
@@ -135,7 +135,7 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.get(url);
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
     /**
     * @returns { undefined } - 400
@@ -156,6 +156,6 @@ export class UserApi {
 
         const { code, headers: resHeaders, body } = http.put(url, user, { headers: reqHeaders });
 
-        return { code, headers: resHeaders };
+        return { code, headers: resHeaders, body: body as undefined };
     }
 }
