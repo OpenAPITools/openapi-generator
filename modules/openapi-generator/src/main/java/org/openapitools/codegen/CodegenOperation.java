@@ -318,9 +318,21 @@ public class CodegenOperation {
         return ("/{" + id + "}").equals(pathWithoutBaseName());
     }
 
-    public List<String> uniqueResponseTypes() {
+    public List<CodegenModel> uniqueResponseTypes() {
         return responses.stream()
-                .map(response -> response.dataType)
+                .map(response -> {
+
+                    CodegenModel codegenModel = new CodegenModel();
+                    if(response.isArray) {
+                        codegenModel.isArray = true;
+                        codegenModel.arrayModelType = response.baseType;
+                    } else {
+                        codegenModel.isArray = false;
+                        codegenModel.dataType = response.baseType;
+                    }
+
+                    return codegenModel;
+                })
                 .distinct()
                 .collect(Collectors.toList());
     }

@@ -25,7 +25,7 @@ export class {{classname}} {
         headers: {
             [key: string]: string,
         },
-        body?: {{#uniqueResponseTypes}}{{#.}}{{.}}{{/.}}{{^.}}undefined{{/.}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
+        body?: {{#uniqueResponseTypes}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{^isArray}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isArray}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
     } {
         const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
         {{#hasFormParams}}

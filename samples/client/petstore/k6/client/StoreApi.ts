@@ -34,7 +34,7 @@ export class StoreApi {
         headers: {
             [key: string]: string,
         },
-        body?: map,
+        body?: integer,
     } {
         const url: string = `${this.baseUrl}/store/inventory`;
 

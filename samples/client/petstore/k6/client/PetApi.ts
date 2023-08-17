@@ -56,7 +56,7 @@ export class PetApi {
         headers: {
             [key: string]: string,
         },
-        body?: any[] | undefined,
+        body?: Pet[] | undefined,
     } {
         const url: string = `${this.baseUrl}/pet/findByStatus?status=${status}`;
 
@@ -73,7 +73,7 @@ export class PetApi {
         headers: {
             [key: string]: string,
         },
-        body?: any[] | undefined,
+        body?: Pet[] | undefined,
     } {
         const url: string = `${this.baseUrl}/pet/findByTags?tags=${tags}`;
 
