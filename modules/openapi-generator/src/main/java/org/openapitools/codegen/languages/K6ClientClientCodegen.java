@@ -8,6 +8,7 @@ import org.openapitools.codegen.*;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -107,7 +108,7 @@ public class K6ClientClientCodegen extends DefaultCodegen implements CodegenConf
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             String urlValue = fragment.execute();
-            writer.write(urlValue.toLowerCase());
+            writer.write(urlValue.toLowerCase(Locale.ROOT));
         }
     }
 
