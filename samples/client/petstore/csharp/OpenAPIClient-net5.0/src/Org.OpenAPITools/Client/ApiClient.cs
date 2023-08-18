@@ -463,7 +463,7 @@ namespace Org.OpenAPITools.Client
                     !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                     configuration.OAuthFlow != null)
                 {
-                    client = client.UseAuthenticator(new OAuthAuthenticator(
+                    client.UseAuthenticator(new OAuthAuthenticator(
                         configuration.OAuthTokenUrl,
                         configuration.OAuthClientId,
                         configuration.OAuthClientSecret,
@@ -573,7 +573,7 @@ namespace Org.OpenAPITools.Client
                     !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
                     configuration.OAuthFlow != null)
                 {
-                    client = client.UseAuthenticator(new OAuthAuthenticator(
+                    client.UseAuthenticator(new OAuthAuthenticator(
                         configuration.OAuthTokenUrl,
                         configuration.OAuthClientId,
                         configuration.OAuthClientSecret,
