@@ -13,10 +13,10 @@
 package org.openapitools.client.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -257,4 +257,3 @@ public class Pet  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

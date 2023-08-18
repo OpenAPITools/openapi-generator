@@ -90,14 +90,14 @@ class User {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
-     other.id == id &&
-     other.username == username &&
-     other.firstName == firstName &&
-     other.lastName == lastName &&
-     other.email == email &&
-     other.password == password &&
-     other.phone == phone &&
-     other.userStatus == userStatus;
+    other.id == id &&
+    other.username == username &&
+    other.firstName == firstName &&
+    other.lastName == lastName &&
+    other.email == email &&
+    other.password == password &&
+    other.phone == phone &&
+    other.userStatus == userStatus;
 
   @override
   int get hashCode =>

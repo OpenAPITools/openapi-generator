@@ -72,12 +72,12 @@ class Capitalization {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-     other.smallCamel == smallCamel &&
-     other.capitalCamel == capitalCamel &&
-     other.smallSnake == smallSnake &&
-     other.capitalSnake == capitalSnake &&
-     other.sCAETHFlowPoints == sCAETHFlowPoints &&
-     other.ATT_NAME == ATT_NAME;
+    other.smallCamel == smallCamel &&
+    other.capitalCamel == capitalCamel &&
+    other.smallSnake == smallSnake &&
+    other.capitalSnake == capitalSnake &&
+    other.sCAETHFlowPoints == sCAETHFlowPoints &&
+    other.ATT_NAME == ATT_NAME;
 
   @override
   int get hashCode =>

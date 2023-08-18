@@ -191,8 +191,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.client.model";
         rootJavaEEPackage = MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE;
 
-        languageSpecificPrimitives.add("BigDecimal");
-
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
@@ -887,6 +885,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     if (!operation.vendorExtensions.containsKey(VendorExtension.X_WEBCLIENT_BLOCKING.getName()) && webclientBlockingOperations) {
                         operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_BLOCKING.getName(), true);
                     }
+
+                    if (operation.isArray && !"string".equalsIgnoreCase(operation.returnBaseType)) {
+                        operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
+                    }
                 }
             }
         }
@@ -1021,16 +1023,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return codegenModel;
-    }
-
-    @Override
-    protected boolean needToImport(String type) {
-        // add import for BigDecimal explicitly since it is a primitive type
-        if("BigDecimal".equals(type)) {
-            return true;
-        }
-
-        return super.needToImport(type) && !type.contains(".");
     }
 
     @Override

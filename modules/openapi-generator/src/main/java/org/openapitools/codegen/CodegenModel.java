@@ -149,7 +149,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String additionalPropertiesType;
 
     /**
-     * True if additionalProperties is set to true (boolean value)
+     * True if additionalProperties is set to true (boolean value), any type, free form object, etc
+     *
+     * TODO: we may rename this to isAdditionalPropertiesEnabled or something
+     * else to avoid confusions
      */
     public boolean isAdditionalPropertiesTrue;
 
@@ -1088,6 +1091,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(isAdditionalPropertiesTrue, that.isAdditionalPropertiesTrue) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
@@ -1193,6 +1197,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", externalDocumentation=").append(externalDocumentation);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", additionalPropertiesType='").append(additionalPropertiesType).append('\'');
+        sb.append(", isAdditionalPropertiesTrue='").append(isAdditionalPropertiesTrue).append('\'');
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);

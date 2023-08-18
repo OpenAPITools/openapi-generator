@@ -1008,6 +1008,20 @@ paths:
       responses:
         "200":
           description: Success
+  /fake/response-with-example:
+    get:
+      tags:
+        - fake
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
+          description: Success
   /fake/test-query-parameters:
     put:
       tags:

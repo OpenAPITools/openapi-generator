@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -237,11 +238,11 @@ public class ArrayDefault {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
+      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonNull() && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithDefaultEmptyBracket` to be an array in the JSON string but got `%s`", jsonObj.get("WithDefaultEmptyBracket").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonArray()) {
+      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonNull() && !jsonObj.get("WithoutDefault").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithoutDefault` to be an array in the JSON string but got `%s`", jsonObj.get("WithoutDefault").toString()));
       }
   }

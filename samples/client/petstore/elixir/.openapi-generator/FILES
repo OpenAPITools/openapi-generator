@@ -26,7 +26,7 @@ lib/openapi_petstore/model/cat.ex
 lib/openapi_petstore/model/category.ex
 lib/openapi_petstore/model/class_model.ex
 lib/openapi_petstore/model/client.ex
-lib/openapi_petstore/model/deprecated_object.ex
+lib/openapi_petstore/model/deprecated_model.ex
 lib/openapi_petstore/model/dog.ex
 lib/openapi_petstore/model/enum_arrays.ex
 lib/openapi_petstore/model/enum_class.ex

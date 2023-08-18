@@ -18,6 +18,7 @@ R/category.R
 R/danish_pig.R
 R/date.R
 R/dog.R
+R/dummy_model.R
 R/fake_api.R
 R/format_test.R
 R/mammal.R
@@ -47,6 +48,7 @@ docs/Category.md
 docs/DanishPig.md
 docs/Date.md
 docs/Dog.md
+docs/DummyModel.md
 docs/FakeApi.md
 docs/FormatTest.md
 docs/Mammal.md

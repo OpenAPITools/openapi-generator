@@ -35,8 +35,8 @@ class ReadOnlyFirst {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
-     other.bar == bar &&
-     other.baz == baz;
+    other.bar == bar &&
+    other.baz == baz;
 
   @override
   int get hashCode =>

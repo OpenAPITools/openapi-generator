@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -278,7 +279,7 @@ public class TypeHolderExample implements Parcelable {
 
   TypeHolderExample(Parcel in) {
     stringItem = (String)in.readValue(null);
-    numberItem = (BigDecimal)in.readValue(null);
+    numberItem = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     floatItem = (Float)in.readValue(null);
     integerItem = (Integer)in.readValue(null);
     boolItem = (Boolean)in.readValue(null);

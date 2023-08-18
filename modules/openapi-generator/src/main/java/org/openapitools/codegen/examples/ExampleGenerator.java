@@ -38,6 +38,7 @@ public class ExampleGenerator {
 
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
+    private static final String GENERATED_CONTENT_TYPE = "generatedContentType";
     private static final String OUTPUT = "output";
     private static final String NONE = "none";
     private static final String URL = "url";
@@ -112,12 +113,14 @@ public class ExampleGenerator {
                     String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                         output.add(kv);
                     }
                 } else if (property != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     String example = new XmlExampleGenerator(this.examples).toXml(property);
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
                 }
@@ -157,6 +160,7 @@ public class ExampleGenerator {
 
                         if (example != null) {
                             kv.put(EXAMPLE, example);
+                            kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                             output.add(kv);
                         }
                     }
@@ -165,6 +169,7 @@ public class ExampleGenerator {
                     String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
                 } else {
@@ -201,6 +206,7 @@ public class ExampleGenerator {
                 kv.put(CONTENT_TYPE, mediaType);
                 if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     kv.put(EXAMPLE, Json.pretty(example));
+                    kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO

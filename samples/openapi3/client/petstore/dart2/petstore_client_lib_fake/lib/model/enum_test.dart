@@ -59,14 +59,14 @@ class EnumTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
-     other.enumString == enumString &&
-     other.enumStringRequired == enumStringRequired &&
-     other.enumInteger == enumInteger &&
-     other.enumNumber == enumNumber &&
-     other.outerEnum == outerEnum &&
-     other.outerEnumInteger == outerEnumInteger &&
-     other.outerEnumDefaultValue == outerEnumDefaultValue &&
-     other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
+    other.enumString == enumString &&
+    other.enumStringRequired == enumStringRequired &&
+    other.enumInteger == enumInteger &&
+    other.enumNumber == enumNumber &&
+    other.outerEnum == outerEnum &&
+    other.outerEnumInteger == outerEnumInteger &&
+    other.outerEnumDefaultValue == outerEnumDefaultValue &&
+    other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
 
   @override
   int get hashCode =>

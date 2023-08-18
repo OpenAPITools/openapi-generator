@@ -93,6 +93,8 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**RolesReportGet**](DefaultApi.md#rolesreportget) | **GET** /roles/report | 
+*DefaultApi* | [**Test**](DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -183,6 +185,7 @@ Class | Method | HTTP request | Description
  - [Model.Model200Response](Model200Response.md)
  - [Model.ModelClient](ModelClient.md)
  - [Model.Name](Name.md)
+ - [Model.NotificationtestGetElementsV1ResponseMPayload](NotificationtestGetElementsV1ResponseMPayload.md)
  - [Model.NullableClass](NullableClass.md)
  - [Model.NullableGuidClass](NullableGuidClass.md)
  - [Model.NullableShape](NullableShape.md)
@@ -203,6 +206,8 @@ Class | Method | HTTP request | Description
  - [Model.QuadrilateralInterface](QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](ReadOnlyFirst.md)
  - [Model.Return](Return.md)
+ - [Model.RolesReportsHash](RolesReportsHash.md)
+ - [Model.RolesReportsHashRole](RolesReportsHashRole.md)
  - [Model.ScaleneTriangle](ScaleneTriangle.md)
  - [Model.Shape](Shape.md)
  - [Model.ShapeInterface](ShapeInterface.md)
