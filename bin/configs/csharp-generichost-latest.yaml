@@ -9,7 +9,6 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   nullableReferenceTypes: false
-  useSourceGeneration: true
 
 # globalProperties:
 #   skipFormModel: false
