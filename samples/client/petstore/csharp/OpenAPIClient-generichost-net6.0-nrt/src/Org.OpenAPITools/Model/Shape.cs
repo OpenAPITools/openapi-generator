@@ -246,20 +246,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ShapeSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Shape))]
-    internal partial class ShapeSerializationContext : JsonSerializerContext
+    public partial class ShapeSerializationContext : JsonSerializerContext
     {
-        public ShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ShapeSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ShapeDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Shape))]
-    internal partial class ShapeDeserializationContext : JsonSerializerContext
+    public partial class ShapeDeserializationContext : JsonSerializerContext
     {
-        public ShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ShapeDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

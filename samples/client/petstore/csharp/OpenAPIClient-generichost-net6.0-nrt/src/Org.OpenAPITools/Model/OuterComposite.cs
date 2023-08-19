@@ -199,20 +199,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The OuterCompositeSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterComposite))]
-    internal partial class OuterCompositeSerializationContext : JsonSerializerContext
+    public partial class OuterCompositeSerializationContext : JsonSerializerContext
     {
-        public OuterCompositeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The OuterCompositeSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public OuterCompositeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// OuterCompositeDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterComposite))]
-    internal partial class OuterCompositeDeserializationContext : JsonSerializerContext
+    public partial class OuterCompositeDeserializationContext : JsonSerializerContext
     {
-        public OuterCompositeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// OuterCompositeDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public OuterCompositeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

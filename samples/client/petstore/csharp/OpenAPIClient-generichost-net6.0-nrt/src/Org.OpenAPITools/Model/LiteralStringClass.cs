@@ -180,20 +180,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The LiteralStringClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(LiteralStringClass))]
-    internal partial class LiteralStringClassSerializationContext : JsonSerializerContext
+    public partial class LiteralStringClassSerializationContext : JsonSerializerContext
     {
-        public LiteralStringClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The LiteralStringClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public LiteralStringClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// LiteralStringClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(LiteralStringClass))]
-    internal partial class LiteralStringClassDeserializationContext : JsonSerializerContext
+    public partial class LiteralStringClassDeserializationContext : JsonSerializerContext
     {
-        public LiteralStringClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// LiteralStringClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public LiteralStringClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

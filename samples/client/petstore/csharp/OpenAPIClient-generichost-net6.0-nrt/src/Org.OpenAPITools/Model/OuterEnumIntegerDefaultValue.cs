@@ -181,20 +181,34 @@ namespace Org.OpenAPITools.Model
     }
 
 
+    /// <summary>
+    /// The OuterEnumIntegerDefaultValueSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnumIntegerDefaultValue))]
-    internal partial class OuterEnumIntegerDefaultValueSerializationContext : JsonSerializerContext
+    public partial class OuterEnumIntegerDefaultValueSerializationContext : JsonSerializerContext
     {
-        public OuterEnumIntegerDefaultValueSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The OuterEnumIntegerDefaultValueSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public OuterEnumIntegerDefaultValueSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// OuterEnumIntegerDefaultValueDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterEnumIntegerDefaultValue))]
-    internal partial class OuterEnumIntegerDefaultValueDeserializationContext : JsonSerializerContext
+    public partial class OuterEnumIntegerDefaultValueDeserializationContext : JsonSerializerContext
     {
-        public OuterEnumIntegerDefaultValueDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// OuterEnumIntegerDefaultValueDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public OuterEnumIntegerDefaultValueDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

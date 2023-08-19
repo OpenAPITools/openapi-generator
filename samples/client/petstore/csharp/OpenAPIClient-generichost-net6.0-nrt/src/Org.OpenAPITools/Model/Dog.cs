@@ -165,20 +165,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The DogSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Dog))]
-    internal partial class DogSerializationContext : JsonSerializerContext
+    public partial class DogSerializationContext : JsonSerializerContext
     {
-        public DogSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The DogSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DogSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// DogDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Dog))]
-    internal partial class DogDeserializationContext : JsonSerializerContext
+    public partial class DogDeserializationContext : JsonSerializerContext
     {
-        public DogDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// DogDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DogDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

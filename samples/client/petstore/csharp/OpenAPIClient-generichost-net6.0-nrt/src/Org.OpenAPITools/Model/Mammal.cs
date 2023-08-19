@@ -277,20 +277,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The MammalSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Mammal))]
-    internal partial class MammalSerializationContext : JsonSerializerContext
+    public partial class MammalSerializationContext : JsonSerializerContext
     {
-        public MammalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The MammalSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public MammalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// MammalDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Mammal))]
-    internal partial class MammalDeserializationContext : JsonSerializerContext
+    public partial class MammalDeserializationContext : JsonSerializerContext
     {
-        public MammalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// MammalDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public MammalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

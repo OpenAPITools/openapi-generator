@@ -184,20 +184,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The FileSchemaTestClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
-    internal partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
+    public partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
     {
-        public FileSchemaTestClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The FileSchemaTestClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FileSchemaTestClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// FileSchemaTestClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
-    internal partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
+    public partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
     {
-        public FileSchemaTestClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// FileSchemaTestClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FileSchemaTestClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

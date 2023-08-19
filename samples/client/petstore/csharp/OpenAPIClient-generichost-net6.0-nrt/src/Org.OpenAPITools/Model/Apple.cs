@@ -224,20 +224,34 @@ if (!regexOrigin.Match(this.Origin).Success)
         }
     }
 
+    /// <summary>
+    /// The AppleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Apple))]
-    internal partial class AppleSerializationContext : JsonSerializerContext
+    public partial class AppleSerializationContext : JsonSerializerContext
     {
-        public AppleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The AppleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AppleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// AppleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Apple))]
-    internal partial class AppleDeserializationContext : JsonSerializerContext
+    public partial class AppleDeserializationContext : JsonSerializerContext
     {
-        public AppleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// AppleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AppleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

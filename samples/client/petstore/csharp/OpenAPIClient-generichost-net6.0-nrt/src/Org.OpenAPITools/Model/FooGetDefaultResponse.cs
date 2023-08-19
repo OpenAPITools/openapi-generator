@@ -165,20 +165,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The FooGetDefaultResponseSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
-    internal partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
+    public partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
     {
-        public FooGetDefaultResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The FooGetDefaultResponseSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FooGetDefaultResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// FooGetDefaultResponseDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
-    internal partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
+    public partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
     {
-        public FooGetDefaultResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// FooGetDefaultResponseDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FooGetDefaultResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

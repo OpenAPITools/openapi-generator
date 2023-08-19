@@ -180,20 +180,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ScaleneTriangleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ScaleneTriangle))]
-    internal partial class ScaleneTriangleSerializationContext : JsonSerializerContext
+    public partial class ScaleneTriangleSerializationContext : JsonSerializerContext
     {
-        public ScaleneTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ScaleneTriangleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ScaleneTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ScaleneTriangleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ScaleneTriangle))]
-    internal partial class ScaleneTriangleDeserializationContext : JsonSerializerContext
+    public partial class ScaleneTriangleDeserializationContext : JsonSerializerContext
     {
-        public ScaleneTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ScaleneTriangleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ScaleneTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

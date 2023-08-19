@@ -174,20 +174,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The AppleReqSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(AppleReq))]
-    internal partial class AppleReqSerializationContext : JsonSerializerContext
+    public partial class AppleReqSerializationContext : JsonSerializerContext
     {
-        public AppleReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The AppleReqSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AppleReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// AppleReqDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(AppleReq))]
-    internal partial class AppleReqDeserializationContext : JsonSerializerContext
+    public partial class AppleReqDeserializationContext : JsonSerializerContext
     {
-        public AppleReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// AppleReqDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AppleReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

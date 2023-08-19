@@ -199,20 +199,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The WhaleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Whale))]
-    internal partial class WhaleSerializationContext : JsonSerializerContext
+    public partial class WhaleSerializationContext : JsonSerializerContext
     {
-        public WhaleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The WhaleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public WhaleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// WhaleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Whale))]
-    internal partial class WhaleDeserializationContext : JsonSerializerContext
+    public partial class WhaleDeserializationContext : JsonSerializerContext
     {
-        public WhaleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// WhaleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public WhaleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

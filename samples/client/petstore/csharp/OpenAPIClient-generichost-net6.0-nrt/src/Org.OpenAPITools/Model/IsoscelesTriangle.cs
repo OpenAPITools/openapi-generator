@@ -173,20 +173,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The IsoscelesTriangleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(IsoscelesTriangle))]
-    internal partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
+    public partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
     {
-        public IsoscelesTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The IsoscelesTriangleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public IsoscelesTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// IsoscelesTriangleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(IsoscelesTriangle))]
-    internal partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
+    public partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
     {
-        public IsoscelesTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// IsoscelesTriangleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public IsoscelesTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

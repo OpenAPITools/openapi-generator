@@ -277,20 +277,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The TriangleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Triangle))]
-    internal partial class TriangleSerializationContext : JsonSerializerContext
+    public partial class TriangleSerializationContext : JsonSerializerContext
     {
-        public TriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The TriangleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// TriangleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Triangle))]
-    internal partial class TriangleDeserializationContext : JsonSerializerContext
+    public partial class TriangleDeserializationContext : JsonSerializerContext
     {
-        public TriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// TriangleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

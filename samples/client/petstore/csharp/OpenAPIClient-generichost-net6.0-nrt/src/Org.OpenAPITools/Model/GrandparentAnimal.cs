@@ -173,20 +173,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The GrandparentAnimalSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(GrandparentAnimal))]
-    internal partial class GrandparentAnimalSerializationContext : JsonSerializerContext
+    public partial class GrandparentAnimalSerializationContext : JsonSerializerContext
     {
-        public GrandparentAnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The GrandparentAnimalSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public GrandparentAnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// GrandparentAnimalDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(GrandparentAnimal))]
-    internal partial class GrandparentAnimalDeserializationContext : JsonSerializerContext
+    public partial class GrandparentAnimalDeserializationContext : JsonSerializerContext
     {
-        public GrandparentAnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// GrandparentAnimalDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public GrandparentAnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

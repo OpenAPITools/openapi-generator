@@ -356,20 +356,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The UserSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(User))]
-    internal partial class UserSerializationContext : JsonSerializerContext
+    public partial class UserSerializationContext : JsonSerializerContext
     {
-        public UserSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The UserSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public UserSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// UserDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(User))]
-    internal partial class UserDeserializationContext : JsonSerializerContext
+    public partial class UserDeserializationContext : JsonSerializerContext
     {
-        public UserDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// UserDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public UserDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

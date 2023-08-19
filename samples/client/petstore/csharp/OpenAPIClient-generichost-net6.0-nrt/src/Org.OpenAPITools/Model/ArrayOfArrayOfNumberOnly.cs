@@ -165,20 +165,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ArrayOfArrayOfNumberOnlySerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    internal partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext
+    public partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext
     {
-        public ArrayOfArrayOfNumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ArrayOfArrayOfNumberOnlySerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ArrayOfArrayOfNumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ArrayOfArrayOfNumberOnlyDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    internal partial class ArrayOfArrayOfNumberOnlyDeserializationContext : JsonSerializerContext
+    public partial class ArrayOfArrayOfNumberOnlyDeserializationContext : JsonSerializerContext
     {
-        public ArrayOfArrayOfNumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ArrayOfArrayOfNumberOnlyDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ArrayOfArrayOfNumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

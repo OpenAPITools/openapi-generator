@@ -246,20 +246,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The QuadrilateralSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Quadrilateral))]
-    internal partial class QuadrilateralSerializationContext : JsonSerializerContext
+    public partial class QuadrilateralSerializationContext : JsonSerializerContext
     {
-        public QuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The QuadrilateralSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public QuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// QuadrilateralDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Quadrilateral))]
-    internal partial class QuadrilateralDeserializationContext : JsonSerializerContext
+    public partial class QuadrilateralDeserializationContext : JsonSerializerContext
     {
-        public QuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// QuadrilateralDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public QuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

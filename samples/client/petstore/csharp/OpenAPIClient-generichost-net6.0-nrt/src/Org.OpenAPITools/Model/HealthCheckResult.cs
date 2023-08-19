@@ -160,20 +160,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The HealthCheckResultSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HealthCheckResult))]
-    internal partial class HealthCheckResultSerializationContext : JsonSerializerContext
+    public partial class HealthCheckResultSerializationContext : JsonSerializerContext
     {
-        public HealthCheckResultSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The HealthCheckResultSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public HealthCheckResultSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// HealthCheckResultDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(HealthCheckResult))]
-    internal partial class HealthCheckResultDeserializationContext : JsonSerializerContext
+    public partial class HealthCheckResultDeserializationContext : JsonSerializerContext
     {
-        public HealthCheckResultDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// HealthCheckResultDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public HealthCheckResultDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

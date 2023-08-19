@@ -249,20 +249,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The CapitalizationSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Capitalization))]
-    internal partial class CapitalizationSerializationContext : JsonSerializerContext
+    public partial class CapitalizationSerializationContext : JsonSerializerContext
     {
-        public CapitalizationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The CapitalizationSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public CapitalizationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// CapitalizationDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Capitalization))]
-    internal partial class CapitalizationDeserializationContext : JsonSerializerContext
+    public partial class CapitalizationDeserializationContext : JsonSerializerContext
     {
-        public CapitalizationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// CapitalizationDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public CapitalizationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

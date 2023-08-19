@@ -208,20 +208,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The FruitSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Fruit))]
-    internal partial class FruitSerializationContext : JsonSerializerContext
+    public partial class FruitSerializationContext : JsonSerializerContext
     {
-        public FruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The FruitSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// FruitDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Fruit))]
-    internal partial class FruitDeserializationContext : JsonSerializerContext
+    public partial class FruitDeserializationContext : JsonSerializerContext
     {
-        public FruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// FruitDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

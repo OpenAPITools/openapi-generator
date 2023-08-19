@@ -203,20 +203,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ArrayTestSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ArrayTest))]
-    internal partial class ArrayTestSerializationContext : JsonSerializerContext
+    public partial class ArrayTestSerializationContext : JsonSerializerContext
     {
-        public ArrayTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ArrayTestSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ArrayTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ArrayTestDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ArrayTest))]
-    internal partial class ArrayTestDeserializationContext : JsonSerializerContext
+    public partial class ArrayTestDeserializationContext : JsonSerializerContext
     {
-        public ArrayTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ArrayTestDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ArrayTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

@@ -246,20 +246,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The NullableShapeSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableShape))]
-    internal partial class NullableShapeSerializationContext : JsonSerializerContext
+    public partial class NullableShapeSerializationContext : JsonSerializerContext
     {
-        public NullableShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The NullableShapeSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public NullableShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// NullableShapeDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NullableShape))]
-    internal partial class NullableShapeDeserializationContext : JsonSerializerContext
+    public partial class NullableShapeDeserializationContext : JsonSerializerContext
     {
-        public NullableShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// NullableShapeDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public NullableShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

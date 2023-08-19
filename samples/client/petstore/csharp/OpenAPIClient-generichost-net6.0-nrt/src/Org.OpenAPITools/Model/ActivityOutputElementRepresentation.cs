@@ -182,20 +182,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ActivityOutputElementRepresentationSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    internal partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
+    public partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
     {
-        public ActivityOutputElementRepresentationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ActivityOutputElementRepresentationSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ActivityOutputElementRepresentationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ActivityOutputElementRepresentationDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    internal partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
+    public partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
     {
-        public ActivityOutputElementRepresentationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ActivityOutputElementRepresentationDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ActivityOutputElementRepresentationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

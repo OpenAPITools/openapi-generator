@@ -237,20 +237,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ZeroBasedEnumClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ZeroBasedEnumClass))]
-    internal partial class ZeroBasedEnumClassSerializationContext : JsonSerializerContext
+    public partial class ZeroBasedEnumClassSerializationContext : JsonSerializerContext
     {
-        public ZeroBasedEnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ZeroBasedEnumClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ZeroBasedEnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ZeroBasedEnumClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ZeroBasedEnumClass))]
-    internal partial class ZeroBasedEnumClassDeserializationContext : JsonSerializerContext
+    public partial class ZeroBasedEnumClassDeserializationContext : JsonSerializerContext
     {
-        public ZeroBasedEnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ZeroBasedEnumClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ZeroBasedEnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

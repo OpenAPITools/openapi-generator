@@ -224,20 +224,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ChildCatSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ChildCat))]
     public partial class ChildCatSerializationContext : JsonSerializerContext
     {
-        public ChildCatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
+        /// <summary>
+        /// The ChildCatSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ChildCatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ChildCatDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ChildCat))]
     public partial class ChildCatDeserializationContext : JsonSerializerContext
     {
-        public ChildCatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
+        /// <summary>
+        /// ChildCatDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ChildCatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

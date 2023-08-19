@@ -246,20 +246,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The PigSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Pig))]
-    internal partial class PigSerializationContext : JsonSerializerContext
+    public partial class PigSerializationContext : JsonSerializerContext
     {
-        public PigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The PigSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public PigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// PigDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Pig))]
-    internal partial class PigDeserializationContext : JsonSerializerContext
+    public partial class PigDeserializationContext : JsonSerializerContext
     {
-        public PigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// PigDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public PigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

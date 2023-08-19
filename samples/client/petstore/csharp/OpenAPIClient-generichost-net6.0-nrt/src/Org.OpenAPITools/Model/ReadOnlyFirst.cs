@@ -216,20 +216,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ReadOnlyFirstSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
-    internal partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
+    public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
     {
-        public ReadOnlyFirstSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ReadOnlyFirstSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ReadOnlyFirstSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ReadOnlyFirstDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
-    internal partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
+    public partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
     {
-        public ReadOnlyFirstDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ReadOnlyFirstDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ReadOnlyFirstDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

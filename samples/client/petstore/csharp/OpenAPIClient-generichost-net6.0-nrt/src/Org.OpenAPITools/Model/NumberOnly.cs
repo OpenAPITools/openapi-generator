@@ -164,20 +164,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The NumberOnlySerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NumberOnly))]
-    internal partial class NumberOnlySerializationContext : JsonSerializerContext
+    public partial class NumberOnlySerializationContext : JsonSerializerContext
     {
-        public NumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The NumberOnlySerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public NumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// NumberOnlyDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NumberOnly))]
-    internal partial class NumberOnlyDeserializationContext : JsonSerializerContext
+    public partial class NumberOnlyDeserializationContext : JsonSerializerContext
     {
-        public NumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// NumberOnlyDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public NumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

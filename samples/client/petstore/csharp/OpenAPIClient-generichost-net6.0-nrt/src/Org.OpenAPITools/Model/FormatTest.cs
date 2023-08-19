@@ -622,20 +622,34 @@ if (!regexVarString.Match(this.VarString).Success)
         }
     }
 
+    /// <summary>
+    /// The FormatTestSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FormatTest))]
-    internal partial class FormatTestSerializationContext : JsonSerializerContext
+    public partial class FormatTestSerializationContext : JsonSerializerContext
     {
-        public FormatTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The FormatTestSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FormatTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// FormatTestDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FormatTest))]
-    internal partial class FormatTestDeserializationContext : JsonSerializerContext
+    public partial class FormatTestDeserializationContext : JsonSerializerContext
     {
-        public FormatTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// FormatTestDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public FormatTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

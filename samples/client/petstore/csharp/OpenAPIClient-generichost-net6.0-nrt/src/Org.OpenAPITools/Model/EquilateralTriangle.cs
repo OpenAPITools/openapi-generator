@@ -180,20 +180,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The EquilateralTriangleSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EquilateralTriangle))]
-    internal partial class EquilateralTriangleSerializationContext : JsonSerializerContext
+    public partial class EquilateralTriangleSerializationContext : JsonSerializerContext
     {
-        public EquilateralTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The EquilateralTriangleSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EquilateralTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// EquilateralTriangleDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EquilateralTriangle))]
-    internal partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
+    public partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
     {
-        public EquilateralTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// EquilateralTriangleDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EquilateralTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

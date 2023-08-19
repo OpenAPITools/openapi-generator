@@ -181,20 +181,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The TagSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Tag))]
-    internal partial class TagSerializationContext : JsonSerializerContext
+    public partial class TagSerializationContext : JsonSerializerContext
     {
-        public TagSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The TagSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TagSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// TagDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Tag))]
-    internal partial class TagDeserializationContext : JsonSerializerContext
+    public partial class TagDeserializationContext : JsonSerializerContext
     {
-        public TagDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// TagDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TagDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

@@ -180,20 +180,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The SimpleQuadrilateralSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(SimpleQuadrilateral))]
-    internal partial class SimpleQuadrilateralSerializationContext : JsonSerializerContext
+    public partial class SimpleQuadrilateralSerializationContext : JsonSerializerContext
     {
-        public SimpleQuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The SimpleQuadrilateralSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public SimpleQuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// SimpleQuadrilateralDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(SimpleQuadrilateral))]
-    internal partial class SimpleQuadrilateralDeserializationContext : JsonSerializerContext
+    public partial class SimpleQuadrilateralDeserializationContext : JsonSerializerContext
     {
-        public SimpleQuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// SimpleQuadrilateralDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public SimpleQuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

@@ -163,20 +163,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The BasquePigSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(BasquePig))]
-    internal partial class BasquePigSerializationContext : JsonSerializerContext
+    public partial class BasquePigSerializationContext : JsonSerializerContext
     {
-        public BasquePigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The BasquePigSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public BasquePigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// BasquePigDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(BasquePig))]
-    internal partial class BasquePigDeserializationContext : JsonSerializerContext
+    public partial class BasquePigDeserializationContext : JsonSerializerContext
     {
-        public BasquePigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// BasquePigDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public BasquePigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

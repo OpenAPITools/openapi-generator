@@ -190,20 +190,34 @@ namespace Org.OpenAPITools.Model
     }
 
 
+    /// <summary>
+    /// The EnumClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumClass))]
-    internal partial class EnumClassSerializationContext : JsonSerializerContext
+    public partial class EnumClassSerializationContext : JsonSerializerContext
     {
-        public EnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The EnumClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// EnumClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EnumClass))]
-    internal partial class EnumClassDeserializationContext : JsonSerializerContext
+    public partial class EnumClassDeserializationContext : JsonSerializerContext
     {
-        public EnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// EnumClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

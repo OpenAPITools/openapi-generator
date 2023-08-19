@@ -322,20 +322,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The EnumArraysSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumArrays))]
-    internal partial class EnumArraysSerializationContext : JsonSerializerContext
+    public partial class EnumArraysSerializationContext : JsonSerializerContext
     {
-        public EnumArraysSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The EnumArraysSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EnumArraysSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// EnumArraysDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EnumArrays))]
-    internal partial class EnumArraysDeserializationContext : JsonSerializerContext
+    public partial class EnumArraysDeserializationContext : JsonSerializerContext
     {
-        public EnumArraysDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// EnumArraysDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public EnumArraysDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

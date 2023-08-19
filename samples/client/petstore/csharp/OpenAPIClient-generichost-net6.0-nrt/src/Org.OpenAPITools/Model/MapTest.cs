@@ -288,20 +288,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The MapTestSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(MapTest))]
-    internal partial class MapTestSerializationContext : JsonSerializerContext
+    public partial class MapTestSerializationContext : JsonSerializerContext
     {
-        public MapTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The MapTestSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public MapTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// MapTestDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(MapTest))]
-    internal partial class MapTestDeserializationContext : JsonSerializerContext
+    public partial class MapTestDeserializationContext : JsonSerializerContext
     {
-        public MapTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// MapTestDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public MapTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

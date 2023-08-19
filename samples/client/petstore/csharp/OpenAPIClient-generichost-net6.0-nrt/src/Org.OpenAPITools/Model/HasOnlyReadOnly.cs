@@ -217,20 +217,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The HasOnlyReadOnlySerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HasOnlyReadOnly))]
-    internal partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
+    public partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
     {
-        public HasOnlyReadOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The HasOnlyReadOnlySerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public HasOnlyReadOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// HasOnlyReadOnlyDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(HasOnlyReadOnly))]
-    internal partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
+    public partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
     {
-        public HasOnlyReadOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// HasOnlyReadOnlyDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public HasOnlyReadOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

@@ -240,20 +240,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The PolymorphicPropertySerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(PolymorphicProperty))]
-    internal partial class PolymorphicPropertySerializationContext : JsonSerializerContext
+    public partial class PolymorphicPropertySerializationContext : JsonSerializerContext
     {
-        public PolymorphicPropertySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The PolymorphicPropertySerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public PolymorphicPropertySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// PolymorphicPropertyDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(PolymorphicProperty))]
-    internal partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
+    public partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
     {
-        public PolymorphicPropertyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// PolymorphicPropertyDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public PolymorphicPropertyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

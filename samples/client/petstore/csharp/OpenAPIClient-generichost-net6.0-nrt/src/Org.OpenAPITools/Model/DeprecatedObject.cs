@@ -163,20 +163,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The DeprecatedObjectSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DeprecatedObject))]
-    internal partial class DeprecatedObjectSerializationContext : JsonSerializerContext
+    public partial class DeprecatedObjectSerializationContext : JsonSerializerContext
     {
-        public DeprecatedObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The DeprecatedObjectSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DeprecatedObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// DeprecatedObjectDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DeprecatedObject))]
-    internal partial class DeprecatedObjectDeserializationContext : JsonSerializerContext
+    public partial class DeprecatedObjectDeserializationContext : JsonSerializerContext
     {
-        public DeprecatedObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// DeprecatedObjectDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DeprecatedObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

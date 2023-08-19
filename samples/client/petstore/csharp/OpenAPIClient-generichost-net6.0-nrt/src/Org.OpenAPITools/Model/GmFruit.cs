@@ -204,20 +204,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The GmFruitSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(GmFruit))]
-    internal partial class GmFruitSerializationContext : JsonSerializerContext
+    public partial class GmFruitSerializationContext : JsonSerializerContext
     {
-        public GmFruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The GmFruitSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public GmFruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// GmFruitDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(GmFruit))]
-    internal partial class GmFruitDeserializationContext : JsonSerializerContext
+    public partial class GmFruitDeserializationContext : JsonSerializerContext
     {
-        public GmFruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// GmFruitDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public GmFruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

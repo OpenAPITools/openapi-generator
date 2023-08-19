@@ -296,20 +296,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The AdditionalPropertiesClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    internal partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext
+    public partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext
     {
-        public AdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The AdditionalPropertiesClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// AdditionalPropertiesClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    internal partial class AdditionalPropertiesClassDeserializationContext : JsonSerializerContext
+    public partial class AdditionalPropertiesClassDeserializationContext : JsonSerializerContext
     {
-        public AdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// AdditionalPropertiesClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public AdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

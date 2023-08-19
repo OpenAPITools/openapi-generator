@@ -279,20 +279,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The ZebraSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Zebra))]
-    internal partial class ZebraSerializationContext : JsonSerializerContext
+    public partial class ZebraSerializationContext : JsonSerializerContext
     {
-        public ZebraSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The ZebraSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ZebraSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// ZebraDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Zebra))]
-    internal partial class ZebraDeserializationContext : JsonSerializerContext
+    public partial class ZebraDeserializationContext : JsonSerializerContext
     {
-        public ZebraDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// ZebraDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public ZebraDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

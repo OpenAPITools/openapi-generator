@@ -165,20 +165,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The TestCollectionEndingWithWordListObjectSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
-    internal partial class TestCollectionEndingWithWordListObjectSerializationContext : JsonSerializerContext
+    public partial class TestCollectionEndingWithWordListObjectSerializationContext : JsonSerializerContext
     {
-        public TestCollectionEndingWithWordListObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The TestCollectionEndingWithWordListObjectSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TestCollectionEndingWithWordListObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// TestCollectionEndingWithWordListObjectDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
-    internal partial class TestCollectionEndingWithWordListObjectDeserializationContext : JsonSerializerContext
+    public partial class TestCollectionEndingWithWordListObjectDeserializationContext : JsonSerializerContext
     {
-        public TestCollectionEndingWithWordListObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// TestCollectionEndingWithWordListObjectDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TestCollectionEndingWithWordListObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

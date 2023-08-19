@@ -163,20 +163,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The DanishPigSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DanishPig))]
-    internal partial class DanishPigSerializationContext : JsonSerializerContext
+    public partial class DanishPigSerializationContext : JsonSerializerContext
     {
-        public DanishPigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The DanishPigSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DanishPigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// DanishPigDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DanishPig))]
-    internal partial class DanishPigDeserializationContext : JsonSerializerContext
+    public partial class DanishPigDeserializationContext : JsonSerializerContext
     {
-        public DanishPigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// DanishPigDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DanishPigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

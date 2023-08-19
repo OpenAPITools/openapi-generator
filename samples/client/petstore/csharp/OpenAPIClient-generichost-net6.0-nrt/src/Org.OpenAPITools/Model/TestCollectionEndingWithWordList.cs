@@ -163,20 +163,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The TestCollectionEndingWithWordListSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    internal partial class TestCollectionEndingWithWordListSerializationContext : JsonSerializerContext
+    public partial class TestCollectionEndingWithWordListSerializationContext : JsonSerializerContext
     {
-        public TestCollectionEndingWithWordListSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The TestCollectionEndingWithWordListSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TestCollectionEndingWithWordListSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// TestCollectionEndingWithWordListDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    internal partial class TestCollectionEndingWithWordListDeserializationContext : JsonSerializerContext
+    public partial class TestCollectionEndingWithWordListDeserializationContext : JsonSerializerContext
     {
-        public TestCollectionEndingWithWordListDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// TestCollectionEndingWithWordListDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public TestCollectionEndingWithWordListDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

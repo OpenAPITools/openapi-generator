@@ -175,20 +175,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The BananaReqSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(BananaReq))]
-    internal partial class BananaReqSerializationContext : JsonSerializerContext
+    public partial class BananaReqSerializationContext : JsonSerializerContext
     {
-        public BananaReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The BananaReqSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public BananaReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// BananaReqDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(BananaReq))]
-    internal partial class BananaReqDeserializationContext : JsonSerializerContext
+    public partial class BananaReqDeserializationContext : JsonSerializerContext
     {
-        public BananaReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// BananaReqDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public BananaReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

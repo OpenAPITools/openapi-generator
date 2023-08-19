@@ -170,20 +170,34 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// The DateOnlyClassSerializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DateOnlyClass))]
-    internal partial class DateOnlyClassSerializationContext : JsonSerializerContext
+    public partial class DateOnlyClassSerializationContext : JsonSerializerContext
     {
-        public DateOnlyClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// The DateOnlyClassSerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DateOnlyClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }
 
+    /// <summary>
+    /// DateOnlyClassDeserializationContext
+    /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DateOnlyClass))]
-    internal partial class DateOnlyClassDeserializationContext : JsonSerializerContext
+    public partial class DateOnlyClassDeserializationContext : JsonSerializerContext
     {
-        public DateOnlyClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        /// <summary>
+        /// DateOnlyClassDeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public DateOnlyClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
         {
         }
     }

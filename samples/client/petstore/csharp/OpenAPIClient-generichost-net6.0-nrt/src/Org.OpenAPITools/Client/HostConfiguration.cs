@@ -131,9 +131,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ZeroBasedEnumJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumNullableJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
-
-            //_jsonOptions.TypeInfoResolver = 
-
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
 
