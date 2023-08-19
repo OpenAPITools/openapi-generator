@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type StoreApi struct {
+type StoreAPI struct {
 	// Delete /v2/store/order/:orderId
 	// Delete purchase order by ID
 	DeleteOrder gin.HandlerFunc

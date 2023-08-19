@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type PetApi struct {
+type PetAPI struct {
 	// Post /v2/pet
 	// Add a new pet to the store
 	AddPet gin.HandlerFunc

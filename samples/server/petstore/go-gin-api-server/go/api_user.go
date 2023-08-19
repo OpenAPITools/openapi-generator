@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserApi struct {
+type UserAPI struct {
 	// Post /v2/user
 	// Create user
 	CreateUser gin.HandlerFunc
