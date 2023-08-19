@@ -4,11 +4,17 @@
     [JsonSerializable(typeof({{classname}}))]
     internal partial class {{classname}}SerializationContext : JsonSerializerContext
     {
+        public {{classname}}SerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof({{classname}}))]
     internal partial class {{classname}}DeserializationContext : JsonSerializerContext
     {
+        public {{classname}}DeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 {{/useSourceGeneration}}

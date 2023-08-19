@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
-        [JsonConstructor]
         public Name(int varName, string property, int snakeCase, int var123Number)
         {
             VarName = varName;
@@ -258,11 +258,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Name))]
     internal partial class NameSerializationContext : JsonSerializerContext
     {
+        public NameSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Name))]
     internal partial class NameDeserializationContext : JsonSerializerContext
     {
+        public NameDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

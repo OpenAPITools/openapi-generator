@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -184,11 +185,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(OuterEnumInteger))]
     internal partial class OuterEnumIntegerSerializationContext : JsonSerializerContext
     {
+        public OuterEnumIntegerSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterEnumInteger))]
     internal partial class OuterEnumIntegerDeserializationContext : JsonSerializerContext
     {
+        public OuterEnumIntegerDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

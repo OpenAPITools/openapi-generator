@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
         /// <param name="name">name</param>
-        [JsonConstructor]
         public DeprecatedObject(string name)
         {
             Name = name;
@@ -167,11 +167,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(DeprecatedObject))]
     internal partial class DeprecatedObjectSerializationContext : JsonSerializerContext
     {
+        public DeprecatedObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DeprecatedObject))]
     internal partial class DeprecatedObjectDeserializationContext : JsonSerializerContext
     {
+        public DeprecatedObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

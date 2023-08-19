@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public BasquePig(string className)
         {
             ClassName = className;
@@ -167,11 +167,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(BasquePig))]
     internal partial class BasquePigSerializationContext : JsonSerializerContext
     {
+        public BasquePigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(BasquePig))]
     internal partial class BasquePigDeserializationContext : JsonSerializerContext
     {
+        public BasquePigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

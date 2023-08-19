@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
-        //[JsonConstructor]
         public ShapeOrNull(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
-        //[JsonConstructor]
         public ShapeOrNull(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
@@ -251,11 +250,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ShapeOrNull))]
     internal partial class ShapeOrNullSerializationContext : JsonSerializerContext
     {
+        public ShapeOrNullSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ShapeOrNull))]
     internal partial class ShapeOrNullDeserializationContext : JsonSerializerContext
     {
+        public ShapeOrNullDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

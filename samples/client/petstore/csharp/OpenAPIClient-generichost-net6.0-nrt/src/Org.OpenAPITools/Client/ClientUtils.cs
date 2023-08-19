@@ -22,7 +22,6 @@ using Org.OpenAPITools.Model;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
-[assembly: InternalsVisibleTo("OpenAPIClient_generichost_manual_tests")]
 
 namespace Org.OpenAPITools.Client
 {

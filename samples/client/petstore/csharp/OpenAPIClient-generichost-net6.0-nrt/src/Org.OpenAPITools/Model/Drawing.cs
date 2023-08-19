@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapes">shapes</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapeOrNull">shapeOrNull</param>
-        [JsonConstructor]
         public Drawing(Shape mainShape, List<Shape> shapes, NullableShape? nullableShape = default, ShapeOrNull? shapeOrNull = default) : base()
         {
             MainShape = mainShape;
@@ -231,11 +231,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Drawing))]
     internal partial class DrawingSerializationContext : JsonSerializerContext
     {
+        public DrawingSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Drawing))]
     internal partial class DrawingDeserializationContext : JsonSerializerContext
     {
+        public DrawingDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

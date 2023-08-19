@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
-        [JsonConstructor]
         public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum)
         {
             ZeroBasedEnum = zeroBasedEnum;
@@ -241,11 +241,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ZeroBasedEnumClass))]
     internal partial class ZeroBasedEnumClassSerializationContext : JsonSerializerContext
     {
+        public ZeroBasedEnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ZeroBasedEnumClass))]
     internal partial class ZeroBasedEnumClassDeserializationContext : JsonSerializerContext
     {
+        public ZeroBasedEnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

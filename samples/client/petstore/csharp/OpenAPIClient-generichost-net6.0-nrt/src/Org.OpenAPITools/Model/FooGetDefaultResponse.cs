@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString</param>
-        [JsonConstructor]
         public FooGetDefaultResponse(Foo varString)
         {
             VarString = varString;
@@ -169,11 +169,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(FooGetDefaultResponse))]
     internal partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
     {
+        public FooGetDefaultResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
     internal partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
     {
+        public FooGetDefaultResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

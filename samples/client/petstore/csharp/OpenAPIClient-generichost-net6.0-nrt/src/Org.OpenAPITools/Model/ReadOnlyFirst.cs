@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
-        [JsonConstructor]
         public ReadOnlyFirst(string bar, string baz)
         {
             Bar = bar;
@@ -220,11 +220,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ReadOnlyFirst))]
     internal partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
     {
+        public ReadOnlyFirstSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
     internal partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
     {
+        public ReadOnlyFirstDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

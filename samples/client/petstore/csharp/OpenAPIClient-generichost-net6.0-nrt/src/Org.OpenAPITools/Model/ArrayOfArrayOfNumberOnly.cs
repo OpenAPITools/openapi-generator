@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
-        [JsonConstructor]
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
         {
             ArrayArrayNumber = arrayArrayNumber;
@@ -169,11 +169,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
     internal partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext
     {
+        public ArrayOfArrayOfNumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
     internal partial class ArrayOfArrayOfNumberOnlyDeserializationContext : JsonSerializerContext
     {
+        public ArrayOfArrayOfNumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

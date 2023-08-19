@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
         public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;
@@ -167,11 +167,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(TriangleInterface))]
     internal partial class TriangleInterfaceSerializationContext : JsonSerializerContext
     {
+        public TriangleInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(TriangleInterface))]
     internal partial class TriangleInterfaceDeserializationContext : JsonSerializerContext
     {
+        public TriangleInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

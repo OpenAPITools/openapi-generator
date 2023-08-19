@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="indirectMap">indirectMap</param>
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
-        [JsonConstructor]
         public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
             DirectMap = directMap;
@@ -292,11 +292,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(MapTest))]
     internal partial class MapTestSerializationContext : JsonSerializerContext
     {
+        public MapTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(MapTest))]
     internal partial class MapTestDeserializationContext : JsonSerializerContext
     {
+        public MapTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

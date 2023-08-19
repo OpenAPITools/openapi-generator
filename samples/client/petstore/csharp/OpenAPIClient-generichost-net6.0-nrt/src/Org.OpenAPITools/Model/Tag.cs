@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name</param>
-        [JsonConstructor]
         public Tag(long id, string name)
         {
             Id = id;
@@ -185,11 +185,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Tag))]
     internal partial class TagSerializationContext : JsonSerializerContext
     {
+        public TagSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Tag))]
     internal partial class TagDeserializationContext : JsonSerializerContext
     {
+        public TagDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +41,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls</param>
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
-        [JsonConstructor]
         public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
             Category = category;
@@ -351,11 +351,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Pet))]
     internal partial class PetSerializationContext : JsonSerializerContext
     {
+        public PetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Pet))]
     internal partial class PetDeserializationContext : JsonSerializerContext
     {
+        public PetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

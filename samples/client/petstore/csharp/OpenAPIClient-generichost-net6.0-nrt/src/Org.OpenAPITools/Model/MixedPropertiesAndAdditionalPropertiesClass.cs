@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="map">map</param>
         /// <param name="uuid">uuid</param>
         /// <param name="uuidWithPattern">uuidWithPattern</param>
-        [JsonConstructor]
         public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
             DateTime = dateTime;
@@ -234,11 +234,17 @@ if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
     [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
     internal partial class MixedPropertiesAndAdditionalPropertiesClassSerializationContext : JsonSerializerContext
     {
+        public MixedPropertiesAndAdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
     internal partial class MixedPropertiesAndAdditionalPropertiesClassDeserializationContext : JsonSerializerContext
     {
+        public MixedPropertiesAndAdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

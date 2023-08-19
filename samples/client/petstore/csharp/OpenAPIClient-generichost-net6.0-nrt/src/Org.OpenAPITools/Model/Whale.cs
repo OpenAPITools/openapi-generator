@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
-        [JsonConstructor]
         public Whale(string className, bool hasBaleen, bool hasTeeth)
         {
             ClassName = className;
@@ -203,11 +203,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Whale))]
     internal partial class WhaleSerializationContext : JsonSerializerContext
     {
+        public WhaleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Whale))]
     internal partial class WhaleDeserializationContext : JsonSerializerContext
     {
+        public WhaleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
-        [JsonConstructor]
         public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
             Name = name;
@@ -226,15 +226,19 @@ namespace Org.OpenAPITools.Model
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ChildCat))]
-    [JsonSerializable(typeof(ParentPet))]
-    [JsonSerializable(typeof(GrandparentAnimal))]
     public partial class ChildCatSerializationContext : JsonSerializerContext
     {
+        public ChildCatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ChildCat))]
     public partial class ChildCatDeserializationContext : JsonSerializerContext
     {
+        public ChildCatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
+        {
+        }
     }
 }

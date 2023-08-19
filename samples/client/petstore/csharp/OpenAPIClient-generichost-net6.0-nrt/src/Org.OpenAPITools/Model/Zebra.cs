@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         /// <param name="type">type</param>
-        [JsonConstructor]
         public Zebra(string className, TypeEnum type) : base()
         {
             ClassName = className;
@@ -283,11 +283,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Zebra))]
     internal partial class ZebraSerializationContext : JsonSerializerContext
     {
+        public ZebraSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Zebra))]
     internal partial class ZebraDeserializationContext : JsonSerializerContext
     {
+        public ZebraDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

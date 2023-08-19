@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         /// <param name="petType">petType</param>
-        [JsonConstructor]
         public GrandparentAnimal(string petType)
         {
             PetType = petType;
@@ -177,11 +177,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(GrandparentAnimal))]
     internal partial class GrandparentAnimalSerializationContext : JsonSerializerContext
     {
+        public GrandparentAnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(GrandparentAnimal))]
     internal partial class GrandparentAnimalDeserializationContext : JsonSerializerContext
     {
+        public GrandparentAnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

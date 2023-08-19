@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType</param>
-        [JsonConstructor]
         public ParentPet(string petType) : base(petType)
         {
             OnCreated();
@@ -143,11 +143,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ParentPet))]
     internal partial class ParentPetSerializationContext : JsonSerializerContext
     {
+        public ParentPetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ParentPet))]
     internal partial class ParentPetDeserializationContext : JsonSerializerContext
     {
+        public ParentPetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

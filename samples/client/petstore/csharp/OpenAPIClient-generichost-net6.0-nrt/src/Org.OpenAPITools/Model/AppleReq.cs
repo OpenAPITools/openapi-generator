@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
-        [JsonConstructor]
         public AppleReq(string cultivar, bool mealy)
         {
             Cultivar = cultivar;
@@ -178,11 +178,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(AppleReq))]
     internal partial class AppleReqSerializationContext : JsonSerializerContext
     {
+        public AppleReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(AppleReq))]
     internal partial class AppleReqDeserializationContext : JsonSerializerContext
     {
+        public AppleReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

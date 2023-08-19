@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
-        [JsonConstructor]
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
@@ -174,11 +174,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(DateOnlyClass))]
     internal partial class DateOnlyClassSerializationContext : JsonSerializerContext
     {
+        public DateOnlyClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DateOnlyClass))]
     internal partial class DateOnlyClassDeserializationContext : JsonSerializerContext
     {
+        public DateOnlyClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
-        [JsonConstructor]
         public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
             MyBoolean = myBoolean;
@@ -203,11 +203,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(OuterComposite))]
     internal partial class OuterCompositeSerializationContext : JsonSerializerContext
     {
+        public OuterCompositeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterComposite))]
     internal partial class OuterCompositeDeserializationContext : JsonSerializerContext
     {
+        public OuterCompositeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

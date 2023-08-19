@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
-        [JsonConstructor]
         public Category(long id, string name = @"default-name")
         {
             Id = id;
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            //sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -183,12 +183,10 @@ namespace Org.OpenAPITools.Model
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Category))]
-    [JsonSerializable(typeof(Dictionary<string, JsonElement>))]
     public partial class CategorySerializationContext : JsonSerializerContext
     {
-        public CategorySerializationContext(): base(null)
+        public CategorySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
         {
-            
         }
     }
 
@@ -196,5 +194,8 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Category))]
     public partial class CategoryDeserializationContext : JsonSerializerContext
     {
+        public CategoryDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new JsonSerializerOptions(optionsProvider.Options))
+        {
+        }
     }
 }

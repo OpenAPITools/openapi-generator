@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="colorCode">colorCode</param>
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
-        [JsonConstructor]
         public Apple(string colorCode, string cultivar, string origin)
         {
             ColorCode = colorCode;
@@ -228,11 +228,17 @@ if (!regexOrigin.Match(this.Origin).Success)
     [JsonSerializable(typeof(Apple))]
     internal partial class AppleSerializationContext : JsonSerializerContext
     {
+        public AppleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Apple))]
     internal partial class AppleDeserializationContext : JsonSerializerContext
     {
+        public AppleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

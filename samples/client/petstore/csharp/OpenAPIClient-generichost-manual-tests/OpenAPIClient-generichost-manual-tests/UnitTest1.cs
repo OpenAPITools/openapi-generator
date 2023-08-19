@@ -4,6 +4,7 @@ using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Extensions;
 using Org.OpenAPITools.Model;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OpenAPIClient_generichost_manual_tests
 {
@@ -47,9 +48,12 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Category()
         {
+            CategorySerializationContext serializationContext = _host.Services.GetRequiredService<CategorySerializationContext>();
+            CategoryDeserializationContext deserializationContext = _host.Services.GetRequiredService<CategoryDeserializationContext>();
+
             Category category = new(1, "test");
-            string categoryJson = JsonSerializer.Serialize(category, CategorySerializationContext.Default.Category);
-            Category? category2 = JsonSerializer.Deserialize(categoryJson, CategoryDeserializationContext.Default.Category);
+            string categoryJson = JsonSerializer.Serialize(category, serializationContext.Category);
+            Category? category2 = JsonSerializer.Deserialize(categoryJson, deserializationContext.Category);
             Console.WriteLine();
         }
 

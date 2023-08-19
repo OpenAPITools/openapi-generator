@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">code</param>
         /// <param name="message">message</param>
         /// <param name="type">type</param>
-        [JsonConstructor]
         public ApiResponse(int code, string message, string type)
         {
             Code = code;
@@ -202,11 +202,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(ApiResponse))]
     internal partial class ApiResponseSerializationContext : JsonSerializerContext
     {
+        public ApiResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ApiResponse))]
     internal partial class ApiResponseDeserializationContext : JsonSerializerContext
     {
+        public ApiResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

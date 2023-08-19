@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        [JsonConstructor]
         public Animal(string className, string color = @"red")
         {
             ClassName = className;
@@ -194,11 +194,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(Animal))]
     internal partial class AnimalSerializationContext : JsonSerializerContext
     {
+        public AnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Animal))]
     internal partial class AnimalDeserializationContext : JsonSerializerContext
     {
+        public AnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

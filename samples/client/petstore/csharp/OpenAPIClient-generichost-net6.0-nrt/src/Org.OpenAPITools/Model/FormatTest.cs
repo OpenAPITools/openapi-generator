@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -53,7 +54,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedInteger">unsignedInteger</param>
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
-        [JsonConstructor]
         public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
             Binary = binary;
@@ -626,11 +626,17 @@ if (!regexVarString.Match(this.VarString).Success)
     [JsonSerializable(typeof(FormatTest))]
     internal partial class FormatTestSerializationContext : JsonSerializerContext
     {
+        public FormatTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FormatTest))]
     internal partial class FormatTestDeserializationContext : JsonSerializerContext
     {
+        public FormatTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

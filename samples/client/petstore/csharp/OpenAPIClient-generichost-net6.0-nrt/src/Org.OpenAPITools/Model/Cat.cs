@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        [JsonConstructor]
         public Cat(string className, bool declawed, string color = @"red") : base(className, color)
         {
             Declawed = declawed;
@@ -168,13 +168,19 @@ namespace Org.OpenAPITools.Model
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Cat))]
-    public partial class CatSerializationContext : JsonSerializerContext
+    internal partial class CatSerializationContext : JsonSerializerContext
     {
+        public CatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Cat))]
-    public partial class CatDeserializationContext : JsonSerializerContext
+    internal partial class CatDeserializationContext : JsonSerializerContext
     {
+        public CatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }

@@ -23,6 +23,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file</param>
         /// <param name="files">files</param>
-        [JsonConstructor]
         public FileSchemaTestClass(File file, List<File> files)
         {
             File = file;
@@ -188,11 +188,17 @@ namespace Org.OpenAPITools.Model
     [JsonSerializable(typeof(FileSchemaTestClass))]
     internal partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
     {
+        public FileSchemaTestClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
     internal partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
     {
+        public FileSchemaTestClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(optionsProvider.Options)
+        {
+        }
     }
 }
