@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.MapTest
+# UseSourceGeneration.Model.MapTest
 
 ## Properties
 

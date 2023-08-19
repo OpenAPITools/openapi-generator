@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Pig
+# UseSourceGeneration.Model.Pig
 
 ## Properties
 

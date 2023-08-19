@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.MixedPropertiesAndAdditionalPropertiesClass
+# UseSourceGeneration.Model.MixedPropertiesAndAdditionalPropertiesClass
 
 ## Properties
 

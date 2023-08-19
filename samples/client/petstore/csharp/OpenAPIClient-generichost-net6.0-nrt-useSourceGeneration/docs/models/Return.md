@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Return
+# UseSourceGeneration.Model.Return
 Model for testing reserved words
 
 ## Properties

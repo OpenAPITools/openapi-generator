@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.EquilateralTriangle
+# UseSourceGeneration.Model.EquilateralTriangle
 
 ## Properties
 

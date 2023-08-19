@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.TestCollectionEndingWithWordListObject
+# UseSourceGeneration.Model.TestCollectionEndingWithWordListObject
 
 ## Properties
 

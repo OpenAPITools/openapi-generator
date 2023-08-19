@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.NumberOnly
+# UseSourceGeneration.Model.NumberOnly
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.File
+# UseSourceGeneration.Model.File
 Must be named `File` for test.
 
 ## Properties

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.OneOfString
+# UseSourceGeneration.Model.OneOfString
 
 ## Properties
 

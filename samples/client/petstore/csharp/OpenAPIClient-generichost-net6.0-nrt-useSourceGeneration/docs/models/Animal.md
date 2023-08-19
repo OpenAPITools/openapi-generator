@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Animal
+# UseSourceGeneration.Model.Animal
 
 ## Properties
 

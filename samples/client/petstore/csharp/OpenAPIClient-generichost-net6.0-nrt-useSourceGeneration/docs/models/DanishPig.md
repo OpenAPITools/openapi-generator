@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.DanishPig
+# UseSourceGeneration.Model.DanishPig
 
 ## Properties
 

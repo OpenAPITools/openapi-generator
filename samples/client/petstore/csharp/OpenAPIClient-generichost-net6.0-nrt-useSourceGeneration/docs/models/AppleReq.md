@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.AppleReq
+# UseSourceGeneration.Model.AppleReq
 
 ## Properties
 

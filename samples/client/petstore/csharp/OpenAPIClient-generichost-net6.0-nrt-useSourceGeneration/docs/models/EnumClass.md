@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.EnumClass
+# UseSourceGeneration.Model.EnumClass
 
 ## Properties
 

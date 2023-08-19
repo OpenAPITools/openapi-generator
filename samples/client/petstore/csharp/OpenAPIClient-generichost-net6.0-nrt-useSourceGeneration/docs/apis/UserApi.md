@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Api.UserApi
+# UseSourceGeneration.Api.UserApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -25,9 +25,9 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -110,9 +110,9 @@ Creates list of users with given input array
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -195,9 +195,9 @@ Creates list of users with given input array
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -282,9 +282,9 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -368,9 +368,9 @@ Get user by user name
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -459,9 +459,9 @@ Logs user into the system
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -551,9 +551,9 @@ Logs out current logged in user session
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -633,9 +633,9 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {

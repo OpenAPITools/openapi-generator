@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Fruit
+# UseSourceGeneration.Model.Fruit
 
 ## Properties
 

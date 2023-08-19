@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ComplexQuadrilateral
+# UseSourceGeneration.Model.ComplexQuadrilateral
 
 ## Properties
 

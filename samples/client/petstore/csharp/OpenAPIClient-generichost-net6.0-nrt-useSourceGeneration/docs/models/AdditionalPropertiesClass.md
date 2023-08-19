@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.AdditionalPropertiesClass
+# UseSourceGeneration.Model.AdditionalPropertiesClass
 
 ## Properties
 

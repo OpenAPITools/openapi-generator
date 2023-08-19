@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ApiResponse
+# UseSourceGeneration.Model.ApiResponse
 
 ## Properties
 

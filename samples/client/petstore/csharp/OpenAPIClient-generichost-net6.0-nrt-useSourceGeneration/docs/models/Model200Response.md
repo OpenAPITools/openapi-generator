@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Model200Response
+# UseSourceGeneration.Model.Model200Response
 Model for testing model name starting with number
 
 ## Properties

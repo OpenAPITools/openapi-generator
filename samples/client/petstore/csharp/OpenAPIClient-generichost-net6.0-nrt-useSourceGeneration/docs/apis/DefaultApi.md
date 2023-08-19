@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Api.DefaultApi
+# UseSourceGeneration.Api.DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -18,9 +18,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -100,9 +100,9 @@ No authorization required
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
@@ -185,9 +185,9 @@ Hello
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.FileSchemaTestClass
+# UseSourceGeneration.Model.FileSchemaTestClass
 
 ## Properties
 

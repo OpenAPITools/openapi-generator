@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ScaleneTriangle
+# UseSourceGeneration.Model.ScaleneTriangle
 
 ## Properties
 

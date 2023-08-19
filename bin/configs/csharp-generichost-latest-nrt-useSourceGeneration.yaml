@@ -9,3 +9,4 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   useSourceGeneration: true
+  packageName: UseSourceGeneration

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.NullableGuidClass
+# UseSourceGeneration.Model.NullableGuidClass
 
 ## Properties
 

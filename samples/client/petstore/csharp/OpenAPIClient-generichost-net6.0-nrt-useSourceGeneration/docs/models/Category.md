@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Category
+# UseSourceGeneration.Model.Category
 
 ## Properties
 

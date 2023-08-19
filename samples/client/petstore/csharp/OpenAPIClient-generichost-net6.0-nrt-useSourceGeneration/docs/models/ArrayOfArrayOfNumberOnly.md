@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ArrayOfArrayOfNumberOnly
+# UseSourceGeneration.Model.ArrayOfArrayOfNumberOnly
 
 ## Properties
 

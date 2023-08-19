@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ObjectWithDeprecatedFields
+# UseSourceGeneration.Model.ObjectWithDeprecatedFields
 
 ## Properties
 

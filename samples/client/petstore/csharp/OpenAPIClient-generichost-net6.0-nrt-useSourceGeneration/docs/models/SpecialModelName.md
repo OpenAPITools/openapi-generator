@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.SpecialModelName
+# UseSourceGeneration.Model.SpecialModelName
 
 ## Properties
 

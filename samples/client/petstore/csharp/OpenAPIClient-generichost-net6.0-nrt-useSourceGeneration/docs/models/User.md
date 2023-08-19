@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.User
+# UseSourceGeneration.Model.User
 
 ## Properties
 

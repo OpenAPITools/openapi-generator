@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.ModelClient
+# UseSourceGeneration.Model.ModelClient
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.OuterEnumInteger
+# UseSourceGeneration.Model.OuterEnumInteger
 
 ## Properties
 

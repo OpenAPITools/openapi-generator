@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.QuadrilateralInterface
+# UseSourceGeneration.Model.QuadrilateralInterface
 
 ## Properties
 

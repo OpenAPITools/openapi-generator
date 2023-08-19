@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.LiteralStringClass
+# UseSourceGeneration.Model.LiteralStringClass
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.BananaReq
+# UseSourceGeneration.Model.BananaReq
 
 ## Properties
 

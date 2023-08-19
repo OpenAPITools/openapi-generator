@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Api.AnotherFakeApi
+# UseSourceGeneration.Api.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -18,9 +18,9 @@ To test special tags and operation ID starting with number
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
+using UseSourceGeneration.Api;
+using UseSourceGeneration.Client;
+using UseSourceGeneration.Model;
 
 namespace Example
 {
