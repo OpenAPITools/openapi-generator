@@ -1267,8 +1267,8 @@ public class ApiClient extends JavaTimeFormatter {
     clientConfig = getDefaultClientConfig();
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-    customizeClientBuilder(clientBuilder);
     clientBuilder = clientBuilder.withConfig(clientConfig);
+    customizeClientBuilder(clientBuilder);
     return clientBuilder.build();
   }
 
