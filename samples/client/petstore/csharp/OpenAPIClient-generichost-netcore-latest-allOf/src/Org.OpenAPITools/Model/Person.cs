@@ -205,5 +205,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("$_type", person.Type);
         }
     }
-
 }

@@ -179,5 +179,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("role_uuid", rolesReportsHash.RoleUuid);
         }
     }
-
 }

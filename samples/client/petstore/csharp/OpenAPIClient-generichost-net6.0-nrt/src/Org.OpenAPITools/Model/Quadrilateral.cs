@@ -245,5 +245,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
-
 }

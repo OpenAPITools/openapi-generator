@@ -162,5 +162,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
         }
     }
-
 }

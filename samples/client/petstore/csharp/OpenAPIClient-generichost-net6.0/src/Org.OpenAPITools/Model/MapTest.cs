@@ -284,5 +284,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
     }
-
 }

@@ -171,5 +171,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }
-
 }

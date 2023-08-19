@@ -163,5 +163,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
         }
     }
-
 }

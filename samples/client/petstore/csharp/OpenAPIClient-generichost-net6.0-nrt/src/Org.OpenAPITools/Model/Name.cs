@@ -252,5 +252,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("123Number", name.Var123Number);
         }
     }
-
 }

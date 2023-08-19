@@ -162,5 +162,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("JustNumber", numberOnly.JustNumber);
         }
     }
-
 }

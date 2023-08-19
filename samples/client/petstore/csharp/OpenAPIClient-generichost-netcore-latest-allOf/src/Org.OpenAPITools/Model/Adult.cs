@@ -174,5 +174,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("$_type", adult.Type);
         }
     }
-
 }

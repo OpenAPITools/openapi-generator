@@ -179,5 +179,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("name", model200Response.Name);
         }
     }
-
 }

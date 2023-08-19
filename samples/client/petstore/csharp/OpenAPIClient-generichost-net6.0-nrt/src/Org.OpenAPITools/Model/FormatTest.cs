@@ -620,5 +620,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("uuid", formatTest.Uuid);
         }
     }
-
 }

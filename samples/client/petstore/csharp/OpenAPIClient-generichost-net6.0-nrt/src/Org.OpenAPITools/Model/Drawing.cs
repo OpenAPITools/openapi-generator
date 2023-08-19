@@ -225,5 +225,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
         }
     }
-
 }

@@ -188,5 +188,4 @@ namespace Org.OpenAPITools.Model
 
         }
     }
-
 }

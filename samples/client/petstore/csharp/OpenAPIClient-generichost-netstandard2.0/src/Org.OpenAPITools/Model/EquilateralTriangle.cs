@@ -176,5 +176,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("triangleType", equilateralTriangle.TriangleType);
         }
     }
-
 }

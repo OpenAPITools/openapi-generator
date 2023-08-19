@@ -292,5 +292,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
         }
     }
-
 }

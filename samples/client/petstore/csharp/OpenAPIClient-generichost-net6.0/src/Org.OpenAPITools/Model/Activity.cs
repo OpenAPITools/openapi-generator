@@ -161,5 +161,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
         }
     }
-
 }
