@@ -151,9 +151,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName.Equals("quadrilateralType"))
+                    if (localVarJsonPropertyName.Equals("quadrilateralType"))
                     {
                         string discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator.Equals("ComplexQuadrilateral"))
@@ -180,10 +180,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReader.GetString();
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
                             quadrilateralType = utf8JsonReader.GetString();
