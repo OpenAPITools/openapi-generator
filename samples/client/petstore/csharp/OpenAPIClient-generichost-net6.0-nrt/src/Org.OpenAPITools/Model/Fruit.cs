@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Apple apple, string color)
         {
             Apple = apple;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Banana banana, string color)
         {
             Banana = banana;
@@ -205,38 +205,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("color", fruit.Color);
-        }
-    }
-
-    /// <summary>
-    /// The FruitSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Fruit))]
-    public partial class FruitSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FruitSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FruitDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Fruit))]
-    public partial class FruitDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FruitDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

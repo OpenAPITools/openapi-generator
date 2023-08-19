@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public GmFruit(Apple? apple, Banana? banana, string color)
         {
             Apple = apple;
@@ -201,38 +200,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("color", gmFruit.Color);
-        }
-    }
-
-    /// <summary>
-    /// The GmFruitSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(GmFruit))]
-    public partial class GmFruitSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The GmFruitSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public GmFruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// GmFruitDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(GmFruit))]
-    public partial class GmFruitDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// GmFruitDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public GmFruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
+        [JsonConstructor]
         public BananaReq(decimal lengthCm, bool sweet)
         {
             LengthCm = lengthCm;
@@ -172,38 +171,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
             writer.WriteBoolean("sweet", bananaReq.Sweet);
-        }
-    }
-
-    /// <summary>
-    /// The BananaReqSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(BananaReq))]
-    public partial class BananaReqSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The BananaReqSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// BananaReqDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(BananaReq))]
-    public partial class BananaReqDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// BananaReqDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

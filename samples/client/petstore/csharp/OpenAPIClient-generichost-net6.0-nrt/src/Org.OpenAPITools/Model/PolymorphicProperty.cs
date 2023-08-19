@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varBool"></param>
+        [JsonConstructor]
         internal PolymorphicProperty(bool varBool)
         {
             VarBool = varBool;
@@ -46,6 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varString"></param>
+        [JsonConstructor]
         internal PolymorphicProperty(string varString)
         {
             VarString = varString;
@@ -56,6 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varObject"></param>
+        [JsonConstructor]
         internal PolymorphicProperty(Object varObject)
         {
             VarObject = varObject;
@@ -66,6 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="list"></param>
+        [JsonConstructor]
         internal PolymorphicProperty(List<string> list)
         {
             List = list;
@@ -237,38 +239,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
 
-        }
-    }
-
-    /// <summary>
-    /// The PolymorphicPropertySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(PolymorphicProperty))]
-    public partial class PolymorphicPropertySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PolymorphicPropertySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PolymorphicPropertySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PolymorphicPropertyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(PolymorphicProperty))]
-    public partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PolymorphicPropertyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PolymorphicPropertyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

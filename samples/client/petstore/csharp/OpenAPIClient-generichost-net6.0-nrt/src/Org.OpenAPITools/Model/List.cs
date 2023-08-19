@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List</param>
+        [JsonConstructor]
         public List(string var123List)
         {
             Var123List = var123List;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("123-list", list.Var123List);
-        }
-    }
-
-    /// <summary>
-    /// The ListSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(List))]
-    public partial class ListSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ListSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ListSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ListDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(List))]
-    public partial class ListDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ListDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ListDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

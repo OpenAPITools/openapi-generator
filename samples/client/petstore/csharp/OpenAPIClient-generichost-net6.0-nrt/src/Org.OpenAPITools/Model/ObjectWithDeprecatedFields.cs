@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,6 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="deprecatedRef">deprecatedRef</param>
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
+        [JsonConstructor]
         public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
         {
             Bars = bars;
@@ -219,38 +218,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
             writer.WriteNumber("id", objectWithDeprecatedFields.Id);
             writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
-        }
-    }
-
-    /// <summary>
-    /// The ObjectWithDeprecatedFieldsSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
-    public partial class ObjectWithDeprecatedFieldsSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ObjectWithDeprecatedFieldsSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ObjectWithDeprecatedFieldsSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ObjectWithDeprecatedFieldsDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
-    public partial class ObjectWithDeprecatedFieldsDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ObjectWithDeprecatedFieldsDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ObjectWithDeprecatedFieldsDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

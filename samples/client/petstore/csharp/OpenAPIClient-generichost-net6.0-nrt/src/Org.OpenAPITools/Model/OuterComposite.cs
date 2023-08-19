@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
+        [JsonConstructor]
         public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
             MyBoolean = myBoolean;
@@ -196,38 +195,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
             writer.WriteNumber("my_number", outerComposite.MyNumber);
             writer.WriteString("my_string", outerComposite.MyString);
-        }
-    }
-
-    /// <summary>
-    /// The OuterCompositeSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(OuterComposite))]
-    public partial class OuterCompositeSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterCompositeSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterCompositeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterCompositeDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterComposite))]
-    public partial class OuterCompositeDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterCompositeDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterCompositeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

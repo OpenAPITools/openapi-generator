@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
+        [JsonConstructor]
         public ActivityOutputElementRepresentation(string prop1, Object prop2)
         {
             Prop1 = prop1;
@@ -179,38 +178,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
             writer.WritePropertyName("prop2");
             JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The ActivityOutputElementRepresentationSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    public partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ActivityOutputElementRepresentationSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivityOutputElementRepresentationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ActivityOutputElementRepresentationDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    public partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ActivityOutputElementRepresentationDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivityOutputElementRepresentationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

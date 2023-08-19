@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -189,36 +187,4 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
-    /// <summary>
-    /// The OuterEnumDefaultValueSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(OuterEnumDefaultValue))]
-    public partial class OuterEnumDefaultValueSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterEnumDefaultValueSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumDefaultValueSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterEnumDefaultValueDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterEnumDefaultValue))]
-    public partial class OuterEnumDefaultValueDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterEnumDefaultValueDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumDefaultValueDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
 }

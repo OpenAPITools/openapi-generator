@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         /// <param name="petType">petType</param>
+        [JsonConstructor]
         public GrandparentAnimal(string petType)
         {
             PetType = petType;
@@ -170,38 +169,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", grandparentAnimal.PetType);
-        }
-    }
-
-    /// <summary>
-    /// The GrandparentAnimalSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(GrandparentAnimal))]
-    public partial class GrandparentAnimalSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The GrandparentAnimalSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public GrandparentAnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// GrandparentAnimalDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(GrandparentAnimal))]
-    public partial class GrandparentAnimalDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// GrandparentAnimalDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public GrandparentAnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

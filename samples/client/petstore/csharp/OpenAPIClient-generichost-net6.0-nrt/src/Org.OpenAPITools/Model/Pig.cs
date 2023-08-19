@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="basquePig"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Pig(BasquePig basquePig, string className)
         {
             BasquePig = basquePig;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="danishPig"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Pig(DanishPig danishPig, string className)
         {
             DanishPig = danishPig;
@@ -243,38 +243,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", pig.ClassName);
-        }
-    }
-
-    /// <summary>
-    /// The PigSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Pig))]
-    public partial class PigSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PigSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PigDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Pig))]
-    public partial class PigDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PigDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

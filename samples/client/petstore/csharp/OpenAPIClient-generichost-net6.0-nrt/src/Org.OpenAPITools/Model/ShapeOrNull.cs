@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public ShapeOrNull(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public ShapeOrNull(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
@@ -243,38 +243,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", shapeOrNull.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The ShapeOrNullSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ShapeOrNull))]
-    public partial class ShapeOrNullSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ShapeOrNullSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeOrNullSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ShapeOrNullDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ShapeOrNull))]
-    public partial class ShapeOrNullDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ShapeOrNullDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeOrNullDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

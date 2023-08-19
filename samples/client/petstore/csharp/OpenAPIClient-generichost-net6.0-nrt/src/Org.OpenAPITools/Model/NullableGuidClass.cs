@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid</param>
+        [JsonConstructor]
         public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;
@@ -163,38 +162,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("uuid");
             else
                 writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
-        }
-    }
-
-    /// <summary>
-    /// The NullableGuidClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NullableGuidClass))]
-    public partial class NullableGuidClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NullableGuidClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableGuidClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NullableGuidClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NullableGuidClass))]
-    public partial class NullableGuidClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NullableGuidClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableGuidClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

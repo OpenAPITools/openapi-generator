@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public Model200Response(string varClass, int name)
         {
             VarClass = varClass;
@@ -178,38 +177,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("class", model200Response.VarClass);
             writer.WriteNumber("name", model200Response.Name);
-        }
-    }
-
-    /// <summary>
-    /// The Model200ResponseSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Model200Response))]
-    public partial class Model200ResponseSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The Model200ResponseSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public Model200ResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// Model200ResponseDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Model200Response))]
-    public partial class Model200ResponseDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// Model200ResponseDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public Model200ResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

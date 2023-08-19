@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public QuadrilateralInterface(string quadrilateralType)
         {
             QuadrilateralType = quadrilateralType;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
-        }
-    }
-
-    /// <summary>
-    /// The QuadrilateralInterfaceSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(QuadrilateralInterface))]
-    public partial class QuadrilateralInterfaceSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The QuadrilateralInterfaceSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// QuadrilateralInterfaceDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(QuadrilateralInterface))]
-    public partial class QuadrilateralInterfaceDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// QuadrilateralInterfaceDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

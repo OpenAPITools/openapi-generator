@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient</param>
+        [JsonConstructor]
         public ModelClient(string varClient)
         {
             VarClient = varClient;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("client", modelClient.VarClient);
-        }
-    }
-
-    /// <summary>
-    /// The ModelClientSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ModelClient))]
-    public partial class ModelClientSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ModelClientSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ModelClientSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ModelClientDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ModelClient))]
-    public partial class ModelClientDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ModelClientDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ModelClientDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

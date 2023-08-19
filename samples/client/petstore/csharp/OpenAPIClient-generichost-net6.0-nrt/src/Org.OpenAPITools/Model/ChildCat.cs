@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
+        [JsonConstructor]
         public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
             Name = name;
@@ -221,38 +220,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("pet_type", petTypeRawValue);
             else
                 writer.WriteNull("pet_type");
-        }
-    }
-
-    /// <summary>
-    /// The ChildCatSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ChildCat))]
-    public partial class ChildCatSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ChildCatSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ChildCatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ChildCatDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ChildCat))]
-    public partial class ChildCatDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ChildCatDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ChildCatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

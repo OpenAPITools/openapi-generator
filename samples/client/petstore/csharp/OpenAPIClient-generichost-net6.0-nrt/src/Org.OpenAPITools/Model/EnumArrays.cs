@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
+        [JsonConstructor]
         public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
             ArrayEnum = arrayEnum;
@@ -319,38 +318,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("just_symbol", justSymbolRawValue);
             else
                 writer.WriteNull("just_symbol");
-        }
-    }
-
-    /// <summary>
-    /// The EnumArraysSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumArrays))]
-    public partial class EnumArraysSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EnumArraysSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumArraysSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EnumArraysDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EnumArrays))]
-    public partial class EnumArraysDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EnumArraysDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumArraysDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
+        [JsonConstructor]
         public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum)
         {
             ZeroBasedEnum = zeroBasedEnum;
@@ -234,38 +233,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
             else
                 writer.WriteNull("ZeroBasedEnum");
-        }
-    }
-
-    /// <summary>
-    /// The ZeroBasedEnumClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ZeroBasedEnumClass))]
-    public partial class ZeroBasedEnumClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ZeroBasedEnumClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ZeroBasedEnumClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ZeroBasedEnumClass))]
-    public partial class ZeroBasedEnumClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ZeroBasedEnumClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

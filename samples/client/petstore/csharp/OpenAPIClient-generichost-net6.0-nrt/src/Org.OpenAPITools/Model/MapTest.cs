@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,6 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="indirectMap">indirectMap</param>
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
+        [JsonConstructor]
         public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
             DirectMap = directMap;
@@ -285,38 +284,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
             writer.WritePropertyName("map_of_enum_string");
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The MapTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(MapTest))]
-    public partial class MapTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The MapTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MapTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// MapTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(MapTest))]
-    public partial class MapTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// MapTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MapTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

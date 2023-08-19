@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public NullableShape(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public NullableShape(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
@@ -243,38 +243,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", nullableShape.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The NullableShapeSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NullableShape))]
-    public partial class NullableShapeSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NullableShapeSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NullableShapeDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NullableShape))]
-    public partial class NullableShapeDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NullableShapeDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

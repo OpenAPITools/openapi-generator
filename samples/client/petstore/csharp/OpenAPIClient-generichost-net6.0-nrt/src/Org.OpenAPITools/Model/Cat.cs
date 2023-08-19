@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        [JsonConstructor]
         public Cat(string className, bool declawed, string color = @"red") : base(className, color)
         {
             Declawed = declawed;
@@ -163,38 +162,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", cat.ClassName);
             writer.WriteBoolean("declawed", cat.Declawed);
             writer.WriteString("color", cat.Color);
-        }
-    }
-
-    /// <summary>
-    /// The CatSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Cat))]
-    public partial class CatSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The CatSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public CatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// CatDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Cat))]
-    public partial class CatDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// CatDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public CatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

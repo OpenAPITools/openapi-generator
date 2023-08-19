@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
+        [JsonConstructor]
         public Banana(decimal lengthCm)
         {
             LengthCm = lengthCm;
@@ -161,38 +160,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteNumber("lengthCm", banana.LengthCm);
-        }
-    }
-
-    /// <summary>
-    /// The BananaSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Banana))]
-    public partial class BananaSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The BananaSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// BananaDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Banana))]
-    public partial class BananaDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// BananaDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

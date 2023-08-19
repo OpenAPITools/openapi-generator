@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public EquilateralTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -177,38 +176,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("shapeType", equilateralTriangle.ShapeType);
             writer.WriteString("triangleType", equilateralTriangle.TriangleType);
-        }
-    }
-
-    /// <summary>
-    /// The EquilateralTriangleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EquilateralTriangle))]
-    public partial class EquilateralTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EquilateralTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EquilateralTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EquilateralTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EquilateralTriangle))]
-    public partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EquilateralTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EquilateralTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

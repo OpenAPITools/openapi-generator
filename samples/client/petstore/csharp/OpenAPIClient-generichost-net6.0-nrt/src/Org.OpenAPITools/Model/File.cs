@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
+        [JsonConstructor]
         public File(string sourceURI)
         {
             SourceURI = sourceURI;
@@ -161,38 +160,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("sourceURI", file.SourceURI);
-        }
-    }
-
-    /// <summary>
-    /// The FileSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(File))]
-    public partial class FileSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FileSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FileDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(File))]
-    public partial class FileDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FileDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

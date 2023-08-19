@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public IsoscelesTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -170,38 +169,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
             writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
-        }
-    }
-
-    /// <summary>
-    /// The IsoscelesTriangleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(IsoscelesTriangle))]
-    public partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The IsoscelesTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public IsoscelesTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// IsoscelesTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(IsoscelesTriangle))]
-    public partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// IsoscelesTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public IsoscelesTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

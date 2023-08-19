@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("triangleType", triangleInterface.TriangleType);
-        }
-    }
-
-    /// <summary>
-    /// The TriangleInterfaceSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(TriangleInterface))]
-    public partial class TriangleInterfaceSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TriangleInterfaceSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TriangleInterfaceDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(TriangleInterface))]
-    public partial class TriangleInterfaceDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TriangleInterfaceDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

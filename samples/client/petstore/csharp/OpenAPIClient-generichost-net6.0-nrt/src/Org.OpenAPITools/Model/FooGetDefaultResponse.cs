@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString</param>
+        [JsonConstructor]
         public FooGetDefaultResponse(Foo varString)
         {
             VarString = varString;
@@ -162,38 +161,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WritePropertyName("string");
             JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The FooGetDefaultResponseSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FooGetDefaultResponse))]
-    public partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FooGetDefaultResponseSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FooGetDefaultResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FooGetDefaultResponseDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FooGetDefaultResponse))]
-    public partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FooGetDefaultResponseDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FooGetDefaultResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

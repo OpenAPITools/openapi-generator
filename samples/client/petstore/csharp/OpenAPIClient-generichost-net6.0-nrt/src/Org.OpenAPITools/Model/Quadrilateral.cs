@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral, string quadrilateralType)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Quadrilateral(ComplexQuadrilateral complexQuadrilateral, string quadrilateralType)
         {
             ComplexQuadrilateral = complexQuadrilateral;
@@ -243,38 +243,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
-        }
-    }
-
-    /// <summary>
-    /// The QuadrilateralSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Quadrilateral))]
-    public partial class QuadrilateralSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The QuadrilateralSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// QuadrilateralDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Quadrilateral))]
-    public partial class QuadrilateralDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// QuadrilateralDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

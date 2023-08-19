@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -44,6 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         /// <param name="outerEnum">outerEnum</param>
+        [JsonConstructor]
         public EnumTest(EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumInteger outerEnumInteger, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum? outerEnum = default)
         {
             EnumInteger = enumInteger;
@@ -687,38 +686,6 @@ namespace Org.OpenAPITools.Model
                 else
                     writer.WriteNull("outerEnum");
             }
-        }
-    }
-
-    /// <summary>
-    /// The EnumTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EnumTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EnumTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EnumTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

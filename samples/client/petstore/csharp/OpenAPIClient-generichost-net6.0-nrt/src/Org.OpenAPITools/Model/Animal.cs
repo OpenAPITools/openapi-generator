@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        [JsonConstructor]
         public Animal(string className, string color = @"red")
         {
             ClassName = className;
@@ -187,38 +186,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("className", animal.ClassName);
             writer.WriteString("color", animal.Color);
-        }
-    }
-
-    /// <summary>
-    /// The AnimalSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Animal))]
-    public partial class AnimalSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AnimalSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AnimalDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Animal))]
-    public partial class AnimalDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AnimalDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

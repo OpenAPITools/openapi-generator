@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -41,6 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
+        [JsonConstructor]
         public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
             ATT_NAME = aTTNAME;
@@ -246,38 +245,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
             writer.WriteString("smallCamel", capitalization.SmallCamel);
             writer.WriteString("small_Snake", capitalization.SmallSnake);
-        }
-    }
-
-    /// <summary>
-    /// The CapitalizationSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Capitalization))]
-    public partial class CapitalizationSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The CapitalizationSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public CapitalizationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// CapitalizationDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Capitalization))]
-    public partial class CapitalizationDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// CapitalizationDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public CapitalizationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

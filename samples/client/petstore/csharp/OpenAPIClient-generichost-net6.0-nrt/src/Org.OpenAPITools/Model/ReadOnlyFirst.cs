@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
+        [JsonConstructor]
         public ReadOnlyFirst(string bar, string baz)
         {
             Bar = bar;
@@ -213,38 +212,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("bar", readOnlyFirst.Bar);
             writer.WriteString("baz", readOnlyFirst.Baz);
-        }
-    }
-
-    /// <summary>
-    /// The ReadOnlyFirstSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ReadOnlyFirst))]
-    public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ReadOnlyFirstSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReadOnlyFirstSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ReadOnlyFirstDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ReadOnlyFirst))]
-    public partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ReadOnlyFirstDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReadOnlyFirstDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

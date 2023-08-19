@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -54,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedInteger">unsignedInteger</param>
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
+        [JsonConstructor]
         public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
             Binary = binary;
@@ -95,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
+        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -319,38 +318,38 @@ namespace Org.OpenAPITools.Model
 
             if (this.PatternWithBackslash != null) {
                 // PatternWithBackslash (string) pattern
-Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
-if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
-}
+                Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+                if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
+                }
             }
 
             if (this.PatternWithDigits != null) {
                 // PatternWithDigits (string) pattern
-Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
-if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
-}
+                Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
+                if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
+                }
             }
 
             if (this.PatternWithDigitsAndDelimiter != null) {
                 // PatternWithDigitsAndDelimiter (string) pattern
-Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
-}
+                Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
+                }
             }
 
             if (this.VarString != null) {
                 // VarString (string) pattern
-Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-if (!regexVarString.Match(this.VarString).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
-}
+                Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexVarString.Match(this.VarString).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
+                }
             }
 
             // UnsignedInteger (uint) maximum
@@ -619,38 +618,6 @@ if (!regexVarString.Match(this.VarString).Success)
             writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger);
             writer.WriteNumber("unsigned_long", formatTest.UnsignedLong);
             writer.WriteString("uuid", formatTest.Uuid);
-        }
-    }
-
-    /// <summary>
-    /// The FormatTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FormatTest))]
-    public partial class FormatTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FormatTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FormatTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FormatTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FormatTest))]
-    public partial class FormatTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FormatTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FormatTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

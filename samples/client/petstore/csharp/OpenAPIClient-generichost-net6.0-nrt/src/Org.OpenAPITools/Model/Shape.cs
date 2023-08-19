@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public Shape(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public Shape(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
@@ -243,38 +243,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", shape.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The ShapeSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Shape))]
-    public partial class ShapeSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ShapeSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ShapeDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Shape))]
-    public partial class ShapeDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ShapeDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

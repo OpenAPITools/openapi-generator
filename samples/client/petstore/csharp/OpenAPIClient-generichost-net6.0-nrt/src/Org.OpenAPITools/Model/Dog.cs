@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed</param>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        [JsonConstructor]
         public Dog(string breed, string className, string color = @"red") : base(className, color)
         {
             Breed = breed;
@@ -162,38 +161,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("breed", dog.Breed);
             writer.WriteString("className", dog.ClassName);
             writer.WriteString("color", dog.Color);
-        }
-    }
-
-    /// <summary>
-    /// The DogSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Dog))]
-    public partial class DogSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DogSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DogSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DogDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Dog))]
-    public partial class DogDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DogDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DogDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
+        [JsonConstructor]
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
         {
             ArrayArrayNumber = arrayArrayNumber;
@@ -162,38 +161,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WritePropertyName("ArrayArrayNumber");
             JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The ArrayOfArrayOfNumberOnlySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    public partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ArrayOfArrayOfNumberOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayOfArrayOfNumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ArrayOfArrayOfNumberOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    public partial class ArrayOfArrayOfNumberOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ArrayOfArrayOfNumberOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayOfArrayOfNumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

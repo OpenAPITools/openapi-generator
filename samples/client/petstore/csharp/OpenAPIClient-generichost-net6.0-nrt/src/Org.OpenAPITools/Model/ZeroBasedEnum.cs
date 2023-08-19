@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -175,36 +173,4 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
-    /// <summary>
-    /// The ZeroBasedEnumSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ZeroBasedEnum))]
-    public partial class ZeroBasedEnumSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ZeroBasedEnumSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ZeroBasedEnumDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ZeroBasedEnum))]
-    public partial class ZeroBasedEnumDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ZeroBasedEnumDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
 }

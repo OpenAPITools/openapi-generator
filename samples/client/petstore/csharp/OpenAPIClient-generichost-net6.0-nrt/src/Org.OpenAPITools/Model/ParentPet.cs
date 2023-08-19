@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType</param>
+        [JsonConstructor]
         public ParentPet(string petType) : base(petType)
         {
             OnCreated();
@@ -136,38 +135,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", parentPet.PetType);
-        }
-    }
-
-    /// <summary>
-    /// The ParentPetSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ParentPet))]
-    public partial class ParentPetSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ParentPetSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ParentPetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ParentPetDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ParentPet))]
-    public partial class ParentPetDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ParentPetDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ParentPetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

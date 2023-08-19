@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public ShapeInterface(string shapeType)
         {
             ShapeType = shapeType;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", shapeInterface.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The ShapeInterfaceSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ShapeInterface))]
-    public partial class ShapeInterfaceSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ShapeInterfaceSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ShapeInterfaceDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ShapeInterface))]
-    public partial class ShapeInterfaceDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ShapeInterfaceDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

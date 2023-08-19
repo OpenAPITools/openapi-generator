@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public DeprecatedObject(string name)
         {
             Name = name;
@@ -160,38 +159,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, DeprecatedObject deprecatedObject, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("name", deprecatedObject.Name);
-        }
-    }
-
-    /// <summary>
-    /// The DeprecatedObjectSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(DeprecatedObject))]
-    public partial class DeprecatedObjectSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DeprecatedObjectSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DeprecatedObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DeprecatedObjectDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(DeprecatedObject))]
-    public partial class DeprecatedObjectDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DeprecatedObjectDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DeprecatedObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

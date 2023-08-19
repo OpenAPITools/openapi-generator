@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
+        [JsonConstructor]
         public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
@@ -200,38 +199,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
             writer.WritePropertyName("array_of_string");
             JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The ArrayTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ArrayTest))]
-    public partial class ArrayTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ArrayTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ArrayTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ArrayTest))]
-    public partial class ArrayTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ArrayTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

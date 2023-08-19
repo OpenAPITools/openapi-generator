@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public SimpleQuadrilateral(string quadrilateralType, string shapeType)
         {
             QuadrilateralType = quadrilateralType;
@@ -177,38 +176,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The SimpleQuadrilateralSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(SimpleQuadrilateral))]
-    public partial class SimpleQuadrilateralSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The SimpleQuadrilateralSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public SimpleQuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// SimpleQuadrilateralDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(SimpleQuadrilateral))]
-    public partial class SimpleQuadrilateralDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// SimpleQuadrilateralDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public SimpleQuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

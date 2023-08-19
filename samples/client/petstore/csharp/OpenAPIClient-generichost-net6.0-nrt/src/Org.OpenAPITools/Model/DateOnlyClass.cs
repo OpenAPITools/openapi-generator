@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
+        [JsonConstructor]
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
@@ -47,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 
@@ -167,38 +166,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
-        }
-    }
-
-    /// <summary>
-    /// The DateOnlyClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(DateOnlyClass))]
-    public partial class DateOnlyClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DateOnlyClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DateOnlyClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DateOnlyClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(DateOnlyClass))]
-    public partial class DateOnlyClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DateOnlyClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DateOnlyClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

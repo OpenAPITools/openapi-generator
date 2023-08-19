@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="whale"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Mammal(Whale whale, string className)
         {
             Whale = whale;
@@ -49,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zebra"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Mammal(Zebra zebra, string className)
         {
             Zebra = zebra;
@@ -61,6 +61,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pig"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Mammal(Pig pig, string className)
         {
             Pig = pig;
@@ -274,38 +275,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", mammal.ClassName);
-        }
-    }
-
-    /// <summary>
-    /// The MammalSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Mammal))]
-    public partial class MammalSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The MammalSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MammalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// MammalDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Mammal))]
-    public partial class MammalDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// MammalDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MammalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file</param>
         /// <param name="files">files</param>
+        [JsonConstructor]
         public FileSchemaTestClass(File file, List<File> files)
         {
             File = file;
@@ -181,38 +180,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
             writer.WritePropertyName("files");
             JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The FileSchemaTestClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FileSchemaTestClass))]
-    public partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FileSchemaTestClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSchemaTestClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FileSchemaTestClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FileSchemaTestClass))]
-    public partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FileSchemaTestClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSchemaTestClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

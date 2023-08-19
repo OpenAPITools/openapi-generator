@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber</param>
+        [JsonConstructor]
         public NumberOnly(decimal justNumber)
         {
             JustNumber = justNumber;
@@ -161,38 +160,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteNumber("JustNumber", numberOnly.JustNumber);
-        }
-    }
-
-    /// <summary>
-    /// The NumberOnlySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NumberOnly))]
-    public partial class NumberOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NumberOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NumberOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NumberOnly))]
-    public partial class NumberOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NumberOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

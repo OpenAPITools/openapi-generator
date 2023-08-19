@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
+        [JsonConstructor]
         public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
             EscapedLiteralString = escapedLiteralString;
@@ -177,38 +176,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
             writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
-        }
-    }
-
-    /// <summary>
-    /// The LiteralStringClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(LiteralStringClass))]
-    public partial class LiteralStringClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The LiteralStringClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public LiteralStringClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// LiteralStringClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(LiteralStringClass))]
-    public partial class LiteralStringClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// LiteralStringClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public LiteralStringClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

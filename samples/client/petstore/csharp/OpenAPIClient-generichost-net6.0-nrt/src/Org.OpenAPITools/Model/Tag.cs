@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public Tag(long id, string name)
         {
             Id = id;
@@ -178,38 +177,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteNumber("id", tag.Id);
             writer.WriteString("name", tag.Name);
-        }
-    }
-
-    /// <summary>
-    /// The TagSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Tag))]
-    public partial class TagSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TagSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TagSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TagDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Tag))]
-    public partial class TagDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TagDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TagDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

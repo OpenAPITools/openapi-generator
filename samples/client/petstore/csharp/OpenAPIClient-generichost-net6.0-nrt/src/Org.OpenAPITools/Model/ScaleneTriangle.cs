@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public ScaleneTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -177,38 +176,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
             writer.WriteString("triangleType", scaleneTriangle.TriangleType);
-        }
-    }
-
-    /// <summary>
-    /// The ScaleneTriangleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ScaleneTriangle))]
-    public partial class ScaleneTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ScaleneTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ScaleneTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ScaleneTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ScaleneTriangle))]
-    public partial class ScaleneTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ScaleneTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ScaleneTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="varReturn">varReturn</param>
+        [JsonConstructor]
         public Return(int varReturn)
         {
             VarReturn = varReturn;
@@ -161,38 +160,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteNumber("return", varReturn.VarReturn);
-        }
-    }
-
-    /// <summary>
-    /// The ReturnSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Return))]
-    public partial class ReturnSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ReturnSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReturnSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ReturnDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Return))]
-    public partial class ReturnDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ReturnDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReturnDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

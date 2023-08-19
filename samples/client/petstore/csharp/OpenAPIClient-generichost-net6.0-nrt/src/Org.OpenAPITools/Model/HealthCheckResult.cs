@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
+        [JsonConstructor]
         public HealthCheckResult(string? nullableMessage = default)
         {
             NullableMessage = nullableMessage;
@@ -157,38 +156,6 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
-        }
-    }
-
-    /// <summary>
-    /// The HealthCheckResultSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(HealthCheckResult))]
-    public partial class HealthCheckResultSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The HealthCheckResultSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HealthCheckResultSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// HealthCheckResultDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(HealthCheckResult))]
-    public partial class HealthCheckResultDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// HealthCheckResultDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HealthCheckResultDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

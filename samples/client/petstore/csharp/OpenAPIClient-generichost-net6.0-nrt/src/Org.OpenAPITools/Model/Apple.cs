@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="colorCode">colorCode</param>
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
+        [JsonConstructor]
         public Apple(string colorCode, string cultivar, string origin)
         {
             ColorCode = colorCode;
@@ -97,29 +96,29 @@ namespace Org.OpenAPITools.Model
         {
             if (this.ColorCode != null) {
                 // ColorCode (string) pattern
-Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
-if (!regexColorCode.Match(this.ColorCode).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
-}
+                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
+                if (!regexColorCode.Match(this.ColorCode).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
+                }
             }
 
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern
-Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
-if (!regexCultivar.Match(this.Cultivar).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-}
+                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+                if (!regexCultivar.Match(this.Cultivar).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
+                }
             }
 
             if (this.Origin != null) {
                 // Origin (string) pattern
-Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-if (!regexOrigin.Match(this.Origin).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-}
+                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexOrigin.Match(this.Origin).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
+                }
             }
 
             yield break;
@@ -221,38 +220,6 @@ if (!regexOrigin.Match(this.Origin).Success)
             writer.WriteString("color_code", apple.ColorCode);
             writer.WriteString("cultivar", apple.Cultivar);
             writer.WriteString("origin", apple.Origin);
-        }
-    }
-
-    /// <summary>
-    /// The AppleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Apple))]
-    public partial class AppleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AppleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AppleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Apple))]
-    public partial class AppleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AppleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListObject" /> class.
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList</param>
+        [JsonConstructor]
         public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList)
         {
             TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
@@ -162,38 +161,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WritePropertyName("TestCollectionEndingWithWordList");
             JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The TestCollectionEndingWithWordListObjectSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
-    public partial class TestCollectionEndingWithWordListObjectSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TestCollectionEndingWithWordListObjectSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TestCollectionEndingWithWordListObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TestCollectionEndingWithWordListObjectDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
-    public partial class TestCollectionEndingWithWordListObjectDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TestCollectionEndingWithWordListObjectDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TestCollectionEndingWithWordListObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

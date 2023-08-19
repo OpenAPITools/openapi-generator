@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,6 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapes">shapes</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapeOrNull">shapeOrNull</param>
+        [JsonConstructor]
         public Drawing(Shape mainShape, List<Shape> shapes, NullableShape? nullableShape = default, ShapeOrNull? shapeOrNull = default) : base()
         {
             MainShape = mainShape;
@@ -224,38 +223,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
             writer.WritePropertyName("shapeOrNull");
             JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The DrawingSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Drawing))]
-    public partial class DrawingSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DrawingSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DrawingSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DrawingDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Drawing))]
-    public partial class DrawingDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DrawingDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DrawingDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

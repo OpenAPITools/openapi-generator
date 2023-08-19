@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         /// <param name="type">type</param>
+        [JsonConstructor]
         public Zebra(string className, TypeEnum type) : base()
         {
             ClassName = className;
@@ -276,38 +275,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("type", typeRawValue);
             else
                 writer.WriteNull("type");
-        }
-    }
-
-    /// <summary>
-    /// The ZebraSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Zebra))]
-    public partial class ZebraSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ZebraSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZebraSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ZebraDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Zebra))]
-    public partial class ZebraDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ZebraDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZebraDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

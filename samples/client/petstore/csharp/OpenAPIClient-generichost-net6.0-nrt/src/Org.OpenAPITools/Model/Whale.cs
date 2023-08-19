@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
+        [JsonConstructor]
         public Whale(string className, bool hasBaleen, bool hasTeeth)
         {
             ClassName = className;
@@ -196,38 +195,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", whale.ClassName);
             writer.WriteBoolean("hasBaleen", whale.HasBaleen);
             writer.WriteBoolean("hasTeeth", whale.HasTeeth);
-        }
-    }
-
-    /// <summary>
-    /// The WhaleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Whale))]
-    public partial class WhaleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The WhaleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public WhaleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// WhaleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Whale))]
-    public partial class WhaleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// WhaleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public WhaleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

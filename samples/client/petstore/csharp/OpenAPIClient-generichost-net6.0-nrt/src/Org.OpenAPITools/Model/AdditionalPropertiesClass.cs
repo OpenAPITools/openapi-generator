@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -43,6 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
         /// <param name="anytype1">anytype1</param>
+        [JsonConstructor]
         public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object? anytype1 = default)
         {
             EmptyMap = emptyMap;
@@ -293,38 +292,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
             writer.WritePropertyName("anytype_1");
             JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The AdditionalPropertiesClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    public partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AdditionalPropertiesClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AdditionalPropertiesClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    public partial class AdditionalPropertiesClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AdditionalPropertiesClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public ComplexQuadrilateral(string quadrilateralType, string shapeType)
         {
             QuadrilateralType = quadrilateralType;
@@ -177,38 +176,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
             writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
-        }
-    }
-
-    /// <summary>
-    /// The ComplexQuadrilateralSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ComplexQuadrilateral))]
-    public partial class ComplexQuadrilateralSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ComplexQuadrilateralSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ComplexQuadrilateralSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ComplexQuadrilateralDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ComplexQuadrilateral))]
-    public partial class ComplexQuadrilateralDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ComplexQuadrilateralDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ComplexQuadrilateralDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

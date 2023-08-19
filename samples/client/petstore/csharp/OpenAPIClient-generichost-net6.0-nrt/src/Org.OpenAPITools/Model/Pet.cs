@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -41,6 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls</param>
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
+        [JsonConstructor]
         public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
             Category = category;
@@ -344,38 +343,6 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
-        }
-    }
-
-    /// <summary>
-    /// The PetSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Pet))]
-    public partial class PetSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PetSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PetDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Pet))]
-    public partial class PetDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PetDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

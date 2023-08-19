@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
+        [JsonConstructor]
         internal HasOnlyReadOnly(string bar, string foo)
         {
             Bar = bar;
@@ -214,38 +213,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("bar", hasOnlyReadOnly.Bar);
             writer.WriteString("foo", hasOnlyReadOnly.Foo);
-        }
-    }
-
-    /// <summary>
-    /// The HasOnlyReadOnlySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(HasOnlyReadOnly))]
-    public partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The HasOnlyReadOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HasOnlyReadOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// HasOnlyReadOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(HasOnlyReadOnly))]
-    public partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// HasOnlyReadOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HasOnlyReadOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

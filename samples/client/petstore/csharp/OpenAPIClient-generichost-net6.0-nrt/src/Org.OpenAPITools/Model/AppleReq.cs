@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
+        [JsonConstructor]
         public AppleReq(string cultivar, bool mealy)
         {
             Cultivar = cultivar;
@@ -171,38 +170,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("cultivar", appleReq.Cultivar);
             writer.WriteBoolean("mealy", appleReq.Mealy);
-        }
-    }
-
-    /// <summary>
-    /// The AppleReqSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(AppleReq))]
-    public partial class AppleReqSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AppleReqSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleReqSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AppleReqDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(AppleReq))]
-    public partial class AppleReqDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AppleReqDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleReqDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }

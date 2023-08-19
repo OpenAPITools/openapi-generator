@@ -22,8 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,6 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
+        [JsonConstructor]
         public Name(int varName, string property, int snakeCase, int var123Number)
         {
             VarName = varName;
@@ -251,38 +250,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("property", name.Property);
             writer.WriteNumber("snake_case", name.SnakeCase);
             writer.WriteNumber("123Number", name.Var123Number);
-        }
-    }
-
-    /// <summary>
-    /// The NameSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Name))]
-    public partial class NameSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NameSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NameSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NameDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Name))]
-    public partial class NameDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NameDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NameDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
         }
     }
 }
