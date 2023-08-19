@@ -19,21 +19,32 @@ import kotlinx.serialization.json.Json
 import {{packageName}}.auth.*
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(
-        private val baseUrl: String,
-        httpClientEngine: HttpClientEngine?,
-        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-        private val jsonBlock: Json
+        private val baseUrl: String
 ) {
 
-    private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
-        {
-            it.install(ContentNegotiation) { json(jsonBlock) }
-            httpClientConfig?.invoke(it)
+    private lateinit var client: HttpClient
+
+    constructor(
+        baseUrl: String,
+        httpClientEngine: HttpClientEngine?,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
+        jsonBlock: Json,
+    ) : this(baseUrl = baseUrl) {
+        val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
+            {
+                it.install(ContentNegotiation) { json(jsonBlock) }
+                httpClientConfig?.invoke(it)
+            }
         }
+
+        client = httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
-    private val client: HttpClient by lazy {
-        httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
+    constructor(
+        baseUrl: String,
+        httpClient: HttpClient
+    ): this(baseUrl = baseUrl) {
+        this.client = httpClient
     }
 
     {{#hasAuthMethods}}
