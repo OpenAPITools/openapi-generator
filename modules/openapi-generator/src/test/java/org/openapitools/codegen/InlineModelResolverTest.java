@@ -354,7 +354,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveRequestBodyInvalidRef() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/invalid_ref_request_body.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI
