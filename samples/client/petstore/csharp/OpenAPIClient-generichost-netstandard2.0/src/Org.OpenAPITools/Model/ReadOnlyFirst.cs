@@ -212,5 +212,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
-
 }

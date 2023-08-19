@@ -176,5 +176,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
         }
     }
-
 }

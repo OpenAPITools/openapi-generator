@@ -199,5 +199,4 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
     }
-
 }

@@ -200,5 +200,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("color", gmFruit.Color);
         }
     }
-
 }

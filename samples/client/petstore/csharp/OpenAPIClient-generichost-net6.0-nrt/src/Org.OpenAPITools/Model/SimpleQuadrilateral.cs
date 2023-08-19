@@ -178,5 +178,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
         }
     }
-
 }

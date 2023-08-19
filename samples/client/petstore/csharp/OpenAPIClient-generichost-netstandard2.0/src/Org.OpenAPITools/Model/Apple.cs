@@ -220,5 +220,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("origin", apple.Origin);
         }
     }
-
 }

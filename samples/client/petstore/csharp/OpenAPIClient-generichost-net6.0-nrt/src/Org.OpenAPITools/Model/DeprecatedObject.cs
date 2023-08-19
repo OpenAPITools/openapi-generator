@@ -161,5 +161,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", deprecatedObject.Name);
         }
     }
-
 }

@@ -348,5 +348,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("complete", order.Complete);
         }
     }
-
 }

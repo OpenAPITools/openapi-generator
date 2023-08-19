@@ -170,5 +170,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("mealy", appleReq.Mealy);
         }
     }
-
 }

@@ -158,5 +158,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
         }
     }
-
 }

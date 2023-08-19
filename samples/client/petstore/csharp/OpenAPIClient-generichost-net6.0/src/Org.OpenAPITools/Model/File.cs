@@ -160,5 +160,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("sourceURI", file.SourceURI);
         }
     }
-
 }

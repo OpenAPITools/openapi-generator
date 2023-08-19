@@ -222,5 +222,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("pet_type");
         }
     }
-
 }

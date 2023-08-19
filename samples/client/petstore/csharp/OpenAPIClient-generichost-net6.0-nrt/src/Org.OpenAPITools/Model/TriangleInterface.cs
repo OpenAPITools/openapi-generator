@@ -161,5 +161,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }
-
 }
