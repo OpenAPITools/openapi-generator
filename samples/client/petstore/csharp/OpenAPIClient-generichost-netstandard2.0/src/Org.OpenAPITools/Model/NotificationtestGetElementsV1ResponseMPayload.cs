@@ -122,10 +122,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReader.GetString();
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "a_objVariableobject":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -179,4 +179,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);
         }
     }
+
 }

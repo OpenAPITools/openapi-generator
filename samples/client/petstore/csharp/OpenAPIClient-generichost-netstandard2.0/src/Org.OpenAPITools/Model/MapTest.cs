@@ -208,10 +208,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReader.GetString();
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "direct_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -284,4 +284,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
     }
+
 }

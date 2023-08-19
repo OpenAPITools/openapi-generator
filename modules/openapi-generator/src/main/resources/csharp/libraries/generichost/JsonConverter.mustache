@@ -66,9 +66,9 @@
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string{{nrt?}} __jsonPropertyName__ = utf8JsonReaderDiscriminator.GetString();
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (__jsonPropertyName__{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
+                    if (localVarjsonPropertyName{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
                     {
                         string{{nrt?}} discriminator = utf8JsonReaderDiscriminator.GetString();
                         {{#mappedModels}}
@@ -156,10 +156,10 @@
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string{{nrt?}} __jsonPropertyName__ = utf8JsonReader.GetString();
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (__jsonPropertyName__)
+                    switch (localVarJsonPropertyName)
                     {
                         {{#allVars}}
                         case "{{baseName}}":
