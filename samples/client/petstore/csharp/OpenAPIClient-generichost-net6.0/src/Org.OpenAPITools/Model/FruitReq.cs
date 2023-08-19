@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,6 +32,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
+        [JsonConstructor]
         public FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
+        [JsonConstructor]
         public FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
@@ -184,17 +185,5 @@ namespace Org.OpenAPITools.Model
         {
 
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FruitReq))]
-    internal partial class FruitReqSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FruitReq))]
-    internal partial class FruitReqDeserializationContext : JsonSerializerContext
-    {
     }
 }

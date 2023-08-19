@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -44,6 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
+        [JsonConstructor]
         public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectNullableProp = default, string stringProp = default) : base()
         {
             ArrayItemsNullable = arrayItemsNullable;
@@ -374,17 +374,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
             writer.WriteString("string_prop", nullableClass.StringProp);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NullableClass))]
-    internal partial class NullableClassSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NullableClass))]
-    internal partial class NullableClassDeserializationContext : JsonSerializerContext
-    {
     }
 }

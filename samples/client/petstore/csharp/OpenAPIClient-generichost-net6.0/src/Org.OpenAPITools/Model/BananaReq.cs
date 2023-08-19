@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
+        [JsonConstructor]
         public BananaReq(decimal lengthCm, bool sweet)
         {
             LengthCm = lengthCm;
@@ -170,17 +170,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
             writer.WriteBoolean("sweet", bananaReq.Sweet);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(BananaReq))]
-    internal partial class BananaReqSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(BananaReq))]
-    internal partial class BananaReqDeserializationContext : JsonSerializerContext
-    {
     }
 }

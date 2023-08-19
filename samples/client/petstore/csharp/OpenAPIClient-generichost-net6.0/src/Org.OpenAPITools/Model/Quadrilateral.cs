@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral, string quadrilateralType)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Quadrilateral(ComplexQuadrilateral complexQuadrilateral, string quadrilateralType)
         {
             ComplexQuadrilateral = complexQuadrilateral;
@@ -241,17 +242,5 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Quadrilateral))]
-    internal partial class QuadrilateralSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Quadrilateral))]
-    internal partial class QuadrilateralDeserializationContext : JsonSerializerContext
-    {
     }
 }

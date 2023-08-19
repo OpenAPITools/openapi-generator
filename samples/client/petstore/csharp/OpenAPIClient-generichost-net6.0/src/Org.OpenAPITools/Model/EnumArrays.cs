@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
+        [JsonConstructor]
         public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
             ArrayEnum = arrayEnum;
@@ -317,17 +317,5 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("just_symbol");
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumArrays))]
-    internal partial class EnumArraysSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EnumArrays))]
-    internal partial class EnumArraysDeserializationContext : JsonSerializerContext
-    {
     }
 }

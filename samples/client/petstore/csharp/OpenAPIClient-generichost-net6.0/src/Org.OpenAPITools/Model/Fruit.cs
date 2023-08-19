@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Apple apple, string color)
         {
             Apple = apple;
@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Banana banana, string color)
         {
             Banana = banana;
@@ -203,17 +204,5 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("color", fruit.Color);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Fruit))]
-    internal partial class FruitSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Fruit))]
-    internal partial class FruitDeserializationContext : JsonSerializerContext
-    {
     }
 }

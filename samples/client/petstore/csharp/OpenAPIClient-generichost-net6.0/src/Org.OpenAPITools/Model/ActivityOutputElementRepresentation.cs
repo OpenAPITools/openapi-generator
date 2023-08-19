@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
+        [JsonConstructor]
         public ActivityOutputElementRepresentation(string prop1, Object prop2)
         {
             Prop1 = prop1;
@@ -177,17 +177,5 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("prop2");
             JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    internal partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    internal partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
-    {
     }
 }

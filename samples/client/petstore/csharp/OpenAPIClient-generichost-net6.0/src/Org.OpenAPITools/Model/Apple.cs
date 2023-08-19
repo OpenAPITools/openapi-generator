@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="colorCode">colorCode</param>
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
+        [JsonConstructor]
         public Apple(string colorCode, string cultivar, string origin)
         {
             ColorCode = colorCode;
@@ -94,29 +94,29 @@ namespace Org.OpenAPITools.Model
         {
             if (this.ColorCode != null) {
                 // ColorCode (string) pattern
-Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
-if (!regexColorCode.Match(this.ColorCode).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
-}
+                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
+                if (!regexColorCode.Match(this.ColorCode).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
+                }
             }
 
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern
-Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
-if (!regexCultivar.Match(this.Cultivar).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-}
+                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+                if (!regexCultivar.Match(this.Cultivar).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
+                }
             }
 
             if (this.Origin != null) {
                 // Origin (string) pattern
-Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-if (!regexOrigin.Match(this.Origin).Success)
-{
-    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-}
+                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexOrigin.Match(this.Origin).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
+                }
             }
 
             yield break;
@@ -219,17 +219,5 @@ if (!regexOrigin.Match(this.Origin).Success)
             writer.WriteString("cultivar", apple.Cultivar);
             writer.WriteString("origin", apple.Origin);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Apple))]
-    internal partial class AppleSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Apple))]
-    internal partial class AppleDeserializationContext : JsonSerializerContext
-    {
     }
 }

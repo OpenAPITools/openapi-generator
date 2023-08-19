@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
+        [JsonConstructor]
         public SpecialModelName(string varSpecialModelName, long specialPropertyName)
         {
             VarSpecialModelName = varSpecialModelName;
@@ -176,17 +176,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
             writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(SpecialModelName))]
-    internal partial class SpecialModelNameSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(SpecialModelName))]
-    internal partial class SpecialModelNameDeserializationContext : JsonSerializerContext
-    {
     }
 }

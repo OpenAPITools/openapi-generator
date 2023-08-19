@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="basquePig"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Pig(BasquePig basquePig, string className)
         {
             BasquePig = basquePig;
@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="danishPig"></param>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public Pig(DanishPig danishPig, string className)
         {
             DanishPig = danishPig;
@@ -241,17 +242,5 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("className", pig.ClassName);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Pig))]
-    internal partial class PigSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Pig))]
-    internal partial class PigDeserializationContext : JsonSerializerContext
-    {
     }
 }

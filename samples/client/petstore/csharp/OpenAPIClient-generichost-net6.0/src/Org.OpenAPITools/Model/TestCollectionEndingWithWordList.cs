@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,6 +32,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordList" /> class.
         /// </summary>
         /// <param name="value">value</param>
+        [JsonConstructor]
         public TestCollectionEndingWithWordList(string value)
         {
             Value = value;
@@ -158,17 +158,5 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("value", testCollectionEndingWithWordList.Value);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    internal partial class TestCollectionEndingWithWordListSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    internal partial class TestCollectionEndingWithWordListDeserializationContext : JsonSerializerContext
-    {
     }
 }

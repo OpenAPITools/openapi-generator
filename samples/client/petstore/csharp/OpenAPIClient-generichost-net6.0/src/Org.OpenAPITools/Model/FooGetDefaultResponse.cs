@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,6 +32,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString</param>
+        [JsonConstructor]
         public FooGetDefaultResponse(Foo varString)
         {
             VarString = varString;
@@ -160,17 +160,5 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("string");
             JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FooGetDefaultResponse))]
-    internal partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FooGetDefaultResponse))]
-    internal partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
-    {
     }
 }

@@ -1134,7 +1134,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, UserDeserializationContext.Default.User);
+                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 

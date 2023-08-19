@@ -117,11 +117,6 @@ namespace Org.OpenAPITools.Client
         private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// The JsonTypeInfo
-        /// </summary>
-        private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> _typeInfo;
-
-        /// <summary>
         /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="httpRequestMessage"></param>
@@ -144,53 +139,27 @@ namespace Org.OpenAPITools.Client
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="typeInfo"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> typeInfo)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _typeInfo = typeInfo;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
-
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T AsModel()
+        public T AsModel(System.Text.Json.JsonSerializerOptions options = null)
         {
             // This logic may be modified with the AsModel.mustache template
-            if (!IsSuccessStatusCode)
-                return default(T);
-
-            return _typeInfo == null
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _typeInfo);
+            return IsSuccessStatusCode
+                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
+                : default(T);
         }
 
         /// <summary>
         /// Returns true when the model can be deserialized
         /// </summary>
-        public bool TryToModel([NotNullWhen(true)] out T model)
+        public bool TryToModel([NotNullWhen(true)] out T model, System.Text.Json.JsonSerializerOptions options = null)
         {
             try
             {
-                model = AsModel();
+                model = AsModel(options);
                 return model != null;
             }
             catch

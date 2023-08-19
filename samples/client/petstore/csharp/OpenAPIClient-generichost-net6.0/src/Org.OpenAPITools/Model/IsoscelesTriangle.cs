@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,6 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public IsoscelesTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -168,17 +168,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
             writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(IsoscelesTriangle))]
-    internal partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(IsoscelesTriangle))]
-    internal partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
-    {
     }
 }
