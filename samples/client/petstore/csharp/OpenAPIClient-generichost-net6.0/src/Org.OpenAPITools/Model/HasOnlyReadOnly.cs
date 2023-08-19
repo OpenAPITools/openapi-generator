@@ -213,4 +213,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
     }
+
 }

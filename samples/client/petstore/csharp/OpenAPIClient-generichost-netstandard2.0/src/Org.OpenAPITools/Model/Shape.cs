@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
                 {
                     string localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (localVarjsonPropertyName.Equals("shapeType"))
+                    if (localVarJsonPropertyName.Equals("shapeType"))
                     {
                         string discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator.Equals("Quadrilateral"))
@@ -243,4 +243,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("shapeType", shape.ShapeType);
         }
     }
+
 }

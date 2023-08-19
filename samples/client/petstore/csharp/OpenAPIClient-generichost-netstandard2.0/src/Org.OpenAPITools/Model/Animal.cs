@@ -186,4 +186,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("color", animal.Color);
         }
     }
+
 }

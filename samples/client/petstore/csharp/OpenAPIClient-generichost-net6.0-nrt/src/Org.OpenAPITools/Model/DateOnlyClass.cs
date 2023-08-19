@@ -168,4 +168,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
         }
     }
+
 }

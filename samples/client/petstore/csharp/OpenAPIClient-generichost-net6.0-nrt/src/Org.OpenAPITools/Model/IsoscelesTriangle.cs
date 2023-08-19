@@ -171,4 +171,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
     }
+
 }

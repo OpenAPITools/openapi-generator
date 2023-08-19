@@ -320,4 +320,5 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("just_symbol");
         }
     }
+
 }

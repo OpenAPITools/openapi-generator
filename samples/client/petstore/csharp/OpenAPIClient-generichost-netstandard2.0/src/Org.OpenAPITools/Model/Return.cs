@@ -160,4 +160,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("return", varReturn.VarReturn);
         }
     }
+
 }

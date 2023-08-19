@@ -161,4 +161,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", basquePig.ClassName);
         }
     }
+
 }

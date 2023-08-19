@@ -218,4 +218,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }
+
 }

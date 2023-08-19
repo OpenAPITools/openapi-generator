@@ -226,4 +226,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
         }
     }
+
 }

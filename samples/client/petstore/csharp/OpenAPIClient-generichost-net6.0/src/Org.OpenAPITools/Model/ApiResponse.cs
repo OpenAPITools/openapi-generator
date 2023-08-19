@@ -194,4 +194,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("type", apiResponse.Type);
         }
     }
+
 }

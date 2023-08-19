@@ -179,4 +179,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", category.Name);
         }
     }
+
 }

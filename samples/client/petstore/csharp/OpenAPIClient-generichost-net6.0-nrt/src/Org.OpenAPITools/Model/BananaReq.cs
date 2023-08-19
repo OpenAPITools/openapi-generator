@@ -173,4 +173,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("sweet", bananaReq.Sweet);
         }
     }
+
 }

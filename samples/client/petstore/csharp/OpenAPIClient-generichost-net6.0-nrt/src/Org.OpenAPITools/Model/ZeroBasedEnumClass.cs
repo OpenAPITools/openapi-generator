@@ -235,4 +235,5 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("ZeroBasedEnum");
         }
     }
+
 }

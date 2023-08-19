@@ -180,4 +180,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }
     }
+
 }

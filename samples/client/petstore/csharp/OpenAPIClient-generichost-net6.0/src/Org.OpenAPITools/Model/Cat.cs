@@ -162,4 +162,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("color", cat.Color);
         }
     }
+
 }

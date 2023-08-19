@@ -162,4 +162,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("count", banana.Count);
         }
     }
+
 }

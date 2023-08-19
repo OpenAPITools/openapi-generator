@@ -247,4 +247,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("small_Snake", capitalization.SmallSnake);
         }
     }
+
 }

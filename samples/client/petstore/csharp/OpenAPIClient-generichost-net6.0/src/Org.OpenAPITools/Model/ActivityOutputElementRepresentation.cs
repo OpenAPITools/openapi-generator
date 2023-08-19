@@ -178,4 +178,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }
     }
+
 }

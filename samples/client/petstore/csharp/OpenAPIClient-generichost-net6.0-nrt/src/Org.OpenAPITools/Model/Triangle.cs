@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
                 {
                     string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (localVarjsonPropertyName?.Equals("triangleType") ?? false)
+                    if (localVarJsonPropertyName?.Equals("triangleType") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("EquilateralTriangle") ?? false)
@@ -277,4 +277,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
+
 }

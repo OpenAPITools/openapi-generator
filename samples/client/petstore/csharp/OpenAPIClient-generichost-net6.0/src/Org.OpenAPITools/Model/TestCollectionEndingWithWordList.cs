@@ -159,4 +159,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("value", testCollectionEndingWithWordList.Value);
         }
     }
+
 }

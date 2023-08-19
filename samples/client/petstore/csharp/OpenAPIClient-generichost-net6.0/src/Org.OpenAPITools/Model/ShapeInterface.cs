@@ -159,4 +159,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }
+
 }

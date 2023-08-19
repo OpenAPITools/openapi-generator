@@ -354,4 +354,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
         }
     }
+
 }

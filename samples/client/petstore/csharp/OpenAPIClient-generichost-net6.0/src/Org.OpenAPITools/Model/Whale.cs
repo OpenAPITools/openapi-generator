@@ -195,4 +195,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("hasTeeth", whale.HasTeeth);
         }
     }
+
 }

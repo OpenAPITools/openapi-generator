@@ -177,4 +177,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
         }
     }
+
 }

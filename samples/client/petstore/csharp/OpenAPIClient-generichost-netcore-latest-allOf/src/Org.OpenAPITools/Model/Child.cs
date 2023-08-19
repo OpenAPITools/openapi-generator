@@ -191,4 +191,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteBoolean("boosterSeat", child.BoosterSeat);
         }
     }
+
 }

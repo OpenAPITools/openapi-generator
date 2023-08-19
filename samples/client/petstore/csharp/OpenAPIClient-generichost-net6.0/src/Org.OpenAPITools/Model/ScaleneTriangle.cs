@@ -176,4 +176,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }
+
 }

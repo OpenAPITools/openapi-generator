@@ -209,4 +209,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("color", fruit.Color);
         }
     }
+
 }

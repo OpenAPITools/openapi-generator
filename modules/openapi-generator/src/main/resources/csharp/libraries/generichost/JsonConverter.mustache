@@ -68,7 +68,7 @@
                 {
                     string{{nrt?}} localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (localVarjsonPropertyName{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
+                    if (localVarJsonPropertyName{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
                     {
                         string{{nrt?}} discriminator = utf8JsonReaderDiscriminator.GetString();
                         {{#mappedModels}}

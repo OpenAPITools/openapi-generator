@@ -377,4 +377,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("string_prop", nullableClass.StringProp);
         }
     }
+
 }

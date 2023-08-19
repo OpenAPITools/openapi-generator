@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
                 {
                     string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (localVarjsonPropertyName?.Equals("className") ?? false)
+                    if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("BasquePig") ?? false)
@@ -245,4 +245,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", pig.ClassName);
         }
     }
+
 }

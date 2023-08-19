@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
                 {
                     string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (localVarjsonPropertyName?.Equals("quadrilateralType") ?? false)
+                    if (localVarJsonPropertyName?.Equals("quadrilateralType") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("ComplexQuadrilateral") ?? false)
@@ -245,4 +245,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
+
 }

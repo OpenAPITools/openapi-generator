@@ -197,4 +197,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("my_string", outerComposite.MyString);
         }
     }
+
 }

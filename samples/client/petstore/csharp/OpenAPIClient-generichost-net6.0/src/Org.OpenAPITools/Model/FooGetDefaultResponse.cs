@@ -161,4 +161,5 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
         }
     }
+
 }

@@ -159,4 +159,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", rolesReportsHashRole.Name);
         }
     }
+
 }

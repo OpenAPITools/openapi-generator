@@ -161,4 +161,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("123-list", list.Var123List);
         }
     }
+
 }
