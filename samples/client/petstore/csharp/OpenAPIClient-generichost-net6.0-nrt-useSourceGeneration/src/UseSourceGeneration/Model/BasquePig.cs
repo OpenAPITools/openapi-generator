@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public BasquePig(string className)
         {
             ClassName = className;

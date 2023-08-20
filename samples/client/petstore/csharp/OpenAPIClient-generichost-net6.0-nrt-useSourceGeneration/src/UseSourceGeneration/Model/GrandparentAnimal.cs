@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         /// <param name="petType">petType</param>
+        [JsonConstructor]
         public GrandparentAnimal(string petType)
         {
             PetType = petType;

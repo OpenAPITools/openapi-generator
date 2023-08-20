@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public DeprecatedObject(string name)
         {
             Name = name;

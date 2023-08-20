@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List</param>
+        [JsonConstructor]
         public List(string var123List)
         {
             Var123List = var123List;

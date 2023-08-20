@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="className">className</param>
         /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        [JsonConstructor]
         public Cat(string className, bool declawed, string color = @"red") : base(className, color)
         {
             Declawed = declawed;

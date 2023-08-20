@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
+        [JsonConstructor]
         public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
             ArrayEnum = arrayEnum;

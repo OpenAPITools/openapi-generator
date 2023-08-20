@@ -39,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="deprecatedRef">deprecatedRef</param>
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
+        [JsonConstructor]
         public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
         {
             Bars = bars;

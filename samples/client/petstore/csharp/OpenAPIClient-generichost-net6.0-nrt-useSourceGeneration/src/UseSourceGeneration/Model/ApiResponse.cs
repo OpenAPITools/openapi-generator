@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="code">code</param>
         /// <param name="message">message</param>
         /// <param name="type">type</param>
+        [JsonConstructor]
         public ApiResponse(int code, string message, string type)
         {
             Code = code;

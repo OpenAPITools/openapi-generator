@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
+        [JsonConstructor]
         public AppleReq(string cultivar, bool mealy)
         {
             Cultivar = cultivar;

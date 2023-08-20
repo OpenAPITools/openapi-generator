@@ -92,7 +92,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class AnotherFakeApi : IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, AnotherFakeApiEvents anotherFakeApiEvents,
-ModelClientDeserializationContext modelClientDeserializationContext,
+            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

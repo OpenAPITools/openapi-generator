@@ -34,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfString" /> class.
         /// </summary>
         /// <param name="varString"></param>
-        [JsonConstructor]
         internal OneOfString(string varString)
         {
             VarString = varString;

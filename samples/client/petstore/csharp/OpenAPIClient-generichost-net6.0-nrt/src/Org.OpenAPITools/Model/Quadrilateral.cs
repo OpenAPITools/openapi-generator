@@ -35,7 +35,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
-        [JsonConstructor]
         public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral, string quadrilateralType)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
@@ -48,7 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
-        [JsonConstructor]
         public Quadrilateral(ComplexQuadrilateral complexQuadrilateral, string quadrilateralType)
         {
             ComplexQuadrilateral = complexQuadrilateral;

@@ -395,7 +395,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class UserApi : IUserApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         private UserDeserializationContext _userDeserializationContext;
 
         /// <summary>
@@ -443,7 +442,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,
-UserDeserializationContext userDeserializationContext,
+            UserDeserializationContext userDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

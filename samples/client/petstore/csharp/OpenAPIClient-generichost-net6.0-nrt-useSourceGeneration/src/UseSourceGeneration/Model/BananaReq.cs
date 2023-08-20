@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
+        [JsonConstructor]
         public BananaReq(decimal lengthCm, bool sweet)
         {
             LengthCm = lengthCm;

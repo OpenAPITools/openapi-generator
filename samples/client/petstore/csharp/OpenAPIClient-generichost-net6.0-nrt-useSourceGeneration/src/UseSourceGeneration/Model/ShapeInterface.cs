@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
+        [JsonConstructor]
         public ShapeInterface(string shapeType)
         {
             ShapeType = shapeType;

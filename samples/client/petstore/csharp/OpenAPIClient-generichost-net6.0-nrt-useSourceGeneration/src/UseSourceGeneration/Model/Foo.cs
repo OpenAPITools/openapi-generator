@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
+        [JsonConstructor]
         public Foo(string bar = @"bar")
         {
             Bar = bar;

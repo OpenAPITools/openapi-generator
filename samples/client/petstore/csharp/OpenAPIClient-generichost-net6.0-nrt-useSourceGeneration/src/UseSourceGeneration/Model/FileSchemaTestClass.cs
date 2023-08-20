@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="file">file</param>
         /// <param name="files">files</param>
+        [JsonConstructor]
         public FileSchemaTestClass(File file, List<File> files)
         {
             File = file;

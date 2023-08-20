@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
+        [JsonConstructor]
         public ActivityOutputElementRepresentation(string prop1, Object prop2)
         {
             Prop1 = prop1;

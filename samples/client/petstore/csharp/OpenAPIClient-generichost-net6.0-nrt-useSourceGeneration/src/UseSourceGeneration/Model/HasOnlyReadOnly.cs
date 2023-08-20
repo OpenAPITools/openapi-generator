@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
+        [JsonConstructor]
         internal HasOnlyReadOnly(string bar, string foo)
         {
             Bar = bar;

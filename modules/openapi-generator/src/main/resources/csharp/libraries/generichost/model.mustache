@@ -30,7 +30,7 @@ using {{packageName}}.{{clientPackage}};
 {{/useSourceGeneration}}
 {{/useGenericHost}}
 {{#models}}
-{{#lambda.trimTrailingWhiteSpace}}
+{{#lambda.trimTrailingWithNewLine}}
 {{#model}}
 
 namespace {{packageName}}.{{modelPackage}}
@@ -45,6 +45,6 @@ namespace {{packageName}}.{{modelPackage}}
 {{/isEnum}}
 {{>SourceGenerationContext}}
 {{/model}}
-{{/lambda.trimTrailingWhiteSpace}}
+{{/lambda.trimTrailingWithNewLine}}
 {{/models}}
 }

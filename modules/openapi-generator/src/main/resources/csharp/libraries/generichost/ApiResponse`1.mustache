@@ -172,9 +172,9 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         public T{{nrt?}} AsModel()
         {
-            {{#lambda.trimTrailingWhiteSpace}}
+            {{#lambda.trimTrailingWithNewLine}}
 {{>AsModel}}
-            {{/lambda.trimTrailingWhiteSpace}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
 
         /// <summary>

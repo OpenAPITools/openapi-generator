@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
         /// <param name="varClass">varClass</param>
+        [JsonConstructor]
         public ClassModel(string varClass)
         {
             VarClass = varClass;

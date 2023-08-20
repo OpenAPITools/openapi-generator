@@ -23,7 +23,7 @@ public class IndentedLambdaTest extends LambdaTest {
     @Test
     public void indentedCountTest() {
         // Given
-        Map<String, Object> ctx = context("indented", new IndentedLambda(8, " "));
+        Map<String, Object> ctx = context("indented", new IndentedLambda(8, " ", false));
 
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.

@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString</param>
+        [JsonConstructor]
         public FooGetDefaultResponse(Foo varString)
         {
             VarString = varString;

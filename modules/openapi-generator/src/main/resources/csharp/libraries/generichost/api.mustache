@@ -71,7 +71,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// </summary>
     {{>visibility}} class {{classname}}Events
     {
-        {{#lambda.trimTrailingWhiteSpace}}
+        {{#lambda.trimTrailingWithNewLine}}
         {{#operation}}
         /// <summary>
         /// The event raised after the server response
@@ -94,7 +94,7 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         {{/operation}}
-        {{/lambda.trimTrailingWhiteSpace}}
+        {{/lambda.trimTrailingWithNewLine}}
     }
 
     /// <summary>
@@ -103,9 +103,8 @@ namespace {{packageName}}.{{apiPackage}}
     {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         {{#useSourceGeneration}}
-        {{#lambda.uniqueLines}}
+        {{#lambda.uniqueLinesWithNewLine}}
         {{#operation}}
         {{#returnProperty}}
         {{#isModel}}
@@ -115,8 +114,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/isModel}}
         {{/returnProperty}}
         {{/operation}}
-        {{/lambda.uniqueLines}}
-
+        {{/lambda.uniqueLinesWithNewLine}}
         {{/useSourceGeneration}}
 
         /// <summary>
@@ -163,24 +161,24 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#lambda.first}}{{#useSourceGeneration}}{{#operation}}{{#returnProperty}}{{#isModel}},  {{/isModel}}{{/returnProperty}}{{/operation}}{{/useSourceGeneration}}{{/lambda.first}}
-        {{#useSourceGeneration}}
-        {{#lambda.indent3}}
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#lambda.first}}{{#useSourceGeneration}}{{#operation}}{{#returnProperty}}{{#isModel}},  {{/isModel}}{{/returnProperty}}{{/operation}}{{/useSourceGeneration}}{{/lambda.first}}{{#lambda.trimTrailing}}{{#useSourceGeneration}}
+        {{#lambda.indentAll3}}
         {{#lambda.joinWithComma}}
-        {{#lambda.uniqueLines}}
+        {{#lambda.uniqueLinesWithNewLine}}
         {{#operation}}
         {{#returnProperty}}
         {{#isModel}}
         {{#returnType}}
-{{{.}}}DeserializationContext {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}}  
+            {{{.}}}DeserializationContext {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}}  
         {{/returnType}}
         {{/isModel}}
         {{/returnProperty}}
         {{/operation}}
-        {{/lambda.uniqueLines}}
+        {{/lambda.uniqueLinesWithNewLine}}
         {{/lambda.joinWithComma}}
-        {{/lambda.indent3}}
+        {{/lambda.indentAll3}}
         {{/useSourceGeneration}}
+        {{/lambda.trimTrailing}}
         {{#hasApiKeyMethods}}
 ,
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
@@ -191,7 +189,7 @@ namespace {{packageName}}.{{apiPackage}}
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             {{#useSourceGeneration}}
-            {{#lambda.uniqueLines}}
+            {{#lambda.uniqueLinesWithNewLine}}
             {{#operation}}
             {{#returnProperty}}
             {{#isModel}}
@@ -201,10 +199,9 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isModel}}
             {{/returnProperty}}
             {{/operation}}
-            {{/lambda.uniqueLines}}
-
-
+            {{/lambda.uniqueLinesWithNewLine}}
             {{/useSourceGeneration}}
+
             Logger = logger;
             HttpClient = httpClient;
             Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}
@@ -232,7 +229,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns></returns>
         private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
-            {{#lambda.trimTrailingWhiteSpace}}
+            {{#lambda.trimTrailingWithNewLine}}
             {{#vendorExtensions.x-not-nullable-reference-types}}
             {{#required}}
             {{^vendorExtensions.x-is-value-type}}
@@ -249,7 +246,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/vendorExtensions.x-is-value-type}}
             {{/required}}
             {{/vendorExtensions.x-not-nullable-reference-types}}
-            {{/lambda.trimTrailingWhiteSpace}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
 
         {{/vendorExtensions.x-has-not-nullable-reference-types}}

@@ -92,7 +92,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeClassnameTags123ApiEvents fakeClassnameTags123ApiEvents,
-ModelClientDeserializationContext modelClientDeserializationContext,
+            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

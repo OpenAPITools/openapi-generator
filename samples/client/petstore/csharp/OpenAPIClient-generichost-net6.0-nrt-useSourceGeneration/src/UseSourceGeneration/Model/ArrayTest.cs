@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
+        [JsonConstructor]
         public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;

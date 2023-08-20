@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient</param>
+        [JsonConstructor]
         public ModelClient(string varClient)
         {
             VarClient = varClient;

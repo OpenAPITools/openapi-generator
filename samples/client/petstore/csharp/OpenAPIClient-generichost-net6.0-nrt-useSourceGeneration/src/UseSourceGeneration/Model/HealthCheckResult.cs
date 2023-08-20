@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
+        [JsonConstructor]
         public HealthCheckResult(string? nullableMessage = default)
         {
             NullableMessage = nullableMessage;

@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="className">className</param>
         /// <param name="type">type</param>
+        [JsonConstructor]
         public Zebra(string className, TypeEnum type) : base()
         {
             ClassName = className;

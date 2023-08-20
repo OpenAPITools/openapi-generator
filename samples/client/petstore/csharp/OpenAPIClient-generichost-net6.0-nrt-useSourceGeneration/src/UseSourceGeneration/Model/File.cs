@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
+        [JsonConstructor]
         public File(string sourceURI)
         {
             SourceURI = sourceURI;

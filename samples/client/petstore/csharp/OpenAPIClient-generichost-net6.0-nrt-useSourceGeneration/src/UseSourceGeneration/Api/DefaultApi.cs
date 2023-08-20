@@ -174,7 +174,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         private FooGetDefaultResponseDeserializationContext _fooGetDefaultResponseDeserializationContext;
 
         /// <summary>
@@ -222,7 +221,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
-FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext,
+            FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

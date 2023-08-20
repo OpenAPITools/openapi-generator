@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
+        [JsonConstructor]
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
@@ -47,7 +48,7 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 

@@ -219,7 +219,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class StoreApi : IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
         private OrderDeserializationContext _orderDeserializationContext;
 
         /// <summary>
@@ -267,7 +266,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, StoreApiEvents storeApiEvents,
-OrderDeserializationContext orderDeserializationContext,
+            OrderDeserializationContext orderDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

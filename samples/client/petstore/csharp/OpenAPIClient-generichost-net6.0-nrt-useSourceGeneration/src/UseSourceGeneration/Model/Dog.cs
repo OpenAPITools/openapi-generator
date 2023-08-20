@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="breed">breed</param>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        [JsonConstructor]
         public Dog(string breed, string className, string color = @"red") : base(className, color)
         {
             Breed = breed;

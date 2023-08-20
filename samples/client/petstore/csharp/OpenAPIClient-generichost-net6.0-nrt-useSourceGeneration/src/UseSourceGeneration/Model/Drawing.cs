@@ -39,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="shapes">shapes</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapeOrNull">shapeOrNull</param>
+        [JsonConstructor]
         public Drawing(Shape mainShape, List<Shape> shapes, NullableShape? nullableShape = default, ShapeOrNull? shapeOrNull = default) : base()
         {
             MainShape = mainShape;

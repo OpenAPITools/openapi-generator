@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
         /// <param name="className">className</param>
+        [JsonConstructor]
         public DanishPig(string className)
         {
             ClassName = className;

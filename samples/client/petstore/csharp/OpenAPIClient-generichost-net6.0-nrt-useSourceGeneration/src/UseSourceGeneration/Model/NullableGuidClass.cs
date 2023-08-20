@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid</param>
+        [JsonConstructor]
         public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;

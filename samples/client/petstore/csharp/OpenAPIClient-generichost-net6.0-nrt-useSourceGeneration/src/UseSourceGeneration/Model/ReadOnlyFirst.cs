@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
+        [JsonConstructor]
         public ReadOnlyFirst(string bar, string baz)
         {
             Bar = bar;

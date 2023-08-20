@@ -447,9 +447,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("camelcase", new CamelCaseLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " "))
-                .put("indented_12", new IndentedLambda(12, " "))
-                .put("indented_16", new IndentedLambda(16, " "));
+                .put("indented_8", new IndentedLambda(8, " ", false))
+                .put("indented_12", new IndentedLambda(12, " ", false))
+                .put("indented_16", new IndentedLambda(16, " ", false));
     }
 
     private void registerMustacheLambdas() {

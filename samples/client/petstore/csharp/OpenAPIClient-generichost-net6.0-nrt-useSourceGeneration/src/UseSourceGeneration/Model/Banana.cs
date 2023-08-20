@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
+        [JsonConstructor]
         public Banana(decimal lengthCm)
         {
             LengthCm = lengthCm;

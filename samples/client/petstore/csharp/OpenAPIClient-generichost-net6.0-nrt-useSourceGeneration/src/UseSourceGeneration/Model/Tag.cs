@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public Tag(long id, string name)
         {
             Id = id;

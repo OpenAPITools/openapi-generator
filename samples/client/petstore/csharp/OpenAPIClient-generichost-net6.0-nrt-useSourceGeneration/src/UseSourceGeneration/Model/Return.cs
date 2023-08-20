@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="varReturn">varReturn</param>
+        [JsonConstructor]
         public Return(int varReturn)
         {
             VarReturn = varReturn;

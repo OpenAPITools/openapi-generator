@@ -41,6 +41,7 @@ namespace UseSourceGeneration.Model
         /// <param name="photoUrls">photoUrls</param>
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
+        [JsonConstructor]
         public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
             Category = category;

@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public ScaleneTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;

@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
+        [JsonConstructor]
         public Model200Response(string varClass, int name)
         {
             VarClass = varClass;

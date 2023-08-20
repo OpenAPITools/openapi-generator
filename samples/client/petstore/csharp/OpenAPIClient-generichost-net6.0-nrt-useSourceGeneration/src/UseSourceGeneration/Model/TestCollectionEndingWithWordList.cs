@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordList" /> class.
         /// </summary>
         /// <param name="value">value</param>
+        [JsonConstructor]
         public TestCollectionEndingWithWordList(string value)
         {
             Value = value;

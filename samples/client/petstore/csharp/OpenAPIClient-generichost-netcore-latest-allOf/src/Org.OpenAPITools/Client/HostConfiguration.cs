@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new AdultJsonConverter());
             _jsonOptions.Converters.Add(new ChildJsonConverter());
             _jsonOptions.Converters.Add(new PersonJsonConverter());
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
+            _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<DefaultApiEvents>();
             _services.AddTransient<IDefaultApi, DefaultApi>();

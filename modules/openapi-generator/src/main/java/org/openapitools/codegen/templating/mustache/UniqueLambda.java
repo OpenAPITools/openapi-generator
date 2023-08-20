@@ -40,9 +40,12 @@ import java.util.stream.Collectors;
  */
 public class UniqueLambda implements Mustache.Lambda {
     private final String delimiter;
+    private final boolean withNewLine;
 
-    public UniqueLambda(String delimiter) {
+    public UniqueLambda(String delimiter, boolean withNewLine)
+    {
         this.delimiter = delimiter;
+        this.withNewLine = withNewLine;
     }
 
     @Override
@@ -53,5 +56,9 @@ public class UniqueLambda implements Mustache.Lambda {
         List<String> uniqueLines = Arrays.stream(parts).distinct().collect(Collectors.toList());
 
         writer.write(String.join(delimiter, uniqueLines));
+
+        if (withNewLine) {
+            writer.write("\n");
+        }
     }
 }

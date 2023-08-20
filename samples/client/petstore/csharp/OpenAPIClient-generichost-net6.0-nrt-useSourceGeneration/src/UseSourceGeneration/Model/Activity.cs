@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Activity" /> class.
         /// </summary>
         /// <param name="activityOutputs">activityOutputs</param>
+        [JsonConstructor]
         public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs)
         {
             ActivityOutputs = activityOutputs;

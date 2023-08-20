@@ -39,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="indirectMap">indirectMap</param>
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
+        [JsonConstructor]
         public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
             DirectMap = directMap;

@@ -37,6 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
+        [JsonConstructor]
         public SpecialModelName(string varSpecialModelName, long specialPropertyName)
         {
             VarSpecialModelName = varSpecialModelName;

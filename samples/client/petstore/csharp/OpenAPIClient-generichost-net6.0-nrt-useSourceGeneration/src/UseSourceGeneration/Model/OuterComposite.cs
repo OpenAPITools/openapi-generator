@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
+        [JsonConstructor]
         public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
             MyBoolean = myBoolean;

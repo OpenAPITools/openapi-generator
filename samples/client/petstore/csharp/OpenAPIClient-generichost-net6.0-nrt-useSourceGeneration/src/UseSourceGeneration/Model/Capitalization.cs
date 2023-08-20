@@ -41,6 +41,7 @@ namespace UseSourceGeneration.Model
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
+        [JsonConstructor]
         public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
             ATT_NAME = aTTNAME;

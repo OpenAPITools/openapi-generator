@@ -41,6 +41,7 @@ namespace UseSourceGeneration.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
+        [JsonConstructor]
         public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
             Id = id;

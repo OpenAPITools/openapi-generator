@@ -39,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
+        [JsonConstructor]
         public Name(int varName, string property, int snakeCase, int var123Number)
         {
             VarName = varName;

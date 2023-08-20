@@ -38,6 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="className">className</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
+        [JsonConstructor]
         public Whale(string className, bool hasBaleen, bool hasTeeth)
         {
             ClassName = className;

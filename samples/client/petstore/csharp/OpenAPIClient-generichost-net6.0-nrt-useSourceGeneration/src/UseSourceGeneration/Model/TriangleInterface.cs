@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType</param>
+        [JsonConstructor]
         public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;

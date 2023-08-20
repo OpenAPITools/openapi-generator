@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber</param>
+        [JsonConstructor]
         public NumberOnly(decimal justNumber)
         {
             JustNumber = justNumber;

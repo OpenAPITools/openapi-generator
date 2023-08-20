@@ -36,6 +36,7 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayNumber">arrayNumber</param>
+        [JsonConstructor]
         public ArrayOfNumberOnly(List<decimal> arrayNumber)
         {
             ArrayNumber = arrayNumber;
