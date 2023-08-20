@@ -35,6 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Apple apple, string color)
         {
             Apple = apple;
@@ -47,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
+        [JsonConstructor]
         public Fruit(Banana banana, string color)
         {
             Banana = banana;

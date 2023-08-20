@@ -446,7 +446,6 @@ namespace Org.OpenAPITools.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = userApiEvents;

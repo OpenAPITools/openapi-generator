@@ -44,8 +44,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new AppleJsonConverter());
             _jsonOptions.Converters.Add(new BananaJsonConverter());
             _jsonOptions.Converters.Add(new FruitJsonConverter());
-            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
-            _services.AddSingleton(jsonSerializerOptionsProvider);
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<DefaultApiEvents>();
             _services.AddTransient<IDefaultApi, DefaultApi>();

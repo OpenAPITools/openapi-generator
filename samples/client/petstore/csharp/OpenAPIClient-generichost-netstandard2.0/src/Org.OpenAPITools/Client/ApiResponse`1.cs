@@ -144,22 +144,22 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T AsModel()
+        public T AsModel(System.Text.Json.JsonSerializerOptions options = null)
         {
             // This logic may be modified with the AsModel.mustache template
             return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
+                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
                 : default(T);
         }
 
         /// <summary>
         /// Returns true when the model can be deserialized
         /// </summary>
-        public bool TryToModel(out T model)
+        public bool TryToModel(out T model, System.Text.Json.JsonSerializerOptions options = null)
         {
             try
             {
-                model = AsModel();
+                model = AsModel(options);
                 return model != null;
             }
             catch
