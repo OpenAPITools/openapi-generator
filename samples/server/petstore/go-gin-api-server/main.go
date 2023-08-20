@@ -19,9 +19,11 @@ import (
 )
 
 func main() {
+	routes := sw.ApiHandleFunctions{}
+
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	router := sw.NewRouter(routes)
 
 	log.Fatal(router.Run(":8080"))
 }
