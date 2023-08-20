@@ -126,7 +126,11 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
-        if (PSR18.equals(library)) {
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
+        if (PSR18.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("DebugPlugin.mustache", toSrcPath(invokerPackage, srcBasePath), "DebugPlugin.php"));
         }
 
