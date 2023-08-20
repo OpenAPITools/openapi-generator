@@ -9,8 +9,3 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   nullableReferenceTypes: false
-
-# globalProperties:
-#   skipFormModel: false
-# inlineSchemaOptions:
-#   RESOLVE_INLINE_ENUMS: true

@@ -110,38 +110,8 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// The JsonSerialzierOptions
         /// </summary>
-        private System.Text.Json.JsonSerializerOptions{{#useSourceGeneration}}{{nrt?}}{{/useSourceGeneration}} _jsonSerializerOptions;
+        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
 
-        {{#useSourceGeneration}}
-        /// <summary>
-        /// The JsonTypeInfo
-        /// </summary>
-        private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>{{nrt?}} _typeInfo;
-
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="typeInfo"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> typeInfo)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _typeInfo = typeInfo;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
-
-        {{/useSourceGeneration}}
         /// <summary>
         /// Construct the response using an HttpResponseMessage
         /// </summary>
@@ -170,21 +140,19 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T{{nrt?}} AsModel()
+        public T{{nrt?}} AsModel(System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
         {
-            {{#lambda.trimTrailingWithNewLine}}
 {{>AsModel}}
-            {{/lambda.trimTrailingWithNewLine}}
         }
 
         /// <summary>
         /// Returns true when the model can be deserialized
         /// </summary>
-        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model)
+        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model, System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
         {
             try
             {
-                model = AsModel();
+                model = AsModel(options);
                 return model != null;
             }
             catch
