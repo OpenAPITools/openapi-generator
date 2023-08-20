@@ -421,7 +421,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " "))
-                .put("indent4", new IndentedLambda(16, " "));
+                .put("indent4", new IndentedLambda(16, " "))
+                .put("uniqueLines", new UniqueLambda("\n"));
     }
 
     @Override

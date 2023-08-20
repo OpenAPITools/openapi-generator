@@ -104,6 +104,21 @@ namespace {{packageName}}.{{apiPackage}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
+        {{#useSourceGeneration}}
+        {{#lambda.uniqueLines}}
+        {{#operation}}
+        {{#returnProperty}}
+        {{#isModel}}
+        {{#returnType}}
+        private {{{.}}}DeserializationContext _{{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}};
+        {{/returnType}}
+        {{/isModel}}
+        {{/returnProperty}}
+        {{/operation}}
+        {{/lambda.uniqueLines}}
+
+        {{/useSourceGeneration}}
+
         /// <summary>
         /// The logger
         /// </summary>
@@ -148,7 +163,26 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#lambda.first}}{{#useSourceGeneration}}{{#operation}}{{#returnProperty}}{{#isModel}},  {{/isModel}}{{/returnProperty}}{{/operation}}{{/useSourceGeneration}}{{/lambda.first}}
+        {{#useSourceGeneration}}
+        {{#lambda.indent3}}
+        {{#lambda.joinWithComma}}
+        {{#lambda.uniqueLines}}
+        {{#operation}}
+        {{#returnProperty}}
+        {{#isModel}}
+        {{#returnType}}
+{{{.}}}DeserializationContext {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}}  
+        {{/returnType}}
+        {{/isModel}}
+        {{/returnProperty}}
+        {{/operation}}
+        {{/lambda.uniqueLines}}
+        {{/lambda.joinWithComma}}
+        {{/lambda.indent3}}
+        {{/useSourceGeneration}}
+        {{#hasApiKeyMethods}}
+,
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -156,6 +190,21 @@ namespace {{packageName}}.{{apiPackage}}
             TokenProvider<OAuthToken> oauthTokenProvider{{/hasOAuthMethods}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            {{#useSourceGeneration}}
+            {{#lambda.uniqueLines}}
+            {{#operation}}
+            {{#returnProperty}}
+            {{#isModel}}
+            {{#returnType}}
+            _{{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}};
+            {{/returnType}}
+            {{/isModel}}
+            {{/returnProperty}}
+            {{/operation}}
+            {{/lambda.uniqueLines}}
+
+
+            {{/useSourceGeneration}}
             Logger = logger;
             HttpClient = httpClient;
             Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}
@@ -539,7 +588,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                        ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, {{^useSourceGeneration}}_jsonSerializerOptions{{/useSourceGeneration}}{{#useSourceGeneration}}{{^returnProperty}}_jsonSerializerOptions{{/returnProperty}}{{#returnProperty}}{{^isModel}}_jsonSerializerOptions{{/isModel}}{{#isModel}}{{{returnType}}}DeserializationContext.Default.{{{returnType}}}{{/isModel}}{{/returnProperty}}{{/useSourceGeneration}});
+                        ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, {{^useSourceGeneration}}_jsonSerializerOptions{{/useSourceGeneration}}{{#useSourceGeneration}}{{^returnProperty}}_jsonSerializerOptions{{/returnProperty}}{{#returnProperty}}{{^isModel}}_jsonSerializerOptions{{/isModel}}{{#isModel}}_{{#lambda.camelcase_param}}{{{returnType}}}DeserializationContext{{/lambda.camelcase_param}}.{{{returnType}}}{{/isModel}}{{/returnProperty}}{{/useSourceGeneration}});
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 

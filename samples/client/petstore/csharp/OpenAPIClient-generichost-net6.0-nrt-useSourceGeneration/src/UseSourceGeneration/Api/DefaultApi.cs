@@ -175,6 +175,8 @@ namespace UseSourceGeneration.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
+        private FooGetDefaultResponseDeserializationContext _fooGetDefaultResponseDeserializationContext;
+
         /// <summary>
         /// The logger
         /// </summary>
@@ -220,6 +222,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
+FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -227,6 +230,8 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _fooGetDefaultResponseDeserializationContext = fooGetDefaultResponseDeserializationContext;
+
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;
@@ -334,7 +339,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, FooGetDefaultResponseDeserializationContext.Default.FooGetDefaultResponse);
+                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _fooGetDefaultResponseDeserializationContext.FooGetDefaultResponse);
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 

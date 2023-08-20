@@ -451,6 +451,9 @@ namespace UseSourceGeneration.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
+        private PetDeserializationContext _petDeserializationContext;
+        private ApiResponseDeserializationContext _apiResponseDeserializationContext;
+
         /// <summary>
         /// The logger
         /// </summary>
@@ -496,6 +499,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetApiEvents petApiEvents,
+PetDeserializationContext petDeserializationContext, 
+ApiResponseDeserializationContext apiResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -503,6 +508,9 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _petDeserializationContext = petDeserializationContext;
+            _apiResponseDeserializationContext = apiResponseDeserializationContext;
+
             Logger = logger;
             HttpClient = httpClient;
             Events = petApiEvents;
@@ -1292,7 +1300,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Pet> apiResponseLocalVar = new ApiResponse<Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, PetDeserializationContext.Default.Pet);
+                        ApiResponse<Pet> apiResponseLocalVar = new ApiResponse<Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _petDeserializationContext.Pet);
 
                         AfterGetPetByIdDefaultImplementation(apiResponseLocalVar, petId);
 
@@ -1828,7 +1836,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, ApiResponseDeserializationContext.Default.ApiResponse);
+                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, _apiResponseDeserializationContext.ApiResponse);
 
                         AfterUploadFileDefaultImplementation(apiResponseLocalVar, petId, file, additionalMetadata);
 
@@ -2016,7 +2024,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, ApiResponseDeserializationContext.Default.ApiResponse);
+                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, _apiResponseDeserializationContext.ApiResponse);
 
                         AfterUploadFileWithRequiredFileDefaultImplementation(apiResponseLocalVar, requiredFile, petId, additionalMetadata);
 

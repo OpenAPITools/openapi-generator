@@ -22,24 +22,26 @@ import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Split text by 2 spaces and then return the first entry
+ * Split text by the delimiter and then write only the unique entries
  *
  * Register:
  * <pre>
- * additionalProperties.put("first", new FirstLambda());
+ * additionalProperties.put("unique", new UniqueLambda());
  * </pre>
  *
  * Use:
  * <pre>
- * {{#first}}{{name}}{{/first}}
+ * {{#unique}}{{name}}{{/unique}}
  * </pre>
  */
-public class FirstLambda implements Mustache.Lambda {
+public class UniqueLambda implements Mustache.Lambda {
     private final String delimiter;
 
-    public FirstLambda(String delimiter) {
+    public UniqueLambda(String delimiter) {
         this.delimiter = delimiter;
     }
 
@@ -48,6 +50,8 @@ public class FirstLambda implements Mustache.Lambda {
 
         String[] parts = fragment.execute().split(this.delimiter);
 
-        writer.write(Arrays.stream(parts).findFirst().orElse(""));
+        List<String> uniqueLines = Arrays.stream(parts).distinct().collect(Collectors.toList());
+
+        writer.write(String.join(delimiter, uniqueLines));
     }
 }

@@ -116,35 +116,12 @@ namespace UseSourceGeneration.Client
         /// <summary>
         /// The JsonSerialzierOptions
         /// </summary>
-        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+        private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
         /// <summary>
         /// The JsonTypeInfo
         /// </summary>
         private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>? _typeInfo;
-
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _jsonSerializerOptions = jsonSerializerOptions;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
 
         /// <summary>
         /// Construct the response using an HttpResponseMessage
@@ -166,6 +143,29 @@ namespace UseSourceGeneration.Client
             RequestUri = httpRequestMessage.RequestUri;
             RequestedAt = requestedAt;
             _typeInfo = typeInfo;
+            OnCreated(httpRequestMessage, httpResponseMessage);
+        }
+
+        /// <summary>
+        /// Construct the response using an HttpResponseMessage
+        /// </summary>
+        /// <param name="httpRequestMessage"></param>
+        /// <param name="httpResponseMessage"></param>
+        /// <param name="rawContent"></param>
+        /// <param name="path"></param>
+        /// <param name="requestedAt"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        {
+            StatusCode = httpResponseMessage.StatusCode;
+            Headers = httpResponseMessage.Headers;
+            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            ReasonPhrase = httpResponseMessage.ReasonPhrase;
+            RawContent = rawContent;
+            Path = path;
+            RequestUri = httpRequestMessage.RequestUri;
+            RequestedAt = requestedAt;
+            _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
