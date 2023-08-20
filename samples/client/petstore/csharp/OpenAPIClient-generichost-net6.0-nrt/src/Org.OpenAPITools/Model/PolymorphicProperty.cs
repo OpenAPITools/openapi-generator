@@ -34,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varBool"></param>
-        [JsonConstructor]
         internal PolymorphicProperty(bool varBool)
         {
             VarBool = varBool;
@@ -45,7 +44,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varString"></param>
-        [JsonConstructor]
         internal PolymorphicProperty(string varString)
         {
             VarString = varString;
@@ -56,7 +54,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="varObject"></param>
-        [JsonConstructor]
         internal PolymorphicProperty(Object varObject)
         {
             VarObject = varObject;
@@ -67,7 +64,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="list"></param>
-        [JsonConstructor]
         internal PolymorphicProperty(List<string> list)
         {
             List = list;

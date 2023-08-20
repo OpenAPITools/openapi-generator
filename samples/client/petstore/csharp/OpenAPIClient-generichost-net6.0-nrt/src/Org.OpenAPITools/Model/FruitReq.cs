@@ -34,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
-        [JsonConstructor]
         public FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
@@ -45,7 +44,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
-        [JsonConstructor]
         public FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;

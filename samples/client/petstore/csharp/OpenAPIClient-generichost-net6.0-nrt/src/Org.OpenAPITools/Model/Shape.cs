@@ -35,7 +35,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
-        [JsonConstructor]
         public Shape(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -48,7 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
-        [JsonConstructor]
         public Shape(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
