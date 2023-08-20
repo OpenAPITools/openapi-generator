@@ -412,18 +412,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("required", new RequiredParameterLambda().generator(this))
+                .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " ", false))
-                .put("indentAll3", new IndentedLambda(12, " ", true))
-                .put("indent4", new IndentedLambda(16, " ", false))
-                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
+                .put("indent4", new IndentedLambda(16, " ", false));
     }
 
     @Override

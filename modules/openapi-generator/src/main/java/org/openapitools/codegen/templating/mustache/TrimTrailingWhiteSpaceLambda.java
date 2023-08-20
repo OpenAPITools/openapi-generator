@@ -36,7 +36,7 @@ import com.samskivert.mustache.Template.Fragment;
  * </pre>
  */
 public class TrimTrailingWhiteSpaceLambda implements Mustache.Lambda {
-    private boolean withNewLine;
+    private final boolean withNewLine;
 
     public TrimTrailingWhiteSpaceLambda(boolean withNewLine) {
         this.withNewLine = withNewLine;
