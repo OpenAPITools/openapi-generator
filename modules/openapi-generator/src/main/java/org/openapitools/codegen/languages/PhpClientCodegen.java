@@ -86,7 +86,7 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(GUZZLE, "Guzzle");
-        supportedLibraries.put(PSR18, "psr/http-client-implementation (also known as PSR-18)");
+        supportedLibraries.put(PSR18, "psr/http-client-implementation, also known as PSR-18. (beta support)");
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         // set GUZZLE as the default
