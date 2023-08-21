@@ -66,6 +66,7 @@ Class | Method | HTTP request | Description
 
 ## Models
 
+ - [AnotherModel](docs/AnotherModel.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
  - [Order](docs/Order.md)

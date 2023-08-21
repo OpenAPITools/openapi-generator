@@ -46,6 +46,7 @@ Class | Method
 
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
+ - [MappedModel](docs/MappedModel.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)

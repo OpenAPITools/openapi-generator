@@ -18,6 +18,7 @@ include("apis/api_UserApi.jl")
 # export models
 export ApiResponse
 export Category
+export MappedModel
 export Order
 export Pet
 export Tag
