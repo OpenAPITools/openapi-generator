@@ -156,41 +156,43 @@ void FooResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& s
 void FooResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    
-    int status_code = 500;
-    _foo_get_default_response resultObject = _foo_get_default_response{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET();
-    }
-    catch(const DefaultApiException& e) {
-        std::tie(status_code, result) = handleDefaultApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 0) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "response";
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+int status_code = 500;
+_foo_get_default_response resultObject = _foo_get_default_response{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET();
+}
+catch(const DefaultApiException& e) {
+    std::tie(status_code, result) = handleDefaultApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 0) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "response";
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 

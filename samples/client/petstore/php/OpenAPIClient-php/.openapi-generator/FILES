@@ -59,6 +59,7 @@ docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/User.md
 git_push.sh
+lib/ApiException.php
 lib/Api/AnotherFakeApi.php
 lib/Api/DefaultApi.php
 lib/Api/FakeApi.php
@@ -66,7 +67,6 @@ lib/Api/FakeClassnameTags123Api.php
 lib/Api/PetApi.php
 lib/Api/StoreApi.php
 lib/Api/UserApi.php
-lib/ApiException.php
 lib/Configuration.php
 lib/HeaderSelector.php
 lib/Model/AdditionalPropertiesClass.php

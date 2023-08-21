@@ -22,28 +22,28 @@ class Pet {
     List<Tag> tags
 
     enum StatusEnum {
+
+    AVAILABLE("available"),
     
-        AVAILABLE("available"),
-        
-        PENDING("pending"),
-        
-        SOLD("sold")
+    PENDING("pending"),
     
-        private final String value
-    
-        StatusEnum(String value) {
-            this.value = value
-        }
-    
-        String getValue() {
-            value
-        }
-    
-        @Override
-        String toString() {
-            String.valueOf(value)
-        }
+    SOLD("sold")
+
+    private final String value
+
+    StatusEnum(String value) {
+        this.value = value
     }
+
+    String getValue() {
+        value
+    }
+
+    @Override
+    String toString() {
+        String.valueOf(value)
+    }
+}
 
     /* pet status in the store */
     StatusEnum status

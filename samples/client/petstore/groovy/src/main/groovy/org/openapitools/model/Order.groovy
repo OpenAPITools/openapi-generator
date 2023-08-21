@@ -16,28 +16,28 @@ class Order {
     Date shipDate
 
     enum StatusEnum {
+
+    PLACED("placed"),
     
-        PLACED("placed"),
-        
-        APPROVED("approved"),
-        
-        DELIVERED("delivered")
+    APPROVED("approved"),
     
-        private final String value
-    
-        StatusEnum(String value) {
-            this.value = value
-        }
-    
-        String getValue() {
-            value
-        }
-    
-        @Override
-        String toString() {
-            String.valueOf(value)
-        }
+    DELIVERED("delivered")
+
+    private final String value
+
+    StatusEnum(String value) {
+        this.value = value
     }
+
+    String getValue() {
+        value
+    }
+
+    @Override
+    String toString() {
+        String.valueOf(value)
+    }
+}
 
     /* Order Status */
     StatusEnum status

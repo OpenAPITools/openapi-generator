@@ -27,9 +27,9 @@ setup(
     url="",
     keywords=["OpenAPI", "OpenAPI Petstore"],
     install_requires=REQUIRES,
-    packages=find_packages("src/"),
-    package_dir={"": "src/"},
-    package_data={'': ['src//openapi/openapi.yaml']},
+    packages=find_packages("src\"),
+    package_dir={"": "src\"},
+    package_data={'': ['src\/openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['openapi_server=openapi_server.__main__:main']},

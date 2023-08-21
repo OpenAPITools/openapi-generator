@@ -156,43 +156,45 @@ void UserResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& 
 void UserResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto user = extractJsonModelBodyParam<User>(bodyContent);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_POST(user);
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 0) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "successful operation";
-    
-        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto user = extractJsonModelBodyParam<User>(bodyContent);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_POST(user);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 0) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "successful operation";
+
+    returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -267,43 +269,45 @@ void UserCreateWithArrayResource::defaultSessionClose(const std::shared_ptr<rest
 void UserCreateWithArrayResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto user = extractJsonArrayBodyParam<User>(bodyContent);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_POST(user);
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 0) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "successful operation";
-    
-        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto user = extractJsonArrayBodyParam<User>(bodyContent);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_POST(user);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 0) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "successful operation";
+
+    returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -378,43 +382,45 @@ void UserCreateWithListResource::defaultSessionClose(const std::shared_ptr<restb
 void UserCreateWithListResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto user = extractJsonArrayBodyParam<User>(bodyContent);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_POST(user);
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 0) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "successful operation";
-    
-        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto user = extractJsonArrayBodyParam<User>(bodyContent);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_POST(user);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 0) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "successful operation";
+
+    returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -495,156 +501,162 @@ void UserUsernameResource::defaultSessionClose(const std::shared_ptr<restbed::Se
 void UserUsernameResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the path params
-    std::string username = request->get_path_parameter("username", "");
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_DELETE(username);
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid username supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "User not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// Getting the path params
+std::string username = request->get_path_parameter("username", "");
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_DELETE(username);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid username supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "User not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 // x-extension
 void UserUsernameResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    // Getting the path params
-    std::string username = request->get_path_parameter("username", "");
-    
-    int status_code = 500;
-    User resultObject = User{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(username);
+// Getting the path params
+std::string username = request->get_path_parameter("username", "");
+
+int status_code = 500;
+User resultObject = User{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(username);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid username supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "User not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid username supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "User not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 // x-extension
 void UserUsernameResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto user = extractJsonModelBodyParam<User>(bodyContent);
-    // Getting the path params
-    std::string username = request->get_path_parameter("username", "");
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_PUT(username, user);
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid user supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "User not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto user = extractJsonModelBodyParam<User>(bodyContent);
+// Getting the path params
+std::string username = request->get_path_parameter("username", "");
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_PUT(username, user);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid user supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "User not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 int UserUsernameResource::handler_DELETE(
@@ -728,57 +740,59 @@ void UserLoginResource::defaultSessionClose(const std::shared_ptr<restbed::Sessi
 void UserLoginResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the query params
-    std::string username = request->get_query_parameter("username", "");
-    std::string password = request->get_query_parameter("password", "");
-    
-    int status_code = 500;
-    std::string resultObject = "";
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(username, password);
+// Getting the query params
+std::string username = request->get_query_parameter("username", "");
+std::string password = request->get_query_parameter("password", "");
+
+int status_code = 500;
+std::string resultObject = "";
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(username, password);
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject;
-        // Description: calls per hour allowed by the user
-        setResponseHeader(session, "X-Rate-Limit");
-        // Description: date in UTC when token expires
-        setResponseHeader(session, "X-Expires-After");
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid username/password supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject;
+    // Description: calls per hour allowed by the user
+    setResponseHeader(session, "X-Rate-Limit");
+    // Description: date in UTC when token expires
+    setResponseHeader(session, "X-Expires-After");
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid username/password supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -853,39 +867,41 @@ void UserLogoutResource::defaultSessionClose(const std::shared_ptr<restbed::Sess
 void UserLogoutResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_GET();
-    }
-    catch(const UserApiException& e) {
-        std::tie(status_code, result) = handleUserApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 0) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "successful operation";
-    
-        returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_GET();
+}
+catch(const UserApiException& e) {
+    std::tie(status_code, result) = handleUserApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 0) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "successful operation";
+
+    returnResponse(session, 0, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 

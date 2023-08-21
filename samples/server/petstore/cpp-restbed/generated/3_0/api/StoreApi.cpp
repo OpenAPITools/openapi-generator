@@ -159,106 +159,110 @@ void StoreOrderOrder_idResource::defaultSessionClose(const std::shared_ptr<restb
 void StoreOrderOrder_idResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the path params
-    std::string orderId = request->get_path_parameter("order_id", "");
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_DELETE(orderId);
-    }
-    catch(const StoreApiException& e) {
-        std::tie(status_code, result) = handleStoreApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid ID supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Order not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+// Getting the path params
+std::string orderId = request->get_path_parameter("order_id", "");
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_DELETE(orderId);
+}
+catch(const StoreApiException& e) {
+    std::tie(status_code, result) = handleStoreApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid ID supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Order not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 // x-extension
 void StoreOrderOrder_idResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    // Getting the path params
-    int64_t orderId = request->get_path_parameter("order_id", 0L);
-    
-    int status_code = 500;
-    Order resultObject = Order{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(orderId);
+// Getting the path params
+int64_t orderId = request->get_path_parameter("order_id", 0L);
+
+int status_code = 500;
+Order resultObject = Order{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(orderId);
+}
+catch(const StoreApiException& e) {
+    std::tie(status_code, result) = handleStoreApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const StoreApiException& e) {
-        std::tie(status_code, result) = handleStoreApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid ID supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Order not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid ID supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Order not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 int StoreOrderOrder_idResource::handler_DELETE(
@@ -337,43 +341,45 @@ void StoreInventoryResource::defaultSessionClose(const std::shared_ptr<restbed::
 void StoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    
-    int status_code = 500;
-    std::map<std::string, int32_t> resultObject = std::map<std::string, int32_t>();
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET();
+
+int status_code = 500;
+std::map<std::string, int32_t> resultObject = std::map<std::string, int32_t>();
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET();
+}
+catch(const StoreApiException& e) {
+    std::tie(status_code, result) = handleStoreApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const StoreApiException& e) {
-        std::tie(status_code, result) = handleStoreApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = convertMapResponse(resultObject);
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = convertMapResponse(resultObject);
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -448,54 +454,56 @@ void StoreOrderResource::defaultSessionClose(const std::shared_ptr<restbed::Sess
 void StoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto order = extractJsonModelBodyParam<Order>(bodyContent);
-    
-    int status_code = 500;
-    Order resultObject = Order{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_POST(order);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto order = extractJsonModelBodyParam<Order>(bodyContent);
+
+int status_code = 500;
+Order resultObject = Order{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_POST(order);
+}
+catch(const StoreApiException& e) {
+    std::tie(status_code, result) = handleStoreApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const StoreApiException& e) {
-        std::tie(status_code, result) = handleStoreApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid Order";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid Order";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 

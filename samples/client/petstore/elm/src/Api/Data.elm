@@ -48,29 +48,29 @@ import Json.Encode
 -}
 type alias ApiResponse =
     { code : Maybe Int
-    , type_ : Maybe String
-    , message : Maybe String
-    }
+, type_ : Maybe String
+, message : Maybe String
+}
 
 
 {-| A category for a pet
 -}
 type alias Category =
     { id : Maybe Int
-    , name : Maybe String
-    }
+, name : Maybe String
+}
 
 
 {-| An order for a pets from the pet store
 -}
 type alias Order_ =
     { id : Maybe Int
-    , petId : Maybe Int
-    , quantity : Maybe Int
-    , shipDate : Maybe Posix
-    , status : Maybe Order_Status
-    , complete : Maybe Bool
-    }
+, petId : Maybe Int
+, quantity : Maybe Int
+, shipDate : Maybe Posix
+, status : Maybe Order_Status
+, complete : Maybe Bool
+}
 
 
 type Order_Status
@@ -91,12 +91,12 @@ orderStatusVariants =
 -}
 type alias Pet =
     { id : Maybe Int
-    , category : Maybe Category
-    , name : String
-    , photoUrls : List String
-    , tags : Maybe ( List Tag )
-    , status : Maybe PetStatus
-    }
+, category : Maybe Category
+, name : String
+, photoUrls : List String
+, tags : Maybe ( List Tag )
+, status : Maybe PetStatus
+}
 
 
 type PetStatus
@@ -117,22 +117,22 @@ petStatusVariants =
 -}
 type alias Tag =
     { id : Maybe Int
-    , name : Maybe String
-    }
+, name : Maybe String
+}
 
 
 {-| A User who is purchasing from the pet store
 -}
 type alias User =
     { id : Maybe Int
-    , username : Maybe String
-    , firstName : Maybe String
-    , lastName : Maybe String
-    , email : Maybe String
-    , password : Maybe String
-    , phone : Maybe String
-    , userStatus : Maybe Int
-    }
+, username : Maybe String
+, firstName : Maybe String
+, lastName : Maybe String
+, email : Maybe String
+, password : Maybe String
+, phone : Maybe String
+, userStatus : Maybe Int
+}
 
 
 -- ENCODER

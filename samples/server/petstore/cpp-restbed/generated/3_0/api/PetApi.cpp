@@ -159,117 +159,121 @@ void PetResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& s
 void PetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_POST(pet);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_POST(pet);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, application/xml, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, application/xml, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 405) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid input";
-    
-        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 405) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid input";
+
+    returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 // x-extension
 void PetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_PUT(pet);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_PUT(pet);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/json, application/xml, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, application/xml, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid ID supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Pet not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 405) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Validation exception";
-    
-        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid ID supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Pet not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 405) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Validation exception";
+
+    returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 int PetResource::handler_POST(
@@ -354,161 +358,167 @@ void PetPetIdResource::defaultSessionClose(const std::shared_ptr<restbed::Sessio
 void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    // Getting the headers
-    std::string apiKey = request->get_header("api_key", "");
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_DELETE(petId, apiKey);
+// Getting the path params
+int64_t petId = request->get_path_parameter("petId", 0L);
+// Getting the headers
+std::string apiKey = request->get_header("api_key", "");
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_DELETE(petId, apiKey);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid pet value";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid pet value";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 // x-extension
 void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    
-    int status_code = 500;
-    Pet resultObject = Pet{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(petId);
+// Getting the path params
+int64_t petId = request->get_path_parameter("petId", 0L);
+
+int status_code = 500;
+Pet resultObject = Pet{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(petId);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid ID supplied";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 404) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Pet not found";
-    
-        returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid ID supplied";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 404) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Pet not found";
+
+    returnResponse(session, 404, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 // x-extension
 void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session) {
     const auto request = session->get_request();
-    auto name = boost::lexical_cast<std::string>(extractFormParamsFromBody("name", extractBodyContent(session)));
-    auto status = boost::lexical_cast<std::string>(extractFormParamsFromBody("status", extractBodyContent(session)));
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_POST(petId, name, status);
+auto name = boost::lexical_cast<std::string>(extractFormParamsFromBody("name", extractBodyContent(session)));
+auto status = boost::lexical_cast<std::string>(extractFormParamsFromBody("status", extractBodyContent(session)));
+// Getting the path params
+int64_t petId = request->get_path_parameter("petId", 0L);
+
+int status_code = 500;
+std::string result = "";
+
+try {
+    status_code =
+        handler_POST(petId, name, status);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json"
+};
+static const std::string acceptTypes{
+    "application/x-www-form-urlencoded, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/x-www-form-urlencoded, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 405) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid input";
-    
-        returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 405) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid input";
+
+    returnResponse(session, 405, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 int PetPetIdResource::handler_DELETE(
@@ -592,55 +602,57 @@ void PetFindByStatusResource::defaultSessionClose(const std::shared_ptr<restbed:
 void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the query params
-    std::string status_raw = request->get_query_parameter("status");
-    std::vector<std::string> status;
-    std::vector<std::string> status_temp;
-    boost::split(status_temp, status_raw, boost::is_any_of(","));
-    std::copy(status_temp.begin(), status_temp.end(), std::inserter(status, std::next(status.begin())));
-    
-    int status_code = 500;
-    std::vector<Pet> resultObject = std::vector<Pet>();
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(status);
+// Getting the query params
+std::string status_raw = request->get_query_parameter("status");
+std::vector<std::string> status;
+std::vector<std::string> status_temp;
+boost::split(status_temp, status_raw, boost::is_any_of(","));
+std::copy(status_temp.begin(), status_temp.end(), std::inserter(status, std::next(status.begin())));
+
+int status_code = 500;
+std::vector<Pet> resultObject = std::vector<Pet>();
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(status);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid status value";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid status value";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -715,55 +727,57 @@ void PetFindByTagsResource::defaultSessionClose(const std::shared_ptr<restbed::S
 void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // Getting the query params
-    std::string tags_raw = request->get_query_parameter("tags");
-    std::set<std::string> tags;
-    std::vector<std::string> tags_temp;
-    boost::split(tags_temp, tags_raw, boost::is_any_of(","));
-    std::copy(tags_temp.begin(), tags_temp.end(), std::inserter(tags, std::next(tags.begin())));
-    
-    int status_code = 500;
-    std::set<Pet> resultObject = std::set<Pet>();
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_GET(tags);
+// Getting the query params
+std::string tags_raw = request->get_query_parameter("tags");
+std::set<std::string> tags;
+std::vector<std::string> tags_temp;
+boost::split(tags_temp, tags_raw, boost::is_any_of(","));
+std::copy(tags_temp.begin(), tags_temp.end(), std::inserter(tags, std::next(tags.begin())));
+
+int status_code = 500;
+std::set<Pet> resultObject = std::set<Pet>();
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_GET(tags);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/xml","application/json",
+};
+static const std::string acceptTypes{
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/xml","application/json",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    if (status_code == 400) {
-        responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Invalid tag value";
-    
-        returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+if (status_code == 400) {
+    responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
+    result = "Invalid tag value";
+
+    returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -838,48 +852,50 @@ void PetPetIdUploadImageResource::defaultSessionClose(const std::shared_ptr<rest
 void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
-    auto file = boost::lexical_cast<std::string>(extractFormParamsFromBody("file", extractBodyContent(session)));
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    
-    int status_code = 500;
-    ApiResponse resultObject = ApiResponse{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_POST(petId, additionalMetadata, file);
+auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
+auto file = boost::lexical_cast<std::string>(extractFormParamsFromBody("file", extractBodyContent(session)));
+// Getting the path params
+int64_t petId = request->get_path_parameter("petId", 0L);
+
+int status_code = 500;
+ApiResponse resultObject = ApiResponse{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_POST(petId, additionalMetadata, file);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json",
+};
+static const std::string acceptTypes{
+    "multipart/form-data, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json",
-    };
-    static const std::string acceptTypes{
-        "multipart/form-data, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 
@@ -954,48 +970,50 @@ void FakePetIdUploadImageWithRequiredFileResource::defaultSessionClose(const std
 void FakePetIdUploadImageWithRequiredFileResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
-    auto requiredFile = boost::lexical_cast<std::string>(extractFormParamsFromBody("requiredFile", extractBodyContent(session)));
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    
-    int status_code = 500;
-    ApiResponse resultObject = ApiResponse{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_POST(petId, requiredFile, additionalMetadata);
+auto additionalMetadata = boost::lexical_cast<std::string>(extractFormParamsFromBody("additionalMetadata", extractBodyContent(session)));
+auto requiredFile = boost::lexical_cast<std::string>(extractFormParamsFromBody("requiredFile", extractBodyContent(session)));
+// Getting the path params
+int64_t petId = request->get_path_parameter("petId", 0L);
+
+int status_code = 500;
+ApiResponse resultObject = ApiResponse{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_POST(petId, requiredFile, additionalMetadata);
+}
+catch(const PetApiException& e) {
+    std::tie(status_code, result) = handlePetApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json",
+};
+static const std::string acceptTypes{
+    "multipart/form-data, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json",
-    };
-    static const std::string acceptTypes{
-        "multipart/form-data, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 

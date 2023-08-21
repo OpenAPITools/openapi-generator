@@ -156,47 +156,49 @@ void Fake_classname_testResource::defaultSessionClose(const std::shared_ptr<rest
 void Fake_classname_testResource::handler_PATCH_internal(const std::shared_ptr<restbed::Session> session)
 {
     const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto client = extractJsonModelBodyParam<Client>(bodyContent);
-    
-    int status_code = 500;
-    Client resultObject = Client{};
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_PATCH(client);
+// body params or form params here from the body content string
+std::string bodyContent = extractBodyContent(session);
+auto client = extractJsonModelBodyParam<Client>(bodyContent);
+
+int status_code = 500;
+Client resultObject = Client{};
+std::string result = "";
+
+try {
+    std::tie(status_code, resultObject) =
+        handler_PATCH(client);
+}
+catch(const FakeClassnameTags123ApiException& e) {
+    std::tie(status_code, result) = handleFakeClassnameTags123ApiException(e);
+}
+catch(const std::exception& e) {
+    std::tie(status_code, result) = handleStdException(e);
+}
+catch(...) {
+    std::tie(status_code, result) = handleUnspecifiedException();
+}
+
+std::multimap< std::string, std::string > responseHeaders {};
+static const std::vector<std::string> contentTypes{
+    "application/json",
+};
+static const std::string acceptTypes{
+    "application/json, "
+};
+
+if (status_code == 200) {
+    responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+    if (!acceptTypes.empty()) {
+        responseHeaders.insert(std::make_pair("Accept", acceptTypes));
     }
-    catch(const FakeClassnameTags123ApiException& e) {
-        std::tie(status_code, result) = handleFakeClassnameTags123ApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json",
-    };
-    static const std::string acceptTypes{
-        "application/json, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
+
+    result = resultObject.toJsonString();
+    returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+    return;
+}
+defaultSessionClose(session, status_code, result);
+
+
 }
 
 

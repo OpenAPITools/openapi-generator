@@ -82,33 +82,33 @@ import Json.Encode
 -}
 type alias Absent =
     { default : Maybe String
-    , required : String
-    , nullable : Maybe String
-    , requiredNullable : Maybe String
-    }
+, required : String
+, nullable : Maybe String
+, requiredNullable : Maybe String
+}
 
 
 {-| Model with arrays
 -}
 type alias Array =
     { array : List String
-    , arrayOfArray : List (List String)
-    , arrayOfPrimitive : Maybe ( List Primitive )
-    , arrayOfEnum : Maybe ( List Enum )
-    }
+, arrayOfArray : List (List String)
+, arrayOfPrimitive : Maybe ( List Primitive )
+, arrayOfEnum : Maybe ( List Enum )
+}
 
 
 {-| Composed model
 -}
 type alias Composed =
     { base : Float
-    , value : Maybe String
-    }
+, value : Maybe String
+}
 
 
 type alias ComposedBase =
     { base : Float
-    }
+}
 
 
 {-| Discriminated model
@@ -121,19 +121,19 @@ type Discriminated
 
 type alias BaseDiscriminated =
     { kind : String
-    }
+}
 
 
 type alias DiscriminatedA =
     { baseDiscriminated: BaseDiscriminated
-    , a : Maybe String
-    }
+, a : Maybe String
+}
 
 
 type alias DiscriminatedB =
     { baseDiscriminated: BaseDiscriminated
-    , b : Maybe String
-    }
+, b : Maybe String
+}
 
 
 type Enum
@@ -168,8 +168,8 @@ enumericVariants =
 -}
 type alias Maybe_ =
     { type_ : Maybe String
-    , if_ : Maybe Bool
-    }
+, if_ : Maybe Bool
+}
 
 
 {-| One of two models
@@ -182,33 +182,33 @@ type OneOf
 
 type alias OneOfA =
     { a : Maybe String
-    }
+}
 
 
 type alias OneOfB =
     { b : Maybe String
-    }
+}
 
 
 {-| Model with primitive properties
 -}
 type alias Primitive =
     { string : Maybe String
-    , number : Maybe Float
-    , float : Maybe Float
-    , double : Maybe Float
-    , integer : Maybe Int
-    , short : Maybe Int
-    , long : Maybe Int
-    , boolean : Maybe Bool
-    }
+, number : Maybe Float
+, float : Maybe Float
+, double : Maybe Float
+, integer : Maybe Int
+, short : Maybe Int
+, long : Maybe Int
+, boolean : Maybe Bool
+}
 
 
 type alias Recursion =
     { maybe : RecursionMaybe
-    , list : RecursionList
-    , ref : RecursionRef
-    }
+, list : RecursionList
+, ref : RecursionRef
+}
 
 
 type RecursionMaybe = RecursionMaybe (Maybe Recursion)
@@ -234,7 +234,7 @@ unwrapRecursionRef (RecursionRef ref) = ref
 
 type alias RecursionLoop =
     { ref : RecursionLoopRef
-    }
+}
 
 
 type RecursionLoopRef = RecursionLoopRef (Maybe Recursion)
@@ -248,13 +248,13 @@ unwrapRecursionLoopRef (RecursionLoopRef ref) = ref
 -}
 type alias UnsafeCharacters =
     { prefix : Maybe String
-    , suffix : Maybe String
-    , rnd0mTff : Maybe String
-    , before : Maybe String
-    , after : Maybe String
-    , both : Maybe String
-    , inTheMiddle : Maybe String
-    }
+, suffix : Maybe String
+, rnd0mTff : Maybe String
+, before : Maybe String
+, after : Maybe String
+, both : Maybe String
+, inTheMiddle : Maybe String
+}
 
 
 -- ENCODER
