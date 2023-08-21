@@ -156,8 +156,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 RESERVED_WORD_PREFIX_DESC,
                 this.reservedWordPrefix);
         addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
-                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
-                  Boolean.toString(this.variableNameFirstCharacterUppercase));
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -388,15 +388,15 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 s.url = server.getUrl();
                 s.variables = new ArrayList<CodegenServerVariable>();
                 ServerVariables serverVars = server.getVariables();
-                if(serverVars != null){
-                serverVars.forEach((key,value) -> {
-                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
-                    ServerVariable ServerVar = value;
-                    codegenServerVar.name = key;
-                    codegenServerVar.description = ServerVar.getDescription();
-                    codegenServerVar.defaultValue = ServerVar.getDefault();
-                    codegenServerVar.enumValues = ServerVar.getEnum();
-                    s.variables.add(codegenServerVar);
+                if (serverVars != null) {
+                    serverVars.forEach((key, value) -> {
+                        CodegenServerVariable codegenServerVar = new CodegenServerVariable();
+                        ServerVariable ServerVar = value;
+                        codegenServerVar.name = key;
+                        codegenServerVar.description = ServerVar.getDescription();
+                        codegenServerVar.defaultValue = ServerVar.getDefault();
+                        codegenServerVar.enumValues = ServerVar.getEnum();
+                        s.variables.add(codegenServerVar);
                     });
                 }
                 CodegenServerList.add(s);
@@ -410,7 +410,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             // cannot handle inheritance from maps and arrays in C++
-            if((cm.isArray || cm.isMap ) && (cm.parentModel == null)) {
+            if ((cm.isArray || cm.isMap) && (cm.parentModel == null)) {
                 cm.parent = null;
             }
         }
@@ -418,7 +418,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs){
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> models = super.postProcessAllModels(objs);
         for (final String key : models.keySet()) {
             CodegenModel mo = ModelUtils.getModelByName(key, models);
@@ -429,27 +429,27 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     private void addForwardDeclarations(CodegenModel parentModel, Map<String, ModelsMap> objs) {
         List<String> forwardDeclarations = new ArrayList<>();
-        if(!parentModel.hasVars) {
+        if (!parentModel.hasVars) {
             return;
         }
-        for(CodegenProperty property : parentModel.vars){
-            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+        for (CodegenProperty property : parentModel.vars) {
+            if (!((property.isContainer && property.mostInnerItems.isModel) || (property.isModel))) {
                 continue;
             }
-            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
-            for(final String key : objs.keySet()) {
+            String childPropertyType = property.isContainer ? property.mostInnerItems.baseType : property.baseType;
+            for (final String key : objs.keySet()) {
                 CodegenModel childModel = ModelUtils.getModelByName(key, objs);
-                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                if (!childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars) {
                     continue;
                 }
 
                 String forwardDecl = "class " + childPropertyType + ";";
-                if(!forwardDeclarations.contains(forwardDecl)) {
+                if (!forwardDeclarations.contains(forwardDecl)) {
                     forwardDeclarations.add(forwardDecl);
                 }
             }
         }
-        if(!forwardDeclarations.isEmpty()){
+        if (!forwardDeclarations.isEmpty()) {
             parentModel.vendorExtensions.put("x-has-forward-declarations", true);
             parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
         }
@@ -457,5 +457,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_PLUS_PLUS; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C_PLUS_PLUS;
+    }
 }
