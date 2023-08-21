@@ -185,18 +185,23 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String toModelName(String type) {
-        if (type == null) {
-            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
-            type = "UnknownModel";
+    public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
         }
 
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
-                || languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (name == null) {
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
+            name = "UnknownModel";
+        }
+
+        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
+                || importMapping.values().contains(name) || defaultIncludes.contains(name)
+                || languageSpecificPrimitives.contains(name)) {
+            return name;
         } else {
-            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(name.charAt(0)) + name.substring(1));
             sanitizedName = sanitizedName.replaceFirst("^([^_a-zA-Z])", reservedWordPrefix + "$1");
             return sanitizedName;
         }
@@ -209,6 +214,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
                 || languageSpecificPrimitives.contains(name)) {
@@ -252,6 +262,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             return escapeReservedWord(name);
         }
