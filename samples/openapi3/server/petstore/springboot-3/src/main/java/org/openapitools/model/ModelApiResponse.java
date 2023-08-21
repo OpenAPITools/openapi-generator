@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.xml.bind.annotation.*;
@@ -62,6 +63,7 @@ public class ModelApiResponse {
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
+  @XmlElement(name = "code")
   @JacksonXmlProperty(localName = "code")
   public Integer getCode() {
     return code;
@@ -83,6 +85,7 @@ public class ModelApiResponse {
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
+  @XmlElement(name = "type")
   @JacksonXmlProperty(localName = "type")
   public String getType() {
     return type;
@@ -104,6 +107,7 @@ public class ModelApiResponse {
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
+  @XmlElement(name = "message")
   @JacksonXmlProperty(localName = "message")
   public String getMessage() {
     return message;

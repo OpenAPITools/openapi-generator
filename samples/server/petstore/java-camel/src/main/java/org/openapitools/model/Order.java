@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.xml.bind.annotation.*;
@@ -95,6 +96,7 @@ public class Order {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @XmlElement(name = "id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
@@ -116,6 +118,7 @@ public class Order {
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
+  @XmlElement(name = "petId")
   @JacksonXmlProperty(localName = "petId")
   public Long getPetId() {
     return petId;
@@ -137,6 +140,7 @@ public class Order {
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
+  @XmlElement(name = "quantity")
   @JacksonXmlProperty(localName = "quantity")
   public Integer getQuantity() {
     return quantity;
@@ -158,6 +162,7 @@ public class Order {
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
+  @XmlElement(name = "shipDate")
   @JacksonXmlProperty(localName = "shipDate")
   public Date getShipDate() {
     return shipDate;
@@ -179,6 +184,7 @@ public class Order {
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @XmlElement(name = "status")
   @JacksonXmlProperty(localName = "status")
   public StatusEnum getStatus() {
     return status;
@@ -200,6 +206,7 @@ public class Order {
   
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
+  @XmlElement(name = "complete")
   @JacksonXmlProperty(localName = "complete")
   public Boolean getComplete() {
     return complete;

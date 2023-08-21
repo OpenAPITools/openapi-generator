@@ -233,9 +233,31 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/swagger1AnnotationLibrary}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
-  {{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/withXml}}
+    {{#withXml}}
+      {{^isContainer}}
+        {{#isXmlAttribute}}
+  @XmlAttribute({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlProperty(isAttribute = true, {{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+        {{/isXmlAttribute}}
+        {{^isXmlAttribute}}
+  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlProperty({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+        {{/isXmlAttribute}}
+      {{/isContainer}}
+      {{#isContainer}}
+        {{#items}}
+  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlProperty({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+        {{/items}}
+        {{#isXmlWrapped}}
+  @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlElementWrapper({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+        {{/isXmlWrapped}}
+        {{^isXmlWrapped}}
+  @JacksonXmlElementWrapper(useWrapping = false)
+        {{/isXmlWrapped}}
+      {{/isContainer}}
+    {{/withXml}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated

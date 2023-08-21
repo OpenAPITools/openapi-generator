@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.xml.bind.annotation.*;
@@ -75,6 +76,7 @@ public class User {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @XmlElement(name = "id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
@@ -96,6 +98,7 @@ public class User {
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
+  @XmlElement(name = "username")
   @JacksonXmlProperty(localName = "username")
   public String getUsername() {
     return username;
@@ -117,6 +120,7 @@ public class User {
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
+  @XmlElement(name = "firstName")
   @JacksonXmlProperty(localName = "firstName")
   public String getFirstName() {
     return firstName;
@@ -138,6 +142,7 @@ public class User {
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
+  @XmlElement(name = "lastName")
   @JacksonXmlProperty(localName = "lastName")
   public String getLastName() {
     return lastName;
@@ -159,6 +164,7 @@ public class User {
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
+  @XmlElement(name = "email")
   @JacksonXmlProperty(localName = "email")
   public String getEmail() {
     return email;
@@ -180,6 +186,7 @@ public class User {
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
+  @XmlElement(name = "password")
   @JacksonXmlProperty(localName = "password")
   public String getPassword() {
     return password;
@@ -201,6 +208,7 @@ public class User {
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
+  @XmlElement(name = "phone")
   @JacksonXmlProperty(localName = "phone")
   public String getPhone() {
     return phone;
@@ -222,6 +230,7 @@ public class User {
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
+  @XmlElement(name = "userStatus")
   @JacksonXmlProperty(localName = "userStatus")
   public Integer getUserStatus() {
     return userStatus;

@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.xml.bind.annotation.*;
@@ -123,6 +124,7 @@ public class Pet {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @XmlElement(name = "id")
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
@@ -144,6 +146,7 @@ public class Pet {
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
+  @XmlElement(name = "Category")
   @JacksonXmlProperty(localName = "Category")
   public Category getCategory() {
     return category;
@@ -165,6 +168,7 @@ public class Pet {
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
+  @XmlElement(name = "name")
   @JacksonXmlProperty(localName = "name")
   public String getName() {
     return name;
@@ -194,7 +198,10 @@ public class Pet {
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
-  @JacksonXmlProperty(localName = "photoUrl")
+  @XmlElement(name = "photoUrls")
+  @JacksonXmlProperty(localName = "photoUrls")
+  @XmlElementWrapper(name = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -223,7 +230,10 @@ public class Pet {
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
-  @JacksonXmlProperty(localName = "tag")
+  @XmlElement(name = "Tag")
+  @JacksonXmlProperty(localName = "Tag")
+  @XmlElementWrapper(name = "tag")
+  @JacksonXmlElementWrapper(localName = "tag")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -245,6 +255,7 @@ public class Pet {
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @XmlElement(name = "status")
   @JacksonXmlProperty(localName = "status")
   @Deprecated
   public StatusEnum getStatus() {
