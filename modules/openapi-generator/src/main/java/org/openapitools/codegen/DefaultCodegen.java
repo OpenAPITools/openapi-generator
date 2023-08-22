@@ -62,6 +62,7 @@ import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
+import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7496,72 +7497,79 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (schema == null) {
-            throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
+            SemVer version = new SemVer(this.openAPI.getOpenapi());
+            if (version.atLeast("3.0")) {
+                LOGGER.debug("Request body is null - but in OAS v3 this is allowed");
+            }
+            else {
+                throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
+            }
         }
-        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
+        else {
+            codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
 
-        if (StringUtils.isNotBlank(schema.get$ref())) {
-            name = ModelUtils.getSimpleRef(schema.get$ref());
-        }
+            if (StringUtils.isNotBlank(schema.get$ref())) {
+                name = ModelUtils.getSimpleRef(schema.get$ref());
+            }
 
-        Schema unaliasedSchema = unaliasSchema(schema);
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+            Schema unaliasedSchema = unaliasSchema(schema);
+            schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        ModelUtils.syncValidationProperties(unaliasedSchema, codegenParameter);
-        codegenParameter.setTypeProperties(unaliasedSchema);
-        codegenParameter.setComposedSchemas(getComposedSchemas(unaliasedSchema));
-        // TODO in the future switch al the below schema usages to unaliasedSchema
-        // because it keeps models as refs and will not get their referenced schemas
-        if (ModelUtils.isArraySchema(schema)) {
-            updateRequestBodyForArray(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (ModelUtils.isTypeObjectSchema(schema)) {
-            updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-            codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(schema)) { // int64/long format
-                codegenParameter.isLong = Boolean.TRUE;
-            } else {
-                codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(schema)) { // int32
-                    codegenParameter.setIsShort(Boolean.TRUE);
+            ModelUtils.syncValidationProperties(unaliasedSchema, codegenParameter);
+            codegenParameter.setTypeProperties(unaliasedSchema);
+            codegenParameter.setComposedSchemas(getComposedSchemas(unaliasedSchema));
+            // TODO in the future switch al the below schema usages to unaliasedSchema
+            // because it keeps models as refs and will not get their referenced schemas
+            if (ModelUtils.isArraySchema(schema)) {
+                updateRequestBodyForArray(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isTypeObjectSchema(schema)) {
+                updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                codegenParameter.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                    codegenParameter.isLong = Boolean.TRUE;
+                } else {
+                    codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                    if (ModelUtils.isShortSchema(schema)) { // int32
+                        codegenParameter.setIsShort(Boolean.TRUE);
+                    }
                 }
-            }
-        } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
-            // swagger v2 only, type file
-            codegenParameter.isFile = true;
-        } else if (ModelUtils.isStringSchema(schema)) {
-            updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-            codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(schema)) { // float
-                codegenParameter.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(schema)) { // double
-                codegenParameter.isDouble = Boolean.TRUE;
-            }
-        } else if (ModelUtils.isNullType(schema)) {
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isAnyType(schema)) {
-            if (ModelUtils.isMapSchema(schema)) {
-                // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-                updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
-            } else if (ModelUtils.isComposedSchema(schema)) {
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-            } else if (ModelUtils.isObjectSchema(schema)) {
-                // object type schema OR (AnyType schema with properties defined)
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
+                // swagger v2 only, type file
+                codegenParameter.isFile = true;
+            } else if (ModelUtils.isStringSchema(schema)) {
+                updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
+            } else if (ModelUtils.isNumberSchema(schema)) {
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                codegenParameter.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isFloatSchema(schema)) { // float
+                    codegenParameter.isFloat = Boolean.TRUE;
+                } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                    codegenParameter.isDouble = Boolean.TRUE;
+                }
+            } else if (ModelUtils.isNullType(schema)) {
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            } else if (ModelUtils.isAnyType(schema)) {
+                if (ModelUtils.isMapSchema(schema)) {
+                    // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
+                    updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
+                } else if (ModelUtils.isComposedSchema(schema)) {
+                    this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                } else if (ModelUtils.isObjectSchema(schema)) {
+                    // object type schema OR (AnyType schema with properties defined)
+                    this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                } else {
+                    updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                }
+                addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
             } else {
+                // referenced schemas
                 updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             }
-            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
-        } else {
-            // referenced schemas
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         }
-
 
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
