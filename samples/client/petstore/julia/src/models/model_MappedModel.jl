@@ -6,17 +6,17 @@
 to test mapping features
 
     MappedModel(;
-        another_property=nothing,
+        mappedProperty=nothing,
     )
 
-    - another_property::Int64
+    - mappedProperty::Int64
 """
 Base.@kwdef mutable struct MappedModel <: OpenAPI.APIModel
-    another_property::Union{Nothing, Int64} = nothing
+    mappedProperty::Union{Nothing, Int64} = nothing
 
-    function MappedModel(another_property, )
-        OpenAPI.validate_property(MappedModel, Symbol("another_property"), another_property)
-        return new(another_property, )
+    function MappedModel(mappedProperty, )
+        OpenAPI.validate_property(MappedModel, Symbol("another_property"), mappedProperty)
+        return new(mappedProperty, )
     end
 end # type MappedModel
 

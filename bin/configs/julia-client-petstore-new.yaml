@@ -9,4 +9,5 @@ additionalProperties:
   exportModels: "true"
 modelNameMappings:
   another_model: MappedModel
+nameMappings:
   another_property: mappedProperty 
