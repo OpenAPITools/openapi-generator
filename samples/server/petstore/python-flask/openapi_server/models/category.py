@@ -45,7 +45,7 @@ class Category(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
+    def id(self) -> int:
         """Gets the id of this Category.
 
 
@@ -55,7 +55,7 @@ class Category(Model):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(self, id: int):
         """Sets the id of this Category.
 
 
@@ -66,7 +66,7 @@ class Category(Model):
         self._id = id
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Gets the name of this Category.
 
 
@@ -76,7 +76,7 @@ class Category(Model):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(self, name: str):
         """Sets the name of this Category.
 
 
