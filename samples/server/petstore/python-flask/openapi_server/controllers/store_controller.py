@@ -1,5 +1,4 @@
 import connexion
-import six
 from typing import Dict
 from typing import Tuple
 from typing import Union
