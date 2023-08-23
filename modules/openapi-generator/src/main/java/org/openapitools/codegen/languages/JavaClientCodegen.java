@@ -96,6 +96,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
     public static final String WEBCLIENT_BLOCKING_OPERATIONS = "webclientBlockingOperations";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -137,6 +138,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useSingleRequestParameter = false;
     protected boolean webclientBlockingOperations = false;
     protected boolean generateClientAsBean = false;
+    protected boolean useEnumCaseInsensitive = false;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -225,6 +227,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey3' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -460,6 +463,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(GENERATE_CLIENT_AS_BEAN)) {
             this.setGenerateClientAsBean(convertPropertyToBooleanAndWriteBack(GENERATE_CLIENT_AS_BEAN));
         }
+
+        if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
+            this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
+        }
+        writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -1230,6 +1238,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setGenerateClientAsBean(boolean generateClientAsBean) {
         this.generateClientAsBean = generateClientAsBean;
+    }
+
+    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
+        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
     }
 
     /**
