@@ -210,6 +210,11 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         name = name.replaceAll("-", "_");
         return "api_" + camelize(name) + "Api";
@@ -231,6 +236,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             return parameterNameMapping.get(name);
         }
 
+        name = toVarName(name);
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;
         name = camelize(sanitizeName(name), camelizeOption);
         name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
