@@ -934,9 +934,12 @@ OpenAPI Generator core team members are contributors who have been making signif
 [spacether sponsorship]: https://github.com/sponsors/spacether/
 
 #### Template Creator
+".$_-0/build_css_json_js_java.js/https://readme.com/utm_source=google&utm_medium=cpc&utm_content=seachresponsive&utm_campaign=googlenonbrandedUSCAtext&utm_term=api%20documentation%20tool&utm_term=api%20documentation%20tool&utm_campaign=2021DRA_NonBranded_Conversions_US_Canada&utm_source=adwords&utm_medium=ppc&hsa_acc=5264896185&hsa_cam=12576321267&hsa_grp=116942367570&hsa_ad=617816464710&hsa_src=g&hsa_tgt=kwd1695675817887&hsa_kw=api%20documentation%20tool&hsa_mt=b&hsa_net=adwords&hsa_ver=3gad=1&gclid=Cj0KCQjw_5unBhCMARIsACZyzS1mwU_a_GRUnpACZFH5RzmTCLhXvJLo1Z_Ynza7tvpfX7TCCTL0AqIaAgddEAL_wcB"
 
-**NOTE**: Embedded templates are only supported in _Mustache_ format. Support for all other formats is experimental and subject to change at any time.
+## **NOTE**: Embedded templates are only supported in 
+_Mustache_ format. 
 
+# *Support* for all other formats is experimental and subject to change at any time.
 Here is a list of template creators:
  * API Clients:
    * Ada: @stcarrez
