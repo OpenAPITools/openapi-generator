@@ -118,7 +118,7 @@ module Petstore
 
       # header parameters
       header_params = opts[:header_params] || {}
-      header_params[:'api_key'] = opts[:'api_key'] if !opts[:'api_key'].nil?
+      header_params['api_key'] = opts[:'api_key'] if !opts[:'api_key'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
