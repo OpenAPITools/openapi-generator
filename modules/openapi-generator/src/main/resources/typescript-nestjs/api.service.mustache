@@ -87,7 +87,7 @@ export class {{classname}} {
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
+            queryParameters['{{baseName}}'] = (<any>{{paramName}}).toISOString();
         {{/isDateTime}}
         {{^isDateTime}}
             queryParameters['{{baseName}}'] = <any>{{paramName}};
