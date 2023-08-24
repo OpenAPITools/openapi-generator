@@ -351,7 +351,7 @@
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
-            {{#lambda.trimTrailingWhiteSpace}}
+            {{#lambda.trimTrailingWithNewLine}}
             {{#lambda.trimLineBreaks}}
             {{#allVars}}
             {{#isString}}
@@ -513,6 +513,6 @@
             {{/isUuid}}
             {{/allVars}}
             {{/lambda.trimLineBreaks}}
-            {{/lambda.trimTrailingWhiteSpace}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
     }
