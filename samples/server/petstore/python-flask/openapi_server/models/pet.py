@@ -69,7 +69,7 @@ class Pet(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
+    def id(self) -> int:
         """Gets the id of this Pet.
 
 
@@ -79,7 +79,7 @@ class Pet(Model):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(self, id: int):
         """Sets the id of this Pet.
 
 
@@ -90,7 +90,7 @@ class Pet(Model):
         self._id = id
 
     @property
-    def category(self):
+    def category(self) -> Category:
         """Gets the category of this Pet.
 
 
@@ -100,7 +100,7 @@ class Pet(Model):
         return self._category
 
     @category.setter
-    def category(self, category):
+    def category(self, category: Category):
         """Sets the category of this Pet.
 
 
@@ -111,7 +111,7 @@ class Pet(Model):
         self._category = category
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Gets the name of this Pet.
 
 
@@ -121,7 +121,7 @@ class Pet(Model):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(self, name: str):
         """Sets the name of this Pet.
 
 
@@ -134,7 +134,7 @@ class Pet(Model):
         self._name = name
 
     @property
-    def photo_urls(self):
+    def photo_urls(self) -> List[str]:
         """Gets the photo_urls of this Pet.
 
 
@@ -144,7 +144,7 @@ class Pet(Model):
         return self._photo_urls
 
     @photo_urls.setter
-    def photo_urls(self, photo_urls):
+    def photo_urls(self, photo_urls: List[str]):
         """Sets the photo_urls of this Pet.
 
 
@@ -157,7 +157,7 @@ class Pet(Model):
         self._photo_urls = photo_urls
 
     @property
-    def tags(self):
+    def tags(self) -> List[Tag]:
         """Gets the tags of this Pet.
 
 
@@ -167,7 +167,7 @@ class Pet(Model):
         return self._tags
 
     @tags.setter
-    def tags(self, tags):
+    def tags(self, tags: List[Tag]):
         """Sets the tags of this Pet.
 
 
@@ -178,7 +178,7 @@ class Pet(Model):
         self._tags = tags
 
     @property
-    def status(self):
+    def status(self) -> str:
         """Gets the status of this Pet.
 
         pet status in the store  # noqa: E501
@@ -189,7 +189,7 @@ class Pet(Model):
         return self._status
 
     @status.setter
-    def status(self, status):
+    def status(self, status: str):
         """Sets the status of this Pet.
 
         pet status in the store  # noqa: E501

@@ -65,7 +65,7 @@ class Order(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
+    def id(self) -> int:
         """Gets the id of this Order.
 
 
@@ -75,7 +75,7 @@ class Order(Model):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(self, id: int):
         """Sets the id of this Order.
 
 
@@ -86,7 +86,7 @@ class Order(Model):
         self._id = id
 
     @property
-    def pet_id(self):
+    def pet_id(self) -> int:
         """Gets the pet_id of this Order.
 
 
@@ -96,7 +96,7 @@ class Order(Model):
         return self._pet_id
 
     @pet_id.setter
-    def pet_id(self, pet_id):
+    def pet_id(self, pet_id: int):
         """Sets the pet_id of this Order.
 
 
@@ -107,7 +107,7 @@ class Order(Model):
         self._pet_id = pet_id
 
     @property
-    def quantity(self):
+    def quantity(self) -> int:
         """Gets the quantity of this Order.
 
 
@@ -117,7 +117,7 @@ class Order(Model):
         return self._quantity
 
     @quantity.setter
-    def quantity(self, quantity):
+    def quantity(self, quantity: int):
         """Sets the quantity of this Order.
 
 
@@ -128,7 +128,7 @@ class Order(Model):
         self._quantity = quantity
 
     @property
-    def ship_date(self):
+    def ship_date(self) -> datetime:
         """Gets the ship_date of this Order.
 
 
@@ -138,7 +138,7 @@ class Order(Model):
         return self._ship_date
 
     @ship_date.setter
-    def ship_date(self, ship_date):
+    def ship_date(self, ship_date: datetime):
         """Sets the ship_date of this Order.
 
 
@@ -149,7 +149,7 @@ class Order(Model):
         self._ship_date = ship_date
 
     @property
-    def status(self):
+    def status(self) -> str:
         """Gets the status of this Order.
 
         Order Status  # noqa: E501
@@ -160,7 +160,7 @@ class Order(Model):
         return self._status
 
     @status.setter
-    def status(self, status):
+    def status(self, status: str):
         """Sets the status of this Order.
 
         Order Status  # noqa: E501
@@ -178,7 +178,7 @@ class Order(Model):
         self._status = status
 
     @property
-    def complete(self):
+    def complete(self) -> bool:
         """Gets the complete of this Order.
 
 
@@ -188,7 +188,7 @@ class Order(Model):
         return self._complete
 
     @complete.setter
-    def complete(self, complete):
+    def complete(self, complete: bool):
         """Sets the complete of this Order.
 
 
