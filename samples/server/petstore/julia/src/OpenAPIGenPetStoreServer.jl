@@ -113,6 +113,7 @@ function register(router::HTTP.Router, impl; path_prefix::String="", optional_mi
 end
 
 # export models
+export AnotherModel
 export ApiResponse
 export Category
 export Order

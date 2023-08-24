@@ -1,6 +1,7 @@
 README.md
 docs/ApiResponse.md
 docs/Category.md
+docs/MappedModel.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -15,6 +16,7 @@ src/apis/api_UserApi.jl
 src/modelincludes.jl
 src/models/model_ApiResponse.jl
 src/models/model_Category.jl
+src/models/model_MappedModel.jl
 src/models/model_Order.jl
 src/models/model_Pet.jl
 src/models/model_Tag.jl
