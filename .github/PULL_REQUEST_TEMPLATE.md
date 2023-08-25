@@ -21,5 +21,5 @@
   ./bin/utils/ensure-up-to-date
   ``` 
   Commit all changed files.
-- [ ] File the PR against the [correct branch](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches): `master` (6.3.0) (minor release - breaking changes with fallbacks), `7.0.x` (breaking changes without fallbacks)
+- [ ] File the PR against the [correct branch](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches): `master` (7.0.1 - patch release), `7.1.x` (minor release - breaking changes with fallbacks), `8.0.x` (breaking changes without fallbacks)
 - [ ] If your PR is targeting a particular programming language, @mention the [technical committee](https://github.com/openapitools/openapi-generator/#62---openapi-generator-technical-committee) members, so they are more likely to review the pull request.
