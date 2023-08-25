@@ -30,7 +30,7 @@ assert petApi.text.contains("import org.openapitools.api.PetApiService;")
 
 File petApiService = new File(basedir, "out/src/gen/java/org/openapitools/api/PetApiService.java")
 assert petApiService.isFile()
-assert petApiService.text.contains("import javax.ws.rs.core.Response;")
+assert petApiService.text.contains("import jakarta.ws.rs.core.Response;")
 
 File petModel = new File(basedir, "out/src/gen/java/org/openapitools/model/Pet.java")
 assert petModel.isFile()
