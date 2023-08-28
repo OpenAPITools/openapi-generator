@@ -104,7 +104,7 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpecRootDirectory = "specs"
+            inputSpecRootDirectory = file("specs").absolutePath
             outputDir = file("build/kotlin").absolutePath
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
@@ -125,7 +125,7 @@ class GenerateTaskDslTest : TestBase() {
         // Act
         val result = GradleRunner.create()
             .withProjectDir(temp)
-            .withArguments("openApiGenerate")
+            .withArguments("openApiGenerate", "--stacktrace")
             .withPluginClasspath()
             .build()
 

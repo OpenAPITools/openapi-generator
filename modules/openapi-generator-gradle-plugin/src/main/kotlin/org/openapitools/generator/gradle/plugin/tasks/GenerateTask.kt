@@ -585,10 +585,20 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Suppress("unused")
     @TaskAction
     fun doWork() {
+        var resolvedInputSpec = ""
+
+        inputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
+        remoteInputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
         inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
             run {
-                inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
-                logger.info("Merge input spec would be used - {}", inputSpec.get())
+                resolvedInputSpec = MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.getOrElse("merged")).buildMergedSpec()
+                logger.info("Merge input spec would be used - {}", resolvedInputSpec)
             }
         }
 
@@ -657,6 +667,8 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
 
+            configurator.setInputSpec(resolvedInputSpec)
+
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -668,14 +680,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             skipOverwrite.ifNotEmpty { value ->
                 configurator.setSkipOverwrite(value ?: false)
-            }
-
-            inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
-            }
-
-            remoteInputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
