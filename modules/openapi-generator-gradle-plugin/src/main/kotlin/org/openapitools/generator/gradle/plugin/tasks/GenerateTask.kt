@@ -107,7 +107,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      * Local root folder with spec files
      */
     @Optional
-    @get:InputFile
+    @get:InputDirectory
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpecRootDirectory = project.objects.property<String>();
 
