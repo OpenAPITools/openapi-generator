@@ -35,7 +35,7 @@ public class AllGeneratorsTest {
 
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName(codegenConfig.getName())
-                    .setInputSpec("src/test/resources/2_0/petstore.yaml")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
                     .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
