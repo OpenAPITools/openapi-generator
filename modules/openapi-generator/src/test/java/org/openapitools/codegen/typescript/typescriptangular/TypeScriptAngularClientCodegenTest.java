@@ -226,10 +226,10 @@ public class TypeScriptAngularClientCodegenTest {
 
         final String modelName = "FooResponse__links";
         final Schema schema = new Schema()
-            .name(modelName)
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperty("self", new StringSchema());
+                .name(modelName)
+                .description("an inline model with name previously prefixed with underscore")
+                .addRequiredItem("self")
+                .addProperty("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
