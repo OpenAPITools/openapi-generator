@@ -585,10 +585,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue -> {
-            inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
-            logger.info("Merge input spec would be used - {}", inputSpec.get())
-        }}
+        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
+            run {
+                inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
+                logger.info("Merge input spec would be used - {}", inputSpec.get())
+            }
+        }
 
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
