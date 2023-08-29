@@ -114,6 +114,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
 *AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
