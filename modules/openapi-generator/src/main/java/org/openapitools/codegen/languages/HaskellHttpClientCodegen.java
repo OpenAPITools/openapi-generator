@@ -1260,7 +1260,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+                return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
