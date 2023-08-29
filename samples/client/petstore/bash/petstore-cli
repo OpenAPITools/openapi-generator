@@ -95,6 +95,7 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurrences
+operation_parameters_minimum_occurrences["call123TestSpecialTags:::uuid_test"]=1
 operation_parameters_minimum_occurrences["call123TestSpecialTags:::body"]=1
 operation_parameters_minimum_occurrences["createXmlItem:::XmlItem"]=1
 operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
@@ -178,6 +179,7 @@ operation_parameters_minimum_occurrences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurrences
+operation_parameters_maximum_occurrences["call123TestSpecialTags:::uuid_test"]=0
 operation_parameters_maximum_occurrences["call123TestSpecialTags:::body"]=0
 operation_parameters_maximum_occurrences["createXmlItem:::XmlItem"]=0
 operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
@@ -258,6 +260,7 @@ operation_parameters_maximum_occurrences["updateUser:::body"]=0
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
+operation_parameters_collection_type["call123TestSpecialTags:::uuid_test"]=""
 operation_parameters_collection_type["call123TestSpecialTags:::body"]=""
 operation_parameters_collection_type["createXmlItem:::XmlItem"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
@@ -889,6 +892,7 @@ print_call123TestSpecialTags_help() {
     echo -e "To test special tags and operation ID starting with number" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}uuid_test${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - to test uuid example value ${YELLOW}Specify as: uuid_test:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
