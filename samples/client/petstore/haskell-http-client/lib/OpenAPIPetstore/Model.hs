@@ -225,6 +225,9 @@ newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 
+-- ** UuidTest
+newtype UuidTest = UuidTest { unUuidTest :: Text } deriving (P.Eq, P.Show)
+
 -- * Models
 
 

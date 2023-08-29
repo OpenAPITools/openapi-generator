@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,24 +50,31 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(Client body) throws RestClientException {
-        return call123testSpecialTagsWithHttpInfo(body).getBody();
+    public Client call123testSpecialTags(UUID uuidTest, Client body) throws RestClientException {
+        return call123testSpecialTagsWithHttpInfo(uuidTest, body).getBody();
     }
 
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client body) throws RestClientException {
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(UUID uuidTest, Client body) throws RestClientException {
         Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuidTest' is set
+        if (uuidTest == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'uuidTest' when calling call123testSpecialTags");
+        }
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -78,6 +86,9 @@ public class AnotherFakeApi {
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        if (uuidTest != null)
+        localVarHeaderParams.add("uuid_test", apiClient.parameterToString(uuidTest));
 
         final String[] localVarAccepts = { 
             "application/json"

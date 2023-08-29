@@ -1188,6 +1188,29 @@ paths:
       tags:
       - another_fake
       x-accepts: application/json
+  /fake/parameter-array-number:
+    get:
+      operationId: getParameterArrayNumber
+      parameters:
+      - description: array integer
+        explode: false
+        in: header
+        name: array
+        required: true
+        schema:
+          default:
+          - 1
+          items:
+            type: integer
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter array number default value
+      tags:
+      - another_fake
+      x-accepts: application/json
   /values:
     get:
       description: ""

@@ -1,4 +1,5 @@
 README.md
+docs/AnotherModel.md
 docs/ApiResponse.md
 docs/Category.md
 docs/Order.md
@@ -13,6 +14,7 @@ src/apis/api_PetApi.jl
 src/apis/api_StoreApi.jl
 src/apis/api_UserApi.jl
 src/modelincludes.jl
+src/models/model_AnotherModel.jl
 src/models/model_ApiResponse.jl
 src/models/model_Category.jl
 src/models/model_Order.jl

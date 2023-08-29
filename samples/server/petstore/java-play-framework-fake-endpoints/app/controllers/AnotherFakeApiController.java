@@ -1,6 +1,7 @@
 package controllers;
 
 import apimodels.Client;
+import java.util.UUID;
 
 import com.typesafe.config.Config;
 import play.mvc.Controller;
@@ -48,7 +49,14 @@ public class AnotherFakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.call123testSpecialTagsHttp(request, body);
+        String valueuuidTest = request.header("uuid_test").orElse(null);
+        UUID uuidTest;
+        if (valueuuidTest != null) {
+            uuidTest = UUID.fromString(valueuuidTest);
+        } else {
+            throw new IllegalArgumentException("'uuid_test' parameter is required");
+        }
+        return imp.call123testSpecialTagsHttp(request, uuidTest, body);
     }
 
 }
