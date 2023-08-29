@@ -986,10 +986,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         final_values.add(element.asText());
                     });
                 } else if (schema.getDefault() instanceof Collection) {
-                    var _default = (Collection<String>) schema.getDefault();
+                    var _default = (Collection<Object>) schema.getDefault();
                     List<String> final_values = _values;
                     _default.forEach((element) -> {
-                        final_values.add(element);
+                        final_values.add(String.valueOf(element));
                     });
                 } else { // single value
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
