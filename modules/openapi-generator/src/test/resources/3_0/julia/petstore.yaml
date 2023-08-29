@@ -569,6 +569,26 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/uuid_default_value_test:
+    get:
+      tags:
+        - fake
+      summary: test uuid default value
+      description: test uuid default value
+      operationId: uuid_default_value
+      parameters:
+        - name: uuid_parameter
+          in: header
+          description: test uuid default value
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -746,3 +766,7 @@ components:
         another_property:
           type: integer
           format: int32
+        uuid_default_value:
+          type: string
+          format: uuid
+          default: 1111-2222-3333-4444

@@ -1,6 +1,7 @@
 README.md
 docs/ApiResponse.md
 docs/Category.md
+docs/FakeApi.md
 docs/MappedModel.md
 docs/Order.md
 docs/Pet.md
@@ -10,6 +11,7 @@ docs/Tag.md
 docs/User.md
 docs/UserApi.md
 src/OpenAPIGenPetStoreClient.jl
+src/apis/api_FakeApi.jl
 src/apis/api_PetApi.jl
 src/apis/api_StoreApi.jl
 src/apis/api_UserApi.jl

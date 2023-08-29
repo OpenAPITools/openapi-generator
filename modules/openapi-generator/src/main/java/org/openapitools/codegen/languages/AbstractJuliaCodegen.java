@@ -422,7 +422,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
                 return schema.getDefault().toString();
             } else if (ModelUtils.isStringSchema(schema)) {
-                String _default = (String) schema.getDefault();
+                String _default = String.valueOf(schema.getDefault());
                 return "\"" + _default + "\"";
             }
         }
