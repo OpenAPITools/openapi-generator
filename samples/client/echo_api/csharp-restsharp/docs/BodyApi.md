@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost:3000*
 |--------|--------------|-------------|
 | [**TestBinaryGif**](BodyApi.md#testbinarygif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**TestBodyApplicationOctetstreamBinary**](BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s) |
+| [**TestBodyMultipartFormdataArrayOfBinary**](BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime |
 | [**TestEchoBodyFreeFormObjectResponseString**](BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**TestEchoBodyPet**](BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**TestEchoBodyPetResponseString**](BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body |
@@ -178,6 +179,97 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/octet-stream
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testbodymultipartformdataarrayofbinary"></a>
+# **TestBodyMultipartFormdataArrayOfBinary**
+> string TestBodyMultipartFormdataArrayOfBinary (List<System.IO.Stream> files)
+
+Test array of binary in multipart mime
+
+Test array of binary in multipart mime
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestBodyMultipartFormdataArrayOfBinaryExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new BodyApi(config);
+            var files = new List<System.IO.Stream>(); // List<System.IO.Stream> | 
+
+            try
+            {
+                // Test array of binary in multipart mime
+                string result = apiInstance.TestBodyMultipartFormdataArrayOfBinary(files);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling BodyApi.TestBodyMultipartFormdataArrayOfBinary: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test array of binary in multipart mime
+    ApiResponse<string> response = apiInstance.TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling BodyApi.TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **files** | **List&lt;System.IO.Stream&gt;** |  |  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
 
 

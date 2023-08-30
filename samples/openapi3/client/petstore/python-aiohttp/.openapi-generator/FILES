@@ -3,7 +3,10 @@
 .gitlab-ci.yml
 .travis.yml
 README.md
+docs/AdditionalPropertiesAnyType.md
 docs/AdditionalPropertiesClass.md
+docs/AdditionalPropertiesObject.md
+docs/AdditionalPropertiesWithDescriptionOnly.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -22,6 +25,8 @@ docs/CircularReferenceModel.md
 docs/ClassModel.md
 docs/Client.md
 docs/Color.md
+docs/Creature.md
+docs/CreatureInfo.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
@@ -54,6 +59,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NullableProperty.md
 docs/NumberOnly.md
+docs/ObjectToTestAdditionalProperties.md
 docs/ObjectWithDeprecatedFields.md
 docs/OneOfEnumString.md
 docs/Order.md
@@ -68,6 +74,7 @@ docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/PropertyNameCollision.md
 docs/ReadOnlyFirst.md
 docs/SecondRef.md
 docs/SelfReferenceModel.md
@@ -77,6 +84,7 @@ docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/Tiger.md
 docs/User.md
 docs/UserApi.md
 docs/WithNestedOneOf.md
@@ -95,7 +103,10 @@ petstore_api/api_response.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
+petstore_api/models/additional_properties_any_type.py
 petstore_api/models/additional_properties_class.py
+petstore_api/models/additional_properties_object.py
+petstore_api/models/additional_properties_with_description_only.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
@@ -113,6 +124,8 @@ petstore_api/models/circular_reference_model.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
 petstore_api/models/color.py
+petstore_api/models/creature.py
+petstore_api/models/creature_info.py
 petstore_api/models/danish_pig.py
 petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
@@ -142,6 +155,7 @@ petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/nullable_property.py
 petstore_api/models/number_only.py
+petstore_api/models/object_to_test_additional_properties.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/one_of_enum_string.py
 petstore_api/models/order.py
@@ -155,6 +169,7 @@ petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
+petstore_api/models/property_name_collision.py
 petstore_api/models/read_only_first.py
 petstore_api/models/second_ref.py
 petstore_api/models/self_reference_model.py
@@ -163,6 +178,7 @@ petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py
+petstore_api/models/tiger.py
 petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py
 petstore_api/py.typed

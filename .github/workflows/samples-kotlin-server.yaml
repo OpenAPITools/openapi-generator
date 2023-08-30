@@ -3,10 +3,16 @@ name: Samples Kotlin server
 on:
   push:
     branches:
+      - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
+      # comment out due to gradle build failure
+      #- samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
+      - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
+      # comment out due to gradle build failure
+      # - samples/server/petstore/kotlin-spring-default/**
 
 env:
   GRADLE_VERSION: 6.9
@@ -29,7 +35,11 @@ jobs:
           - samples/server/petstore/kotlin-springboot-springfox
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/jaxrs-spec
+          - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server-modelMutable
+          - samples/server/others/kotlin-server/jaxrs-spec
+          # comment out due to gradle build failure
+          #- samples/server/petstore/kotlin-spring-default
           # no build.gradle file
           #- samples/server/petstore/kotlin-vertx-modelMutable
     steps:

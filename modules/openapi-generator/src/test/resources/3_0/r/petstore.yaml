@@ -1121,6 +1121,12 @@ components:
       required:
         - className
         - url_property
+    dummy_model:
+      description: to test the model name mapping
+      type: object
+      properties:
+        property:
+          type: string
     format_test:
       type: object
       required:
@@ -1189,3 +1195,4 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+

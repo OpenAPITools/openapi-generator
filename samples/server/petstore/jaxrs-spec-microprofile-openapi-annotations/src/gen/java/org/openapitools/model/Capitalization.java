@@ -1,12 +1,9 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -46,7 +43,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -66,7 +62,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -86,7 +81,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -106,7 +100,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -126,7 +119,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -147,7 +139,6 @@ public class Capitalization  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "Name of the pet ")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {

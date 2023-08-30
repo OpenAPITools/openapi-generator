@@ -33,7 +33,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="whale"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public Mammal(Whale whale, string className)
         {
             Whale = whale;
@@ -46,7 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zebra"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public Mammal(Zebra zebra, string className)
         {
             Zebra = zebra;
@@ -59,7 +57,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pig"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public Mammal(Pig pig, string className)
         {
             Pig = pig;
@@ -170,9 +167,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName.Equals("className"))
+                    if (localVarJsonPropertyName.Equals("className"))
                     {
                         string discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator.Equals("Pig"))
@@ -204,10 +201,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReader.GetString();
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "className":
                             className = utf8JsonReader.GetString();

@@ -183,7 +183,7 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         CodegenResponse r = super.fromResponse(responseCode, response);
         try {
             Map<String, Map<String, Map<String, Object>>> map = Json.mapper().readerFor(Map.class).readValue(Json.pretty(response.getContent()));
-            Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().get();
+            Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().orElseThrow(()-> new IllegalStateException("no response object available"));
             Map<String, Map<String, Object>> example = entry.getValue();
             r.examples = toExamples(example.get("examples"));
         } catch (Exception e) {

@@ -1286,7 +1286,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Objects.equals(property.baseType, "integer")) {
 
             BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum =  Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
 
             boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
 
@@ -1467,7 +1467,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
         /**
          * we have a custom version of this function to set isString to false for uuid
          */

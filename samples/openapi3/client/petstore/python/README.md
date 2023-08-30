@@ -96,6 +96,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fake_return_list_of_objects**](docs/FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
+*FakeApi* | [**fake_uuid_example**](docs/FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -132,7 +134,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesWithDescriptionOnly](docs/AdditionalPropertiesWithDescriptionOnly.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
  - [AnyOfColor](docs/AnyOfColor.md)
@@ -150,6 +155,8 @@ Class | Method | HTTP request | Description
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Color](docs/Color.md)
+ - [Creature](docs/Creature.md)
+ - [CreatureInfo](docs/CreatureInfo.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
@@ -179,6 +186,7 @@ Class | Method | HTTP request | Description
  - [NullableClass](docs/NullableClass.md)
  - [NullableProperty](docs/NullableProperty.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectToTestAdditionalProperties](docs/ObjectToTestAdditionalProperties.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [OneOfEnumString](docs/OneOfEnumString.md)
  - [Order](docs/Order.md)
@@ -192,6 +200,7 @@ Class | Method | HTTP request | Description
  - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SecondRef](docs/SecondRef.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)
@@ -200,6 +209,7 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [Tiger](docs/Tiger.md)
  - [User](docs/User.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 

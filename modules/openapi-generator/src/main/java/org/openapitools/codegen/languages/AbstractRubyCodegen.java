@@ -176,6 +176,11 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(final String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         String varName = sanitizeName(name);
         // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -201,6 +206,11 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
@@ -265,5 +275,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUBY; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUBY;
+    }
 }

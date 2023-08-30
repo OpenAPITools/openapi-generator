@@ -181,7 +181,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -203,7 +203,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 
@@ -251,7 +251,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -275,7 +275,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 

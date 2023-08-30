@@ -740,4 +740,55 @@ public class JSONTest {
         p.setTypeWithUnderscore("test3");
         assertEquals(json.getGson().toJson(p), "{\"_type\":\"test1\",\"type\":\"test2\",\"type_\":\"test3\"}");
     }
+
+    /**
+     * Validate a anyOf schema can be deserialized into the expected class.
+     * The anyOf schema contains primitive Types.
+     */
+    @Test
+    public void testAnyOfSchemaWithPrimitives() throws Exception {
+        {
+            // string test
+            String str = "\"just a string\"";
+            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
+            assertTrue(s.getActualInstance() instanceof String);
+            assertEquals(json.getGson().toJson(s), str);
+        }
+        {
+            // number test
+            String str = "123.45";
+            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
+            assertTrue(s.getActualInstance() instanceof BigDecimal);
+            assertEquals(json.getGson().toJson(s), str);
+        }
+        {
+            // boolean test
+            String str = "true";
+            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
+            assertTrue(s.getActualInstance() instanceof Boolean);
+            assertEquals(json.getGson().toJson(s), str);
+        }
+
+        // test no match
+        com.google.gson.JsonSyntaxException thrown = Assertions.assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+            String str = "{\"id\": 5847, \"name\":\"tag test 1\"}";
+            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
+        });
+    }
+
+    /**
+     * Test array of number in a model's property
+     */
+    @Test
+    public void testArrayOfNumber() throws Exception {
+        // no exception should be thrown
+        String str = "{\"ArrayNumber\": null}";
+        ArrayOfNumberOnly s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+
+        str = "{}";
+        s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+
+        str = "{\"ArrayNumber\": [1,2,3]}";
+        s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+    }
 }

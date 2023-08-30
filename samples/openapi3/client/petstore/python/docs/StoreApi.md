@@ -47,6 +47,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -123,6 +124,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -184,6 +186,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -252,6 +255,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
+
 
 
 ### Parameters

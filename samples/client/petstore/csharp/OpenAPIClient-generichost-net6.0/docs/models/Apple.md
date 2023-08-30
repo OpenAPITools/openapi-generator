@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ColorCode** | **string** |  | [optional] 
 **Cultivar** | **string** |  | [optional] 
 **Origin** | **string** |  | [optional] 
 

@@ -49,6 +49,8 @@ jobs:
           - samples/client/petstore/java/rest-assured-jackson
           - samples/client/petstore/java/microprofile-rest-client
           - samples/client/petstore/java/microprofile-rest-client-3.0
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/jersey1

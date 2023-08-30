@@ -1,12 +1,12 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 
-import io.swagger.annotations.*;
 
 
 import java.io.InputStream;
@@ -55,7 +55,6 @@ import javax.validation.Valid;
          scheme = "basic"
     )
 })
-@Api(description = "the another-fake API")
 @Path("/another-fake/dummy")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AnotherFakeApi {
@@ -63,10 +62,6 @@ public class AnotherFakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "call123testSpecialTags", summary = "To test special tags", description = "To test special tags and operation ID starting with number")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="$another-fake?")
@@ -75,7 +70,7 @@ public class AnotherFakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response call123testSpecialTags(@Valid @NotNull Client body) {
+    public Response call123testSpecialTags(@HeaderParam("uuid_test") @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="to test uuid example value") UUID uuidTest,@Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 }

@@ -715,3 +715,10 @@ definitions:
         type: string
       message:
         type: string
+  another_model:
+    description: to test mapping features
+    type: object
+    properties:
+      another_property:
+        type: integer
+        format: int32

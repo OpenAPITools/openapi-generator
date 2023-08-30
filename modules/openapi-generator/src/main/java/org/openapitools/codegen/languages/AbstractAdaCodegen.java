@@ -50,7 +50,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
@@ -364,11 +364,21 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toAdaIdentifier(sanitizeName(name), "P_");
     }
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toAdaIdentifier(super.toParamName(name), "P_");
     }
 
@@ -716,7 +726,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
             String dataType;
             if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
-                dataType = (String)p.vendorExtensions.get(X_ADA_TYPE_NAME);
+                dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
             } else {
                 CodegenProperty schema = p.getSchema();
                 if (schema != null) {
@@ -749,8 +759,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         CodegenProperty returnProperty = op.returnProperty;
+        CodegenProperty returnType = null;
         if (returnProperty != null) {
             CodegenProperty itemType = returnProperty.getItems();
+            returnType = itemType;
             if (itemType != null) {
                 String dataType;
                 if (itemType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
@@ -765,6 +777,73 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
                 returnProperty.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
                 returnProperty.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+            }
+        }
+
+        for (CodegenResponse rsp : op.responses) {
+
+            if (rsp.dataType != null) {
+                String dataType = rsp.dataType;
+                if (returnType != null) {
+                    if (returnType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
+                        dataType = (String) returnType.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                        rsp.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+                    }
+                    rsp.vendorExtensions.put("x-is-model-type", isModelType(returnType));
+                    rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnType));
+                    rsp.vendorExtensions.put("x-is-nullable", returnType.isNull);
+
+                    // Convert optional members to use the Nullable_<T> type.
+                    Boolean required = returnType.getHasRequired();
+                    if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                        rsp.dataType = nullableTypeMapping.get(dataType);
+                        rsp.vendorExtensions.put("x-is-required", false);
+                    } else {
+                        rsp.vendorExtensions.put("x-is-required", true);
+                    }
+                    if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                        if (returnType.isLong && !required) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        } else if (rsp.isLong && "int64".equals(returnType.dataFormat)) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                        } else {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        }
+                    }
+                    rsp.vendorExtensions.put("x-scz-return", true);
+                } else {
+                    rsp.vendorExtensions.put("x-scz-no-return", true);
+                    if (returnProperty != null) {
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                            rsp.vendorExtensions.put(X_ADA_TYPE_NAME, returnProperty.dataType);
+                        }
+                        rsp.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-nullable", returnProperty.isNull);
+
+                        // Convert optional members to use the Nullable_<T> type.
+                        Boolean required = returnProperty.getHasRequired();
+                        if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                            rsp.dataType = nullableTypeMapping.get(dataType);
+                            rsp.vendorExtensions.put("x-is-required", false);
+                        } else {
+                            rsp.vendorExtensions.put("x-is-required", true);
+                        }
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                            if (returnProperty.isLong && !required) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            } else if (rsp.isLong && "int64".equals(returnProperty.dataFormat)) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                            } else {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            }
+                        }
+                    }
+                }
+            }
+            for (CodegenProperty header : rsp.headers) {
+                header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 
@@ -814,26 +893,25 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         public int compareTo(ModelDepend second) {
 
             if (depend != null && depend.contains(second.name)) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=1");
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=1");
                 return 1;
             }
             if (second.depend != null && second.depend.contains(name)) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
                 return -1;
             }
-            if ((depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=D"
-                    + (depend.size() - second.depend.size()));
+            if (depend != null && depend.size() != (second.depend == null ? 0 : second.depend.size())) {
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=D"
+                //        + (depend.size() - second.depend.size()));
                 return depend.size() - second.depend.size();
             }
-            LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
+            //LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
             return name.compareTo(second.name);
         }
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-
         // This is run first, before the operations.
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
@@ -855,10 +933,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 String dataType = null;
                 String arrayDataType = null;
                 if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
-                    dataType = (String)p.vendorExtensions.get(X_ADA_TYPE_NAME);
+                    dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
                     LOGGER.info("Data type {} mapped to {}", p.dataType, dataType);
                 }
-                arrayDataType = (String)p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                arrayDataType = (String) p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
                 if (p.isContainer) {
                     item = p.items;
                 }
@@ -1010,7 +1088,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ADA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ADA;
+    }
 
     /**
      * Collect the scopes to generate a unique identifier for each of them.

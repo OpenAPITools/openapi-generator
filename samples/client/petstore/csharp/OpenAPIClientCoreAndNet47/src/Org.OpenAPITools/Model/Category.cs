@@ -129,7 +129,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexName.Match(this.Name).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Name, must match a pattern of " + regexName, new [] { "Name" });
-                }            }
+                }
+            }
 
             yield break;
         }

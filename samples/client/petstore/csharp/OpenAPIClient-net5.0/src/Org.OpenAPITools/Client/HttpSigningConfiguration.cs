@@ -26,7 +26,6 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public class HttpSigningConfiguration
     {
-        #region
         /// <summary>
         /// Initialize the HashAlgorithm and SigningAlgorithm to default value
         /// </summary>
@@ -35,9 +34,7 @@ namespace Org.OpenAPITools.Client
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         ///Gets the Api keyId
         /// </summary>
@@ -78,18 +75,13 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
 
-        #endregion
-
-        #region enum
         private enum PrivateKeyType
         {
             None = 0,
             RSA = 1,
             ECDSA = 2,
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Gets the Headers for HttpSigning
         /// </summary>
@@ -191,12 +183,12 @@ namespace Org.OpenAPITools.Client
 
             if (HashAlgorithm == HashAlgorithmName.SHA256)
             {
-                var bodyDigest = GetStringHash(HashAlgorithm.ToString(), requestBody);
+                var bodyDigest = GetStringHash(HashAlgorithm, requestBody);
                 Digest = string.Format("SHA-256={0}", Convert.ToBase64String(bodyDigest));
             }
             else if (HashAlgorithm == HashAlgorithmName.SHA512)
             {
-                var bodyDigest = GetStringHash(HashAlgorithm.ToString(), requestBody);
+                var bodyDigest = GetStringHash(HashAlgorithm, requestBody);
                 Digest = string.Format("SHA-512={0}", Convert.ToBase64String(bodyDigest));
             }
             else
@@ -264,7 +256,7 @@ namespace Org.OpenAPITools.Client
             }
             //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
-            var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
+            var signatureStringHash = GetStringHash(HashAlgorithm, headerValuesString);
             string headerSignatureStr = null;
             var keyType = GetKeyType(KeyString);
 
@@ -300,11 +292,27 @@ namespace Org.OpenAPITools.Client
             return HttpSignedRequestHeader;
         }
 
-        private byte[] GetStringHash(string hashName, string stringToBeHashed)
+        private byte[] GetStringHash(HashAlgorithmName hashAlgorithmName, string stringToBeHashed)
         {
-            var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(hashName);
-            var bytes = Encoding.UTF8.GetBytes(stringToBeHashed);
-            var stringHash = hashAlgorithm.ComputeHash(bytes);
+            HashAlgorithm? hashAlgorithm = null;
+
+            if (hashAlgorithmName == HashAlgorithmName.SHA1)
+                hashAlgorithm = SHA1.Create();
+
+            if (hashAlgorithmName == HashAlgorithmName.SHA256)
+                hashAlgorithm = SHA256.Create();
+
+            if (hashAlgorithmName == HashAlgorithmName.SHA512)
+                hashAlgorithm = SHA512.Create();
+
+            if (hashAlgorithmName == HashAlgorithmName.MD5)
+                hashAlgorithm = MD5.Create();
+
+            if (hashAlgorithm == null)
+                throw new NullReferenceException($"{ nameof(hashAlgorithm) } was null.");
+
+            byte[] bytes = Encoding.UTF8.GetBytes(stringToBeHashed);
+            byte[] stringHash = hashAlgorithm.ComputeHash(bytes);
             return stringHash;
         }
 
@@ -341,6 +349,9 @@ namespace Org.OpenAPITools.Client
         /// <returns>ECDSA signature</returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
+            if (!File.Exists(KeyFilePath))
+                throw new Exception("key file path does not exist.");
+
             var keyStr = KeyString;
             const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
             const string ecKeyFooter = "-----END EC PRIVATE KEY-----";
@@ -348,7 +359,6 @@ namespace Org.OpenAPITools.Client
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
 
-#if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
             var byteCount = 0;
             if (KeyPassPhrase != null)
             {
@@ -368,17 +378,13 @@ namespace Org.OpenAPITools.Client
                 }
             }
             else
-            {
                 ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
-            }
+
             var signedBytes = ecdsa.SignHash(dataToSign);
             var derBytes = ConvertToECDSAANS1Format(signedBytes);
             var signedString = System.Convert.ToBase64String(derBytes);
 
             return signedString;
-#else
-            throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
-#endif
         }
 
         private byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
@@ -669,7 +675,7 @@ namespace Org.OpenAPITools.Client
             Array.Copy(salt, 0, data00, psbytes.Length, salt.Length); //concatenate the salt bytes
 
             // ---- do multi-hashing and concatenate results  D1, D2 ...  into keymaterial bytes ----
-            MD5 md5 = new MD5CryptoServiceProvider();
+            MD5 md5 = MD5.Create();
             byte[] result = null;
             byte[] hashtarget = new byte[HASHLENGTH + data00.Length];   //fixed length initial hashtarget
 
@@ -782,6 +788,5 @@ namespace Org.OpenAPITools.Client
             }
             return apiKeyString;
         }
-        #endregion
     }
 }

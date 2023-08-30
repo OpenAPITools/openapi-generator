@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
 const replacePathParameters = (url) => url.replace(/{([^{}]+)}/g, (keyExpr, key) => `{{bundle.inputData.${key}}}`)
-const removeKeyPrefixes = (objectsArray) => objectsArray == undefined || typeof objectsArray[0] != 'object' ? objectsArray : objectsArray.map((obj) => Object.keys(obj).reduce((res, key) => (res[(key.split('.')).slice(-1)] = obj[key], res), {}))
+const removeKeyPrefixes = (objectsArray, currentPath) => objectsArray == undefined || typeof objectsArray[0] != 'object' ? objectsArray : objectsArray.map((obj) => Object.keys(obj).reduce((res, key) =>_.set(res, key.replace(`${currentPath}.`, ''), obj[key]), {}))
 const removeIfEmpty = (obj) => _.isEmpty(JSON.parse(JSON.stringify(obj))) ? undefined : obj
 const buildKeyAndLabel = (prefix, isInput = true, isArrayChild = false) => {
     const keyPrefix = !_.isEmpty(prefix) && (!isArrayChild || isInput) ? `${prefix}${isInput ? '.' : '__'}` : prefix

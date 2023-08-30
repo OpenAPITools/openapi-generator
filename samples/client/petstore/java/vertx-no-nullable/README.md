@@ -91,9 +91,10 @@ public class AnotherFakeApiExample {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+        UUID uuidTest = UUID.randomUUID(); // UUID | to test uuid example value
         Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
+            Client result = apiInstance.call123testSpecialTags(uuidTest, body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");

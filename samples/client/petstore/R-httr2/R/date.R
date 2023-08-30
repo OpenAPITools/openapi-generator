@@ -8,7 +8,7 @@
 #' @description Date Class
 #' @format An \code{R6Class} generator object
 #' @field className  character
-#' @field percent_description using \% in the description character [optional]
+#' @field percent using \% in the description character [optional]
 #' @field url_property  character
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -17,7 +17,7 @@ Date <- R6::R6Class(
   "Date",
   public = list(
     `className` = NULL,
-    `percent_description` = NULL,
+    `percent` = NULL,
     `url_property` = NULL,
     #' Initialize a new Date class.
     #'
@@ -26,10 +26,10 @@ Date <- R6::R6Class(
     #'
     #' @param className className
     #' @param url_property url_property
-    #' @param percent_description using \% in the description
+    #' @param percent using \% in the description
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`className`, `url_property`, `percent_description` = NULL, ...) {
+    initialize = function(`className`, `url_property`, `percent` = NULL, ...) {
       if (!missing(`className`)) {
         if (!(is.character(`className`) && length(`className`) == 1)) {
           stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
@@ -46,11 +46,11 @@ Date <- R6::R6Class(
         }
         self$`url_property` <- `url_property`
       }
-      if (!is.null(`percent_description`)) {
-        if (!(is.character(`percent_description`) && length(`percent_description`) == 1)) {
-          stop(paste("Error! Invalid data for `percent_description`. Must be a string:", `percent_description`))
+      if (!is.null(`percent`)) {
+        if (!(is.character(`percent`) && length(`percent`) == 1)) {
+          stop(paste("Error! Invalid data for `percent`. Must be a string:", `percent`))
         }
-        self$`percent_description` <- `percent_description`
+        self$`percent` <- `percent`
       }
     },
     #' To JSON string
@@ -66,9 +66,9 @@ Date <- R6::R6Class(
         DateObject[["className"]] <-
           self$`className`
       }
-      if (!is.null(self$`percent_description`)) {
+      if (!is.null(self$`percent`)) {
         DateObject[["percent_description"]] <-
-          self$`percent_description`
+          self$`percent`
       }
       if (!is.null(self$`url_property`)) {
         DateObject[["url_property"]] <-
@@ -90,7 +90,7 @@ Date <- R6::R6Class(
         self$`className` <- this_object$`className`
       }
       if (!is.null(this_object$`percent_description`)) {
-        self$`percent_description` <- this_object$`percent_description`
+        self$`percent` <- this_object$`percent_description`
       }
       if (!is.null(this_object$`url_property`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
@@ -118,12 +118,12 @@ Date <- R6::R6Class(
           self$`className`
           )
         },
-        if (!is.null(self$`percent_description`)) {
+        if (!is.null(self$`percent`)) {
           sprintf(
           '"percent_description":
             "%s"
                     ',
-          self$`percent_description`
+          self$`percent`
           )
         },
         if (!is.null(self$`url_property`)) {
@@ -149,7 +149,7 @@ Date <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
-      self$`percent_description` <- this_object$`percent_description`
+      self$`percent` <- this_object$`percent`
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid data for `url_property`. Must be a URL:", this_object$`url_property`))

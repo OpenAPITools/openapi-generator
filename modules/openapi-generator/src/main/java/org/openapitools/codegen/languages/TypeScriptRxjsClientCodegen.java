@@ -145,7 +145,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
 
-         return objs;
+        return objs;
     }
 
     @Override
@@ -264,10 +264,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 hasRequiredParams = true;
             }
 
-            for (CodegenParameter p: op.allParams) {
+            for (CodegenParameter p : op.allParams) {
                 String paramNameAlternative = null;
 
-                if(this.reservedParamNames.contains(p.paramName)){
+                if (this.reservedParamNames.contains(p.paramName)) {
                     paramNameAlternative = p.paramName + "Alias";
                     LOGGER.info("param: {} isReserved ––> {}", p.paramName, paramNameAlternative);
                 }

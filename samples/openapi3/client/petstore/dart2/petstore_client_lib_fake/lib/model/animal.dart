@@ -23,8 +23,8 @@ class Animal {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Animal &&
-     other.className == className &&
-     other.color == color;
+    other.className == className &&
+    other.color == color;
 
   @override
   int get hashCode =>

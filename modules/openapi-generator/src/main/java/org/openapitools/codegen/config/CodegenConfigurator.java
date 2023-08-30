@@ -72,6 +72,8 @@ public class CodegenConfigurator {
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Map<String, String> nameMappings = new HashMap<>();
+    private Map<String, String> parameterNameMappings = new HashMap<>();
+    private Map<String, String> modelNameMappings = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
@@ -127,6 +129,12 @@ public class CodegenConfigurator {
             }
             if(generatorSettings.getNameMappings() != null) {
                 configurator.nameMappings.putAll(generatorSettings.getNameMappings());
+            }
+            if(generatorSettings.getParameterNameMappings() != null) {
+                configurator.parameterNameMappings.putAll(generatorSettings.getParameterNameMappings());
+            }
+            if(generatorSettings.getModelNameMappings() != null) {
+                configurator.modelNameMappings.putAll(generatorSettings.getModelNameMappings());
             }
             if(generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
@@ -221,6 +229,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator addNameMapping(String key, String value) {
         this.nameMappings.put(key, value);
         generatorSettingsBuilder.withNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addParameterNameMapping(String key, String value) {
+        this.parameterNameMappings.put(key, value);
+        generatorSettingsBuilder.withParameterNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addModelNameMapping(String key, String value) {
+        this.modelNameMappings.put(key, value);
+        generatorSettingsBuilder.withModelNameMapping(key, value);
         return this;
     }
 
@@ -405,6 +425,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator setNameMappings(Map<String, String> nameMappings) {
         this.nameMappings = nameMappings;
         generatorSettingsBuilder.withNameMappings(nameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setParameterNameMappings(Map<String, String> parameterNameMappings) {
+        this.parameterNameMappings = parameterNameMappings;
+        generatorSettingsBuilder.withParameterNameMappings(parameterNameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setModelNameMappings(Map<String, String> modelNameMappings) {
+        this.modelNameMappings = modelNameMappings;
+        generatorSettingsBuilder.withModelNameMappings(modelNameMappings);
         return this;
     }
 
@@ -694,6 +726,8 @@ public class CodegenConfigurator {
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.inlineSchemaOption().putAll(generatorSettings.getInlineSchemaOptions());
         config.nameMapping().putAll(generatorSettings.getNameMappings());
+        config.parameterNameMapping().putAll(generatorSettings.getParameterNameMappings());
+        config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
@@ -712,8 +746,14 @@ public class CodegenConfigurator {
             config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
         }
 
+        // if library is found in additionalProperties, set the library option accordingly
+        if (config.additionalProperties().containsKey("library")) {
+            config.setLibrary(String.valueOf(config.additionalProperties().get("library")));
+        }
+
         ClientOptInput input = new ClientOptInput()
                 .config(config)
+                .generatorSettings(generatorSettings)
                 .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI)context.getSpecDocument());
