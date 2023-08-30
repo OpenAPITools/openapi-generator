@@ -369,6 +369,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             syncRootTypesWithInnerVars(allModels, model);
         }
     }
+
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
         List<CodegenProperty> allVars = new ArrayList<>();
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
@@ -388,6 +389,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
     }
+
     private final String kIsChild = "x-is-child";
     private final String kIsParent = "x-is-parent";
     private final String kIsPure = "x-is-pure";
@@ -425,7 +427,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             allAncestorsForAllModels.put(cm.getKey(), allAncestors);
             allAncestorsForAllModelsFlat.addAll(allAncestors);
         }
-
 
 
         Set<String> allPureClasses = new HashSet<>();
@@ -571,30 +572,68 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         return sub;
     }
 
-    private boolean isParentRecursive(CodegenModel codegenModel, String classname) {
-        if ((codegenModel.parent == classname) || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname)) || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname)) || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, classname))) {
+    private boolean isParentRecursive(CodegenModel codegenModel, CodegenModel parentModel, boolean acceptAllParentsNull) {
+        final String classname = parentModel.getClassname();
+        final String childClassName = codegenModel.getClassname();
+
+        if ((codegenModel.parent == classname)
+                || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname))
+                || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname))
+                || parentModel.anyOf.contains(childClassName)
+                || parentModel.oneOf.contains(childClassName)
+                || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, parentModel, false))) {
             return true;
         }
+
         return false;
+    }
+
+    /// sort the models by first putting the childModels and then the parent models
+    private Set<MappedModel> sortFilteredModels(Set<MappedModel> unSortedModels) {
+        final Set<MappedModel> sortedModels = new HashSet<MappedModel>();
+        final Set<MappedModel> notSortedModels = new HashSet<MappedModel>();
+        for (MappedModel mappedModel : unSortedModels) {
+            final CodegenModel mappedCodegenModel = mappedModel.getModel();
+            if (unSortedModels.stream().anyMatch(m -> m != mappedModel && isParentRecursive(mappedCodegenModel, m.getModel(), false))) {
+                notSortedModels.add(mappedModel);
+            } else {
+                sortedModels.add(mappedModel);
+            }
+        }
+
+        final Set<MappedModel> finishedSortedModels = new LinkedHashSet<MappedModel>();
+        if (!notSortedModels.isEmpty()) {
+            final Set<MappedModel> sortedUnsortedModels = sortFilteredModels(notSortedModels);
+            finishedSortedModels.addAll(sortedUnsortedModels);
+        }
+        finishedSortedModels.addAll(sortedModels);
+        return finishedSortedModels;
     }
 
     //  filter out all the models, which are not submodels of this model
     private void filterMappedModels(CodegenModel cm) {
+
         if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
             final CodegenDiscriminator discriminator = cm.getDiscriminator();
             final String classname = cm.getClassname();
+            LOGGER.info("anyOf " + classname + " : " + cm.anyOf);
+            LOGGER.info("oneOf " + classname + " : " + cm.oneOf);
             final Set<MappedModel> filteredModels = new HashSet<MappedModel>();
             final Set<MappedModel> removedModels = new HashSet<MappedModel>();
-            for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+            for (MappedModel mappedModel : discriminator.getMappedModels()) {
                 final CodegenModel mappedCodegenModel = mappedModel.getModel();
                 //  filter out all the models, which are not submodels of this model
-                if (isParentRecursive(mappedCodegenModel, classname)) {
+                if (isParentRecursive(mappedCodegenModel, cm, true)) {
                     filteredModels.add(mappedModel);
                 } else {
                     removedModels.add(mappedModel);
                 }
             }
-            cm.discriminator.setMappedModels(filteredModels);
+
+            // sort the models by first putting the childModels and then the parent models
+            final Set<MappedModel> sortedModels = sortFilteredModels(filteredModels);
+
+            cm.discriminator.setMappedModels(sortedModels);
 
             Set<String> filteredImports = new HashSet<>();
             for (String mImport : cm.getImports()) {
@@ -723,7 +762,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // longer in use.
             if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
                     && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                    .noneMatch(response -> response.dataType.equals("Uint8List"))) {
                 // Remove unused imports after processing
                 op.imports.remove("Uint8List");
             }
@@ -777,6 +816,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     /**
      * Adds the serializer to the global list of custom built_value serializers.
+     *
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
