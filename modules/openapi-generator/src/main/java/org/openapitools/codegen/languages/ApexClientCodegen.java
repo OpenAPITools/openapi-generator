@@ -233,8 +233,10 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(p.getDefault());
         } else if (ModelUtils.isLongSchema(p)) {
-            Long def = (Long) p.getDefault();
-            out = def == null ? out : def + "L";
+            if (p.getDefault() != null ) {
+                Long def = Long.parseLong(String.valueOf(p.getDefault()));
+                out = def == null ? out : def + "L";
+            }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);

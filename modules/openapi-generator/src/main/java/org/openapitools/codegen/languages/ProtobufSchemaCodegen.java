@@ -235,9 +235,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (allowableValues.containsKey("values")) {
-            List<String> values = (List<String>) allowableValues.get("values");
-            for (String value : values) {
-                value = prefix + "_" + value;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            for (Object value : values) {
+                value = prefix + "_" + String.valueOf(value);
             }
         }
     }
