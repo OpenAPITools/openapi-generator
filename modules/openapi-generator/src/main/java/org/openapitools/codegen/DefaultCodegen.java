@@ -7496,9 +7496,6 @@ public class DefaultCodegen implements CodegenConfig {
         String name = null;
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        if (schema == null) {
-            throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
-        }
         codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
@@ -7562,7 +7559,6 @@ public class DefaultCodegen implements CodegenConfig {
             // referenced schemas
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         }
-
 
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
