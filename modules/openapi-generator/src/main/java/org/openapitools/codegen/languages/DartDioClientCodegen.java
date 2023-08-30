@@ -576,7 +576,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final String classname = parentModel.getClassname();
         final String childClassName = codegenModel.getClassname();
 
-        if ((codegenModel.parent == classname)
+        if (classname == childClassName
+                || (codegenModel.parent == classname)
                 || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname))
                 || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname))
                 || parentModel.anyOf.contains(childClassName)
@@ -616,8 +617,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
             final CodegenDiscriminator discriminator = cm.getDiscriminator();
             final String classname = cm.getClassname();
-            LOGGER.info("anyOf " + classname + " : " + cm.anyOf);
-            LOGGER.info("oneOf " + classname + " : " + cm.oneOf);
             final Set<MappedModel> filteredModels = new HashSet<MappedModel>();
             final Set<MappedModel> removedModels = new HashSet<MappedModel>();
             for (MappedModel mappedModel : discriminator.getMappedModels()) {
@@ -626,6 +625,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 if (isParentRecursive(mappedCodegenModel, cm, true)) {
                     filteredModels.add(mappedModel);
                 } else {
+                    LOGGER.info("Removing model {} from discriminator of model {} because it is not a submodel", mappedCodegenModel.getClassname(), classname);
                     removedModels.add(mappedModel);
                 }
             }
