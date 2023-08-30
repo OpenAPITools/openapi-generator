@@ -939,5 +939,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C;
+    }
 }
