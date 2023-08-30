@@ -89,6 +89,7 @@ public class ApiClient extends JavaTimeFormatter {
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         // Prevent the authentications from being modified.
         this.authentications = Collections.unmodifiableMap(authentications);
 
@@ -697,6 +698,13 @@ public class ApiClient extends JavaTimeFormatter {
             authentications.put("http_basic_test", auth);
         }
 
+        public void addBearer_testAuthentication(String bearerToken) {
+           HttpBearerAuth auth = new
+           HttpBearerAuth("bearer");
+           auth.setBearerToken(bearerToken);
+           authentications.put("bearer_test", auth);
+        }
+
         public static AuthInfo forPetstore_authAuthentication(String accessToken) {
             AuthInfo authInfo = new AuthInfo();
             authInfo.addPetstore_authAuthentication(accessToken);
@@ -718,6 +726,12 @@ public class ApiClient extends JavaTimeFormatter {
         public static AuthInfo forHttp_basic_test(String username, String password) {
             AuthInfo authInfo = new AuthInfo();
             authInfo.addHttp_basic_testAuthentication(username, password);
+            return authInfo;
+        }
+
+        public static AuthInfo forBearer_testAuthentication(String bearerToken) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.addBearer_testAuthentication(bearerToken);
             return authInfo;
         }
     }

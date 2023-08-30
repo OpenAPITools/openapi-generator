@@ -216,9 +216,11 @@ No authorization required
 
 ## placeOrder
 
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
+
+
 
 ### Example
 
@@ -236,9 +238,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order body = new Order(); // Order | order placed for purchasing the pet
+        Order order = new Order(); // Order | order placed for purchasing the pet
         try {
-            Order result = apiInstance.placeOrder(body);
+            Order result = apiInstance.placeOrder(order);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
@@ -256,7 +258,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Order**](Order.md)| order placed for purchasing the pet | |
+| **order** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 
@@ -268,7 +270,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 
