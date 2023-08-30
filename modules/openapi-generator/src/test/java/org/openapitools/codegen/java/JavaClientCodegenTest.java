@@ -245,6 +245,26 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testImportMappingResult() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .addTypeMapping("OffsetDateTime", "Instant")
+                .addImportMapping("OffsetDateTime", "java.time.Instant")
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/QueryApi.java"), "import java.time.Instant;");
+    }
+
+    @Test
     public void testSupportedSecuritySchemesJersey() throws Exception {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);

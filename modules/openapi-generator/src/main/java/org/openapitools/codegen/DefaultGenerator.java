@@ -36,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
+import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
@@ -253,6 +254,10 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
+        if (opts != null && opts.getGeneratorSettings() != null) {
+            config.typeMapping().putAll(opts.getGeneratorSettings().getTypeMappings());
+            config.importMapping().putAll(opts.getGeneratorSettings().getImportMappings());
+        }
 
         // normalize the spec
         try {
