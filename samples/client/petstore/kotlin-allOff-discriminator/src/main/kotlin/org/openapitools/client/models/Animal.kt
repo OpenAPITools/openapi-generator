@@ -26,9 +26,15 @@ import com.squareup.moshi.JsonClass
  */
 
 
-interface Animal {
+sealed class Animal {
 
     @Json(name = "id")
     val id: java.util.UUID
 }
 
+internal object AnimalSerializer : JsonContentPolymorphicSerializer<Animal>(Animal::class) {
+    override fun selectDeserializer(element: JsonElement) = when {
+        "BIRD" in element.jsonObject["type"].toString() -> Bird.serializer()
+        else -> Animal.serializer()
+    }
+}
