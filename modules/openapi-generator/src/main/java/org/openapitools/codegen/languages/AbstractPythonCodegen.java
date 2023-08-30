@@ -353,7 +353,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // correct "&#39;"s into "'"s after toString()
         if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
-            example = (String) schema.getDefault();
+            example = String.valueOf(schema.getDefault());
         }
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {

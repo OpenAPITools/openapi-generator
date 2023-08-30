@@ -435,7 +435,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                if (Pattern.compile("\r\n|\r|\n").matcher(String.valueOf(p.getDefault())).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + p.getDefault() + "'";
