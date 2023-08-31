@@ -31,21 +31,16 @@ components:
       anyOf:
         - type: string
         - type: 'null'
-        - type: null
-        - $ref: null
     OneOfTest:
       description: to test oneOf
       oneOf:
         - type: integer
         - type: 'null'
-        - type: null
-        - $ref: null
     OneOfNullableTest:
       description: to test oneOf nullable
       oneOf:
         - type: integer
         - type: string
-        - $ref: null
     SingleAnyOfTest:
       description: to test anyOf (enum string only)
       anyOf:

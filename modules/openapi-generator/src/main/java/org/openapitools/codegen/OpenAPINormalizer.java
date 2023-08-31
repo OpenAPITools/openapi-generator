@@ -704,11 +704,14 @@ public class OpenAPINormalizer {
      */
     private boolean isNullTypeSchema(Schema schema) {
         if (schema == null) {
-            return true;
+            return false;
         }
 
-        if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-            return true;
+        if (schema.get$ref() == null) {
+            if (schema.getType() != null && schema.getType().equals("null")) {
+                return true;
+            }
+            return false;
         }
 
         // convert referenced enum of null only to `nullable:true`
