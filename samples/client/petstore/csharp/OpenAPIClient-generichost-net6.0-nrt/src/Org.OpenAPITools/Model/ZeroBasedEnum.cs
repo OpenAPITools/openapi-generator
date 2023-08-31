@@ -53,10 +53,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static ZeroBasedEnum FromString(string value)
         {
-            if (value.Equals("unknown"))
+            if (value == "unknown")
                 return ZeroBasedEnum.Unknown;
 
-            if (value.Equals("notUnknown"))
+            if (value == "notUnknown")
                 return ZeroBasedEnum.NotUnknown;
 
             throw new NotImplementedException($"Could not convert value to type ZeroBasedEnum: '{value}'");
@@ -69,10 +69,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static ZeroBasedEnum? FromStringOrDefault(string value)
         {
-            if (value.Equals("unknown"))
+            if (value == "unknown")
                 return ZeroBasedEnum.Unknown;
 
-            if (value.Equals("notUnknown"))
+            if (value == "notUnknown")
                 return ZeroBasedEnum.NotUnknown;
 
             return null;

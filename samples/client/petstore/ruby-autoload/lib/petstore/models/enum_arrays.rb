@@ -106,7 +106,7 @@ module Petstore
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      just_symbol_validator = EnumAttributeValidator.new('String', [">="])
+      just_symbol_validator = EnumAttributeValidator.new('String', [">=", "$"])
       return false unless just_symbol_validator.valid?(@just_symbol)
       true
     end
@@ -114,7 +114,7 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] just_symbol Object to be assigned
     def just_symbol=(just_symbol)
-      validator = EnumAttributeValidator.new('String', [">="])
+      validator = EnumAttributeValidator.new('String', [">=", "$"])
       unless validator.valid?(just_symbol)
         fail ArgumentError, "invalid value for \"just_symbol\", must be one of #{validator.allowable_values}."
       end

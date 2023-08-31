@@ -81,13 +81,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
-            if (value.Equals("placed"))
+            if (value == "placed")
                 return StatusEnum.Placed;
 
-            if (value.Equals("approved"))
+            if (value == "approved")
                 return StatusEnum.Approved;
 
-            if (value.Equals("delivered"))
+            if (value == "delivered")
                 return StatusEnum.Delivered;
 
             throw new NotImplementedException($"Could not convert value to type StatusEnum: '{value}'");
@@ -100,13 +100,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static StatusEnum? StatusEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("placed"))
+            if (value == "placed")
                 return StatusEnum.Placed;
 
-            if (value.Equals("approved"))
+            if (value == "approved")
                 return StatusEnum.Approved;
 
-            if (value.Equals("delivered"))
+            if (value == "delivered")
                 return StatusEnum.Delivered;
 
             return null;

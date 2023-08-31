@@ -981,7 +981,7 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_enum_parameters ...'
       end
-      allowable_values = [">"]
+      allowable_values = [">", "$"]
       if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| allowable_values.include?(item) }
         fail ArgumentError, "invalid value for \"enum_header_string_array\", must include one of #{allowable_values}"
       end
@@ -989,7 +989,7 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !allowable_values.include?(opts[:'enum_header_string'])
         fail ArgumentError, "invalid value for \"enum_header_string\", must be one of #{allowable_values}"
       end
-      allowable_values = [">"]
+      allowable_values = [">", "$"]
       if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| allowable_values.include?(item) }
         fail ArgumentError, "invalid value for \"enum_query_string_array\", must include one of #{allowable_values}"
       end
@@ -1005,7 +1005,7 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !allowable_values.include?(opts[:'enum_query_double'])
         fail ArgumentError, "invalid value for \"enum_query_double\", must be one of #{allowable_values}"
       end
-      allowable_values = [">"]
+      allowable_values = [">", "$"]
       if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| allowable_values.include?(item) }
         fail ArgumentError, "invalid value for \"enum_form_string_array\", must include one of #{allowable_values}"
       end

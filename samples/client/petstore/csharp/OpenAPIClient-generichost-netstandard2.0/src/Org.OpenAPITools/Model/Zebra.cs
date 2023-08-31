@@ -72,13 +72,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
-            if (value.Equals("plains"))
+            if (value == "plains")
                 return TypeEnum.Plains;
 
-            if (value.Equals("mountain"))
+            if (value == "mountain")
                 return TypeEnum.Mountain;
 
-            if (value.Equals("grevys"))
+            if (value == "grevys")
                 return TypeEnum.Grevys;
 
             throw new NotImplementedException($"Could not convert value to type TypeEnum: '{value}'");
@@ -91,13 +91,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static TypeEnum? TypeEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("plains"))
+            if (value == "plains")
                 return TypeEnum.Plains;
 
-            if (value.Equals("mountain"))
+            if (value == "mountain")
                 return TypeEnum.Mountain;
 
-            if (value.Equals("grevys"))
+            if (value == "grevys")
                 return TypeEnum.Grevys;
 
             return null;

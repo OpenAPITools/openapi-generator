@@ -69,10 +69,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
         {
-            if (value.Equals("fish"))
+            if (value == "fish")
                 return ArrayEnumEnum.Fish;
 
-            if (value.Equals("crab"))
+            if (value == "crab")
                 return ArrayEnumEnum.Crab;
 
             throw new NotImplementedException($"Could not convert value to type ArrayEnumEnum: '{value}'");
@@ -85,10 +85,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("fish"))
+            if (value == "fish")
                 return ArrayEnumEnum.Fish;
 
-            if (value.Equals("crab"))
+            if (value == "crab")
                 return ArrayEnumEnum.Crab;
 
             return null;
@@ -135,10 +135,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static JustSymbolEnum JustSymbolEnumFromString(string value)
         {
-            if (value.Equals(">="))
+            if (value == ">=")
                 return JustSymbolEnum.GreaterThanOrEqualTo;
 
-            if (value.Equals("$"))
+            if (value == "$")
                 return JustSymbolEnum.Dollar;
 
             throw new NotImplementedException($"Could not convert value to type JustSymbolEnum: '{value}'");
@@ -151,10 +151,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static JustSymbolEnum? JustSymbolEnumFromStringOrDefault(string value)
         {
-            if (value.Equals(">="))
+            if (value == ">=")
                 return JustSymbolEnum.GreaterThanOrEqualTo;
 
-            if (value.Equals("$"))
+            if (value == "$")
                 return JustSymbolEnum.Dollar;
 
             return null;

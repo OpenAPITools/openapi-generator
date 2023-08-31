@@ -68,8 +68,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestJsonConverter());
             _jsonOptions.Converters.Add(new EquilateralTriangleJsonConverter());
-            _jsonOptions.Converters.Add(new ErrorMessageJsonConverter());
-            _jsonOptions.Converters.Add(new ErrorMessageNullableJsonConverter());
             _jsonOptions.Converters.Add(new FileJsonConverter());
             _jsonOptions.Converters.Add(new FileSchemaTestClassJsonConverter());
             _jsonOptions.Converters.Add(new FooJsonConverter());

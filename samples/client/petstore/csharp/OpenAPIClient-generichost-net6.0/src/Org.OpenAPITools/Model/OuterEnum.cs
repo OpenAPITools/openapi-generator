@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnum FromString(string value)
         {
-            if (value.Equals("placed"))
+            if (value == "placed")
                 return OuterEnum.Placed;
 
-            if (value.Equals("approved"))
+            if (value == "approved")
                 return OuterEnum.Approved;
 
-            if (value.Equals("delivered"))
+            if (value == "delivered")
                 return OuterEnum.Delivered;
 
             throw new NotImplementedException($"Could not convert value to type OuterEnum: '{value}'");
@@ -75,13 +75,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnum? FromStringOrDefault(string value)
         {
-            if (value.Equals("placed"))
+            if (value == "placed")
                 return OuterEnum.Placed;
 
-            if (value.Equals("approved"))
+            if (value == "approved")
                 return OuterEnum.Approved;
 
-            if (value.Equals("delivered"))
+            if (value == "delivered")
                 return OuterEnum.Delivered;
 
             return null;

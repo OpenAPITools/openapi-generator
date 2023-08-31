@@ -91,8 +91,8 @@ std::string EnumArrays::getJustSymbol() const
 
 void EnumArrays::setJustSymbol(std::string value)
 {
-    static const std::array<std::string, 1> allowedValues = {
-        ">="
+    static const std::array<std::string, 2> allowedValues = {
+        ">=", "$"
     };
 
     if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {

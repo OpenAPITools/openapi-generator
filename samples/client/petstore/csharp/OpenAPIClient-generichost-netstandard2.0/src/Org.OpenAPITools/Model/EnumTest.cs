@@ -81,10 +81,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerEnum EnumIntegerEnumFromString(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value == (1).ToString())
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value == (-1).ToString())
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerEnum: '{value}'");
@@ -97,10 +97,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerEnum? EnumIntegerEnumFromStringOrDefault(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value == (1).ToString())
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value == (-1).ToString())
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             return null;
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerOnlyEnum EnumIntegerOnlyEnumFromString(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value == (2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value == (-2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerOnlyEnum: '{value}'");
@@ -162,10 +162,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerOnlyEnum? EnumIntegerOnlyEnumFromStringOrDefault(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value == (2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value == (-2).ToString())
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             return null;
@@ -211,10 +211,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumNumberEnum EnumNumberEnumFromString(string value)
         {
-            if (value.Equals("1.1"))
+            if (value == "1.1")
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value == "-1.2")
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumNumberEnum: '{value}'");
@@ -227,10 +227,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumNumberEnum? EnumNumberEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("1.1"))
+            if (value == "1.1")
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value == "-1.2")
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             return null;
@@ -288,13 +288,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumStringEnum EnumStringEnumFromString(string value)
         {
-            if (value.Equals("UPPER"))
+            if (value == "UPPER")
                 return EnumStringEnum.UPPER;
 
-            if (value.Equals("lower"))
+            if (value == "lower")
                 return EnumStringEnum.Lower;
 
-            if (value.Equals(""))
+            if (value == "")
                 return EnumStringEnum.Empty;
 
             throw new NotImplementedException($"Could not convert value to type EnumStringEnum: '{value}'");
@@ -307,13 +307,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumStringEnum? EnumStringEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("UPPER"))
+            if (value == "UPPER")
                 return EnumStringEnum.UPPER;
 
-            if (value.Equals("lower"))
+            if (value == "lower")
                 return EnumStringEnum.Lower;
 
-            if (value.Equals(""))
+            if (value == "")
                 return EnumStringEnum.Empty;
 
             return null;
@@ -374,13 +374,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumStringRequiredEnum EnumStringRequiredEnumFromString(string value)
         {
-            if (value.Equals("UPPER"))
+            if (value == "UPPER")
                 return EnumStringRequiredEnum.UPPER;
 
-            if (value.Equals("lower"))
+            if (value == "lower")
                 return EnumStringRequiredEnum.Lower;
 
-            if (value.Equals(""))
+            if (value == "")
                 return EnumStringRequiredEnum.Empty;
 
             throw new NotImplementedException($"Could not convert value to type EnumStringRequiredEnum: '{value}'");
@@ -393,13 +393,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumStringRequiredEnum? EnumStringRequiredEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("UPPER"))
+            if (value == "UPPER")
                 return EnumStringRequiredEnum.UPPER;
 
-            if (value.Equals("lower"))
+            if (value == "lower")
                 return EnumStringRequiredEnum.Lower;
 
-            if (value.Equals(""))
+            if (value == "")
                 return EnumStringRequiredEnum.Empty;
 
             return null;
