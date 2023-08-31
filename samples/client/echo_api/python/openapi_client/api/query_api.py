@@ -17,7 +17,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 from typing_extensions import Annotated
 
 from datetime import date, datetime
@@ -50,7 +50,7 @@ class QueryApi(object):
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def test_enum_ref_string(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -79,7 +79,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_enum_ref_string_with_http_info(enum_ref_string_query, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_enum_ref_string_with_http_info(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -189,7 +189,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_datetime_date_string(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -222,7 +222,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_datetime_date_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_datetime_date_string_with_http_info(datetime_query, date_query, string_query, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_datetime_date_string_with_http_info(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -350,7 +350,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_integer_boolean_string(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -383,7 +383,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_integer_boolean_string_with_http_info(integer_query, boolean_query, string_query, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_integer_boolean_string_with_http_info(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -505,7 +505,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_style_deep_object_explode_true_object(self, query_object : Optional[Pet] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -534,7 +534,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_style_deep_object_explode_true_object_with_http_info(self, query_object : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -644,7 +644,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_style_deep_object_explode_true_object_all_of(self, query_object : Optional[Any] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -673,7 +673,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -783,7 +783,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_array_string(self, query_object : Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -812,7 +812,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_style_form_explode_true_array_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_array_string_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_array_string_with_http_info(self, query_object : Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -922,7 +922,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_object(self, query_object : Optional[Pet] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -951,7 +951,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_style_form_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_object_with_http_info(self, query_object : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -1061,7 +1061,7 @@ class QueryApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_object_all_of(self, query_object : Optional[Any] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -1090,7 +1090,7 @@ class QueryApi(object):
             raise ValueError("Error! Please call the test_query_style_form_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_query_style_form_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 

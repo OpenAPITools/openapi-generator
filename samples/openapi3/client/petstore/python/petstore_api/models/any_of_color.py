@@ -42,8 +42,9 @@ class AnyOfColor(BaseModel):
         actual_instance: Any
     any_of_schemas: List[str] = Field(ANYOFCOLOR_ANY_OF_SCHEMAS, const=True)
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True,
+    }
 
     def __init__(self, *args, **kwargs):
         if args:

@@ -16,7 +16,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 from typing_extensions import Annotated
 from typing import overload, Optional, Union, Awaitable
 
@@ -52,7 +52,7 @@ class AnotherFakeApi(object):
     def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=True, **kwargs) -> Client:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=None, **kwargs) -> Union[Client, Awaitable[Client]]:  # noqa: E501
         """To test special tags  # noqa: E501
 
@@ -83,7 +83,7 @@ class AnotherFakeApi(object):
             kwargs['async_req'] = async_req
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 

@@ -29,10 +29,11 @@ class Animal(BaseModel):
     color: Optional[StrictStr] = 'red'
     __properties = ["className", "color"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    """Pydantic configuration"""
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+    }
 
     # JSON field name that stores the object type
     __discriminator_property_name = 'className'

@@ -35,10 +35,11 @@ class User(BaseModel):
     user_status: Optional[StrictInt] = Field(None, alias="userStatus", description="User Status")
     __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    """Pydantic configuration"""
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+    }
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

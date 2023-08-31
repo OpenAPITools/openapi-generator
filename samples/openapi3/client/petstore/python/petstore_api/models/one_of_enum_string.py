@@ -25,8 +25,6 @@ from petstore_api.models.enum_string2 import EnumString2
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
-ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
-
 class OneOfEnumString(BaseModel):
     """
     oneOf enum strings
@@ -39,10 +37,11 @@ class OneOfEnumString(BaseModel):
         actual_instance: Union[EnumString1, EnumString2]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(ONEOFENUMSTRING_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: List[str] = Literal["EnumString1", "EnumString2"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True,
+    }
 
     def __init__(self, *args, **kwargs):
         if args:

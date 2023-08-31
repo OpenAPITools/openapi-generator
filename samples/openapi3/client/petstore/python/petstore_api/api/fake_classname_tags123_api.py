@@ -16,7 +16,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 from typing_extensions import Annotated
 
 from pydantic import Field
@@ -43,7 +43,7 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def test_classname(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
@@ -72,7 +72,7 @@ class FakeClassnameTags123Api(object):
             raise ValueError("Error! Please call the test_classname_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_classname_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
