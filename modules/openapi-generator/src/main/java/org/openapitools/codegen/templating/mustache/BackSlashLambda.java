@@ -40,6 +40,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class BackSlashLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        writer.write(fragment.execute().replace("/", "\\"));
+        writer.write(fragment.execute()
+                .replace("/", "\\"));
     }
 }

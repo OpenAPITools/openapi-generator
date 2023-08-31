@@ -196,17 +196,17 @@ No model defined in this package
 {{#authMethods}}
 {{#isBasicBasic}}
 ### Security schema `{{name}}`
-> Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
+> Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{#lambda.forwardslash}}{{authSrcPath}}{{/lambda.forwardslash}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
 
 {{/isBasicBasic}}
 {{#isApiKey}}
 ### Security schema `{{name}}`
-> Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+> Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{#lambda.forwardslash}}{{authSrcPath}}{{/lambda.forwardslash}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
 
 {{/isApiKey}}
 {{#isOAuth}}
 ### Security schema `{{name}}`
-> Important! To make OAuth authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+> Important! To make OAuth authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{#lambda.forwardslash}}{{authSrcPath}}{{/lambda.forwardslash}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
 
 Scope list:
 {{#scopes}}
