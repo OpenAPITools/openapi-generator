@@ -1236,7 +1236,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
+                defaultValue = "\"" + String.valueOf(p.getDefault()) + "\".to_string()";
             }
         }
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))

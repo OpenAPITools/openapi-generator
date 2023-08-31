@@ -20,6 +20,7 @@ Documentation is also embedded in Julia which can be used with a Julia specific 
 
 Class | Method
 ------------ | -------------
+*FakeApi* | [**uuid_default_value**](docs/FakeApi.md#uuid_default_value)<br/>**GET** /fake/uuid_default_value_test<br/>test uuid default value
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet)<br/>**POST** /pet<br/>Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet)<br/>**DELETE** /pet/{petId}<br/>Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status)<br/>**GET** /pet/findByStatus<br/>Finds Pets by status
@@ -46,6 +47,7 @@ Class | Method
 
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
+ - [MappedModel](docs/MappedModel.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)

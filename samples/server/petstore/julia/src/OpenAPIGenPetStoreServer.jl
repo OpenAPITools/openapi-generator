@@ -7,6 +7,9 @@ Encapsulates generated server code for OpenAPIGenPetStoreServer
 
 The following server methods must be implemented:
 
+- **uuid_default_value**
+    - *invocation:* GET /fake/uuid_default_value_test
+    - *signature:* uuid_default_value(req::HTTP.Request, uuid_parameter::String;) -> Nothing
 - **add_pet**
     - *invocation:* POST /pet
     - *signature:* add_pet(req::HTTP.Request, pet::Pet;) -> Pet
@@ -81,6 +84,7 @@ const API_VERSION = "1.0.0"
 
 include("modelincludes.jl")
 
+include("apis/api_FakeApi.jl")
 include("apis/api_PetApi.jl")
 include("apis/api_StoreApi.jl")
 include("apis/api_UserApi.jl")
@@ -106,6 +110,7 @@ The order in which middlewares are invoked are:
 `init |> read |> pre_validation |> validate |> pre_invoke |> invoke |> post_invoke`
 """
 function register(router::HTTP.Router, impl; path_prefix::String="", optional_middlewares...)
+    registerFakeApi(router, impl; path_prefix=path_prefix, optional_middlewares...)
     registerPetApi(router, impl; path_prefix=path_prefix, optional_middlewares...)
     registerStoreApi(router, impl; path_prefix=path_prefix, optional_middlewares...)
     registerUserApi(router, impl; path_prefix=path_prefix, optional_middlewares...)
@@ -113,6 +118,7 @@ function register(router::HTTP.Router, impl; path_prefix::String="", optional_mi
 end
 
 # export models
+export AnotherModel
 export ApiResponse
 export Category
 export Order

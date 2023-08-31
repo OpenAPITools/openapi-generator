@@ -32,7 +32,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^vendorExtensions.x-webclient-blocking}}{{#isArray}}{{#uniqueItems}}.collect(Collectors.toSet()){{/uniqueItems}}{{^uniqueItems}}.collectList(){{/uniqueItems}}.block(){{/isArray}}{{^isArray}}.block(){{/isArray}}{{/vendorExtensions.x-webclient-blocking}};
+        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{^vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#uniqueItems}}.collect(Collectors.toSet()){{/uniqueItems}}{{^uniqueItems}}.collectList(){{/uniqueItems}}.block(){{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}.block(){{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}};
 
         // TODO: test validations
     }

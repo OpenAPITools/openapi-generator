@@ -38,7 +38,7 @@ import java.util.Locale;
  * </pre>
  */
 public class TitlecaseLambda implements Mustache.Lambda  {
-    private String delimiter;
+    private final String delimiter;
 
     /**
      * Constructs a new instance of {@link TitlecaseLambda}, which will convert all text

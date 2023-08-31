@@ -28,7 +28,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .Configure{{apiName}}((context, services, options) =>
             {
-                {{#lambda.trimTrailingWhiteSpace}}
+                {{#lambda.trimTrailingWithNewLine}}
                 {{#hasApiKeyMethods}}
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 ApiKeyToken apiKeyToken = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
@@ -59,7 +59,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
                 {{/hasOAuthMethods}}
-                {{/lambda.trimTrailingWhiteSpace}}
+                {{/lambda.trimTrailingWithNewLine}}
             });
     }
 }

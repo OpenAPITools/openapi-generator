@@ -262,7 +262,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             return "null";
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
+                String _default = String.valueOf(p.getDefault());
                 if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {

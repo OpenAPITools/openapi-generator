@@ -173,14 +173,13 @@ samples/client/petstore/csharp-refactor/OpenAPIClient/nuget.exe
 # Python
 *.pyc
 __pycache__
+.venv/
 samples/client/petstore/python/dev-requirements.txt.log
 samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
 samples/client/petstore/python/.projectile
-samples/client/petstore/python/.venv/
-samples/client/petstore/python-asyncio/.venv/
 samples/client/petstore/python-asyncio/.pytest_cache/
-samples/client/petstore/python-tornado/.venv/
+
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock

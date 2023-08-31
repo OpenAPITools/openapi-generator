@@ -3,15 +3,16 @@ package {{packageName}}
 
 {{#operations}}
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-){{#operation}}
+)
 
-// {{nickname}} - {{{summary}}}
+type {{classname}} struct {
+{{#operation}}
+	// {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}
+	// {{{summary}}}
 {{#isDeprecated}}
-// Deprecated
+	// Deprecated
 {{/isDeprecated}}
-func {{nickname}}(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}{{/operation}}{{/operations}}
+	{{nickname}} gin.HandlerFunc
+{{/operation}}
+}{{/operations}}

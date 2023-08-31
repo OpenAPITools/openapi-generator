@@ -13,6 +13,7 @@
 package org.openapitools.server.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ModelFile;
 import jakarta.validation.constraints.*;

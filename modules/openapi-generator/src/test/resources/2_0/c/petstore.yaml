@@ -715,3 +715,14 @@ definitions:
         type: string
       message:
         type: string
+  another_model:
+    description: to test mapping features
+    type: object
+    properties:
+      another_property:
+        type: integer
+        format: int32
+      uuid_property:
+        type: string
+        format: uuid
+        default: 1111-2222-3333-4444

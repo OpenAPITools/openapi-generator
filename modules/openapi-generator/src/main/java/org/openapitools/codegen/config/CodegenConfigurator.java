@@ -753,6 +753,7 @@ public class CodegenConfigurator {
 
         ClientOptInput input = new ClientOptInput()
                 .config(config)
+                .generatorSettings(generatorSettings)
                 .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI)context.getSpecDocument());

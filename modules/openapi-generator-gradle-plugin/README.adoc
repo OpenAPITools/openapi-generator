@@ -239,6 +239,21 @@ apply plugin: 'org.openapi.generator'
 |None
 |specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
 
+|nameMappings
+|Map(String,String)
+|None
+|specifies mappings between the property name and the new name in the format of property_a=firstProperty,property_b=secondProperty. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|modelNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the model name and the new name in the format of model_a=FirstModel,property_b=SecondModel. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|parameterNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the parameter name and the new name in the format of parameter_a=firstParameter,parameter_b=secondParameter. https://openapi-generator.tech/docs/customization/#name-mapping
+
 |inlineSchemaNameMappings
 |Map(String,String)
 |None

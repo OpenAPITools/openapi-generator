@@ -287,10 +287,8 @@ public class ExampleGenerator {
             return "https://openapi-generator.tech";
         } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
-            String defaultValue = (String) property.getDefault();
-            if (defaultValue != null && !defaultValue.isEmpty()) {
-                LOGGER.debug("Default value found: '{}'", defaultValue);
-                return defaultValue;
+            if (property.getDefault() != null) {
+                return String.valueOf(property.getDefault());
             }
             List<String> enumValues = property.getEnum();
             if (enumValues != null && !enumValues.isEmpty()) {
