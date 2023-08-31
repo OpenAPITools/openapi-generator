@@ -122,9 +122,9 @@ public class IndentedLambda implements Mustache.Lambda {
 
             sb.append(line);
 
-            // We've split on the system's line separator. We don't want to add an additional trailing line.
+            // We've split on \n. We don't want to add an additional trailing line.
             if (i < lines.length - 1) {
-                sb.append(System.lineSeparator());
+                sb.append("\n");
             }
         }
         writer.write(sb.toString());

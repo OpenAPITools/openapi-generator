@@ -16,7 +16,7 @@ public class IndentedLambdaTest extends LambdaTest {
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
         test("first line" + lineSeparator + "    second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}", ctx);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class IndentedLambdaTest extends LambdaTest {
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
         test("first line" + lineSeparator + "        second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}", ctx);
     }
 
 
