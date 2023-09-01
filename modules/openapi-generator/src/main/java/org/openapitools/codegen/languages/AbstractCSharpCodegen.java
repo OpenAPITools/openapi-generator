@@ -416,8 +416,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             String name = (String) v.get("name");
             long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
             if (count > 1) {
-                LOGGER.debug("Enumeration contains duplicate name " + v.get("name"));
                 String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                LOGGER.debug("Changing duplicate enumeration name from " + v.get("name") + " to " + uniqueEnumName);
                 v.put("name", uniqueEnumName);
             }
         });
