@@ -4,22 +4,20 @@
 
 import unittest
 
-import {{packageName}}
 from {{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
-from {{packageName}}.rest import ApiException
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
 
-    def setUp(self):
-        self.api = {{apiPackage}}.{{classFilename}}.{{classname}}()  # noqa: E501
+    def setUp(self) -> None:
+        self.api = {{classname}}()  # noqa: E501
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         pass
 
    {{#operation}}
-    def test_{{operationId}}(self):
+    def test_{{operationId}}(self) -> None:
         """Test case for {{{operationId}}}
 
 {{#summary}}

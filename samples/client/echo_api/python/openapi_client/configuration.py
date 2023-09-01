@@ -20,7 +20,6 @@ import sys
 import urllib3
 
 import http.client as httplib
-from openapi_client.exceptions import ApiValueError
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'multipleOf', 'maximum', 'exclusiveMaximum',
@@ -28,7 +27,7 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'minLength', 'pattern', 'maxItems', 'minItems'
 }
 
-class Configuration(object):
+class Configuration:
     """This class contains various settings of the API client.
 
     :param host: Base url.
@@ -50,7 +49,8 @@ class Configuration(object):
       configuration.
     :param server_operation_variables: Mapping from operation ID to a mapping with
       string values to replace variables in templated server configuration.
-      The validation of enums is performed for variables with defined enum values before.
+      The validation of enums is performed for variables with defined enum
+      values before.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
 
@@ -65,7 +65,7 @@ class Configuration(object):
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
                  ssl_ca_cert=None,
-                 ):
+                 ) -> None:
         """Constructor
         """
         self._base_path = "http://localhost:3000" if host is None else host
