@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 class RESTResponse(io.IOBase):
 
-    def __init__(self, resp):
+    def __init__(self, resp) -> None:
         self.urllib3_response = resp
         self.status = resp.status
         self.reason = resp.reason
@@ -44,9 +44,9 @@ class RESTResponse(io.IOBase):
         return self.urllib3_response.headers.get(name, default)
 
 
-class RESTClientObject(object):
+class RESTClientObject:
 
-    def __init__(self, configuration, pools_size=4, maxsize=None):
+    def __init__(self, configuration, pools_size=4, maxsize=None) -> None:
         # urllib3.PoolManager will pass all kw parameters to connectionpool
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/poolmanager.py#L75  # noqa: E501
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680  # noqa: E501
