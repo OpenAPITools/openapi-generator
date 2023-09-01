@@ -794,6 +794,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Map<String, Object> allowableValues = cm.allowableValues;
                 List<Object> values = (List<Object>) allowableValues.get("values");
                 List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
+                postProcessEnumVars(enumVars);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
                 updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions(), cm.dataType);
                 cm.allowableValues.put("enumVars", enumVars);
@@ -6527,6 +6528,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .findFirst();
         String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
         List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
+        postProcessEnumVars(enumVars);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
@@ -6565,26 +6567,23 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
         List<Map<String, Object>> enumVars = new ArrayList<>();
-        int truncateIdx = 0;
-
-        if (isRemoveEnumValuePrefix()) {
-            String commonPrefix = findCommonPrefixOfVars(values);
-            truncateIdx = commonPrefix.length();
-        }
+        int truncateIdx = isRemoveEnumValuePrefix()
+                ? findCommonPrefixOfVars(values).length()
+                : 0;
 
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
-            String enumName;
-            if (truncateIdx == 0) {
-                enumName = String.valueOf(value);
-            } else {
-                enumName = value.toString().substring(truncateIdx);
-                if (enumName.isEmpty()) {
-                    enumName = value.toString();
-                }
+            String enumName = truncateIdx == 0
+                    ? String.valueOf(value)
+                    : value.toString().substring(truncateIdx);
+
+            if (enumName.isEmpty()) {
+                enumName = value.toString();
             }
 
-            enumVar.put("name", toEnumVarName(enumName, dataType));
+            final String finalEnumName = toEnumVarName(enumName, dataType);
+
+            enumVar.put("name", finalEnumName);
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
@@ -6596,18 +6595,15 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName = enumUnknownDefaultCaseName;
 
-            String enumValue;
-            if (isDataTypeString(dataType)) {
-                enumValue = enumUnknownDefaultCaseName;
-            } else {
-                // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                // Int.max / 192
-                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                enumValue = String.valueOf(11184809);
-            }
+            String enumValue = isDataTypeString(dataType)
+                ? enumUnknownDefaultCaseName
+                : // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                  // Int.max / 192
+                  // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                  // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                  // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                  // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                  String.valueOf(11184809);
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));
@@ -6616,6 +6612,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return enumVars;
+    }
+
+    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+        enumVars.forEach(v -> {
+            if (enumVars.stream().filter(v1 -> v1.get("name").equals(v.get("name"))).count() > 1) {
+                LOGGER.debug("Enumeration contains duplicate name " + v.get("name"));
+            }
+        });
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {

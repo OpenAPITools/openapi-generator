@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -406,6 +407,28 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         });
 
         this.setTypeMapping();
+    }
+
+    @Override
+    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+        Collections.reverse(enumVars);
+        enumVars.forEach(v -> {
+            String name = (String) v.get("name");
+            long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
+            if (count > 1) {
+                String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                LOGGER.debug("Changing duplicate enumeration name from " + v.get("name") + " to " + uniqueEnumName);
+                v.put("name", uniqueEnumName);
+            }
+        });
+        Collections.reverse(enumVars);
+    }
+
+    private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
+        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
+        return count > 1
+            ? getUniqueEnumName(name + count, enumVars)
+            : name;
     }
 
     @Override
@@ -1381,7 +1404,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override

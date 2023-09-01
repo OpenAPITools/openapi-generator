@@ -107,6 +107,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new OuterEnumIntegerNullableJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestNullableJsonConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
