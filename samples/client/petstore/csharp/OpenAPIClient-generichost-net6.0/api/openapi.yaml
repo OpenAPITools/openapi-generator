@@ -1589,6 +1589,19 @@ components:
       - -efg
       - (xyz)
       type: string
+    Outer_Enum_Test:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      type: string
     Enum_Test:
       properties:
         enum_string:
@@ -1596,12 +1609,26 @@ components:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_string_required:
           enum:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_integer:
           enum:

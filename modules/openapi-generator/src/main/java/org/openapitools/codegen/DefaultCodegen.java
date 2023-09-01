@@ -794,6 +794,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Map<String, Object> allowableValues = cm.allowableValues;
                 List<Object> values = (List<Object>) allowableValues.get("values");
                 List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
+                postProcessEnumVars(enumVars);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
                 updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions(), cm.dataType);
                 cm.allowableValues.put("enumVars", enumVars);
@@ -6527,6 +6528,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .findFirst();
         String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
         List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
+        postProcessEnumVars(enumVars);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
@@ -6581,13 +6583,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
-            if (enumVars.stream().anyMatch(v -> v.get("name").equals(finalEnumName))) {
-                // the enumeration may have subtle differences that we can treat as the same
-                // ex: duplicate enums may be provided with different line endings
-                LOGGER.info("Skipping duplicate enumeration " + finalEnumName);
-                continue;
-            }
-
             enumVar.put("name", finalEnumName);
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
@@ -6617,6 +6612,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return enumVars;
+    }
+
+    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+        enumVars.forEach(v -> {
+            if (enumVars.stream().filter(v1 -> v1.get("name").equals(v.get("name"))).count() > 1) {
+                LOGGER.debug("Enumeration contains duplicate name " + v.get("name"));
+            }
+        });
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {

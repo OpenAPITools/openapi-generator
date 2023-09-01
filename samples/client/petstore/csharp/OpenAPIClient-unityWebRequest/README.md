@@ -198,6 +198,7 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnumDefaultValue](OuterEnumDefaultValue.md)
  - [Model.OuterEnumInteger](OuterEnumInteger.md)
  - [Model.OuterEnumIntegerDefaultValue](OuterEnumIntegerDefaultValue.md)
+ - [Model.OuterEnumTest](OuterEnumTest.md)
  - [Model.ParentPet](ParentPet.md)
  - [Model.Pet](Pet.md)
  - [Model.Pig](Pig.md)

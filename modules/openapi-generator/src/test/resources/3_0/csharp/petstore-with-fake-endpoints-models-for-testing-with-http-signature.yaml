@@ -17,22 +17,6 @@ tags:
   - name: user
     description: Operations about user
 paths:
-  /count:
-    get:
-      operationId: getCount
-      responses:
-        200:
-          description: Success
-          content:
-            '*/*':
-              schema:
-                type: integer
-        default:
-          description: Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /roles/report:
     get:
       responses:
@@ -1314,15 +1298,6 @@ components:
       type: http
       scheme: signature
   schemas:
-    ErrorMessage:
-      type: string
-      enum:
-      - "Value\twith tab"
-      - "Duplicate\nvalue"
-      - "Duplicate\r\nvalue"
-      - 'Value with " quote'
-      - 'Value with escaped \" quote'
-
     RolesReport:
       description: Roles report
       type: array
@@ -1674,6 +1649,17 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+    Outer_Enum_Test:
+      type: string
+      enum:
+        - UPPER
+        - lower
+        - ''
+        - "Value\twith tab"
+        - 'Value with " quote'
+        - 'Value with escaped \" quote'
+        - "Duplicate\nvalue"
+        - "Duplicate\r\nvalue"
     Enum_Test:
       type: object
       required:
@@ -1685,12 +1671,22 @@ components:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_integer:
           type: integer
           format: int32
