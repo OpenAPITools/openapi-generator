@@ -274,6 +274,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (TYPHOEUS.equals(getLibrary())) {
             // for Typhoeus
+            additionalProperties.put("isTyphoeus", Boolean.TRUE);
         } else if (FARADAY.equals(getLibrary())) {
             // for Faraday
             additionalProperties.put("isFaraday", Boolean.TRUE);

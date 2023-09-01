@@ -7,9 +7,9 @@ require 'json'
 require 'logger'
 require 'tempfile'
 require 'time'
-{{^isFaraday}}
+{{#isTyphoeus}}
 require 'typhoeus'
-{{/isFaraday}}
+{{/isTyphoeus}}
 {{#isFaraday}}
 require 'faraday'
 require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
@@ -40,9 +40,9 @@ module {{moduleName}}
       @@default ||= ApiClient.new
     end
 
-{{^isFaraday}}
+{{#isTyphoeus}}
 {{> api_client_typhoeus_partial}}
-{{/isFaraday}}
+{{/isTyphoeus}}
 {{#isFaraday}}
 {{> api_client_faraday_partial}}
 {{/isFaraday}}
@@ -67,9 +67,9 @@ module {{moduleName}}
 
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
-      {{^isFaraday}}
+      {{#isTyphoeus}}
       return @tempfile if return_type == 'File'
-      {{/isFaraday}}
+      {{/isTyphoeus}}
       {{#isFaraday}}
       if return_type == 'File'
         if @config.return_binary_data == true
