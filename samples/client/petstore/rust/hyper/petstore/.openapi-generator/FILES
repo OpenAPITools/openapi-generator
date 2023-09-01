@@ -9,6 +9,7 @@ docs/Baz.md
 docs/Category.md
 docs/EnumArrayTesting.md
 docs/FakeApi.md
+docs/NullableArray.md
 docs/OptionalTesting.md
 docs/Order.md
 docs/Pet.md
@@ -40,6 +41,7 @@ src/models/category.rs
 src/models/enum_array_testing.rs
 src/models/mod.rs
 src/models/model_return.rs
+src/models/nullable_array.rs
 src/models/optional_testing.rs
 src/models/order.rs
 src/models/pet.rs
