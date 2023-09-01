@@ -1006,6 +1006,7 @@ Here is a list of template creators:
    * Python (refactored in 7.0.0): @wing328
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
+   * Ruby (HTTPX): @honeyryderchuck
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
@@ -1261,5 +1262,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ---
-
-

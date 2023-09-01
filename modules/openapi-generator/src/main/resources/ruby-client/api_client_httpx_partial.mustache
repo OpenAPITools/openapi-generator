@@ -1,0 +1,110 @@
+    # Call an API with given options.
+    #
+    # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
+    #   the data deserialized from response body (could be nil), response status code and response headers.
+    def call_api(http_method, path, opts = {})
+      begin
+        response = build_request(http_method.to_s, path, opts)
+
+        if config.debugging
+          config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        end
+
+        response.raise_for_status
+
+      rescue HTTPX::HTTPError
+          fail ApiError.new(code: response.status,
+                response_headers: response.headers.to_h,
+                response_body: response.body.to_s),
+                Net::HTTP::STATUS_CODES.fetch(response.status, "HTTP Error (#{response.status})")
+      rescue HTTPX::TimeoutError
+        fail ApiError.new('Connection timed out')
+      rescue HTTPX::ConnectionError
+        fail ApiError.new('Connection failed')
+      end
+
+      if opts[:return_type]
+        data = deserialize(response, opts[:return_type])
+      else
+        data = nil
+      end
+      return data, response.status, response.headers.to_h
+    end
+
+    # Builds the HTTP request
+    #
+    # @param [String] http_method HTTP method/verb (e.g. POST)
+    # @param [String] path URL path (e.g. /account/new)
+    # @option opts [Hash] :header_params Header parameters
+    # @option opts [Hash] :query_params Query parameters
+    # @option opts [Hash] :form_params Query parameters
+    # @option opts [Object] :body HTTP body (JSON/XML)
+    # @return [HTTPX::Request] A Request object
+    def build_request(http_method, path, opts = {})
+      url = build_request_url(path, opts)
+
+      header_params = @default_headers.merge(opts[:header_params] || {})
+      query_params = opts[:query_params] || {}
+      form_params = opts[:form_params] || {}
+
+      update_params_for_auth! header_params, query_params, opts[:auth_names]
+
+      if %w[POST PATCH PUT DELETE].include?(http_method)
+        body_params = build_request_body(header_params, form_params, opts[:body])
+        if config.debugging
+          config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+        end
+      else
+        body_params = {}
+      end
+      req_opts = {
+        :headers => HTTPX::Headers.new(header_params),
+        **body_params
+      }
+      req_opts[:params] = query_params if query_params && !query_params.empty?
+      session.request(http_method, url, **req_opts)
+    end
+
+    # Builds the HTTP request body
+    #
+    # @param [Hash] header_params Header parameters
+    # @param [Hash] form_params Query parameters
+    # @param [Object] body HTTP body (JSON/XML)
+    # @return [Hash{Symbol => Object}] body options as HTTPX handles them
+    def build_request_body(header_params, form_params, body)
+      # http form
+      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
+         header_params['Content-Type'] == 'multipart/form-data'
+        data = { form: form_params }
+      elsif body
+
+        data = body.is_a?(String) ? { body: body } : { json: body }
+      else
+        data = nil
+      end
+      data
+    end
+
+    def session
+      return @session if defined?(@session)
+
+      session = HTTPX.with(
+        ssl: @config.ssl,
+        timeout: ({ request_timeout: @config.timeout } if @config.timeout && @config.timeout.positive?),
+        origin: "#{@config.scheme}://#{@config.host}",
+        base_path: (@config.base_path.sub(/\/+\z/, '') if @config.base_path)
+      )
+
+      if @config.proxy
+        session = session.plugin(:proxy, proxy: @config.proxy)
+      end
+
+      if @config.username && @config.password
+        session = session.plugin(:basic_auth).basic_auth(@config.username, @config.password)
+      end
+
+      session = @config.configure(session)
+
+      @session = session
+
+    end

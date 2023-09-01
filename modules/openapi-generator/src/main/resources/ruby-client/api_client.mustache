@@ -14,6 +14,11 @@ require 'typhoeus'
 require 'faraday'
 require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
 {{/isFaraday}}
+{{#isHttpx}}
+require 'httpx'
+require 'net/http/status'
+{{/isHttpx}}
+
 
 module {{moduleName}}
   class ApiClient
@@ -46,6 +51,9 @@ module {{moduleName}}
 {{#isFaraday}}
 {{> api_client_faraday_partial}}
 {{/isFaraday}}
+{{#isHttpx}}
+{{> api_client_httpx_partial}}
+{{/isHttpx}}
     # Check if the given MIME is a JSON MIME.
     # JSON MIME examples:
     #   application/json
@@ -98,11 +106,38 @@ module {{moduleName}}
         end
       end
       {{/isFaraday}}
+      {{#isHttpx}}
+      if return_type == 'File'
+        if @config.return_binary_data == true
+          # TODO: force response encoding
+          return body.to_s
+        else
+          content_disposition = response.headers['content-disposition']
+          if content_disposition && content_disposition =~ /filename=/i
+            filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+            prefix = sanitize_filename(filename)
+          else
+            prefix = 'download-'
+          end
+          prefix = prefix + '-' unless prefix.end_with?('-')
+          encoding = response.body.encoding
+          tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+          response.copy_to(tempfile)
+          tempfile.close
+          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                              "explicitly with `tempfile.delete`"
+
+          return tempfile
+        end
+      end
+      {{/isHttpx}}
 
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type
-      return body if return_type == 'String'
+      return body.to_s if return_type == 'String'
 
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'

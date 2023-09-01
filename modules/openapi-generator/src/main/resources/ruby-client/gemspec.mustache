@@ -26,6 +26,9 @@ Gem::Specification.new do |s|
   {{#isTyphoeus}}
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
   {{/isTyphoeus}}
+  {{#isHttpx}}
+  s.add_runtime_dependency 'httpx', '~> 1.0', '>= 1.0.0'
+  {{/isHttpx}}
 
   s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'
 
