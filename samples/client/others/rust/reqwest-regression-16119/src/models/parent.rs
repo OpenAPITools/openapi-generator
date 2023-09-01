@@ -20,7 +20,7 @@ pub struct Parent {
 impl Parent {
     pub fn new() -> Parent {
         Parent {
-            child: None,
+            child,
         }
     }
 }

@@ -26,7 +26,7 @@ pub struct NullableArray {
 impl NullableArray {
     pub fn new() -> NullableArray {
         NullableArray {
-            array_nullable: None: None,
+            array_nullable: None,
             just_array: None,
             nullable_string: None,
             just_string: None,
