@@ -1490,10 +1490,10 @@ class FakeApi:
         :type uuid_example: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1501,7 +1501,8 @@ class FakeApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            raise ValueError("Error! Please call the fake_uuid_example_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
+            message = "Error! Please call the fake_uuid_example_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
         return self.fake_uuid_example_with_http_info(uuid_example, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1519,7 +1520,7 @@ class FakeApi:
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the 
+                                 be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
