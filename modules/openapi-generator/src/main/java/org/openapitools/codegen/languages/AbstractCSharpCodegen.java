@@ -425,7 +425,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
-        long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
+        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
         return count > 1
             ? getUniqueEnumName(name + count, enumVars)
             : name;
