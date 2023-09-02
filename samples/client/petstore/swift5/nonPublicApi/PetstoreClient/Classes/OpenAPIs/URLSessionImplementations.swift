@@ -332,8 +332,8 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
         default:
 
             guard let unwrappedData = data, !unwrappedData.isEmpty else {
-                if let E = T.self as? ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T, bodyData: data)))
+                if let expressibleByNilLiteralType = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }
@@ -569,10 +569,9 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-                return mimetype as String
-            }
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
+                let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+            return mimetype as String
         }
         return "application/octet-stream"
     }
