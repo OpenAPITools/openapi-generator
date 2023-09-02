@@ -6615,11 +6615,24 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+        Collections.reverse(enumVars);
         enumVars.forEach(v -> {
-            if (enumVars.stream().filter(v1 -> v1.get("name").equals(v.get("name"))).count() > 1) {
-                LOGGER.debug("Enumeration contains duplicate name " + v.get("name"));
+            String name = (String) v.get("name");
+            long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
+            if (count > 1) {
+                String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                LOGGER.debug("Changing duplicate enumeration name from " + v.get("name") + " to " + uniqueEnumName);
+                v.put("name", uniqueEnumName);
             }
         });
+        Collections.reverse(enumVars);
+    }
+
+    private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
+        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
+        return count > 1
+            ? getUniqueEnumName(name + count, enumVars)
+            : name;
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
