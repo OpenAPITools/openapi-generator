@@ -48,7 +48,7 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 

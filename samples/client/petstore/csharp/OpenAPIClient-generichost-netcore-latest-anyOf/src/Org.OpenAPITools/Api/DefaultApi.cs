@@ -113,6 +113,7 @@ namespace Org.OpenAPITools.Api
         public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;

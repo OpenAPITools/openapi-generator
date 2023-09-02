@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
+        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
