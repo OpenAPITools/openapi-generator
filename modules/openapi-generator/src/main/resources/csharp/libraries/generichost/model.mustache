@@ -23,12 +23,6 @@ using System.ComponentModel.DataAnnotations;
 {{#useCompareNetObjects}}
 using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}
-{{#useGenericHost}}
-{{#useSourceGeneration}}
-using System.Text.Json.Serialization.Metadata;
-using {{packageName}}.{{clientPackage}};
-{{/useSourceGeneration}}
-{{/useGenericHost}}
 {{#models}}
 {{#lambda.trimTrailingWithNewLine}}
 {{#model}}
@@ -43,7 +37,6 @@ namespace {{packageName}}.{{modelPackage}}
 
 {{>JsonConverter}}
 {{/isEnum}}
-{{>SourceGenerationContext}}
 {{/model}}
 {{/lambda.trimTrailingWithNewLine}}
 {{/models}}
