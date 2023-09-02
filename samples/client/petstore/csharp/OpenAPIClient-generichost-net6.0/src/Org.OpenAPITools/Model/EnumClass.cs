@@ -184,4 +184,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(enumClass?.ToString() ?? "null");
         }
     }
+
 }
