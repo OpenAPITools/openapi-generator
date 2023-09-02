@@ -186,4 +186,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnum?.ToString() ?? "null");
         }
     }
+
 }

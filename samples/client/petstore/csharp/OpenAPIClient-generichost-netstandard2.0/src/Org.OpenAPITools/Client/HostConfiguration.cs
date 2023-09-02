@@ -134,8 +134,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ZeroBasedEnumJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumNullableJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
-            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new JsonSerializerOptionsProvider(_jsonOptions);
-            _services.AddSingleton(jsonSerializerOptionsProvider);
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
             _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();

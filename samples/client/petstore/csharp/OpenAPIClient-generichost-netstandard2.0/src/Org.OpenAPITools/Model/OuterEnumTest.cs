@@ -254,4 +254,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnumTest?.ToString() ?? "null");
         }
     }
+
 }

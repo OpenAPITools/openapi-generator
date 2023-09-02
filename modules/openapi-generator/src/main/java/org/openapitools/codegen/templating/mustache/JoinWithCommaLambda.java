@@ -38,29 +38,15 @@ import java.io.Writer;
  */
 public class JoinWithCommaLambda implements Mustache.Lambda {
 
-    private final String delimit;
-    private final String coalesce;
-    private final boolean trimInput;
-
     public JoinWithCommaLambda() {
-        this.delimit = "  ";
-        this.coalesce = ", ";
-        this.trimInput = true;
-    }
 
-    public JoinWithCommaLambda(boolean trimInput, String delimit, String coalesce) {
-        this.delimit = delimit;
-        this.coalesce = coalesce;
-        this.trimInput = trimInput;
     }
 
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String[] input = this.trimInput
-                ? fragment.execute().trim().split(delimit)
-                : fragment.execute().split(delimit);
+        String[] substr = fragment.execute().trim().split("  ");
 
-        writer.write(String.join(coalesce, input));
+        writer.write(String.join(", ", substr));
     }
 }
