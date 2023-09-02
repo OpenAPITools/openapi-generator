@@ -1,6 +1,6 @@
 <?php
 /**
- * Dog
+ * FakeBigDecimalMap200Response
  *
  * PHP version 8.0
  *
@@ -27,10 +27,12 @@
  */
 
 namespace OpenAPI\Client\Model;
+
+use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * Dog Class Doc Comment
+ * FakeBigDecimalMap200Response Class Doc Comment
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -38,7 +40,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class Dog extends Animal
+class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -47,7 +49,7 @@ class Dog extends Animal
       *
       * @var string
       */
-    protected static $openAPIModelName = 'Dog';
+    protected static $openAPIModelName = 'fakeBigDecimalMap_200_response';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -55,7 +57,8 @@ class Dog extends Animal
       * @var string[]
       */
     protected static $openAPITypes = [
-        'breed' => 'string'
+        'some_id' => 'float',
+        'some_map' => 'array<string,float>'
     ];
 
     /**
@@ -66,7 +69,8 @@ class Dog extends Animal
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'breed' => null
+        'some_id' => null,
+        'some_map' => null
     ];
 
     /**
@@ -75,7 +79,8 @@ class Dog extends Animal
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'breed' => false
+        'some_id' => false,
+		'some_map' => false
     ];
 
     /**
@@ -92,7 +97,7 @@ class Dog extends Animal
      */
     public static function openAPITypes()
     {
-        return self::$openAPITypes + parent::openAPITypes();
+        return self::$openAPITypes;
     }
 
     /**
@@ -102,7 +107,7 @@ class Dog extends Animal
      */
     public static function openAPIFormats()
     {
-        return self::$openAPIFormats + parent::openAPIFormats();
+        return self::$openAPIFormats;
     }
 
     /**
@@ -112,7 +117,7 @@ class Dog extends Animal
      */
     protected static function openAPINullables(): array
     {
-        return self::$openAPINullables + parent::openAPINullables();
+        return self::$openAPINullables;
     }
 
     /**
@@ -164,7 +169,8 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $attributeMap = [
-        'breed' => 'breed'
+        'some_id' => 'someId',
+        'some_map' => 'someMap'
     ];
 
     /**
@@ -173,7 +179,8 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $setters = [
-        'breed' => 'setBreed'
+        'some_id' => 'setSomeId',
+        'some_map' => 'setSomeMap'
     ];
 
     /**
@@ -182,7 +189,8 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $getters = [
-        'breed' => 'getBreed'
+        'some_id' => 'getSomeId',
+        'some_map' => 'getSomeMap'
     ];
 
     /**
@@ -193,7 +201,7 @@ class Dog extends Animal
      */
     public static function attributeMap()
     {
-        return parent::attributeMap() + self::$attributeMap;
+        return self::$attributeMap;
     }
 
     /**
@@ -203,7 +211,7 @@ class Dog extends Animal
      */
     public static function setters()
     {
-        return parent::setters() + self::$setters;
+        return self::$setters;
     }
 
     /**
@@ -213,7 +221,7 @@ class Dog extends Animal
      */
     public static function getters()
     {
-        return parent::getters() + self::$getters;
+        return self::$getters;
     }
 
     /**
@@ -227,6 +235,12 @@ class Dog extends Animal
     }
 
 
+    /**
+     * Associative array for storing property values
+     *
+     * @var mixed[]
+     */
+    protected $container = [];
 
     /**
      * Constructor
@@ -236,9 +250,8 @@ class Dog extends Animal
      */
     public function __construct(array $data = null)
     {
-        parent::__construct($data);
-
-        $this->setIfExists('breed', $data ?? [], null);
+        $this->setIfExists('some_id', $data ?? [], null);
+        $this->setIfExists('some_map', $data ?? [], null);
     }
 
     /**
@@ -266,7 +279,7 @@ class Dog extends Animal
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = parent::listInvalidProperties();
+        $invalidProperties = [];
 
         return $invalidProperties;
     }
@@ -284,28 +297,55 @@ class Dog extends Animal
 
 
     /**
-     * Gets breed
+     * Gets some_id
      *
-     * @return string|null
+     * @return float|null
      */
-    public function getBreed()
+    public function getSomeId()
     {
-        return $this->container['breed'];
+        return $this->container['some_id'];
     }
 
     /**
-     * Sets breed
+     * Sets some_id
      *
-     * @param string|null $breed breed
+     * @param float|null $some_id some_id
      *
      * @return self
      */
-    public function setBreed($breed)
+    public function setSomeId($some_id)
     {
-        if (is_null($breed)) {
-            throw new \InvalidArgumentException('non-nullable breed cannot be null');
+        if (is_null($some_id)) {
+            throw new \InvalidArgumentException('non-nullable some_id cannot be null');
         }
-        $this->container['breed'] = $breed;
+        $this->container['some_id'] = $some_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets some_map
+     *
+     * @return array<string,float>|null
+     */
+    public function getSomeMap()
+    {
+        return $this->container['some_map'];
+    }
+
+    /**
+     * Sets some_map
+     *
+     * @param array<string,float>|null $some_map some_map
+     *
+     * @return self
+     */
+    public function setSomeMap($some_map)
+    {
+        if (is_null($some_map)) {
+            throw new \InvalidArgumentException('non-nullable some_map cannot be null');
+        }
+        $this->container['some_map'] = $some_map;
 
         return $this;
     }
