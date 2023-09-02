@@ -811,9 +811,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,
-            HealthCheckResultDeserializationContext healthCheckResultDeserializationContext, 
-            , , , , , , OuterCompositeDeserializationContext outerCompositeDeserializationContext, 
-            , , , , , , ModelClientDeserializationContext modelClientDeserializationContext,
+            HealthCheckResultDeserializationContext healthCheckResultDeserializationContext,
+            OuterCompositeDeserializationContext outerCompositeDeserializationContext,
+            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,

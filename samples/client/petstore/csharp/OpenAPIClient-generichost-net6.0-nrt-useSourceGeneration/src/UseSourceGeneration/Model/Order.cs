@@ -85,13 +85,13 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
-            if (value == "placed")
+            if (value.Equals("placed"))
                 return StatusEnum.Placed;
 
-            if (value == "approved")
+            if (value.Equals("approved"))
                 return StatusEnum.Approved;
 
-            if (value == "delivered")
+            if (value.Equals("delivered"))
                 return StatusEnum.Delivered;
 
             throw new NotImplementedException($"Could not convert value to type StatusEnum: '{value}'");
@@ -104,13 +104,13 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static StatusEnum? StatusEnumFromStringOrDefault(string value)
         {
-            if (value == "placed")
+            if (value.Equals("placed"))
                 return StatusEnum.Placed;
 
-            if (value == "approved")
+            if (value.Equals("approved"))
                 return StatusEnum.Approved;
 
-            if (value == "delivered")
+            if (value.Equals("delivered"))
                 return StatusEnum.Delivered;
 
             return null;
@@ -254,10 +254,10 @@ namespace UseSourceGeneration.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

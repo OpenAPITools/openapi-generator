@@ -96,7 +96,7 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -432,10 +432,10 @@ namespace UseSourceGeneration.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "binary":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

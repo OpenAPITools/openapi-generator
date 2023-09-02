@@ -60,13 +60,13 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static EnumClass FromString(string value)
         {
-            if (value == "_abc")
+            if (value.Equals("_abc"))
                 return EnumClass.Abc;
 
-            if (value == "-efg")
+            if (value.Equals("-efg"))
                 return EnumClass.Efg;
 
-            if (value == "(xyz)")
+            if (value.Equals("(xyz)"))
                 return EnumClass.Xyz;
 
             throw new NotImplementedException($"Could not convert value to type EnumClass: '{value}'");
@@ -79,13 +79,13 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static EnumClass? FromStringOrDefault(string value)
         {
-            if (value == "_abc")
+            if (value.Equals("_abc"))
                 return EnumClass.Abc;
 
-            if (value == "-efg")
+            if (value.Equals("-efg"))
                 return EnumClass.Efg;
 
-            if (value == "(xyz)")
+            if (value.Equals("(xyz)"))
                 return EnumClass.Xyz;
 
             return null;

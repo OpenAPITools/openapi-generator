@@ -66,7 +66,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static PetTypeEnum PetTypeEnumFromString(string value)
         {
-            if (value == "ChildCat")
+            if (value.Equals("ChildCat"))
                 return PetTypeEnum.ChildCat;
 
             throw new NotImplementedException($"Could not convert value to type PetTypeEnum: '{value}'");
@@ -79,7 +79,7 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static PetTypeEnum? PetTypeEnumFromStringOrDefault(string value)
         {
-            if (value == "ChildCat")
+            if (value.Equals("ChildCat"))
                 return PetTypeEnum.ChildCat;
 
             return null;
@@ -162,10 +162,10 @@ namespace UseSourceGeneration.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "name":
                             name = utf8JsonReader.GetString();

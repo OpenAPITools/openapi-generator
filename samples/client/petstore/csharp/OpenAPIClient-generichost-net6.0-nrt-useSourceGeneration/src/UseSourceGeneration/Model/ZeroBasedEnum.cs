@@ -55,10 +55,10 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static ZeroBasedEnum FromString(string value)
         {
-            if (value == "unknown")
+            if (value.Equals("unknown"))
                 return ZeroBasedEnum.Unknown;
 
-            if (value == "notUnknown")
+            if (value.Equals("notUnknown"))
                 return ZeroBasedEnum.NotUnknown;
 
             throw new NotImplementedException($"Could not convert value to type ZeroBasedEnum: '{value}'");
@@ -71,10 +71,10 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static ZeroBasedEnum? FromStringOrDefault(string value)
         {
-            if (value == "unknown")
+            if (value.Equals("unknown"))
                 return ZeroBasedEnum.Unknown;
 
-            if (value == "notUnknown")
+            if (value.Equals("notUnknown"))
                 return ZeroBasedEnum.NotUnknown;
 
             return null;

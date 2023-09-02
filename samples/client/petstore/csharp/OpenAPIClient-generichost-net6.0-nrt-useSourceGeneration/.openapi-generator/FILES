@@ -58,6 +58,7 @@ docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/models/Model200Response.md
 docs/models/ModelClient.md
 docs/models/Name.md
+docs/models/NotificationtestGetElementsV1ResponseMPayload.md
 docs/models/NullableClass.md
 docs/models/NullableGuidClass.md
 docs/models/NullableShape.md
@@ -70,6 +71,7 @@ docs/models/OuterEnum.md
 docs/models/OuterEnumDefaultValue.md
 docs/models/OuterEnumInteger.md
 docs/models/OuterEnumIntegerDefaultValue.md
+docs/models/OuterEnumTest.md
 docs/models/ParentPet.md
 docs/models/Pet.md
 docs/models/Pig.md
@@ -78,6 +80,8 @@ docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
 docs/models/Return.md
+docs/models/RolesReportsHash.md
+docs/models/RolesReportsHashRole.md
 docs/models/ScaleneTriangle.md
 docs/models/Shape.md
 docs/models/ShapeInterface.md
@@ -180,6 +184,7 @@ src/UseSourceGeneration/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
 src/UseSourceGeneration/Model/Model200Response.cs
 src/UseSourceGeneration/Model/ModelClient.cs
 src/UseSourceGeneration/Model/Name.cs
+src/UseSourceGeneration/Model/NotificationtestGetElementsV1ResponseMPayload.cs
 src/UseSourceGeneration/Model/NullableClass.cs
 src/UseSourceGeneration/Model/NullableGuidClass.cs
 src/UseSourceGeneration/Model/NullableShape.cs
@@ -192,6 +197,7 @@ src/UseSourceGeneration/Model/OuterEnum.cs
 src/UseSourceGeneration/Model/OuterEnumDefaultValue.cs
 src/UseSourceGeneration/Model/OuterEnumInteger.cs
 src/UseSourceGeneration/Model/OuterEnumIntegerDefaultValue.cs
+src/UseSourceGeneration/Model/OuterEnumTest.cs
 src/UseSourceGeneration/Model/ParentPet.cs
 src/UseSourceGeneration/Model/Pet.cs
 src/UseSourceGeneration/Model/Pig.cs
@@ -200,6 +206,8 @@ src/UseSourceGeneration/Model/Quadrilateral.cs
 src/UseSourceGeneration/Model/QuadrilateralInterface.cs
 src/UseSourceGeneration/Model/ReadOnlyFirst.cs
 src/UseSourceGeneration/Model/Return.cs
+src/UseSourceGeneration/Model/RolesReportsHash.cs
+src/UseSourceGeneration/Model/RolesReportsHashRole.cs
 src/UseSourceGeneration/Model/ScaleneTriangle.cs
 src/UseSourceGeneration/Model/Shape.cs
 src/UseSourceGeneration/Model/ShapeInterface.cs

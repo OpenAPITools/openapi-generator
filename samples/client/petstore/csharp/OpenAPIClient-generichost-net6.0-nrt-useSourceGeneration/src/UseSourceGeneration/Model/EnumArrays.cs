@@ -71,10 +71,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
         {
-            if (value == "fish")
+            if (value.Equals("fish"))
                 return ArrayEnumEnum.Fish;
 
-            if (value == "crab")
+            if (value.Equals("crab"))
                 return ArrayEnumEnum.Crab;
 
             throw new NotImplementedException($"Could not convert value to type ArrayEnumEnum: '{value}'");
@@ -87,10 +87,10 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
         {
-            if (value == "fish")
+            if (value.Equals("fish"))
                 return ArrayEnumEnum.Fish;
 
-            if (value == "crab")
+            if (value.Equals("crab"))
                 return ArrayEnumEnum.Crab;
 
             return null;
@@ -137,10 +137,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static JustSymbolEnum JustSymbolEnumFromString(string value)
         {
-            if (value == ">=")
+            if (value.Equals(">="))
                 return JustSymbolEnum.GreaterThanOrEqualTo;
 
-            if (value == "$")
+            if (value.Equals("$"))
                 return JustSymbolEnum.Dollar;
 
             throw new NotImplementedException($"Could not convert value to type JustSymbolEnum: '{value}'");
@@ -153,10 +153,10 @@ namespace UseSourceGeneration.Model
         /// <returns></returns>
         public static JustSymbolEnum? JustSymbolEnumFromStringOrDefault(string value)
         {
-            if (value == ">=")
+            if (value.Equals(">="))
                 return JustSymbolEnum.GreaterThanOrEqualTo;
 
-            if (value == "$")
+            if (value.Equals("$"))
                 return JustSymbolEnum.Dollar;
 
             return null;
@@ -258,10 +258,10 @@ namespace UseSourceGeneration.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "array_enum":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

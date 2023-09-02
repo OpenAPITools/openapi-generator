@@ -90,6 +90,7 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new Model200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new ModelClientJsonConverter());
             _jsonOptions.Converters.Add(new NameJsonConverter());
+            _jsonOptions.Converters.Add(new NotificationtestGetElementsV1ResponseMPayloadJsonConverter());
             _jsonOptions.Converters.Add(new NullableClassJsonConverter());
             _jsonOptions.Converters.Add(new NullableGuidClassJsonConverter());
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
@@ -106,6 +107,8 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new OuterEnumIntegerNullableJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestNullableJsonConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
@@ -114,6 +117,8 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
+            _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
+            _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
             _jsonOptions.Converters.Add(new ScaleneTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ShapeJsonConverter());
             _jsonOptions.Converters.Add(new ShapeInterfaceJsonConverter());
@@ -182,6 +187,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<Model200ResponseSerializationContext>();
             _services.AddSingleton<ModelClientSerializationContext>();
             _services.AddSingleton<NameSerializationContext>();
+            _services.AddSingleton<NotificationtestGetElementsV1ResponseMPayloadSerializationContext>();
             _services.AddSingleton<NullableClassSerializationContext>();
             _services.AddSingleton<NullableGuidClassSerializationContext>();
             _services.AddSingleton<NullableShapeSerializationContext>();
@@ -194,6 +200,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<OuterEnumDefaultValueSerializationContext>();
             _services.AddSingleton<OuterEnumIntegerSerializationContext>();
             _services.AddSingleton<OuterEnumIntegerDefaultValueSerializationContext>();
+            _services.AddSingleton<OuterEnumTestSerializationContext>();
             _services.AddSingleton<ParentPetSerializationContext>();
             _services.AddSingleton<PetSerializationContext>();
             _services.AddSingleton<PigSerializationContext>();
@@ -202,6 +209,8 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<QuadrilateralInterfaceSerializationContext>();
             _services.AddSingleton<ReadOnlyFirstSerializationContext>();
             _services.AddSingleton<ReturnSerializationContext>();
+            _services.AddSingleton<RolesReportsHashSerializationContext>();
+            _services.AddSingleton<RolesReportsHashRoleSerializationContext>();
             _services.AddSingleton<ScaleneTriangleSerializationContext>();
             _services.AddSingleton<ShapeSerializationContext>();
             _services.AddSingleton<ShapeInterfaceSerializationContext>();
@@ -267,6 +276,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<Model200ResponseDeserializationContext>();
             _services.AddSingleton<ModelClientDeserializationContext>();
             _services.AddSingleton<NameDeserializationContext>();
+            _services.AddSingleton<NotificationtestGetElementsV1ResponseMPayloadDeserializationContext>();
             _services.AddSingleton<NullableClassDeserializationContext>();
             _services.AddSingleton<NullableGuidClassDeserializationContext>();
             _services.AddSingleton<NullableShapeDeserializationContext>();
@@ -279,6 +289,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<OuterEnumDefaultValueDeserializationContext>();
             _services.AddSingleton<OuterEnumIntegerDeserializationContext>();
             _services.AddSingleton<OuterEnumIntegerDefaultValueDeserializationContext>();
+            _services.AddSingleton<OuterEnumTestDeserializationContext>();
             _services.AddSingleton<ParentPetDeserializationContext>();
             _services.AddSingleton<PetDeserializationContext>();
             _services.AddSingleton<PigDeserializationContext>();
@@ -287,6 +298,8 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<QuadrilateralInterfaceDeserializationContext>();
             _services.AddSingleton<ReadOnlyFirstDeserializationContext>();
             _services.AddSingleton<ReturnDeserializationContext>();
+            _services.AddSingleton<RolesReportsHashDeserializationContext>();
+            _services.AddSingleton<RolesReportsHashRoleDeserializationContext>();
             _services.AddSingleton<ScaleneTriangleDeserializationContext>();
             _services.AddSingleton<ShapeDeserializationContext>();
             _services.AddSingleton<ShapeInterfaceDeserializationContext>();

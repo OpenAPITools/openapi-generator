@@ -162,21 +162,19 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <returns></returns>
         public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#lambda.first}}{{#useSourceGeneration}}{{#operation}}{{#returnProperty}}{{#isModel}},  {{/isModel}}{{/returnProperty}}{{/operation}}{{/useSourceGeneration}}{{/lambda.first}}{{#lambda.trimTrailing}}{{#useSourceGeneration}}
-        {{#lambda.indentAll3}}
-        {{#lambda.joinWithComma}}
+        {{#lambda.joinLinesWithComma}}
         {{#lambda.uniqueLinesWithNewLine}}
         {{#operation}}
         {{#returnProperty}}
         {{#isModel}}
         {{#returnType}}
-            {{{.}}}DeserializationContext {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}}  
+            {{{.}}}DeserializationContext {{#lambda.camelcase_param}}{{{.}}}DeserializationContext{{/lambda.camelcase_param}}
         {{/returnType}}
         {{/isModel}}
         {{/returnProperty}}
         {{/operation}}
         {{/lambda.uniqueLinesWithNewLine}}
-        {{/lambda.joinWithComma}}
-        {{/lambda.indentAll3}}
+        {{/lambda.joinLinesWithComma}}
         {{/useSourceGeneration}}
         {{/lambda.trimTrailing}}
         {{#hasApiKeyMethods}}

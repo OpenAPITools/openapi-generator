@@ -498,8 +498,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetApiEvents petApiEvents,
-            PetDeserializationContext petDeserializationContext, 
-            , , , , , , ApiResponseDeserializationContext apiResponseDeserializationContext,
+            PetDeserializationContext petDeserializationContext,
+            ApiResponseDeserializationContext apiResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
