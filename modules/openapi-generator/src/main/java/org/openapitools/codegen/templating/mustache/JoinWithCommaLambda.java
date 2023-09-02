@@ -45,7 +45,7 @@ public class JoinWithCommaLambda implements Mustache.Lambda {
     public JoinWithCommaLambda() {
         this.delimit = "  ";
         this.coalesce = ", ";
-        this.trimInput = false;
+        this.trimInput = true;
     }
 
     public JoinWithCommaLambda(boolean trimInput, String delimit, String coalesce) {
