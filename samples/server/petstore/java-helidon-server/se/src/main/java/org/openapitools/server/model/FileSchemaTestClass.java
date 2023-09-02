@@ -1,6 +1,7 @@
 package org.openapitools.server.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ModelFile;
 
@@ -9,7 +10,7 @@ import org.openapitools.server.model.ModelFile;
 public class FileSchemaTestClass   {
 
     private ModelFile _file;
-    private List<ModelFile> files = new ArrayList<>();
+    private List<ModelFile> files;
 
     /**
      * Default constructor.

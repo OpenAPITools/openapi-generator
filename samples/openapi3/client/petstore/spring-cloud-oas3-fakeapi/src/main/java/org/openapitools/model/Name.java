@@ -22,16 +22,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Name {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123number;
 
   public Name name(Integer name) {
@@ -45,6 +41,7 @@ public class Name {
   */
   @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -64,6 +61,7 @@ public class Name {
   */
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -83,6 +81,7 @@ public class Name {
   */
   
   @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -102,6 +101,7 @@ public class Name {
   */
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }

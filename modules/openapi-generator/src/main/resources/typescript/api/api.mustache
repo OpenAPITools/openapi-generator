@@ -1,7 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{importFileExtension}}';
 import {Configuration} from '../configuration{{importFileExtension}}';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{importFileExtension}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http{{importFileExtension}}';
 {{#platforms}}
 {{#node}}
 import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
@@ -190,7 +190,7 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
+     public async {{nickname}}WithHttpInfo(response: ResponseContext): Promise<HttpInfo<{{{returnType}}} {{^returnType}}void{{/returnType}}>> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
@@ -205,7 +205,7 @@ export class {{classname}}ResponseProcessor {
             ) as {{{dataType}}};
             {{/isBinary}}
             {{#is2xx}}
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
             {{/is2xx}}
             {{^is2xx}}
             throw new ApiException<{{{dataType}}}>(response.httpStatusCode, "{{message}}", body, response.headers);
@@ -213,7 +213,7 @@ export class {{classname}}ResponseProcessor {
             {{/dataType}}
             {{^dataType}}
             {{#is2xx}}
-            return;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
             {{/is2xx}}
             {{^is2xx}}
             throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
@@ -234,10 +234,10 @@ export class {{classname}}ResponseProcessor {
                 "{{{returnType}}}", "{{returnFormat}}"
             ) as {{{returnType}}};
             {{/isBinary}}
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
             {{/returnType}}
             {{^returnType}}
-            return;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
             {{/returnType}}
         }
 

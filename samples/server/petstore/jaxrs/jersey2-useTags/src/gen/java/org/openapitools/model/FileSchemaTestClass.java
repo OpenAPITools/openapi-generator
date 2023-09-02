@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -40,7 +41,7 @@ public class FileSchemaTestClass   {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;
@@ -100,8 +101,8 @@ public class FileSchemaTestClass   {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this._file, fileSchemaTestClass._file) &&
-        Objects.equals(this.files, fileSchemaTestClass.files);
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
+        Objects.equals(files, fileSchemaTestClass.files);
   }
 
   @Override

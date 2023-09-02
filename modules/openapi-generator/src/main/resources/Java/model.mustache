@@ -55,11 +55,11 @@ import {{javaxPackage}}.validation.Valid;
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
-{{#supportUrlQueryDeepObject}}
+{{#supportUrlQuery}}
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.StringJoiner;
-{{/supportUrlQueryDeepObject}}
+{{/supportUrlQuery}}
 
 {{#models}}
 {{#model}}

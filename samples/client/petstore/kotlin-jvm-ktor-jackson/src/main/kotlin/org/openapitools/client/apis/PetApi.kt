@@ -30,7 +30,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Add a new pet to the store
@@ -243,8 +248,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        name?.apply { it.append("name", name.toString()) }
-                        status?.apply { it.append("status", status.toString()) }
+                        name?.apply { it.append("name", name) }
+                        status?.apply { it.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

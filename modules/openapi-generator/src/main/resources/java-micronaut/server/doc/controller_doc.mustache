@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 {{#operations}}
     {{#operation}}
-<a name="{{operationId}}"></a>
+<a id="{{operationId}}"></a>
 # **{{operationId}}**
 ```java
 {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})

@@ -18,7 +18,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -51,19 +50,19 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi AnotherFakeApi
+	AnotherFakeAPI AnotherFakeAPI
 
-	DefaultApi DefaultApi
+	DefaultAPI DefaultAPI
 
-	FakeApi FakeApi
+	FakeAPI FakeAPI
 
-	FakeClassnameTags123Api FakeClassnameTags123Api
+	FakeClassnameTags123API FakeClassnameTags123API
 
-	PetApi PetApi
+	PetAPI PetAPI
 
-	StoreApi StoreApi
+	StoreAPI StoreAPI
 
-	UserApi UserApi
+	UserAPI UserAPI
 }
 
 type service struct {
@@ -82,13 +81,13 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.AnotherFakeApi = (*AnotherFakeApiService)(&c.common)
-	c.DefaultApi = (*DefaultApiService)(&c.common)
-	c.FakeApi = (*FakeApiService)(&c.common)
-	c.FakeClassnameTags123Api = (*FakeClassnameTags123ApiService)(&c.common)
-	c.PetApi = (*PetApiService)(&c.common)
-	c.StoreApi = (*StoreApiService)(&c.common)
-	c.UserApi = (*UserApiService)(&c.common)
+	c.AnotherFakeAPI = (*AnotherFakeAPIService)(&c.common)
+	c.DefaultAPI = (*DefaultAPIService)(&c.common)
+	c.FakeAPI = (*FakeAPIService)(&c.common)
+	c.FakeClassnameTags123API = (*FakeClassnameTags123APIService)(&c.common)
+	c.PetAPI = (*PetAPIService)(&c.common)
+	c.StoreAPI = (*StoreAPIService)(&c.common)
+	c.UserAPI = (*UserAPIService)(&c.common)
 
 	return c
 }
@@ -160,8 +159,9 @@ func parameterValueToString( obj interface{}, key string ) string {
 	return fmt.Sprintf("%v", dataMap[key])
 }
 
-// parameterAddToQuery adds the provided object to the url query supporting deep object syntax
-func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interface{}, collectionType string) {
+// parameterAddToHeaderOrQuery adds the provided object to the request header or url query
+// supporting deep object syntax
+func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix string, obj interface{}, collectionType string) {
 	var v = reflect.ValueOf(obj)
 	var value = ""
 	if v == reflect.ValueOf(nil) {
@@ -177,11 +177,11 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 					if err != nil {
 						return
 					}
-					parameterAddToQuery(queryParams, keyPrefix, dataMap, collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, dataMap, collectionType)
 					return
 				}
 				if t, ok := obj.(time.Time); ok {
-					parameterAddToQuery(queryParams, keyPrefix, t.Format(time.RFC3339), collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339), collectionType)
 					return
 				}
 				value = v.Type().String() + " value"
@@ -193,7 +193,7 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 				var lenIndValue = indValue.Len()
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
-					parameterAddToQuery(queryParams, keyPrefix, arrayValue.Interface(), collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, arrayValue.Interface(), collectionType)
 				}
 				return
 
@@ -205,14 +205,14 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 				iter := indValue.MapRange()
 				for iter.Next() {
 					k,v := iter.Key(), iter.Value()
-					parameterAddToQuery(queryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), collectionType)
 				}
 				return
 
 			case reflect.Interface:
 				fallthrough
 			case reflect.Ptr:
-				parameterAddToQuery(queryParams, keyPrefix, v.Elem().Interface(), collectionType)
+				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), collectionType)
 				return
 
 			case reflect.Int, reflect.Int8, reflect.Int16,
@@ -232,7 +232,7 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 		}
 	}
 
-	switch valuesMap := queryParams.(type) {
+	switch valuesMap := headerOrQueryParams.(type) {
 		case url.Values:
 			if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
 				valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix) + "," + value)
@@ -477,7 +477,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		return nil
 	}
 	if f, ok := v.(*os.File); ok {
-		f, err = ioutil.TempFile("", "HttpClientFile")
+		f, err = os.CreateTemp("", "HttpClientFile")
 		if err != nil {
 			return
 		}
@@ -486,10 +486,11 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = f.Seek(0, io.SeekStart)
+		err = os.Remove(f.Name())
 		return
 	}
 	if f, ok := v.(**os.File); ok {
-		*f, err = ioutil.TempFile("", "HttpClientFile")
+		*f, err = os.CreateTemp("", "HttpClientFile")
 		if err != nil {
 			return
 		}
@@ -498,6 +499,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = (*f).Seek(0, io.SeekStart)
+		err = os.Remove((*f).Name())
 		return
 	}
 	if xmlCheck.MatchString(contentType) {
@@ -574,7 +576,11 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 	} else if jsonCheck.MatchString(contentType) {
 		err = json.NewEncoder(bodyBuf).Encode(body)
 	} else if xmlCheck.MatchString(contentType) {
-		err = xml.NewEncoder(bodyBuf).Encode(body)
+		var bs []byte
+		bs, err = xml.Marshal(body)
+		if err == nil {
+			bodyBuf.Write(bs)
+		}
 	}
 
 	if err != nil {
@@ -690,16 +696,17 @@ func formatErrorMessage(status string, v interface{}) string {
 	str := ""
 	metaValue := reflect.ValueOf(v).Elem()
 
-	field := metaValue.FieldByName("Title")
-	if field != (reflect.Value{}) {
-		str = fmt.Sprintf("%s", field.Interface())
+	if metaValue.Kind() == reflect.Struct {
+		field := metaValue.FieldByName("Title")
+		if field != (reflect.Value{}) {
+			str = fmt.Sprintf("%s", field.Interface())
+		}
+
+		field = metaValue.FieldByName("Detail")
+		if field != (reflect.Value{}) {
+			str = fmt.Sprintf("%s (%s)", str, field.Interface())
+		}
 	}
 
-	field = metaValue.FieldByName("Detail")
-	if field != (reflect.Value{}) {
-		str = fmt.Sprintf("%s (%s)", str, field.Interface())
-	}
-
-	// status title (detail)
 	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
 }

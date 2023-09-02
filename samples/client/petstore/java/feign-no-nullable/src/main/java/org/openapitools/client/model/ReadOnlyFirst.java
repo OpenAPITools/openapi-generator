@@ -90,7 +90,6 @@ public class ReadOnlyFirst {
     this.baz = baz;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

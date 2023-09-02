@@ -15,6 +15,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -299,3 +300,4 @@ public class Pet {
     }
 
 }
+

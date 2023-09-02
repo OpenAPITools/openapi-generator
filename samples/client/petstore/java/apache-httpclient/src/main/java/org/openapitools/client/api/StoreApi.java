@@ -17,13 +17,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Order;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +31,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
+
+
   private ApiClient apiClient;
 
   public StoreApi() {
@@ -56,6 +58,18 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public void deleteOrder(String orderId) throws ApiException {
+    this.deleteOrder(orderId, Collections.emptyMap());
+  }
+
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void deleteOrder(String orderId, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -67,7 +81,7 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -76,6 +90,8 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -95,7 +111,7 @@ public class StoreApi {
         "DELETE",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -106,6 +122,7 @@ public class StoreApi {
         null
     );
   }
+
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
@@ -113,12 +130,24 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {
+    return this.getInventory(Collections.emptyMap());
+  }
+
+
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Map&lt;String, Integer&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public Map<String, Integer> getInventory(Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/store/inventory";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -127,6 +156,8 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -147,7 +178,7 @@ public class StoreApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -158,6 +189,7 @@ public class StoreApi {
         localVarReturnType
     );
   }
+
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -166,6 +198,19 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Order getOrderById(Long orderId) throws ApiException {
+    return this.getOrderById(orderId, Collections.emptyMap());
+  }
+
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+   * @param orderId ID of pet that needs to be fetched (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Order
+   * @throws ApiException if fails to make API call
+   */
+  public Order getOrderById(Long orderId, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -177,7 +222,7 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -186,6 +231,8 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -206,7 +253,7 @@ public class StoreApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -217,6 +264,7 @@ public class StoreApi {
         localVarReturnType
     );
   }
+
   /**
    * Place an order for a pet
    * 
@@ -225,6 +273,19 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Order placeOrder(Order order) throws ApiException {
+    return this.placeOrder(order, Collections.emptyMap());
+  }
+
+
+  /**
+   * Place an order for a pet
+   * 
+   * @param order order placed for purchasing the pet (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Order
+   * @throws ApiException if fails to make API call
+   */
+  public Order placeOrder(Order order, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = order;
     
     // verify the required parameter 'order' is set
@@ -235,7 +296,7 @@ public class StoreApi {
     // create path and map variables
     String localVarPath = "/store/order";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -244,6 +305,8 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -264,7 +327,7 @@ public class StoreApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -275,4 +338,5 @@ public class StoreApi {
         localVarReturnType
     );
   }
+
 }

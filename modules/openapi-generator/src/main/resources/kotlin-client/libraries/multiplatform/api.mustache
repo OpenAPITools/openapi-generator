@@ -5,6 +5,7 @@ package {{apiPackage}}
 {{/imports}}
 
 import {{packageName}}.infrastructure.*
+import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
@@ -15,14 +16,45 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class {{classname}}(
-    baseUrl: String = ApiClient.BASE_URL,
-    httpClientEngine: HttpClientEngine? = null,
-    httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    jsonSerializer: Json = ApiClient.JSON_DEFAULT
-) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonSerializer) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}open class {{classname}} : ApiClient {
+
+    constructor(
+        baseUrl: String = ApiClient.BASE_URL,
+        httpClientEngine: HttpClientEngine? = null,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
+        jsonSerializer: Json = ApiClient.JSON_DEFAULT
+    ) : super(baseUrl = baseUrl, httpClientEngine = httpClientEngine, httpClientConfig = httpClientConfig, jsonBlock = jsonSerializer)
+
+    constructor(
+        baseUrl: String,
+        httpClient: HttpClient
+    ): super(baseUrl = baseUrl, httpClient = httpClient)
 
     {{#operation}}
+    {{#allParams}}
+    {{#isEnum}}
+
+    /**
+     * enum for parameter {{paramName}}
+     */
+    @Serializable
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{^enumUnknownDefaultCase}}
+        {{#allowableValues}}{{#enumVars}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}
+        {{/enumVars}}{{/allowableValues}}
+    {{/enumUnknownDefaultCase}}
+    {{#enumUnknownDefaultCase}}
+        {{#allowableValues}}{{#enumVars}}{{^-last}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+        {{&name}}({{{value}}}),
+        {{/-last}}{{/enumVars}}{{/allowableValues}}
+    {{/enumUnknownDefaultCase}}
+    }
+
+    {{/isEnum}}
+    {{/allParams}}
     /**
      * {{summary}}
      * {{notes}}
@@ -32,7 +64,7 @@ import kotlinx.serialization.encoding.*
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+    open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
@@ -42,7 +74,14 @@ import kotlinx.serialization.encoding.*
             {{#isMultipart}}
             formData {
                 {{#formParams}}
+                {{#isArray}}
+                {{{paramName}}}?.onEach {
+                    append("{{{baseName}}}[]", it)
+                }
+                {{/isArray}}
+                {{^isArray}}
                 {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/isArray}}
                 {{/formParams}}
             }
             {{/isMultipart}}

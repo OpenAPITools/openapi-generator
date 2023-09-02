@@ -46,7 +46,7 @@ func NewZebraWithDefaults() *Zebra {
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Zebra) GetType() string {
-	if o == nil || isNil(o.Type) {
+	if o == nil || IsNil(o.Type) {
 		var ret string
 		return ret
 	}
@@ -56,7 +56,7 @@ func (o *Zebra) GetType() string {
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Zebra) GetTypeOk() (*string, bool) {
-	if o == nil || isNil(o.Type) {
+	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
 	return o.Type, true
@@ -64,7 +64,7 @@ func (o *Zebra) GetTypeOk() (*string, bool) {
 
 // HasType returns a boolean if a field has been set.
 func (o *Zebra) HasType() bool {
-	if o != nil && !isNil(o.Type) {
+	if o != nil && !IsNil(o.Type) {
 		return true
 	}
 
@@ -110,7 +110,7 @@ func (o Zebra) MarshalJSON() ([]byte, error) {
 
 func (o Zebra) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Type) {
+	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
 	toSerialize["className"] = o.ClassName

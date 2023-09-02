@@ -1,10 +1,10 @@
 package org.openapitools.server.infrastructure
 
-import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.auth.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 
 enum class ApiKeyLocation(val location: String) {
     QUERY("query"),
@@ -15,8 +15,7 @@ data class ApiKeyCredential(val value: String) : Credential
 data class ApiPrincipal(val apiKeyCredential: ApiKeyCredential?) : Principal
 
 /**
-* Represents a Api Key authentication provider
-* @param name is the name of the provider, or `null` for a default provider
+* Represents an Api Key authentication provider
 */
 class ApiKeyAuthenticationProvider(configuration: Configuration) : AuthenticationProvider(configuration) {
 
@@ -26,39 +25,38 @@ class ApiKeyAuthenticationProvider(configuration: Configuration) : Authenticatio
 
     private val apiKeyLocation: ApiKeyLocation = configuration.apiKeyLocation
 
-    internal fun install() {
-        pipeline.intercept(AuthenticationPipeline.RequestAuthentication) { context ->
-            val credentials = call.request.apiKeyAuthenticationCredentials(apiKeyName, apiKeyLocation)
-            val principal = credentials?.let { authenticationFunction(call, it) }
+    override suspend fun onAuthenticate(context: AuthenticationContext) {
+        val call = context.call
+        val credentials = call.request.apiKeyAuthenticationCredentials(apiKeyName, apiKeyLocation)
+        val principal = credentials?.let { authenticationFunction.invoke(call, it) }
 
-            val cause = when {
-                credentials == null -> AuthenticationFailedCause.NoCredentials
-                principal == null -> AuthenticationFailedCause.InvalidCredentials
-                else -> null
-            }
+        val cause = when {
+            credentials == null -> AuthenticationFailedCause.NoCredentials
+            principal == null -> AuthenticationFailedCause.InvalidCredentials
+            else -> null
+        }
 
-            if (cause != null) {
-                context.challenge(apiKeyName, cause) {
-                    call.respond(
-                        UnauthorizedResponse(
-                            HttpAuthHeader.Parameterized(
-                                "API_KEY",
-                                mapOf("key" to apiKeyName),
-                                HeaderValueEncoding.QUOTED_ALWAYS
-                            )
+        if (cause != null) {
+            context.challenge(apiKeyName, cause) { challenge, call ->
+                call.respond(
+                    UnauthorizedResponse(
+                        HttpAuthHeader.Parameterized(
+                            "API_KEY",
+                            mapOf("key" to apiKeyName),
+                            HeaderValueEncoding.QUOTED_ALWAYS
                         )
                     )
-                    it.complete()
-                }
+                )
+                challenge.complete()
             }
+        }
 
-            if (principal != null) {
-                context.principal(principal)
-            }
+        if (principal != null) {
+            context.principal(principal)
         }
     }
 
-    class Configuration internal constructor(name: String?) : AuthenticationProvider.Configuration(name) {
+    class Configuration internal constructor(name: String?) : Config(name) {
 
         internal var authenticationFunction: suspend ApplicationCall.(ApiKeyCredential) -> Principal? = {
             throw NotImplementedError(
@@ -80,13 +78,12 @@ class ApiKeyAuthenticationProvider(configuration: Configuration) : Authenticatio
     }
 }
 
-fun Authentication.Configuration.apiKeyAuth(
+fun AuthenticationConfig.apiKeyAuth(
     name: String? = null,
     configure: ApiKeyAuthenticationProvider.Configuration.() -> Unit
 ) {
     val configuration = ApiKeyAuthenticationProvider.Configuration(name).apply(configure)
     val provider = ApiKeyAuthenticationProvider(configuration)
-    provider.install()
     register(provider)
 }
 

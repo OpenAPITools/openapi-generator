@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
 public enum StatusEnum {
 

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -51,7 +52,7 @@ public class FileSchemaTestClass {
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=ModelFile
   @XmlElement(name = "files")
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -105,6 +106,8 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<ModelFile> getFiles() {
     return files;
@@ -113,10 +116,11 @@ public class FileSchemaTestClass {
 
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

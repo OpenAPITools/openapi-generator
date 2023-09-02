@@ -93,7 +93,7 @@ export class {{classname}} {
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters.append('{{baseName}}', <any>{{paramName}}.toISOString());
+            queryParameters.append('{{baseName}}', (<any>{{paramName}}).toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
             queryParameters.append('{{baseName}}', <any>{{paramName}});
@@ -136,12 +136,12 @@ export class {{classname}} {
 
 {{/isKeyInQuery}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
         if (this.configuration.username || this.configuration.password) {
             headers['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
         }
 
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'

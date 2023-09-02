@@ -21,29 +21,13 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -72,14 +56,27 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
+import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.samskivert.mustache.Mustache;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
+
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
+
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -92,6 +89,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
+    public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
+
+    public static final String RESOURCE_FOLDER = "resourceFolder";
+    public static final String RESOURCE_FOLDER_DESC = "resource folder for generated resources";
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -99,11 +100,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
+    public static final String SPRING_HTTP_INTERFACE = "spring-http-interface";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
@@ -131,6 +135,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
+    protected String resourceFolder = projectFolder + "/resources";
+
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
     protected boolean delegatePattern = false;
@@ -151,7 +157,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
+    protected boolean useResponseEntity = true;
+    protected boolean useEnumCaseInsensitive = false;
     protected boolean useSpringBoot3 = false;
+    protected boolean generatedConstructorWithRequiredArgs = true;
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
 
     public SpringCodegen() {
@@ -240,13 +249,25 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI,
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
             useSwaggerUI));
+        cliOptions.add(CliOption.newBoolean(USE_RESPONSE_ENTITY,
+                "Use the `ResponseEntity` type to wrap return values of generated API methods. "
+                    + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
+                useResponseEntity));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE,
+                "Use `equalsIgnoreCase` when String for enum comparison",
+                useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
             "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
             useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
+            "Whether to generate constructors with required args for models",
+            generatedConstructorWithRequiredArgs));
+        cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
             "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+        supportedLibraries.put(SPRING_HTTP_INTERFACE, "Spring 6 HTTP interfaces (testing)");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
@@ -272,7 +293,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public DocumentationProvider defaultDocumentationProvider() {
-        return DocumentationProvider.SPRINGDOC;
+        return isLibrary(SPRING_HTTP_INTERFACE) ? null : DocumentationProvider.SPRINGDOC;
     }
 
     public List<DocumentationProvider> supportedDocumentationProvider() {
@@ -343,6 +364,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
+        if (SPRING_HTTP_INTERFACE.equals(library)) {
+            documentationProvider = DocumentationProvider.NONE;
+            annotationLibrary = AnnotationLibrary.NONE;
+            useJakartaEe=true;
+            useBeanValidation = false;
+            performBeanValidation = false;
+
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
+            additionalProperties.put(PERFORM_BEANVALIDATION, performBeanValidation);
+            additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
+            additionalProperties.put(documentationProvider.getPropertyName(), true);
+            additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
+            additionalProperties.put(annotationLibrary.getPropertyName(), true);
+
+            applyJakartaPackage();
+
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
+                + "useJakartaEe defaulted to 'true'");
+        }
+
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
         }
@@ -402,8 +444,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!SPRING_BOOT.equals(library)) {
-                throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
+                throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
             }
             this.setReactive(Boolean.parseBoolean(additionalProperties.get(REACTIVE).toString()));
         }
@@ -443,6 +485,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(SPRING_CONTROLLER, useSpringController);
 
+        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS)) {
+            this.generatedConstructorWithRequiredArgs = convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS);
+        }
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, generatedConstructorWithRequiredArgs);
+
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
@@ -463,6 +510,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
+        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+            this.setUseResponseEntity(
+                    Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
+        }
+        writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+        additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
+
+        if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
+            this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
+        }
+        writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
+
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
         }
@@ -479,9 +538,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
+        if (additionalProperties.containsKey(RESOURCE_FOLDER)) {
+            this.setResourceFolder((String) additionalProperties.get(RESOURCE_FOLDER));
+        }
+        additionalProperties.put(RESOURCE_FOLDER, resourceFolder);
+
+
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
-        importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -523,9 +587,18 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "RFC3339DateFormat.java"));
             }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
+
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "ApiKeyRequestInterceptor.java"));
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ApiKeyRequestInterceptor.java"));
+
+                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
+                      resourceFolder, "oauth2-client.properties"));
+
+                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ClientPropertiesConfiguration.java"));
+
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
@@ -537,7 +610,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // @RequestMapping not supported with spring cloud openfeign.
                 setRequestMappingMode(RequestMappingMode.none);
                 additionalProperties.put(USE_FEIGN_CLIENT, "true");
-            } else {
+            } else if (SPRING_BOOT.equals(library)) {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 if (containsEnums()) {
                     supportingFiles.add(new SupportingFile("converter.mustache",
@@ -561,10 +634,14 @@ public class SpringCodegen extends AbstractJavaCodegen
                             "SpringFoxConfiguration.java"));
                     }
                 }
+            } else if (SPRING_HTTP_INTERFACE.equals(library)) {
+                supportingFiles.add(new SupportingFile("httpInterfacesConfiguration.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
+                writePropertyBack(USE_BEANVALIDATION, false);
             }
         }
 
-        if (!SPRING_CLOUD_LIBRARY.equals(library)) {
+        if (SPRING_BOOT.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
@@ -651,6 +728,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.clear();
             modelTemplateFiles.clear();
         }
+        supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
     private boolean containsEnums() {
@@ -667,10 +745,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
+    private boolean supportLibraryUseTags(){
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) && !useTags)) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -688,9 +769,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
         }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+
     }
 
     @Override
@@ -769,6 +851,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                             public void setReturnContainer(final String returnContainer) {
                                 resp.containerType = returnContainer;
                             }
+
+                            @Override
+                            public void setIsVoid(boolean isVoid) {
+                                resp.isVoid = isVoid;
+                            }
                         });
                     }
                 }
@@ -784,12 +871,26 @@ public class SpringCodegen extends AbstractJavaCodegen
                     public void setReturnContainer(final String returnContainer) {
                         operation.returnContainer = returnContainer;
                     }
+
+                    @Override
+                    public void setIsVoid(boolean isVoid) {
+                        operation.isVoid = isVoid;
+                    }
                 });
 
+                prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
             }
-            objs.put("tagDescription", ops.get(0).tags.get(0).getDescription());
+            // The tag for the controller is the first tag of the first operation
+            final CodegenOperation firstOperation = ops.get(0);
+            final Tag firstTag = firstOperation.tags.get(0);
+            final String firstTagName = firstTag.getName();
+            // But use a sensible tag name if there is none
+            objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
+            objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
+
+        removeImport(objs, "java.util.List");
 
         return objs;
     }
@@ -798,6 +899,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         void setReturnType(String returnType);
 
         void setReturnContainer(String returnContainer);
+
+        void setIsVoid(boolean isVoid);
     }
 
     /**
@@ -809,6 +912,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         final String rt = returnType;
         if (rt == null) {
             dataTypeAssigner.setReturnType("Void");
+            dataTypeAssigner.setIsVoid(true);
         } else if (rt.startsWith("List") || rt.startsWith("java.util.List")) {
             final int start = rt.indexOf("<");
             final int end = rt.lastIndexOf(">");
@@ -833,6 +937,32 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    private void prepareVersioningParameters(List<CodegenOperation> operations) {
+        for (CodegenOperation operation : operations) {
+            if (operation.getHasHeaderParams()) {
+                List<CodegenParameter> versionParams = operation.headerParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+                operation.hasVersionHeaders = !versionParams.isEmpty();
+                operation.vendorExtensions.put("versionHeaderParamsList", versionParams);
+            }
+
+            if (operation.getHasQueryParams()) {
+                List<CodegenParameter> versionParams = operation.queryParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+                operation.hasVersionQueryParams = !versionParams.isEmpty();
+                operation.vendorExtensions.put("versionQueryParamsList", versionParams);
+            }
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
@@ -853,7 +983,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(name) + apiNameSuffix;
     }
 
     @Override
@@ -967,6 +1097,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.unhandledException = unhandledException;
     }
 
+    public void setUseResponseEntity(boolean useResponseEntity) {
+        this.useResponseEntity = useResponseEntity;
+    }
+
+    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
+        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1058,6 +1196,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                     parentCodegenModel = parentCodegenModel.getParentModel();
                 }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+                }
                 // There must be a better way ...
                 for (String imp: inheritedImports) {
                     String qimp = importMapping().get(imp);
@@ -1080,6 +1221,13 @@ public class SpringCodegen extends AbstractJavaCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+
+        // add Pageable import only if x-spring-paginated explicitly used
+        // this allows to use a custom Pageable schema without importing Spring Pageable.
+        if (Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+            importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
+        }
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
@@ -1156,7 +1304,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        extensions.add(VendorExtension.X_VERSION_PARAM);
+        extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
     }
 
@@ -1174,5 +1325,69 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
         this.requestMappingMode = requestMappingMode;
+    }
+
+    @Override
+    public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
+        CodegenParameter codegenParameter = super.fromParameter( parameter, imports );
+        if(!isListOrSet(codegenParameter)){
+            return codegenParameter;
+        }
+        codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.datatypeWithEnum  );
+        codegenParameter.dataType = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.dataType  );
+        return codegenParameter;
+    }
+    @Override
+    public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
+        CodegenProperty codegenProperty = super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
+        if(!isListOrSet(codegenProperty)){
+            return codegenProperty;
+        }
+        codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.datatypeWithEnum );
+        codegenProperty.dataType = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.dataType  );
+        return codegenProperty;
+    }
+
+    // The default validation applied for non-container and non-map types is sufficient for the SpringCodegen.
+    // Maps are very complex for bean validation, so it's currently not supported.
+    private static boolean isListOrSet(CodegenProperty codegenProperty) {
+        return codegenProperty.isContainer && !codegenProperty.isMap;
+    }
+
+    // The default validation applied for non-container and non-map types is sufficient for the SpringCodegen.
+    // Maps are very complex for bean validation, so it's currently not supported.
+    private static boolean isListOrSet(CodegenParameter codegenParameter) {
+        return codegenParameter.isContainer && !codegenParameter.isMap;
+    }
+
+    private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
+        if (!useBeanValidation() || !codegenProperty.isModel || isResponseType(codegenProperty)) {
+            return dataType;
+        }
+
+        if (StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" )) {
+            return dataType;
+        }
+        return dataType.replace( "<", "<@Valid " );
+    }
+
+    public void setResourceFolder( String resourceFolder ) {
+        this.resourceFolder = resourceFolder;
+    }
+
+    public String getResourceFolder() {
+        return resourceFolder;
+    }
+
+
+    // This should prevent, that the response data types not contains a @Valid annotation.
+    // However, the side effect is that attributes with response as name are also affected.
+    private static boolean isResponseType(CodegenProperty codegenProperty) {
+        return codegenProperty.baseName.toLowerCase(Locale.ROOT).contains("response");
+    }
+
+    // SPRING_HTTP_INTERFACE does not support bean validation.
+    public boolean useBeanValidation() {
+        return useBeanValidation && !SPRING_HTTP_INTERFACE.equals(library);
     }
 }

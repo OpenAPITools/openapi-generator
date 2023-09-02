@@ -14,12 +14,11 @@ R/api_exception.R
 R/api_response.R
 R/basque_pig.R
 R/cat.R
-R/cat_all_of.R
 R/category.R
 R/danish_pig.R
 R/date.R
 R/dog.R
-R/dog_all_of.R
+R/dummy_model.R
 R/fake_api.R
 R/format_test.R
 R/mammal.R
@@ -46,12 +45,11 @@ docs/AnyOfPig.md
 docs/AnyOfPrimitiveTypeTest.md
 docs/BasquePig.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/DanishPig.md
 docs/Date.md
 docs/Dog.md
-docs/DogAllOf.md
+docs/DummyModel.md
 docs/FakeApi.md
 docs/FormatTest.md
 docs/Mammal.md

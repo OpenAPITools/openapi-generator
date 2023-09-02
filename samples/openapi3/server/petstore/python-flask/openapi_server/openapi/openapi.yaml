@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+  description: "This is a sample server Petstore server. For this sample, you can\
+    \ use the api key `special-key` to test the authorization filters."
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,6 +22,7 @@ tags:
 paths:
   /pet:
     post:
+      description: ""
       operationId: add_pet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -37,6 +38,7 @@ paths:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     put:
+      description: ""
       operationId: update_pet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -101,8 +103,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: find_pets_by_tags
       parameters:
       - description: Tags to filter by
@@ -140,6 +142,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}:
     delete:
+      description: ""
       operationId: delete_pet
       parameters:
       - explode: false
@@ -203,6 +206,7 @@ paths:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     patch:
+      description: ""
       operationId: update_pet_status_with_enum
       parameters:
       - description: ID of pet to return
@@ -242,6 +246,7 @@ paths:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     post:
+      description: ""
       operationId: update_pet_with_form
       parameters:
       - description: ID of pet that needs to be updated
@@ -268,6 +273,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: upload_file
       parameters:
       - description: ID of pet to update
@@ -318,6 +324,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order:
     post:
+      description: ""
       operationId: place_order
       requestBody:
         content:
@@ -421,6 +428,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithArray:
     post:
+      description: ""
       operationId: create_users_with_array_input
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -435,6 +443,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithList:
     post:
+      description: ""
       operationId: create_users_with_list_input
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -449,6 +458,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/login:
     get:
+      description: ""
       operationId: login_user
       parameters:
       - description: The user name for login
@@ -457,7 +467,7 @@ paths:
         name: username
         required: true
         schema:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
         style: form
       - description: The password for login in clear text
@@ -509,6 +519,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/logout:
     get:
+      description: ""
       operationId: logout_user
       responses:
         default:
@@ -544,6 +555,7 @@ paths:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
+      description: ""
       operationId: get_user_by_name
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
@@ -663,15 +675,19 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         petId:
           format: int64
+          title: petId
           type: integer
         quantity:
           format: int32
+          title: quantity
           type: integer
         shipDate:
           format: date-time
+          title: shipDate
           type: string
         status:
           description: Order Status
@@ -679,9 +695,11 @@ components:
           - placed
           - approved
           - delivered
+          title: status
           type: string
         complete:
           default: false
+          title: complete
           type: boolean
       title: Pet Order
       type: object
@@ -695,9 +713,11 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         name:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          title: name
           type: string
       title: Pet category
       type: object
@@ -717,22 +737,30 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         username:
+          title: username
           type: string
         firstName:
+          title: firstName
           type: string
         lastName:
+          title: lastName
           type: string
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
         phone:
+          title: phone
           type: string
         userStatus:
           description: User Status
           format: int32
+          title: userStatus
           type: integer
       title: a User
       type: object
@@ -746,8 +774,10 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         name:
+          title: name
           type: string
       title: Pet Tag
       type: object
@@ -773,15 +803,18 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         category:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
+          title: name
           type: string
         photoUrls:
           items:
             type: string
+          title: photoUrls
           type: array
           xml:
             name: photoUrl
@@ -789,6 +822,7 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/Tag'
+          title: tags
           type: array
           xml:
             name: tag
@@ -799,6 +833,7 @@ components:
           - available
           - pending
           - sold
+          title: status
           type: string
       required:
       - name
@@ -812,9 +847,11 @@ components:
       properties:
         name:
           description: Updated name of the pet
+          title: name
           type: string
         status:
           description: Updated status of the pet
+          title: status
           type: string
       required:
       - name
@@ -826,10 +863,12 @@ components:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
+          title: additionalMetadata
           type: string
         file:
           description: file to upload
           format: binary
+          title: file
           type: string
       required:
       - file
@@ -844,10 +883,13 @@ components:
       properties:
         code:
           format: int32
+          title: code
           type: integer
         type:
+          title: type
           type: string
         message:
+          title: message
           type: string
       title: An uploaded response
       type: object
@@ -857,6 +899,7 @@ components:
       - available
       - pending
       - sold
+      title: statusEnum
       type: string
   securitySchemes:
     petstore_auth:
@@ -867,15 +910,15 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_petstore_auth
-      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_petstore_auth
+      x-tokenInfoFunc: openapi_server.controllers.security_controller.info_from_petstore_auth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller.validate_scope_petstore_auth
     api_key:
       in: header
       name: api_key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_api_key
     auth_cookie:
       in: cookie
       name: AUTH_KEY
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_auth_cookie
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_auth_cookie

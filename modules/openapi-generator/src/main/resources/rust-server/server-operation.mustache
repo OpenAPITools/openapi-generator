@@ -125,7 +125,7 @@
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
   {{/-first}}
-                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
+                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.clone())
   {{#isArray}}
     {{^vendorExtensions.x-consumes-json}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
@@ -221,7 +221,7 @@
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 {{/x-consumes-xml}}
 {{#x-consumes-json}}
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
 {{/x-consumes-json}}
 {{^x-consumes-plain-text}}
                                     match serde_ignored::deserialize(deserializer, |path| {

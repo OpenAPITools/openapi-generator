@@ -13,13 +13,13 @@ package petstore
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
 
 
-type DefaultApi interface {
+type DefaultAPI interface {
 
 	/*
 	FooGet Method for FooGet
@@ -34,12 +34,12 @@ type DefaultApi interface {
 	FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error)
 }
 
-// DefaultApiService DefaultApi service
-type DefaultApiService service
+// DefaultAPIService DefaultAPI service
+type DefaultAPIService service
 
 type ApiFooGetRequest struct {
 	ctx context.Context
-	ApiService DefaultApi
+	ApiService DefaultAPI
 }
 
 func (r ApiFooGetRequest) Execute() (*FooGetDefaultResponse, *http.Response, error) {
@@ -52,7 +52,7 @@ FooGet Method for FooGet
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFooGetRequest
 */
-func (a *DefaultApiService) FooGet(ctx context.Context) ApiFooGetRequest {
+func (a *DefaultAPIService) FooGet(ctx context.Context) ApiFooGetRequest {
 	return ApiFooGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -61,7 +61,7 @@ func (a *DefaultApiService) FooGet(ctx context.Context) ApiFooGetRequest {
 
 // Execute executes the request
 //  @return FooGetDefaultResponse
-func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error) {
+func (a *DefaultAPIService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -69,7 +69,7 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultRes
 		localVarReturnValue  *FooGetDefaultResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.FooGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -107,9 +107,9 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultRes
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

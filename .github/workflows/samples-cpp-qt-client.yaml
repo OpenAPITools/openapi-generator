@@ -1,0 +1,38 @@
+name: Samples cpp qt client
+
+on:
+  push:
+    branches:
+      - 'samples/client/petstore/cpp-qt/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/cpp-qt/**'
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build cpp qt client
+    strategy:
+      matrix:
+        qt-version:
+          - '5.15.2'
+          - '6.4.2'
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+        include:
+          - os: windows-latest
+            tools: 'tools_openssl_x64'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ matrix.qt-version }}
+          tools: ${{ matrix.tools }}
+      - name: Build
+        working-directory: "samples/client/petstore/cpp-qt"
+        run: cmake . && cmake --build .

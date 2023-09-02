@@ -38,7 +38,7 @@ namespace org::openapitools::server::api
 
 using namespace org::openapitools::server::model;
 
-class StoreApiImpl : public org::openapitools::server::api::StoreApi {
+class  StoreApiImpl : public org::openapitools::server::api::StoreApi {
 public:
     explicit StoreApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~StoreApiImpl() override = default;

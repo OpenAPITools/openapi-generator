@@ -91,6 +91,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
@@ -241,7 +242,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
+                    String vendorExtensionTagName = cm.discriminator.getPropertyName();
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
@@ -435,7 +436,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(unaliasSchema)) {
-            Schema inner = getAdditionalProperties(unaliasSchema);
+            Schema inner = ModelUtils.getAdditionalProperties(unaliasSchema);
             if (inner == null) {
                 LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", unaliasSchema.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");

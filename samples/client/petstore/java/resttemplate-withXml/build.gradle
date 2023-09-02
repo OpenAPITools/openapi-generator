@@ -66,7 +66,7 @@ if(hasProperty('target') && target == 'android') {
 
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
+        archiveClassifier = 'sources'
     }
 
     artifacts {
@@ -91,24 +91,22 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 }
 
 ext {
-    swagger_annotations_version = "1.6.9"
     jackson_version = "2.14.1"
     jackson_databind_version = "2.14.1"
-    jackson_databind_nullable_version = "0.2.4"
-    jakarta_annotation_version = "1.3.5"
+    jackson_databind_nullable_version = "0.2.6"
     spring_web_version = "5.3.24"
+    jakarta_annotation_version = "1.3.5"
     jodatime_version = "2.9.9"
     junit_version = "4.13.2"
 }
 
 dependencies {
-    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"

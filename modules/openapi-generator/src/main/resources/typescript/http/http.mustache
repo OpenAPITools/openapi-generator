@@ -1,10 +1,10 @@
 {{#platforms}}
 {{#node}}
 // TODO: evaluate if we can easily get rid of this library
-import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
-import { URL, URLSearchParams } from 'url';
-import * as http from 'http';
-import * as https from 'https';
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data{{importFileExtension}}";
+import { URL, URLSearchParams } from 'url{{importFileExtension}}';
+import * as http from 'http{{importFileExtension}}';
+import * as https from 'https{{importFileExtension}}';
 {{/node}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -13,10 +13,10 @@ import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../r
 {{^deno}}
 {{#frameworks}}
 {{#fetch-api}}
-export * from './isomorphic-fetch';
+export * from './isomorphic-fetch{{importFileExtension}}';
 {{/fetch-api}}
 {{#jquery}}
-export * from './jquery';
+export * from './jquery{{importFileExtension}}';
 {{/jquery}}
 {{/frameworks}}
 {{/deno}}
@@ -63,6 +63,20 @@ export class HttpException extends Error {
  */
 export type RequestBody = undefined | string | FormData | URLSearchParams;
 
+function ensureAbsoluteUrl(url: string) {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+    {{#platforms}}
+    {{#node}}
+    throw new Error("You need to define an absolute base url for the server.");
+    {{/node}}
+    {{^node}}
+    return window.location.origin + url;
+    {{/node}}
+    {{/platforms}}
+}
+
 /**
  * Represents an HTTP request context
  */
@@ -83,7 +97,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URL(url);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /*
@@ -101,7 +115,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URL(url);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /**
@@ -293,4 +307,15 @@ export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLib
       return from(promiseHttpLibrary.send(request));
     }
   }
+}
+
+export class HttpInfo<T> extends ResponseContext {
+    public constructor(
+        public httpStatusCode: number,
+        public headers: { [key: string]: string },
+        public body: ResponseBody,
+        public data: T,
+    ) {
+        super(httpStatusCode, headers, body);
+    }
 }

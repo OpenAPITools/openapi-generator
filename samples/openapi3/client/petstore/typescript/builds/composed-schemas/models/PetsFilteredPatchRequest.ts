@@ -57,5 +57,8 @@ export class PetsFilteredPatchRequest {
 }
 
 
-export type PetsFilteredPatchRequestPetTypeEnum = "Cat" | "Dog" ;
+export enum PetsFilteredPatchRequestPetTypeEnum {
+    Cat = 'Cat',
+    Dog = 'Dog'
+}
 

@@ -32,7 +32,12 @@ import java.text.DateFormat
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Add a new pet to the store
@@ -245,8 +250,8 @@ import java.text.DateFormat
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        name?.apply { it.append("name", name.toString()) }
-                        status?.apply { it.append("status", status.toString()) }
+                        name?.apply { it.append("name", name) }
+                        status?.apply { it.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

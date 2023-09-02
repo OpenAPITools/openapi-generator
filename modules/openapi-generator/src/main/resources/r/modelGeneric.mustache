@@ -289,9 +289,9 @@
         self$`{{name}}` <- this_object$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object <- {{dataType}}$new()
-        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object$fromJSON(jsonlite::toJSON(this_object${{baseName}}, auto_unbox = TRUE, digits = NA))
-        self$`{{name}}` <- {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object` <- {{dataType}}$new()
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`$fromJSON(jsonlite::toJSON(this_object$`{{baseName}}`, auto_unbox = TRUE, digits = NA))
+        self$`{{name}}` <- `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`
         {{/isPrimitiveType}}
         {{/isContainer}}
       }
@@ -421,7 +421,7 @@
       self$`{{name}}` <- this_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object${{name}}, auto_unbox = TRUE, digits = NA))
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object$`{{name}}`, auto_unbox = TRUE, digits = NA))
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}

@@ -4,6 +4,7 @@ import apimodels.Category;
 import apimodels.Tag;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -136,7 +137,10 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
-    photoUrls.add(photoUrlsItem);
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
+    this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
@@ -159,10 +163,10 @@ public class Pet   {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
-    if (tags == null) {
-      tags = new ArrayList<>();
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
     }
-    tags.add(tagsItem);
+    this.tags.add(tagsItem);
     return this;
   }
 

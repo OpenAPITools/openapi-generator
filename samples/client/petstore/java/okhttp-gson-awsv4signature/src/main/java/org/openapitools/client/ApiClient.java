@@ -105,8 +105,8 @@ public class ApiClient {
         initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("petstore_auth", new OAuth());
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("AWS4Auth", new AWS4Auth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -123,8 +123,8 @@ public class ApiClient {
         httpClient = client;
 
         // Setup authentications (key: authentication name, value: authentication).
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("petstore_auth", new OAuth());
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("AWS4Auth", new AWS4Auth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -240,6 +240,7 @@ public class ApiClient {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        this.serverIndex = null;
         return this;
     }
 
@@ -1273,12 +1274,15 @@ public class ApiClient {
         // prepare HTTP request body
         RequestBody reqBody;
         String contentType = headerParams.get("Content-Type");
-
+        String contentTypePure = contentType;
+        if (contentTypePure != null && contentTypePure.contains(";")) {
+            contentTypePure = contentType.substring(0, contentType.indexOf(";"));
+        }
         if (!HttpMethod.permitsRequestBody(method)) {
             reqBody = null;
-        } else if ("application/x-www-form-urlencoded".equals(contentType)) {
+        } else if ("application/x-www-form-urlencoded".equals(contentTypePure)) {
             reqBody = buildRequestBodyFormEncoding(formParams);
-        } else if ("multipart/form-data".equals(contentType)) {
+        } else if ("multipart/form-data".equals(contentTypePure)) {
             reqBody = buildRequestBodyMultipart(formParams);
         } else if (body == null) {
             if ("DELETE".equals(method)) {

@@ -35,7 +35,8 @@ namespace {{modelPackage}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
-        /// <value>{{.}}</value>{{/description}}{{#required}}
+        /// <value>{{.}}</value>{{/description}}{{#example}}
+        /// <example>{{.}}</example>{{/example}}{{#required}}
         [Required]{{/required}}{{#pattern}}
         [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}

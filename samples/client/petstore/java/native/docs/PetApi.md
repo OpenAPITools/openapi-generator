@@ -53,6 +53,7 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
@@ -82,7 +83,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -92,7 +93,6 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 ## addPetWithHttpInfo
@@ -123,6 +123,7 @@ public class Example {
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -155,7 +156,7 @@ ApiResponse<Void>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -165,7 +166,6 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -238,7 +238,6 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 ## deletePetWithHttpInfo
@@ -313,7 +312,6 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 
@@ -345,6 +343,7 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
@@ -375,7 +374,7 @@ public class Example {
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -417,6 +416,7 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
@@ -449,7 +449,7 @@ ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -465,7 +465,7 @@ ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>
 
 ## findPetsByTags
 
-> Set<Pet> findPetsByTags(tags)
+> List<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -491,10 +491,11 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
-        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
+        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
         try {
-            Set<Pet> result = apiInstance.findPetsByTags(tags);
+            List<Pet> result = apiInstance.findPetsByTags(tags);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -512,16 +513,16 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
+| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-[**Set&lt;Pet&gt;**](Pet.md)
+[**List&lt;Pet&gt;**](Pet.md)
 
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -536,7 +537,7 @@ public class Example {
 
 ## findPetsByTagsWithHttpInfo
 
-> ApiResponse<Set<Pet>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
+> ApiResponse<List<Pet>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
 
 Finds Pets by tags
 
@@ -563,10 +564,11 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
-        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
+        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
         try {
-            ApiResponse<Set<Pet>> response = apiInstance.findPetsByTagsWithHttpInfo(tags);
+            ApiResponse<List<Pet>> response = apiInstance.findPetsByTagsWithHttpInfo(tags);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -586,16 +588,16 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
+| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-ApiResponse<[**Set&lt;Pet&gt;**](Pet.md)>
+ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>
 
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -789,6 +791,7 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
@@ -818,7 +821,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -828,7 +831,6 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -862,6 +864,7 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
+
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
@@ -893,7 +896,7 @@ ApiResponse<Void>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -903,7 +906,6 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -980,7 +982,6 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 ## updatePetWithFormWithHttpInfo
@@ -1057,7 +1058,6 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 

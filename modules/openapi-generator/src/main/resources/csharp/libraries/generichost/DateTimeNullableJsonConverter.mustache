@@ -1,0 +1,56 @@
+{{>partial_header}}
+using System;
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace {{packageName}}.{{clientPackage}}
+{
+    /// <summary>
+    /// Formatter for 'date' openapi formats ss defined by full-date - RFC3339
+    /// see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types
+    /// </summary>
+    {{>visibility}} class DateTimeNullableJsonConverter : JsonConverter<DateTime?>
+    {
+        /// <summary>
+        /// The formats used to deserialize the date
+        /// </summary>
+        public static string[] Formats { get; } = {
+{{>DateTimeFormats}}
+         };
+
+        /// <summary>
+        /// Returns a DateTime from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
+            string value = reader.GetString(){{nrt!}};
+
+            foreach(string format in Formats)
+                if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
+                    return result;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Writes the DateTime to the json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="dateTimeValue"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, DateTime? dateTimeValue, JsonSerializerOptions options)
+        {
+            if (dateTimeValue == null)
+                writer.WriteNullValue();
+            else
+                writer.WriteStringValue(dateTimeValue.Value.ToString("{{{dateTimeFormat}}}", CultureInfo.InvariantCulture));
+        }
+    }
+}

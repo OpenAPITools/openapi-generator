@@ -79,7 +79,7 @@ interface {{classname}} {
     /**
     * enum for parameter {{paramName}}
     */
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}_{{operationId}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{^enumUnknownDefaultCase}}
         {{#allowableValues}}
             {{#enumVars}}

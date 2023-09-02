@@ -2,7 +2,8 @@
 {{#isDateTime}}Api.Time.dateTimeDecoder{{/isDateTime}}
 {{#isDate}}Api.Time.dateDecoder{{/isDate}}
 {{#isByteArray}}Json.Decode.string{{/isByteArray}}
-{{#isBinary}}Json.Decode.string{{/isBinary}}
+{{#isBinary}}{{^isFile}}Json.Decode.string{{/isFile}}{{/isBinary}}
+{{#isFile}}File.decoder{{/isFile}}
 {{#isString}}{{^isEnum}}{{^isUuid}}Json.Decode.string{{/isUuid}}{{/isEnum}}{{/isString}}
 {{#isInteger}}Json.Decode.int{{/isInteger}}
 {{#isLong}}Json.Decode.int{{/isLong}}

@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 
@@ -36,7 +37,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -91,7 +92,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

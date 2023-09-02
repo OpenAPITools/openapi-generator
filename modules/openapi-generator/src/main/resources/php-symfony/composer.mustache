@@ -1,5 +1,10 @@
 {
+    {{#composerPackageName}}
+    "name": "{{{.}}}",
+    {{/composerPackageName}}
+    {{^composerPackageName}}
     "name": "{{gitUserId}}/{{gitRepoId}}",
+    {{/composerPackageName}}
     {{#artifactVersion}}
     "version": "{{.}}",
     {{/artifactVersion}}
@@ -10,12 +15,12 @@
         "sdk",
         "api"
     ],
-    "homepage": "https://github.com/openapitools/openapi-generator",
-    "license": "unlicense",
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
     "authors": [
         {
-            "name": "openapi-generator contributors",
-            "homepage": "https://github.com/openapitools/openapi-generator"
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
         }
     ],
     "require": {

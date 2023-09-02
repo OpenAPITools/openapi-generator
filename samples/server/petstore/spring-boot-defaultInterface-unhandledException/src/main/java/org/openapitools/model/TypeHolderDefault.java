@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -24,21 +25,31 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefault {
 
-  @JsonProperty("string_item")
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private BigDecimal numberItem = new BigDecimal("1.234");
 
-  @JsonProperty("integer_item")
-  private Integer integerItem;
+  private Integer integerItem = -2;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
   @Valid
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+
+  public TypeHolderDefault() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -51,6 +62,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -70,6 +82,7 @@ public class TypeHolderDefault {
   */
   @NotNull @Valid 
   @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -89,6 +102,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -108,6 +122,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -122,6 +137,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -132,6 +150,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

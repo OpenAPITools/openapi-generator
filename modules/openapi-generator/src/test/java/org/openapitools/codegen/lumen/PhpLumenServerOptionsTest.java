@@ -49,5 +49,9 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
         verify(clientCodegen).setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpLumenServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setLicenseName(PhpLumenServerOptionsProvider.LICENSE_VALUE);
+        verify(clientCodegen).setDeveloperOrganizationUrl(PhpLumenServerOptionsProvider.DEVELOPER_ORGANIZATION_URL_VALUE);
+        verify(clientCodegen).setArtifactUrl(PhpLumenServerOptionsProvider.ARTIFACTURL_VALUE);
+        verify(clientCodegen).setDeveloperOrganization(PhpLumenServerOptionsProvider.DEVELOPER_ORGANIZATION_VALUE);
     }
 }

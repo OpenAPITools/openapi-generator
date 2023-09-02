@@ -59,7 +59,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
   @XmlElement(name = "inner")
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
@@ -141,6 +141,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Animal> getMap() {
     return map;
@@ -149,10 +151,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(Object o) {

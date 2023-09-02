@@ -19,7 +19,6 @@ package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -38,16 +37,11 @@ import java.io.Writer;
  * </pre>
  */
 public class JoinWithCommaLambda implements Mustache.Lambda {
-    private CodegenConfig generator = null;
 
     public JoinWithCommaLambda() {
 
     }
 
-    public JoinWithCommaLambda generator(final CodegenConfig generator) {
-        this.generator = generator;
-        return this;
-    }
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {

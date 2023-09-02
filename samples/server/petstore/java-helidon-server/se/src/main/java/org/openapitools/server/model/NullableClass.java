@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,11 @@ public class NullableClass extends HashMap<String, Object>  {
     private String stringProp;
     private LocalDate dateProp;
     private OffsetDateTime datetimeProp;
-    private List<Object> arrayNullableProp = new ArrayList<>();
-    private List<Object> arrayAndItemsNullableProp = new ArrayList<>();
-    private List<Object> arrayItemsNullable = new ArrayList<>();
-    private Map<String, Object> objectNullableProp = new HashMap<>();
-    private Map<String, Object> objectAndItemsNullableProp = new HashMap<>();
+    private List<Object> arrayNullableProp;
+    private List<Object> arrayAndItemsNullableProp;
+    private List<Object> arrayItemsNullable;
+    private Map<String, Object> objectNullableProp;
+    private Map<String, Object> objectAndItemsNullableProp;
     private Map<String, Object> objectItemsNullable = new HashMap<>();
 
     /**

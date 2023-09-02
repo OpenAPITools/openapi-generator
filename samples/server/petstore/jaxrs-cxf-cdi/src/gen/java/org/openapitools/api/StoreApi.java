@@ -77,13 +77,13 @@ public class StoreApi  {
 
     @POST
     @Path("/order")
-    
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class, tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order body) {
-        return delegate.placeOrder(body, securityContext);
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order order) {
+        return delegate.placeOrder(order, securityContext);
     }
 }

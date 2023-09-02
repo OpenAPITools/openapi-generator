@@ -17,13 +17,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.FooGetDefaultResponse;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +31,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultApi {
+
+
   private ApiClient apiClient;
 
   public DefaultApi() {
@@ -56,12 +58,24 @@ public class DefaultApi {
    * @throws ApiException if fails to make API call
    */
   public FooGetDefaultResponse fooGet() throws ApiException {
+    return this.fooGet(Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * 
+   * @param additionalHeaders additionalHeaders for this call
+   * @return FooGetDefaultResponse
+   * @throws ApiException if fails to make API call
+   */
+  public FooGetDefaultResponse fooGet(Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/foo";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -70,6 +84,8 @@ public class DefaultApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -90,7 +106,7 @@ public class DefaultApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -101,4 +117,5 @@ public class DefaultApi {
         localVarReturnType
     );
   }
+
 }

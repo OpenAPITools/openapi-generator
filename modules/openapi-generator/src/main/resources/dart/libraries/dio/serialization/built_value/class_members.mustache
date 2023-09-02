@@ -3,6 +3,9 @@
   {{#description}}
   /// {{{.}}}
   {{/description}}
+  {{#deprecated}}
+  @Deprecated('{{{name}}} has been deprecated')
+  {{/deprecated}}
   @BuiltValueField(wireName: r'{{baseName}}')
   {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
   {{#allowableValues}}

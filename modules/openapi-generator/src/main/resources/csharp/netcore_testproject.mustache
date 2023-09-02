@@ -1,49 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>{{targetFrameworkNuget}}</TargetFramework>
     <AssemblyName>{{testPackageName}}</AssemblyName>
-    <PackageId>{{testPackageName}}</PackageId>
-    <OutputType>Library</OutputType>
-    <Authors>{{packageAuthors}}</Authors>
-    <Company>{{packageCompany}}</Company>
-    <AssemblyTitle>{{packageTitle}}</AssemblyTitle>
-    <Description>{{packageDescription}}</Description>
-    <Copyright>{{packageCopyright}}</Copyright>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{testPackageName}}</RootNamespace>
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
+    <IsPackable>false</IsPackable>{{#nrt}}
+    <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="2.6.4" />
-    {{#netStandard}}
-    <PackageReference Include="FubarCoder.RestSharp.Portable.Core" Version="4.0.7" />
-    {{/netStandard}}
-    {{^netStandard}}
-    <PackageReference Include="RestSharp" Version="{{restsharp.version}}" />
-    {{/netStandard}}
-    <PackageReference Include="Newtonsoft.Json" Version="{{newtonsoft-json.version}}" />
-    <PackageReference Include="JsonSubTypes" Version="{{json-subtypes.version}}" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="{{^netStandard}}17.6.3{{/netStandard}}{{#netStandard}}15.9.2{{/netStandard}}" />
+    <PackageReference Include="xunit" Version="{{^netStandard}}2.5.0{{/netStandard}}{{#netStandard}}2.4.2{{/netStandard}}" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="{{^netStandard}}2.5.0{{/netStandard}}{{#netStandard}}2.4.5{{/netStandard}}" />
   </ItemGroup>
-
-  {{^netStandard}}
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  {{/netStandard}}
 
   <ItemGroup>
     <ProjectReference Include="..\{{packageName}}\{{packageName}}.csproj" />
   </ItemGroup>
-
-</Project>
+{{>netcore_testproject.additions}}</Project>

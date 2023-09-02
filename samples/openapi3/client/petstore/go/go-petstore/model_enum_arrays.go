@@ -45,7 +45,7 @@ func NewEnumArraysWithDefaults() *EnumArrays {
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
 func (o *EnumArrays) GetJustSymbol() string {
-	if o == nil || isNil(o.JustSymbol) {
+	if o == nil || IsNil(o.JustSymbol) {
 		var ret string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
-	if o == nil || isNil(o.JustSymbol) {
+	if o == nil || IsNil(o.JustSymbol) {
 		return nil, false
 	}
 	return o.JustSymbol, true
@@ -63,7 +63,7 @@ func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
 
 // HasJustSymbol returns a boolean if a field has been set.
 func (o *EnumArrays) HasJustSymbol() bool {
-	if o != nil && !isNil(o.JustSymbol) {
+	if o != nil && !IsNil(o.JustSymbol) {
 		return true
 	}
 
@@ -77,7 +77,7 @@ func (o *EnumArrays) SetJustSymbol(v string) {
 
 // GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
 func (o *EnumArrays) GetArrayEnum() []string {
-	if o == nil || isNil(o.ArrayEnum) {
+	if o == nil || IsNil(o.ArrayEnum) {
 		var ret []string
 		return ret
 	}
@@ -87,7 +87,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
-	if o == nil || isNil(o.ArrayEnum) {
+	if o == nil || IsNil(o.ArrayEnum) {
 		return nil, false
 	}
 	return o.ArrayEnum, true
@@ -95,7 +95,7 @@ func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 
 // HasArrayEnum returns a boolean if a field has been set.
 func (o *EnumArrays) HasArrayEnum() bool {
-	if o != nil && !isNil(o.ArrayEnum) {
+	if o != nil && !IsNil(o.ArrayEnum) {
 		return true
 	}
 
@@ -117,10 +117,10 @@ func (o EnumArrays) MarshalJSON() ([]byte, error) {
 
 func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.JustSymbol) {
+	if !IsNil(o.JustSymbol) {
 		toSerialize["just_symbol"] = o.JustSymbol
 	}
-	if !isNil(o.ArrayEnum) {
+	if !IsNil(o.ArrayEnum) {
 		toSerialize["array_enum"] = o.ArrayEnum
 	}
 

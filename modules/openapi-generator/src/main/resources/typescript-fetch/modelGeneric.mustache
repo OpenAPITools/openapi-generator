@@ -1,12 +1,12 @@
-import { exists, mapValues } from '../runtime';
+import { exists, mapValues } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
 {{#imports}}
-import type { {{{.}}} } from './{{.}}';
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-} from './{{.}}';
+} from './{{.}}{{importFileExtension}}';
 {{/imports}}
 
 {{/hasImports}}
@@ -15,7 +15,7 @@ import {
 {{#discriminator.mappedModels}}
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
-} from './';
+} from './index{{importFileExtension}}';
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
@@ -46,7 +46,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{#discriminator}}
     if (!ignoreDiscriminator) {
 {{#discriminator.mappedModels}}
-        if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
+        if (json['{{discriminator.propertyBaseName}}'] === '{{mappingName}}') {
             return {{modelName}}FromJSONTyped(json, true);
         }
 {{/discriminator.mappedModels}}
@@ -119,7 +119,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{^isReadOnly}}
         {{#isPrimitiveType}}
         {{#isDateType}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substring(0,10)),
         {{/isDateType}}
         {{#isDateTimeType}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()),

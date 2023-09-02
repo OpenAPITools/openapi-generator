@@ -9,6 +9,7 @@ import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
+import org.openapitools.virtualan.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
 

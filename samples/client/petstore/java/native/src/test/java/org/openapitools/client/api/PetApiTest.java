@@ -17,7 +17,6 @@ import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -99,8 +98,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        Set<String> tags = null;
-        Set<Pet> response = 
+        List<String> tags = null;
+        List<Pet> response = 
         api.findPetsByTags(tags);
         
         // TODO: test validations

@@ -15,21 +15,21 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`delete_order`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct DeleteOrderParams {
     /// ID of the order that needs to be deleted
     pub order_id: String
 }
 
 /// struct for passing parameters to the method [`get_order_by_id`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct GetOrderByIdParams {
     /// ID of pet that needs to be fetched
     pub order_id: i64
 }
 
 /// struct for passing parameters to the method [`place_order`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct PlaceOrderParams {
     /// order placed for purchasing the pet
     pub order: crate::models::Order

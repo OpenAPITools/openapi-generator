@@ -19,28 +19,39 @@ import kotlinx.serialization.json.Json
 import {{packageName}}.auth.*
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(
-        private val baseUrl: String,
-        httpClientEngine: HttpClientEngine?,
-        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-        private val jsonBlock: Json
+        private val baseUrl: String
 ) {
 
-    private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
-        {
-            it.install(ContentNegotiation) { json(jsonBlock) }
-            httpClientConfig?.invoke(it)
+    private lateinit var client: HttpClient
+
+    constructor(
+        baseUrl: String,
+        httpClientEngine: HttpClientEngine?,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
+        jsonBlock: Json,
+    ) : this(baseUrl = baseUrl) {
+        val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
+            {
+                it.install(ContentNegotiation) { json(jsonBlock) }
+                httpClientConfig?.invoke(it)
+            }
         }
+
+        client = httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
-    private val client: HttpClient by lazy {
-        httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
+    constructor(
+        baseUrl: String,
+        httpClient: HttpClient
+    ): this(baseUrl = baseUrl) {
+        this.client = httpClient
     }
 
     {{#hasAuthMethods}}
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
-                "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}
+                "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
                 "{{name}}" to OAuth(){{/isOAuth}}{{^-last}}, {{/-last}}{{/authMethods}})
     }

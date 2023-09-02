@@ -45,7 +45,7 @@ func NewBigCatWithDefaults() *BigCat {
 
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCat) GetKind() string {
-	if o == nil || isNil(o.Kind) {
+	if o == nil || IsNil(o.Kind) {
 		var ret string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *BigCat) GetKind() string {
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BigCat) GetKindOk() (*string, bool) {
-	if o == nil || isNil(o.Kind) {
+	if o == nil || IsNil(o.Kind) {
 		return nil, false
 	}
 	return o.Kind, true
@@ -63,7 +63,7 @@ func (o *BigCat) GetKindOk() (*string, bool) {
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCat) HasKind() bool {
-	if o != nil && !isNil(o.Kind) {
+	if o != nil && !IsNil(o.Kind) {
 		return true
 	}
 
@@ -93,7 +93,7 @@ func (o BigCat) ToMap() (map[string]interface{}, error) {
 	if errCat != nil {
 		return map[string]interface{}{}, errCat
 	}
-	if !isNil(o.Kind) {
+	if !IsNil(o.Kind) {
 		toSerialize["kind"] = o.Kind
 	}
 	return toSerialize, nil

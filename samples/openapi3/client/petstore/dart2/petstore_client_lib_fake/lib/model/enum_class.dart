@@ -36,7 +36,7 @@ class EnumClass {
 
   static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumClass> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

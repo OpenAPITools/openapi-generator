@@ -79,9 +79,9 @@ UpdatePetRequest <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`jsonData`)) {
-        jsondata_object <- Pet$new()
-        jsondata_object$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
-        self$`jsonData` <- jsondata_object
+        `jsondata_object` <- Pet$new()
+        `jsondata_object`$fromJSON(jsonlite::toJSON(this_object$`jsonData`, auto_unbox = TRUE, digits = NA))
+        self$`jsonData` <- `jsondata_object`
       }
       if (!is.null(this_object$`binaryDataN2Information`)) {
         self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
@@ -139,7 +139,7 @@ UpdatePetRequest <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
+      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$`jsonData`, auto_unbox = TRUE, digits = NA))
       self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {

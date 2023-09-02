@@ -28,7 +28,7 @@ public class {{classname}}RoutesImpl extends RouteBuilder {
             .log(LoggingLevel.INFO, "HEADERS: ${headers}"){{#hasProduces}}{{#examples}}{{#-first}}{{^isArray}}{{^isMap}}{{^isPrimitiveType}}
             .setBody(constant({{>exampleString}}))
             .unmarshal().json(JsonLibrary.Jackson, {{returnType}}.class){{/isPrimitiveType}}{{/isMap}}{{/isArray}}{{#isArray}}
-            .setBody(constant({{>exampleStringArray}}))
+            .setBody(constant({{>exampleString}}))
             .unmarshal().json(JsonLibrary.Jackson, {{returnBaseType}}[].class){{/isArray}}{{/-first}}{{/examples}}{{/hasProduces}};{{/operation}}{{/operations}}
     }
 }

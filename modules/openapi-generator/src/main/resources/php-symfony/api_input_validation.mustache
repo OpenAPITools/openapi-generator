@@ -30,7 +30,7 @@
         $asserts[] = new Assert\Date();
     {{/isDate}}
     {{#isDateTime}}
-        $asserts[] = new Assert\DateTime();
+        $asserts[] = new Assert\Type("DateTime");
     {{/isDateTime}}
     {{^isDate}}
     {{^isDateTime}}

@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>{{targetFrameworkNuget}}</TargetFramework>
+  <PropertyGroup>{{#useGenericHost}}
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo> <!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}{{^useGenericHost}}
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo><!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{targetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -10,40 +12,59 @@
     <AssemblyTitle>{{packageTitle}}</AssemblyTitle>
     <Description>{{packageDescription}}</Description>
     <Copyright>{{packageCopyright}}</Copyright>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
-    {{#nullableReferenceTypes}}
-    <Nullable>annotations</Nullable>
-    {{/nullableReferenceTypes}}
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
+    <PackageLicenseExpression>{{.}}</PackageLicenseExpression>{{/licenseId}}
+    <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>{{#releaseNote}}
+    <PackageReleaseNotes>{{.}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
+    <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}{{#nrt}}
+    <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>
-    {{#netStandard}}
-    <PackageReference Include="FubarCoder.RestSharp.Portable.Core" Version="4.0.7" />
-    <PackageReference Include="FubarCoder.RestSharp.Portable.HttpClient" Version="4.0.7" />
-    {{/netStandard}}
-    {{^netStandard}}
-    <PackageReference Include="RestSharp" Version="{{restsharp.version}}" />
-    {{/netStandard}}
-    <PackageReference Include="Newtonsoft.Json" Version="{{newtonsoft-json.version}}" />
-    <PackageReference Include="JsonSubTypes" Version="{{json-subtypes.version}}" />
+    {{#useCompareNetObjects}}
+    <PackageReference Include="CompareNETObjects" Version="4.61.0" />{{! leave at this version until this is fixed https://github.com/GregFinzer/Compare-Net-Objects/issues/282 }}
+    {{/useCompareNetObjects}}
+    {{^useGenericHost}}
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    {{/useGenericHost}}
+      {{#useRestSharp}}
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+      {{/useRestSharp}}
+      {{#useGenericHost}}
+    <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net70OrLater}}7.0.0{{/net70OrLater}}{{/lambda.first}}" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net70OrLater}}7.0.1  {{/net70OrLater}}{{/lambda.first}}" />
+      {{#supportsRetry}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net70OrLater}}7.0.8  {{/net70OrLater}}{{/lambda.first}}" />
+      {{/supportsRetry}}
+      {{/useGenericHost}}
+      {{^useGenericHost}}
+      {{#supportsRetry}}
+    <PackageReference Include="Polly" Version="{{^netStandard}}7.2.3{{/netStandard}}{{#netStandard}}7.2.3{{/netStandard}}" />
+      {{/supportsRetry}}
+      {{/useGenericHost}}
+    {{#validatable}}
+    {{^net60OrLater}}
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    {{/net60OrLater}}
+    {{/validatable}}
   </ItemGroup>
 
-  {{^netStandard}}
+{{^useGenericHost}}
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
+    <None Remove="System.Web" />
+    {{#net48}}
+    <None Remove="System.Net.Http" />
+    {{/net48}}
   </ItemGroup>
-  {{/netStandard}}
-
-</Project>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    {{#net48}}
+    <Reference Include="System.Net.Http" />
+    {{/net48}}
+  </ItemGroup>
+{{/useGenericHost}}
+{{>netcore_project.additions}}</Project>

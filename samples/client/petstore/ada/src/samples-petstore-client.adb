@@ -1,6 +1,18 @@
+--  ------------ EDIT NOTE ------------
+--  OpenAPI Petstore
+--  This is a sample server Petstore server. For this sample, you can use the api key `special_key` to test the authorization filters.
+--  This file was generated with openapi-generator.  You can modify it to implement
+--  the client.  After you modify this file, you should add the following line
+--  to the .openapi-generator-ignore file:
+--
+--  src/samples-petstore.ads
+--
+--  Then, you can drop this edit note comment.
+--  ------------ EDIT NOTE ------------
 with Samples.Petstore.Clients;
 with Samples.Petstore.Models;
 with Swagger;
+with Swagger.Credentials.OAuth;
 with Util.Http.Clients.Curl;
 with Ada.Text_IO;
 with Ada.Command_Line;
@@ -30,9 +42,11 @@ begin
    declare
       Command : constant String := Ada.Command_Line.Argument (Arg);
       Item    : constant String := Ada.Command_Line.Argument (Arg + 1);
+      Cred    : aliased Swagger.Credentials.OAuth.OAuth2_Credential_Type;
       C       : Samples.Petstore.Clients.Client_Type;
    begin
       C.Set_Server (Server);
+      C.Set_Credentials (Cred'Unchecked_Access);
       Arg := Arg + 2;
 
    exception

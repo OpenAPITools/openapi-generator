@@ -1,10 +1,13 @@
 {{>partial_header}}
 package {{packageName}}
+
 {{#models}}{{#imports}}
 {{#-first}}import (
 {{/-first}}	"{{import}}"{{#-last}}
 )
-{{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+{{/-last}}{{/imports}}
+
+{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{classname}}}
@@ -93,7 +96,7 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 		{{^items.isModel}}
 			{{#mostInnerItems.isModel}}
 				{{^mostInnerItems.isPrimitiveType}}
-{{#isNullable}}	{{/isNullable}}	if err := AssertRecurse{{mostInnerItems.dataType}}Required({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
+{{#isNullable}}	{{/isNullable}}	if err := AssertRecurseInterfaceRequired({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Required); err != nil {
 {{#isNullable}}	{{/isNullable}}		return err
 {{#isNullable}}	{{/isNullable}}	}
 				{{/mostInnerItems.isPrimitiveType}}
@@ -121,14 +124,19 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 	return nil
 }
 
-// AssertRecurse{{classname}}Required recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of {{classname}} (e.g. [][]{{classname}}), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurse{{classname}}Required(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		a{{classname}}, ok := obj.({{classname}})
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return Assert{{classname}}Required(a{{classname}})
-	})
+// Assert{{classname}}Constraints checks if the values respects the defined constraints
+func Assert{{classname}}Constraints(obj {{classname}}) error {
+{{#Vars}}
+{{#minimum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
+		return &ParsingError{Err: errors.New(errMsgMinValueConstraint)}
+	}
+{{/minimum}}
+{{#maximum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} > {{maximum}} {
+		return &ParsingError{Err: errors.New(errMsgMaxValueConstraint)}
+	}
+{{/maximum}}
+{{/Vars}}
+	return nil
 }{{/model}}{{/models}}

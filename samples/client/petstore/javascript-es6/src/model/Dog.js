@@ -13,7 +13,6 @@
 
 import ApiClient from '../ApiClient';
 import Animal from './Animal';
-import DogAllOf from './DogAllOf';
 
 /**
  * The Dog model module.
@@ -26,11 +25,10 @@ class Dog {
      * @alias module:model/Dog
      * @extends module:model/Animal
      * @implements module:model/Animal
-     * @implements module:model/DogAllOf
      * @param className {String} 
      */
     constructor(className) { 
-        Animal.initialize(this, className);DogAllOf.initialize(this);
+        Animal.initialize(this, className);
         Dog.initialize(this, className);
     }
 
@@ -54,7 +52,6 @@ class Dog {
             obj = obj || new Dog();
             Animal.constructFromObject(data, obj);
             Animal.constructFromObject(data, obj);
-            DogAllOf.constructFromObject(data, obj);
 
             if (data.hasOwnProperty('breed')) {
                 obj['breed'] = ApiClient.convertToType(data['breed'], 'String');
@@ -104,11 +101,6 @@ Animal.prototype['className'] = undefined;
  * @default 'red'
  */
 Animal.prototype['color'] = 'red';
-// Implement DogAllOf interface:
-/**
- * @member {String} breed
- */
-DogAllOf.prototype['breed'] = undefined;
 
 
 

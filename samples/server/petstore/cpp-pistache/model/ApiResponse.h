@@ -80,8 +80,8 @@ public:
     bool messageIsSet() const;
     void unsetMessage();
 
-    friend void to_json(nlohmann::json& j, const ApiResponse& o);
-    friend void from_json(const nlohmann::json& j, ApiResponse& o);
+    friend  void to_json(nlohmann::json& j, const ApiResponse& o);
+    friend  void from_json(const nlohmann::json& j, ApiResponse& o);
 protected:
     int32_t m_Code;
     bool m_CodeIsSet;

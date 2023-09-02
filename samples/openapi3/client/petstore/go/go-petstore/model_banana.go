@@ -44,7 +44,7 @@ func NewBananaWithDefaults() *Banana {
 
 // GetLengthCm returns the LengthCm field value if set, zero value otherwise.
 func (o *Banana) GetLengthCm() float32 {
-	if o == nil || isNil(o.LengthCm) {
+	if o == nil || IsNil(o.LengthCm) {
 		var ret float32
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *Banana) GetLengthCm() float32 {
 // GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Banana) GetLengthCmOk() (*float32, bool) {
-	if o == nil || isNil(o.LengthCm) {
+	if o == nil || IsNil(o.LengthCm) {
 		return nil, false
 	}
 	return o.LengthCm, true
@@ -62,7 +62,7 @@ func (o *Banana) GetLengthCmOk() (*float32, bool) {
 
 // HasLengthCm returns a boolean if a field has been set.
 func (o *Banana) HasLengthCm() bool {
-	if o != nil && !isNil(o.LengthCm) {
+	if o != nil && !IsNil(o.LengthCm) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 
 func (o Banana) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.LengthCm) {
+	if !IsNil(o.LengthCm) {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
 

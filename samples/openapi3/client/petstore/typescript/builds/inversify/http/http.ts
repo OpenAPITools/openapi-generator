@@ -41,6 +41,13 @@ export class HttpException extends Error {
  */
 export type RequestBody = undefined | string | FormData | URLSearchParams;
 
+function ensureAbsoluteUrl(url: string) {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+    throw new Error("You need to define an absolute base url for the server.");
+}
+
 /**
  * Represents an HTTP request context
  */
@@ -57,7 +64,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URL(url);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /*
@@ -75,7 +82,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URL(url);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /**
@@ -226,4 +233,15 @@ export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLib
       return from(promiseHttpLibrary.send(request));
     }
   }
+}
+
+export class HttpInfo<T> extends ResponseContext {
+    public constructor(
+        public httpStatusCode: number,
+        public headers: { [key: string]: string },
+        public body: ResponseBody,
+        public data: T,
+    ) {
+        super(httpStatusCode, headers, body);
+    }
 }

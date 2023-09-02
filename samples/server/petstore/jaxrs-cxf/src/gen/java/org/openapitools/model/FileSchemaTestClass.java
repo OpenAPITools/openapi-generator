@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import javax.validation.constraints.*;
@@ -19,7 +20,7 @@ public class FileSchemaTestClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
  /**
    * Get _file
    * @return _file

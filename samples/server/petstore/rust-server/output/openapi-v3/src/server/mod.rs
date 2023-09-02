@@ -228,7 +228,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.to_owned())
+                let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.clone())
                     .filter_map(|param_any_of| param_any_of.parse().ok())
                     .collect::<Vec<_>>();
                 let param_any_of = if !param_any_of.is_empty() {
@@ -298,7 +298,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
+                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
                     .next();
                 let param_url = match param_url {
                     Some(param_url) => {
@@ -355,7 +355,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
                     .filter_map(|param_list_of_strings| param_list_of_strings.parse().ok())
                     .collect::<Vec<_>>();
                 let param_list_of_strings = if !param_list_of_strings.is_empty() {
@@ -449,7 +449,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
                     .next();
                 let param_list_of_strings = match param_list_of_strings {
                     Some(param_list_of_strings) => {
@@ -814,7 +814,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.to_owned())
+                let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.clone())
                     .next();
                 let param_uuid = match param_uuid {
                     Some(param_uuid) => {
@@ -831,7 +831,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
-                let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.to_owned())
+                let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.clone())
                     .next();
                 let param_some_object = match param_some_object {
                     Some(param_some_object) => {
@@ -848,7 +848,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
-                let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
+                let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.clone())
                     .next();
                 let param_some_list = match param_some_list {
                     Some(param_some_list) => {
@@ -965,7 +965,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
+                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
                     .next();
                 let param_url = match param_url {
                     Some(param_url) => {
@@ -1268,7 +1268,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
                                 let param_object_untyped_props: Option<models::ObjectUntypedProps> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1713,7 +1713,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
                                 let param_object_param: Option<models::ObjectParam> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());

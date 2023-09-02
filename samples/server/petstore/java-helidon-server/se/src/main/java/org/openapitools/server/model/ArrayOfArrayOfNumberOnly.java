@@ -2,13 +2,14 @@ package org.openapitools.server.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 
 public class ArrayOfArrayOfNumberOnly   {
 
-    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+    private List<List<BigDecimal>> arrayArrayNumber;
 
     /**
      * Default constructor.

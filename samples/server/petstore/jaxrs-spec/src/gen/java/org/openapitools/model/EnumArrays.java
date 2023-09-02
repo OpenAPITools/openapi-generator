@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -115,7 +116,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = null;
+  private @Valid List<ArrayEnumEnum> arrayEnum;
 
   protected EnumArrays(EnumArraysBuilder<?, ?> b) {
     this.justSymbol = b.justSymbol;
@@ -240,7 +241,7 @@ public class EnumArrays  implements Serializable {
 
   public static abstract class EnumArraysBuilder<C extends EnumArrays, B extends EnumArraysBuilder<C, B>>  {
     private JustSymbolEnum justSymbol;
-    private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+    private List<ArrayEnumEnum> arrayEnum;
     protected abstract B self();
 
     public abstract C build();

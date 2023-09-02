@@ -44,7 +44,7 @@ func NewFooGetDefaultResponseWithDefaults() *FooGetDefaultResponse {
 
 // GetString returns the String field value if set, zero value otherwise.
 func (o *FooGetDefaultResponse) GetString() Foo {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		var ret Foo
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *FooGetDefaultResponse) GetString() Foo {
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
-	if o == nil || isNil(o.String) {
+	if o == nil || IsNil(o.String) {
 		return nil, false
 	}
 	return o.String, true
@@ -62,7 +62,7 @@ func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
 
 // HasString returns a boolean if a field has been set.
 func (o *FooGetDefaultResponse) HasString() bool {
-	if o != nil && !isNil(o.String) {
+	if o != nil && !IsNil(o.String) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
 
 func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.String) {
+	if !IsNil(o.String) {
 		toSerialize["string"] = o.String
 	}
 

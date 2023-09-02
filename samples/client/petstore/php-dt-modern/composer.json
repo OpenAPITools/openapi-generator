@@ -1,9 +1,22 @@
 {
     "name": "git_user_id/git_repo_id",
     "description": "",
-    "license": "unlicense",
     "version": "1.0.0",
     "type": "library",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "https://openapi-generator.tech",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "OpenAPI",
+            "homepage": "https://openapi-generator.tech"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "articus/data-transfer": "^0.5",

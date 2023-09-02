@@ -1,1 +1,9 @@
-{{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isArray}}List {{/isArray}}{{#isMap}}Dict.Dict String {{/isMap}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{#items}}({{>recordField}}){{/items}}{{^isContainer}}{{dataType}}{{/isContainer}}{{/isEnum}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
+{{#lambda.removeWhitespace}}
+{{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}
+{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}
+{{#isArray}}List {{/isArray}}
+{{#isMap}}Dict.Dict String {{/isMap}}
+{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}
+{{^isEnum}}{{#items}}{{#isContainer}}({{/isContainer}}{{>recordField}}{{#isContainer}}){{/isContainer}}{{/items}}{{^isContainer}}{{dataType}}{{/isContainer}}{{/isEnum}}
+{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
+{{/lambda.removeWhitespace}}

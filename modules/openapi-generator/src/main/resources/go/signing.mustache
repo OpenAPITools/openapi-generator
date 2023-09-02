@@ -14,7 +14,6 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/textproto"
 	"os"
@@ -67,6 +66,12 @@ const (
 	// Calculate the message signature using probabilistic signature scheme RSASSA-PSS.
 	// PSS is randomized and will produce a different signature value each time.
 	HttpSigningAlgorithmRsaPSS string = "RSASSA-PSS"
+
+	// HashAlgorithm Sha256 for generating hash
+	HttpHashAlgorithmSha256 string = "sha256"
+
+	// HashAlgorithm Sha512 for generating hash
+	HttpHashAlgorithmSha512 string = "sha512"
 )
 
 var supportedSigningSchemes = map[string]bool{
@@ -107,6 +112,7 @@ type HttpSignatureAuth struct {
 	// The signature algorithm, when signing HTTP requests.
 	// Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
 	SigningAlgorithm  string
+	HashAlgorithm string                // supported values are sha256 and sha512. This also allows using sha256 with hs2019, which defaults to sha512.
 	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
 	// SignatureMaxValidity specifies the maximum duration of the signature validity.
 	// The value is used to set the '(expires)' signature parameter in the HTTP request.
@@ -187,7 +193,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 		err = file.Close()
 	}()
 	var priv []byte
-	priv, err = ioutil.ReadAll(file)
+	priv, err = io.ReadAll(file)
 	if err != nil {
 		return err
 	}
@@ -270,13 +276,22 @@ func SignRequest(
 	}
 	// Determine the cryptographic hash to be used for the signature and the body digest.
 	switch auth.SigningScheme {
-	case HttpSigningSchemeRsaSha512, HttpSigningSchemeHs2019:
+	case HttpSigningSchemeRsaSha512:
 		h = crypto.SHA512
 		prefix = "SHA-512="
 	case HttpSigningSchemeRsaSha256:
 		// This is deprecated and should no longer be used.
 		h = crypto.SHA256
 		prefix = "SHA-256="
+	case HttpSigningSchemeHs2019:
+		if auth.HashAlgorithm == HttpHashAlgorithmSha256 {
+			h = crypto.SHA256
+			prefix = "SHA-256="
+		} else {
+			h = crypto.SHA512
+			prefix = "SHA-512="
+		}
+
 	default:
 		return fmt.Errorf("unsupported signature scheme: %v", auth.SigningScheme)
 	}

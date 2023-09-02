@@ -46,7 +46,7 @@ func NewEnumTestWithDefaults() *EnumTest {
 
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
-	if o == nil || isNil(o.EnumString) {
+	if o == nil || IsNil(o.EnumString) {
 		var ret string
 		return ret
 	}
@@ -56,7 +56,7 @@ func (o *EnumTest) GetEnumString() string {
 // GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringOk() (*string, bool) {
-	if o == nil || isNil(o.EnumString) {
+	if o == nil || IsNil(o.EnumString) {
 		return nil, false
 	}
 	return o.EnumString, true
@@ -64,7 +64,7 @@ func (o *EnumTest) GetEnumStringOk() (*string, bool) {
 
 // HasEnumString returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumString() bool {
-	if o != nil && !isNil(o.EnumString) {
+	if o != nil && !IsNil(o.EnumString) {
 		return true
 	}
 
@@ -102,7 +102,7 @@ func (o *EnumTest) SetEnumStringRequired(v string) {
 
 // GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumInteger() int32 {
-	if o == nil || isNil(o.EnumInteger) {
+	if o == nil || IsNil(o.EnumInteger) {
 		var ret int32
 		return ret
 	}
@@ -112,7 +112,7 @@ func (o *EnumTest) GetEnumInteger() int32 {
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
-	if o == nil || isNil(o.EnumInteger) {
+	if o == nil || IsNil(o.EnumInteger) {
 		return nil, false
 	}
 	return o.EnumInteger, true
@@ -120,7 +120,7 @@ func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
 
 // HasEnumInteger returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumInteger() bool {
-	if o != nil && !isNil(o.EnumInteger) {
+	if o != nil && !IsNil(o.EnumInteger) {
 		return true
 	}
 
@@ -134,7 +134,7 @@ func (o *EnumTest) SetEnumInteger(v int32) {
 
 // GetEnumNumber returns the EnumNumber field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumNumber() float64 {
-	if o == nil || isNil(o.EnumNumber) {
+	if o == nil || IsNil(o.EnumNumber) {
 		var ret float64
 		return ret
 	}
@@ -144,7 +144,7 @@ func (o *EnumTest) GetEnumNumber() float64 {
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
-	if o == nil || isNil(o.EnumNumber) {
+	if o == nil || IsNil(o.EnumNumber) {
 		return nil, false
 	}
 	return o.EnumNumber, true
@@ -152,7 +152,7 @@ func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
 
 // HasEnumNumber returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumNumber() bool {
-	if o != nil && !isNil(o.EnumNumber) {
+	if o != nil && !IsNil(o.EnumNumber) {
 		return true
 	}
 
@@ -166,7 +166,7 @@ func (o *EnumTest) SetEnumNumber(v float64) {
 
 // GetOuterEnum returns the OuterEnum field value if set, zero value otherwise.
 func (o *EnumTest) GetOuterEnum() OuterEnum {
-	if o == nil || isNil(o.OuterEnum) {
+	if o == nil || IsNil(o.OuterEnum) {
 		var ret OuterEnum
 		return ret
 	}
@@ -176,7 +176,7 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
-	if o == nil || isNil(o.OuterEnum) {
+	if o == nil || IsNil(o.OuterEnum) {
 		return nil, false
 	}
 	return o.OuterEnum, true
@@ -184,7 +184,7 @@ func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 
 // HasOuterEnum returns a boolean if a field has been set.
 func (o *EnumTest) HasOuterEnum() bool {
-	if o != nil && !isNil(o.OuterEnum) {
+	if o != nil && !IsNil(o.OuterEnum) {
 		return true
 	}
 
@@ -206,17 +206,17 @@ func (o EnumTest) MarshalJSON() ([]byte, error) {
 
 func (o EnumTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.EnumString) {
+	if !IsNil(o.EnumString) {
 		toSerialize["enum_string"] = o.EnumString
 	}
 	toSerialize["enum_string_required"] = o.EnumStringRequired
-	if !isNil(o.EnumInteger) {
+	if !IsNil(o.EnumInteger) {
 		toSerialize["enum_integer"] = o.EnumInteger
 	}
-	if !isNil(o.EnumNumber) {
+	if !IsNil(o.EnumNumber) {
 		toSerialize["enum_number"] = o.EnumNumber
 	}
-	if !isNil(o.OuterEnum) {
+	if !IsNil(o.OuterEnum) {
 		toSerialize["outerEnum"] = o.OuterEnum
 	}
 	return toSerialize, nil

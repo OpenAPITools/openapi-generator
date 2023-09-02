@@ -80,16 +80,9 @@ Category | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}}
-Authentication schemes defined for the API:
-{{/last}}
-{{/authMethods}}
-{{#authMethods}}
-
 ### {{name}}
 
 {{#isApiKey}}- **Type**: API key
@@ -97,10 +90,18 @@ Authentication schemes defined for the API:
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
 
 - **Type**: HTTP basic authentication
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}
 
 - **Type**: OAuth

@@ -12,6 +12,7 @@ part 'deprecated_object.g.dart';
 ///
 /// Properties:
 /// * [name] 
+@Deprecated('DeprecatedObject has been deprecated')
 @BuiltValue()
 abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObjectBuilder> {
   @BuiltValueField(wireName: r'name')

@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
+| [**fake_big_decimal_map**](FakeApi.md#fake_big_decimal_map) | **GET** /fake/BigDecimalMap |  |
 | [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint |
 | [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean |  |
@@ -21,6 +22,67 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
+
+
+## fake_big_decimal_map
+
+> <FakeBigDecimalMap200Response> fake_big_decimal_map
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+
+begin
+  
+  result = api_instance.fake_big_decimal_map
+  p result
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_big_decimal_map: #{e}"
+end
+```
+
+#### Using the fake_big_decimal_map_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<FakeBigDecimalMap200Response>, Integer, Hash)> fake_big_decimal_map_with_http_info
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_big_decimal_map_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <FakeBigDecimalMap200Response>
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_big_decimal_map_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: */*
 
 
 ## fake_health_get

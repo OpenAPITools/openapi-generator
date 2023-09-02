@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -43,22 +44,30 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
+        * @param uuidTest to test uuid example value (required)
         * @param body client model (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        call123testSpecialTags(body, null, resultHandler);
+    public void call123testSpecialTags(UUID uuidTest, Client body, Handler<AsyncResult<Client>> resultHandler) {
+        call123testSpecialTags(uuidTest, body, null, resultHandler);
     }
 
     /**
     * To test special tags
     * To test special tags and operation ID starting with number
+    * @param uuidTest to test uuid example value (required)
     * @param body client model (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void call123testSpecialTags(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
+    public void call123testSpecialTags(UUID uuidTest, Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
         Object localVarBody = body;
+        
+        // verify the required parameter 'uuidTest' is set
+        if (uuidTest == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'uuidTest' when calling call123testSpecialTags"));
+            return;
+        }
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -74,7 +83,9 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
 
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
-        
+        if (uuidTest != null)
+        localVarHeaderParams.add("uuid_test", apiClient.parameterToString(uuidTest));
+
         // cookie params
         MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
         

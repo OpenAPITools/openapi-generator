@@ -1325,6 +1325,16 @@
       "patch" : {
         "description" : "To test special tags and operation ID starting with number",
         "operationId" : "123_test_@#$%_special_tags",
+        "parameters" : [ {
+          "description" : "to test uuid example value",
+          "in" : "header",
+          "name" : "uuid_test",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1791,21 +1801,37 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Dog_allOf"
+          "properties" : {
+            "breed" : {
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Cat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Cat_allOf"
+          "properties" : {
+            "declawed" : {
+              "type" : "boolean"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "BigCat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Cat"
         }, {
-          "$ref" : "#/components/schemas/BigCat_allOf"
+          "properties" : {
+            "kind" : {
+              "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Animal" : {
@@ -2849,34 +2875,6 @@
         },
         "required" : [ "requiredFile" ],
         "type" : "object"
-      },
-      "Dog_allOf" : {
-        "properties" : {
-          "breed" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object",
-        "example" : null
-      },
-      "Cat_allOf" : {
-        "properties" : {
-          "declawed" : {
-            "type" : "boolean"
-          }
-        },
-        "type" : "object",
-        "example" : null
-      },
-      "BigCat_allOf" : {
-        "properties" : {
-          "kind" : {
-            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
-            "type" : "string"
-          }
-        },
-        "type" : "object",
-        "example" : null
       }
     },
     "securitySchemes" : {

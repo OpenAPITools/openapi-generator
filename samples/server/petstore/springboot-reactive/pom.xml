@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
+    <groupId>org.openapitools.openapi3</groupId>
     <artifactId>springboot-reactive</artifactId>
     <packaging>jar</packaging>
     <name>springboot-reactive</name>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.2</version>
+            <version>0.2.6</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>

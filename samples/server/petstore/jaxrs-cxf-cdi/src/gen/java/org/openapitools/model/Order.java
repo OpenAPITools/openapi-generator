@@ -60,7 +60,6 @@ public enum StatusEnum {
 
   private Boolean complete = false;
 
-
   /**
    **/
   public Order id(Long id) {

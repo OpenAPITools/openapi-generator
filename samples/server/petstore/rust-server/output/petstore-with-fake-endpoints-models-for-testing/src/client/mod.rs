@@ -1442,6 +1442,7 @@ impl<S, C> Api<C> for Client<S, C> where
         });
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_enum_header_string_array {
             Some(param_enum_header_string_array) => {
         request.headers_mut().append(
@@ -1458,6 +1459,7 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
+        #[allow(clippy::single_match)]
         match param_enum_header_string {
             Some(param_enum_header_string) => {
         request.headers_mut().append(
@@ -1927,6 +1929,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_api_key {
             Some(param_api_key) => {
         request.headers_mut().append(

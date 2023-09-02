@@ -108,6 +108,7 @@
         <version>${cxf.rt.rs.extension.providers.version}</version>
     </dependency>
     {{/disableMultipart}}
+    {{#jsonb}}
     <dependency>
       <groupId>jakarta.json.bind</groupId>
       <artifactId>jakarta.json.bind-api</artifactId>
@@ -133,6 +134,38 @@
         <artifactId>jaxb-impl</artifactId>
         <version>${jaxb.impl.version}</version>
     </dependency>
+    {{/jsonb}}
+    {{#jackson}}
+    <!-- JSON processing: jackson -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+    {{#withXml}}
+    <!-- XML processing with Jackson -->
+    <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>${jakarta.xml.bind.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-xml</artifactId>
+        <version>${jackson.version}</version>
+    </dependency>
+    {{/withXml}}
+    {{/jackson}}
     <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
@@ -179,6 +212,9 @@
 {{/useBeanValidation}}
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.13.2</jackson.jaxrs.version>
+{{#jackson}}
+    <jackson.version>2.14.1</jackson.version>
+{{/jackson}}
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
     <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -180,7 +181,7 @@ public class XmlItem   {
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<>();
+      this.wrappedArray = ;
     }
     this.wrappedArray.add(wrappedArrayItem);
     return this;
@@ -278,7 +279,7 @@ public class XmlItem   {
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<>();
+      this.nameArray = ;
     }
     this.nameArray.add(nameArrayItem);
     return this;
@@ -304,7 +305,7 @@ public class XmlItem   {
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<>();
+      this.nameWrappedArray = ;
     }
     this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
@@ -402,7 +403,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<>();
+      this.prefixArray = ;
     }
     this.prefixArray.add(prefixArrayItem);
     return this;
@@ -428,7 +429,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<>();
+      this.prefixWrappedArray = ;
     }
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
@@ -526,7 +527,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<>();
+      this.namespaceArray = ;
     }
     this.namespaceArray.add(namespaceArrayItem);
     return this;
@@ -552,7 +553,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<>();
+      this.namespaceWrappedArray = ;
     }
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
@@ -650,7 +651,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<>();
+      this.prefixNsArray = ;
     }
     this.prefixNsArray.add(prefixNsArrayItem);
     return this;
@@ -676,7 +677,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<>();
+      this.prefixNsWrappedArray = ;
     }
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;
