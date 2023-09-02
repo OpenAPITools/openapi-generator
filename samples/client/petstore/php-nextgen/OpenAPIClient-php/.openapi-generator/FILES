@@ -119,4 +119,3 @@ src/Model/SpecialModelName.php
 src/Model/Tag.php
 src/Model/User.php
 src/ObjectSerializer.php
-tests/Model/FakeBigDecimalMap200ResponseTest.php
