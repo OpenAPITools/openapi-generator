@@ -9,4 +9,3 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   nullableReferenceTypes: false
-
