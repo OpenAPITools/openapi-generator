@@ -35,7 +35,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="equilateralTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
         public Triangle(EquilateralTriangle equilateralTriangle, string triangleType)
         {
             EquilateralTriangle = equilateralTriangle;
@@ -48,7 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
         public Triangle(IsoscelesTriangle isoscelesTriangle, string triangleType)
         {
             IsoscelesTriangle = isoscelesTriangle;
@@ -61,7 +59,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="scaleneTriangle"></param>
         /// <param name="triangleType">triangleType</param>
-        [JsonConstructor]
         public Triangle(ScaleneTriangle scaleneTriangle, string triangleType)
         {
             ScaleneTriangle = scaleneTriangle;
@@ -172,9 +169,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName?.Equals("triangleType") ?? false)
+                    if (localVarJsonPropertyName?.Equals("triangleType") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("EquilateralTriangle") ?? false)
@@ -206,10 +203,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
                             triangleType = utf8JsonReader.GetString();

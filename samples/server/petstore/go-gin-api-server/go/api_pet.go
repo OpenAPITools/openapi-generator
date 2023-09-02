@@ -10,48 +10,33 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// AddPet - Add a new pet to the store
-func AddPet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// DeletePet - Deletes a pet
-func DeletePet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// FindPetsByStatus - Finds Pets by status
-func FindPetsByStatus(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// FindPetsByTags - Finds Pets by tags
-// Deprecated
-func FindPetsByTags(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// GetPetById - Find pet by ID
-func GetPetById(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// UpdatePet - Update an existing pet
-func UpdatePet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// UpdatePetWithForm - Updates a pet in the store with form data
-func UpdatePetWithForm(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// UploadFile - uploads an image
-func UploadFile(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type PetAPI struct {
+	// Post /v2/pet
+	// Add a new pet to the store
+	AddPet gin.HandlerFunc
+	// Delete /v2/pet/:petId
+	// Deletes a pet
+	DeletePet gin.HandlerFunc
+	// Get /v2/pet/findByStatus
+	// Finds Pets by status
+	FindPetsByStatus gin.HandlerFunc
+	// Get /v2/pet/findByTags
+	// Finds Pets by tags
+	// Deprecated
+	FindPetsByTags gin.HandlerFunc
+	// Get /v2/pet/:petId
+	// Find pet by ID
+	GetPetById gin.HandlerFunc
+	// Put /v2/pet
+	// Update an existing pet
+	UpdatePet gin.HandlerFunc
+	// Post /v2/pet/:petId
+	// Updates a pet in the store with form data
+	UpdatePetWithForm gin.HandlerFunc
+	// Post /v2/pet/:petId/uploadImage
+	// uploads an image
+	UploadFile gin.HandlerFunc
 }

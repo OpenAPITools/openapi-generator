@@ -43,8 +43,8 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
-
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+
 
     protected String sourceFolder = "src";
     protected String packageName = "PSOpenAPITools";

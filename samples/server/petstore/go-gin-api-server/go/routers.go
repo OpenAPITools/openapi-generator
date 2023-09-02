@@ -18,22 +18,22 @@ import (
 // Route is the information for every URI.
 type Route struct {
 	// Name is the name of this Route.
-	Name        string
+	Name		string
 	// Method is the string for the HTTP method. ex) GET, POST etc..
-	Method      string
+	Method		string
 	// Pattern is the pattern of the URI.
-	Pattern     string
+	Pattern	 	string
 	// HandlerFunc is the handler function of this route.
-	HandlerFunc gin.HandlerFunc
+	HandlerFunc	gin.HandlerFunc
 }
 
-// Routes is the list of the generated Route.
-type Routes []Route
-
 // NewRouter returns a new router.
-func NewRouter() *gin.Engine {
+func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
 	router := gin.Default()
-	for _, route := range routes {
+	for _, route := range getRoutes(handleFunctions) {
+		if route.HandlerFunc == nil {
+			route.HandlerFunc = DefaultHandleFunc
+		}
 		switch route.Method {
 		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
@@ -51,156 +51,143 @@ func NewRouter() *gin.Engine {
 	return router
 }
 
-// Index is the index handler.
-func Index(c *gin.Context) {
-	c.String(http.StatusOK, "Hello World!")
+// Default handler for not yet implemented routes
+func DefaultHandleFunc(c *gin.Context) {
+	c.String(http.StatusNotImplemented, "501 not implemented")
 }
 
-var routes = Routes{
-	{
-		"Index",
-		http.MethodGet,
-		"/v2/",
-		Index,
-	},
+type ApiHandleFunctions struct {
 
-	{
-		"AddPet",
-		http.MethodPost,
-		"/v2/pet",
-		AddPet,
-	},
+	// Routes for the PetAPI part of the API
+	PetAPI PetAPI
+	// Routes for the StoreAPI part of the API
+	StoreAPI StoreAPI
+	// Routes for the UserAPI part of the API
+	UserAPI UserAPI
+}
 
-	{
-		"DeletePet",
-		http.MethodDelete,
-		"/v2/pet/:petId",
-		DeletePet,
-	},
-
-	{
-		"FindPetsByStatus",
-		http.MethodGet,
-		"/v2/pet/findByStatus",
-		FindPetsByStatus,
-	},
-
-	{
-		"FindPetsByTags",
-		http.MethodGet,
-		"/v2/pet/findByTags",
-		FindPetsByTags,
-	},
-
-	{
-		"GetPetById",
-		http.MethodGet,
-		"/v2/pet/:petId",
-		GetPetById,
-	},
-
-	{
-		"UpdatePet",
-		http.MethodPut,
-		"/v2/pet",
-		UpdatePet,
-	},
-
-	{
-		"UpdatePetWithForm",
-		http.MethodPost,
-		"/v2/pet/:petId",
-		UpdatePetWithForm,
-	},
-
-	{
-		"UploadFile",
-		http.MethodPost,
-		"/v2/pet/:petId/uploadImage",
-		UploadFile,
-	},
-
-	{
-		"DeleteOrder",
-		http.MethodDelete,
-		"/v2/store/order/:orderId",
-		DeleteOrder,
-	},
-
-	{
-		"GetInventory",
-		http.MethodGet,
-		"/v2/store/inventory",
-		GetInventory,
-	},
-
-	{
-		"GetOrderById",
-		http.MethodGet,
-		"/v2/store/order/:orderId",
-		GetOrderById,
-	},
-
-	{
-		"PlaceOrder",
-		http.MethodPost,
-		"/v2/store/order",
-		PlaceOrder,
-	},
-
-	{
-		"CreateUser",
-		http.MethodPost,
-		"/v2/user",
-		CreateUser,
-	},
-
-	{
-		"CreateUsersWithArrayInput",
-		http.MethodPost,
-		"/v2/user/createWithArray",
-		CreateUsersWithArrayInput,
-	},
-
-	{
-		"CreateUsersWithListInput",
-		http.MethodPost,
-		"/v2/user/createWithList",
-		CreateUsersWithListInput,
-	},
-
-	{
-		"DeleteUser",
-		http.MethodDelete,
-		"/v2/user/:username",
-		DeleteUser,
-	},
-
-	{
-		"GetUserByName",
-		http.MethodGet,
-		"/v2/user/:username",
-		GetUserByName,
-	},
-
-	{
-		"LoginUser",
-		http.MethodGet,
-		"/v2/user/login",
-		LoginUser,
-	},
-
-	{
-		"LogoutUser",
-		http.MethodGet,
-		"/v2/user/logout",
-		LogoutUser,
-	},
-
-	{
-		"UpdateUser",
-		http.MethodPut,
-		"/v2/user/:username",
-		UpdateUser,
-	},
+func getRoutes(handleFunctions ApiHandleFunctions) []Route {
+	return []Route{
+	
+		{
+			"AddPet",
+			http.MethodPost,
+			"/v2/pet",
+			handleFunctions.PetAPI.AddPet,
+		},
+		{
+			"DeletePet",
+			http.MethodDelete,
+			"/v2/pet/:petId",
+			handleFunctions.PetAPI.DeletePet,
+		},
+		{
+			"FindPetsByStatus",
+			http.MethodGet,
+			"/v2/pet/findByStatus",
+			handleFunctions.PetAPI.FindPetsByStatus,
+		},
+		{
+			"FindPetsByTags",
+			http.MethodGet,
+			"/v2/pet/findByTags",
+			handleFunctions.PetAPI.FindPetsByTags,
+		},
+		{
+			"GetPetById",
+			http.MethodGet,
+			"/v2/pet/:petId",
+			handleFunctions.PetAPI.GetPetById,
+		},
+		{
+			"UpdatePet",
+			http.MethodPut,
+			"/v2/pet",
+			handleFunctions.PetAPI.UpdatePet,
+		},
+		{
+			"UpdatePetWithForm",
+			http.MethodPost,
+			"/v2/pet/:petId",
+			handleFunctions.PetAPI.UpdatePetWithForm,
+		},
+		{
+			"UploadFile",
+			http.MethodPost,
+			"/v2/pet/:petId/uploadImage",
+			handleFunctions.PetAPI.UploadFile,
+		},
+		{
+			"DeleteOrder",
+			http.MethodDelete,
+			"/v2/store/order/:orderId",
+			handleFunctions.StoreAPI.DeleteOrder,
+		},
+		{
+			"GetInventory",
+			http.MethodGet,
+			"/v2/store/inventory",
+			handleFunctions.StoreAPI.GetInventory,
+		},
+		{
+			"GetOrderById",
+			http.MethodGet,
+			"/v2/store/order/:orderId",
+			handleFunctions.StoreAPI.GetOrderById,
+		},
+		{
+			"PlaceOrder",
+			http.MethodPost,
+			"/v2/store/order",
+			handleFunctions.StoreAPI.PlaceOrder,
+		},
+		{
+			"CreateUser",
+			http.MethodPost,
+			"/v2/user",
+			handleFunctions.UserAPI.CreateUser,
+		},
+		{
+			"CreateUsersWithArrayInput",
+			http.MethodPost,
+			"/v2/user/createWithArray",
+			handleFunctions.UserAPI.CreateUsersWithArrayInput,
+		},
+		{
+			"CreateUsersWithListInput",
+			http.MethodPost,
+			"/v2/user/createWithList",
+			handleFunctions.UserAPI.CreateUsersWithListInput,
+		},
+		{
+			"DeleteUser",
+			http.MethodDelete,
+			"/v2/user/:username",
+			handleFunctions.UserAPI.DeleteUser,
+		},
+		{
+			"GetUserByName",
+			http.MethodGet,
+			"/v2/user/:username",
+			handleFunctions.UserAPI.GetUserByName,
+		},
+		{
+			"LoginUser",
+			http.MethodGet,
+			"/v2/user/login",
+			handleFunctions.UserAPI.LoginUser,
+		},
+		{
+			"LogoutUser",
+			http.MethodGet,
+			"/v2/user/logout",
+			handleFunctions.UserAPI.LogoutUser,
+		},
+		{
+			"UpdateUser",
+			http.MethodPut,
+			"/v2/user/:username",
+			handleFunctions.UserAPI.UpdateUser,
+		},
+	}
 }

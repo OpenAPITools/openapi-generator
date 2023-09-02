@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -410,10 +411,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+        Collections.reverse(enumVars);
+        enumVars.forEach(v -> {
+            String name = (String) v.get("name");
+            long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
+            if (count > 1) {
+                String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                LOGGER.debug("Changing duplicate enumeration name from " + v.get("name") + " to " + uniqueEnumName);
+                v.put("name", uniqueEnumName);
+            }
+        });
+        Collections.reverse(enumVars);
+    }
+
+    private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
+        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
+        return count > 1
+            ? getUniqueEnumName(name + count, enumVars)
+            : name;
+    }
+
+    @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("required", new RequiredParameterLambda().generator(this))
+                .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
@@ -546,7 +569,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -556,7 +579,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -566,7 +589,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
             }
@@ -641,7 +664,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
-    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+    private void patchPropertyVendorExtensions(CodegenProperty property) {
         Boolean isValueType = isValueType(property);
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
@@ -661,20 +684,25 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        patchPropertyVendorExtensinos(property);
+        patchPropertyVendorExtensions(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
 
-        // fix incorrect data types for maps of maps
-        if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
-        if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            // fix incorrect data types for maps of maps
+            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+
+            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+        });
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
@@ -745,13 +773,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                     // Check return types for collection
                     if (operation.returnType != null) {
-                        String typeMapping;
                         int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        if (namespaceEnd > 0) {
-                            typeMapping = operation.returnType.substring(namespaceEnd);
-                        } else {
-                            typeMapping = operation.returnType;
-                        }
+                        String typeMapping = namespaceEnd > 0
+                                ? operation.returnType.substring(namespaceEnd)
+                                : operation.returnType;
 
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
@@ -899,7 +924,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        // default noop
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+
+            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+        });
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
@@ -1375,7 +1416,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override

@@ -71,7 +71,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
 {{#modelPackage}}
-{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{#models}}{{#model}} - [{{#lambda.backslash}}{{{modelPackage}}}{{/lambda.backslash}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 {{/modelPackage}}
 {{^modelPackage}}

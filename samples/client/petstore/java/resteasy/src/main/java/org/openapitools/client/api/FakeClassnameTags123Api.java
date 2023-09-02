@@ -37,16 +37,16 @@ public class FakeClassnameTags123Api {
   /**
    * To test class name in snake case
    * To test class name in snake case
-   * @param body client model (required)
+   * @param client client model (required)
    * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(Client body) throws ApiException {
-    Object localVarPostBody = body;
+  public Client testClassname(Client client) throws ApiException {
+    Object localVarPostBody = client;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");
     }
     
     // create path and map variables

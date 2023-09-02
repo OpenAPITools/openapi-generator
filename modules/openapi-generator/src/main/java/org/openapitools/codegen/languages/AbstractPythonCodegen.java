@@ -182,14 +182,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
-            String defaultValue = (String)p.getDefault();
-            if (defaultValue != null) {
-                defaultValue = defaultValue.replace("\\", "\\\\")
-                    .replace("'", "\'");
-                if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
-                    return "'''" + defaultValue + "'''";
-                } else {
-                    return "'" + defaultValue + "'";
+            if (p.getDefault() != null) {
+                String defaultValue = String.valueOf(p.getDefault());
+                if (defaultValue != null) {
+                    defaultValue = defaultValue.replace("\\", "\\\\")
+                            .replace("'", "\'");
+                    if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+                        return "'''" + defaultValue + "'''";
+                    } else {
+                        return "'" + defaultValue + "'";
+                    }
                 }
             }
         } else if (ModelUtils.isArraySchema(p)) {
@@ -351,7 +353,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // correct "&#39;"s into "'"s after toString()
         if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
-            example = (String) schema.getDefault();
+            example = String.valueOf(schema.getDefault());
         }
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {

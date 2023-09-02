@@ -83,10 +83,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerEnum EnumIntegerEnumFromString(string value)
         {
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value == (-1).ToString())
+            if (value.Equals((-1).ToString()))
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerEnum: '{value}'");
@@ -99,10 +99,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerEnum? EnumIntegerEnumFromStringOrDefault(string value)
         {
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value == (-1).ToString())
+            if (value.Equals((-1).ToString()))
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             return null;
@@ -148,10 +148,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerOnlyEnum EnumIntegerOnlyEnumFromString(string value)
         {
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value == (-2).ToString())
+            if (value.Equals((-2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerOnlyEnum: '{value}'");
@@ -164,10 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerOnlyEnum? EnumIntegerOnlyEnumFromStringOrDefault(string value)
         {
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value == (-2).ToString())
+            if (value.Equals((-2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             return null;
@@ -213,10 +213,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumNumberEnum EnumNumberEnumFromString(string value)
         {
-            if (value == "1.1")
+            if (value.Equals("1.1"))
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value == "-1.2")
+            if (value.Equals("-1.2"))
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumNumberEnum: '{value}'");
@@ -229,10 +229,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumNumberEnum? EnumNumberEnumFromStringOrDefault(string value)
         {
-            if (value == "1.1")
+            if (value.Equals("1.1"))
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value == "-1.2")
+            if (value.Equals("-1.2"))
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             return null;
@@ -279,7 +279,32 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Empty for value: 
             /// </summary>
-            Empty = 3
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            Duplicatevalue2 = 8
         }
 
         /// <summary>
@@ -290,14 +315,29 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumStringEnum EnumStringEnumFromString(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return EnumStringEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return EnumStringEnum.Lower;
 
-            if (value == "")
+            if (value.Equals(""))
                 return EnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return EnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return EnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return EnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return EnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return EnumStringEnum.Duplicatevalue2;
 
             throw new NotImplementedException($"Could not convert value to type EnumStringEnum: '{value}'");
         }
@@ -309,14 +349,29 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumStringEnum? EnumStringEnumFromStringOrDefault(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return EnumStringEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return EnumStringEnum.Lower;
 
-            if (value == "")
+            if (value.Equals(""))
                 return EnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return EnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return EnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return EnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return EnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return EnumStringEnum.Duplicatevalue2;
 
             return null;
         }
@@ -337,6 +392,21 @@ namespace Org.OpenAPITools.Model
 
             if (value == EnumStringEnum.Empty)
                 return "";
+
+            if (value == EnumStringEnum.ValuewithTab)
+                return "Value\twith tab";
+
+            if (value == EnumStringEnum.ValueWithQuote)
+                return "Value with \" quote";
+
+            if (value == EnumStringEnum.ValueWithEscapedQuote)
+                return "Value with escaped \" quote";
+
+            if (value == EnumStringEnum.Duplicatevalue)
+                return "Duplicate\nvalue";
+
+            if (value == EnumStringEnum.Duplicatevalue2)
+                return "Duplicate\r\nvalue";
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
@@ -365,7 +435,32 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Empty for value: 
             /// </summary>
-            Empty = 3
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            Duplicatevalue2 = 8
         }
 
         /// <summary>
@@ -376,14 +471,29 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumStringRequiredEnum EnumStringRequiredEnumFromString(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return EnumStringRequiredEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return EnumStringRequiredEnum.Lower;
 
-            if (value == "")
+            if (value.Equals(""))
                 return EnumStringRequiredEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return EnumStringRequiredEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return EnumStringRequiredEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return EnumStringRequiredEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return EnumStringRequiredEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return EnumStringRequiredEnum.Duplicatevalue2;
 
             throw new NotImplementedException($"Could not convert value to type EnumStringRequiredEnum: '{value}'");
         }
@@ -395,14 +505,29 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumStringRequiredEnum? EnumStringRequiredEnumFromStringOrDefault(string value)
         {
-            if (value == "UPPER")
+            if (value.Equals("UPPER"))
                 return EnumStringRequiredEnum.UPPER;
 
-            if (value == "lower")
+            if (value.Equals("lower"))
                 return EnumStringRequiredEnum.Lower;
 
-            if (value == "")
+            if (value.Equals(""))
                 return EnumStringRequiredEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return EnumStringRequiredEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return EnumStringRequiredEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return EnumStringRequiredEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return EnumStringRequiredEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return EnumStringRequiredEnum.Duplicatevalue2;
 
             return null;
         }
@@ -423,6 +548,21 @@ namespace Org.OpenAPITools.Model
 
             if (value == EnumStringRequiredEnum.Empty)
                 return "";
+
+            if (value == EnumStringRequiredEnum.ValuewithTab)
+                return "Value\twith tab";
+
+            if (value == EnumStringRequiredEnum.ValueWithQuote)
+                return "Value with \" quote";
+
+            if (value == EnumStringRequiredEnum.ValueWithEscapedQuote)
+                return "Value with escaped \" quote";
+
+            if (value == EnumStringRequiredEnum.Duplicatevalue)
+                return "Duplicate\nvalue";
+
+            if (value == EnumStringRequiredEnum.Duplicatevalue2)
+                return "Duplicate\r\nvalue";
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
@@ -538,10 +678,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "enum_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

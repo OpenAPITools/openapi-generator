@@ -1253,6 +1253,24 @@ paths:
       responses:
         200:
           description: OK
+  /fake/uuid_example:
+    get:
+      tags:
+        - fake
+      summary: test uuid example
+      operationId: fakeUuidExample
+      parameters:
+        - name: uuid_example
+          in: query
+          description: uuid example
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 84529ad2-2265-4e15-b76b-c17025d848f6
+      responses:
+        "200":
+          description: Get successful
   /fake/enum_ref_query_parameter:
     get:
       tags:

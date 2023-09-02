@@ -38,7 +38,7 @@ More information can be found inside [Inversion of Control guide section](https:
 <a id="call123testSpecialTags"></a>
 # **call123testSpecialTags**
 ```java
-Mono<ModelClient> AnotherFakeApi.call123testSpecialTags(_body)
+Mono<ModelClient> AnotherFakeApi.call123testSpecialTags(uuidTest_body)
 ```
 
 To test special tags
@@ -48,6 +48,7 @@ To test special tags and operation ID starting with number
 ### Parameters
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **uuidTest** | `UUID`| to test uuid example value | |
 | **_body** | [**ModelClient**](ModelClient.md)| client model | |
 
 

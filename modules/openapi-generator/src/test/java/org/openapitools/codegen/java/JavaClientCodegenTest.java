@@ -83,6 +83,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -242,6 +243,26 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpSignatureAuth.java");
+    }
+
+    @Test
+    public void testImportMappingResult() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .addTypeMapping("OffsetDateTime", "Instant")
+                .addImportMapping("OffsetDateTime", "java.time.Instant")
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/QueryApi.java"), "import java.time.Instant;");
     }
 
     @Test
@@ -2277,4 +2298,90 @@ public class JavaClientCodegenTest {
 
         // shouldn't throw stackoverflow exception
     }
+
+    @Test
+    public void testWebClientSupportListOfStringReturnType_issue7118() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+        TestUtils.assertFileContains(userApi,
+                // set of string
+                "ParameterizedTypeReference<Set<String>> localVarReturnType = new ParameterizedTypeReference<Set<String>>() {};",
+                "getUserIdSetRequestCreation().toEntity(localVarReturnType)",
+                // list of string
+                "ParameterizedTypeReference<List<String>> localVarReturnType = new ParameterizedTypeReference<List<String>>() {};",
+                "getUserIdListRequestCreation().toEntity(localVarReturnType)"
+        );
+    }
+
+    @Test
+    public void testEnumCaseInsensitive_issue8084() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue8084.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        javaFileAssert
+            .assertMethod("fromValue")
+            .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
+    }
+
+    @Test
+    public void testEnumCaseSensitive_issue8084() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue8084.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        javaFileAssert
+            .assertMethod("fromValue")
+            .bodyContainsLines("if (b.value.equals(value)) {");
+    }
+
 }

@@ -31,6 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |true|
 |invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|HTTP library template (sub-template) to use|<dl><dt>**guzzle**</dt><dd>Guzzle</dd><dt>**psr-18**</dt><dd>psr/http-client-implementation, also known as PSR-18. (beta support)</dd></dl>|guzzle|
 |licenseName|The name of the license| |null|
 |modelPackage|package for generated models| |null|
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|

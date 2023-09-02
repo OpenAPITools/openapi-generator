@@ -41,6 +41,7 @@ The following server methods must be implemented:
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**uuid_default_value**](docs/FakeApi.md#uuid_default_value) | **GET** /fake/uuid_default_value_test | test uuid default value
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
@@ -66,6 +67,7 @@ Class | Method | HTTP request | Description
 
 ## Models
 
+ - [AnotherModel](docs/AnotherModel.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
  - [Order](docs/Order.md)

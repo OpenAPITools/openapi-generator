@@ -801,12 +801,6 @@
       ]
     },
     {
-      "input": "python-server-flask-petstore-python2.sh",
-      "matches": [
-        "Server: Python"
-      ]
-    },
-    {
       "input": "python-server-flask-petstore.sh",
       "matches": [
         "Server: Python"

@@ -8,4 +8,4 @@ deps=-r{toxinidir}/requirements.txt
 	 {toxinidir}
 
 commands=
-   {{^useNose}}pytest --cov={{{pythonSrcRoot}}}{{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
+   {{^useNose}}pytest --cov={{#lambda.forwardslash}}{{{pythonSrcRoot}}}{{/lambda.forwardslash}}{{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
