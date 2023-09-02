@@ -452,6 +452,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("indented_8", new IndentedLambda(8, " ", false))
                 .put("indented_12", new IndentedLambda(12, " ", false))
                 .put("indented_16", new IndentedLambda(16, " ", false));
+
     }
 
     private void registerMustacheLambdas() {
