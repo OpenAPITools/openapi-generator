@@ -315,7 +315,6 @@ namespace UseSourceGeneration.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _fooGetDefaultResponseDeserializationContext = fooGetDefaultResponseDeserializationContext;
             _notificationtestGetElementsV1ResponseMPayloadDeserializationContext = notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;

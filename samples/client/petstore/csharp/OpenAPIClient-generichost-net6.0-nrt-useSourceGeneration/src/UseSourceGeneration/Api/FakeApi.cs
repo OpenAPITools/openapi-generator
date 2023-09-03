@@ -824,7 +824,6 @@ namespace UseSourceGeneration.Api
             _healthCheckResultDeserializationContext = healthCheckResultDeserializationContext;
             _outerCompositeDeserializationContext = outerCompositeDeserializationContext;
             _modelClientDeserializationContext = modelClientDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeApiEvents;

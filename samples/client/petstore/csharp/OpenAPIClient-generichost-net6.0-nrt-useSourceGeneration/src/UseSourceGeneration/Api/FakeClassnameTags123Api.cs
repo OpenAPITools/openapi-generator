@@ -148,7 +148,6 @@ namespace UseSourceGeneration.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _modelClientDeserializationContext = modelClientDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeClassnameTags123ApiEvents;

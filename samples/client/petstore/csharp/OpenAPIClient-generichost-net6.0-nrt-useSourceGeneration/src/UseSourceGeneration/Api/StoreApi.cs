@@ -275,7 +275,6 @@ namespace UseSourceGeneration.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _orderDeserializationContext = orderDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = storeApiEvents;

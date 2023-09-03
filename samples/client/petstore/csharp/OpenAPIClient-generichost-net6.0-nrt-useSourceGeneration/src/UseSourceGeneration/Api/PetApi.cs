@@ -509,7 +509,6 @@ namespace UseSourceGeneration.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _petDeserializationContext = petDeserializationContext;
             _apiResponseDeserializationContext = apiResponseDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = petApiEvents;

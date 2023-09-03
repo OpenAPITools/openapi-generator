@@ -199,7 +199,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{/operation}}
             {{/lambda.uniqueLinesWithNewLine}}
             {{/useSourceGeneration}}
-
             Logger = logger;
             HttpClient = httpClient;
             Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}

@@ -451,7 +451,6 @@ namespace UseSourceGeneration.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _userDeserializationContext = userDeserializationContext;
-
             Logger = logger;
             HttpClient = httpClient;
             Events = userApiEvents;
