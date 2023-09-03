@@ -520,15 +520,6 @@ public class CodeGenMojo extends AbstractMojo {
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
 
-        if (cleanupOutput) {
-            try {
-                FileUtils.deleteDirectory(output);
-                LOGGER.info("Previous run output is removed from {}", output);
-            } catch (IOException e) {
-                LOGGER.warn("Failed to clean-up output directory {}", output, e);
-            }
-        }
-
         addCompileSourceRootIfConfigured();
 
         try {
@@ -563,6 +554,15 @@ public class CodeGenMojo extends AbstractMojo {
                                 "Code generation is skipped because input was unchanged");
                         return;
                     }
+                }
+            }
+
+            if (cleanupOutput) {
+                try {
+                    FileUtils.deleteDirectory(output);
+                    LOGGER.info("Previous run output is removed from {}", output);
+                } catch (IOException e) {
+                    LOGGER.warn("Failed to clean-up output directory {}", output, e);
                 }
             }
 
