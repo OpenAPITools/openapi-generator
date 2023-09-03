@@ -1,4 +1,7 @@
 {{#description}}/// {{{description}}}{{/description}}
+{{#isDeprecated}}
+    @Deprecated('{{{enumName}}} has been deprecated')
+{{/isDeprecated}}
 @JsonEnum(valueField: 'value')
 enum {{enumName}} {
     {{#allowableValues}}

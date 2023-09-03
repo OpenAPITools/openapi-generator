@@ -35,7 +35,8 @@ extension for collection primitives in union
     enum.mustache template.
 }}
 {{#vars}}
-    {{#isEnum}}
+    {{^isModel}}
+        {{#enumName}}
         {{^isContainer}}
             {{>serialization/freezed/enum_inline}}
         {{/isContainer}}
@@ -45,5 +46,6 @@ extension for collection primitives in union
                 {{>serialization/freezed/enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
-    {{/isEnum}}
+    {{/enumName}}
+    {{/isModel}}
 {{/vars}}

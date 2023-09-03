@@ -134,7 +134,7 @@ class {{classname}} {
             {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data _responseData;
         {{/freezedUnionResponse}}
         {{^freezedUnionResponse}}
-            {{{.}}}? _responseData;
+            {{{returnType}}} _responseData;
         {{/freezedUnionResponse}}
     {{/useFreezed}}
     {{^useFreezed}}
@@ -183,10 +183,10 @@ class {{classname}} {
                     try {
                         {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
                     } catch (error, stackTrace) {
-                    throw DioError(
+                    throw DioException(
                     requestOptions: _response.requestOptions,
                     response: _response,
-                    type: DioErrorType.unknown,
+                    type: DioExceptionType.unknown,
                     error: error,
                     stackTrace: stackTrace,
                     );
