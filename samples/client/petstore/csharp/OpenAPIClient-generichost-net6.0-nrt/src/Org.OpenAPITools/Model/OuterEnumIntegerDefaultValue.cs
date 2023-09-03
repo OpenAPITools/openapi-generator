@@ -177,5 +177,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnumIntegerDefaultValue?.ToString() ?? "null");
         }
     }
-
 }

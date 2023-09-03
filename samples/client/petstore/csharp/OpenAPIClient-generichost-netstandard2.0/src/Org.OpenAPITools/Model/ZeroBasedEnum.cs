@@ -170,5 +170,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(zeroBasedEnum?.ToString() ?? "null");
         }
     }
-
 }
