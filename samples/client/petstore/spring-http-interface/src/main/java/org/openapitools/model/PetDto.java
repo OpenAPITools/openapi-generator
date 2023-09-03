@@ -79,6 +79,7 @@ public class PetDto {
     }
   }
 
+  @Deprecated
   private StatusEnum status;
 
   public PetDto id(Long id) {
@@ -201,13 +202,19 @@ public class PetDto {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

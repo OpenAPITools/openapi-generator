@@ -101,7 +101,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

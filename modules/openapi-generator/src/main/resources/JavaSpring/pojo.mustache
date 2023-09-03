@@ -1,8 +1,12 @@
 /**
- * {{description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
+ * @deprecated{{/isDeprecated}}
  */
 {{>additionalModelTypeAnnotations}}
 {{#description}}
+{{#isDeprecated}}
+@Deprecated
+{{/isDeprecated}}
 {{#swagger1AnnotationLibrary}}
 @ApiModel(description = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}
@@ -55,6 +59,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
@@ -163,6 +170,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
    * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
+  {{#deprecated}}
+   * @deprecated
+  {{/deprecated}}
   */
   {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
@@ -182,13 +192,24 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{/jackson}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+  */
+  {{/deprecated}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   public void {{setter}}({{>nullableDataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
