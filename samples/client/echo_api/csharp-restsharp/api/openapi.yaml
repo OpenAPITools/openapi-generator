@@ -442,6 +442,22 @@ paths:
       summary: Test array of binary in multipart mime
       tags:
       - body
+  /auth/http/basic:
+    post:
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_auth: []
+      summary: To test HTTP basic authentication
+      tags:
+      - auth
 components:
   requestBodies:
     Pet:
@@ -702,4 +718,8 @@ components:
       required:
       - files
       type: object
+  securitySchemes:
+    http_auth:
+      scheme: basic
+      type: http
 

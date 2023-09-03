@@ -3,6 +3,7 @@
 .gitlab-ci.yml
 .travis.yml
 README.md
+docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
@@ -22,6 +23,7 @@ docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
 openapi_client/__init__.py
 openapi_client/api/__init__.py
+openapi_client/api/auth_api.py
 openapi_client/api/body_api.py
 openapi_client/api/form_api.py
 openapi_client/api/header_api.py

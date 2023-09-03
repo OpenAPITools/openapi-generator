@@ -74,20 +74,20 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 import org.openapitools.client.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.BodyApi;
+import org.openapitools.client.api.AuthApi;
 
-public class BodyApiExample {
+public class AuthApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
-        BodyApi apiInstance = new BodyApi(defaultClient);
+        AuthApi apiInstance = new AuthApi(defaultClient);
         try {
-            File result = apiInstance.testBinaryGif();
+            String result = apiInstance.testAuthHttpBasic();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling BodyApi#testBinaryGif");
+            System.err.println("Exception when calling AuthApi#testAuthHttpBasic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -104,6 +104,8 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthApi* | [**testAuthHttpBasic**](docs/AuthApi.md#testAuthHttpBasic) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**testAuthHttpBasicWithHttpInfo**](docs/AuthApi.md#testAuthHttpBasicWithHttpInfo) | **POST** /auth/http/basic | To test HTTP basic authentication
 *BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
@@ -162,7 +164,13 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="http_auth"></a>
+### http_auth
+
+
+- **Type**: HTTP basic authentication
 
 
 ## Recommendation

@@ -54,6 +54,23 @@ class Configuration:
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
 
+    :Example:
+
+    HTTP Basic Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: basic
+
+    Configure API client with HTTP basic authentication:
+
+conf = openapi_client.Configuration(
+    username='the-user',
+    password='the-password',
+)
+
     """
 
     _default = None
@@ -358,6 +375,13 @@ class Configuration:
         :return: The Auth Settings information dict.
         """
         auth = {}
+        if self.username is not None and self.password is not None:
+            auth['http_auth'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
         return auth
 
     def to_debug_report(self):
