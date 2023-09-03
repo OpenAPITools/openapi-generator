@@ -210,7 +210,7 @@ public class Pet {
    * @deprecated
   */
   
-  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @Deprecated
   public StatusEnum getStatus() {

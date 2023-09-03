@@ -171,7 +171,7 @@ public class Pet {
    * @deprecated
   */
   @NotNull 
-  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "photoUrls", deprecated = true, requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @Deprecated
   public List<String> getPhotoUrls() {
