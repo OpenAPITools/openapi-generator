@@ -61,20 +61,30 @@ configuration = openapi_client.Configuration(
     host = "http://localhost:3000"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: http_auth
+configuration = openapi_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
 
 
 # Enter a context with an instance of the API client
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.BodyApi(api_client)
+    api_instance = openapi_client.AuthApi(api_client)
 
     try:
-        # Test binary (gif) response body
-        api_response = api_instance.test_binary_gif()
-        print("The response of BodyApi->test_binary_gif:\n")
+        # To test HTTP basic authentication
+        api_response = api_instance.test_auth_http_basic()
+        print("The response of AuthApi->test_auth_http_basic:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling BodyApi->test_binary_gif: %s\n" % e)
+        print("Exception when calling AuthApi->test_auth_http_basic: %s\n" % e)
 
 ```
 
@@ -84,6 +94,7 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthApi* | [**test_auth_http_basic**](docs/AuthApi.md#test_auth_http_basic) | **POST** /auth/http/basic | To test HTTP basic authentication
 *BodyApi* | [**test_binary_gif**](docs/BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**test_body_application_octetstream_binary**](docs/BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**test_body_multipart_formdata_array_of_binary**](docs/BodyApi.md#test_body_multipart_formdata_array_of_binary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
@@ -123,7 +134,12 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="http_auth"></a>
+### http_auth
+
+- **Type**: HTTP basic authentication
 
 
 ## Author

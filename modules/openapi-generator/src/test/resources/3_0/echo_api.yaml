@@ -485,8 +485,28 @@ paths:
             text/plain:
               schema:
                 type: string
-
+  # To test http basic auth
+  /auth/http/basic:
+    post:
+      tags:
+        - auth
+      security:
+        - http_auth: []
+      summary: To test HTTP basic authentication
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
+  securitySchemes:
+    http_auth:
+      type: http
+      scheme: basic
   requestBodies:
     Pet:
       content:
