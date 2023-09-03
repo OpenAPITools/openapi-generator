@@ -285,6 +285,18 @@ public class CustomTest {
     }
 
     @Test
+    public void testFormOneOf() throws ApiException {
+        String form1 = "form1_example"; // String | 
+        Integer form2 = 56; // Integer | 
+        String form3 = "form3  example"; // String | 
+        Boolean form4 = true;
+        String response = formApi.testFormOneof(form1, form2, form3, form4, null, null);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/form/oneof", p.path);
+        Assert.assertEquals("3c\nform1=form1_example&form2=56&form3=form3++example&form4=true\n0\n\n", p.body);
+    }
+
+    @Test
     public void testBodyMultipartFormdataArrayOfBinary() throws ApiException {
         File file1 = Objects.requireNonNull(getFile("Hello"));
         File file2 = Objects.requireNonNull(getFile("World"));

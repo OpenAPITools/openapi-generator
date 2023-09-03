@@ -76,6 +76,7 @@ import java.net.URI;
 import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
+import org.openapitools.client.auth.HttpBasicAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
@@ -127,6 +128,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    authentications.put("http_auth", new HttpBasicAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -286,6 +288,36 @@ public class ApiClient extends JavaTimeFormatter {
     return tempFolderPath;
   }
 
+
+  /**
+   * Helper method to set username for the first HTTP basic authentication.
+   * @param username Username
+   * @return API client
+   */
+  public ApiClient setUsername(String username) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBasicAuth) {
+        ((HttpBasicAuth) auth).setUsername(username);
+        return this;
+      }
+    }
+    throw new RuntimeException("No HTTP basic authentication configured!");
+  }
+
+  /**
+   * Helper method to set password for the first HTTP basic authentication.
+   * @param password Password
+   * @return API client
+   */
+  public ApiClient setPassword(String password) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBasicAuth) {
+        ((HttpBasicAuth) auth).setPassword(password);
+        return this;
+      }
+    }
+    throw new RuntimeException("No HTTP basic authentication configured!");
+  }
 
 
 

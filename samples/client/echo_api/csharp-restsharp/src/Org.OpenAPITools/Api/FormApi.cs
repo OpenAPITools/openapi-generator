@@ -53,6 +53,39 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> TestFormIntegerBooleanStringWithHttpInfo(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0);
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for oneOf schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        string TestFormOneof(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0);
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for oneOf schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> TestFormOneofWithHttpInfo(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -91,6 +124,41 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> TestFormIntegerBooleanStringWithHttpInfoAsync(int? integerForm = default(int?), bool? booleanForm = default(bool?), string? stringForm = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for oneOf schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <remarks>
+        /// Test form parameter(s) for oneOf schema
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -366,6 +434,206 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestFormIntegerBooleanString", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        public string TestFormOneof(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestFormOneofWithHttpInfo(form1, form2, form3, form4, id, name);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        public Org.OpenAPITools.Client.ApiResponse<string> TestFormOneofWithHttpInfo(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/x-www-form-urlencoded"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (form1 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form1", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form1)); // form parameter
+            }
+            if (form2 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form2)); // form parameter
+            }
+            if (form3 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form3", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form3)); // form parameter
+            }
+            if (form4 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form4", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form4)); // form parameter
+            }
+            if (id != null)
+            {
+                localVarRequestOptions.FormParameters.Add("id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(id)); // form parameter
+            }
+            if (name != null)
+            {
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+            }
+
+            localVarRequestOptions.Operation = "FormApi.TestFormOneof";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<string>("/form/oneof", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestFormOneof", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> TestFormOneofAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestFormOneofWithHttpInfoAsync(form1, form2, form3, form4, id, name, operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test form parameter(s) for oneOf schema Test form parameter(s) for oneOf schema
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="form1"> (optional)</param>
+        /// <param name="form2"> (optional)</param>
+        /// <param name="form3"> (optional)</param>
+        /// <param name="form4"> (optional)</param>
+        /// <param name="id"> (optional)</param>
+        /// <param name="name"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestFormOneofWithHttpInfoAsync(string? form1 = default(string?), int? form2 = default(int?), string? form3 = default(string?), bool? form4 = default(bool?), long? id = default(long?), string? name = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/x-www-form-urlencoded"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (form1 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form1", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form1)); // form parameter
+            }
+            if (form2 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form2)); // form parameter
+            }
+            if (form3 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form3", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form3)); // form parameter
+            }
+            if (form4 != null)
+            {
+                localVarRequestOptions.FormParameters.Add("form4", Org.OpenAPITools.Client.ClientUtils.ParameterToString(form4)); // form parameter
+            }
+            if (id != null)
+            {
+                localVarRequestOptions.FormParameters.Add("id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(id)); // form parameter
+            }
+            if (name != null)
+            {
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+            }
+
+            localVarRequestOptions.Operation = "FormApi.TestFormOneof";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/form/oneof", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestFormOneof", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

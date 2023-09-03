@@ -19,6 +19,7 @@ src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/AuthApi.java
 src/main/java/org/openapitools/client/api/BodyApi.java
 src/main/java/org/openapitools/client/api/FormApi.java
 src/main/java/org/openapitools/client/api/HeaderApi.java
