@@ -18,6 +18,7 @@
 __version__ = "1.0.0"
 
 # import apis into sdk package
+from openapi_client.api.auth_api import AuthApi
 from openapi_client.api.body_api import BodyApi
 from openapi_client.api.form_api import FormApi
 from openapi_client.api.header_api import HeaderApi

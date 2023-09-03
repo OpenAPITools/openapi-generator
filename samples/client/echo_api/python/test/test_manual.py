@@ -130,6 +130,19 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_echo_body_free_form_object_response_string({})
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
+    def testAuthHttpBasic(self):
+        api_instance = openapi_client.AuthApi()
+        api_response = api_instance.test_auth_http_basic()
+        e = EchoServerResponseParser(api_response)
+        self.assertFalse("Authorization" in e.headers)
+
+        api_instance.api_client.configuration.username = "test_username"
+        api_instance.api_client.configuration.password = "test_password"
+        api_response = api_instance.test_auth_http_basic()
+        e = EchoServerResponseParser(api_response)
+        self.assertTrue("Authorization" in e.headers)
+        self.assertEqual(e.headers["Authorization"], "Basic dGVzdF91c2VybmFtZTp0ZXN0X3Bhc3N3b3Jk")
+
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
 Host: localhost:3000
