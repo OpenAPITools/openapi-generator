@@ -1349,8 +1349,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (example == null) {
             example = "null";
         } else if (Boolean.TRUE.equals(p.isArray)) {
-
-            if (p.items.defaultValue != null) {
+            if (p.items != null && p.items.defaultValue != null) {
                 String innerExample;
                 if ("String".equals(p.items.dataType)) {
                     innerExample = "\"" + p.items.defaultValue + "\"";
