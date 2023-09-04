@@ -58,4 +58,23 @@ public class MetariscVisibilityTraitTest {
 
         Assert.assertTrue(MetariscVisibilityTrait.visibilityCheck(vendorExtensions, visibilty));
     }
+    @Test
+    public void visibilityCheckSeveralValuesTest() {
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        vendorExtensions.put("x-extension-metarisc-codegen-visibility", "admin|public|interne");
+
+        String[] visibilty = new String[]{"admin", "public", "interne"};
+
+        Assert.assertTrue(MetariscVisibilityTrait.visibilityCheck(vendorExtensions, visibilty));
+    }
+
+    @Test
+    public void visibilityCheckSeveralValues1Test() {
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        vendorExtensions.put("x-extension-metarisc-codegen-visibility", "admin|public");
+
+        String[] visibilty = new String[]{"interne"};
+
+        Assert.assertFalse(MetariscVisibilityTrait.visibilityCheck(vendorExtensions, visibilty));
+    }
 }
