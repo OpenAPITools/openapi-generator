@@ -1,4 +1,4 @@
-# petstore-okhttp-gson
+# petstore-okhttp-gson-31
 
 OpenAPI Petstore
 - API version: 1.0.0
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-okhttp-gson</artifactId>
+  <artifactId>petstore-okhttp-gson-31</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -50,12 +50,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'petstore-okhttp-gson' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'petstore-okhttp-gson' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'petstore-okhttp-gson-31' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-okhttp-gson-31' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:petstore-okhttp-gson:1.0.0"
+     implementation "org.openapitools:petstore-okhttp-gson-31:1.0.0"
   }
 ```
 
@@ -69,7 +69,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/petstore-okhttp-gson-1.0.0.jar`
+* `target/petstore-okhttp-gson-31-1.0.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

@@ -89,7 +89,7 @@ if(hasProperty('target') && target == 'android') {
     publishing {
         publications {
             maven(MavenPublication) {
-               artifactId = 'petstore-okhttp-gson'
+               artifactId = 'petstore-okhttp-gson-31'
                from components.java
             }
         }
