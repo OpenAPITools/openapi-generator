@@ -3657,6 +3657,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param visitedSchemas circuit-breaker - the schemas with which the method was called before for recursive structures
      */
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas) {
+        if (schema == null) {
+            return;
+        }
+
         if (!visitedSchemas.add(schema)) {
             return;
         }
