@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.function.Supplier;
 import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
@@ -165,9 +166,18 @@ public class ApiClient extends JavaTimeFormatter {
      * @param bearerToken the token
      */
     public void setBearerToken(String bearerToken) {
+        setBearerToken(() -> bearerToken);
+    }
+
+    /**
+     * Helper method to set the token supplier for HTTP bearer authentication.
+     *
+     * @param tokenSupplier the token supplier function
+     */
+    public void setBearerToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
                 return;
             }
         }
