@@ -9,14 +9,15 @@ public class MetariscVisibilityTrait {
         Object extensionValue = vendorExtensions.get(extensionName);
         String extensionValueString;
 
-        if (extensionValue != null) {
+        if(extensionValue == null) {
+            extensionValueString = "public";
+        }else {
             extensionValueString = Arrays.toString(extensionValue.toString().split("\\|"));
+        }
 
-            for (String visibilityItem : visibility) {
-                if (extensionValueString.contains(visibilityItem)) {
-                    return true;
-                }
-                vendorExtensions.put(extensionName, "public");
+        for (String visibilityItem : visibility) {
+            if (extensionValueString.contains(visibilityItem)) {
+                return true;
             }
         }
 
