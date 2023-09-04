@@ -323,7 +323,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 this.equatable);
 
         addSwitch("useSourceGeneration",
-                "Use source generation where available.",
+                "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
