@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   description: "This is a sample server Petstore server. For this sample, you can\
     \ use the api key `special-key` to test the authorization filters."
@@ -306,7 +306,6 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
-                type: object
           description: successful operation
       security:
       - api_key: []
@@ -666,7 +665,6 @@ components:
           default: false
           type: boolean
       title: Pet Order
-      type: object
       xml:
         name: Order
     Category:
@@ -682,7 +680,6 @@ components:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
-      type: object
       xml:
         name: Category
     User:
@@ -717,7 +714,6 @@ components:
           format: int32
           type: integer
       title: a User
-      type: object
       xml:
         name: User
     Tag:
@@ -732,7 +728,6 @@ components:
         name:
           type: string
       title: Pet Tag
-      type: object
       xml:
         name: Tag
     Pet:
@@ -787,7 +782,6 @@ components:
       - name
       - photoUrls
       title: a Pet
-      type: object
       xml:
         name: Pet
     ApiResponse:
@@ -805,7 +799,6 @@ components:
         message:
           type: string
       title: An uploaded response
-      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -814,7 +807,6 @@ components:
         status:
           description: Updated status of the pet
           type: string
-      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -824,7 +816,6 @@ components:
           description: file to upload
           format: binary
           type: string
-      type: object
   securitySchemes:
     petstore_auth:
       flows:
