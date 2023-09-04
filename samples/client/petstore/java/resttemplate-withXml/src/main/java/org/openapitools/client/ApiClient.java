@@ -177,12 +177,12 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Helper method to set the token supplier for HTTP bearer authentication.
      *
-     * @param bearerToken the token
+     * @param tokenSupplier the token supplier function
      */
-    public void setBearerToken(Supplier<String> bearerToken) {
+    public void setBearerToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
                 return;
             }
         }
