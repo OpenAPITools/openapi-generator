@@ -699,7 +699,8 @@ public class ModelUtils {
                 // has properties
                 ((null != schema.getProperties() && !schema.getProperties().isEmpty())
                 // composed schema is a model, consider very simple ObjectSchema a model
-                || (schema instanceof ComposedSchema || schema instanceof ObjectSchema));
+                        || isComposedSchema(schema)
+                        || schema instanceof ObjectSchema);
     }
 
     /**

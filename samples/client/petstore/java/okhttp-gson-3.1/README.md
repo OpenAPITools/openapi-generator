@@ -142,7 +142,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Animal](docs/Animal.md)
+ - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
+ - [Dog](docs/Dog.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)

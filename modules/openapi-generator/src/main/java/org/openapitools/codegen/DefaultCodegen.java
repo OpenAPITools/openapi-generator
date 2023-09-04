@@ -1036,23 +1036,23 @@ public class DefaultCodegen implements CodegenConfig {
                 if (ModelUtils.isComposedSchema(s)) {
                     if (e.getKey().contains("/")) {
                         // if this is property schema, we also need to generate the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
+                        addOneOfNameExtension(s, nOneOf);
+                        addOneOfInterfaceModel(s, nOneOf);
                     } else {
                         // else this is a component schema, so we will just use that as the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, n);
+                        addOneOfNameExtension(s, n);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
-                        addOneOfNameExtension((ComposedSchema) items, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                        addOneOfNameExtension(items, nOneOf);
+                        addOneOfInterfaceModel(items, nOneOf);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
                     Schema addProps = ModelUtils.getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
-                        addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                        addOneOfNameExtension(addProps, nOneOf);
+                        addOneOfInterfaceModel(addProps, nOneOf);
                     }
                 }
             }
@@ -3256,11 +3256,11 @@ public class DefaultCodegen implements CodegenConfig {
             return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {
-            ComposedSchema composedSchema = (ComposedSchema) refSchema;
+            Schema composedSchema = refSchema;
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
-                for (Schema allOf : composedSchema.getAllOf()) {
-                    CodegenProperty cp = discriminatorFound(composedSchemaName, allOf, discPropName, visitedSchemas);
+                for (Object allOf : composedSchema.getAllOf()) {
+                    CodegenProperty cp = discriminatorFound(composedSchemaName, (Schema) allOf, discPropName, visitedSchemas);
                     if (cp != null) {
                         return cp;
                     }
@@ -3269,9 +3269,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() != 0) {
                 // All oneOf definitions must contain the discriminator
                 CodegenProperty cp = new CodegenProperty();
-                for (Schema oneOf : composedSchema.getOneOf()) {
-                    String modelName = ModelUtils.getSimpleRef(oneOf.get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName, visitedSchemas);
+                for (Object oneOf : composedSchema.getOneOf()) {
+                    String modelName = ModelUtils.getSimpleRef(((Schema) oneOf).get$ref());
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) oneOf, discPropName, visitedSchemas);
                     if (thisCp == null) {
                         LOGGER.warn(
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
@@ -3292,9 +3292,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 CodegenProperty cp = new CodegenProperty();
-                for (Schema anyOf : composedSchema.getAnyOf()) {
-                    String modelName = ModelUtils.getSimpleRef(anyOf.get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName, visitedSchemas);
+                for (Object anyOf : composedSchema.getAnyOf()) {
+                    String modelName = ModelUtils.getSimpleRef(((Schema) anyOf).get$ref());
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) anyOf, discPropName, visitedSchemas);
                     if (thisCp == null) {
                         LOGGER.warn(
                                 "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
@@ -3430,7 +3430,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
      * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
      */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c) {
+    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, Schema c) {
         ArrayList<List<Schema>> listOLists = new ArrayList<>();
         listOLists.add(c.getOneOf());
         listOLists.add(c.getAnyOf());
@@ -3510,8 +3510,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 Schema child = schemas.get(childName);
                 if (ModelUtils.isComposedSchema(child)) {
-                    ComposedSchema composedChild = (ComposedSchema) child;
-                    List<Schema> parents = composedChild.getAllOf();
+                    List<Schema> parents = child.getAllOf();
                     if (parents != null) {
                         for (Schema parent : parents) {
                             String ref = parent.get$ref();
@@ -3624,7 +3623,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, (ComposedSchema) schema);
+            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
                     uniqueDescendants.add(otherDescendant);
@@ -3662,11 +3661,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema composedSchema = (ComposedSchema) schema;
 
-            if (composedSchema.getAllOf() != null) {
-                for (Schema component : composedSchema.getAllOf()) {
-                    addProperties(properties, required, component, visitedSchemas);
+            if (schema.getAllOf() != null) {
+                for (Object component : schema.getAllOf()) {
+                    addProperties(properties, required, (Schema) component, visitedSchemas);
                 }
             }
 
@@ -3674,15 +3672,15 @@ public class DefaultCodegen implements CodegenConfig {
                 required.addAll(schema.getRequired());
             }
 
-            if (composedSchema.getOneOf() != null) {
-                for (Schema component : composedSchema.getOneOf()) {
-                    addProperties(properties, required, component, visitedSchemas);
+            if (schema.getOneOf() != null) {
+                for (Object component : schema.getOneOf()) {
+                    addProperties(properties, required, (Schema) component, visitedSchemas);
                 }
             }
 
-            if (composedSchema.getAnyOf() != null) {
-                for (Schema component : composedSchema.getAnyOf()) {
-                    addProperties(properties, required, component, visitedSchemas);
+            if (schema.getAnyOf() != null) {
+                for (Object component : schema.getAnyOf()) {
+                    addProperties(properties, required, (Schema) component, visitedSchemas);
                 }
             }
 
@@ -7908,12 +7906,12 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add "x-one-of-name" extension to a given oneOf schema (assuming it has at least 1 oneOf elements)
      *
-     * @param s    schema to add the extension to
-     * @param name name of the parent oneOf schema
+     * @param schema schema to add the extension to
+     * @param name   name of the parent oneOf schema
      */
-    public void addOneOfNameExtension(ComposedSchema s, String name) {
-        if (s.getOneOf() != null && s.getOneOf().size() > 0) {
-            s.addExtension("x-one-of-name", name);
+    public void addOneOfNameExtension(Schema schema, String name) {
+        if (schema.getOneOf() != null && schema.getOneOf().size() > 0) {
+            schema.addExtension("x-one-of-name", name);
         }
     }
 
@@ -7923,7 +7921,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param cs      ComposedSchema object to create as interface model
      * @param type    name to use for the generated interface model
      */
-    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+    public void addOneOfInterfaceModel(Schema cs, String type) {
         if (cs.getOneOf() == null) {
             return;
         }
@@ -7932,9 +7930,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         cm.setDiscriminator(createDiscriminator("", cs));
 
-        for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
-            if (o.get$ref() == null) {
-                if (cm.discriminator != null && o.get$ref() == null) {
+        for (Object o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
+            if (((Schema) o).get$ref() == null) {
+                if (cm.discriminator != null && ((Schema) o).get$ref() == null) {
                     // OpenAPI spec states that inline objects should not be considered when discriminator is used
                     // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
                     LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
@@ -7943,7 +7941,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 continue;
             }
-            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
+            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(((Schema) o).get$ref())));
         }
         cm.name = type;
         cm.classname = type;

@@ -5,7 +5,10 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
+docs/Animal.md
+docs/Cat.md
 docs/Category.md
+docs/Dog.md
 docs/ModelApiResponse.md
 docs/OneOfStringOrInt.md
 docs/Order.md
@@ -50,7 +53,10 @@ src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
+src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/OneOfStringOrInt.java
 src/main/java/org/openapitools/client/model/Order.java
