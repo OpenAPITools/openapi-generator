@@ -17,6 +17,7 @@ using {{packageName}}.{{apiPackage}};
 {{#hasImport}}
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
+using System.Diagnostics.CodeAnalysis;
 
 namespace {{packageName}}.{{apiPackage}}
 {
@@ -563,6 +564,96 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/lambda.trimLineBreaks}}
         }
+        {{#responses}}
+        {{#-first}}
+
+        /// <summary>
+        /// The <see cref="{{operationId}}Response"/>
+        /// </summary>
+        {{>visibility}} partial class {{operationId}}Response
+        {
+            /// <summary>
+            /// The JsonSerialzierOptions
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="{{operationId}}Response"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public {{operationId}}Response(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+            {{#responses}}
+
+            {{#vendorExtensions.x-http-status-is-default}}
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool Is{{vendorExtensions.x-http-status}}() => {{#vendorExtensions.x-only-default}}true{{/vendorExtensions.x-only-default}}{{^vendorExtensions.x-only-default}}{{#lambda.joinConditions}}{{#responses}}{{^vendorExtensions.x-http-status-is-default}}!Is{{vendorExtensions.x-http-status}}()  {{/vendorExtensions.x-http-status-is-default}}{{/responses}}{{/lambda.joinConditions}}{{/vendorExtensions.x-only-default}};
+            {{/vendorExtensions.x-http-status-is-default}}
+            {{^vendorExtensions.x-http-status-is-default}}
+            /// <summary>
+            /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}}
+            /// </summary>
+            /// <returns></returns>
+            public bool Is{{vendorExtensions.x-http-status}}() => {{code}} == ApiResponse.StatusCode;
+            {{/vendorExtensions.x-http-status-is-default}}
+            {{#dataType}}
+
+            /// <summary>
+            /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}} and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool To{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
+            {
+                result = null;
+                if (!Is{{vendorExtensions.x-http-status}}())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}} and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTo{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
+            {
+                result = null;
+                if (!Is{{vendorExtensions.x-http-status}}())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+            {{/dataType}}
+            {{/responses}}
+        }
+        {{/-first}}
+        {{/responses}}
         {{/operation}}
     }
     {{/operations}}

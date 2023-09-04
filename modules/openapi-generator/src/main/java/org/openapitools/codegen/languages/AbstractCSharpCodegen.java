@@ -438,6 +438,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinConditions", new JoinWithCommaLambda(false, "  ", " && "))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
                 .put("first", new FirstLambda("  "))
@@ -766,6 +767,202 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+
+                    if (operation.responses != null) {
+                        if (operation.responses.stream().count() == 1 && operation.responses.get(0).code.toLowerCase().equals("0")) {
+                            CodegenResponse response = operation.responses.get(0);
+                            response.vendorExtensions.put("x-only-default", true);
+                        }
+                        for (CodegenResponse response : operation.responses) {
+                            String code = response.code.toLowerCase(Locale.ROOT);
+                            switch(code) {
+                                case "default":
+                                case "0":
+                                    response.vendorExtensions.put("x-http-status", "Default");
+                                    response.vendorExtensions.put("x-http-status-is-default", true);
+                                    break;
+                                case "100":
+                                    response.vendorExtensions.put("x-http-status", "Continue");
+                                    break;
+                                case "101":
+                                    response.vendorExtensions.put("x-http-status", "SwitchingProtocols");
+                                    break;
+                                case "102":
+                                    response.vendorExtensions.put("x-http-status", "Processing");
+                                    break;
+                                case "103":
+                                    response.vendorExtensions.put("x-http-status", "EarlyHints");
+                                    break;
+                                case "200":
+                                    response.vendorExtensions.put("x-http-status", "Ok");
+                                    break;
+                                case "201":
+                                    response.vendorExtensions.put("x-http-status", "Created");
+                                    break;
+                                case "202":
+                                    response.vendorExtensions.put("x-http-status", "Accepted");
+                                    break;
+                                case "203":
+                                    response.vendorExtensions.put("x-http-status", "NonAuthoritativeInformation");
+                                    break;
+                                case "204":
+                                    response.vendorExtensions.put("x-http-status", "NoContent");
+                                    break;
+                                case "205":
+                                    response.vendorExtensions.put("x-http-status", "ResetContent");
+                                    break;
+                                case "206":
+                                    response.vendorExtensions.put("x-http-status", "PartialContent");
+                                    break;
+                                case "207":
+                                    response.vendorExtensions.put("x-http-status", "MultiStatus");
+                                    break;
+                                case "208":
+                                    response.vendorExtensions.put("x-http-status", "AlreadyImported");
+                                    break;
+                                case "226":
+                                    response.vendorExtensions.put("x-http-status", "IMUsed");
+                                    break;
+                                case "300":
+                                    response.vendorExtensions.put("x-http-status", "MultipleChoices");
+                                    break;
+                                case "301":
+                                    response.vendorExtensions.put("x-http-status", "MovedPermanently");
+                                    break;
+                                case "302":
+                                    response.vendorExtensions.put("x-http-status", "Found");
+                                    break;
+                                case "303":
+                                    response.vendorExtensions.put("x-http-status", "SeeOther");
+                                    break;
+                                case "304":
+                                    response.vendorExtensions.put("x-http-status", "NotModified");
+                                    break;
+                                case "307":
+                                    response.vendorExtensions.put("x-http-status", "TemporaryRedirect");
+                                    break;
+                                case "308":
+                                    response.vendorExtensions.put("x-http-status", "PermanentRedirect");
+                                    break;
+                                case "400":
+                                    response.vendorExtensions.put("x-http-status", "BadRequest");
+                                    break;
+                                case "401":
+                                    response.vendorExtensions.put("x-http-status", "Unauthorized");
+                                    break;
+                                case "402":
+                                    response.vendorExtensions.put("x-http-status", "PaymentRequired");
+                                    break;
+                                case "403":
+                                    response.vendorExtensions.put("x-http-status", "Forbidden");
+                                    break;
+                                case "404":
+                                    response.vendorExtensions.put("x-http-status", "NotFound");
+                                    break;
+                                case "405":
+                                    response.vendorExtensions.put("x-http-status", "MethodNotAllowed");
+                                    break;
+                                case "406":
+                                    response.vendorExtensions.put("x-http-status", "NotAcceptable");
+                                    break;
+                                case "407":
+                                    response.vendorExtensions.put("x-http-status", "ProxyAuthenticationRequired");
+                                    break;
+                                case "408":
+                                    response.vendorExtensions.put("x-http-status", "RequestTimeout");
+                                    break;
+                                case "409":
+                                    response.vendorExtensions.put("x-http-status", "Conflict");
+                                    break;
+                                case "410":
+                                    response.vendorExtensions.put("x-http-status", "Gone");
+                                    break;
+                                case "411":
+                                    response.vendorExtensions.put("x-http-status", "LengthRequired");
+                                    break;
+                                case "412":
+                                    response.vendorExtensions.put("x-http-status", "PreconditionFailed");
+                                    break;
+                                case "413":
+                                    response.vendorExtensions.put("x-http-status", "ContentTooLarge");
+                                    break;
+                                case "414":
+                                    response.vendorExtensions.put("x-http-status", "URITooLong");
+                                    break;
+                                case "415":
+                                    response.vendorExtensions.put("x-http-status", "UnsupportedMediaType");
+                                    break;
+                                case "416":
+                                    response.vendorExtensions.put("x-http-status", "RangeNotSatisfiable");
+                                    break;
+                                case "417":
+                                    response.vendorExtensions.put("x-http-status", "ExpectationFailed");
+                                    break;
+                                case "421":
+                                    response.vendorExtensions.put("x-http-status", "MisdirectedRequest");
+                                    break;
+                                case "422":
+                                    response.vendorExtensions.put("x-http-status", "UnprocessableContent");
+                                    break;
+                                case "423":
+                                    response.vendorExtensions.put("x-http-status", "Locked");
+                                    break;
+                                case "424":
+                                    response.vendorExtensions.put("x-http-status", "FailedDependency");
+                                    break;
+                                case "425":
+                                    response.vendorExtensions.put("x-http-status", "TooEarly");
+                                    break;
+                                case "426":
+                                    response.vendorExtensions.put("x-http-status", "UpgradeRequired");
+                                    break;
+                                case "428":
+                                    response.vendorExtensions.put("x-http-status", "PreconditionRequired");
+                                    break;
+                                case "429":
+                                    response.vendorExtensions.put("x-http-status", "TooManyRequests");
+                                    break;
+                                case "431":
+                                    response.vendorExtensions.put("x-http-status", "RequestHeaderFieldsTooLong");
+                                    break;
+                                case "451":
+                                    response.vendorExtensions.put("x-http-status", "UnavailableForLegalReasons");
+                                    break;
+                                case "500":
+                                    response.vendorExtensions.put("x-http-status", "InternalServerError");
+                                    break;
+                                case "501":
+                                    response.vendorExtensions.put("x-http-status", "NotImplemented");
+                                    break;
+                                case "502":
+                                    response.vendorExtensions.put("x-http-status", "BadGateway");
+                                    break;
+                                case "503":
+                                    response.vendorExtensions.put("x-http-status", "ServiceUnavailable");
+                                    break;
+                                case "504":
+                                    response.vendorExtensions.put("x-http-status", "GatewayTimeout");
+                                    break;
+                                case "505":
+                                    response.vendorExtensions.put("x-http-status", "HttpVersionNotSupported");
+                                    break;
+                                case "506":
+                                    response.vendorExtensions.put("x-http-status", "VariantAlsoNegotiates");
+                                    break;
+                                case "507":
+                                    response.vendorExtensions.put("x-http-status", "InsufficientStorage");
+                                    break;
+                                case "508":
+                                    response.vendorExtensions.put("x-http-status", "LoopDetected");
+                                    break;
+                                case "511":
+                                    response.vendorExtensions.put("x-http-status", "NetworkAuthenticationRequired");
+                                    break;
+                                default:
+                                    throw new RuntimeException("Unhandled case: " + code);
+                            }
+                        }
+                    }
 
                     // Check return types for collection
                     if (operation.returnType != null) {

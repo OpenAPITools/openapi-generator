@@ -82,6 +82,24 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Pet'
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':
