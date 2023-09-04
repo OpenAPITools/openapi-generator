@@ -453,6 +453,10 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComposedSchema(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         // in 3.0, ComposeSchema is used for anyOf/oneOf/allOf
         // in 3.1, it's not the case so we need more checks below
         if (schema instanceof ComposedSchema) {
