@@ -199,7 +199,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{! begin feature: fluent setter methods for inherited properties }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    super.{{setter}}({{name}});
+    super.{{name}}({{name}});
     return this;
   }
   {{#isArray}}
