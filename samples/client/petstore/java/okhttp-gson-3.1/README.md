@@ -144,8 +144,10 @@ Class | Method | HTTP request | Description
 
  - [Category](docs/Category.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 
