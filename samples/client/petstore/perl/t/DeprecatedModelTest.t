@@ -25,10 +25,10 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::OpenAPIClient::Object::DeprecatedObject');
+use_ok('WWW::OpenAPIClient::Object::DeprecatedModel');
 
 # uncomment below and update the test
-#my $instance = WWW::OpenAPIClient::Object::DeprecatedObject->new();
+#my $instance = WWW::OpenAPIClient::Object::DeprecatedModel->new();
 #
-#isa_ok($instance, 'WWW::OpenAPIClient::Object::DeprecatedObject');
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::DeprecatedModel');
 
