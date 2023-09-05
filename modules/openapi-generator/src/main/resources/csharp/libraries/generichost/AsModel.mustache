@@ -1,4 +1,14 @@
             // This logic may be modified with the AsModel.mustache template
+            {{^useSourceGeneration}}
             return IsSuccessStatusCode
                 ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
                 : default(T);
+            {{/useSourceGeneration}}
+            {{#useSourceGeneration}}
+            if (!IsSuccessStatusCode)
+                return default(T);
+
+            return _typeInfo == null
+                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
+                : System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _typeInfo);
+            {{/useSourceGeneration}}

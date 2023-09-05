@@ -59,6 +59,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -410,28 +411,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.get("name");
-            long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from " + v.get("name") + " to " + uniqueEnumName);
-                v.put("name", uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
-    }
-
-    private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
-        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
-        return count > 1
-            ? getUniqueEnumName(name + count, enumVars)
-            : name;
-    }
-
-    @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
@@ -439,12 +418,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("joinConditions", new JoinWithCommaLambda(false, "  ", " && "))
+                .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " ", false))
-                .put("indent4", new IndentedLambda(16, " ", false));
+                .put("indent4", new IndentedLambda(16, " ", false))
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -1567,6 +1549,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public boolean getNullableReferencesTypes() {
         return this.nullReferenceTypesFlag;
+    }
+
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {

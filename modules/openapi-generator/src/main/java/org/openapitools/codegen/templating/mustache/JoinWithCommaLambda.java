@@ -57,8 +57,6 @@ public class JoinWithCommaLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String test = fragment.execute();
-
         String[] input = this.trimInput
                 ? fragment.execute().trim().split(delimit)
                 : fragment.execute().split(delimit);

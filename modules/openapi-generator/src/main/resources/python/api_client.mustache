@@ -234,7 +234,7 @@ class ApiClient:
         # data needs deserialization or returns HTTP data (deserialized) only
         if _preload_content or _return_http_data_only:
           response_type = response_types_map.get(str(response_data.status), None)
-          if not response_type and type(response_data.status) == int and 100 <= response_data.status <= 599:
+          if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
               # if not found, look for '1XX', '2XX', etc.
               response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 

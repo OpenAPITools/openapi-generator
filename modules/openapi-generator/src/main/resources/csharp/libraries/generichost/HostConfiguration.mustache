@@ -48,6 +48,21 @@ namespace {{packageName}}.{{clientPackage}}
             {{/models}}
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new{{^net60OrLater}} JsonSerializerOptionsProvider{{/net60OrLater}}(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
+            {{#useSourceGeneration}}
+
+            {{#models}}
+            {{#model}}
+            _services.AddSingleton<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}SerializationContext>();
+            {{/model}}
+            {{/models}}
+
+            {{#models}}
+            {{#model}}
+            _services.AddSingleton<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}DeserializationContext>();
+            {{/model}}
+            {{/models}}
+
+            {{/useSourceGeneration}}
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
             _services.AddSingleton<{{classname}}Events>();
             _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
