@@ -205,6 +205,20 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
+
+    @Override
     public String toParamName(String name) {
         // obtain the name from parameterNameMapping directly if provided
         if (parameterNameMapping.containsKey(name)) {
