@@ -1062,7 +1062,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else { // has default value
                 return toArrayDefaultValue(cp, schema);
             }
-        } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
+        } else if (ModelUtils.isMapSchema(schema) && !(ModelUtils.isComposedSchema(schema))) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
                 if (schema.getDefault() != null) {
@@ -1645,11 +1645,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .map(Schema::getProperties))
                     .forEach(schemas -> schemas.replaceAll(
                             (name, s) -> Stream.of(s)
-                                    .filter(schema -> schema instanceof ComposedSchema)
-                                    .map(schema -> (ComposedSchema) schema)
-                                    .filter(schema -> Objects.nonNull(schema.getAnyOf()))
-                                    .flatMap(schema -> schema.getAnyOf().stream())
-                                    .filter(schema -> Objects.nonNull(schema.getEnum()))
+                                    .filter(schema -> ModelUtils.isComposedSchema((Schema) schema))
+                                    //.map(schema -> (ComposedSchema) schema)
+                                    .filter(schema -> Objects.nonNull(((Schema) schema).getAnyOf()))
+                                    .flatMap(schema -> ((Schema) schema).getAnyOf().stream())
+                                    .filter(schema -> Objects.nonNull(((Schema) schema).getEnum()))
                                     .findFirst()
                                     .orElse((Schema) s)));
         }

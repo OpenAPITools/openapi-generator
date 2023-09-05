@@ -58,6 +58,7 @@ import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
+import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -262,6 +263,10 @@ public class DefaultGenerator implements Generator {
         // normalize the spec
         try {
             if (config.getUseOpenAPINormalizer()) {
+                SemVer version = new SemVer(openAPI.getOpenapi());
+                if (version.atLeast("3.1.0")) {
+                    config.openapiNormalizer().put("NORMALIZE_31SPEC", "true");
+                }
                 OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
                 openapiNormalizer.normalize();
             }

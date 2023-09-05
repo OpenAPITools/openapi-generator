@@ -331,20 +331,20 @@ public class ModelUtils {
                 }
             }
         }
-        if (schema instanceof ComposedSchema) {
-            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+        if (isComposedSchema(schema)) {
+            List<Schema> oneOf = schema.getOneOf();
             if (oneOf != null) {
                 for (Schema s : oneOf) {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
                 }
             }
-            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            List<Schema> allOf = schema.getAllOf();
             if (allOf != null) {
                 for (Schema s : allOf) {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
                 }
             }
-            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            List<Schema> anyOf = schema.getAnyOf();
             if (anyOf != null) {
                 for (Schema s : anyOf) {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
@@ -453,7 +453,32 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComposedSchema(Schema schema) {
-        return schema instanceof ComposedSchema;
+        if (schema == null) {
+            return false;
+        }
+
+        // in 3.0, ComposeSchema is used for anyOf/oneOf/allOf
+        // in 3.1, it's not the case so we need more checks below
+        if (schema instanceof ComposedSchema) {
+            return true;
+        }
+
+        // has oneOf
+        if (schema.getOneOf() != null) {
+            return true;
+        }
+
+        // has anyOf
+        if (schema.getAnyOf() != null) {
+            return true;
+        }
+
+        // has allOf
+        if (schema.getAllOf() != null) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -678,7 +703,8 @@ public class ModelUtils {
                 // has properties
                 ((null != schema.getProperties() && !schema.getProperties().isEmpty())
                 // composed schema is a model, consider very simple ObjectSchema a model
-                || (schema instanceof ComposedSchema || schema instanceof ObjectSchema));
+                        || isComposedSchema(schema)
+                        || schema instanceof ObjectSchema);
     }
 
     /**
@@ -752,9 +778,8 @@ public class ModelUtils {
         }
 
         // not free-form if allOf, anyOf, oneOf is not empty
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            List<Schema> interfaces = ModelUtils.getInterfaces(cs);
+        if (isComposedSchema(schema)) {
+            List<Schema> interfaces = ModelUtils.getInterfaces(schema);
             if (interfaces != null && !interfaces.isEmpty()) {
                 return false;
             }
@@ -1053,8 +1078,8 @@ public class ModelUtils {
                 return true;
             }
         }
-        if (schema instanceof ComposedSchema) {
-            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+        if (isComposedSchema(schema)) {
+            List<Schema> oneOf = schema.getOneOf();
             if (oneOf != null) {
                 for (Schema s : oneOf) {
                     if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
@@ -1062,7 +1087,7 @@ public class ModelUtils {
                     }
                 }
             }
-            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            List<Schema> allOf = schema.getAllOf();
             if (allOf != null) {
                 for (Schema s : allOf) {
                     if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
@@ -1070,7 +1095,7 @@ public class ModelUtils {
                     }
                 }
             }
-            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            List<Schema> anyOf = schema.getAnyOf();
             if (anyOf != null) {
                 for (Schema s : anyOf) {
                     if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
@@ -1270,8 +1295,8 @@ public class ModelUtils {
 
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
                 .filter(entry -> isComposedSchema(entry.getValue()))
-                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas) != null)
-                .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
+                .filter(entry -> getParentName((Schema) entry.getValue(), allSchemas) != null)
+                .collect(Collectors.groupingBy(entry -> getParentName((Schema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
@@ -1283,7 +1308,7 @@ public class ModelUtils {
      * @param composed schema (alias or direct reference)
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
-    public static List<Schema> getInterfaces(ComposedSchema composed) {
+    public static List<Schema> getInterfaces(Schema composed) {
         if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
             return composed.getAllOf();
         } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
@@ -1324,7 +1349,7 @@ public class ModelUtils {
      * @param allSchemas     all schemas
      * @return the name of the parent model
      */
-    public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+    public static String getParentName(Schema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         int nullSchemaChildrenCount = 0;
         boolean hasAmbiguousParents = false;
@@ -1376,7 +1401,7 @@ public class ModelUtils {
      * @param includeAncestors if true, include the indirect ancestors in the return value. If false, return the direct parents.
      * @return the name of the parent model
      */
-    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
+    public static List<String> getAllParentsName(Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
 
@@ -1392,8 +1417,8 @@ public class ModelUtils {
                     } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
-                        if (includeAncestors && s instanceof ComposedSchema) {
-                            names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
+                        if (includeAncestors && isComposedSchema(s)) {
+                            names.addAll(getAllParentsName(s, allSchemas, true));
                         }
                     } else {
                         // not a parent since discriminator.propertyName is not set
@@ -1433,9 +1458,8 @@ public class ModelUtils {
             } else {
                 LOGGER.error("Failed to obtain schema from {}", parentName);
             }
-        } else if (schema instanceof ComposedSchema) {
-            final ComposedSchema composed = (ComposedSchema) schema;
-            final List<Schema> interfaces = getInterfaces(composed);
+        } else if (isComposedSchema(schema)) {
+            final List<Schema> interfaces = getInterfaces(schema);
             for (Schema i : interfaces) {
                 if (hasOrInheritsDiscriminator(i, allSchemas, visitedSchemas)) {
                     return true;
@@ -1502,8 +1526,8 @@ public class ModelUtils {
             return Boolean.parseBoolean(schema.getExtensions().get("x-nullable").toString());
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
-        if (schema instanceof ComposedSchema) {
-            return isNullableComposedSchema(((ComposedSchema) schema));
+        if (isComposedSchema(schema)) {
+            return isNullableComposedSchema(schema);
         }
         return false;
     }
@@ -1524,7 +1548,7 @@ public class ModelUtils {
      * @param schema the OAS composed schema.
      * @return true if the composed schema is nullable.
      */
-    public static boolean isNullableComposedSchema(ComposedSchema schema) {
+    public static boolean isNullableComposedSchema(Schema schema) {
         List<Schema> oneOf = schema.getOneOf();
         if (oneOf != null && oneOf.size() <= 2) {
             for (Schema s : oneOf) {
