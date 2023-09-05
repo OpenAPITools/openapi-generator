@@ -254,7 +254,7 @@ use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
@@ -321,7 +321,7 @@ use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
@@ -439,7 +439,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
- - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedModel](docs/DeprecatedModel.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)

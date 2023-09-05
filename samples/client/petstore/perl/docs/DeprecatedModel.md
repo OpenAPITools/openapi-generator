@@ -1,8 +1,8 @@
-# WWW::OpenAPIClient::Object::DeprecatedObject
+# WWW::OpenAPIClient::Object::DeprecatedModel
 
 ## Load the model package
 ```perl
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 ```
 
 ## Properties
