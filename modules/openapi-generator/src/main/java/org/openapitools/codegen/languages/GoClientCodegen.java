@@ -413,10 +413,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (ModelUtils.isStringSchema(p) || isAllOfStringSchema(p)) {
             Object defaultObj = p.getDefault();
             if (defaultObj != null) {
-                if (defaultObj instanceof java.lang.String) {
-                    return "\"" + escapeText((String) defaultObj) + "\"";
-                }
-                return "\"" + escapeText(defaultObj.toString()) + "\"";
+                return "\"" + escapeText(String.valueOf(defaultObj)) + "\"";
             }
             return null;
         }
