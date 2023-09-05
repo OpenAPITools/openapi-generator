@@ -1,0 +1,34 @@
+{{#useSourceGeneration}}
+
+    /// <summary>
+    /// The {{classname}}SerializationContext
+    /// </summary>
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof({{classname}}))]
+    {{>visibility}} partial class {{classname}}SerializationContext : JsonSerializerContext
+    {
+        /// <summary>
+        /// The {{classname}}SerializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public {{classname}}SerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
+        {
+        }
+    }
+
+    /// <summary>
+    /// {{classname}}DeserializationContext
+    /// </summary>
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof({{classname}}))]
+    {{>visibility}} partial class {{classname}}DeserializationContext : JsonSerializerContext
+    {
+        /// <summary>
+        /// {{classname}}DeserializationContext
+        /// </summary>
+        /// <param name="optionsProvider"></param>
+        public {{classname}}DeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
+        {
+        }
+    }
+{{/useSourceGeneration}}

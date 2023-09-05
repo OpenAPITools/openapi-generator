@@ -59,6 +59,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -416,12 +417,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " ", false))
-                .put("indent4", new IndentedLambda(16, " ", false));
+                .put("indent4", new IndentedLambda(16, " ", false))
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -1348,6 +1352,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public boolean getNullableReferencesTypes() {
         return this.nullReferenceTypesFlag;
+    }
+
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {

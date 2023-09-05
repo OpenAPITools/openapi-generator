@@ -322,6 +322,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
 
+        addSwitch("useSourceGeneration",
+                "Use source generation where available (only `generichost` library supports this option).",
+                this.getUseSourceGeneration());
+
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
@@ -788,6 +792,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
+        syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -853,6 +858,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
         this.setTypeMapping();
+    }
+
+    @Override
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        if (useSourceGeneration && !this.additionalProperties.containsKey(NET_60_OR_LATER)) {
+            throw new RuntimeException("Source generation is only compatible with .Net 6 or later.");
+        }
+        this.useSourceGeneration = useSourceGeneration;
     }
 
     public void setClientPackage(String clientPackage) {
