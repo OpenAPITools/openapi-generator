@@ -6943,6 +6943,8 @@ public class DefaultCodegen implements CodegenConfig {
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
         addProperties(properties, allRequired, schema, new HashSet<>());
 
+        boolean isOneOfOrAnyOf = ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema);
+
         if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter codegenParameter;
@@ -6952,8 +6954,12 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema propertySchema = entry.getValue();
                 codegenParameter = fromFormProperty(propertyName, propertySchema, imports);
 
-                // Set 'required' flag defined in the schema element
-                if (!codegenParameter.required && schema.getRequired() != null) {
+                if (isOneOfOrAnyOf) {
+                    // for oneOf/anyOf, mark all the properties collected from the sub-schemas as optional
+                    // so that users can choose which property to include in the form parameters
+                    codegenParameter.required = false;
+                } else if (!codegenParameter.required && schema.getRequired() != null) {
+                    // Set 'required' flag defined in the schema element
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
                 } else if (!codegenParameter.required) {
                     // Set 'required' flag for properties declared inside the allOf
