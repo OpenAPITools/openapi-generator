@@ -32,7 +32,7 @@ public class Pet {
 
   private Category category;
 
-  private JsonNullable<String> name = JsonNullable.undefined();
+  private JsonNullable<String> name = JsonNullable.<String>undefined();
 
   @Deprecated
   @Valid

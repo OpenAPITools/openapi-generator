@@ -51,6 +51,7 @@ src/main/java/org/openapitools/model/MapTestDto.java
 src/main/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClassDto.java
 src/main/java/org/openapitools/model/Model200ResponseDto.java
 src/main/java/org/openapitools/model/NameDto.java
+src/main/java/org/openapitools/model/NullableMapPropertyDto.java
 src/main/java/org/openapitools/model/NumberOnlyDto.java
 src/main/java/org/openapitools/model/OrderDto.java
 src/main/java/org/openapitools/model/OuterCompositeDto.java
