@@ -25,7 +25,7 @@ from openapi_client.models.string_enum_ref import StringEnumRef
 
 class DefaultValue(BaseModel):
     """
-    to test the default value of properties
+    to test the default value of properties  # noqa: E501
     """
     array_string_enum_ref_default: Optional[conlist(StringEnumRef)] = None
     array_string_enum_default: Optional[conlist(StrictStr)] = None

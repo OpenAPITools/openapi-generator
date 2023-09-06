@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Name(BaseModel):
     """
-    Model for testing model name same as property name
+    Model for testing model name same as property name  # noqa: E501
     """
     name: StrictInt = Field(...)
     snake_case: Optional[StrictInt] = None
