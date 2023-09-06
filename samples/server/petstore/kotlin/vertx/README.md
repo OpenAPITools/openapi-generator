@@ -67,17 +67,16 @@ Authentication schemes defined for the API:
 <a id="petstore_auth"></a>
 ### petstore_auth
 
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: oauth2
+- **Characterization**: implicit
+- **Description**: 
 
 <a id="api_key"></a>
 ### api_key
 
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: apiKey
+- **Characterization**: api_key
+- **Description**: 
 

@@ -19,6 +19,9 @@ from fastapi.security.api_key import APIKeyCookie, APIKeyHeader, APIKeyQuery  # 
 from {{modelPackage}}.extra_models import TokenModel
 
 {{#authMethods}}
+{{#isUnsupported}}
+# Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+{{/isUnsupported}}
 {{#isOAuth}}
 {{#isPassword}}
 oauth2_password = OAuth2PasswordBearer(

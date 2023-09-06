@@ -40,6 +40,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -2540,6 +2541,88 @@ public class DefaultCodegenTest {
         assertEquals(securities.size(), 2);
         assertEquals(securities.get(0).name, "petstore_auth");
         assertEquals(securities.get(1).name, "api_key");
+    }
+
+    @Test
+    public void testMultipleSecuritySchemes_allUnsupported() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setSkipUnsupportedAuthMethods(false);
+        codegen.setFailGenerationIfUnsupportedAuthMethods(false);
+        codegen.modifyFeatureSet(features -> features.securityFeatures(EnumSet.noneOf(SecurityFeature.class)));
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 2);
+        assertEquals(securities.get(0).name, "petstore_auth");
+        assertTrue(securities.get(0).isUnsupported);
+        assertEquals(securities.get(1).name, "api_key");
+        assertTrue(securities.get(1).isUnsupported);
+    }
+
+    @Test
+    public void testMultipleSecuritySchemes_partiallyUnsupported() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setSkipUnsupportedAuthMethods(false);
+        codegen.setFailGenerationIfUnsupportedAuthMethods(false);
+        codegen.modifyFeatureSet(features -> features.securityFeatures(EnumSet.of(SecurityFeature.ApiKey, SecurityFeature.OAuth2_ClientCredentials)));
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 2);
+        assertEquals(securities.get(0).name, "petstore_auth");
+        assertTrue(securities.get(0).isUnsupported);
+        assertEquals(securities.get(1).name, "api_key");
+        assertFalse(securities.get(1).isUnsupported);
+    }
+    
+    @Test
+    public void testSkipUnsupportedAuthMethods_allUnsupported() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setSkipUnsupportedAuthMethods(true);
+        codegen.modifyFeatureSet(features -> features.securityFeatures(EnumSet.noneOf(
+                SecurityFeature.class
+        )));
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 0);
+    }
+    
+    @Test
+    public void testSkipUnsupportedAuthMethods_partiallyUnsupported() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setSkipUnsupportedAuthMethods(true);
+        codegen.modifyFeatureSet(features -> features.securityFeatures(EnumSet.of(SecurityFeature.ApiKey, SecurityFeature.OAuth2_ClientCredentials)));
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 1);
+        assertEquals(securities.get(0).name, "api_key");
+    }
+    
+    @Test
+    public void testFailGenerationIfUnsupportedAuthMethods() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setSkipUnsupportedAuthMethods(false);
+        codegen.setFailGenerationIfUnsupportedAuthMethods(true);
+        codegen.modifyFeatureSet(features -> features.securityFeatures(EnumSet.of(SecurityFeature.ApiKey, SecurityFeature.OAuth2_ClientCredentials)));
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        assertThrows(RuntimeException.class, () -> codegen.fromSecurity(securitySchemes));
     }
 
     @Test

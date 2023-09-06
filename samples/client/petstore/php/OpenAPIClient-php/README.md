@@ -202,8 +202,11 @@ Authentication schemes defined for the API:
 - **Type**: Bearer authentication (JWT)
 
 ### http_signature_test
-
-- **Type**: HTTP signature authentication
+    
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: http
+- **Characterization**: signature
+- **Description**: 
 
 ## Tests
 

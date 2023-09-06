@@ -40,6 +40,7 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -5411,24 +5412,30 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenSecurity> codegenSecurities = new ArrayList<>(securitySchemeMap.size());
         for (String key : securitySchemeMap.keySet()) {
             final SecurityScheme securityScheme = securitySchemeMap.get(key);
+            boolean unsupported = !supportsSecurityScheme(securityScheme);
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
                 cs.isBasic = cs.isOAuth = cs.isOpenId = false;
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
                 cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
                 cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
+                cs.typeDescription = cs.type+"/"+securityScheme.getIn()+"["+cs.keyParamName+"]";
                 codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = cs.isOpenId = false;
+                cs.typeDescription = cs.type+"/"+cs.scheme;
                 cs.isBasic = true;
                 if ("basic".equalsIgnoreCase(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
                 } else if ("bearer".equalsIgnoreCase(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
+                    cs.typeDescription += "["+cs.bearerFormat+"]";
                 } else if ("signature".equalsIgnoreCase(securityScheme.getScheme())) {
                     // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
                     // The registry of security schemes is maintained by IANA.
@@ -5449,33 +5456,41 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (flows.getPassword() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
                     setOauth2Info(cs, flows.getPassword());
                     cs.isPassword = true;
                     cs.flow = "password";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
                     codegenSecurities.add(cs);
                     isFlowEmpty = false;
                 }
                 if (flows.getImplicit() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
                     setOauth2Info(cs, flows.getImplicit());
                     cs.isImplicit = true;
                     cs.flow = "implicit";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
                     codegenSecurities.add(cs);
                     isFlowEmpty = false;
                 }
                 if (flows.getClientCredentials() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
                     setOauth2Info(cs, flows.getClientCredentials());
                     cs.isApplication = true;
                     cs.flow = "application";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
                     codegenSecurities.add(cs);
                     isFlowEmpty = false;
                 }
                 if (flows.getAuthorizationCode() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
                     setOauth2Info(cs, flows.getAuthorizationCode());
                     cs.isCode = true;
                     cs.flow = "accessCode";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
                     codegenSecurities.add(cs);
                     isFlowEmpty = false;
                 }
@@ -5485,12 +5500,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOpenId = true;
                 cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
                 if (securityScheme.getFlows() != null) {
                     setOpenIdConnectInfo(cs, securityScheme.getFlows().getAuthorizationCode());
                 }
+                cs.typeDescription = cs.type+"/"+cs.scopes;
                 codegenSecurities.add(cs);
             } else {
                 once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
@@ -5498,6 +5515,22 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return codegenSecurities;
+    }
+
+    @Override
+    public boolean supportsSecurityScheme(SecurityScheme securityScheme) {
+        EnumSet<SecurityFeature> securityFeatures = getFeatureSet().getSecurityFeatures();
+        return (Type.APIKEY.equals(securityScheme.getType()) && securityFeatures.contains(SecurityFeature.ApiKey))
+                || (Type.HTTP.equals(securityScheme.getType()) &&
+                (("basic".equalsIgnoreCase(securityScheme.getScheme()) && securityFeatures.contains(SecurityFeature.BasicAuth))
+                        || ("signature".equalsIgnoreCase(securityScheme.getScheme()) && securityFeatures.contains(SecurityFeature.SignatureAuth))
+                        || ("bearer".equalsIgnoreCase(securityScheme.getScheme()) && securityFeatures.contains(SecurityFeature.BearerToken))))
+                || (Type.OAUTH2.equals(securityScheme.getType()) &&
+                ((securityFeatures.contains(SecurityFeature.OAuth2_AuthorizationCode) && securityScheme.getFlows().getAuthorizationCode() != null)
+                        || (securityFeatures.contains(SecurityFeature.OAuth2_Implicit) && securityScheme.getFlows().getImplicit() != null)
+                        || (securityFeatures.contains(SecurityFeature.OAuth2_ClientCredentials) && securityScheme.getFlows().getClientCredentials() != null)
+                        || (securityFeatures.contains(SecurityFeature.OAuth2_Password) && securityScheme.getFlows().getPassword() != null)))
+                || (Type.OPENIDCONNECT.equals(securityScheme.getType()) && securityFeatures.contains(SecurityFeature.OpenIDConnect));
     }
 
     private CodegenSecurity defaultCodegenSecurity(String key, SecurityScheme securityScheme) {
@@ -5508,6 +5541,7 @@ public class DefaultCodegen implements CodegenConfig {
         cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = cs.isOpenId = false;
         cs.isHttpSignature = false;
         cs.isBasicBasic = cs.isBasicBearer = false;
+        cs.isUnsupported = false;
         cs.scheme = securityScheme.getScheme();
         if (securityScheme.getExtensions() != null) {
             cs.vendorExtensions.putAll(securityScheme.getExtensions());

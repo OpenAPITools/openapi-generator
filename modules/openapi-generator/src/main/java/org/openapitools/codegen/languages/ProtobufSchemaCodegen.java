@@ -86,7 +86,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
         );
 
         outputFolder = "generated-code/protobuf-schema";

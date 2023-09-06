@@ -140,7 +140,7 @@ void (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 

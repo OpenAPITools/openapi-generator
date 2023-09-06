@@ -888,6 +888,10 @@ public class DefaultGenerator implements Generator {
     void addAuthenticationSwitches(Map<String, Object> bundle) {
         Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
+        List<CodegenSecurity> unsupportedMethods = ProcessUtils.getUnsupportedMethods(authMethods);
+        bundle.put("unsupportedAuthMethods", unsupportedMethods);
+        bundle.put("hasUnsupportedAuthMethods", !unsupportedMethods.isEmpty());
+        bundle.put("hasOnlyUnsupportedAuthMethods", !unsupportedMethods.isEmpty() && (unsupportedMethods.size() == authMethods.size()));
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
@@ -1383,7 +1387,9 @@ public class DefaultGenerator implements Generator {
                 final String key = entry.getKey();
                 SecurityScheme securityScheme = securitySchemes.get(key);
                 if (securityScheme != null) {
-
+                    if (!config.supportsSecurityScheme(securityScheme)) {
+                        LOGGER.warn("API specification contains an auth method unsupported by this generator: {}", securityScheme);
+                    }
                     if (securityScheme.getType().equals(SecurityScheme.Type.OAUTH2)) {
                         OAuthFlows oauthUpdatedFlows = new OAuthFlows();
                         oauthUpdatedFlows.extensions(securityScheme.getFlows().getExtensions());

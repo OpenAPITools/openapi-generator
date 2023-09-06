@@ -349,7 +349,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/bodyParam}}
 
             {{#authMethods}}
-            // authentication ({{name}}) required
+            // authentication ({{name}}) required{{#isUnsupported}} but this authentication method ({{typeDescription}}) is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
             {{#isApiKey}}
             {{#isKeyInCookie}}
             // cookie parameter support
@@ -542,7 +542,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/bodyParam}}
 
             {{#authMethods}}
-            // authentication ({{name}}) required
+            // authentication ({{name}}) required{{#isUnsupported}} but this authentication method ({{typeDescription}}) is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
             {{#isApiKey}}
             {{#isKeyInCookie}}
             // cookie parameter support

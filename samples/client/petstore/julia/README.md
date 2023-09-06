@@ -60,23 +60,10 @@ Class | Method
 Authentication schemes defined for the API:
 <a id="petstore_auth"></a>
 ### petstore_auth
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
-
-Example
-```
-    using OpenAPI
-    using OpenAPI.Clients
-    import OpenAPI.Clients: Client, set_header
-    client = Client(server_uri)
-    set_header(client, "Authorization", "Bearer $bearer_auth")
-    api = MyApi(client)
-    result = callApi(api, args...; api_key)
-```
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: oauth2
+- **Characterization**: implicit
+- **Description**: 
 <a id="api_key"></a>
 ### api_key
 - **Type**: API key

@@ -3083,7 +3083,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            // authentication http_signature_test required
+            // authentication http_signature_test required but this authentication method (http/signature) is unsupported by this generated code (TODO: write log warning?)
 
 
     
@@ -3168,7 +3168,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            // authentication http_signature_test required
+            // authentication http_signature_test required but this authentication method (http/signature) is unsupported by this generated code (TODO: write log warning?)
 
             if (status) {
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
@@ -3212,7 +3212,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            // authentication http_signature_test required
+            // authentication http_signature_test required but this authentication method (http/signature) is unsupported by this generated code (TODO: write log warning?)
 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
@@ -3292,7 +3292,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            // authentication http_signature_test required
+            // authentication http_signature_test required but this authentication method (http/signature) is unsupported by this generated code (TODO: write log warning?)
 
 
     

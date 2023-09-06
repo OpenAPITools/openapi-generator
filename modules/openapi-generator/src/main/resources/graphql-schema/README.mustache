@@ -38,10 +38,17 @@ Class | Method | HTTP request | Description
 {{/model}}{{/models}}
 
 ## Documentation For Authorization
-{{^authMethods}} Endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.
+{{/authMethods}}{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-## {{{name}}}
+### {{{name}}}
+{{#isUnsupported}}
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isApiKey}}- **Type**: API key
 
 Example
@@ -92,6 +99,12 @@ Or via OAuth2 module to automatically refresh tokens and perform user authentica
     r, err := client.Service.Operation(auth, args)
 ```
 {{/isOAuth}}
+{{#isOpenId}}
+- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
+{{/isUnsupported}}
 {{/authMethods}}
 
 ## Author

@@ -11,8 +11,10 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -913,5 +915,21 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
                         "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
                         "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
+    }
+
+    @Test
+    public void testSupportedSecuritySchemesQuarkus() throws Exception {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.OpenIDConnect));
+    }
+
+    @Test
+    public void testSupportedSecuritySchemesHelidon() throws Exception {
+        codegen.setLibrary(HELIDON_LIBRARY);
+        codegen.processOpts();
+
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.OpenIDConnect));
     }
 }

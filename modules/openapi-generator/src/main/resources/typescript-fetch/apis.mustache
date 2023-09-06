@@ -165,6 +165,9 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{/headerParams}}
         {{#authMethods}}
+        {{#isUnsupported}}
+        // authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+        {{/isUnsupported}}
         {{#isBasic}}
         {{#isBasicBasic}}
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {

@@ -72,6 +72,9 @@ export class {{classname}} extends BaseAPI {
             {{/isArray}}
             {{/headerParams}}
             {{#authMethods}}
+            {{#isUnsupported}}
+            // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+            {{/isUnsupported}}
             {{#isBasicBasic}}
             ...(this.configuration.username != null && this.configuration.password != null ? { Authorization: `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}` } : undefined),
             {{/isBasicBasic}}

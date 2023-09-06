@@ -49,7 +49,8 @@ import {{packageName}}.auth.*
 
     {{#hasAuthMethods}}
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
-        mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        mapOf({{#authMethods}}{{#isUnsupported}}
+                // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
                 "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}
                 "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}

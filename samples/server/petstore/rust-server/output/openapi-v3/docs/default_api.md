@@ -258,7 +258,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[authScheme](../README.md#authScheme)
+[authScheme](../README.md#authScheme) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -358,7 +358,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[authScheme](../README.md#authScheme)
+[authScheme](../README.md#authScheme) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 

@@ -82,7 +82,7 @@ class {{controllerName}} extends Controller
         {{/returnType}}
         // Handle authentication
         {{#authMethods}}
-        // Authentication '{{name}}' required
+        // Authentication '{{name}}' required{{#isUnsupported}} but this authentication method ({{typeDescription}}) is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
         // Set key with prefix in header

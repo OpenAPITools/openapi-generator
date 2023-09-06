@@ -60,6 +60,7 @@ function Add-PSPet {
 
         $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -142,6 +143,7 @@ function Remove-Pet {
             $LocalVarHeaderParameters['api_key'] = $ApiKey
         }
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
         $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -230,6 +232,7 @@ function Find-PSPetsByStatus {
         }
         $LocalVarQueryParameters['status'] = $Status
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
@@ -318,6 +321,7 @@ function Find-PSPetsByTags {
         }
         $LocalVarQueryParameters['tags'] = $Tags
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
@@ -485,6 +489,7 @@ function Update-PSPet {
 
         $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `
@@ -580,6 +585,7 @@ function Update-PSPetWithForm {
             $LocalVarFormParameters['status'] = $Status
         }
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -677,6 +683,7 @@ function Invoke-PSUploadFile {
             $LocalVarFormParameters['file'] = $File
         }
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -775,6 +782,7 @@ function Invoke-PSUploadFileWithRequiredFile {
         }
         $LocalVarFormParameters['requiredFile'] = $RequiredFile
 
+        # Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `

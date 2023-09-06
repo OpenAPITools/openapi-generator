@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -51,6 +53,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public WsdlSchemaCodegen() {
         super();
 
+        modifyFeatureSet(features -> features.securityFeatures(EnumSet.allOf(SecurityFeature.class)));
+        
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();

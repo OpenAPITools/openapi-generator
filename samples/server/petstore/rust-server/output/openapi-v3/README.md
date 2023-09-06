@@ -186,20 +186,10 @@ Method | HTTP request | Description
 
 Authentication schemes defined for the API:
 ### authScheme
-- **Type**: OAuth
-- **Flow**: accessCode
-- **Authorization URL**: http://example.org
-- **Scopes**: 
- - **test.read**: Allowed to read state.
- - **test.write**: Allowed to change state.
-
-Example
-```
-```
-
-Or via OAuth2 module to automatically refresh tokens and perform user authentication.
-```
-```
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: oauth2
+- **Characterization**: accessCode
+- **Description**: 
 
 ## Author
 
