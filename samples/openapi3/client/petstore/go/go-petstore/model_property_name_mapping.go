@@ -19,10 +19,10 @@ var _ MappedNullable = &PropertyNameMapping{}
 
 // PropertyNameMapping struct for PropertyNameMapping
 type PropertyNameMapping struct {
-	HTTPDebugOperation *string `json:"http_debug_operation,omitempty"`
-	UnderscoreType *string `json:"_type,omitempty"`
+	HttpDebugOperation *string `json:"http_debug_operation,omitempty"`
+	Type *string `json:"_type,omitempty"`
 	Type *string `json:"type,omitempty"`
-	TypeWithUnderscore *string `json:"type_,omitempty"`
+	Type *string `json:"type_,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -45,68 +45,36 @@ func NewPropertyNameMappingWithDefaults() *PropertyNameMapping {
 	return &this
 }
 
-// GetHTTPDebugOperation returns the HTTPDebugOperation field value if set, zero value otherwise.
-func (o *PropertyNameMapping) GetHTTPDebugOperation() string {
-	if o == nil || IsNil(o.HTTPDebugOperation) {
+// GetHttpDebugOperation returns the HttpDebugOperation field value if set, zero value otherwise.
+func (o *PropertyNameMapping) GetHttpDebugOperation() string {
+	if o == nil || IsNil(o.HttpDebugOperation) {
 		var ret string
 		return ret
 	}
-	return *o.HTTPDebugOperation
+	return *o.HttpDebugOperation
 }
 
-// GetHTTPDebugOperationOk returns a tuple with the HTTPDebugOperation field value if set, nil otherwise
+// GetHttpDebugOperationOk returns a tuple with the HttpDebugOperation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PropertyNameMapping) GetHTTPDebugOperationOk() (*string, bool) {
-	if o == nil || IsNil(o.HTTPDebugOperation) {
+func (o *PropertyNameMapping) GetHttpDebugOperationOk() (*string, bool) {
+	if o == nil || IsNil(o.HttpDebugOperation) {
 		return nil, false
 	}
-	return o.HTTPDebugOperation, true
+	return o.HttpDebugOperation, true
 }
 
-// HasHTTPDebugOperation returns a boolean if a field has been set.
-func (o *PropertyNameMapping) HasHTTPDebugOperation() bool {
-	if o != nil && !IsNil(o.HTTPDebugOperation) {
+// HasHttpDebugOperation returns a boolean if a field has been set.
+func (o *PropertyNameMapping) HasHttpDebugOperation() bool {
+	if o != nil && !IsNil(o.HttpDebugOperation) {
 		return true
 	}
 
 	return false
 }
 
-// SetHTTPDebugOperation gets a reference to the given string and assigns it to the HTTPDebugOperation field.
-func (o *PropertyNameMapping) SetHTTPDebugOperation(v string) {
-	o.HTTPDebugOperation = &v
-}
-
-// GetUnderscoreType returns the UnderscoreType field value if set, zero value otherwise.
-func (o *PropertyNameMapping) GetUnderscoreType() string {
-	if o == nil || IsNil(o.UnderscoreType) {
-		var ret string
-		return ret
-	}
-	return *o.UnderscoreType
-}
-
-// GetUnderscoreTypeOk returns a tuple with the UnderscoreType field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *PropertyNameMapping) GetUnderscoreTypeOk() (*string, bool) {
-	if o == nil || IsNil(o.UnderscoreType) {
-		return nil, false
-	}
-	return o.UnderscoreType, true
-}
-
-// HasUnderscoreType returns a boolean if a field has been set.
-func (o *PropertyNameMapping) HasUnderscoreType() bool {
-	if o != nil && !IsNil(o.UnderscoreType) {
-		return true
-	}
-
-	return false
-}
-
-// SetUnderscoreType gets a reference to the given string and assigns it to the UnderscoreType field.
-func (o *PropertyNameMapping) SetUnderscoreType(v string) {
-	o.UnderscoreType = &v
+// SetHttpDebugOperation gets a reference to the given string and assigns it to the HttpDebugOperation field.
+func (o *PropertyNameMapping) SetHttpDebugOperation(v string) {
+	o.HttpDebugOperation = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
@@ -141,36 +109,68 @@ func (o *PropertyNameMapping) SetType(v string) {
 	o.Type = &v
 }
 
-// GetTypeWithUnderscore returns the TypeWithUnderscore field value if set, zero value otherwise.
-func (o *PropertyNameMapping) GetTypeWithUnderscore() string {
-	if o == nil || IsNil(o.TypeWithUnderscore) {
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *PropertyNameMapping) GetType() string {
+	if o == nil || IsNil(o.Type) {
 		var ret string
 		return ret
 	}
-	return *o.TypeWithUnderscore
+	return *o.Type
 }
 
-// GetTypeWithUnderscoreOk returns a tuple with the TypeWithUnderscore field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PropertyNameMapping) GetTypeWithUnderscoreOk() (*string, bool) {
-	if o == nil || IsNil(o.TypeWithUnderscore) {
+func (o *PropertyNameMapping) GetTypeOk() (*string, bool) {
+	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
-	return o.TypeWithUnderscore, true
+	return o.Type, true
 }
 
-// HasTypeWithUnderscore returns a boolean if a field has been set.
-func (o *PropertyNameMapping) HasTypeWithUnderscore() bool {
-	if o != nil && !IsNil(o.TypeWithUnderscore) {
+// HasType returns a boolean if a field has been set.
+func (o *PropertyNameMapping) HasType() bool {
+	if o != nil && !IsNil(o.Type) {
 		return true
 	}
 
 	return false
 }
 
-// SetTypeWithUnderscore gets a reference to the given string and assigns it to the TypeWithUnderscore field.
-func (o *PropertyNameMapping) SetTypeWithUnderscore(v string) {
-	o.TypeWithUnderscore = &v
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *PropertyNameMapping) SetType(v string) {
+	o.Type = &v
+}
+
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *PropertyNameMapping) GetType() string {
+	if o == nil || IsNil(o.Type) {
+		var ret string
+		return ret
+	}
+	return *o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PropertyNameMapping) GetTypeOk() (*string, bool) {
+	if o == nil || IsNil(o.Type) {
+		return nil, false
+	}
+	return o.Type, true
+}
+
+// HasType returns a boolean if a field has been set.
+func (o *PropertyNameMapping) HasType() bool {
+	if o != nil && !IsNil(o.Type) {
+		return true
+	}
+
+	return false
+}
+
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *PropertyNameMapping) SetType(v string) {
+	o.Type = &v
 }
 
 func (o PropertyNameMapping) MarshalJSON() ([]byte, error) {
@@ -183,17 +183,17 @@ func (o PropertyNameMapping) MarshalJSON() ([]byte, error) {
 
 func (o PropertyNameMapping) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.HTTPDebugOperation) {
-		toSerialize["http_debug_operation"] = o.HTTPDebugOperation
+	if !IsNil(o.HttpDebugOperation) {
+		toSerialize["http_debug_operation"] = o.HttpDebugOperation
 	}
-	if !IsNil(o.UnderscoreType) {
-		toSerialize["_type"] = o.UnderscoreType
+	if !IsNil(o.Type) {
+		toSerialize["_type"] = o.Type
 	}
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
-	if !IsNil(o.TypeWithUnderscore) {
-		toSerialize["type_"] = o.TypeWithUnderscore
+	if !IsNil(o.Type) {
+		toSerialize["type_"] = o.Type
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -206,9 +206,13 @@ func (o PropertyNameMapping) ToMap() (map[string]interface{}, error) {
 func (o *PropertyNameMapping) UnmarshalJSON(bytes []byte) (err error) {
 	varPropertyNameMapping := _PropertyNameMapping{}
 
-	if err = json.Unmarshal(bytes, &varPropertyNameMapping); err == nil {
-		*o = PropertyNameMapping(varPropertyNameMapping)
+	err = json.Unmarshal(bytes, &varPropertyNameMapping)
+
+	if err != nil {
+		return err
 	}
+
+	*o = PropertyNameMapping(varPropertyNameMapping)
 
 	additionalProperties := make(map[string]interface{})
 

@@ -99,9 +99,13 @@ func (o AllOfPrimitiveTypes) ToMap() (map[string]interface{}, error) {
 func (o *AllOfPrimitiveTypes) UnmarshalJSON(bytes []byte) (err error) {
 	varAllOfPrimitiveTypes := _AllOfPrimitiveTypes{}
 
-	if err = json.Unmarshal(bytes, &varAllOfPrimitiveTypes); err == nil {
-		*o = AllOfPrimitiveTypes(varAllOfPrimitiveTypes)
+	err = json.Unmarshal(bytes, &varAllOfPrimitiveTypes)
+
+	if err != nil {
+		return err
 	}
+
+	*o = AllOfPrimitiveTypes(varAllOfPrimitiveTypes)
 
 	additionalProperties := make(map[string]interface{})
 
