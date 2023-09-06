@@ -57,21 +57,13 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public partial class ApiResponse<T> : IApiResponse
+    public partial class ApiResponse : IApiResponse
     {
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
 
         /// <summary>
         /// The raw data

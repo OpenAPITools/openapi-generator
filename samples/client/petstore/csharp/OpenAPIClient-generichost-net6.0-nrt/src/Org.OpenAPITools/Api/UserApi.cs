@@ -21,6 +21,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Org.OpenAPITools.Api
 {
@@ -600,6 +601,42 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="CreateUserResponse"/>
+        /// </summary>
+        public partial class CreateUserResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public CreateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+        }
+
         partial void FormatCreateUsersWithArrayInput(List<User> user);
 
         /// <summary>
@@ -740,6 +777,42 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorCreateUsersWithArrayInput(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="CreateUsersWithArrayInputResponse"/>
+        /// </summary>
+        public partial class CreateUsersWithArrayInputResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithArrayInputResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public CreateUsersWithArrayInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
         }
 
         partial void FormatCreateUsersWithListInput(List<User> user);
@@ -884,6 +957,42 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="CreateUsersWithListInputResponse"/>
+        /// </summary>
+        public partial class CreateUsersWithListInputResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithListInputResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public CreateUsersWithListInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+        }
+
         partial void FormatDeleteUser(ref string username);
 
         /// <summary>
@@ -1012,6 +1121,48 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorDeleteUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="DeleteUserResponse"/>
+        /// </summary>
+        public partial class DeleteUserResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="DeleteUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public DeleteUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
         }
 
         partial void FormatGetUserByName(ref string username);
@@ -1152,6 +1303,91 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorGetUserByName(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="GetUserByNameResponse"/>
+        /// </summary>
+        public partial class GetUserByNameResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="GetUserByNameResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public GetUserByNameResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out User? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<User>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out User? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<User>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
         }
 
         partial void FormatLoginUser(ref string username, ref string password);
@@ -1311,6 +1547,85 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="LoginUserResponse"/>
+        /// </summary>
+        public partial class LoginUserResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="LoginUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public LoginUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out string? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<string>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out string? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<string>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -1414,6 +1729,42 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorLogoutUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="LogoutUserResponse"/>
+        /// </summary>
+        public partial class LogoutUserResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="LogoutUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public LogoutUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
         }
 
         partial void FormatUpdateUser(User user, ref string username);
@@ -1567,6 +1918,48 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorUpdateUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdateUserResponse"/>
+        /// </summary>
+        public partial class UpdateUserResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="UpdateUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public UpdateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
         }
     }
 }

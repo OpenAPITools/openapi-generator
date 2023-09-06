@@ -21,6 +21,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Org.OpenAPITools.Api
 {
@@ -413,6 +414,48 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="DeleteOrderResponse"/>
+        /// </summary>
+        public partial class DeleteOrderResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="DeleteOrderResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public DeleteOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -536,6 +579,79 @@ namespace Org.OpenAPITools.Api
                 OnErrorGetInventoryDefaultImplementation(e, "/store/inventory", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorGetInventory(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetInventoryResponse"/>
+        /// </summary>
+        public partial class GetInventoryResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="GetInventoryResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public GetInventoryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out Dictionary<string, int>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out Dictionary<string, int>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -664,6 +780,91 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorGetOrderById(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="GetOrderByIdResponse"/>
+        /// </summary>
+        public partial class GetOrderByIdResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="GetOrderByIdResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public GetOrderByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<Order>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Order>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
         }
 
         partial void FormatPlaceOrder(Order order);
@@ -816,6 +1017,85 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorPlaceOrder(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="PlaceOrderResponse"/>
+        /// </summary>
+        public partial class PlaceOrderResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="PlaceOrderResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public PlaceOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<Order>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Order>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
         }
     }
 }

@@ -482,7 +482,7 @@ catch (ApiException e)
 
 <a id="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet pet)
+> UpdatePet200Response UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -511,7 +511,8 @@ namespace Example
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(pet);
+                UpdatePet200Response result = apiInstance.UpdatePet(pet);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -531,7 +532,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update an existing pet
-    apiInstance.UpdatePetWithHttpInfo(pet);
+    ApiResponse<UpdatePet200Response> response = apiInstance.UpdatePetWithHttpInfo(pet);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -549,7 +553,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**UpdatePet200Response**](UpdatePet200Response.md)
 
 ### Authorization
 
@@ -558,15 +562,17 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | response |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
+| **0** | response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

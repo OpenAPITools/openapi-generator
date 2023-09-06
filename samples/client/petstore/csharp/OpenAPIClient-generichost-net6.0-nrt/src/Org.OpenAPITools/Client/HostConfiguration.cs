@@ -130,6 +130,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
+            _jsonOptions.Converters.Add(new UpdatePet200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());

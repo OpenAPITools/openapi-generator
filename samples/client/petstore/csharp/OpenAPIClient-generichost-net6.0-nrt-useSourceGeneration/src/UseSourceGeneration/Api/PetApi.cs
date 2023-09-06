@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -161,8 +162,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task&lt;ApiResponse&lt;UpdatePet200Response&gt;&gt;</returns>
+        Task<ApiResponse<UpdatePet200Response>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -172,8 +173,8 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task&lt;ApiResponse&gt;UpdatePet200Response&gt;?&gt;</returns>
+        Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -366,16 +367,16 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<object>>? OnUpdatePet;
+        public event EventHandler<ApiResponseEventArgs<UpdatePet200Response>>? OnUpdatePet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePet;
 
-        internal void ExecuteOnUpdatePet(ApiResponse<object> apiResponse)
+        internal void ExecuteOnUpdatePet(ApiResponse<UpdatePet200Response> apiResponse)
         {
-            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<UpdatePet200Response>(apiResponse));
         }
 
         internal void ExecuteOnErrorUpdatePet(Exception exception)
@@ -451,6 +452,7 @@ namespace UseSourceGeneration.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
         private PetDeserializationContext _petDeserializationContext;
+        private UpdatePet200ResponseDeserializationContext _updatePet200ResponseDeserializationContext;
         private ApiResponseDeserializationContext _apiResponseDeserializationContext;
 
         /// <summary>
@@ -499,6 +501,7 @@ namespace UseSourceGeneration.Api
         /// <returns></returns>
         public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetApiEvents petApiEvents,
             PetDeserializationContext petDeserializationContext,
+            UpdatePet200ResponseDeserializationContext updatePet200ResponseDeserializationContext,
             ApiResponseDeserializationContext apiResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
@@ -508,6 +511,7 @@ namespace UseSourceGeneration.Api
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             _petDeserializationContext = petDeserializationContext;
+            _updatePet200ResponseDeserializationContext = updatePet200ResponseDeserializationContext;
             _apiResponseDeserializationContext = apiResponseDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
@@ -688,6 +692,57 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="AddPetResponse"/>
+        /// </summary>
+        public partial class AddPetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="AddPetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public AddPetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="AddPetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public AddPetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == (int)Content.StatusCode;
+        }
+
         partial void FormatDeletePet(ref long petId, ref Option<string> apiKey);
 
         /// <summary>
@@ -837,6 +892,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorDeletePet(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="DeletePetResponse"/>
+        /// </summary>
+        public partial class DeletePetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="DeletePetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public DeletePetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="DeletePetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public DeletePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
         }
 
         partial void FormatFindPetsByStatus(List<string> status);
@@ -1010,6 +1116,107 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FindPetsByStatusResponse"/>
+        /// </summary>
+        public partial class FindPetsByStatusResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? _listltPetgtTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FindPetsByStatusResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="listltPetgtTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public FindPetsByStatusResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? listltPetgtTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _listltPetgtTypeInfo = listltPetgtTypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FindPetsByStatusResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FindPetsByStatusResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _listltPetgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+        }
+
         partial void FormatFindPetsByTags(List<string> tags);
 
         /// <summary>
@@ -1181,6 +1388,107 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FindPetsByTagsResponse"/>
+        /// </summary>
+        public partial class FindPetsByTagsResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? _listltPetgtTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FindPetsByTagsResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="listltPetgtTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public FindPetsByTagsResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? listltPetgtTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _listltPetgtTypeInfo = listltPetgtTypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FindPetsByTagsResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FindPetsByTagsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _listltPetgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+        }
+
         partial void FormatGetPetById(ref long petId);
 
         /// <summary>
@@ -1320,6 +1628,116 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="GetPetByIdResponse"/>
+        /// </summary>
+        public partial class GetPetByIdResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Pet>? _petTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetPetByIdResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="petTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public GetPetByIdResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Pet>? petTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _petTypeInfo = petTypeInfo;
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetPetByIdResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetPetByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out Pet? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _petTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _petTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out Pet? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
+        }
+
         partial void FormatUpdatePet(Pet pet);
 
         /// <summary>
@@ -1338,7 +1756,7 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterUpdatePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
+        private void AfterUpdatePetDefaultImplementation(ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet)
         {
             bool suppressDefaultLog = false;
             AfterUpdatePet(ref suppressDefaultLog, apiResponseLocalVar, pet);
@@ -1352,7 +1770,7 @@ namespace UseSourceGeneration.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1384,8 +1802,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
+        public async Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1403,8 +1821,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
+        public async Task<ApiResponse<UpdatePet200Response>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1455,6 +1873,15 @@ namespace UseSourceGeneration.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -1463,7 +1890,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<UpdatePet200Response> apiResponseLocalVar = new ApiResponse<UpdatePet200Response>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _updatePet200ResponseDeserializationContext.UpdatePet200Response);
 
                         AfterUpdatePetDefaultImplementation(apiResponseLocalVar, pet);
 
@@ -1486,6 +1913,175 @@ namespace UseSourceGeneration.Api
                 OnErrorUpdatePetDefaultImplementation(e, "/pet", uriBuilderLocalVar.Path, pet);
                 Events.ExecuteOnErrorUpdatePet(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdatePetResponse"/>
+        /// </summary>
+        public partial class UpdatePetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? _updatePet200ResponseTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? _updatePet200ResponseTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="UpdatePetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="updatePet200ResponseTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="updatePet200ResponseTypeInfo"></param>
+            public UpdatePetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? updatePet200ResponseTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? updatePet200ResponseTypeInfo)
+            {
+                _updatePet200ResponseTypeInfo = updatePet200ResponseTypeInfo;
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                _updatePet200ResponseTypeInfo = updatePet200ResponseTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="UpdatePetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public UpdatePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _updatePet200ResponseTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => !IsOk() && !IsBadRequest() && !IsNotFound() && !IsMethodNotAllowed();
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsDefault([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                result = _updatePet200ResponseTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsDefault([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -1666,6 +2262,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorUpdatePetWithForm(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdatePetWithFormResponse"/>
+        /// </summary>
+        public partial class UpdatePetWithFormResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="UpdatePetWithFormResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public UpdatePetWithFormResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="UpdatePetWithFormResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public UpdatePetWithFormResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == (int)Content.StatusCode;
         }
 
         partial void FormatUploadFile(ref long petId, ref Option<System.IO.Stream> file, ref Option<string> additionalMetadata);
@@ -1856,6 +2503,98 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="UploadFileResponse"/>
+        /// </summary>
+        public partial class UploadFileResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? _apiResponseTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="UploadFileResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="apiResponseTypeInfo"></param>
+            public UploadFileResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? apiResponseTypeInfo)
+            {
+                _apiResponseTypeInfo = apiResponseTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="UploadFileResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public UploadFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _apiResponseTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatUploadFileWithRequiredFile(ref System.IO.Stream requiredFile, ref long petId, ref Option<string> additionalMetadata);
 
         /// <summary>
@@ -2041,6 +2780,98 @@ namespace UseSourceGeneration.Api
                 OnErrorUploadFileWithRequiredFileDefaultImplementation(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path, requiredFile, petId, additionalMetadata);
                 Events.ExecuteOnErrorUploadFileWithRequiredFile(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UploadFileWithRequiredFileResponse"/>
+        /// </summary>
+        public partial class UploadFileWithRequiredFileResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? _apiResponseTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="UploadFileWithRequiredFileResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="apiResponseTypeInfo"></param>
+            public UploadFileWithRequiredFileResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? apiResponseTypeInfo)
+            {
+                _apiResponseTypeInfo = apiResponseTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="UploadFileWithRequiredFileResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public UploadFileWithRequiredFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _apiResponseTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
     }

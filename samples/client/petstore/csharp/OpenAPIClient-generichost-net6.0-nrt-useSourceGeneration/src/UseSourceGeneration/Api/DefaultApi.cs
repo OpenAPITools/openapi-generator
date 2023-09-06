@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -440,6 +441,98 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FooGetResponse"/>
+        /// </summary>
+        public partial class FooGetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<FooGetDefaultResponse>? _fooGetDefaultResponseTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FooGetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="fooGetDefaultResponseTypeInfo"></param>
+            public FooGetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<FooGetDefaultResponse>? fooGetDefaultResponseTypeInfo)
+            {
+                _fooGetDefaultResponseTypeInfo = fooGetDefaultResponseTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FooGetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FooGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsDefault([NotNullWhen(true)]out FooGetDefaultResponse? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                result = _fooGetDefaultResponseTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _fooGetDefaultResponseTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsDefault([NotNullWhen(true)]out FooGetDefaultResponse? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatGetCountry(ref string country);
 
         /// <summary>
@@ -589,6 +682,57 @@ namespace UseSourceGeneration.Api
         }
 
         /// <summary>
+        /// The <see cref="GetCountryResponse"/>
+        /// </summary>
+        public partial class GetCountryResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetCountryResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public GetCountryResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetCountryResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetCountryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -700,6 +844,98 @@ namespace UseSourceGeneration.Api
                 OnErrorHelloDefaultImplementation(e, "/hello", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorHello(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="HelloResponse"/>
+        /// </summary>
+        public partial class HelloResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Guid&gt;>? _listltGuidgtTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="HelloResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="listltGuidgtTypeInfo"></param>
+            public HelloResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Guid&gt;>? listltGuidgtTypeInfo)
+            {
+                _listltGuidgtTypeInfo = listltGuidgtTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="HelloResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public HelloResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out List<Guid>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _listltGuidgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _listltGuidgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out List<Guid>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -819,6 +1055,98 @@ namespace UseSourceGeneration.Api
         }
 
         /// <summary>
+        /// The <see cref="RolesReportGetResponse"/>
+        /// </summary>
+        public partial class RolesReportGetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;List&gt;>? _listltListgtTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="RolesReportGetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="listltListgtTypeInfo"></param>
+            public RolesReportGetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;List&gt;>? listltListgtTypeInfo)
+            {
+                _listltListgtTypeInfo = listltListgtTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="RolesReportGetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public RolesReportGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out List<List>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _listltListgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _listltListgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out List<List>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<List>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -930,6 +1258,98 @@ namespace UseSourceGeneration.Api
                 OnErrorTestDefaultImplementation(e, "/test", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorTest(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TestResponse"/>
+        /// </summary>
+        public partial class TestResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<NotificationtestGetElementsV1ResponseMPayload>? _notificationtestGetElementsV1ResponseMPayloadTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="notificationtestGetElementsV1ResponseMPayloadTypeInfo"></param>
+            public TestResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<NotificationtestGetElementsV1ResponseMPayload>? notificationtestGetElementsV1ResponseMPayloadTypeInfo)
+            {
+                _notificationtestGetElementsV1ResponseMPayloadTypeInfo = notificationtestGetElementsV1ResponseMPayloadTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out NotificationtestGetElementsV1ResponseMPayload? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _notificationtestGetElementsV1ResponseMPayloadTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _notificationtestGetElementsV1ResponseMPayloadTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out NotificationtestGetElementsV1ResponseMPayload? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
     }

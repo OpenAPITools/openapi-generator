@@ -1,14 +1,16 @@
-            // This logic may be modified with the AsModel.mustache template
-            {{^useSourceGeneration}}
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : default(T);
-            {{/useSourceGeneration}}
-            {{#useSourceGeneration}}
-            if (!IsSuccessStatusCode)
-                return default(T);
+// This logic may be modified with the AsModel.mustache template
+result = null;
+if (!Is{{vendorExtensions.x-http-status}}())
+    return false;
+{{^useSourceGeneration}}
+result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _jsonSerializerOptions);
+return result != null;
+{{/useSourceGeneration}}
+{{#useSourceGeneration}}
 
-            return _typeInfo == null
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _typeInfo);
-            {{/useSourceGeneration}}
+result = _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo == null
+    ? System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _jsonSerializerOptions)
+    : System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo);
+
+return result != null;
+{{/useSourceGeneration}}

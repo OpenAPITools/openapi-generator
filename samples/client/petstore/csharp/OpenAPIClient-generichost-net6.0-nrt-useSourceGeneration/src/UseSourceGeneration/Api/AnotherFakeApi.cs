@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -306,6 +307,98 @@ namespace UseSourceGeneration.Api
                 OnErrorCall123TestSpecialTagsDefaultImplementation(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
                 Events.ExecuteOnErrorCall123TestSpecialTags(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Call123TestSpecialTagsResponse"/>
+        /// </summary>
+        public partial class Call123TestSpecialTagsResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? _modelClientTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="Call123TestSpecialTagsResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="modelClientTypeInfo"></param>
+            public Call123TestSpecialTagsResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? modelClientTypeInfo)
+            {
+                _modelClientTypeInfo = modelClientTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="Call123TestSpecialTagsResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public Call123TestSpecialTagsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out ModelClient? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _modelClientTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out ModelClient? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
     }

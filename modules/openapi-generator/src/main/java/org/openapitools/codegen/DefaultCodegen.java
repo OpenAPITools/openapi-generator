@@ -450,9 +450,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
                 .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " ", false))
-                .put("indented_12", new IndentedLambda(12, " ", false))
-                .put("indented_16", new IndentedLambda(16, " ", false));
+                .put("indented_8", new IndentedLambda(8, " ", false, false))
+                .put("indented_12", new IndentedLambda(12, " ", false, false))
+                .put("indented_16", new IndentedLambda(16, " ", false, false));
 
     }
 

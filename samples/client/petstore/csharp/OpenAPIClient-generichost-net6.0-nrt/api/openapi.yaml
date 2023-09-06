@@ -99,6 +99,18 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updatePet_200_response'
+          description: response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updatePet_200_response'
+          description: response
         "400":
           description: Invalid ID supplied
         "404":
@@ -2362,6 +2374,27 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
+    updatePet_200_response:
+      example:
+        string:
+          photoUrls:
+          - photoUrls
+          - photoUrls
+          name: doggie
+          id: 0
+          category:
+            name: default-name
+            id: 6
+          tags:
+          - name: name
+            id: 1
+          - name: name
+            id: 1
+          status: available
+      properties:
+        string:
+          $ref: '#/components/schemas/Pet'
       type: object
     updatePetWithForm_request:
       properties:

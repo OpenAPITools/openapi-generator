@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -416,6 +417,66 @@ namespace UseSourceGeneration.Api
         }
 
         /// <summary>
+        /// The <see cref="DeleteOrderResponse"/>
+        /// </summary>
+        public partial class DeleteOrderResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="DeleteOrderResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public DeleteOrderResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="DeleteOrderResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public DeleteOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -539,6 +600,98 @@ namespace UseSourceGeneration.Api
                 OnErrorGetInventoryDefaultImplementation(e, "/store/inventory", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorGetInventory(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetInventoryResponse"/>
+        /// </summary>
+        public partial class GetInventoryResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Dictionary&lt;string, int&gt;>? _dictionaryltstringIntgtTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetInventoryResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="dictionaryltstringIntgtTypeInfo"></param>
+            public GetInventoryResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Dictionary&lt;string, int&gt;>? dictionaryltstringIntgtTypeInfo)
+            {
+                _dictionaryltstringIntgtTypeInfo = dictionaryltstringIntgtTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetInventoryResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetInventoryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out Dictionary<string, int>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _dictionaryltstringIntgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _dictionaryltstringIntgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out Dictionary<string, int>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -667,6 +820,116 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorGetOrderById(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="GetOrderByIdResponse"/>
+        /// </summary>
+        public partial class GetOrderByIdResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? _orderTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetOrderByIdResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="orderTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public GetOrderByIdResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? orderTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _orderTypeInfo = orderTypeInfo;
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetOrderByIdResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetOrderByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out Order? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _orderTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
         }
 
         partial void FormatPlaceOrder(Order order);
@@ -819,6 +1082,107 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorPlaceOrder(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="PlaceOrderResponse"/>
+        /// </summary>
+        public partial class PlaceOrderResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? _orderTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="PlaceOrderResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="orderTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public PlaceOrderResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? orderTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _orderTypeInfo = orderTypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="PlaceOrderResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public PlaceOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out Order? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _orderTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out Order? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
         }
     }
 }

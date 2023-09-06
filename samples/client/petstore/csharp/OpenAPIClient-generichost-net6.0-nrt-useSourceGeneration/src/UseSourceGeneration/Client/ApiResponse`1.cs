@@ -11,8 +11,6 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace UseSourceGeneration.Client
@@ -22,11 +20,6 @@ namespace UseSourceGeneration.Client
     /// </summary>
     public interface IApiResponse
     {
-        /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        Type ResponseType { get; }
-
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
@@ -57,21 +50,13 @@ namespace UseSourceGeneration.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public partial class ApiResponse<T> : IApiResponse
+    public partial class ApiResponse : IApiResponse
     {
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
 
         /// <summary>
         /// The raw data
@@ -114,16 +99,6 @@ namespace UseSourceGeneration.Client
         public Uri? RequestUri { get; }
 
         /// <summary>
-        /// The JsonSerialzierOptions
-        /// </summary>
-        private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
-
-        /// <summary>
-        /// The JsonTypeInfo
-        /// </summary>
-        private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>? _typeInfo;
-
-        /// <summary>
         /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="httpRequestMessage"></param>
@@ -131,8 +106,7 @@ namespace UseSourceGeneration.Client
         /// <param name="rawContent"></param>
         /// <param name="path"></param>
         /// <param name="requestedAt"></param>
-        /// <param name="typeInfo"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> typeInfo)
+        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt)
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
@@ -142,64 +116,9 @@ namespace UseSourceGeneration.Client
             Path = path;
             RequestUri = httpRequestMessage.RequestUri;
             RequestedAt = requestedAt;
-            _typeInfo = typeInfo;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
-
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-        /// <summary>
-        /// Deserializes the server's response
-        /// </summary>
-        public T? AsModel()
-        {
-            // This logic may be modified with the AsModel.mustache template
-            if (!IsSuccessStatusCode)
-                return default(T);
-
-            return _typeInfo == null
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _typeInfo);
-        }
-
-        /// <summary>
-        /// Returns true when the model can be deserialized
-        /// </summary>
-        public bool TryToModel([NotNullWhen(true)] out T? model)
-        {
-            try
-            {
-                model = AsModel();
-                return model != null;
-            }
-            catch
-            {
-                model = default(T);
-                return false;
-            }
-        }
     }
 }

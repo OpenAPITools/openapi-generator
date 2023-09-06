@@ -308,8 +308,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
-        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* ", false));
-        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* ", false));
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* ", false, false));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* ", false, false));
         return lambdas;
     }
 

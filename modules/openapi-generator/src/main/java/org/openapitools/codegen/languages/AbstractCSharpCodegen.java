@@ -424,8 +424,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
-                .put("indent3", new IndentedLambda(12, " ", false))
-                .put("indent4", new IndentedLambda(16, " ", false))
+                .put("indent3", new IndentedLambda(12, " ", false, true))
+                .put("indent4", new IndentedLambda(16, " ", false, true))
                 .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 

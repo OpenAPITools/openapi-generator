@@ -616,24 +616,63 @@ namespace {{packageName}}.{{apiPackage}}
         {{>visibility}} partial class {{operationId}}Response
         {
             /// <summary>
-            /// The JsonSerialzierOptions
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
             /// </summary>
-            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+            private System.Text.Json.JsonSerializerOptions{{#useSourceGeneration}}{{nrt?}}{{/useSourceGeneration}} _jsonSerializerOptions;
 
+            {{#useSourceGeneration}}
+            {{#responses}}
+            {{#lambda.uniqueLinesWithNewLine}}
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<{{dataType}}>{{nrt?}} _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo;
+            {{/lambda.uniqueLinesWithNewLine}}
+            {{/responses}}
+
+            {{/useSourceGeneration}}
             /// <summary>
-            /// The <see cref="ApiResponse"/>
+            /// The <see cref="{{packageName}}.{{clientPackage}}.ApiResponse"/>
             /// </summary>
-            public ApiResponse ApiResponse { get; }
+            public {{packageName}}.{{clientPackage}}.ApiResponse Content { get; }
 
+            {{#useSourceGeneration}}
+            /// <summary>
+            /// The <see cref="{{operationId}}Response"/>
+            /// </summary>
+            /// <param name="content"></param>
+            {{#responses}}
+            {{#lambda.uniqueLinesWithNewLine}}
+            /// <param name="{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo"></param>
+            {{/lambda.uniqueLinesWithNewLine}}
+            {{/responses}}
+            public {{operationId}}Response({{packageName}}.{{clientPackage}}.ApiResponse content{{#useSourceGeneration}}{{#responses}}{{#-first}},
+                {{/-first}}
+                {{#lambda.joinLinesWithComma}}
+                {{#lambda.uniqueLinesWithNewLine}}
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<{{dataType}}>{{nrt?}} {{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo
+                {{/lambda.uniqueLinesWithNewLine}}
+                {{/lambda.joinLinesWithComma}}
+                {{/responses}}
+                {{/useSourceGeneration}}
+)
+            {
+                {{#responses}}
+                {{#lambda.uniqueLinesWithNewLine}}
+                _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo = {{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo;
+                {{/lambda.uniqueLinesWithNewLine}}
+                {{/responses}}
+                Content = content;
+                OnCreated();
+            }
+
+            {{/useSourceGeneration}}
             /// <summary>
             /// The <see cref="{{operationId}}Response"/>
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
-            /// <param name="apiResponse"></param>
-            public {{operationId}}Response(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, ApiResponse apiResponse)
+            /// <param name="content"></param>
+            public {{operationId}}Response(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, {{packageName}}.{{clientPackage}}.ApiResponse content)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
-                ApiResponse = apiResponse;
+                Content = content;
                 OnCreated();
             }
 
@@ -652,7 +691,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}}
             /// </summary>
             /// <returns></returns>
-            public bool Is{{vendorExtensions.x-http-status}}() => {{code}} == ApiResponse.StatusCode;
+            public bool Is{{vendorExtensions.x-http-status}}() => {{code}} == (int)Content.StatusCode;
             {{/vendorExtensions.x-http-status-is-default}}
             {{#dataType}}
 
@@ -661,14 +700,13 @@ namespace {{packageName}}.{{apiPackage}}
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool To{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
+            public bool As{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
             {
-                result = null;
-                if (!Is{{vendorExtensions.x-http-status}}())
-                    return false;
-
-                result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(ApiResponse.RawContent, _jsonSerializerOptions);
-                return result != null;
+                {{#lambda.trimTrailingWithNewLine}}
+                {{#lambda.indent4}}
+                {{>AsModel}}
+                {{/lambda.indent4}}
+                {{/lambda.trimTrailingWithNewLine}}
             }
 
             /// <summary>
@@ -676,7 +714,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryTo{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
+            public bool TryAs{{vendorExtensions.x-http-status}}([NotNullWhen(true)]out {{{dataType}}}{{nrt?}} result)
             {
                 result = null;
                 if (!Is{{vendorExtensions.x-http-status}}())
@@ -684,7 +722,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                 try
                 {
-                    result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(ApiResponse.RawContent, _jsonSerializerOptions);
+                    result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _jsonSerializerOptions);
                 } catch (Exception e)
                 {
                     // log the exception

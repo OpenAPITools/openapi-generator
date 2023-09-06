@@ -93,6 +93,7 @@ docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
+docs/models/UpdatePet200Response.md
 docs/models/User.md
 docs/models/Whale.md
 docs/models/Zebra.md
@@ -219,6 +220,7 @@ src/UseSourceGeneration/Model/TestCollectionEndingWithWordList.cs
 src/UseSourceGeneration/Model/TestCollectionEndingWithWordListObject.cs
 src/UseSourceGeneration/Model/Triangle.cs
 src/UseSourceGeneration/Model/TriangleInterface.cs
+src/UseSourceGeneration/Model/UpdatePet200Response.cs
 src/UseSourceGeneration/Model/User.cs
 src/UseSourceGeneration/Model/Whale.cs
 src/UseSourceGeneration/Model/Zebra.cs

@@ -21,6 +21,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Org.OpenAPITools.Api
 {
@@ -434,6 +435,79 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FooGetResponse"/>
+        /// </summary>
+        public partial class FooGetResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="FooGetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public FooGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToDefault([NotNullWhen(true)]out FooGetDefaultResponse? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToDefault([NotNullWhen(true)]out FooGetDefaultResponse? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatGetCountry(ref string country);
 
         /// <summary>
@@ -583,6 +657,42 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="GetCountryResponse"/>
+        /// </summary>
+        public partial class GetCountryResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="GetCountryResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public GetCountryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -694,6 +804,79 @@ namespace Org.OpenAPITools.Api
                 OnErrorHelloDefaultImplementation(e, "/hello", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorHello(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="HelloResponse"/>
+        /// </summary>
+        public partial class HelloResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="HelloResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public HelloResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out List<Guid>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out List<Guid>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -813,6 +996,79 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="RolesReportGetResponse"/>
+        /// </summary>
+        public partial class RolesReportGetResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="RolesReportGetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public RolesReportGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out List<List>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<List<List>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out List<List>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<List>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -924,6 +1180,79 @@ namespace Org.OpenAPITools.Api
                 OnErrorTestDefaultImplementation(e, "/test", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorTest(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TestResponse"/>
+        /// </summary>
+        public partial class TestResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="TestResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public TestResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out NotificationtestGetElementsV1ResponseMPayload? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out NotificationtestGetElementsV1ResponseMPayload? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
     }

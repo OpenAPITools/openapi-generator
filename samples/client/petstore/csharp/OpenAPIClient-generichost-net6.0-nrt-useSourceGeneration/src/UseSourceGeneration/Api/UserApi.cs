@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -603,6 +604,57 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="CreateUserResponse"/>
+        /// </summary>
+        public partial class CreateUserResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUserResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public CreateUserResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public CreateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+        }
+
         partial void FormatCreateUsersWithArrayInput(List<User> user);
 
         /// <summary>
@@ -743,6 +795,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorCreateUsersWithArrayInput(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="CreateUsersWithArrayInputResponse"/>
+        /// </summary>
+        public partial class CreateUsersWithArrayInputResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithArrayInputResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public CreateUsersWithArrayInputResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithArrayInputResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public CreateUsersWithArrayInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
         }
 
         partial void FormatCreateUsersWithListInput(List<User> user);
@@ -887,6 +990,57 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="CreateUsersWithListInputResponse"/>
+        /// </summary>
+        public partial class CreateUsersWithListInputResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithListInputResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public CreateUsersWithListInputResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithListInputResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public CreateUsersWithListInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
+        }
+
         partial void FormatDeleteUser(ref string username);
 
         /// <summary>
@@ -1015,6 +1169,66 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorDeleteUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="DeleteUserResponse"/>
+        /// </summary>
+        public partial class DeleteUserResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="DeleteUserResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public DeleteUserResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="DeleteUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public DeleteUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
         }
 
         partial void FormatGetUserByName(ref string username);
@@ -1155,6 +1369,116 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorGetUserByName(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="GetUserByNameResponse"/>
+        /// </summary>
+        public partial class GetUserByNameResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<User>? _userTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetUserByNameResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="userTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public GetUserByNameResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<User>? userTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _userTypeInfo = userTypeInfo;
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetUserByNameResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetUserByNameResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out User? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _userTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _userTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out User? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
         }
 
         partial void FormatLoginUser(ref string username, ref string password);
@@ -1314,6 +1638,107 @@ namespace UseSourceGeneration.Api
         }
 
         /// <summary>
+        /// The <see cref="LoginUserResponse"/>
+        /// </summary>
+        public partial class LoginUserResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? _varStringTypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="LoginUserResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="varStringTypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public LoginUserResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? varStringTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _varStringTypeInfo = varStringTypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="LoginUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public LoginUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out string? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _varStringTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out string? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -1417,6 +1842,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorLogoutUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="LogoutUserResponse"/>
+        /// </summary>
+        public partial class LogoutUserResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="LogoutUserResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public LogoutUserResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="LogoutUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public LogoutUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => true;
         }
 
         partial void FormatUpdateUser(User user, ref string username);
@@ -1570,6 +2046,66 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorUpdateUser(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdateUserResponse"/>
+        /// </summary>
+        public partial class UpdateUserResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="UpdateUserResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public UpdateUserResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="UpdateUserResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public UpdateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
         }
     }
 }

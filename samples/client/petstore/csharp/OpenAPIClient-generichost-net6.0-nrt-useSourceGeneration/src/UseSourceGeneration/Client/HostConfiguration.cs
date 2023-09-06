@@ -130,6 +130,7 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
+            _jsonOptions.Converters.Add(new UpdatePet200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
@@ -222,6 +223,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<TestCollectionEndingWithWordListObjectSerializationContext>();
             _services.AddSingleton<TriangleSerializationContext>();
             _services.AddSingleton<TriangleInterfaceSerializationContext>();
+            _services.AddSingleton<UpdatePet200ResponseSerializationContext>();
             _services.AddSingleton<UserSerializationContext>();
             _services.AddSingleton<WhaleSerializationContext>();
             _services.AddSingleton<ZebraSerializationContext>();
@@ -311,6 +313,7 @@ namespace UseSourceGeneration.Client
             _services.AddSingleton<TestCollectionEndingWithWordListObjectDeserializationContext>();
             _services.AddSingleton<TriangleDeserializationContext>();
             _services.AddSingleton<TriangleInterfaceDeserializationContext>();
+            _services.AddSingleton<UpdatePet200ResponseDeserializationContext>();
             _services.AddSingleton<UserDeserializationContext>();
             _services.AddSingleton<WhaleDeserializationContext>();
             _services.AddSingleton<ZebraDeserializationContext>();

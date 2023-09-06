@@ -26,29 +26,28 @@ using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// DateOnlyClass
+    /// UpdatePet200Response
     /// </summary>
-    public partial class DateOnlyClass : IValidatableObject
+    public partial class UpdatePet200Response : IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
+        /// Initializes a new instance of the <see cref="UpdatePet200Response" /> class.
         /// </summary>
-        /// <param name="dateOnlyProperty">dateOnlyProperty</param>
+        /// <param name="varString">varString</param>
         [JsonConstructor]
-        public DateOnlyClass(DateTime dateOnlyProperty)
+        public UpdatePet200Response(Pet varString)
         {
-            DateOnlyProperty = dateOnlyProperty;
+            VarString = varString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets DateOnlyProperty
+        /// Gets or Sets VarString
         /// </summary>
-        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
-        [JsonPropertyName("dateOnlyProperty")]
-        public DateTime DateOnlyProperty { get; set; }
+        [JsonPropertyName("string")]
+        public Pet VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,8 +62,8 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class DateOnlyClass {\n");
-            sb.Append("  DateOnlyProperty: ").Append(DateOnlyProperty).Append("\n");
+            sb.Append("class UpdatePet200Response {\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -82,24 +81,19 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="DateOnlyClass" />
+    /// A Json converter for type <see cref="UpdatePet200Response" />
     /// </summary>
-    public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
+    public class UpdatePet200ResponseJsonConverter : JsonConverter<UpdatePet200Response>
     {
         /// <summary>
-        /// The format to use to serialize DateOnlyProperty
-        /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// Deserializes json to <see cref="DateOnlyClass" />
+        /// Deserializes json to <see cref="UpdatePet200Response" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override DateOnlyClass Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override UpdatePet200Response Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
@@ -108,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime? dateOnlyProperty = default;
+            Pet? varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -125,9 +119,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "dateOnlyProperty":
+                        case "string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                varString = JsonSerializer.Deserialize<Pet>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -135,37 +129,38 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (dateOnlyProperty == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString), "Property is required for class UpdatePet200Response.");
 
-            return new DateOnlyClass(dateOnlyProperty.Value);
+            return new UpdatePet200Response(varString);
         }
 
         /// <summary>
-        /// Serializes a <see cref="DateOnlyClass" />
+        /// Serializes a <see cref="UpdatePet200Response" />
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="dateOnlyClass"></param>
+        /// <param name="updatePet200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
+        public override void Write(Utf8JsonWriter writer, UpdatePet200Response updatePet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, dateOnlyClass, jsonSerializerOptions);
+            WriteProperties(ref writer, updatePet200Response, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
         /// <summary>
-        /// Serializes the properties of <see cref="DateOnlyClass" />
+        /// Serializes the properties of <see cref="UpdatePet200Response" />
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="dateOnlyClass"></param>
+        /// <param name="updatePet200Response"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(ref Utf8JsonWriter writer, UpdatePet200Response updatePet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
+            writer.WritePropertyName("string");
+            JsonSerializer.Serialize(writer, updatePet200Response.VarString, jsonSerializerOptions);
         }
     }
 }

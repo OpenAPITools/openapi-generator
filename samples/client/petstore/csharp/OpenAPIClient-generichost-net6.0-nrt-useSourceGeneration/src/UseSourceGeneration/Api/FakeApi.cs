@@ -21,6 +21,7 @@ using System.Text.Json;
 using UseSourceGeneration.Client;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UseSourceGeneration.Api
 {
@@ -949,6 +950,98 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FakeHealthGetResponse"/>
+        /// </summary>
+        public partial class FakeHealthGetResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<HealthCheckResult>? _healthCheckResultTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FakeHealthGetResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="healthCheckResultTypeInfo"></param>
+            public FakeHealthGetResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<HealthCheckResult>? healthCheckResultTypeInfo)
+            {
+                _healthCheckResultTypeInfo = healthCheckResultTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FakeHealthGetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FakeHealthGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out HealthCheckResult? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _healthCheckResultTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _healthCheckResultTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out HealthCheckResult? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatFakeOuterBooleanSerialize(ref Option<bool> body);
 
         /// <summary>
@@ -1085,6 +1178,98 @@ namespace UseSourceGeneration.Api
                 OnErrorFakeOuterBooleanSerializeDefaultImplementation(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
                 Events.ExecuteOnErrorFakeOuterBooleanSerialize(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="FakeOuterBooleanSerializeResponse"/>
+        /// </summary>
+        public partial class FakeOuterBooleanSerializeResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<bool>? _varBoolTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FakeOuterBooleanSerializeResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="varBoolTypeInfo"></param>
+            public FakeOuterBooleanSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<bool>? varBoolTypeInfo)
+            {
+                _varBoolTypeInfo = varBoolTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FakeOuterBooleanSerializeResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FakeOuterBooleanSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out bool? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _varBoolTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _varBoolTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out bool? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -1240,6 +1425,98 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FakeOuterCompositeSerializeResponse"/>
+        /// </summary>
+        public partial class FakeOuterCompositeSerializeResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<OuterComposite>? _outerCompositeTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FakeOuterCompositeSerializeResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="outerCompositeTypeInfo"></param>
+            public FakeOuterCompositeSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<OuterComposite>? outerCompositeTypeInfo)
+            {
+                _outerCompositeTypeInfo = outerCompositeTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FakeOuterCompositeSerializeResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FakeOuterCompositeSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out OuterComposite? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _outerCompositeTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _outerCompositeTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out OuterComposite? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatFakeOuterNumberSerialize(ref Option<decimal> body);
 
         /// <summary>
@@ -1376,6 +1653,98 @@ namespace UseSourceGeneration.Api
                 OnErrorFakeOuterNumberSerializeDefaultImplementation(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
                 Events.ExecuteOnErrorFakeOuterNumberSerialize(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="FakeOuterNumberSerializeResponse"/>
+        /// </summary>
+        public partial class FakeOuterNumberSerializeResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<decimal>? _varDecimalTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FakeOuterNumberSerializeResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="varDecimalTypeInfo"></param>
+            public FakeOuterNumberSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<decimal>? varDecimalTypeInfo)
+            {
+                _varDecimalTypeInfo = varDecimalTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FakeOuterNumberSerializeResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FakeOuterNumberSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out decimal? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _varDecimalTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _varDecimalTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out decimal? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -1544,6 +1913,98 @@ namespace UseSourceGeneration.Api
         }
 
         /// <summary>
+        /// The <see cref="FakeOuterStringSerializeResponse"/>
+        /// </summary>
+        public partial class FakeOuterStringSerializeResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? _varStringTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="FakeOuterStringSerializeResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="varStringTypeInfo"></param>
+            public FakeOuterStringSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? varStringTypeInfo)
+            {
+                _varStringTypeInfo = varStringTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="FakeOuterStringSerializeResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public FakeOuterStringSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out string? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _varStringTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out string? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -1655,6 +2116,98 @@ namespace UseSourceGeneration.Api
                 OnErrorGetArrayOfEnumsDefaultImplementation(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
                 Events.ExecuteOnErrorGetArrayOfEnums(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetArrayOfEnumsResponse"/>
+        /// </summary>
+        public partial class GetArrayOfEnumsResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;OuterEnum&gt;>? _listltOuterEnumgtTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="GetArrayOfEnumsResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="listltOuterEnumgtTypeInfo"></param>
+            public GetArrayOfEnumsResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;OuterEnum&gt;>? listltOuterEnumgtTypeInfo)
+            {
+                _listltOuterEnumgtTypeInfo = listltOuterEnumgtTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="GetArrayOfEnumsResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public GetArrayOfEnumsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out List<OuterEnum>? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _listltOuterEnumgtTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _listltOuterEnumgtTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out List<OuterEnum>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<OuterEnum>>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -1798,6 +2351,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorTestBodyWithFileSchema(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestBodyWithFileSchemaResponse"/>
+        /// </summary>
+        public partial class TestBodyWithFileSchemaResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestBodyWithFileSchemaResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestBodyWithFileSchemaResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestBodyWithFileSchemaResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestBodyWithFileSchemaResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
         }
 
         partial void FormatTestBodyWithQueryParams(User user, ref string query);
@@ -1958,6 +2562,57 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="TestBodyWithQueryParamsResponse"/>
+        /// </summary>
+        public partial class TestBodyWithQueryParamsResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestBodyWithQueryParamsResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestBodyWithQueryParamsResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestBodyWithQueryParamsResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestBodyWithQueryParamsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+        }
+
         partial void FormatTestClientModel(ModelClient modelClient);
 
         /// <summary>
@@ -2106,6 +2761,98 @@ namespace UseSourceGeneration.Api
                 OnErrorTestClientModelDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, modelClient);
                 Events.ExecuteOnErrorTestClientModel(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TestClientModelResponse"/>
+        /// </summary>
+        public partial class TestClientModelResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? _modelClientTypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestClientModelResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="modelClientTypeInfo"></param>
+            public TestClientModelResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? modelClientTypeInfo)
+            {
+                _modelClientTypeInfo = modelClientTypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestClientModelResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestClientModelResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool AsOk([NotNullWhen(true)]out ModelClient? result)
+            {
+                // This logic may be modified with the AsModel.mustache template
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = _modelClientTypeInfo == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientTypeInfo);
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAsOk([NotNullWhen(true)]out ModelClient? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -2403,6 +3150,66 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="TestEndpointParametersResponse"/>
+        /// </summary>
+        public partial class TestEndpointParametersResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestEndpointParametersResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public TestEndpointParametersResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestEndpointParametersResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestEndpointParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
+        }
+
         partial void FormatTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, ref Option<double> enumQueryDouble, ref Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, ref Option<string> enumHeaderString, ref Option<string> enumQueryString, ref Option<string> enumFormString);
 
         /// <summary>
@@ -2637,6 +3444,66 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="TestEnumParametersResponse"/>
+        /// </summary>
+        public partial class TestEnumParametersResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestEnumParametersResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            /// <param name="TypeInfo"></param>
+            public TestEnumParametersResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestEnumParametersResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestEnumParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == (int)Content.StatusCode;
+        }
+
         partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref int requiredStringGroup, ref long requiredInt64Group, ref Option<bool> booleanGroup, ref Option<int> stringGroup, ref Option<long> int64Group);
 
         /// <summary>
@@ -2813,6 +3680,57 @@ namespace UseSourceGeneration.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="TestGroupParametersResponse"/>
+        /// </summary>
+        public partial class TestGroupParametersResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestGroupParametersResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestGroupParametersResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestGroupParametersResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestGroupParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == (int)Content.StatusCode;
+        }
+
         partial void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody);
 
         /// <summary>
@@ -2953,6 +3871,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorTestInlineAdditionalProperties(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
+        /// </summary>
+        public partial class TestInlineAdditionalPropertiesResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestInlineAdditionalPropertiesResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestInlineAdditionalPropertiesResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
         }
 
         partial void FormatTestJsonFormData(ref string param, ref string param2);
@@ -3113,6 +4082,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorTestJsonFormData(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestJsonFormDataResponse"/>
+        /// </summary>
+        public partial class TestJsonFormDataResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestJsonFormDataResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestJsonFormDataResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestJsonFormDataResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestJsonFormDataResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
         }
 
         partial void FormatTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, ref string requiredNotNullable, ref string? requiredNullable, ref Option<string> notRequiredNotNullable, ref Option<string?> notRequiredNullable);
@@ -3332,6 +4352,57 @@ namespace UseSourceGeneration.Api
                 Events.ExecuteOnErrorTestQueryParameterCollectionFormat(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestQueryParameterCollectionFormatResponse"/>
+        /// </summary>
+        public partial class TestQueryParameterCollectionFormatResponse
+        {
+            /// <summary>
+            /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
+
+            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+
+            /// <summary>
+            /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
+            /// </summary>
+            public UseSourceGeneration.Client.ApiResponse Content { get; }
+
+            /// <summary>
+            /// The <see cref="TestQueryParameterCollectionFormatResponse"/>
+            /// </summary>
+            /// <param name="content"></param>
+            /// <param name="TypeInfo"></param>
+            public TestQueryParameterCollectionFormatResponse(UseSourceGeneration.Client.ApiResponse content,
+                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+            {
+                _TypeInfo = TypeInfo;
+                Content = content;
+                OnCreated();
+            }
+
+            /// <summary>
+            /// The <see cref="TestQueryParameterCollectionFormatResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="content"></param>
+            public TestQueryParameterCollectionFormatResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                Content = content;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == (int)Content.StatusCode;
         }
     }
 }

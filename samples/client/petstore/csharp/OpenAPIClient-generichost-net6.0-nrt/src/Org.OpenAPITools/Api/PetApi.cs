@@ -21,6 +21,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Org.OpenAPITools.Api
 {
@@ -161,8 +162,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task&lt;ApiResponse&lt;UpdatePet200Response&gt;&gt;</returns>
+        Task<ApiResponse<UpdatePet200Response>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -172,8 +173,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task&lt;ApiResponse&gt;UpdatePet200Response&gt;?&gt;</returns>
+        Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -366,16 +367,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<object>>? OnUpdatePet;
+        public event EventHandler<ApiResponseEventArgs<UpdatePet200Response>>? OnUpdatePet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePet;
 
-        internal void ExecuteOnUpdatePet(ApiResponse<object> apiResponse)
+        internal void ExecuteOnUpdatePet(ApiResponse<UpdatePet200Response> apiResponse)
         {
-            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<UpdatePet200Response>(apiResponse));
         }
 
         internal void ExecuteOnErrorUpdatePet(Exception exception)
@@ -682,6 +683,42 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="AddPetResponse"/>
+        /// </summary>
+        public partial class AddPetResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="AddPetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public AddPetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == ApiResponse.StatusCode;
+        }
+
         partial void FormatDeletePet(ref long petId, ref Option<string> apiKey);
 
         /// <summary>
@@ -831,6 +868,42 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorDeletePet(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="DeletePetResponse"/>
+        /// </summary>
+        public partial class DeletePetResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="DeletePetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public DeletePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
         }
 
         partial void FormatFindPetsByStatus(List<string> status);
@@ -1004,6 +1077,85 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FindPetsByStatusResponse"/>
+        /// </summary>
+        public partial class FindPetsByStatusResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="FindPetsByStatusResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public FindPetsByStatusResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+        }
+
         partial void FormatFindPetsByTags(List<string> tags);
 
         /// <summary>
@@ -1175,6 +1327,85 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="FindPetsByTagsResponse"/>
+        /// </summary>
+        public partial class FindPetsByTagsResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="FindPetsByTagsResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public FindPetsByTagsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out List<Pet>? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+        }
+
         partial void FormatGetPetById(ref long petId);
 
         /// <summary>
@@ -1314,6 +1545,91 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="GetPetByIdResponse"/>
+        /// </summary>
+        public partial class GetPetByIdResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="GetPetByIdResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public GetPetByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out Pet? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<Pet>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out Pet? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<Pet>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
+        }
+
         partial void FormatUpdatePet(Pet pet);
 
         /// <summary>
@@ -1332,7 +1648,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterUpdatePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
+        private void AfterUpdatePetDefaultImplementation(ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet)
         {
             bool suppressDefaultLog = false;
             AfterUpdatePet(ref suppressDefaultLog, apiResponseLocalVar, pet);
@@ -1346,7 +1662,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1378,8 +1694,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
+        public async Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1397,8 +1713,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
+        public async Task<ApiResponse<UpdatePet200Response>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1449,6 +1765,15 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -1457,7 +1782,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<UpdatePet200Response> apiResponseLocalVar = new ApiResponse<UpdatePet200Response>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterUpdatePetDefaultImplementation(apiResponseLocalVar, pet);
 
@@ -1480,6 +1805,140 @@ namespace Org.OpenAPITools.Api
                 OnErrorUpdatePetDefaultImplementation(e, "/pet", uriBuilderLocalVar.Path, pet);
                 Events.ExecuteOnErrorUpdatePet(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdatePetResponse"/>
+        /// </summary>
+        public partial class UpdatePetResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="UpdatePetResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public UpdatePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest() => 400 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound() => 404 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault() => !IsOk() && !IsBadRequest() && !IsNotFound() && !IsMethodNotAllowed();
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToDefault([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToDefault([NotNullWhen(true)]out UpdatePet200Response? result)
+            {
+                result = null;
+                if (!IsDefault())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
 
@@ -1660,6 +2119,42 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorUpdatePetWithForm(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdatePetWithFormResponse"/>
+        /// </summary>
+        public partial class UpdatePetWithFormResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="UpdatePetWithFormResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public UpdatePetWithFormResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 405 MethodNotAllowed
+            /// </summary>
+            /// <returns></returns>
+            public bool IsMethodNotAllowed() => 405 == ApiResponse.StatusCode;
         }
 
         partial void FormatUploadFile(ref long petId, ref Option<System.IO.Stream> file, ref Option<string> additionalMetadata);
@@ -1850,6 +2345,79 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="UploadFileResponse"/>
+        /// </summary>
+        public partial class UploadFileResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="UploadFileResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public UploadFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
+            }
+        }
+
         partial void FormatUploadFileWithRequiredFile(ref System.IO.Stream requiredFile, ref long petId, ref Option<string> additionalMetadata);
 
         /// <summary>
@@ -2035,6 +2603,79 @@ namespace Org.OpenAPITools.Api
                 OnErrorUploadFileWithRequiredFileDefaultImplementation(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path, requiredFile, petId, additionalMetadata);
                 Events.ExecuteOnErrorUploadFileWithRequiredFile(e);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UploadFileWithRequiredFileResponse"/>
+        /// </summary>
+        public partial class UploadFileWithRequiredFileResponse
+        {
+            /// <summary>
+            /// The <see cref="JsonSerializerOptions"/>
+            /// </summary>
+            private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+            /// <summary>
+            /// The <see cref="ApiResponse"/>
+            /// </summary>
+            public Org.OpenAPITools.Client.ApiResponse ApiResponse { get; }
+
+            /// <summary>
+            /// The <see cref="UploadFileWithRequiredFileResponse"/>
+            /// </summary>
+            /// <param name="jsonSerializerOptions"></param>
+            /// <param name="apiResponse"></param>
+            public UploadFileWithRequiredFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, Org.OpenAPITools.Client.ApiResponse apiResponse)
+            {
+                _jsonSerializerOptions = jsonSerializerOptions;
+                ApiResponse = apiResponse;
+                OnCreated();
+            }
+
+            partial void OnCreated();
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk() => 200 == ApiResponse.StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool ToOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryToOk([NotNullWhen(true)]out ApiResponse? result)
+            {
+                result = null;
+                if (!IsOk())
+                    return false;
+
+                try
+                {
+                    result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(ApiResponse.RawContent, _jsonSerializerOptions);
+                } catch (Exception e)
+                {
+                    // log the exception
+                }
+
+                return result != null;
             }
         }
     }

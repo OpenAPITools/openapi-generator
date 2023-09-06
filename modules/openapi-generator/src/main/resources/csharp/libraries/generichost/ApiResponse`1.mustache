@@ -5,8 +5,6 @@
 
 {{/nrt}}
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace {{packageName}}.{{clientPackage}}
@@ -16,11 +14,6 @@ namespace {{packageName}}.{{clientPackage}}
     /// </summary>
     {{>visibility}} interface IApiResponse
     {
-        /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        Type ResponseType { get; }
-
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
@@ -51,21 +44,13 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// API Response
     /// </summary>
-    {{>visibility}} partial class ApiResponse<T> : IApiResponse
+    {{>visibility}} partial class ApiResponse : IApiResponse
     {
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
 
         /// <summary>
         /// The raw data
@@ -108,17 +93,6 @@ namespace {{packageName}}.{{clientPackage}}
         public Uri{{nrt?}} RequestUri { get; }
 
         /// <summary>
-        /// The JsonSerialzierOptions
-        /// </summary>
-        private System.Text.Json.JsonSerializerOptions{{#useSourceGeneration}}{{nrt?}}{{/useSourceGeneration}} _jsonSerializerOptions;
-
-        {{#useSourceGeneration}}
-        /// <summary>
-        /// The JsonTypeInfo
-        /// </summary>
-        private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>{{nrt?}} _typeInfo;
-
-        /// <summary>
         /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="httpRequestMessage"></param>
@@ -126,8 +100,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="rawContent"></param>
         /// <param name="path"></param>
         /// <param name="requestedAt"></param>
-        /// <param name="typeInfo"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> typeInfo)
+        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt)
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
@@ -137,61 +110,9 @@ namespace {{packageName}}.{{clientPackage}}
             Path = path;
             RequestUri = httpRequestMessage.RequestUri;
             RequestedAt = requestedAt;
-            _typeInfo = typeInfo;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
-
-        {{/useSourceGeneration}}
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-        /// <summary>
-        /// Deserializes the server's response
-        /// </summary>
-        public T{{nrt?}} AsModel()
-        {
-            {{#lambda.trimTrailingWithNewLine}}
-{{>AsModel}}
-            {{/lambda.trimTrailingWithNewLine}}
-        }
-
-        /// <summary>
-        /// Returns true when the model can be deserialized
-        /// </summary>
-        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model)
-        {
-            try
-            {
-                model = AsModel();
-                return model != null;
-            }
-            catch
-            {
-                model = default(T);
-                return false;
-            }
-        }
     }
 }
