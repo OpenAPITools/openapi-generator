@@ -129,22 +129,22 @@ public class Bar extends Entity implements BarRefOrValue {
 
 
   public Bar href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public Bar atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public Bar atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public Bar atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
   @Override
