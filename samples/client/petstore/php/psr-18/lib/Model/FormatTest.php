@@ -718,7 +718,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable string cannot be null');
         }
 
-        if ((!preg_match("/[a-z]/i", $string))) {
+        if ((!preg_match("/[a-z]/i", ObjectSerializer::toString($string)))) {
             throw new \InvalidArgumentException("invalid value for \$string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
 
@@ -919,7 +919,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable pattern_with_digits cannot be null');
         }
 
-        if ((!preg_match("/^\\d{10}$/", $pattern_with_digits))) {
+        if ((!preg_match("/^\\d{10}$/", ObjectSerializer::toString($pattern_with_digits)))) {
             throw new \InvalidArgumentException("invalid value for \$pattern_with_digits when calling FormatTest., must conform to the pattern /^\\d{10}$/.");
         }
 
@@ -951,7 +951,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable pattern_with_digits_and_delimiter cannot be null');
         }
 
-        if ((!preg_match("/^image_\\d{1,3}$/i", $pattern_with_digits_and_delimiter))) {
+        if ((!preg_match("/^image_\\d{1,3}$/i", ObjectSerializer::toString($pattern_with_digits_and_delimiter)))) {
             throw new \InvalidArgumentException("invalid value for \$pattern_with_digits_and_delimiter when calling FormatTest., must conform to the pattern /^image_\\d{1,3}$/i.");
         }
 
