@@ -144,6 +144,7 @@ public interface PetApi {
         operationId = "findPetsByTags",
         summary = "Finds Pets by tags",
         description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        deprecated = true,
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

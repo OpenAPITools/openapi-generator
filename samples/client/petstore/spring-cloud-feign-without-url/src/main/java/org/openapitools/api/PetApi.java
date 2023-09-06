@@ -128,7 +128,7 @@ public interface PetApi {
         produces = "application/json"
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
 
 
