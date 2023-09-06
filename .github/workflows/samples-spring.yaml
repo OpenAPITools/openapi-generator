@@ -3,10 +3,16 @@ name: Samples Java Spring
 on:
   push:
     paths:
+      # clients
+      - 'samples/client/petstore/spring*/**'
+      # servers
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
   pull_request:
     paths:
+      # clients
+      - 'samples/client/petstore/spring*/**'
+      # servers
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
 jobs:
@@ -27,6 +33,7 @@ jobs:
           - samples/openapi3/client/petstore/spring-cloud-async
           - samples/openapi3/client/petstore/spring-cloud-spring-pageable
           - samples/client/petstore/spring-cloud-tags
+          - samples/client/petstore/spring-cloud-deprecated
           # servers
           - samples/server/petstore/springboot
           - samples/openapi3/server/petstore/springboot
