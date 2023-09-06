@@ -466,9 +466,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFakeHealthGet;
 
-        internal void ExecuteOnFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
+        internal void ExecuteOnFakeHealthGet(FakeApi.FakeHealthGetResponse fakeHealthGetResponse)
         {
-            OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<HealthCheckResult>(apiResponse));
+            OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<FakeHealthGetResponse>(fakeHealthGetResponse));
         }
 
         internal void ExecuteOnErrorFakeHealthGet(Exception exception)
@@ -486,9 +486,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterBooleanSerialize;
 
-        internal void ExecuteOnFakeOuterBooleanSerialize(ApiResponse<bool> apiResponse)
+        internal void ExecuteOnFakeOuterBooleanSerialize(FakeApi.FakeOuterBooleanSerializeResponse fakeOuterBooleanSerializeResponse)
         {
-            OnFakeOuterBooleanSerialize?.Invoke(this, new ApiResponseEventArgs<bool>(apiResponse));
+            OnFakeOuterBooleanSerialize?.Invoke(this, new ApiResponseEventArgs<FakeOuterBooleanSerializeResponse>(fakeOuterBooleanSerializeResponse));
         }
 
         internal void ExecuteOnErrorFakeOuterBooleanSerialize(Exception exception)
@@ -506,9 +506,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterCompositeSerialize;
 
-        internal void ExecuteOnFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse)
+        internal void ExecuteOnFakeOuterCompositeSerialize(FakeApi.FakeOuterCompositeSerializeResponse fakeOuterCompositeSerializeResponse)
         {
-            OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<OuterComposite>(apiResponse));
+            OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<FakeOuterCompositeSerializeResponse>(fakeOuterCompositeSerializeResponse));
         }
 
         internal void ExecuteOnErrorFakeOuterCompositeSerialize(Exception exception)
@@ -526,9 +526,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterNumberSerialize;
 
-        internal void ExecuteOnFakeOuterNumberSerialize(ApiResponse<decimal> apiResponse)
+        internal void ExecuteOnFakeOuterNumberSerialize(FakeApi.FakeOuterNumberSerializeResponse fakeOuterNumberSerializeResponse)
         {
-            OnFakeOuterNumberSerialize?.Invoke(this, new ApiResponseEventArgs<decimal>(apiResponse));
+            OnFakeOuterNumberSerialize?.Invoke(this, new ApiResponseEventArgs<FakeOuterNumberSerializeResponse>(fakeOuterNumberSerializeResponse));
         }
 
         internal void ExecuteOnErrorFakeOuterNumberSerialize(Exception exception)
@@ -546,9 +546,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterStringSerialize;
 
-        internal void ExecuteOnFakeOuterStringSerialize(ApiResponse<string> apiResponse)
+        internal void ExecuteOnFakeOuterStringSerialize(FakeApi.FakeOuterStringSerializeResponse fakeOuterStringSerializeResponse)
         {
-            OnFakeOuterStringSerialize?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+            OnFakeOuterStringSerialize?.Invoke(this, new ApiResponseEventArgs<FakeOuterStringSerializeResponse>(fakeOuterStringSerializeResponse));
         }
 
         internal void ExecuteOnErrorFakeOuterStringSerialize(Exception exception)
@@ -566,9 +566,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetArrayOfEnums;
 
-        internal void ExecuteOnGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
+        internal void ExecuteOnGetArrayOfEnums(FakeApi.GetArrayOfEnumsResponse getArrayOfEnumsResponse)
         {
-            OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<List<OuterEnum>>(apiResponse));
+            OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<GetArrayOfEnumsResponse>(getArrayOfEnumsResponse));
         }
 
         internal void ExecuteOnErrorGetArrayOfEnums(Exception exception)
@@ -586,9 +586,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestBodyWithFileSchema;
 
-        internal void ExecuteOnTestBodyWithFileSchema(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestBodyWithFileSchema(FakeApi.TestBodyWithFileSchemaResponse testBodyWithFileSchemaResponse)
         {
-            OnTestBodyWithFileSchema?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestBodyWithFileSchema?.Invoke(this, new ApiResponseEventArgs<TestBodyWithFileSchemaResponse>(testBodyWithFileSchemaResponse));
         }
 
         internal void ExecuteOnErrorTestBodyWithFileSchema(Exception exception)
@@ -606,9 +606,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestBodyWithQueryParams;
 
-        internal void ExecuteOnTestBodyWithQueryParams(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestBodyWithQueryParams(FakeApi.TestBodyWithQueryParamsResponse testBodyWithQueryParamsResponse)
         {
-            OnTestBodyWithQueryParams?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestBodyWithQueryParams?.Invoke(this, new ApiResponseEventArgs<TestBodyWithQueryParamsResponse>(testBodyWithQueryParamsResponse));
         }
 
         internal void ExecuteOnErrorTestBodyWithQueryParams(Exception exception)
@@ -626,9 +626,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestClientModel;
 
-        internal void ExecuteOnTestClientModel(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnTestClientModel(FakeApi.TestClientModelResponse testClientModelResponse)
         {
-            OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<TestClientModelResponse>(testClientModelResponse));
         }
 
         internal void ExecuteOnErrorTestClientModel(Exception exception)
@@ -646,9 +646,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestEndpointParameters;
 
-        internal void ExecuteOnTestEndpointParameters(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestEndpointParameters(FakeApi.TestEndpointParametersResponse testEndpointParametersResponse)
         {
-            OnTestEndpointParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestEndpointParameters?.Invoke(this, new ApiResponseEventArgs<TestEndpointParametersResponse>(testEndpointParametersResponse));
         }
 
         internal void ExecuteOnErrorTestEndpointParameters(Exception exception)
@@ -666,9 +666,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestEnumParameters;
 
-        internal void ExecuteOnTestEnumParameters(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestEnumParameters(FakeApi.TestEnumParametersResponse testEnumParametersResponse)
         {
-            OnTestEnumParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestEnumParameters?.Invoke(this, new ApiResponseEventArgs<TestEnumParametersResponse>(testEnumParametersResponse));
         }
 
         internal void ExecuteOnErrorTestEnumParameters(Exception exception)
@@ -686,9 +686,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestGroupParameters;
 
-        internal void ExecuteOnTestGroupParameters(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestGroupParameters(FakeApi.TestGroupParametersResponse testGroupParametersResponse)
         {
-            OnTestGroupParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestGroupParameters?.Invoke(this, new ApiResponseEventArgs<TestGroupParametersResponse>(testGroupParametersResponse));
         }
 
         internal void ExecuteOnErrorTestGroupParameters(Exception exception)
@@ -706,9 +706,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestInlineAdditionalProperties;
 
-        internal void ExecuteOnTestInlineAdditionalProperties(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestInlineAdditionalProperties(FakeApi.TestInlineAdditionalPropertiesResponse testInlineAdditionalPropertiesResponse)
         {
-            OnTestInlineAdditionalProperties?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestInlineAdditionalProperties?.Invoke(this, new ApiResponseEventArgs<TestInlineAdditionalPropertiesResponse>(testInlineAdditionalPropertiesResponse));
         }
 
         internal void ExecuteOnErrorTestInlineAdditionalProperties(Exception exception)
@@ -726,9 +726,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestJsonFormData;
 
-        internal void ExecuteOnTestJsonFormData(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestJsonFormData(FakeApi.TestJsonFormDataResponse testJsonFormDataResponse)
         {
-            OnTestJsonFormData?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestJsonFormData?.Invoke(this, new ApiResponseEventArgs<TestJsonFormDataResponse>(testJsonFormDataResponse));
         }
 
         internal void ExecuteOnErrorTestJsonFormData(Exception exception)
@@ -746,9 +746,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestQueryParameterCollectionFormat;
 
-        internal void ExecuteOnTestQueryParameterCollectionFormat(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestQueryParameterCollectionFormat(FakeApi.TestQueryParameterCollectionFormatResponse testQueryParameterCollectionFormatResponse)
         {
-            OnTestQueryParameterCollectionFormat?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestQueryParameterCollectionFormat?.Invoke(this, new ApiResponseEventArgs<TestQueryParameterCollectionFormatResponse>(testQueryParameterCollectionFormatResponse));
         }
 
         internal void ExecuteOnErrorTestQueryParameterCollectionFormat(Exception exception)
@@ -838,21 +838,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterFakeHealthGetDefaultImplementation(ApiResponse<HealthCheckResult> apiResponseLocalVar)
+        /// <param name="fakeHealthGetResponseLocalVar"></param>
+        private void AfterFakeHealthGetDefaultImplementation(FakeHealthGetResponse fakeHealthGetResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterFakeHealthGet(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterFakeHealthGet(ref suppressDefaultLog, fakeHealthGetResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fakeHealthGetResponseLocalVar.Content.DownloadedAt - fakeHealthGetResponseLocalVar.Content.RequestedAt).TotalSeconds, fakeHealthGetResponseLocalVar.Content.StatusCode, fakeHealthGetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, ApiResponse<HealthCheckResult> apiResponseLocalVar);
+        /// <param name="fakeHealthGetResponseLocalVar"></param>
+        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, FakeHealthGetResponse fakeHealthGetResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -899,8 +899,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
-        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeHealthGetResponse"/>&gt;</returns>
+        public async Task<FakeHealthGetResponse> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -932,11 +932,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _healthCheckResultDeserializationContext.HealthCheckResult);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar);
 
-                        AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
+                        FakeHealthGetResponse responseLocalVar = new(apiResponseLocalVar, _healthCheckResultDeserializationContext);
 
-                        Events.ExecuteOnFakeHealthGet(apiResponseLocalVar);
+                        AfterFakeHealthGetDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnFakeHealthGet(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -960,7 +962,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<HealthCheckResult>? _healthCheckResultTypeInfo;
+            private readonly HealthCheckResultDeserializationContext? _healthCheckResultDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -971,11 +973,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FakeHealthGetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="healthCheckResultTypeInfo"></param>
+            /// <param name="healthCheckResultDeserializationContext"></param>
             public FakeHealthGetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<HealthCheckResult>? healthCheckResultTypeInfo)
+                HealthCheckResultDeserializationContext healthCheckResultDeserializationContext)
             {
-                _healthCheckResultTypeInfo = healthCheckResultTypeInfo;
+                _healthCheckResultDeserializationContext = healthCheckResultDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -985,7 +987,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FakeHealthGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FakeHealthGetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1012,9 +1014,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _healthCheckResultTypeInfo == null
+                result = _healthCheckResultDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _healthCheckResultTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(Content.RawContent, _healthCheckResultDeserializationContext.HealthCheckResult);
 
                 return result != null;
             }
@@ -1047,23 +1049,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterBooleanSerializeResponseLocalVar"></param>
         /// <param name="body"></param>
-        private void AfterFakeOuterBooleanSerializeDefaultImplementation(ApiResponse<bool> apiResponseLocalVar, Option<bool> body)
+        private void AfterFakeOuterBooleanSerializeDefaultImplementation(FakeOuterBooleanSerializeResponse fakeOuterBooleanSerializeResponseLocalVar, Option<bool> body)
         {
             bool suppressDefaultLog = false;
-            AfterFakeOuterBooleanSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
+            AfterFakeOuterBooleanSerialize(ref suppressDefaultLog, fakeOuterBooleanSerializeResponseLocalVar, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fakeOuterBooleanSerializeResponseLocalVar.Content.DownloadedAt - fakeOuterBooleanSerializeResponseLocalVar.Content.RequestedAt).TotalSeconds, fakeOuterBooleanSerializeResponseLocalVar.Content.StatusCode, fakeOuterBooleanSerializeResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterBooleanSerializeResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, ApiResponse<bool> apiResponseLocalVar, Option<bool> body);
+        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, FakeOuterBooleanSerializeResponse fakeOuterBooleanSerializeResponseLocalVar, Option<bool> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1114,8 +1116,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="bool"/></returns>
-        public async Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterBooleanSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterBooleanSerializeResponse> FakeOuterBooleanSerializeAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1163,11 +1165,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/boolean", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/boolean", requestedAtLocalVar);
 
-                        AfterFakeOuterBooleanSerializeDefaultImplementation(apiResponseLocalVar, body);
+                        FakeOuterBooleanSerializeResponse responseLocalVar = new(apiResponseLocalVar, _varBoolDeserializationContext);
 
-                        Events.ExecuteOnFakeOuterBooleanSerialize(apiResponseLocalVar);
+                        AfterFakeOuterBooleanSerializeDefaultImplementation(responseLocalVar, body);
+
+                        Events.ExecuteOnFakeOuterBooleanSerialize(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1191,7 +1195,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<bool>? _varBoolTypeInfo;
+            private readonly boolDeserializationContext? _varBoolDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1202,11 +1206,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FakeOuterBooleanSerializeResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="varBoolTypeInfo"></param>
+            /// <param name="varBoolDeserializationContext"></param>
             public FakeOuterBooleanSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<bool>? varBoolTypeInfo)
+                boolDeserializationContext varBoolDeserializationContext)
             {
-                _varBoolTypeInfo = varBoolTypeInfo;
+                _varBoolDeserializationContext = varBoolDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1216,7 +1220,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FakeOuterBooleanSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FakeOuterBooleanSerializeResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1243,9 +1247,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varBoolTypeInfo == null
+                result = _varBoolDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _varBoolTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _varBoolDeserializationContext.bool);
 
                 return result != null;
             }
@@ -1289,23 +1293,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterCompositeSerializeResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<OuterComposite> apiResponseLocalVar, Option<OuterComposite> outerComposite)
+        private void AfterFakeOuterCompositeSerializeDefaultImplementation(FakeOuterCompositeSerializeResponse fakeOuterCompositeSerializeResponseLocalVar, Option<OuterComposite> outerComposite)
         {
             bool suppressDefaultLog = false;
-            AfterFakeOuterCompositeSerialize(ref suppressDefaultLog, apiResponseLocalVar, outerComposite);
+            AfterFakeOuterCompositeSerialize(ref suppressDefaultLog, fakeOuterCompositeSerializeResponseLocalVar, outerComposite);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fakeOuterCompositeSerializeResponseLocalVar.Content.DownloadedAt - fakeOuterCompositeSerializeResponseLocalVar.Content.RequestedAt).TotalSeconds, fakeOuterCompositeSerializeResponseLocalVar.Content.StatusCode, fakeOuterCompositeSerializeResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterCompositeSerializeResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, ApiResponse<OuterComposite> apiResponseLocalVar, Option<OuterComposite> outerComposite);
+        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, FakeOuterCompositeSerializeResponse fakeOuterCompositeSerializeResponseLocalVar, Option<OuterComposite> outerComposite);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1356,8 +1360,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
-        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterCompositeSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterCompositeSerializeResponse> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1407,11 +1411,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _outerCompositeDeserializationContext.OuterComposite);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar);
 
-                        AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
+                        FakeOuterCompositeSerializeResponse responseLocalVar = new(apiResponseLocalVar, _outerCompositeDeserializationContext);
 
-                        Events.ExecuteOnFakeOuterCompositeSerialize(apiResponseLocalVar);
+                        AfterFakeOuterCompositeSerializeDefaultImplementation(responseLocalVar, outerComposite);
+
+                        Events.ExecuteOnFakeOuterCompositeSerialize(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1435,7 +1441,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<OuterComposite>? _outerCompositeTypeInfo;
+            private readonly OuterCompositeDeserializationContext? _outerCompositeDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1446,11 +1452,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FakeOuterCompositeSerializeResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="outerCompositeTypeInfo"></param>
+            /// <param name="outerCompositeDeserializationContext"></param>
             public FakeOuterCompositeSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<OuterComposite>? outerCompositeTypeInfo)
+                OuterCompositeDeserializationContext outerCompositeDeserializationContext)
             {
-                _outerCompositeTypeInfo = outerCompositeTypeInfo;
+                _outerCompositeDeserializationContext = outerCompositeDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1460,7 +1466,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FakeOuterCompositeSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FakeOuterCompositeSerializeResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1487,9 +1493,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _outerCompositeTypeInfo == null
+                result = _outerCompositeDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _outerCompositeTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(Content.RawContent, _outerCompositeDeserializationContext.OuterComposite);
 
                 return result != null;
             }
@@ -1522,23 +1528,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterNumberSerializeResponseLocalVar"></param>
         /// <param name="body"></param>
-        private void AfterFakeOuterNumberSerializeDefaultImplementation(ApiResponse<decimal> apiResponseLocalVar, Option<decimal> body)
+        private void AfterFakeOuterNumberSerializeDefaultImplementation(FakeOuterNumberSerializeResponse fakeOuterNumberSerializeResponseLocalVar, Option<decimal> body)
         {
             bool suppressDefaultLog = false;
-            AfterFakeOuterNumberSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
+            AfterFakeOuterNumberSerialize(ref suppressDefaultLog, fakeOuterNumberSerializeResponseLocalVar, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fakeOuterNumberSerializeResponseLocalVar.Content.DownloadedAt - fakeOuterNumberSerializeResponseLocalVar.Content.RequestedAt).TotalSeconds, fakeOuterNumberSerializeResponseLocalVar.Content.StatusCode, fakeOuterNumberSerializeResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterNumberSerializeResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, ApiResponse<decimal> apiResponseLocalVar, Option<decimal> body);
+        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, FakeOuterNumberSerializeResponse fakeOuterNumberSerializeResponseLocalVar, Option<decimal> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1589,8 +1595,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="decimal"/></returns>
-        public async Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterNumberSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterNumberSerializeResponse> FakeOuterNumberSerializeAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1638,11 +1644,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/number", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/number", requestedAtLocalVar);
 
-                        AfterFakeOuterNumberSerializeDefaultImplementation(apiResponseLocalVar, body);
+                        FakeOuterNumberSerializeResponse responseLocalVar = new(apiResponseLocalVar, _varDecimalDeserializationContext);
 
-                        Events.ExecuteOnFakeOuterNumberSerialize(apiResponseLocalVar);
+                        AfterFakeOuterNumberSerializeDefaultImplementation(responseLocalVar, body);
+
+                        Events.ExecuteOnFakeOuterNumberSerialize(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1666,7 +1674,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<decimal>? _varDecimalTypeInfo;
+            private readonly decimalDeserializationContext? _varDecimalDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1677,11 +1685,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FakeOuterNumberSerializeResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="varDecimalTypeInfo"></param>
+            /// <param name="varDecimalDeserializationContext"></param>
             public FakeOuterNumberSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<decimal>? varDecimalTypeInfo)
+                decimalDeserializationContext varDecimalDeserializationContext)
             {
-                _varDecimalTypeInfo = varDecimalTypeInfo;
+                _varDecimalDeserializationContext = varDecimalDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1691,7 +1699,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FakeOuterNumberSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FakeOuterNumberSerializeResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1718,9 +1726,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varDecimalTypeInfo == null
+                result = _varDecimalDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _varDecimalTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _varDecimalDeserializationContext.decimal);
 
                 return result != null;
             }
@@ -1764,25 +1772,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterStringSerializeResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        private void AfterFakeOuterStringSerializeDefaultImplementation(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, Option<string> body)
+        private void AfterFakeOuterStringSerializeDefaultImplementation(FakeOuterStringSerializeResponse fakeOuterStringSerializeResponseLocalVar, Guid requiredStringUuid, Option<string> body)
         {
             bool suppressDefaultLog = false;
-            AfterFakeOuterStringSerialize(ref suppressDefaultLog, apiResponseLocalVar, requiredStringUuid, body);
+            AfterFakeOuterStringSerialize(ref suppressDefaultLog, fakeOuterStringSerializeResponseLocalVar, requiredStringUuid, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fakeOuterStringSerializeResponseLocalVar.Content.DownloadedAt - fakeOuterStringSerializeResponseLocalVar.Content.RequestedAt).TotalSeconds, fakeOuterStringSerializeResponseLocalVar.Content.StatusCode, fakeOuterStringSerializeResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fakeOuterStringSerializeResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
+        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, FakeOuterStringSerializeResponse fakeOuterStringSerializeResponseLocalVar, Guid requiredStringUuid, Option<string> body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1837,8 +1845,8 @@ namespace UseSourceGeneration.Api
         /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterStringSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterStringSerializeResponse> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1894,11 +1902,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/string", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/string", requestedAtLocalVar);
 
-                        AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, body);
+                        FakeOuterStringSerializeResponse responseLocalVar = new(apiResponseLocalVar, _varStringDeserializationContext);
 
-                        Events.ExecuteOnFakeOuterStringSerialize(apiResponseLocalVar);
+                        AfterFakeOuterStringSerializeDefaultImplementation(responseLocalVar, requiredStringUuid, body);
+
+                        Events.ExecuteOnFakeOuterStringSerialize(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1922,7 +1932,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? _varStringTypeInfo;
+            private readonly stringDeserializationContext? _varStringDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1933,11 +1943,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FakeOuterStringSerializeResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="varStringTypeInfo"></param>
+            /// <param name="varStringDeserializationContext"></param>
             public FakeOuterStringSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? varStringTypeInfo)
+                stringDeserializationContext varStringDeserializationContext)
             {
-                _varStringTypeInfo = varStringTypeInfo;
+                _varStringDeserializationContext = varStringDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1947,7 +1957,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FakeOuterStringSerializeResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FakeOuterStringSerializeResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1974,9 +1984,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varStringTypeInfo == null
+                result = _varStringDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringDeserializationContext.string);
 
                 return result != null;
             }
@@ -2007,21 +2017,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
+        /// <param name="getArrayOfEnumsResponseLocalVar"></param>
+        private void AfterGetArrayOfEnumsDefaultImplementation(GetArrayOfEnumsResponse getArrayOfEnumsResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterGetArrayOfEnums(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterGetArrayOfEnums(ref suppressDefaultLog, getArrayOfEnumsResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getArrayOfEnumsResponseLocalVar.Content.DownloadedAt - getArrayOfEnumsResponseLocalVar.Content.RequestedAt).TotalSeconds, getArrayOfEnumsResponseLocalVar.Content.StatusCode, getArrayOfEnumsResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, ApiResponse<List<OuterEnum>> apiResponseLocalVar);
+        /// <param name="getArrayOfEnumsResponseLocalVar"></param>
+        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, GetArrayOfEnumsResponse getArrayOfEnumsResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2068,8 +2078,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetArrayOfEnumsResponse"/>&gt;</returns>
+        public async Task<GetArrayOfEnumsResponse> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2101,11 +2111,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar);
 
-                        AfterGetArrayOfEnumsDefaultImplementation(apiResponseLocalVar);
+                        GetArrayOfEnumsResponse responseLocalVar = new(apiResponseLocalVar, _listltOuterEnumgtDeserializationContext);
 
-                        Events.ExecuteOnGetArrayOfEnums(apiResponseLocalVar);
+                        AfterGetArrayOfEnumsDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnGetArrayOfEnums(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2129,7 +2141,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;OuterEnum&gt;>? _listltOuterEnumgtTypeInfo;
+            private readonly List&lt;OuterEnum&gt;DeserializationContext? _listltOuterEnumgtDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2140,11 +2152,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetArrayOfEnumsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltOuterEnumgtTypeInfo"></param>
+            /// <param name="listltOuterEnumgtDeserializationContext"></param>
             public GetArrayOfEnumsResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;OuterEnum&gt;>? listltOuterEnumgtTypeInfo)
+                List&lt;OuterEnum&gt;DeserializationContext listltOuterEnumgtDeserializationContext)
             {
-                _listltOuterEnumgtTypeInfo = listltOuterEnumgtTypeInfo;
+                _listltOuterEnumgtDeserializationContext = listltOuterEnumgtDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2154,7 +2166,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetArrayOfEnumsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetArrayOfEnumsResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2181,9 +2193,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltOuterEnumgtTypeInfo == null
+                result = _listltOuterEnumgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _listltOuterEnumgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _listltOuterEnumgtDeserializationContext.List&lt;OuterEnum&gt;);
 
                 return result != null;
             }
@@ -2227,23 +2239,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testBodyWithFileSchemaResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
+        private void AfterTestBodyWithFileSchemaDefaultImplementation(TestBodyWithFileSchemaResponse testBodyWithFileSchemaResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
         {
             bool suppressDefaultLog = false;
-            AfterTestBodyWithFileSchema(ref suppressDefaultLog, apiResponseLocalVar, fileSchemaTestClass);
+            AfterTestBodyWithFileSchema(ref suppressDefaultLog, testBodyWithFileSchemaResponseLocalVar, fileSchemaTestClass);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testBodyWithFileSchemaResponseLocalVar.Content.DownloadedAt - testBodyWithFileSchemaResponseLocalVar.Content.RequestedAt).TotalSeconds, testBodyWithFileSchemaResponseLocalVar.Content.StatusCode, testBodyWithFileSchemaResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testBodyWithFileSchemaResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, TestBodyWithFileSchemaResponse testBodyWithFileSchemaResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2294,8 +2306,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestBodyWithFileSchemaResponse"/>&gt;</returns>
+        public async Task<TestBodyWithFileSchemaResponse> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2335,11 +2347,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-file-schema", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-file-schema", requestedAtLocalVar);
 
-                        AfterTestBodyWithFileSchemaDefaultImplementation(apiResponseLocalVar, fileSchemaTestClass);
+                        TestBodyWithFileSchemaResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestBodyWithFileSchema(apiResponseLocalVar);
+                        AfterTestBodyWithFileSchemaDefaultImplementation(responseLocalVar, fileSchemaTestClass);
+
+                        Events.ExecuteOnTestBodyWithFileSchema(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2363,7 +2377,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2374,11 +2388,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestBodyWithFileSchemaResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestBodyWithFileSchemaResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2388,7 +2402,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestBodyWithFileSchemaResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestBodyWithFileSchemaResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2424,25 +2438,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testBodyWithQueryParamsResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string query)
+        private void AfterTestBodyWithQueryParamsDefaultImplementation(TestBodyWithQueryParamsResponse testBodyWithQueryParamsResponseLocalVar, User user, string query)
         {
             bool suppressDefaultLog = false;
-            AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, user, query);
+            AfterTestBodyWithQueryParams(ref suppressDefaultLog, testBodyWithQueryParamsResponseLocalVar, user, query);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testBodyWithQueryParamsResponseLocalVar.Content.DownloadedAt - testBodyWithQueryParamsResponseLocalVar.Content.RequestedAt).TotalSeconds, testBodyWithQueryParamsResponseLocalVar.Content.StatusCode, testBodyWithQueryParamsResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testBodyWithQueryParamsResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string query);
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, TestBodyWithQueryParamsResponse testBodyWithQueryParamsResponseLocalVar, User user, string query);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2497,8 +2511,8 @@ namespace UseSourceGeneration.Api
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestBodyWithQueryParamsResponse"/>&gt;</returns>
+        public async Task<TestBodyWithQueryParamsResponse> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2544,11 +2558,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-query-params", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-query-params", requestedAtLocalVar);
 
-                        AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, user, query);
+                        TestBodyWithQueryParamsResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestBodyWithQueryParams(apiResponseLocalVar);
+                        AfterTestBodyWithQueryParamsDefaultImplementation(responseLocalVar, user, query);
+
+                        Events.ExecuteOnTestBodyWithQueryParams(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2572,7 +2588,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2583,11 +2599,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestBodyWithQueryParamsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestBodyWithQueryParamsResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2597,7 +2613,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestBodyWithQueryParamsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestBodyWithQueryParamsResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2629,23 +2645,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testClientModelResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterTestClientModelDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClientModelDefaultImplementation(TestClientModelResponse testClientModelResponseLocalVar, ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
-            AfterTestClientModel(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
+            AfterTestClientModel(ref suppressDefaultLog, testClientModelResponseLocalVar, modelClient);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testClientModelResponseLocalVar.Content.DownloadedAt - testClientModelResponseLocalVar.Content.RequestedAt).TotalSeconds, testClientModelResponseLocalVar.Content.StatusCode, testClientModelResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testClientModelResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClientModel(ref bool suppressDefaultLog, TestClientModelResponse testClientModelResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2696,8 +2712,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestClientModelResponse"/>&gt;</returns>
+        public async Task<TestClientModelResponse> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2746,11 +2762,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar);
 
-                        AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
+                        TestClientModelResponse responseLocalVar = new(apiResponseLocalVar, _modelClientDeserializationContext);
 
-                        Events.ExecuteOnTestClientModel(apiResponseLocalVar);
+                        AfterTestClientModelDefaultImplementation(responseLocalVar, modelClient);
+
+                        Events.ExecuteOnTestClientModel(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2774,7 +2792,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? _modelClientTypeInfo;
+            private readonly ModelClientDeserializationContext? _modelClientDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2785,11 +2803,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestClientModelResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="modelClientTypeInfo"></param>
+            /// <param name="modelClientDeserializationContext"></param>
             public TestClientModelResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? modelClientTypeInfo)
+                ModelClientDeserializationContext modelClientDeserializationContext)
             {
-                _modelClientTypeInfo = modelClientTypeInfo;
+                _modelClientDeserializationContext = modelClientDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2799,7 +2817,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestClientModelResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestClientModelResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2826,9 +2844,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _modelClientTypeInfo == null
+                result = _modelClientDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientDeserializationContext.ModelClient);
 
                 return result != null;
             }
@@ -2892,7 +2910,7 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testEndpointParametersResponseLocalVar"></param>
         /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
@@ -2907,19 +2925,19 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        private void AfterTestEndpointParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
+        private void AfterTestEndpointParametersDefaultImplementation(TestEndpointParametersResponse testEndpointParametersResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
-            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            AfterTestEndpointParameters(ref suppressDefaultLog, testEndpointParametersResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testEndpointParametersResponseLocalVar.Content.DownloadedAt - testEndpointParametersResponseLocalVar.Content.RequestedAt).TotalSeconds, testEndpointParametersResponseLocalVar.Content.StatusCode, testEndpointParametersResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testEndpointParametersResponseLocalVar"></param>
         /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
@@ -2934,7 +2952,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, TestEndpointParametersResponse testEndpointParametersResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3037,8 +3055,8 @@ namespace UseSourceGeneration.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestEndpointParametersResponse"/>&gt;</returns>
+        public async Task<TestEndpointParametersResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -3128,11 +3146,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar);
 
-                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                        TestEndpointParametersResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnTestEndpointParameters(apiResponseLocalVar);
+                        AfterTestEndpointParametersDefaultImplementation(responseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+
+                        Events.ExecuteOnTestEndpointParameters(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -3160,8 +3180,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -3172,13 +3192,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestEndpointParametersResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public TestEndpointParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -3188,7 +3208,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestEndpointParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestEndpointParametersResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -3246,7 +3266,7 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testEnumParametersResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumQueryDouble"></param>
@@ -3255,19 +3275,19 @@ namespace UseSourceGeneration.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        private void AfterTestEnumParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
+        private void AfterTestEnumParametersDefaultImplementation(TestEnumParametersResponse testEnumParametersResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
         {
             bool suppressDefaultLog = false;
-            AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            AfterTestEnumParameters(ref suppressDefaultLog, testEnumParametersResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testEnumParametersResponseLocalVar.Content.DownloadedAt - testEnumParametersResponseLocalVar.Content.RequestedAt).TotalSeconds, testEnumParametersResponseLocalVar.Content.StatusCode, testEnumParametersResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testEnumParametersResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumQueryDouble"></param>
@@ -3276,7 +3296,7 @@ namespace UseSourceGeneration.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
+        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, TestEnumParametersResponse testEnumParametersResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3355,8 +3375,8 @@ namespace UseSourceGeneration.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestEnumParametersResponse"/>&gt;</returns>
+        public async Task<TestEnumParametersResponse> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -3426,11 +3446,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar);
 
-                        AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                        TestEnumParametersResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnTestEnumParameters(apiResponseLocalVar);
+                        AfterTestEnumParametersDefaultImplementation(responseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+
+                        Events.ExecuteOnTestEnumParameters(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -3454,8 +3476,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -3466,13 +3488,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestEnumParametersResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public TestEnumParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -3482,7 +3504,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestEnumParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestEnumParametersResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -3509,33 +3531,33 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testGroupParametersResponseLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        private void AfterTestGroupParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group)
+        private void AfterTestGroupParametersDefaultImplementation(TestGroupParametersResponse testGroupParametersResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group)
         {
             bool suppressDefaultLog = false;
-            AfterTestGroupParameters(ref suppressDefaultLog, apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            AfterTestGroupParameters(ref suppressDefaultLog, testGroupParametersResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testGroupParametersResponseLocalVar.Content.DownloadedAt - testGroupParametersResponseLocalVar.Content.RequestedAt).TotalSeconds, testGroupParametersResponseLocalVar.Content.StatusCode, testGroupParametersResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testGroupParametersResponseLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
+        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, TestGroupParametersResponse testGroupParametersResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3606,8 +3628,8 @@ namespace UseSourceGeneration.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestGroupParametersResponse"/>&gt;</returns>
+        public async Task<TestGroupParametersResponse> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -3658,11 +3680,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar);
 
-                        AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                        TestGroupParametersResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestGroupParameters(apiResponseLocalVar);
+                        AfterTestGroupParametersDefaultImplementation(responseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+
+                        Events.ExecuteOnTestGroupParameters(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -3690,7 +3714,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -3701,11 +3725,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestGroupParametersResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestGroupParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -3715,7 +3739,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestGroupParametersResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestGroupParametersResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -3747,23 +3771,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testInlineAdditionalPropertiesResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        private void AfterTestInlineAdditionalPropertiesDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
+        private void AfterTestInlineAdditionalPropertiesDefaultImplementation(TestInlineAdditionalPropertiesResponse testInlineAdditionalPropertiesResponseLocalVar, Dictionary<string, string> requestBody)
         {
             bool suppressDefaultLog = false;
-            AfterTestInlineAdditionalProperties(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
+            AfterTestInlineAdditionalProperties(ref suppressDefaultLog, testInlineAdditionalPropertiesResponseLocalVar, requestBody);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testInlineAdditionalPropertiesResponseLocalVar.Content.DownloadedAt - testInlineAdditionalPropertiesResponseLocalVar.Content.RequestedAt).TotalSeconds, testInlineAdditionalPropertiesResponseLocalVar.Content.StatusCode, testInlineAdditionalPropertiesResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testInlineAdditionalPropertiesResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, TestInlineAdditionalPropertiesResponse testInlineAdditionalPropertiesResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3814,8 +3838,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestInlineAdditionalPropertiesResponse"/>&gt;</returns>
+        public async Task<TestInlineAdditionalPropertiesResponse> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -3855,11 +3879,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-additionalProperties", requestedAtLocalVar);
 
-                        AfterTestInlineAdditionalPropertiesDefaultImplementation(apiResponseLocalVar, requestBody);
+                        TestInlineAdditionalPropertiesResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestInlineAdditionalProperties(apiResponseLocalVar);
+                        AfterTestInlineAdditionalPropertiesDefaultImplementation(responseLocalVar, requestBody);
+
+                        Events.ExecuteOnTestInlineAdditionalProperties(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -3883,7 +3909,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -3894,11 +3920,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestInlineAdditionalPropertiesResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -3908,7 +3934,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestInlineAdditionalPropertiesResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestInlineAdditionalPropertiesResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -3944,25 +3970,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testJsonFormDataResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        private void AfterTestJsonFormDataDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string param, string param2)
+        private void AfterTestJsonFormDataDefaultImplementation(TestJsonFormDataResponse testJsonFormDataResponseLocalVar, string param, string param2)
         {
             bool suppressDefaultLog = false;
-            AfterTestJsonFormData(ref suppressDefaultLog, apiResponseLocalVar, param, param2);
+            AfterTestJsonFormData(ref suppressDefaultLog, testJsonFormDataResponseLocalVar, param, param2);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testJsonFormDataResponseLocalVar.Content.DownloadedAt - testJsonFormDataResponseLocalVar.Content.RequestedAt).TotalSeconds, testJsonFormDataResponseLocalVar.Content.StatusCode, testJsonFormDataResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testJsonFormDataResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void AfterTestJsonFormData(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string param, string param2);
+        partial void AfterTestJsonFormData(ref bool suppressDefaultLog, TestJsonFormDataResponse testJsonFormDataResponseLocalVar, string param, string param2);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4017,8 +4043,8 @@ namespace UseSourceGeneration.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestJsonFormDataResponse"/>&gt;</returns>
+        public async Task<TestJsonFormDataResponse> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -4066,11 +4092,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/jsonFormData", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/jsonFormData", requestedAtLocalVar);
 
-                        AfterTestJsonFormDataDefaultImplementation(apiResponseLocalVar, param, param2);
+                        TestJsonFormDataResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestJsonFormData(apiResponseLocalVar);
+                        AfterTestJsonFormDataDefaultImplementation(responseLocalVar, param, param2);
+
+                        Events.ExecuteOnTestJsonFormData(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -4094,7 +4122,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -4105,11 +4133,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestJsonFormDataResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestJsonFormDataResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -4119,7 +4147,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestJsonFormDataResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestJsonFormDataResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -4175,7 +4203,7 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testQueryParameterCollectionFormatResponseLocalVar"></param>
         /// <param name="pipe"></param>
         /// <param name="ioutil"></param>
         /// <param name="http"></param>
@@ -4185,19 +4213,19 @@ namespace UseSourceGeneration.Api
         /// <param name="requiredNullable"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable)
+        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(TestQueryParameterCollectionFormatResponse testQueryParameterCollectionFormatResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable)
         {
             bool suppressDefaultLog = false;
-            AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, apiResponseLocalVar, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+            AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, testQueryParameterCollectionFormatResponseLocalVar, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testQueryParameterCollectionFormatResponseLocalVar.Content.DownloadedAt - testQueryParameterCollectionFormatResponseLocalVar.Content.RequestedAt).TotalSeconds, testQueryParameterCollectionFormatResponseLocalVar.Content.StatusCode, testQueryParameterCollectionFormatResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testQueryParameterCollectionFormatResponseLocalVar"></param>
         /// <param name="pipe"></param>
         /// <param name="ioutil"></param>
         /// <param name="http"></param>
@@ -4207,7 +4235,7 @@ namespace UseSourceGeneration.Api
         /// <param name="requiredNullable"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable);
+        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, TestQueryParameterCollectionFormatResponse testQueryParameterCollectionFormatResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4290,8 +4318,8 @@ namespace UseSourceGeneration.Api
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestQueryParameterCollectionFormatResponse"/>&gt;</returns>
+        public async Task<TestQueryParameterCollectionFormatResponse> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -4336,11 +4364,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar);
 
-                        AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+                        TestQueryParameterCollectionFormatResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnTestQueryParameterCollectionFormat(apiResponseLocalVar);
+                        AfterTestQueryParameterCollectionFormatDefaultImplementation(responseLocalVar, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+
+                        Events.ExecuteOnTestQueryParameterCollectionFormat(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -4364,7 +4394,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -4375,11 +4405,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestQueryParameterCollectionFormatResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public TestQueryParameterCollectionFormatResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -4389,7 +4419,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestQueryParameterCollectionFormatResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestQueryParameterCollectionFormatResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;

@@ -76,9 +76,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorCall123TestSpecialTags;
 
-        internal void ExecuteOnCall123TestSpecialTags(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnCall123TestSpecialTags(AnotherFakeApi.Call123TestSpecialTagsResponse call123TestSpecialTagsResponse)
         {
-            OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<Call123TestSpecialTagsResponse>(call123TestSpecialTagsResponse));
         }
 
         internal void ExecuteOnErrorCall123TestSpecialTags(Exception exception)
@@ -175,23 +175,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="call123TestSpecialTagsResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterCall123TestSpecialTagsDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterCall123TestSpecialTagsDefaultImplementation(Call123TestSpecialTagsResponse call123TestSpecialTagsResponseLocalVar, ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
-            AfterCall123TestSpecialTags(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
+            AfterCall123TestSpecialTags(ref suppressDefaultLog, call123TestSpecialTagsResponseLocalVar, modelClient);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (call123TestSpecialTagsResponseLocalVar.Content.DownloadedAt - call123TestSpecialTagsResponseLocalVar.Content.RequestedAt).TotalSeconds, call123TestSpecialTagsResponseLocalVar.Content.StatusCode, call123TestSpecialTagsResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="call123TestSpecialTagsResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterCall123TestSpecialTags(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterCall123TestSpecialTags(ref bool suppressDefaultLog, Call123TestSpecialTagsResponse call123TestSpecialTagsResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -242,8 +242,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="Call123TestSpecialTagsResponse"/>&gt;</returns>
+        public async Task<Call123TestSpecialTagsResponse> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -292,11 +292,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar);
 
-                        AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
+                        Call123TestSpecialTagsResponse responseLocalVar = new(apiResponseLocalVar, _modelClientDeserializationContext);
 
-                        Events.ExecuteOnCall123TestSpecialTags(apiResponseLocalVar);
+                        AfterCall123TestSpecialTagsDefaultImplementation(responseLocalVar, modelClient);
+
+                        Events.ExecuteOnCall123TestSpecialTags(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -320,7 +322,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? _modelClientTypeInfo;
+            private readonly ModelClientDeserializationContext? _modelClientDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -331,11 +333,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="Call123TestSpecialTagsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="modelClientTypeInfo"></param>
+            /// <param name="modelClientDeserializationContext"></param>
             public Call123TestSpecialTagsResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? modelClientTypeInfo)
+                ModelClientDeserializationContext modelClientDeserializationContext)
             {
-                _modelClientTypeInfo = modelClientTypeInfo;
+                _modelClientDeserializationContext = modelClientDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -345,7 +347,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public Call123TestSpecialTagsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public Call123TestSpecialTagsResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -372,9 +374,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _modelClientTypeInfo == null
+                result = _modelClientDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientDeserializationContext.ModelClient);
 
                 return result != null;
             }

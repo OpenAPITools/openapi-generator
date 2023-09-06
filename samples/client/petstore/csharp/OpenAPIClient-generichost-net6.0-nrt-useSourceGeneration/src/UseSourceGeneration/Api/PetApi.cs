@@ -274,9 +274,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorAddPet;
 
-        internal void ExecuteOnAddPet(ApiResponse<object> apiResponse)
+        internal void ExecuteOnAddPet(PetApi.AddPetResponse addPetResponse)
         {
-            OnAddPet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnAddPet?.Invoke(this, new ApiResponseEventArgs<AddPetResponse>(addPetResponse));
         }
 
         internal void ExecuteOnErrorAddPet(Exception exception)
@@ -294,9 +294,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorDeletePet;
 
-        internal void ExecuteOnDeletePet(ApiResponse<object> apiResponse)
+        internal void ExecuteOnDeletePet(PetApi.DeletePetResponse deletePetResponse)
         {
-            OnDeletePet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnDeletePet?.Invoke(this, new ApiResponseEventArgs<DeletePetResponse>(deletePetResponse));
         }
 
         internal void ExecuteOnErrorDeletePet(Exception exception)
@@ -314,9 +314,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFindPetsByStatus;
 
-        internal void ExecuteOnFindPetsByStatus(ApiResponse<List<Pet>> apiResponse)
+        internal void ExecuteOnFindPetsByStatus(PetApi.FindPetsByStatusResponse findPetsByStatusResponse)
         {
-            OnFindPetsByStatus?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+            OnFindPetsByStatus?.Invoke(this, new ApiResponseEventArgs<FindPetsByStatusResponse>(findPetsByStatusResponse));
         }
 
         internal void ExecuteOnErrorFindPetsByStatus(Exception exception)
@@ -334,9 +334,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFindPetsByTags;
 
-        internal void ExecuteOnFindPetsByTags(ApiResponse<List<Pet>> apiResponse)
+        internal void ExecuteOnFindPetsByTags(PetApi.FindPetsByTagsResponse findPetsByTagsResponse)
         {
-            OnFindPetsByTags?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+            OnFindPetsByTags?.Invoke(this, new ApiResponseEventArgs<FindPetsByTagsResponse>(findPetsByTagsResponse));
         }
 
         internal void ExecuteOnErrorFindPetsByTags(Exception exception)
@@ -354,9 +354,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetPetById;
 
-        internal void ExecuteOnGetPetById(ApiResponse<Pet> apiResponse)
+        internal void ExecuteOnGetPetById(PetApi.GetPetByIdResponse getPetByIdResponse)
         {
-            OnGetPetById?.Invoke(this, new ApiResponseEventArgs<Pet>(apiResponse));
+            OnGetPetById?.Invoke(this, new ApiResponseEventArgs<GetPetByIdResponse>(getPetByIdResponse));
         }
 
         internal void ExecuteOnErrorGetPetById(Exception exception)
@@ -374,9 +374,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePet;
 
-        internal void ExecuteOnUpdatePet(ApiResponse<UpdatePet200Response> apiResponse)
+        internal void ExecuteOnUpdatePet(PetApi.UpdatePetResponse updatePetResponse)
         {
-            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<UpdatePet200Response>(apiResponse));
+            OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<UpdatePetResponse>(updatePetResponse));
         }
 
         internal void ExecuteOnErrorUpdatePet(Exception exception)
@@ -394,9 +394,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePetWithForm;
 
-        internal void ExecuteOnUpdatePetWithForm(ApiResponse<object> apiResponse)
+        internal void ExecuteOnUpdatePetWithForm(PetApi.UpdatePetWithFormResponse updatePetWithFormResponse)
         {
-            OnUpdatePetWithForm?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnUpdatePetWithForm?.Invoke(this, new ApiResponseEventArgs<UpdatePetWithFormResponse>(updatePetWithFormResponse));
         }
 
         internal void ExecuteOnErrorUpdatePetWithForm(Exception exception)
@@ -414,9 +414,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUploadFile;
 
-        internal void ExecuteOnUploadFile(ApiResponse<ApiResponse> apiResponse)
+        internal void ExecuteOnUploadFile(PetApi.UploadFileResponse uploadFileResponse)
         {
-            OnUploadFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+            OnUploadFile?.Invoke(this, new ApiResponseEventArgs<UploadFileResponse>(uploadFileResponse));
         }
 
         internal void ExecuteOnErrorUploadFile(Exception exception)
@@ -434,9 +434,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUploadFileWithRequiredFile;
 
-        internal void ExecuteOnUploadFileWithRequiredFile(ApiResponse<ApiResponse> apiResponse)
+        internal void ExecuteOnUploadFileWithRequiredFile(PetApi.UploadFileWithRequiredFileResponse uploadFileWithRequiredFileResponse)
         {
-            OnUploadFileWithRequiredFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+            OnUploadFileWithRequiredFile?.Invoke(this, new ApiResponseEventArgs<UploadFileWithRequiredFileResponse>(uploadFileWithRequiredFileResponse));
         }
 
         internal void ExecuteOnErrorUploadFileWithRequiredFile(Exception exception)
@@ -539,23 +539,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="addPetResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterAddPetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
+        private void AfterAddPetDefaultImplementation(AddPetResponse addPetResponseLocalVar, Pet pet)
         {
             bool suppressDefaultLog = false;
-            AfterAddPet(ref suppressDefaultLog, apiResponseLocalVar, pet);
+            AfterAddPet(ref suppressDefaultLog, addPetResponseLocalVar, pet);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (addPetResponseLocalVar.Content.DownloadedAt - addPetResponseLocalVar.Content.RequestedAt).TotalSeconds, addPetResponseLocalVar.Content.StatusCode, addPetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="addPetResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterAddPet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterAddPet(ref bool suppressDefaultLog, AddPetResponse addPetResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -606,8 +606,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> AddPetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="AddPetResponse"/>&gt;</returns>
+        public async Task<AddPetResponse> AddPetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -666,11 +666,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar);
 
-                        AfterAddPetDefaultImplementation(apiResponseLocalVar, pet);
+                        AddPetResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnAddPet(apiResponseLocalVar);
+                        AfterAddPetDefaultImplementation(responseLocalVar, pet);
+
+                        Events.ExecuteOnAddPet(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -702,7 +704,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -713,11 +715,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="AddPetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public AddPetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -727,7 +729,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public AddPetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public AddPetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -759,25 +761,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deletePetResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        private void AfterDeletePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, long petId, Option<string> apiKey)
+        private void AfterDeletePetDefaultImplementation(DeletePetResponse deletePetResponseLocalVar, long petId, Option<string> apiKey)
         {
             bool suppressDefaultLog = false;
-            AfterDeletePet(ref suppressDefaultLog, apiResponseLocalVar, petId, apiKey);
+            AfterDeletePet(ref suppressDefaultLog, deletePetResponseLocalVar, petId, apiKey);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (deletePetResponseLocalVar.Content.DownloadedAt - deletePetResponseLocalVar.Content.RequestedAt).TotalSeconds, deletePetResponseLocalVar.Content.StatusCode, deletePetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deletePetResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void AfterDeletePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, long petId, Option<string> apiKey);
+        partial void AfterDeletePet(ref bool suppressDefaultLog, DeletePetResponse deletePetResponseLocalVar, long petId, Option<string> apiKey);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -832,8 +834,8 @@ namespace UseSourceGeneration.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeletePetAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeletePetResponse"/>&gt;</returns>
+        public async Task<DeletePetResponse> DeletePetAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -872,11 +874,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar);
 
-                        AfterDeletePetDefaultImplementation(apiResponseLocalVar, petId, apiKey);
+                        DeletePetResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnDeletePet(apiResponseLocalVar);
+                        AfterDeletePetDefaultImplementation(responseLocalVar, petId, apiKey);
+
+                        Events.ExecuteOnDeletePet(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -904,7 +908,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -915,11 +919,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="DeletePetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public DeletePetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -929,7 +933,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public DeletePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public DeletePetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -961,23 +965,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="findPetsByStatusResponseLocalVar"></param>
         /// <param name="status"></param>
-        private void AfterFindPetsByStatusDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status)
+        private void AfterFindPetsByStatusDefaultImplementation(FindPetsByStatusResponse findPetsByStatusResponseLocalVar, List<string> status)
         {
             bool suppressDefaultLog = false;
-            AfterFindPetsByStatus(ref suppressDefaultLog, apiResponseLocalVar, status);
+            AfterFindPetsByStatus(ref suppressDefaultLog, findPetsByStatusResponseLocalVar, status);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (findPetsByStatusResponseLocalVar.Content.DownloadedAt - findPetsByStatusResponseLocalVar.Content.RequestedAt).TotalSeconds, findPetsByStatusResponseLocalVar.Content.StatusCode, findPetsByStatusResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="findPetsByStatusResponseLocalVar"></param>
         /// <param name="status"></param>
-        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status);
+        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, FindPetsByStatusResponse findPetsByStatusResponseLocalVar, List<string> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1028,8 +1032,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FindPetsByStatusResponse"/>&gt;</returns>
+        public async Task<FindPetsByStatusResponse> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1090,11 +1094,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByStatus", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByStatus", requestedAtLocalVar);
 
-                        AfterFindPetsByStatusDefaultImplementation(apiResponseLocalVar, status);
+                        FindPetsByStatusResponse responseLocalVar = new(apiResponseLocalVar, _listltPetgtDeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnFindPetsByStatus(apiResponseLocalVar);
+                        AfterFindPetsByStatusDefaultImplementation(responseLocalVar, status);
+
+                        Events.ExecuteOnFindPetsByStatus(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1126,8 +1132,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? _listltPetgtTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly List&lt;Pet&gt;DeserializationContext? _listltPetgtDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1138,13 +1144,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FindPetsByStatusResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltPetgtTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="listltPetgtDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public FindPetsByStatusResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? listltPetgtTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                List&lt;Pet&gt;DeserializationContext listltPetgtDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _listltPetgtTypeInfo = listltPetgtTypeInfo;
-                _TypeInfo = TypeInfo;
+                _listltPetgtDeserializationContext = listltPetgtDeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1154,7 +1160,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FindPetsByStatusResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FindPetsByStatusResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1181,9 +1187,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltPetgtTypeInfo == null
+                result = _listltPetgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtDeserializationContext.List&lt;Pet&gt;);
 
                 return result != null;
             }
@@ -1233,23 +1239,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="findPetsByTagsResponseLocalVar"></param>
         /// <param name="tags"></param>
-        private void AfterFindPetsByTagsDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags)
+        private void AfterFindPetsByTagsDefaultImplementation(FindPetsByTagsResponse findPetsByTagsResponseLocalVar, List<string> tags)
         {
             bool suppressDefaultLog = false;
-            AfterFindPetsByTags(ref suppressDefaultLog, apiResponseLocalVar, tags);
+            AfterFindPetsByTags(ref suppressDefaultLog, findPetsByTagsResponseLocalVar, tags);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (findPetsByTagsResponseLocalVar.Content.DownloadedAt - findPetsByTagsResponseLocalVar.Content.RequestedAt).TotalSeconds, findPetsByTagsResponseLocalVar.Content.StatusCode, findPetsByTagsResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="findPetsByTagsResponseLocalVar"></param>
         /// <param name="tags"></param>
-        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags);
+        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, FindPetsByTagsResponse findPetsByTagsResponseLocalVar, List<string> tags);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1300,8 +1306,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FindPetsByTagsResponse"/>&gt;</returns>
+        public async Task<FindPetsByTagsResponse> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1362,11 +1368,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByTags", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByTags", requestedAtLocalVar);
 
-                        AfterFindPetsByTagsDefaultImplementation(apiResponseLocalVar, tags);
+                        FindPetsByTagsResponse responseLocalVar = new(apiResponseLocalVar, _listltPetgtDeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnFindPetsByTags(apiResponseLocalVar);
+                        AfterFindPetsByTagsDefaultImplementation(responseLocalVar, tags);
+
+                        Events.ExecuteOnFindPetsByTags(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1398,8 +1406,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? _listltPetgtTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly List&lt;Pet&gt;DeserializationContext? _listltPetgtDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1410,13 +1418,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FindPetsByTagsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltPetgtTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="listltPetgtDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public FindPetsByTagsResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Pet&gt;>? listltPetgtTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                List&lt;Pet&gt;DeserializationContext listltPetgtDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _listltPetgtTypeInfo = listltPetgtTypeInfo;
-                _TypeInfo = TypeInfo;
+                _listltPetgtDeserializationContext = listltPetgtDeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1426,7 +1434,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FindPetsByTagsResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FindPetsByTagsResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1453,9 +1461,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltPetgtTypeInfo == null
+                result = _listltPetgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtDeserializationContext.List&lt;Pet&gt;);
 
                 return result != null;
             }
@@ -1494,23 +1502,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getPetByIdResponseLocalVar"></param>
         /// <param name="petId"></param>
-        private void AfterGetPetByIdDefaultImplementation(ApiResponse<Pet> apiResponseLocalVar, long petId)
+        private void AfterGetPetByIdDefaultImplementation(GetPetByIdResponse getPetByIdResponseLocalVar, long petId)
         {
             bool suppressDefaultLog = false;
-            AfterGetPetById(ref suppressDefaultLog, apiResponseLocalVar, petId);
+            AfterGetPetById(ref suppressDefaultLog, getPetByIdResponseLocalVar, petId);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getPetByIdResponseLocalVar.Content.DownloadedAt - getPetByIdResponseLocalVar.Content.RequestedAt).TotalSeconds, getPetByIdResponseLocalVar.Content.StatusCode, getPetByIdResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getPetByIdResponseLocalVar"></param>
         /// <param name="petId"></param>
-        partial void AfterGetPetById(ref bool suppressDefaultLog, ApiResponse<Pet> apiResponseLocalVar, long petId);
+        partial void AfterGetPetById(ref bool suppressDefaultLog, GetPetByIdResponse getPetByIdResponseLocalVar, long petId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1561,8 +1569,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetPetByIdResponse"/>&gt;</returns>
+        public async Task<GetPetByIdResponse> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1606,11 +1614,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Pet> apiResponseLocalVar = new ApiResponse<Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _petDeserializationContext.Pet);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar);
 
-                        AfterGetPetByIdDefaultImplementation(apiResponseLocalVar, petId);
+                        GetPetByIdResponse responseLocalVar = new(apiResponseLocalVar, _petDeserializationContext_DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnGetPetById(apiResponseLocalVar);
+                        AfterGetPetByIdDefaultImplementation(responseLocalVar, petId);
+
+                        Events.ExecuteOnGetPetById(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1638,9 +1648,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Pet>? _petTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly PetDeserializationContext? _petDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1651,15 +1661,15 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetPetByIdResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="petTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="petDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public GetPetByIdResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Pet>? petTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                PetDeserializationContext petDeserializationContext                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _petTypeInfo = petTypeInfo;
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _petDeserializationContext = petDeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1669,7 +1679,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetPetByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetPetByIdResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1696,9 +1706,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _petTypeInfo == null
+                result = _petDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _petTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<Pet>(Content.RawContent, _petDeserializationContext.Pet);
 
                 return result != null;
             }
@@ -1754,23 +1764,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updatePetResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterUpdatePetDefaultImplementation(ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet)
+        private void AfterUpdatePetDefaultImplementation(UpdatePetResponse updatePetResponseLocalVar, Pet pet)
         {
             bool suppressDefaultLog = false;
-            AfterUpdatePet(ref suppressDefaultLog, apiResponseLocalVar, pet);
+            AfterUpdatePet(ref suppressDefaultLog, updatePetResponseLocalVar, pet);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (updatePetResponseLocalVar.Content.DownloadedAt - updatePetResponseLocalVar.Content.RequestedAt).TotalSeconds, updatePetResponseLocalVar.Content.StatusCode, updatePetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updatePetResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<UpdatePet200Response> apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, UpdatePetResponse updatePetResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1821,8 +1831,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
-        public async Task<ApiResponse<UpdatePet200Response>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdatePetResponse"/>&gt;</returns>
+        public async Task<UpdatePetResponse> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1890,11 +1900,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<UpdatePet200Response> apiResponseLocalVar = new ApiResponse<UpdatePet200Response>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar, _updatePet200ResponseDeserializationContext.UpdatePet200Response);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet", requestedAtLocalVar);
 
-                        AfterUpdatePetDefaultImplementation(apiResponseLocalVar, pet);
+                        UpdatePetResponse responseLocalVar = new(apiResponseLocalVar, _updatePet200ResponseDeserializationContext_DeserializationContext_DeserializationContext_DeserializationContext_updatePet200ResponseDeserializationContext);
 
-                        Events.ExecuteOnUpdatePet(apiResponseLocalVar);
+                        AfterUpdatePetDefaultImplementation(responseLocalVar, pet);
+
+                        Events.ExecuteOnUpdatePet(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1926,11 +1938,11 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? _updatePet200ResponseTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? _updatePet200ResponseTypeInfo;
+            private readonly UpdatePet200ResponseDeserializationContext? _updatePet200ResponseDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly UpdatePet200ResponseDeserializationContext? _updatePet200ResponseDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1941,19 +1953,19 @@ namespace UseSourceGeneration.Api
             /// The <see cref="UpdatePetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="updatePet200ResponseTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="updatePet200ResponseTypeInfo"></param>
+            /// <param name="updatePet200ResponseDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="updatePet200ResponseDeserializationContext"></param>
             public UpdatePetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? updatePet200ResponseTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<UpdatePet200Response>? updatePet200ResponseTypeInfo)
+                UpdatePet200ResponseDeserializationContext updatePet200ResponseDeserializationContext                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext                UpdatePet200ResponseDeserializationContext updatePet200ResponseDeserializationContext)
             {
-                _updatePet200ResponseTypeInfo = updatePet200ResponseTypeInfo;
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
-                _updatePet200ResponseTypeInfo = updatePet200ResponseTypeInfo;
+                _updatePet200ResponseDeserializationContext = updatePet200ResponseDeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _updatePet200ResponseDeserializationContext = updatePet200ResponseDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1963,7 +1975,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public UpdatePetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public UpdatePetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1990,9 +2002,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _updatePet200ResponseTypeInfo == null
+                result = _updatePet200ResponseDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseDeserializationContext.UpdatePet200Response);
 
                 return result != null;
             }
@@ -2055,9 +2067,9 @@ namespace UseSourceGeneration.Api
                 if (!IsDefault())
                     return false;
 
-                result = _updatePet200ResponseTypeInfo == null
+                result = _updatePet200ResponseDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<UpdatePet200Response>(Content.RawContent, _updatePet200ResponseDeserializationContext.UpdatePet200Response);
 
                 return result != null;
             }
@@ -2105,27 +2117,27 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updatePetWithFormResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        private void AfterUpdatePetWithFormDefaultImplementation(ApiResponse<object> apiResponseLocalVar, long petId, Option<string> name, Option<string> status)
+        private void AfterUpdatePetWithFormDefaultImplementation(UpdatePetWithFormResponse updatePetWithFormResponseLocalVar, long petId, Option<string> name, Option<string> status)
         {
             bool suppressDefaultLog = false;
-            AfterUpdatePetWithForm(ref suppressDefaultLog, apiResponseLocalVar, petId, name, status);
+            AfterUpdatePetWithForm(ref suppressDefaultLog, updatePetWithFormResponseLocalVar, petId, name, status);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (updatePetWithFormResponseLocalVar.Content.DownloadedAt - updatePetWithFormResponseLocalVar.Content.RequestedAt).TotalSeconds, updatePetWithFormResponseLocalVar.Content.StatusCode, updatePetWithFormResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updatePetWithFormResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void AfterUpdatePetWithForm(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, long petId, Option<string> name, Option<string> status);
+        partial void AfterUpdatePetWithForm(ref bool suppressDefaultLog, UpdatePetWithFormResponse updatePetWithFormResponseLocalVar, long petId, Option<string> name, Option<string> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2184,8 +2196,8 @@ namespace UseSourceGeneration.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdatePetWithFormAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdatePetWithFormResponse"/>&gt;</returns>
+        public async Task<UpdatePetWithFormResponse> UpdatePetWithFormAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2242,11 +2254,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar);
 
-                        AfterUpdatePetWithFormDefaultImplementation(apiResponseLocalVar, petId, name, status);
+                        UpdatePetWithFormResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnUpdatePetWithForm(apiResponseLocalVar);
+                        AfterUpdatePetWithFormDefaultImplementation(responseLocalVar, petId, name, status);
+
+                        Events.ExecuteOnUpdatePetWithForm(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -2274,7 +2288,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2285,11 +2299,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="UpdatePetWithFormResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public UpdatePetWithFormResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2299,7 +2313,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public UpdatePetWithFormResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public UpdatePetWithFormResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2335,27 +2349,27 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="uploadFileResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        private void AfterUploadFileDefaultImplementation(UploadFileResponse uploadFileResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
-            AfterUploadFile(ref suppressDefaultLog, apiResponseLocalVar, petId, file, additionalMetadata);
+            AfterUploadFile(ref suppressDefaultLog, uploadFileResponseLocalVar, petId, file, additionalMetadata);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (uploadFileResponseLocalVar.Content.DownloadedAt - uploadFileResponseLocalVar.Content.RequestedAt).TotalSeconds, uploadFileResponseLocalVar.Content.StatusCode, uploadFileResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="uploadFileResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
+        partial void AfterUploadFile(ref bool suppressDefaultLog, UploadFileResponse uploadFileResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2414,8 +2428,8 @@ namespace UseSourceGeneration.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UploadFileResponse"/>&gt;</returns>
+        public async Task<UploadFileResponse> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2481,11 +2495,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, _apiResponseDeserializationContext.ApiResponse);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar);
 
-                        AfterUploadFileDefaultImplementation(apiResponseLocalVar, petId, file, additionalMetadata);
+                        UploadFileResponse responseLocalVar = new(apiResponseLocalVar, _apiResponseDeserializationContext);
 
-                        Events.ExecuteOnUploadFile(apiResponseLocalVar);
+                        AfterUploadFileDefaultImplementation(responseLocalVar, petId, file, additionalMetadata);
+
+                        Events.ExecuteOnUploadFile(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -2513,7 +2529,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? _apiResponseTypeInfo;
+            private readonly ApiResponseDeserializationContext? _apiResponseDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2524,11 +2540,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="UploadFileResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="apiResponseTypeInfo"></param>
+            /// <param name="apiResponseDeserializationContext"></param>
             public UploadFileResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? apiResponseTypeInfo)
+                ApiResponseDeserializationContext apiResponseDeserializationContext)
             {
-                _apiResponseTypeInfo = apiResponseTypeInfo;
+                _apiResponseDeserializationContext = apiResponseDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2538,7 +2554,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public UploadFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public UploadFileResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2565,9 +2581,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _apiResponseTypeInfo == null
+                result = _apiResponseDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseDeserializationContext.ApiResponse);
 
                 return result != null;
             }
@@ -2615,27 +2631,27 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="uploadFileWithRequiredFileResponseLocalVar"></param>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileWithRequiredFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
+        private void AfterUploadFileWithRequiredFileDefaultImplementation(UploadFileWithRequiredFileResponse uploadFileWithRequiredFileResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
-            AfterUploadFileWithRequiredFile(ref suppressDefaultLog, apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+            AfterUploadFileWithRequiredFile(ref suppressDefaultLog, uploadFileWithRequiredFileResponseLocalVar, requiredFile, petId, additionalMetadata);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (uploadFileWithRequiredFileResponseLocalVar.Content.DownloadedAt - uploadFileWithRequiredFileResponseLocalVar.Content.RequestedAt).TotalSeconds, uploadFileWithRequiredFileResponseLocalVar.Content.StatusCode, uploadFileWithRequiredFileResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="uploadFileWithRequiredFileResponseLocalVar"></param>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
+        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, UploadFileWithRequiredFileResponse uploadFileWithRequiredFileResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2694,8 +2710,8 @@ namespace UseSourceGeneration.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UploadFileWithRequiredFileResponse"/>&gt;</returns>
+        public async Task<UploadFileWithRequiredFileResponse> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2761,11 +2777,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, _apiResponseDeserializationContext.ApiResponse);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar);
 
-                        AfterUploadFileWithRequiredFileDefaultImplementation(apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+                        UploadFileWithRequiredFileResponse responseLocalVar = new(apiResponseLocalVar, _apiResponseDeserializationContext);
 
-                        Events.ExecuteOnUploadFileWithRequiredFile(apiResponseLocalVar);
+                        AfterUploadFileWithRequiredFileDefaultImplementation(responseLocalVar, requiredFile, petId, additionalMetadata);
+
+                        Events.ExecuteOnUploadFileWithRequiredFile(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -2793,7 +2811,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? _apiResponseTypeInfo;
+            private readonly ApiResponseDeserializationContext? _apiResponseDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2804,11 +2822,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="UploadFileWithRequiredFileResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="apiResponseTypeInfo"></param>
+            /// <param name="apiResponseDeserializationContext"></param>
             public UploadFileWithRequiredFileResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ApiResponse>? apiResponseTypeInfo)
+                ApiResponseDeserializationContext apiResponseDeserializationContext)
             {
-                _apiResponseTypeInfo = apiResponseTypeInfo;
+                _apiResponseDeserializationContext = apiResponseDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2818,7 +2836,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public UploadFileWithRequiredFileResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public UploadFileWithRequiredFileResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -2845,9 +2863,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _apiResponseTypeInfo == null
+                result = _apiResponseDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(Content.RawContent, _apiResponseDeserializationContext.ApiResponse);
 
                 return result != null;
             }

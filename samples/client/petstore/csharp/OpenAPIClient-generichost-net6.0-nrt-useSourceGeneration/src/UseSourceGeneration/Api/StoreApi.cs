@@ -143,9 +143,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorDeleteOrder;
 
-        internal void ExecuteOnDeleteOrder(ApiResponse<object> apiResponse)
+        internal void ExecuteOnDeleteOrder(StoreApi.DeleteOrderResponse deleteOrderResponse)
         {
-            OnDeleteOrder?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnDeleteOrder?.Invoke(this, new ApiResponseEventArgs<DeleteOrderResponse>(deleteOrderResponse));
         }
 
         internal void ExecuteOnErrorDeleteOrder(Exception exception)
@@ -163,9 +163,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetInventory;
 
-        internal void ExecuteOnGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
+        internal void ExecuteOnGetInventory(StoreApi.GetInventoryResponse getInventoryResponse)
         {
-            OnGetInventory?.Invoke(this, new ApiResponseEventArgs<Dictionary<string, int>>(apiResponse));
+            OnGetInventory?.Invoke(this, new ApiResponseEventArgs<GetInventoryResponse>(getInventoryResponse));
         }
 
         internal void ExecuteOnErrorGetInventory(Exception exception)
@@ -183,9 +183,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetOrderById;
 
-        internal void ExecuteOnGetOrderById(ApiResponse<Order> apiResponse)
+        internal void ExecuteOnGetOrderById(StoreApi.GetOrderByIdResponse getOrderByIdResponse)
         {
-            OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+            OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<GetOrderByIdResponse>(getOrderByIdResponse));
         }
 
         internal void ExecuteOnErrorGetOrderById(Exception exception)
@@ -203,9 +203,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorPlaceOrder;
 
-        internal void ExecuteOnPlaceOrder(ApiResponse<Order> apiResponse)
+        internal void ExecuteOnPlaceOrder(StoreApi.PlaceOrderResponse placeOrderResponse)
         {
-            OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+            OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<PlaceOrderResponse>(placeOrderResponse));
         }
 
         internal void ExecuteOnErrorPlaceOrder(Exception exception)
@@ -302,23 +302,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deleteOrderResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        private void AfterDeleteOrderDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string orderId)
+        private void AfterDeleteOrderDefaultImplementation(DeleteOrderResponse deleteOrderResponseLocalVar, string orderId)
         {
             bool suppressDefaultLog = false;
-            AfterDeleteOrder(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            AfterDeleteOrder(ref suppressDefaultLog, deleteOrderResponseLocalVar, orderId);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (deleteOrderResponseLocalVar.Content.DownloadedAt - deleteOrderResponseLocalVar.Content.RequestedAt).TotalSeconds, deleteOrderResponseLocalVar.Content.StatusCode, deleteOrderResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deleteOrderResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterDeleteOrder(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string orderId);
+        partial void AfterDeleteOrder(ref bool suppressDefaultLog, DeleteOrderResponse deleteOrderResponseLocalVar, string orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -369,8 +369,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeleteOrderResponse"/>&gt;</returns>
+        public async Task<DeleteOrderResponse> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -398,11 +398,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar);
 
-                        AfterDeleteOrderDefaultImplementation(apiResponseLocalVar, orderId);
+                        DeleteOrderResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnDeleteOrder(apiResponseLocalVar);
+                        AfterDeleteOrderDefaultImplementation(responseLocalVar, orderId);
+
+                        Events.ExecuteOnDeleteOrder(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -426,8 +428,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -438,13 +440,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="DeleteOrderResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public DeleteOrderResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -454,7 +456,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public DeleteOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public DeleteOrderResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -479,21 +481,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterGetInventoryDefaultImplementation(ApiResponse<Dictionary<string, int>> apiResponseLocalVar)
+        /// <param name="getInventoryResponseLocalVar"></param>
+        private void AfterGetInventoryDefaultImplementation(GetInventoryResponse getInventoryResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterGetInventory(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterGetInventory(ref suppressDefaultLog, getInventoryResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getInventoryResponseLocalVar.Content.DownloadedAt - getInventoryResponseLocalVar.Content.RequestedAt).TotalSeconds, getInventoryResponseLocalVar.Content.StatusCode, getInventoryResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetInventory(ref bool suppressDefaultLog, ApiResponse<Dictionary<string, int>> apiResponseLocalVar);
+        /// <param name="getInventoryResponseLocalVar"></param>
+        partial void AfterGetInventory(ref bool suppressDefaultLog, GetInventoryResponse getInventoryResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -540,8 +542,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
-        public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetInventoryResponse"/>&gt;</returns>
+        public async Task<GetInventoryResponse> GetInventoryAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -581,11 +583,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Dictionary<string, int>> apiResponseLocalVar = new ApiResponse<Dictionary<string, int>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar);
 
-                        AfterGetInventoryDefaultImplementation(apiResponseLocalVar);
+                        GetInventoryResponse responseLocalVar = new(apiResponseLocalVar, _dictionaryltstringIntgtDeserializationContext);
 
-                        Events.ExecuteOnGetInventory(apiResponseLocalVar);
+                        AfterGetInventoryDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnGetInventory(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -613,7 +617,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Dictionary&lt;string, int&gt;>? _dictionaryltstringIntgtTypeInfo;
+            private readonly Dictionary&lt;string, int&gt;DeserializationContext? _dictionaryltstringIntgtDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -624,11 +628,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetInventoryResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="dictionaryltstringIntgtTypeInfo"></param>
+            /// <param name="dictionaryltstringIntgtDeserializationContext"></param>
             public GetInventoryResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Dictionary&lt;string, int&gt;>? dictionaryltstringIntgtTypeInfo)
+                Dictionary&lt;string, int&gt;DeserializationContext dictionaryltstringIntgtDeserializationContext)
             {
-                _dictionaryltstringIntgtTypeInfo = dictionaryltstringIntgtTypeInfo;
+                _dictionaryltstringIntgtDeserializationContext = dictionaryltstringIntgtDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -638,7 +642,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetInventoryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetInventoryResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -665,9 +669,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _dictionaryltstringIntgtTypeInfo == null
+                result = _dictionaryltstringIntgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _dictionaryltstringIntgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _dictionaryltstringIntgtDeserializationContext.Dictionary&lt;string, int&gt;);
 
                 return result != null;
             }
@@ -700,23 +704,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getOrderByIdResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        private void AfterGetOrderByIdDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, long orderId)
+        private void AfterGetOrderByIdDefaultImplementation(GetOrderByIdResponse getOrderByIdResponseLocalVar, long orderId)
         {
             bool suppressDefaultLog = false;
-            AfterGetOrderById(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            AfterGetOrderById(ref suppressDefaultLog, getOrderByIdResponseLocalVar, orderId);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getOrderByIdResponseLocalVar.Content.DownloadedAt - getOrderByIdResponseLocalVar.Content.RequestedAt).TotalSeconds, getOrderByIdResponseLocalVar.Content.StatusCode, getOrderByIdResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getOrderByIdResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, long orderId);
+        partial void AfterGetOrderById(ref bool suppressDefaultLog, GetOrderByIdResponse getOrderByIdResponseLocalVar, long orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -767,8 +771,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetOrderByIdResponse"/>&gt;</returns>
+        public async Task<GetOrderByIdResponse> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -804,11 +808,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _orderDeserializationContext.Order);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar);
 
-                        AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
+                        GetOrderByIdResponse responseLocalVar = new(apiResponseLocalVar, _orderDeserializationContext_DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnGetOrderById(apiResponseLocalVar);
+                        AfterGetOrderByIdDefaultImplementation(responseLocalVar, orderId);
+
+                        Events.ExecuteOnGetOrderById(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -832,9 +838,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? _orderTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly OrderDeserializationContext? _orderDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -845,15 +851,15 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetOrderByIdResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="orderTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="orderDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public GetOrderByIdResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? orderTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                OrderDeserializationContext orderDeserializationContext                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _orderTypeInfo = orderTypeInfo;
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _orderDeserializationContext = orderDeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -863,7 +869,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetOrderByIdResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetOrderByIdResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -890,9 +896,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _orderTypeInfo == null
+                result = _orderDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderDeserializationContext.Order);
 
                 return result != null;
             }
@@ -948,23 +954,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="placeOrderResponseLocalVar"></param>
         /// <param name="order"></param>
-        private void AfterPlaceOrderDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, Order order)
+        private void AfterPlaceOrderDefaultImplementation(PlaceOrderResponse placeOrderResponseLocalVar, Order order)
         {
             bool suppressDefaultLog = false;
-            AfterPlaceOrder(ref suppressDefaultLog, apiResponseLocalVar, order);
+            AfterPlaceOrder(ref suppressDefaultLog, placeOrderResponseLocalVar, order);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (placeOrderResponseLocalVar.Content.DownloadedAt - placeOrderResponseLocalVar.Content.RequestedAt).TotalSeconds, placeOrderResponseLocalVar.Content.StatusCode, placeOrderResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="placeOrderResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, Order order);
+        partial void AfterPlaceOrder(ref bool suppressDefaultLog, PlaceOrderResponse placeOrderResponseLocalVar, Order order);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1015,8 +1021,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="PlaceOrderResponse"/>&gt;</returns>
+        public async Task<PlaceOrderResponse> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1066,11 +1072,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _orderDeserializationContext.Order);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar);
 
-                        AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
+                        PlaceOrderResponse responseLocalVar = new(apiResponseLocalVar, _orderDeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnPlaceOrder(apiResponseLocalVar);
+                        AfterPlaceOrderDefaultImplementation(responseLocalVar, order);
+
+                        Events.ExecuteOnPlaceOrder(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1094,8 +1102,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? _orderTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly OrderDeserializationContext? _orderDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1106,13 +1114,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="PlaceOrderResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="orderTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="orderDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public PlaceOrderResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<Order>? orderTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                OrderDeserializationContext orderDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _orderTypeInfo = orderTypeInfo;
-                _TypeInfo = TypeInfo;
+                _orderDeserializationContext = orderDeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1122,7 +1130,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public PlaceOrderResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public PlaceOrderResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1149,9 +1157,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _orderTypeInfo == null
+                result = _orderDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<Order>(Content.RawContent, _orderDeserializationContext.Order);
 
                 return result != null;
             }

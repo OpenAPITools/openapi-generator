@@ -160,9 +160,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorFooGet;
 
-        internal void ExecuteOnFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
+        internal void ExecuteOnFooGet(DefaultApi.FooGetResponse fooGetResponse)
         {
-            OnFooGet?.Invoke(this, new ApiResponseEventArgs<FooGetDefaultResponse>(apiResponse));
+            OnFooGet?.Invoke(this, new ApiResponseEventArgs<FooGetResponse>(fooGetResponse));
         }
 
         internal void ExecuteOnErrorFooGet(Exception exception)
@@ -180,9 +180,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetCountry;
 
-        internal void ExecuteOnGetCountry(ApiResponse<object> apiResponse)
+        internal void ExecuteOnGetCountry(DefaultApi.GetCountryResponse getCountryResponse)
         {
-            OnGetCountry?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnGetCountry?.Invoke(this, new ApiResponseEventArgs<GetCountryResponse>(getCountryResponse));
         }
 
         internal void ExecuteOnErrorGetCountry(Exception exception)
@@ -200,9 +200,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorHello;
 
-        internal void ExecuteOnHello(ApiResponse<List<Guid>> apiResponse)
+        internal void ExecuteOnHello(DefaultApi.HelloResponse helloResponse)
         {
-            OnHello?.Invoke(this, new ApiResponseEventArgs<List<Guid>>(apiResponse));
+            OnHello?.Invoke(this, new ApiResponseEventArgs<HelloResponse>(helloResponse));
         }
 
         internal void ExecuteOnErrorHello(Exception exception)
@@ -220,9 +220,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorRolesReportGet;
 
-        internal void ExecuteOnRolesReportGet(ApiResponse<List<List<RolesReportsHash>>> apiResponse)
+        internal void ExecuteOnRolesReportGet(DefaultApi.RolesReportGetResponse rolesReportGetResponse)
         {
-            OnRolesReportGet?.Invoke(this, new ApiResponseEventArgs<List<List<RolesReportsHash>>>(apiResponse));
+            OnRolesReportGet?.Invoke(this, new ApiResponseEventArgs<RolesReportGetResponse>(rolesReportGetResponse));
         }
 
         internal void ExecuteOnErrorRolesReportGet(Exception exception)
@@ -240,9 +240,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTest;
 
-        internal void ExecuteOnTest(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponse)
+        internal void ExecuteOnTest(DefaultApi.TestResponse testResponse)
         {
-            OnTest?.Invoke(this, new ApiResponseEventArgs<NotificationtestGetElementsV1ResponseMPayload>(apiResponse));
+            OnTest?.Invoke(this, new ApiResponseEventArgs<TestResponse>(testResponse));
         }
 
         internal void ExecuteOnErrorTest(Exception exception)
@@ -329,21 +329,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterFooGetDefaultImplementation(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar)
+        /// <param name="fooGetResponseLocalVar"></param>
+        private void AfterFooGetDefaultImplementation(FooGetResponse fooGetResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterFooGet(ref suppressDefaultLog, fooGetResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (fooGetResponseLocalVar.Content.DownloadedAt - fooGetResponseLocalVar.Content.RequestedAt).TotalSeconds, fooGetResponseLocalVar.Content.StatusCode, fooGetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
+        /// <param name="fooGetResponseLocalVar"></param>
+        partial void AfterFooGet(ref bool suppressDefaultLog, FooGetResponse fooGetResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -390,8 +390,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FooGetResponse"/>&gt;</returns>
+        public async Task<FooGetResponse> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -423,11 +423,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _fooGetDefaultResponseDeserializationContext.FooGetDefaultResponse);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar);
 
-                        AfterFooGetDefaultImplementation(apiResponseLocalVar);
+                        FooGetResponse responseLocalVar = new(apiResponseLocalVar, _fooGetDefaultResponseDeserializationContext);
 
-                        Events.ExecuteOnFooGet(apiResponseLocalVar);
+                        AfterFooGetDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnFooGet(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -451,7 +453,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<FooGetDefaultResponse>? _fooGetDefaultResponseTypeInfo;
+            private readonly FooGetDefaultResponseDeserializationContext? _fooGetDefaultResponseDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -462,11 +464,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FooGetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="fooGetDefaultResponseTypeInfo"></param>
+            /// <param name="fooGetDefaultResponseDeserializationContext"></param>
             public FooGetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<FooGetDefaultResponse>? fooGetDefaultResponseTypeInfo)
+                FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext)
             {
-                _fooGetDefaultResponseTypeInfo = fooGetDefaultResponseTypeInfo;
+                _fooGetDefaultResponseDeserializationContext = fooGetDefaultResponseDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -476,7 +478,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public FooGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public FooGetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -503,9 +505,9 @@ namespace UseSourceGeneration.Api
                 if (!IsDefault())
                     return false;
 
-                result = _fooGetDefaultResponseTypeInfo == null
+                result = _fooGetDefaultResponseDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _fooGetDefaultResponseTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<FooGetDefaultResponse>(Content.RawContent, _fooGetDefaultResponseDeserializationContext.FooGetDefaultResponse);
 
                 return result != null;
             }
@@ -549,23 +551,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getCountryResponseLocalVar"></param>
         /// <param name="country"></param>
-        private void AfterGetCountryDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string country)
+        private void AfterGetCountryDefaultImplementation(GetCountryResponse getCountryResponseLocalVar, string country)
         {
             bool suppressDefaultLog = false;
-            AfterGetCountry(ref suppressDefaultLog, apiResponseLocalVar, country);
+            AfterGetCountry(ref suppressDefaultLog, getCountryResponseLocalVar, country);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getCountryResponseLocalVar.Content.DownloadedAt - getCountryResponseLocalVar.Content.RequestedAt).TotalSeconds, getCountryResponseLocalVar.Content.StatusCode, getCountryResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getCountryResponseLocalVar"></param>
         /// <param name="country"></param>
-        partial void AfterGetCountry(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string country);
+        partial void AfterGetCountry(ref bool suppressDefaultLog, GetCountryResponse getCountryResponseLocalVar, string country);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -616,8 +618,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetCountryResponse"/>&gt;</returns>
+        public async Task<GetCountryResponse> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -663,11 +665,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar);
 
-                        AfterGetCountryDefaultImplementation(apiResponseLocalVar, country);
+                        GetCountryResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnGetCountry(apiResponseLocalVar);
+                        AfterGetCountryDefaultImplementation(responseLocalVar, country);
+
+                        Events.ExecuteOnGetCountry(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -691,7 +695,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -702,11 +706,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetCountryResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public GetCountryResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -716,7 +720,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetCountryResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetCountryResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -735,21 +739,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterHelloDefaultImplementation(ApiResponse<List<Guid>> apiResponseLocalVar)
+        /// <param name="helloResponseLocalVar"></param>
+        private void AfterHelloDefaultImplementation(HelloResponse helloResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterHello(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterHello(ref suppressDefaultLog, helloResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (helloResponseLocalVar.Content.DownloadedAt - helloResponseLocalVar.Content.RequestedAt).TotalSeconds, helloResponseLocalVar.Content.StatusCode, helloResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterHello(ref bool suppressDefaultLog, ApiResponse<List<Guid>> apiResponseLocalVar);
+        /// <param name="helloResponseLocalVar"></param>
+        partial void AfterHello(ref bool suppressDefaultLog, HelloResponse helloResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -796,8 +800,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="HelloResponse"/>&gt;</returns>
+        public async Task<HelloResponse> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -829,11 +833,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<Guid>> apiResponseLocalVar = new ApiResponse<List<Guid>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar);
 
-                        AfterHelloDefaultImplementation(apiResponseLocalVar);
+                        HelloResponse responseLocalVar = new(apiResponseLocalVar, _listltGuidgtDeserializationContext);
 
-                        Events.ExecuteOnHello(apiResponseLocalVar);
+                        AfterHelloDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnHello(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -857,7 +863,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Guid&gt;>? _listltGuidgtTypeInfo;
+            private readonly List&lt;Guid&gt;DeserializationContext? _listltGuidgtDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -868,11 +874,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="HelloResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltGuidgtTypeInfo"></param>
+            /// <param name="listltGuidgtDeserializationContext"></param>
             public HelloResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;Guid&gt;>? listltGuidgtTypeInfo)
+                List&lt;Guid&gt;DeserializationContext listltGuidgtDeserializationContext)
             {
-                _listltGuidgtTypeInfo = listltGuidgtTypeInfo;
+                _listltGuidgtDeserializationContext = listltGuidgtDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -882,7 +888,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public HelloResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public HelloResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -909,9 +915,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltGuidgtTypeInfo == null
+                result = _listltGuidgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _listltGuidgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _listltGuidgtDeserializationContext.List&lt;Guid&gt;);
 
                 return result != null;
             }
@@ -942,21 +948,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterRolesReportGetDefaultImplementation(ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar)
+        /// <param name="rolesReportGetResponseLocalVar"></param>
+        private void AfterRolesReportGetDefaultImplementation(RolesReportGetResponse rolesReportGetResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterRolesReportGet(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterRolesReportGet(ref suppressDefaultLog, rolesReportGetResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (rolesReportGetResponseLocalVar.Content.DownloadedAt - rolesReportGetResponseLocalVar.Content.RequestedAt).TotalSeconds, rolesReportGetResponseLocalVar.Content.StatusCode, rolesReportGetResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRolesReportGet(ref bool suppressDefaultLog, ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar);
+        /// <param name="rolesReportGetResponseLocalVar"></param>
+        partial void AfterRolesReportGet(ref bool suppressDefaultLog, RolesReportGetResponse rolesReportGetResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1003,8 +1009,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="RolesReportGetResponse"/>&gt;</returns>
+        public async Task<RolesReportGetResponse> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1036,11 +1042,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar = new ApiResponse<List<List<RolesReportsHash>>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar);
 
-                        AfterRolesReportGetDefaultImplementation(apiResponseLocalVar);
+                        RolesReportGetResponse responseLocalVar = new(apiResponseLocalVar, _listltListgtDeserializationContext);
 
-                        Events.ExecuteOnRolesReportGet(apiResponseLocalVar);
+                        AfterRolesReportGetDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnRolesReportGet(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1064,7 +1072,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;List&gt;>? _listltListgtTypeInfo;
+            private readonly List&lt;List&gt;DeserializationContext? _listltListgtDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1075,11 +1083,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="RolesReportGetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltListgtTypeInfo"></param>
+            /// <param name="listltListgtDeserializationContext"></param>
             public RolesReportGetResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<List&lt;List&gt;>? listltListgtTypeInfo)
+                List&lt;List&gt;DeserializationContext listltListgtDeserializationContext)
             {
-                _listltListgtTypeInfo = listltListgtTypeInfo;
+                _listltListgtDeserializationContext = listltListgtDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1089,7 +1097,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public RolesReportGetResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public RolesReportGetResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1116,9 +1124,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltListgtTypeInfo == null
+                result = _listltListgtDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _listltListgtTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _listltListgtDeserializationContext.List&lt;List&gt;);
 
                 return result != null;
             }
@@ -1149,21 +1157,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterTestDefaultImplementation(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar)
+        /// <param name="testResponseLocalVar"></param>
+        private void AfterTestDefaultImplementation(TestResponse testResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterTest(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterTest(ref suppressDefaultLog, testResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testResponseLocalVar.Content.DownloadedAt - testResponseLocalVar.Content.RequestedAt).TotalSeconds, testResponseLocalVar.Content.StatusCode, testResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterTest(ref bool suppressDefaultLog, ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar);
+        /// <param name="testResponseLocalVar"></param>
+        partial void AfterTest(ref bool suppressDefaultLog, TestResponse testResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1210,8 +1218,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
-        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestResponse"/>&gt;</returns>
+        public async Task<TestResponse> TestAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1243,11 +1251,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar = new ApiResponse<NotificationtestGetElementsV1ResponseMPayload>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _notificationtestGetElementsV1ResponseMPayloadDeserializationContext.NotificationtestGetElementsV1ResponseMPayload);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar);
 
-                        AfterTestDefaultImplementation(apiResponseLocalVar);
+                        TestResponse responseLocalVar = new(apiResponseLocalVar, _notificationtestGetElementsV1ResponseMPayloadDeserializationContext);
 
-                        Events.ExecuteOnTest(apiResponseLocalVar);
+                        AfterTestDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnTest(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1271,7 +1281,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<NotificationtestGetElementsV1ResponseMPayload>? _notificationtestGetElementsV1ResponseMPayloadTypeInfo;
+            private readonly NotificationtestGetElementsV1ResponseMPayloadDeserializationContext? _notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1282,11 +1292,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="notificationtestGetElementsV1ResponseMPayloadTypeInfo"></param>
+            /// <param name="notificationtestGetElementsV1ResponseMPayloadDeserializationContext"></param>
             public TestResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<NotificationtestGetElementsV1ResponseMPayload>? notificationtestGetElementsV1ResponseMPayloadTypeInfo)
+                NotificationtestGetElementsV1ResponseMPayloadDeserializationContext notificationtestGetElementsV1ResponseMPayloadDeserializationContext)
             {
-                _notificationtestGetElementsV1ResponseMPayloadTypeInfo = notificationtestGetElementsV1ResponseMPayloadTypeInfo;
+                _notificationtestGetElementsV1ResponseMPayloadDeserializationContext = notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1296,7 +1306,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1323,9 +1333,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _notificationtestGetElementsV1ResponseMPayloadTypeInfo == null
+                result = _notificationtestGetElementsV1ResponseMPayloadDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _notificationtestGetElementsV1ResponseMPayloadTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<NotificationtestGetElementsV1ResponseMPayload>(Content.RawContent, _notificationtestGetElementsV1ResponseMPayloadDeserializationContext.NotificationtestGetElementsV1ResponseMPayload);
 
                 return result != null;
             }

@@ -16,41 +16,9 @@ using System.Net;
 namespace UseSourceGeneration.Client
 {
     /// <summary>
-    /// Provides a non-generic contract for the ApiResponse wrapper.
-    /// </summary>
-    public interface IApiResponse
-    {
-        /// <summary>
-        /// Gets or sets the status code (HTTP status code)
-        /// </summary>
-        /// <value>The status code.</value>
-        HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        /// The raw content of this response.
-        /// </summary>
-        string RawContent { get; }
-
-        /// <summary>
-        /// The DateTime when the request was retrieved.
-        /// </summary>
-        DateTime DownloadedAt { get; }
-
-        /// <summary>
-        /// The path used when making the request.
-        /// </summary>
-        string Path { get; }
-
-        /// <summary>
-        /// The Uri used when making the request.
-        /// </summary>
-        Uri? RequestUri { get; }
-    }
-
-    /// <summary>
     /// API Response
     /// </summary>
-    public partial class ApiResponse : IApiResponse
+    public partial class ApiResponse
     {
         /// <summary>
         /// Gets or sets the status code (HTTP status code)

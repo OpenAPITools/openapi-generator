@@ -8,9 +8,9 @@ return result != null;
 {{/useSourceGeneration}}
 {{#useSourceGeneration}}
 
-result = _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo == null
+result = _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}DeserializationContext == null
     ? System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _jsonSerializerOptions)
-    : System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}TypeInfo);
+    : System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}DeserializationContext.{{dataType}});
 
 return result != null;
 {{/useSourceGeneration}}

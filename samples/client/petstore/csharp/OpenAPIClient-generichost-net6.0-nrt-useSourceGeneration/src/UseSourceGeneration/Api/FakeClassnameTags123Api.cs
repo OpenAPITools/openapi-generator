@@ -76,9 +76,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorTestClassname;
 
-        internal void ExecuteOnTestClassname(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnTestClassname(FakeClassnameTags123Api.TestClassnameResponse testClassnameResponse)
         {
-            OnTestClassname?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnTestClassname?.Invoke(this, new ApiResponseEventArgs<TestClassnameResponse>(testClassnameResponse));
         }
 
         internal void ExecuteOnErrorTestClassname(Exception exception)
@@ -175,23 +175,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testClassnameResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterTestClassnameDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClassnameDefaultImplementation(TestClassnameResponse testClassnameResponseLocalVar, ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
-            AfterTestClassname(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
+            AfterTestClassname(ref suppressDefaultLog, testClassnameResponseLocalVar, modelClient);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (testClassnameResponseLocalVar.Content.DownloadedAt - testClassnameResponseLocalVar.Content.RequestedAt).TotalSeconds, testClassnameResponseLocalVar.Content.StatusCode, testClassnameResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="testClassnameResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClassname(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClassname(ref bool suppressDefaultLog, TestClassnameResponse testClassnameResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -242,8 +242,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestClassnameResponse"/>&gt;</returns>
+        public async Task<TestClassnameResponse> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -303,11 +303,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar);
 
-                        AfterTestClassnameDefaultImplementation(apiResponseLocalVar, modelClient);
+                        TestClassnameResponse responseLocalVar = new(apiResponseLocalVar, _modelClientDeserializationContext);
 
-                        Events.ExecuteOnTestClassname(apiResponseLocalVar);
+                        AfterTestClassnameDefaultImplementation(responseLocalVar, modelClient);
+
+                        Events.ExecuteOnTestClassname(responseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -335,7 +337,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? _modelClientTypeInfo;
+            private readonly ModelClientDeserializationContext? _modelClientDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -346,11 +348,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="TestClassnameResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="modelClientTypeInfo"></param>
+            /// <param name="modelClientDeserializationContext"></param>
             public TestClassnameResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<ModelClient>? modelClientTypeInfo)
+                ModelClientDeserializationContext modelClientDeserializationContext)
             {
-                _modelClientTypeInfo = modelClientTypeInfo;
+                _modelClientDeserializationContext = modelClientDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -360,7 +362,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public TestClassnameResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public TestClassnameResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -387,9 +389,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _modelClientTypeInfo == null
+                result = _modelClientDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<ModelClient>(Content.RawContent, _modelClientDeserializationContext.ModelClient);
 
                 return result != null;
             }

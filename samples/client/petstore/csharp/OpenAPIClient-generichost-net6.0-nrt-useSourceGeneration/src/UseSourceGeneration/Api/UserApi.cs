@@ -239,9 +239,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorCreateUser;
 
-        internal void ExecuteOnCreateUser(ApiResponse<object> apiResponse)
+        internal void ExecuteOnCreateUser(UserApi.CreateUserResponse createUserResponse)
         {
-            OnCreateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnCreateUser?.Invoke(this, new ApiResponseEventArgs<CreateUserResponse>(createUserResponse));
         }
 
         internal void ExecuteOnErrorCreateUser(Exception exception)
@@ -259,9 +259,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorCreateUsersWithArrayInput;
 
-        internal void ExecuteOnCreateUsersWithArrayInput(ApiResponse<object> apiResponse)
+        internal void ExecuteOnCreateUsersWithArrayInput(UserApi.CreateUsersWithArrayInputResponse createUsersWithArrayInputResponse)
         {
-            OnCreateUsersWithArrayInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnCreateUsersWithArrayInput?.Invoke(this, new ApiResponseEventArgs<CreateUsersWithArrayInputResponse>(createUsersWithArrayInputResponse));
         }
 
         internal void ExecuteOnErrorCreateUsersWithArrayInput(Exception exception)
@@ -279,9 +279,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorCreateUsersWithListInput;
 
-        internal void ExecuteOnCreateUsersWithListInput(ApiResponse<object> apiResponse)
+        internal void ExecuteOnCreateUsersWithListInput(UserApi.CreateUsersWithListInputResponse createUsersWithListInputResponse)
         {
-            OnCreateUsersWithListInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnCreateUsersWithListInput?.Invoke(this, new ApiResponseEventArgs<CreateUsersWithListInputResponse>(createUsersWithListInputResponse));
         }
 
         internal void ExecuteOnErrorCreateUsersWithListInput(Exception exception)
@@ -299,9 +299,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorDeleteUser;
 
-        internal void ExecuteOnDeleteUser(ApiResponse<object> apiResponse)
+        internal void ExecuteOnDeleteUser(UserApi.DeleteUserResponse deleteUserResponse)
         {
-            OnDeleteUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnDeleteUser?.Invoke(this, new ApiResponseEventArgs<DeleteUserResponse>(deleteUserResponse));
         }
 
         internal void ExecuteOnErrorDeleteUser(Exception exception)
@@ -319,9 +319,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetUserByName;
 
-        internal void ExecuteOnGetUserByName(ApiResponse<User> apiResponse)
+        internal void ExecuteOnGetUserByName(UserApi.GetUserByNameResponse getUserByNameResponse)
         {
-            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<User>(apiResponse));
+            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<GetUserByNameResponse>(getUserByNameResponse));
         }
 
         internal void ExecuteOnErrorGetUserByName(Exception exception)
@@ -339,9 +339,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorLoginUser;
 
-        internal void ExecuteOnLoginUser(ApiResponse<string> apiResponse)
+        internal void ExecuteOnLoginUser(UserApi.LoginUserResponse loginUserResponse)
         {
-            OnLoginUser?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+            OnLoginUser?.Invoke(this, new ApiResponseEventArgs<LoginUserResponse>(loginUserResponse));
         }
 
         internal void ExecuteOnErrorLoginUser(Exception exception)
@@ -359,9 +359,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorLogoutUser;
 
-        internal void ExecuteOnLogoutUser(ApiResponse<object> apiResponse)
+        internal void ExecuteOnLogoutUser(UserApi.LogoutUserResponse logoutUserResponse)
         {
-            OnLogoutUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnLogoutUser?.Invoke(this, new ApiResponseEventArgs<LogoutUserResponse>(logoutUserResponse));
         }
 
         internal void ExecuteOnErrorLogoutUser(Exception exception)
@@ -379,9 +379,9 @@ namespace UseSourceGeneration.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorUpdateUser;
 
-        internal void ExecuteOnUpdateUser(ApiResponse<object> apiResponse)
+        internal void ExecuteOnUpdateUser(UserApi.UpdateUserResponse updateUserResponse)
         {
-            OnUpdateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnUpdateUser?.Invoke(this, new ApiResponseEventArgs<UpdateUserResponse>(updateUserResponse));
         }
 
         internal void ExecuteOnErrorUpdateUser(Exception exception)
@@ -478,23 +478,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUserResponseLocalVar"></param>
         /// <param name="user"></param>
-        private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user)
+        private void AfterCreateUserDefaultImplementation(CreateUserResponse createUserResponseLocalVar, User user)
         {
             bool suppressDefaultLog = false;
-            AfterCreateUser(ref suppressDefaultLog, apiResponseLocalVar, user);
+            AfterCreateUser(ref suppressDefaultLog, createUserResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (createUserResponseLocalVar.Content.DownloadedAt - createUserResponseLocalVar.Content.RequestedAt).TotalSeconds, createUserResponseLocalVar.Content.StatusCode, createUserResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUserResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user);
+        partial void AfterCreateUser(ref bool suppressDefaultLog, CreateUserResponse createUserResponseLocalVar, User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -545,8 +545,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUserResponse"/>&gt;</returns>
+        public async Task<CreateUserResponse> CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -586,11 +586,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar);
 
-                        AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
+                        CreateUserResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnCreateUser(apiResponseLocalVar);
+                        AfterCreateUserDefaultImplementation(responseLocalVar, user);
+
+                        Events.ExecuteOnCreateUser(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -614,7 +616,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -625,11 +627,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="CreateUserResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public CreateUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -639,7 +641,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public CreateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public CreateUserResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -671,23 +673,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUsersWithArrayInputResponseLocalVar"></param>
         /// <param name="user"></param>
-        private void AfterCreateUsersWithArrayInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        private void AfterCreateUsersWithArrayInputDefaultImplementation(CreateUsersWithArrayInputResponse createUsersWithArrayInputResponseLocalVar, List<User> user)
         {
             bool suppressDefaultLog = false;
-            AfterCreateUsersWithArrayInput(ref suppressDefaultLog, apiResponseLocalVar, user);
+            AfterCreateUsersWithArrayInput(ref suppressDefaultLog, createUsersWithArrayInputResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (createUsersWithArrayInputResponseLocalVar.Content.DownloadedAt - createUsersWithArrayInputResponseLocalVar.Content.RequestedAt).TotalSeconds, createUsersWithArrayInputResponseLocalVar.Content.StatusCode, createUsersWithArrayInputResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUsersWithArrayInputResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLog, CreateUsersWithArrayInputResponse createUsersWithArrayInputResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -738,8 +740,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUsersWithArrayInputResponse"/>&gt;</returns>
+        public async Task<CreateUsersWithArrayInputResponse> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -779,11 +781,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar);
 
-                        AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
+                        CreateUsersWithArrayInputResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnCreateUsersWithArrayInput(apiResponseLocalVar);
+                        AfterCreateUsersWithArrayInputDefaultImplementation(responseLocalVar, user);
+
+                        Events.ExecuteOnCreateUsersWithArrayInput(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -807,7 +811,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -818,11 +822,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="CreateUsersWithArrayInputResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public CreateUsersWithArrayInputResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -832,7 +836,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public CreateUsersWithArrayInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public CreateUsersWithArrayInputResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -864,23 +868,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUsersWithListInputResponseLocalVar"></param>
         /// <param name="user"></param>
-        private void AfterCreateUsersWithListInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        private void AfterCreateUsersWithListInputDefaultImplementation(CreateUsersWithListInputResponse createUsersWithListInputResponseLocalVar, List<User> user)
         {
             bool suppressDefaultLog = false;
-            AfterCreateUsersWithListInput(ref suppressDefaultLog, apiResponseLocalVar, user);
+            AfterCreateUsersWithListInput(ref suppressDefaultLog, createUsersWithListInputResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (createUsersWithListInputResponseLocalVar.Content.DownloadedAt - createUsersWithListInputResponseLocalVar.Content.RequestedAt).TotalSeconds, createUsersWithListInputResponseLocalVar.Content.StatusCode, createUsersWithListInputResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="createUsersWithListInputResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithListInput(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithListInput(ref bool suppressDefaultLog, CreateUsersWithListInputResponse createUsersWithListInputResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -931,8 +935,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUsersWithListInputResponse"/>&gt;</returns>
+        public async Task<CreateUsersWithListInputResponse> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -972,11 +976,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar);
 
-                        AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
+                        CreateUsersWithListInputResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnCreateUsersWithListInput(apiResponseLocalVar);
+                        AfterCreateUsersWithListInputDefaultImplementation(responseLocalVar, user);
+
+                        Events.ExecuteOnCreateUsersWithListInput(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1000,7 +1006,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1011,11 +1017,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="CreateUsersWithListInputResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public CreateUsersWithListInputResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1025,7 +1031,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public CreateUsersWithListInputResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public CreateUsersWithListInputResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1057,23 +1063,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deleteUserResponseLocalVar"></param>
         /// <param name="username"></param>
-        private void AfterDeleteUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string username)
+        private void AfterDeleteUserDefaultImplementation(DeleteUserResponse deleteUserResponseLocalVar, string username)
         {
             bool suppressDefaultLog = false;
-            AfterDeleteUser(ref suppressDefaultLog, apiResponseLocalVar, username);
+            AfterDeleteUser(ref suppressDefaultLog, deleteUserResponseLocalVar, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (deleteUserResponseLocalVar.Content.DownloadedAt - deleteUserResponseLocalVar.Content.RequestedAt).TotalSeconds, deleteUserResponseLocalVar.Content.StatusCode, deleteUserResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="deleteUserResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterDeleteUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string username);
+        partial void AfterDeleteUser(ref bool suppressDefaultLog, DeleteUserResponse deleteUserResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1124,8 +1130,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeleteUserResponse"/>&gt;</returns>
+        public async Task<DeleteUserResponse> DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1153,11 +1159,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar);
 
-                        AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
+                        DeleteUserResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnDeleteUser(apiResponseLocalVar);
+                        AfterDeleteUserDefaultImplementation(responseLocalVar, username);
+
+                        Events.ExecuteOnDeleteUser(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1181,8 +1189,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1193,13 +1201,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="DeleteUserResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public DeleteUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1209,7 +1217,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public DeleteUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public DeleteUserResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1247,23 +1255,23 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getUserByNameResponseLocalVar"></param>
         /// <param name="username"></param>
-        private void AfterGetUserByNameDefaultImplementation(ApiResponse<User> apiResponseLocalVar, string username)
+        private void AfterGetUserByNameDefaultImplementation(GetUserByNameResponse getUserByNameResponseLocalVar, string username)
         {
             bool suppressDefaultLog = false;
-            AfterGetUserByName(ref suppressDefaultLog, apiResponseLocalVar, username);
+            AfterGetUserByName(ref suppressDefaultLog, getUserByNameResponseLocalVar, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (getUserByNameResponseLocalVar.Content.DownloadedAt - getUserByNameResponseLocalVar.Content.RequestedAt).TotalSeconds, getUserByNameResponseLocalVar.Content.StatusCode, getUserByNameResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="getUserByNameResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterGetUserByName(ref bool suppressDefaultLog, ApiResponse<User> apiResponseLocalVar, string username);
+        partial void AfterGetUserByName(ref bool suppressDefaultLog, GetUserByNameResponse getUserByNameResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1314,8 +1322,8 @@ namespace UseSourceGeneration.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
-        public async Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetUserByNameResponse"/>&gt;</returns>
+        public async Task<GetUserByNameResponse> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1353,11 +1361,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _userDeserializationContext.User);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar);
 
-                        AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
+                        GetUserByNameResponse responseLocalVar = new(apiResponseLocalVar, _userDeserializationContext_DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnGetUserByName(apiResponseLocalVar);
+                        AfterGetUserByNameDefaultImplementation(responseLocalVar, username);
+
+                        Events.ExecuteOnGetUserByName(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1381,9 +1391,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<User>? _userTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly UserDeserializationContext? _userDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1394,15 +1404,15 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetUserByNameResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="userTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="userDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public GetUserByNameResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<User>? userTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                UserDeserializationContext userDeserializationContext                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _userTypeInfo = userTypeInfo;
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _userDeserializationContext = userDeserializationContext;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1412,7 +1422,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public GetUserByNameResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public GetUserByNameResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1439,9 +1449,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _userTypeInfo == null
+                result = _userDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _userTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<User>(Content.RawContent, _userDeserializationContext.User);
 
                 return result != null;
             }
@@ -1501,25 +1511,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="loginUserResponseLocalVar"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        private void AfterLoginUserDefaultImplementation(ApiResponse<string> apiResponseLocalVar, string username, string password)
+        private void AfterLoginUserDefaultImplementation(LoginUserResponse loginUserResponseLocalVar, string username, string password)
         {
             bool suppressDefaultLog = false;
-            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, username, password);
+            AfterLoginUser(ref suppressDefaultLog, loginUserResponseLocalVar, username, password);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (loginUserResponseLocalVar.Content.DownloadedAt - loginUserResponseLocalVar.Content.RequestedAt).TotalSeconds, loginUserResponseLocalVar.Content.StatusCode, loginUserResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="loginUserResponseLocalVar"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void AfterLoginUser(ref bool suppressDefaultLog, ApiResponse<string> apiResponseLocalVar, string username, string password);
+        partial void AfterLoginUser(ref bool suppressDefaultLog, LoginUserResponse loginUserResponseLocalVar, string username, string password);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1574,8 +1584,8 @@ namespace UseSourceGeneration.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="LoginUserResponse"/>&gt;</returns>
+        public async Task<LoginUserResponse> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1619,11 +1629,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar);
 
-                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
+                        LoginUserResponse responseLocalVar = new(apiResponseLocalVar, _varStringDeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnLoginUser(apiResponseLocalVar);
+                        AfterLoginUserDefaultImplementation(responseLocalVar, username, password);
+
+                        Events.ExecuteOnLoginUser(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1647,8 +1659,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? _varStringTypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly stringDeserializationContext? _varStringDeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1659,13 +1671,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="LoginUserResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="varStringTypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="varStringDeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public LoginUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<string>? varStringTypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                stringDeserializationContext varStringDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _varStringTypeInfo = varStringTypeInfo;
-                _TypeInfo = TypeInfo;
+                _varStringDeserializationContext = varStringDeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1675,7 +1687,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public LoginUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public LoginUserResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1702,9 +1714,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varStringTypeInfo == null
+                result = _varStringDeserializationContext == null
                     ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringTypeInfo);
+                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringDeserializationContext.string);
 
                 return result != null;
             }
@@ -1741,21 +1753,21 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterLogoutUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar)
+        /// <param name="logoutUserResponseLocalVar"></param>
+        private void AfterLogoutUserDefaultImplementation(LogoutUserResponse logoutUserResponseLocalVar)
         {
             bool suppressDefaultLog = false;
-            AfterLogoutUser(ref suppressDefaultLog, apiResponseLocalVar);
+            AfterLogoutUser(ref suppressDefaultLog, logoutUserResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (logoutUserResponseLocalVar.Content.DownloadedAt - logoutUserResponseLocalVar.Content.RequestedAt).TotalSeconds, logoutUserResponseLocalVar.Content.StatusCode, logoutUserResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterLogoutUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar);
+        /// <param name="logoutUserResponseLocalVar"></param>
+        partial void AfterLogoutUser(ref bool suppressDefaultLog, LogoutUserResponse logoutUserResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1802,8 +1814,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="LogoutUserResponse"/>&gt;</returns>
+        public async Task<LogoutUserResponse> LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1826,11 +1838,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar);
 
-                        AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
+                        LogoutUserResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext);
 
-                        Events.ExecuteOnLogoutUser(apiResponseLocalVar);
+                        AfterLogoutUserDefaultImplementation(responseLocalVar);
+
+                        Events.ExecuteOnLogoutUser(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1854,7 +1868,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1865,11 +1879,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="LogoutUserResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
             public LogoutUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1879,7 +1893,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public LogoutUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public LogoutUserResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;
@@ -1915,25 +1929,25 @@ namespace UseSourceGeneration.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updateUserResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string username)
+        private void AfterUpdateUserDefaultImplementation(UpdateUserResponse updateUserResponseLocalVar, User user, string username)
         {
             bool suppressDefaultLog = false;
-            AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, user, username);
+            AfterUpdateUser(ref suppressDefaultLog, updateUserResponseLocalVar, user, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", (updateUserResponseLocalVar.Content.DownloadedAt - updateUserResponseLocalVar.Content.RequestedAt).TotalSeconds, updateUserResponseLocalVar.Content.StatusCode, updateUserResponseLocalVar.Content.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="updateUserResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void AfterUpdateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string username);
+        partial void AfterUpdateUser(ref bool suppressDefaultLog, UpdateUserResponse updateUserResponseLocalVar, User user, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1988,8 +2002,8 @@ namespace UseSourceGeneration.Api
         /// <param name="user">Updated user object</param>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdateUserResponse"/>&gt;</returns>
+        public async Task<UpdateUserResponse> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2030,11 +2044,13 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        UseSourceGeneration.Client.ApiResponse apiResponseLocalVar = new(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar);
 
-                        AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
+                        UpdateUserResponse responseLocalVar = new(apiResponseLocalVar, _DeserializationContext_DeserializationContext);
 
-                        Events.ExecuteOnUpdateUser(apiResponseLocalVar);
+                        AfterUpdateUserDefaultImplementation(responseLocalVar, user, username);
+
+                        Events.ExecuteOnUpdateUser(responseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2058,8 +2074,8 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
-            private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? _TypeInfo;
+            private readonly DeserializationContext? _DeserializationContext;
+            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2070,13 +2086,13 @@ namespace UseSourceGeneration.Api
             /// The <see cref="UpdateUserResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="TypeInfo"></param>
-            /// <param name="TypeInfo"></param>
+            /// <param name="DeserializationContext"></param>
+            /// <param name="DeserializationContext"></param>
             public UpdateUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo                System.Text.Json.Serialization.Metadata.JsonTypeInfo<>? TypeInfo)
+                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
             {
-                _TypeInfo = TypeInfo;
-                _TypeInfo = TypeInfo;
+                _DeserializationContext = DeserializationContext;
+                _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2086,7 +2102,7 @@ namespace UseSourceGeneration.Api
             /// </summary>
             /// <param name="jsonSerializerOptions"></param>
             /// <param name="content"></param>
-            public UpdateUserResponse(System.Text.Json.JsonSerializerOptions jsonSerializerOptions, UseSourceGeneration.Client.ApiResponse content)
+            public UpdateUserResponse(UseSourceGeneration.Client.ApiResponse content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
             {
                 _jsonSerializerOptions = jsonSerializerOptions;
                 Content = content;

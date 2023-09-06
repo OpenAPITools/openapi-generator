@@ -1,2 +1,2 @@
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {3}", ({{#lambda.camelcase_param}}{{operationId}}ResponseLocalVar{{/lambda.camelcase_param}}.Content.DownloadedAt - {{#lambda.camelcase_param}}{{operationId}}ResponseLocalVar{{/lambda.camelcase_param}}.Content.RequestedAt).TotalSeconds, {{#lambda.camelcase_param}}{{operationId}}ResponseLocalVar{{/lambda.camelcase_param}}.Content.StatusCode, {{#lambda.camelcase_param}}{{operationId}}ResponseLocalVar{{/lambda.camelcase_param}}.Content.Path);
