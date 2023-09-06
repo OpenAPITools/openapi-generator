@@ -367,7 +367,7 @@ public class ModelUtils {
         Map<String, Schema> properties = schema.getProperties();
         if (properties != null) {
             for (Schema property : properties.values()) {
-                visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
+                visitSchema(openAPI, property, null, visitedSchemas, visitor);
             }
         }
     }

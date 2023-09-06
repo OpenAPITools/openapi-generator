@@ -6928,6 +6928,13 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if(ModelUtils.isMapSchema(schema)) {
+            LOGGER.error("Form parameters with additionalProperties are not supported by OpenAPI Generator. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
+        }
+        if(ModelUtils.isArraySchema(schema)) {
+            LOGGER.error("Array form parameters are not supported by OpenAPI Generator. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
+        }
+
         List<String> allRequired = new ArrayList<>();
         Map<String, Schema> properties = new LinkedHashMap<>();
         // this traverses a composed schema and extracts all properties in each schema into properties
@@ -6943,10 +6950,6 @@ public class DefaultCodegen implements CodegenConfig {
                 // value => property schema
                 String propertyName = entry.getKey();
                 Schema propertySchema = entry.getValue();
-                if (ModelUtils.isMapSchema(propertySchema)) {
-                    LOGGER.error("Map of form parameters not supported. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
-                    continue;
-                }
                 codegenParameter = fromFormProperty(propertyName, propertySchema, imports);
 
                 // Set 'required' flag defined in the schema element
