@@ -502,14 +502,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-
-        Object addPropsObj = schema.getAdditionalProperties();
-
-        if (addPropsObj instanceof Boolean){
-            codegenModel.isAdditionalPropertiesTrue = true;
-        }else{
-            codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) addPropsObj);
-        }
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
