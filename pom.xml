@@ -1292,6 +1292,7 @@
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/okhttp-gson-3.1</module>
+                <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
