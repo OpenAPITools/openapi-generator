@@ -9,6 +9,9 @@
 
 package petstoreserver
 
+
+
+
 // Category - A category for a pet
 type Category struct {
 
@@ -22,14 +25,7 @@ func AssertCategoryRequired(obj Category) error {
 	return nil
 }
 
-// AssertRecurseCategoryRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Category (e.g. [][]Category), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseCategoryRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aCategory, ok := obj.(Category)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertCategoryRequired(aCategory)
-	})
+// AssertCategoryConstraints checks if the values respects the defined constraints
+func AssertCategoryConstraints(obj Category) error {
+	return nil
 }

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
+import org.openapitools.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
@@ -66,6 +67,18 @@ public class FakeApi  {
       this.delegate = delegate;
    }
 
+    @javax.ws.rs.GET
+    @Path("/BigDecimalMap")
+    
+    @Produces({ "*/*" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys", response = FakeBigDecimalMap200Response.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = FakeBigDecimalMap200Response.class)
+    })
+    public Response fakeBigDecimalMap(@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeBigDecimalMap(securityContext);
+    }
     @javax.ws.rs.GET
     @Path("/health")
     

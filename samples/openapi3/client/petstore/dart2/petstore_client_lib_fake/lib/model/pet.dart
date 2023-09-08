@@ -48,12 +48,12 @@ class Pet {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
-     other.id == id &&
-     other.category == category &&
-     other.name == name &&
-     other.photoUrls == photoUrls &&
-     other.tags == tags &&
-     other.status == status;
+    other.id == id &&
+    other.category == category &&
+    other.name == name &&
+    _deepEquality.equals(other.photoUrls, photoUrls) &&
+    _deepEquality.equals(other.tags, tags) &&
+    other.status == status;
 
   @override
   int get hashCode =>
@@ -81,7 +81,7 @@ class Pet {
       json[r'category'] = null;
     }
       json[r'name'] = this.name;
-      json[r'photoUrls'] = this.photoUrls;
+      json[r'photoUrls'] = this.photoUrls.toList(growable: false);
       json[r'tags'] = this.tags;
     if (this.status != null) {
       json[r'status'] = this.status;
@@ -113,8 +113,8 @@ class Pet {
         id: mapValueOfType<int>(json, r'id'),
         category: Category.fromJson(json[r'category']),
         name: mapValueOfType<String>(json, r'name')!,
-        photoUrls: json[r'photoUrls'] is Set
-            ? (json[r'photoUrls'] as Set).cast<String>()
+        photoUrls: json[r'photoUrls'] is Iterable
+            ? (json[r'photoUrls'] as Iterable).cast<String>().toSet()
             : const {},
         tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),

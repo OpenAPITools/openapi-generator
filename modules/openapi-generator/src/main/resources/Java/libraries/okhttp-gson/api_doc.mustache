@@ -10,7 +10,7 @@ All URIs are relative to *{{basePath}}*
 
 {{#operations}}
 {{#operation}}
-<a name="{{operationId}}"></a>
+<a id="{{operationId}}"></a>
 # **{{operationId}}**{{^vendorExtensions.x-group-parameters}}
 > {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}){{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}
 > {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}.{{paramName}}({{paramName}}){{/optionalParams}}.execute();{{/vendorExtensions.x-group-parameters}}

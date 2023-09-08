@@ -55,11 +55,11 @@ public:
 private:
     void initializeModel();
 
-    QJsonValue code;
+    QJsonValue m_code;
     bool m_code_isSet;
     bool m_code_isValid;
 
-    QString message;
+    QString m_message;
     bool m_message_isSet;
     bool m_message_isValid;
 };

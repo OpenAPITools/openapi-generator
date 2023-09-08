@@ -108,7 +108,7 @@ module {{moduleName}}
       @scheme = '{{scheme}}'
       @host = '{{host}}{{#port}}:{{{.}}}{{/port}}'
       @base_path = '{{contextPath}}'
-      @server_index = 0
+      @server_index = nil
       @server_operation_index = {}
       @server_variables = {}
       @server_operation_variables = {}
@@ -171,10 +171,12 @@ module {{moduleName}}
 
     # Returns base URL for specified operation based on server settings
     def base_url(operation = nil)
-      index = server_operation_index[operation]
-      return "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') if index == nil
-
-      server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+      if operation_server_settings.key?(operation) then
+        index = server_operation_index.fetch(operation, server_index)
+        server_url(index.nil? ? 0 : index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+      else
+        server_index.nil? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(server_index, server_variables, nil)
+      end
     end
 
     # Gets API key (with prefix if set).
@@ -191,8 +193,8 @@ module {{moduleName}}
 
     # Gets access_token using access_token_getter or uses the static access_token
     def access_token_with_refresh
-        return access_token if access_token_getter.nil?
-        access_token_getter.call
+      return access_token if access_token_getter.nil?
+      access_token_getter.call
     end
 
     # Gets Basic Auth token string
@@ -336,8 +338,8 @@ module {{moduleName}}
       servers = server_settings if servers == nil
 
       # check array index out of bound
-      if (index < 0 || index >= servers.size)
-        fail ArgumentError, "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
+      if (index.nil? || index < 0 || index >= servers.size)
+        fail ArgumentError, "Invalid index #{index} when selecting the server. Must not be nil and must be less than #{servers.size}"
       end
 
       server = servers[index]

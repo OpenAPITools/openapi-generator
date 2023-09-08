@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
@@ -19,6 +21,7 @@ pub struct MultipartRelatedRequest {
     pub required_binary_field: swagger::ByteArray,
 
 }
+
 
 impl MultipartRelatedRequest {
     #[allow(clippy::new_without_default)]
@@ -142,7 +145,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
@@ -153,6 +156,7 @@ pub struct MultipartRequestObjectField {
     pub field_b: Option<Vec<String>>,
 
 }
+
 
 impl MultipartRequestObjectField {
     #[allow(clippy::new_without_default)]
@@ -276,7 +280,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipleIdenticalMimeTypesPostRequest {
     #[serde(rename = "binary1")]
@@ -288,6 +292,7 @@ pub struct MultipleIdenticalMimeTypesPostRequest {
     pub binary2: Option<swagger::ByteArray>,
 
 }
+
 
 impl MultipleIdenticalMimeTypesPostRequest {
     #[allow(clippy::new_without_default)]

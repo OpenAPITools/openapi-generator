@@ -25,9 +25,12 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -43,6 +46,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -76,12 +83,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     // NPM Option Values
     protected String npmRepository = null;
     protected String snapshot = null;
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     private final DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
     public TypeScriptClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.BearerToken));
 
         this.frameworkToHttpLibMap = new HashMap<>();
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
@@ -289,7 +299,59 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if ("number".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return getNameWithEnumPropertyNaming("empty");
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getNameWithEnumPropertyNaming(getSymbolName(name));
+        }
+
+        // number
+        if ("number".equals(datatype)) {
+            String varName = "NUMBER_" + name;
+
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(name);
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        enumName = getNameWithEnumPropertyNaming(enumName);
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    private String getNameWithEnumPropertyNaming(String name) {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(underscore(name), LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                return camelize(underscore(name));
+            case snake_case:
+                return underscore(name);
+            case UPPERCASE:
+                return underscore(name).toUpperCase(Locale.ROOT);
+            default:
+                throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
     }
 
@@ -440,7 +502,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -773,7 +835,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (ModelUtils.isObjectSchema(schema)) {
             fullPrefix += "{";
             closeChars = "}";
-            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema);
             if (disc != null) {
                 MappedModel mm = getDiscriminatorMappedModel(disc);
                 if (mm != null) {
@@ -979,7 +1041,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();
@@ -1030,7 +1092,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             return;
         }
 
-        String[] parts = splitComposedType(type);
+        String[] parts = splitComposedTypes(type);
         for (String s : parts) {
             super.addImport(importsToBeAddedTo, s);
         }
@@ -1043,7 +1105,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      * @param type String with composed types
      * @return list of types
      */
-    protected String[] splitComposedType(String type) {
+    protected String[] splitComposedTypes(String type) {
         return type.replace(" ", "").split("[|&<>]");
     }
 }

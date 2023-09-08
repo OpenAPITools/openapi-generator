@@ -3,10 +3,18 @@ pragma Warnings (Off, "*is not referenced");
 with {{openApiPackageName}}.Streams;
 with {{openApiPackageName}}.Servers.Operation;
 package body {{package}}.Skeletons is
-   pragma Style_Checks ("-mr");
+   pragma Style_Checks ("-bmrIu");
    pragma Warnings (Off, "*use clause for package*");
 
    use {{openApiPackageName}}.Streams;
+
+{{#mediaVariables}}
+   {{name}} : aliased constant String := "{{value}}";
+{{/mediaVariables}}
+{{#mediaLists}}
+   Media_List_{{-index}} : aliased constant {{openApiPackageName}}.Mime_List := ({{#this}}
+     {{-index}} => {{name}}{{^-last}},
+     {{/-last}}{{/this}});{{/mediaLists}}
 
    package body Skeleton is
 
@@ -19,7 +27,13 @@ package body {{package}}.Skeletons is
          new {{openApiPackageName}}.Servers.Operation
             (Handler => {{operationId}},
              Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
-             URI     => URI_Prefix & "{{path}}");
+             URI     => URI_Prefix & "{{path}}",
+{{#vendorExtensions.x-produces-media-index}}
+             Mimes   => Media_List_{{vendorExtensions.x-produces-media-index}}'Access);
+{{/vendorExtensions.x-produces-media-index}}
+{{^vendorExtensions.x-produces-media-index}}
+             Mimes   => null);
+{{/vendorExtensions.x-produces-media-index}}
 
       --  {{summary}}
       procedure {{operationId}}
@@ -32,11 +46,11 @@ package body {{package}}.Skeletons is
          {{/hasBodyParam}}
          Impl : Implementation_Type;
          {{#allParams}}
-         {{paramName}} : {{dataType}};
+         {{paramName}} : {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
          {{/allParams}}
-         {{#returnType}}
-         Result : {{.}};
-         {{/returnType}}
+         {{#returnProperty}}
+         Result : {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
+         {{/returnProperty}}
       begin
          {{#vendorExtensions.x-auth-scopes}}
          if not Context.Is_Authenticated then
@@ -50,12 +64,16 @@ package body {{package}}.Skeletons is
          end if;
          {{/scopes}}
          {{/vendorExtensions.x-auth-scopes}}
-         {{#queryParams}}
+         {{#queryParams}}{{#vendorExtensions.x-is-model-type}}
+         {{paramName}} := To_{{dataType}} ({{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}"));
+{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
          {{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
-         {{/queryParams}}
-         {{#pathParams}}
+{{/vendorExtensions.x-is-model-type}}{{/queryParams}}
+         {{#pathParams}}{{#vendorExtensions.x-is-model-type}}
+         {{paramName}} := To_{{dataType}} ({{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}));
+{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
          {{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
-         {{/pathParams}}
+{{/vendorExtensions.x-is-model-type}}{{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
          {{openApiPackageName}}.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
@@ -63,7 +81,11 @@ package body {{package}}.Skeletons is
          {{/hasFormParams}}
          {{#hasParams}}
          {{#hasBodyParam}}
-         {{openApiPackageName}}.Servers.Read (Req, Input);
+         {{openApiPackageName}}.Servers.Read (Req, Media_List_{{vendorExtensions.x-consumes-media-index}}, Input);
+         if {{openApiPackageName}}.Is_Null (Input) then
+            Context.Set_Error (415, "Invalid content");
+            return;
+         end if;
 {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
@@ -83,13 +105,33 @@ package body {{package}}.Skeletons is
          {{/returnType}}
          {{/hasParams}}
          {{#returnType}}
-         if Context.Get_Status = 200 then
-            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-            Stream.End_Document;
-         end if;{{/returnType}}
+{{#responses}}
+         if Context.Get_Status = {{code}} then{{#message}}
+            Context.Set_Description ("{{message}}");{{/message}}{{#-first}}{{#schema}}{{#vendorExtensions.x-produces-plain-text}}{{#isFile}}
+            {{openApiPackageName}}.Streams.Write (Stream, Result);
+{{/isFile}}{{^isFile}}
+            Stream.Write ({{openApiPackageName}}.To_String (Result));
+{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}
+{{^vendorExtensions.x-produces-plain-text}}
+{{#isFile}}
+            {{openApiPackageName}}.Streams.Write (Stream, Result);
+{{/isFile}}{{^isFile}}
+            Stream.Start_Document;{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Result){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not Result.Is_Null then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+            Serialize (Stream, "", Result);{{/vendorExtensions.x-is-stream-type}}
+            Stream.End_Document;{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}{{/schema}}{{/-first}}
+            return;
+         end if;
+{{/responses}}{{/returnType}}
       end {{operationId}};
 {{/operation}}
 {{/operations}}
@@ -128,11 +170,11 @@ package body {{package}}.Skeletons is
          Input   : {{openApiPackageName}}.Value_Type;
          {{/hasBodyParam}}
          {{#allParams}}
-         {{paramName}} : {{dataType}};
+         {{paramName}} : {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
          {{/allParams}}
-         {{#returnType}}
-         Result : {{.}};
-         {{/returnType}}
+         {{#returnProperty}}
+         Result : {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
+         {{/returnProperty}}
       begin
          {{#vendorExtensions.x-auth-scopes}}
          if not Context.Is_Authenticated then
@@ -147,11 +189,16 @@ package body {{package}}.Skeletons is
          {{/scopes}}
          {{/vendorExtensions.x-auth-scopes}}
          {{#queryParams}}
+{{#vendorExtensions.x-is-model-type}}
+         {{paramName}} := To_{{dataType}} ({{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}"));
+{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
          {{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
-         {{/queryParams}}
-         {{#pathParams}}
+{{/vendorExtensions.x-is-model-type}}{{/queryParams}}
+         {{#pathParams}}{{#vendorExtensions.x-is-model-type}}
+         {{paramName}} := To_{{dataType}} ({{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}));
+{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
          {{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
-         {{/pathParams}}
+{{/vendorExtensions.x-is-model-type}}{{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
          {{openApiPackageName}}.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
@@ -159,7 +206,7 @@ package body {{package}}.Skeletons is
          {{/hasFormParams}}
          {{#hasParams}}
          {{#hasBodyParam}}
-         {{openApiPackageName}}.Servers.Read (Req, Input);
+         {{openApiPackageName}}.Servers.Read (Req, Media_List_{{vendorExtensions.x-consumes-media-index}}, Input);
          {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
@@ -179,20 +226,47 @@ package body {{package}}.Skeletons is
          {{/returnType}}
          {{/hasParams}}
          {{#returnType}}
-         if Context.Get_Status = 200 then
-            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-            Stream.End_Document;
-         end if;{{/returnType}}
+{{#responses}}
+         if Context.Get_Status = {{code}} then{{#message}}
+            Context.Set_Description ("{{message}}");{{/message}}{{#-first}}{{#schema}}{{#vendorExtensions.x-produces-plain-text}}{{#isFile}}
+            {{openApiPackageName}}.Streams.Write (Stream, Result);
+{{/isFile}}{{^isFile}}
+            Stream.Write ({{openApiPackageName}}.To_String (Result));
+{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}
+{{^vendorExtensions.x-produces-plain-text}}
+{{#isFile}}
+            {{openApiPackageName}}.Streams.Write (Stream, Result);
+{{/isFile}}{{^isFile}}
+            Stream.Start_Document;{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Result){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not Result.Is_Null then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+            Serialize (Stream, "", Result);{{/vendorExtensions.x-is-stream-type}}
+            Stream.End_Document;{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}{{/schema}}{{/-first}}
+            return;
+         end if;
+{{/responses}}{{/returnType}}
       end {{operationId}};
 
       package API_{{operationId}} is
          new {{openApiPackageName}}.Servers.Operation
             (Handler => {{operationId}},
              Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
-             URI     => URI_Prefix & "{{path}}");
+             URI     => URI_Prefix & "{{path}}",
+{{#vendorExtensions.x-produces-media-index}}
+             Mimes   => Media_List_{{vendorExtensions.x-produces-media-index}}'Access);
+{{/vendorExtensions.x-produces-media-index}}
+{{^vendorExtensions.x-produces-media-index}}
+             Mimes   => null);
+{{/vendorExtensions.x-produces-media-index}}
+
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -219,9 +293,9 @@ package body {{package}}.Skeletons is
          --  {{summary}}
          {{#hasParams}}
          procedure {{operationId}}
-            ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
-             {{/-last}}{{/allParams}}{{#returnType}};
-             Result : out {{.}}{{/returnType}};
+            ({{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnProperty}};
+             Result : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}};
              Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          begin
             Impl.{{operationId}}
@@ -233,7 +307,7 @@ package body {{package}}.Skeletons is
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
-         procedure {{operationId}} (Result : out {{returnType}};
+         procedure {{operationId}} (Result : out {{returnProperty.vendorExtensions.x-ada-type-name}};
          Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          begin
             Impl.{{operationId}} (Result, Context);

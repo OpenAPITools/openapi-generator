@@ -2,5 +2,13 @@ generatorName: scala-sttp
 outputDir: samples/client/petstore/scala-sttp
 inputSpec: modules/openapi-generator/src/test/resources/3_0/scala/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/scala-sttp
+nameMappings:
+  _type: "`underscoreType`"
+  type_: "`typeWithUnderscore`"
+  http_debug_operation: "`httpDebugOperation`"
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  http_debug_operation: httpDebugOperation
 additionalProperties:
   artifactId: scala-sttp-petstore

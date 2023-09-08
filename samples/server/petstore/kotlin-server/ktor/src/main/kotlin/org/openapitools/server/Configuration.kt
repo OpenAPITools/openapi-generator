@@ -1,22 +1,25 @@
 package org.openapitools.server
 
 // Use this file to hold package-level internal functions that return receiver object passed to the `install` method.
-import io.ktor.auth.*
-import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.server.auth.*
+import io.ktor.server.config.*
 import io.ktor.util.*
 import java.time.Duration
 import java.util.concurrent.TimeUnit
+import io.ktor.server.plugins.compression.*
+import io.ktor.server.plugins.hsts.*
+
 
 /**
  * Application block for [HSTS] configuration.
  *
  * This file may be excluded in .openapi-generator-ignore,
- * and application specific configuration can be applied in this function.
+ * and application-specific configuration can be applied in this function.
  *
  * See http://ktor.io/features/hsts.html
  */
-internal fun ApplicationHstsConfiguration(): HSTS.Configuration.() -> Unit {
+internal fun ApplicationHstsConfiguration(): HSTSConfig.() -> Unit {
     return {
         maxAgeInSeconds = TimeUnit.DAYS.toSeconds(365)
         includeSubDomains = true
@@ -31,11 +34,11 @@ internal fun ApplicationHstsConfiguration(): HSTS.Configuration.() -> Unit {
  * Application block for [Compression] configuration.
  *
  * This file may be excluded in .openapi-generator-ignore,
- * and application specific configuration can be applied in this function.
+ * and application-specific configuration can be applied in this function.
  *
  * See http://ktor.io/features/compression.html
  */
-internal fun ApplicationCompressionConfiguration(): Compression.Configuration.() -> Unit {
+internal fun ApplicationCompressionConfiguration(): CompressionConfig.() -> Unit {
     return {
         gzip {
             priority = 1.0
@@ -48,24 +51,13 @@ internal fun ApplicationCompressionConfiguration(): Compression.Configuration.()
 }
 
 // Defines authentication mechanisms used throughout the application.
-val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthServerSettings>(
-        OAuthServerSettings.OAuth2ServerSettings(
-            name = "petstore_auth",
-            authorizeUrl = "http://petstore.swagger.io/api/oauth/dialog",
-            accessTokenUrl = "",
-            requestMethod = HttpMethod.Get,
-            clientId = settings.property("auth.oauth.petstore_auth.clientId").getString(),
-            clientSecret = settings.property("auth.oauth.petstore_auth.clientSecret").getString(),
-            defaultScopes = listOf("write:pets", "read:pets")
-        ),
-//        OAuthServerSettings.OAuth2ServerSettings(
-//                name = "facebook",
-//                authorizeUrl = "https://graph.facebook.com/oauth/authorize",
-//                accessTokenUrl = "https://graph.facebook.com/oauth/access_token",
-//                requestMethod = HttpMethod.Post,
-//
-//                clientId = settings.property("auth.oauth.facebook.clientId").getString(),
-//                clientSecret = settings.property("auth.oauth.facebook.clientSecret").getString(),
-//                defaultScopes = listOf("public_profile")
-//        )
-).associateBy { it.name }
+fun applicationAuthProvider(config: ApplicationConfig): OAuthServerSettings =
+    OAuthServerSettings.OAuth2ServerSettings(
+        name = "petstore_auth",
+        authorizeUrl = "http://petstore.swagger.io/api/oauth/dialog",
+        accessTokenUrl = "",
+        requestMethod = HttpMethod.Get,
+        clientId = config.property("auth.oauth.petstore_auth.clientId").getString(),
+        clientSecret = config.property("auth.oauth.petstore_auth.clientSecret").getString(),
+        defaultScopes = listOf("write:pets", "read:pets")
+    )

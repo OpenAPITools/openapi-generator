@@ -294,6 +294,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Landeshauptstadt München - it@M"
+  image: "img/companies/it-at-m.png"
+  infoLink: "https://muenchen.digital/it-at-m/"
+  pinned: false
+-
   caption: "Linode"
   image: "img/companies/linode.png"
   infoLink: "https://www.linode.com/"
@@ -498,6 +503,11 @@
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
   pinned: true
+-
+  caption: SumUp
+  image: "img/companies/sumup.png"
+  infoLink: "https://www.sumup.com/"
+  pinned: false
 -
   caption: Suva
   image: "img/companies/suva.svg"

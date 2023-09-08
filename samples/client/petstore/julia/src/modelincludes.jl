@@ -3,6 +3,7 @@
 
 include("models/model_ApiResponse.jl")
 include("models/model_Category.jl")
+include("models/model_MappedModel.jl")
 include("models/model_Order.jl")
 include("models/model_Pet.jl")
 include("models/model_Tag.jl")

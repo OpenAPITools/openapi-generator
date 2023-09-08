@@ -3,22 +3,22 @@ package {{invokerPackage}}
 import java.io.File
 import java.nio.file.Files
 
-import akka.annotation.ApiMayChange
-import akka.http.scaladsl.model.Multipart.FormData
-import akka.http.scaladsl.model.{ContentType, HttpEntity, Multipart}
-import akka.http.scaladsl.server.Directive1
-import akka.http.scaladsl.server.directives._
-import akka.stream.Materializer
-import akka.stream.scaladsl._
+import {{akkaImportGroupId}}.annotation.ApiMayChange
+import {{akkaImportGroupId}}.http.scaladsl.model.Multipart.FormData
+import {{akkaImportGroupId}}.http.scaladsl.model.{ContentType, HttpEntity, Multipart}
+import {{akkaImportGroupId}}.http.scaladsl.server.Directive1
+import {{akkaImportGroupId}}.http.scaladsl.server.directives._
+import {{akkaImportGroupId}}.stream.Materializer
+import {{akkaImportGroupId}}.stream.scaladsl._
 
 import scala.collection.immutable
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 trait MultipartDirectives {
 
-  import akka.http.scaladsl.server.directives.BasicDirectives._
-  import akka.http.scaladsl.server.directives.FutureDirectives._
-  import akka.http.scaladsl.server.directives.MarshallingDirectives._
+  import {{akkaImportGroupId}}.http.scaladsl.server.directives.BasicDirectives._
+  import {{akkaImportGroupId}}.http.scaladsl.server.directives.FutureDirectives._
+  import {{akkaImportGroupId}}.http.scaladsl.server.directives.MarshallingDirectives._
 
   @ApiMayChange
   def formAndFiles(fileFields: FileField*): Directive1[PartsAndFiles] =

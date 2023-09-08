@@ -4,9 +4,7 @@ import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
-{{#moshiCodeGen}}
 import com.squareup.moshi.JsonClass
-{{/moshiCodeGen}}
 {{/moshi}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -98,6 +96,9 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{#kotlinx_serialization}}
     {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
     {{/kotlinx_serialization}}
+    {{#moshi}}
+    @JsonClass(generateAdapter = false)
+    {{/moshi}}
     {{/multiplatform}}
     {{#multiplatform}}
     @Serializable

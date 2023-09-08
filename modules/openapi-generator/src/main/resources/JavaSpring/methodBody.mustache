@@ -39,7 +39,7 @@ Mono<Void> result = Mono.empty();
         {{/-first}}
             if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
                 String exampleString = {{>exampleString}};
-                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("{{{generatedContentType}}}"), exampleString);
                 break;
             }
         {{#-last}}

@@ -53,7 +53,6 @@ Class | Method | HTTP request | Description
 
  - [org.openapitools.client.models.Animal](docs/Animal.md)
  - [org.openapitools.client.models.Bird](docs/Bird.md)
- - [org.openapitools.client.models.BirdAllOf](docs/BirdAllOf.md)
 
 
 <a id="documentation-for-authorization"></a>

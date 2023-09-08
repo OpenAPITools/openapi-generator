@@ -60,12 +60,12 @@ class Order {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
-     other.id == id &&
-     other.petId == petId &&
-     other.quantity == quantity &&
-     other.shipDate == shipDate &&
-     other.status == status &&
-     other.complete == complete;
+    other.id == id &&
+    other.petId == petId &&
+    other.quantity == quantity &&
+    other.shipDate == shipDate &&
+    other.status == status &&
+    other.complete == complete;
 
   @override
   int get hashCode =>
@@ -133,7 +133,7 @@ class Order {
         id: mapValueOfType<int>(json, r'id'),
         petId: mapValueOfType<int>(json, r'petId'),
         quantity: mapValueOfType<int>(json, r'quantity'),
-        shipDate: mapDateTime(json, r'shipDate', ''),
+        shipDate: mapDateTime(json, r'shipDate', r''),
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: mapValueOfType<bool>(json, r'complete') ?? false,
       );

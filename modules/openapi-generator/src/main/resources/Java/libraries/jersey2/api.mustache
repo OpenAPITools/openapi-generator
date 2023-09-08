@@ -11,14 +11,12 @@ import {{javaxPackage}}.ws.rs.core.GenericType;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-{{/fullJavaUtil}}
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -137,7 +135,7 @@ public class {{classname}} {
     {{#queryParams}}
     {{#-first}}
     // Query parameters
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>(
+    List<Pair> localVarQueryParams = new ArrayList<>(
             apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}})
     );
     {{/-first}}
@@ -151,7 +149,7 @@ public class {{classname}} {
     {{#headerParams}}
     {{#-first}}
     // Header parameters
-    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    Map<String, String> localVarHeaderParams = new LinkedHashMap<>();
     {{/-first}}
     {{^required}}if ({{paramName}} != null) {
       {{/required}}localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
@@ -163,7 +161,7 @@ public class {{classname}} {
     {{#cookieParams}}
     {{#-first}}
     // Cookie parameters
-    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    Map<String, String> localVarCookieParams = new LinkedHashMap<>();
     {{/-first}}
     {{^required}}if ({{paramName}} != null) {
       {{/required}}localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
@@ -175,7 +173,7 @@ public class {{classname}} {
     {{#formParams}}
     {{#-first}}
     // Form parameters
-    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    Map<String, Object> localVarFormParams = new LinkedHashMap<>();
     {{/-first}}
     {{^required}}if ({{paramName}} != null) {
       {{/required}}localVarFormParams.put("{{baseName}}", {{paramName}});{{^required}}

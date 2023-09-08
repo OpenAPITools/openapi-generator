@@ -1,0 +1,725 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: team@openapitools.org
+  description: Echo Server API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Echo Server API
+  version: 0.1.0
+servers:
+- url: http://localhost:3000/
+paths:
+  /path/string/{path_string}/integer/{path_integer}:
+    get:
+      description: Test path parameter(s)
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      parameters:
+      - explode: false
+        in: path
+        name: path_string
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: path_integer
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test path parameter(s)
+      tags:
+      - path
+  /form/integer/boolean/string:
+    post:
+      description: Test form parameter(s)
+      operationId: test/form/integer/boolean/string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/test_form_integer_boolean_string_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s)
+      tags:
+      - form
+  /form/oneof:
+    post:
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/test_form_oneof_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for oneOf schema
+      tags:
+      - form
+  /header/integer/boolean/string:
+    get:
+      description: Test header parameter(s)
+      operationId: test/header/integer/boolean/string
+      parameters:
+      - explode: true
+        in: header
+        name: integer_header
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: header
+        name: boolean_header
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: header
+        name: string_header
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test header parameter(s)
+      tags:
+      - header
+  /query/enum_ref_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/enum_ref_string
+      parameters:
+      - explode: true
+        in: query
+        name: enum_ref_string_query
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/datetime/date/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/datetime/date/string
+      parameters:
+      - explode: true
+        in: query
+        name: datetime_query
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: date_query
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/integer/boolean/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/integer/boolean/string
+      parameters:
+      - explode: true
+        in: query
+        name: integer_query
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: boolean_query
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_true/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/array_string
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_true/object/allOf:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object/allOf
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/DataQuery'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_deepObject/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_deepObject/explode_true/object/allOf:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object/allOf
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /body/application/octetstream/binary:
+    post:
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+  /echo/body/Pet:
+    post:
+      description: Test body parameter(s)
+      operationId: test/echo/body/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+  /echo/body/Pet/response_string:
+    post:
+      description: Test empty response body
+      operationId: test/echo/body/Pet/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test empty response body
+      tags:
+      - body
+  /echo/body/Tag/response_string:
+    post:
+      description: Test empty json (request body)
+      operationId: test/echo/body/Tag/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Tag'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test empty json (request body)
+      tags:
+      - body
+  /echo/body/FreeFormObject/response_string:
+    post:
+      description: Test free form object
+      operationId: test/echo/body/FreeFormObject/response_string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Free form object
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test free form object
+      tags:
+      - body
+  /binary/gif:
+    post:
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        "200":
+          content:
+            image/gif:
+              schema:
+                format: binary
+                type: string
+          description: Successful operation
+      summary: Test binary (gif) response body
+      tags:
+      - body
+  /body/application/octetstream/array_of_binary:
+    post:
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test array of binary in multipart mime
+      tags:
+      - body
+  /auth/http/basic:
+    post:
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_auth: []
+      summary: To test HTTP basic authentication
+      tags:
+      - auth
+components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    Tag:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tag'
+      description: Tag object
+  schemas:
+    Category:
+      example:
+        name: Dogs
+        id: 1
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        name:
+          example: Dogs
+          type: string
+      type: object
+      xml:
+        name: category
+    Tag:
+      example:
+        name: name
+        id: 0
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: tag
+    Pet:
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+        name: doggie
+        id: 10
+        category:
+          name: Dogs
+          id: 1
+        tags:
+        - name: name
+          id: 0
+        - name: name
+          id: 0
+        status: available
+      properties:
+        id:
+          example: 10
+          format: int64
+          type: integer
+        name:
+          example: doggie
+          type: string
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
+          items:
+            type: string
+            xml:
+              name: photoUrl
+          type: array
+          xml:
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+      xml:
+        name: pet
+    StringEnumRef:
+      enum:
+      - success
+      - failure
+      - unclassified
+      type: string
+    DefaultValue:
+      description: to test the default value of properties
+      properties:
+        array_string_enum_ref_default:
+          default:
+          - success
+          - failure
+          items:
+            $ref: '#/components/schemas/StringEnumRef'
+          type: array
+        array_string_enum_default:
+          default:
+          - success
+          - failure
+          items:
+            enum:
+            - success
+            - failure
+            - unclassified
+            type: string
+          type: array
+        array_string_default:
+          default:
+          - failure
+          - skipped
+          items:
+            type: string
+          type: array
+        array_integer_default:
+          default:
+          - 1
+          - 3
+          items:
+            type: integer
+          type: array
+        array_string:
+          items:
+            type: string
+          type: array
+        array_string_nullable:
+          items:
+            type: string
+          nullable: true
+          type: array
+        array_string_extension_nullable:
+          items:
+            type: string
+          type: array
+          x-nullable: true
+        string_nullable:
+          nullable: true
+          type: string
+      type: object
+    Bird:
+      properties:
+        size:
+          type: string
+        color:
+          type: string
+      type: object
+    Query:
+      properties:
+        id:
+          description: Query
+          format: int64
+          type: integer
+        outcomes:
+          default:
+          - SUCCESS
+          - FAILURE
+          items:
+            enum:
+            - SUCCESS
+            - FAILURE
+            - SKIPPED
+            type: string
+          type: array
+      type: object
+      x-parent: true
+    DataQuery:
+      allOf:
+      - properties:
+          suffix:
+            description: test suffix
+            type: string
+          text:
+            description: Some text containing white spaces
+            example: Some text
+            type: string
+          date:
+            description: A date
+            format: date-time
+            type: string
+        type: object
+      - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      properties:
+        number:
+          type: number
+        float:
+          format: float
+          type: number
+        double:
+          format: double
+          maximum: 50.2
+          minimum: 0.8
+          type: number
+      type: object
+    test_form_integer_boolean_string_request:
+      properties:
+        integer_form:
+          type: integer
+        boolean_form:
+          type: boolean
+        string_form:
+          type: string
+      type: object
+    test_form_oneof_request_oneOf:
+      properties:
+        form1:
+          type: string
+        form2:
+          type: integer
+      type: object
+    test_form_oneof_request_oneOf_1:
+      properties:
+        form3:
+          type: string
+        form4:
+          type: boolean
+      type: object
+    test_form_oneof_request:
+      oneOf:
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
+      - $ref: '#/components/schemas/Tag'
+      type: object
+    test_query_style_form_explode_true_array_string_query_object_parameter:
+      properties:
+        values:
+          items:
+            type: string
+          type: array
+      type: object
+    test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
+      allOf:
+      - $ref: '#/components/schemas/Bird'
+      - $ref: '#/components/schemas/Category'
+    test_body_multipart_formdata_array_of_binary_request:
+      properties:
+        files:
+          items:
+            format: binary
+            type: string
+          type: array
+      required:
+      - files
+      type: object
+  securitySchemes:
+    http_auth:
+      scheme: basic
+      type: http
+

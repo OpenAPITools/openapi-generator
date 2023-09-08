@@ -127,6 +127,9 @@ ext {
     {{#swagger1AnnotationLibrary}}
     swagger_annotations_version = "1.6.3"
     {{/swagger1AnnotationLibrary}}
+    {{#swagger2AnnotationLibrary}}
+    swagger_annotations_version = "2.2.9"
+    {{/swagger2AnnotationLibrary}}
     {{#useJakartaEe}}
     spring_boot_version = "3.0.1"
     jakarta_annotation_version = "2.1.1"
@@ -154,6 +157,9 @@ dependencies {
     {{#swagger1AnnotationLibrary}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     {{/swagger1AnnotationLibrary}}
+    {{#swagger2AnnotationLibrary}}
+    implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
+    {{/swagger2AnnotationLibrary}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"

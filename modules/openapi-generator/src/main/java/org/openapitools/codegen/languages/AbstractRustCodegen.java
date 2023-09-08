@@ -42,7 +42,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUST;
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -65,19 +67,20 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
      * Determine the best fitting Rust type for an integer property. This is intended for use when a specific format
      * has not been defined in the specification. Where the minimum or maximum is not known then the returned type
      * will default to having at least 32 bits.
-     * @param minimum The minimum value as set in the specification.
+     *
+     * @param minimum          The minimum value as set in the specification.
      * @param exclusiveMinimum If the minimum value itself is excluded by the specification.
-     * @param maximum The maximum value as set in the specification.
+     * @param maximum          The maximum value as set in the specification.
      * @param exclusiveMaximum If the maximum value itself is excluded by the specification.
-     * @param preferUnsigned Use unsigned types where the effective minimum is greater than or equal to zero.
+     * @param preferUnsigned   Use unsigned types where the effective minimum is greater than or equal to zero.
      * @return The Rust data type name.
      */
     @VisibleForTesting
     public String bestFittingIntegerType(@Nullable BigInteger minimum,
-                                  boolean exclusiveMinimum,
-                                  @Nullable BigInteger maximum,
-                                  boolean exclusiveMaximum,
-                                  boolean preferUnsigned) {
+                                         boolean exclusiveMinimum,
+                                         @Nullable BigInteger maximum,
+                                         boolean exclusiveMaximum,
+                                         boolean preferUnsigned) {
         if (exclusiveMinimum) {
             minimum = Optional.ofNullable(minimum).map(min -> min.add(BigInteger.ONE)).orElse(null);
         }
@@ -127,7 +130,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     /**
      * Determine if an integer property can be guaranteed to fit into an unsigned data type.
-     * @param minimum The minimum value as set in the specification.
+     *
+     * @param minimum          The minimum value as set in the specification.
      * @param exclusiveMinimum If boundary values are excluded by the specification.
      * @return True if the effective minimum is greater than or equal to zero.
      */
@@ -141,7 +145,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         }).orElse(false);
     }
 
-    public enum CasingType {CAMEL_CASE, SNAKE_CASE};
+    public enum CasingType {CAMEL_CASE, SNAKE_CASE}
+
+    ;
 
     /**
      * General purpose sanitizing function for Rust identifiers (fields, variables, structs, parameters, etc.).<br>
@@ -151,10 +157,11 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
      *     <li>Cannot use reserved words (but can sometimes prefix with "r#")
      *     <li>Cannot begin with a number
      * </ul>
-     * @param name The input string
-     * @param casingType Which casing type to apply
-     * @param escapePrefix Prefix to escape words beginning with numbers or reserved words
-     * @param type The type of identifier (used for logging)
+     *
+     * @param name                The input string
+     * @param casingType          Which casing type to apply
+     * @param escapePrefix        Prefix to escape words beginning with numbers or reserved words
+     * @param type                The type of identifier (used for logging)
      * @param allowRawIdentifiers Raw identifiers can't always be used, because of filename vs import mismatch.
      * @return Sanitized string
      */
@@ -214,7 +221,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
                 name = casingFunction.apply(escapePrefix + '_' + name);
             } else {
                 name = "r#" + name;
-            };
+            }
         }
 
         // If the name had to be modified (not just because of casing), log the change
@@ -227,11 +234,21 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "field/variable", true);
     }
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", true);
     }
 
@@ -283,7 +300,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String toEnumName(CodegenProperty property) {
         // Note: Strangely this function is only used for inline enums, schema enums go through the toModelName function
-        String name = property.name;
+        String name = property.baseName;
         if (!Strings.isNullOrEmpty(enumSuffix)) {
             name = name + "_" + enumSuffix;
         }
@@ -334,4 +351,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
 }

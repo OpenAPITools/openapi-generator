@@ -10,22 +10,22 @@ import (
 // Route is the information for every URI.
 type Route struct {
 	// Name is the name of this Route.
-	Name        string
+	Name		string
 	// Method is the string for the HTTP method. ex) GET, POST etc..
-	Method      string
+	Method		string
 	// Pattern is the pattern of the URI.
-	Pattern     string
+	Pattern	 	string
 	// HandlerFunc is the handler function of this route.
-	HandlerFunc gin.HandlerFunc
+	HandlerFunc	gin.HandlerFunc
 }
 
-// Routes is the list of the generated Route.
-type Routes []Route
-
 // NewRouter returns a new router.
-func NewRouter() *gin.Engine {
+func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
 	router := gin.Default()
-	for _, route := range routes {
+	for _, route := range getRoutes(handleFunctions) {
+		if route.HandlerFunc == nil {
+			route.HandlerFunc = DefaultHandleFunc
+		}
 		switch route.Method {
 		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
@@ -43,23 +43,25 @@ func NewRouter() *gin.Engine {
 	return router
 }
 
-// Index is the index handler.
-func Index(c *gin.Context) {
-	c.String(http.StatusOK, "Hello World!")
+// Default handler for not yet implemented routes
+func DefaultHandleFunc(c *gin.Context) {
+	c.String(http.StatusNotImplemented, "501 not implemented")
 }
 
-var routes = Routes{
-	{
-		"Index",
-		http.MethodGet,
-		"{{{basePathWithoutHost}}}/",
-		Index,
-	},{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+type ApiHandleFunctions struct {
+{{#apiInfo}}{{#apis}}{{#operations}}
+	// Routes for the {{classname}} part of the API
+	{{classname}} {{classname}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
 
-	{
-		"{{operationId}}",
-		http.Method{{httpMethod}},
-		"{{{basePathWithoutHost}}}{{{path}}}",
-		{{operationId}},
-	},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+func getRoutes(handleFunctions ApiHandleFunctions) []Route {
+	return []Route{
+	{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+		{
+			"{{operationId}}",
+			http.Method{{httpMethod}},
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			handleFunctions.{{classname}}.{{operationId}},
+		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+	}
 }

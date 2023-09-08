@@ -197,6 +197,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>string</li>
 <li>struct</li>
 <li>switch</li>
+<li>system</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
@@ -324,6 +325,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

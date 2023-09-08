@@ -17,14 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import com.google.common.collect.Iterables;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +114,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
-        
+
         // option to exclude service factories; only interfaces are rendered
         CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
         optOnlyInterfaces.setType("bool");
@@ -288,6 +288,38 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used. So super.postProcessModels must be invoked at the beginning
+        // of this method.
+        objs = super.postProcessModels(objs);
+
+        List<Map<String, String>> imports = objs.getImports();
+
+        for (ModelMap m : objs.getModels()) {
+//            imports.add(createMapping("import", "encoding/json"));
+
+            CodegenModel model = m.getModel();
+            if (model.isEnum) {
+                continue;
+            }
+
+            Boolean importErrors = false;
+
+            for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
+                    importErrors = true;
+                }
+            }
+
+            if (importErrors) {
+                imports.add(createMapping("import", "errors"));
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap objectMap = objs.getOperations();
@@ -404,29 +436,4 @@ public class GoServerCodegen extends AbstractGoCodegen {
         this.outputAsLibrary = outputAsLibrary;
     }
 
-    @Override
-    protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
-         * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
-         */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
-            // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-        }
-        if (ModelUtils.isMapSchema(schema)) {
-            // an object or anyType composed schema that has additionalProperties set
-            addAdditionPropertiesToCodeGenModel(m, schema);
-        } else {
-            m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-                // non-composed object type with no properties + additionalProperties
-                // additionalProperties must be null, ObjectSchema, or empty Schema
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            }
-        }
-        // process 'additionalProperties'
-        setAddProps(schema, m);
-    }
 }

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -142,9 +143,9 @@ public class ArrayTest  implements Serializable {
       return false;
     }
     ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override

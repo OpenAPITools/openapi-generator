@@ -1,7 +1,5 @@
 export * from '../models/Cat';
-export * from '../models/CatAllOf';
 export * from '../models/Dog';
-export * from '../models/DogAllOf';
 export * from '../models/FilePostRequest';
 export * from '../models/PetByAge';
 export * from '../models/PetByType';
@@ -9,9 +7,7 @@ export * from '../models/PetsFilteredPatchRequest';
 export * from '../models/PetsPatchRequest';
 
 import { Cat } from '../models/Cat';
-import { CatAllOf } from '../models/CatAllOf';
 import { Dog , DogBreedEnum   } from '../models/Dog';
-import { DogAllOf , DogAllOfBreedEnum   } from '../models/DogAllOf';
 import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
@@ -32,6 +28,9 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
+  "application/json-patch+json": 1,
+  "application/merge-patch+json": 1,
+  "application/strategic-merge-patch+json": 1,
   "application/octet-stream": 0,
   "application/x-www-form-urlencoded": 0
 }
@@ -39,7 +38,6 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
-    "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",
     "PetsFilteredPatchRequestPetTypeEnum",
     "PetsPatchRequestBreedEnum",
@@ -47,9 +45,7 @@ let enumsMap: Set<string> = new Set<string>([
 
 let typeMap: {[index: string]: any} = {
     "Cat": Cat,
-    "CatAllOf": CatAllOf,
     "Dog": Dog,
-    "DogAllOf": DogAllOf,
     "FilePostRequest": FilePostRequest,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
@@ -197,7 +193,7 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 
@@ -226,7 +222,7 @@ export class ObjectSerializer {
             return String(data);
         }
 
-        if (mediaType === "application/json") {
+        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
             return JSON.stringify(data);
         }
 
@@ -245,7 +241,7 @@ export class ObjectSerializer {
             return rawData;
         }
 
-        if (mediaType === "application/json") {
+        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
             return JSON.parse(rawData);
         }
 

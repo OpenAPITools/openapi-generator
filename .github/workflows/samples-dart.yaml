@@ -17,27 +17,19 @@ jobs:
     name: Tests Dart
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 8
-      - name: Cache maven dependencies
-        uses: actions/cache@v3
-        env:
-          cache-name: maven-repository
-        with:
-          path: |
-            ~/.m2/repository
-            ~/.gradle
-          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+          java-version: 11
+          cache: maven
       - name: Cache test dependencies
         uses: actions/cache@v3
         env:
           cache-name: pub-cache
         with:
           path: $PUB_CACHE
-          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.yaml') }}
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.*') }}
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: 2.15.0

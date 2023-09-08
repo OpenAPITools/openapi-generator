@@ -62,7 +62,13 @@ inline bool operator==(const PFXObject& left, const PFXObject& right){
     return (left.asJsonObject() == right.asJsonObject());  
 }
 
-inline uint qHash(const PFXObject& obj, uint seed = 0) noexcept{
+inline
+#if QT_VERSION < 0x060000
+uint
+#else
+size_t
+#endif
+qHash(const PFXObject& obj, uint seed = 0) noexcept{
     return qHash(obj.asJsonObject(), seed);
 }
 

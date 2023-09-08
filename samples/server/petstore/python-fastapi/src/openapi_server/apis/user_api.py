@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from typing import Dict, List  # noqa: F401
+import importlib
+import pkgutil
+
+from openapi_server.apis.user_api_base import BaseUserApi
+import openapi_server.impl
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -22,6 +27,10 @@ from openapi_server.security_api import get_token_api_key
 
 router = APIRouter()
 
+ns_pkg = openapi_server.impl
+for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
+    importlib.import_module(name)
+
 
 @router.post(
     "/user",
@@ -39,7 +48,7 @@ async def create_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().create_user(user)
 
 
 @router.post(
@@ -58,7 +67,7 @@ async def create_users_with_array_input(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().create_users_with_array_input(user)
 
 
 @router.post(
@@ -77,7 +86,7 @@ async def create_users_with_list_input(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().create_users_with_list_input(user)
 
 
 @router.delete(
@@ -97,7 +106,7 @@ async def delete_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().delete_user(username)
 
 
 @router.get(
@@ -115,7 +124,7 @@ async def get_user_by_name(
     username: str = Path(None, description="The name that needs to be fetched. Use user1 for testing."),
 ) -> User:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().get_user_by_name(username)
 
 
 @router.get(
@@ -129,11 +138,11 @@ async def get_user_by_name(
     response_model_by_alias=True,
 )
 async def login_user(
-    username: str = Query(None, description="The user name for login", regex=r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$"),
+    username: str = Query(None, description="The user name for login", regex=r"/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/"),
     password: str = Query(None, description="The password for login in clear text"),
 ) -> str:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().login_user(username, password)
 
 
 @router.get(
@@ -151,7 +160,7 @@ async def logout_user(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().logout_user()
 
 
 @router.put(
@@ -172,4 +181,4 @@ async def update_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().update_user(username, user)

@@ -811,6 +811,9 @@ Supporting files can either be processed through the templating engine or copied
 - **isContainer**: true if the parameter or property is an array or a map.
 - **isPrimitiveType**: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.
 
+More variables can be found [here](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenProperty.java).
+
+
 ## Mustache Lambdas
 
 Many generators (*those extending DefaultCodegen*) come with a small set of lambda functions available under the key `lambda`:

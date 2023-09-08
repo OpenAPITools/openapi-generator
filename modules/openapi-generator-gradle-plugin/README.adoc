@@ -44,17 +44,17 @@ All extensions can be rewritten as tasks. Where you can have only a single exten
 ----
 // Validating a single specification
 openApiValidate {
-    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    inputSpec.set("$rootDir/petstore-v3.0-invalid.yaml")
 }
 
 // Define a task for validating one specification
-task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+    inputSpec.set("$rootDir/petstore-v3.0.yaml")
 }
 
 // Define a task for validating another specification
-task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
-    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+    inputSpec.set("$rootDir/petstore-v3.0-invalid.yaml")
 }
 
 // Define a task for batch validations
@@ -81,11 +81,11 @@ Disable up-to-date checks and caching for a custom task:
 .Disable caching for custom task
 [source,groovy]
 ----
-task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
     outputs.upToDateWhen { false }
     outputs.cacheIf { false }
 
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    inputSpec.set("$rootDir/petstore-v3.0.yaml")
 }
 ----
 ====
@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "6.3.0"
+  id "org.openapi.generator" version "6.6.0"
 }
 ----
 
@@ -108,12 +108,12 @@ Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_appl
 buildscript {
   repositories {
     mavenLocal()
-    maven { url "https://repo1.maven.org/maven2" }
+    mavenCentral()
     // or, via Gradle Plugin Portal:
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:6.3.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:6.6.0"
   }
 }
 
@@ -239,15 +239,30 @@ apply plugin: 'org.openapi.generator'
 |None
 |specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
 
+|nameMappings
+|Map(String,String)
+|None
+|specifies mappings between the property name and the new name in the format of property_a=firstProperty,property_b=secondProperty. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|modelNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the model name and the new name in the format of model_a=FirstModel,property_b=SecondModel. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|parameterNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the parameter name and the new name in the format of parameter_a=firstParameter,parameter_b=secondParameter. https://openapi-generator.tech/docs/customization/#name-mapping
+
 |inlineSchemaNameMappings
 |Map(String,String)
 |None
 |specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
 
-|inlineSchemaNameDefaults
+|inlineSchemaOptions
 |Map(String,String)
 |None
-|specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+|specifies the options used when handling inline schema in inline model resolver
 
 |additionalProperties
 |Map(String,Any)
@@ -418,6 +433,12 @@ apply plugin: 'org.openapi.generator'
 |Boolean
 |false
 |Defines whether the output directory should be cleaned up before generating the output.
+
+|dryRun
+|Boolean
+|false
+|Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about
+file states is output.
 |===
 
 [NOTE]
@@ -435,10 +456,10 @@ When configuring `globalProperties` in order to perform selective generation you
 ----
 openApiGenerate {
     // other settings omitted
-    globalProperties = [
+    globalProperties.set([
         modelDocs: "false",
         apis: "false"
-    ]
+    ])
 }
 ----
 When enabling generation of only specific parts you either have to provide CSV list of what you particularly are generating or provide an empty string `""` to generate everything. If you provide `"true"` it will be treated as a specific name of model or api you want to generate.
@@ -446,10 +467,10 @@ When enabling generation of only specific parts you either have to provide CSV l
 ----
 openApiGenerate {
     // other settings omitted
-    globalProperties = [
+    globalProperties.set([
         apis: "",
         models: "User:Pet"
-    ]
+    ])
 }
 ----
 ====
@@ -518,15 +539,15 @@ This task exposes all options available via OpenAPI Generator CLI and the OpenAP
 [source,groovy]
 ----
 openApiGenerate {
-    generatorName = "kotlin"
-    inputSpec = "$rootDir/specs/petstore-v3.0.yaml".toString()
-    outputDir = "$buildDir/generated".toString()
-    apiPackage = "org.openapi.example.api"
-    invokerPackage = "org.openapi.example.invoker"
-    modelPackage = "org.openapi.example.model"
-    configOptions = [
+    generatorName.set("kotlin")
+    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("org.openapi.example.api")
+    invokerPackage.set("org.openapi.example.invoker")
+    modelPackage.set("org.openapi.example.model")
+    configOptions.set([
         dateLibrary: "java8"
-    ]
+    ])
 }
 ----
 
@@ -579,8 +600,8 @@ Please run the above task to list all available generators.
 [source,groovy]
 ----
 openApiMeta {
-   generatorName = "Jim"
-   packageName = "us.jimschubert.example"
+   generatorName.set("Jim")
+   packageName.set("us.jimschubert.example")
 }
 ----
 
@@ -610,8 +631,8 @@ BUILD SUCCESSFUL in 0s
 [source,groovy]
 ----
 openApiValidate {
-   inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
-   recommend = true
+   inputSpec.set("/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml")
+   recommend.set(true)
 }
 ----
 
@@ -669,30 +690,30 @@ Examples can be found in https://github.com/OpenAPITools/openapi-generator/blob/
 You can define any number of generator tasks; the generated code does _not_ need to be a JVM language.
 
 ```gradle
-task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
-    generatorName = "go"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    additionalProperties = [
+task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("go")
+    inputSpec.set("$rootDir/petstore-v3.0.yaml")
+    additionalProperties.set([
             packageName: "petstore"
-    ]
-    outputDir = "$buildDir/go".toString()
-    configOptions = [
+    ])
+    outputDir.set("$buildDir/go")
+    configOptions.set([
             dateLibrary: "threetenp"
-    ]
+    ])
 }
-task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
-    generatorName = "kotlin"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = "$buildDir/kotlin".toString()
-    apiPackage = "org.openapitools.example.api"
-    invokerPackage = "org.openapitools.example.invoker"
-    modelPackage = "org.openapitools.example.model"
-    configOptions = [
+task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("kotlin")
+    inputSpec.set("$rootDir/petstore-v3.0.yaml")
+    outputDir.set("$buildDir/kotlin")
+    apiPackage.set("org.openapitools.example.api")
+    invokerPackage.set("org.openapitools.example.invoker")
+    modelPackage.set("org.openapitools.example.model")
+    configOptions.set([
             dateLibrary: "java8"
-    ]
-    globalProperties = [
+    ])
+    globalProperties.set([
             modelDocs: "false"
-    ]
+    ])
 }
 ```
 
@@ -740,7 +761,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:6.3.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:6.6.0') {
             exclude group: 'com.google.guava'
         }
     }

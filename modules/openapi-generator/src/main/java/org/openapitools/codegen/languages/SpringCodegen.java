@@ -23,16 +23,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -86,6 +77,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
+
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -98,6 +90,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
+
+    public static final String RESOURCE_FOLDER = "resourceFolder";
+    public static final String RESOURCE_FOLDER_DESC = "resource folder for generated resources";
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -140,6 +135,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
+    protected String resourceFolder = projectFolder + "/resources";
+
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
     protected boolean delegatePattern = false;
@@ -265,6 +262,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
             "Whether to generate constructors with required args for models",
             generatedConstructorWithRequiredArgs));
+        cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -295,7 +293,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public DocumentationProvider defaultDocumentationProvider() {
-        return SPRING_HTTP_INTERFACE.equals(library) ? DocumentationProvider.NONE : DocumentationProvider.SPRINGDOC;
+        return isLibrary(SPRING_HTTP_INTERFACE) ? null : DocumentationProvider.SPRINGDOC;
     }
 
     public List<DocumentationProvider> supportedDocumentationProvider() {
@@ -370,8 +368,21 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe=true;
+            useBeanValidation = false;
+            performBeanValidation = false;
+
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
+            additionalProperties.put(PERFORM_BEANVALIDATION, performBeanValidation);
+            additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
+            additionalProperties.put(documentationProvider.getPropertyName(), true);
+            additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
+            additionalProperties.put(annotationLibrary.getPropertyName(), true);
+
             applyJakartaPackage();
+
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
+                + "useJakartaEe defaulted to 'true'");
         }
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -527,10 +538,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
+        if (additionalProperties.containsKey(RESOURCE_FOLDER)) {
+            this.setResourceFolder((String) additionalProperties.get(RESOURCE_FOLDER));
+        }
+        additionalProperties.put(RESOURCE_FOLDER, resourceFolder);
+
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
-        importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -572,9 +587,18 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "RFC3339DateFormat.java"));
             }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
+
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "ApiKeyRequestInterceptor.java"));
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ApiKeyRequestInterceptor.java"));
+
+                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
+                      resourceFolder, "oauth2-client.properties"));
+
+                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ClientPropertiesConfiguration.java"));
+
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
@@ -704,6 +728,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.clear();
             modelTemplateFiles.clear();
         }
+        supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
     private boolean containsEnums() {
@@ -720,10 +745,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
+    private boolean supportLibraryUseTags(){
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) && !useTags)) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -741,9 +769,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
         }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+
     }
 
     @Override
@@ -858,8 +887,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final String firstTagName = firstTag.getName();
             // But use a sensible tag name if there is none
             objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
-            objs.put("tagDescription", firstTag.getDescription());
+            objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
+
+        removeImport(objs, "java.util.List");
 
         return objs;
     }
@@ -952,7 +983,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(name) + apiNameSuffix;
     }
 
     @Override
@@ -1161,13 +1192,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                                     codegenModel.getImports().add(imp);
                                 }
                             }
-
-                            if (property.required) {
-                                codegenModel.parentRequiredVars.add(parentVar.clone());
-                            }
                         }
                     }
                     parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
                 }
                 // There must be a better way ...
                 for (String imp: inheritedImports) {
@@ -1191,6 +1221,13 @@ public class SpringCodegen extends AbstractJavaCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+
+        // add Pageable import only if x-spring-paginated explicitly used
+        // this allows to use a custom Pageable schema without importing Spring Pageable.
+        if (Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+            importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
+        }
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
@@ -1267,6 +1304,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
@@ -1331,6 +1369,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             return dataType;
         }
         return dataType.replace( "<", "<@Valid " );
+    }
+
+    public void setResourceFolder( String resourceFolder ) {
+        this.resourceFolder = resourceFolder;
+    }
+
+    public String getResourceFolder() {
+        return resourceFolder;
     }
 
 

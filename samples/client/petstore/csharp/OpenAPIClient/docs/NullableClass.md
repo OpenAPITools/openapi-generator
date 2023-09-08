@@ -1,4 +1,3 @@
-
 # Org.OpenAPITools.Model.NullableClass
 
 ## Properties
@@ -18,7 +17,5 @@ Name | Type | Description | Notes
 **ObjectAndItemsNullableProp** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
 **ObjectItemsNullable** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to README]](../README.md)
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

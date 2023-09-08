@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -840,35 +841,35 @@ public class XmlItem  implements Serializable {
       return false;
     }
     XmlItem xmlItem = (XmlItem) o;
-    return Objects.equals(this.attributeString, xmlItem.attributeString) &&
-        Objects.equals(this.attributeNumber, xmlItem.attributeNumber) &&
-        Objects.equals(this.attributeInteger, xmlItem.attributeInteger) &&
-        Objects.equals(this.attributeBoolean, xmlItem.attributeBoolean) &&
-        Objects.equals(this.wrappedArray, xmlItem.wrappedArray) &&
-        Objects.equals(this.nameString, xmlItem.nameString) &&
-        Objects.equals(this.nameNumber, xmlItem.nameNumber) &&
-        Objects.equals(this.nameInteger, xmlItem.nameInteger) &&
-        Objects.equals(this.nameBoolean, xmlItem.nameBoolean) &&
-        Objects.equals(this.nameArray, xmlItem.nameArray) &&
-        Objects.equals(this.nameWrappedArray, xmlItem.nameWrappedArray) &&
-        Objects.equals(this.prefixString, xmlItem.prefixString) &&
-        Objects.equals(this.prefixNumber, xmlItem.prefixNumber) &&
-        Objects.equals(this.prefixInteger, xmlItem.prefixInteger) &&
-        Objects.equals(this.prefixBoolean, xmlItem.prefixBoolean) &&
-        Objects.equals(this.prefixArray, xmlItem.prefixArray) &&
-        Objects.equals(this.prefixWrappedArray, xmlItem.prefixWrappedArray) &&
-        Objects.equals(this.namespaceString, xmlItem.namespaceString) &&
-        Objects.equals(this.namespaceNumber, xmlItem.namespaceNumber) &&
-        Objects.equals(this.namespaceInteger, xmlItem.namespaceInteger) &&
-        Objects.equals(this.namespaceBoolean, xmlItem.namespaceBoolean) &&
-        Objects.equals(this.namespaceArray, xmlItem.namespaceArray) &&
-        Objects.equals(this.namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
-        Objects.equals(this.prefixNsString, xmlItem.prefixNsString) &&
-        Objects.equals(this.prefixNsNumber, xmlItem.prefixNsNumber) &&
-        Objects.equals(this.prefixNsInteger, xmlItem.prefixNsInteger) &&
-        Objects.equals(this.prefixNsBoolean, xmlItem.prefixNsBoolean) &&
-        Objects.equals(this.prefixNsArray, xmlItem.prefixNsArray) &&
-        Objects.equals(this.prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
+    return Objects.equals(attributeString, xmlItem.attributeString) &&
+        Objects.equals(attributeNumber, xmlItem.attributeNumber) &&
+        Objects.equals(attributeInteger, xmlItem.attributeInteger) &&
+        Objects.equals(attributeBoolean, xmlItem.attributeBoolean) &&
+        Objects.equals(wrappedArray, xmlItem.wrappedArray) &&
+        Objects.equals(nameString, xmlItem.nameString) &&
+        Objects.equals(nameNumber, xmlItem.nameNumber) &&
+        Objects.equals(nameInteger, xmlItem.nameInteger) &&
+        Objects.equals(nameBoolean, xmlItem.nameBoolean) &&
+        Objects.equals(nameArray, xmlItem.nameArray) &&
+        Objects.equals(nameWrappedArray, xmlItem.nameWrappedArray) &&
+        Objects.equals(prefixString, xmlItem.prefixString) &&
+        Objects.equals(prefixNumber, xmlItem.prefixNumber) &&
+        Objects.equals(prefixInteger, xmlItem.prefixInteger) &&
+        Objects.equals(prefixBoolean, xmlItem.prefixBoolean) &&
+        Objects.equals(prefixArray, xmlItem.prefixArray) &&
+        Objects.equals(prefixWrappedArray, xmlItem.prefixWrappedArray) &&
+        Objects.equals(namespaceString, xmlItem.namespaceString) &&
+        Objects.equals(namespaceNumber, xmlItem.namespaceNumber) &&
+        Objects.equals(namespaceInteger, xmlItem.namespaceInteger) &&
+        Objects.equals(namespaceBoolean, xmlItem.namespaceBoolean) &&
+        Objects.equals(namespaceArray, xmlItem.namespaceArray) &&
+        Objects.equals(namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
+        Objects.equals(prefixNsString, xmlItem.prefixNsString) &&
+        Objects.equals(prefixNsNumber, xmlItem.prefixNsNumber) &&
+        Objects.equals(prefixNsInteger, xmlItem.prefixNsInteger) &&
+        Objects.equals(prefixNsBoolean, xmlItem.prefixNsBoolean) &&
+        Objects.equals(prefixNsArray, xmlItem.prefixNsArray) &&
+        Objects.equals(prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
   }
 
   @Override

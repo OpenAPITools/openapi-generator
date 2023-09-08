@@ -10,6 +10,8 @@ pub mod category;
 pub use self::category::Category;
 pub mod enum_array_testing;
 pub use self::enum_array_testing::EnumArrayTesting;
+pub mod nullable_array;
+pub use self::nullable_array::NullableArray;
 pub mod optional_testing;
 pub use self::optional_testing::OptionalTesting;
 pub mod order;

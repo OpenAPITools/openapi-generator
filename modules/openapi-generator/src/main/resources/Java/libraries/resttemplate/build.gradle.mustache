@@ -112,8 +112,11 @@ ext {
     {{#swagger1AnnotationLibrary}}
     swagger_annotations_version = "1.6.9"
     {{/swagger1AnnotationLibrary}}
-    jackson_version = "2.14.1"
-    jackson_databind_version = "2.14.1"
+    {{#swagger2AnnotationLibrary}}
+    swagger_annotations_version = "2.2.9"
+    {{/swagger2AnnotationLibrary}}
+    jackson_version = "2.14.2"
+    jackson_databind_version = "2.15.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
@@ -133,6 +136,9 @@ dependencies {
     {{#swagger1AnnotationLibrary}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     {{/swagger1AnnotationLibrary}}
+    {{#swagger2AnnotationLibrary}}
+    implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
+    {{/swagger2AnnotationLibrary}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"

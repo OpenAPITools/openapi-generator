@@ -16,6 +16,9 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
+  "application/json-patch+json": 1,
+  "application/merge-patch+json": 1,
+  "application/strategic-merge-patch+json": 1,
   "application/octet-stream": 0,
   "application/x-www-form-urlencoded": 0
 }
@@ -168,7 +171,7 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 
@@ -197,7 +200,7 @@ export class ObjectSerializer {
             return String(data);
         }
 
-        if (mediaType === "application/json") {
+        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
             return JSON.stringify(data);
         }
 
@@ -216,7 +219,7 @@ export class ObjectSerializer {
             return rawData;
         }
 
-        if (mediaType === "application/json") {
+        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
             return JSON.parse(rawData);
         }
 
