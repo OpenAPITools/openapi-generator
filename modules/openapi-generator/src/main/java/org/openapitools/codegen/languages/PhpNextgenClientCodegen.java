@@ -20,11 +20,14 @@ package org.openapitools.codegen.languages;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
 public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -121,5 +125,33 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
         supportingFiles.add(new SupportingFile(".phplint.mustache", "", ".phplint.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            entry.setValue(postProcessModelsMap(entry.getValue()));
+        }
+
+        return processed;
+    }
+
+    private ModelsMap postProcessModelsMap(ModelsMap objs) {
+        for (ModelMap m : objs.getModels()) {
+            CodegenModel model = m.getModel();
+
+            if (model.isEnum) {
+                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
+                    if ((Boolean) enumVars.get("isString")) {
+                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "string");
+                    } else {
+                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "int");
+                    }
+                }
+            }
+        }
+        return objs;
     }
 }

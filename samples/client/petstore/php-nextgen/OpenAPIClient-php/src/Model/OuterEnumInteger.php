@@ -37,29 +37,14 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class OuterEnumInteger
+enum OuterEnumInteger: int
 {
-    /**
-     * Possible values of this enum
-     */
-    public const NUMBER_0 = 0;
+    case NUMBER_0 = 0;
 
-    public const NUMBER_1 = 1;
+    case NUMBER_1 = 1;
 
-    public const NUMBER_2 = 2;
+    case NUMBER_2 = 2;
 
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public static function getAllowableEnumValues()
-    {
-        return [
-            self::NUMBER_0,
-            self::NUMBER_1,
-            self::NUMBER_2
-        ];
-    }
 }
 
 

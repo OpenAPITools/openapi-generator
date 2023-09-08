@@ -37,29 +37,14 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class OuterEnum
+enum OuterEnum: string
 {
-    /**
-     * Possible values of this enum
-     */
-    public const PLACED = 'placed';
+    case PLACED = 'placed';
 
-    public const APPROVED = 'approved';
+    case APPROVED = 'approved';
 
-    public const DELIVERED = 'delivered';
+    case DELIVERED = 'delivered';
 
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public static function getAllowableEnumValues()
-    {
-        return [
-            self::PLACED,
-            self::APPROVED,
-            self::DELIVERED
-        ];
-    }
 }
 
 
