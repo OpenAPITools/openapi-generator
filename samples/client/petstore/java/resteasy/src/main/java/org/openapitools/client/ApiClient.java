@@ -493,12 +493,12 @@ public class ApiClient extends JavaTimeFormatter {
         if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           try {
-            multipart.addFormData(param.getValue().toString(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+            multipart.addFormData(param.getKey(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
           } catch (FileNotFoundException e) {
             throw new ApiException("Could not serialize multipart/form-data "+e.getMessage());
           }
         } else {
-          multipart.addFormData(param.getValue().toString(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+          multipart.addFormData(param.getKey(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
         }
       }
       GenericEntity<MultipartFormDataOutput> genericEntity = new GenericEntity<MultipartFormDataOutput>(multipart) { };
