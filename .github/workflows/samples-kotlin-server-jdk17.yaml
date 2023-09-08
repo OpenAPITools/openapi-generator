@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      # comment out due to gradle build failure
+      # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      # comment out due to gradle build failure
+      # - samples/server/petstore/kotlin-spring-default/**
 
 env:
   GRADLE_VERSION: 7.4
@@ -21,8 +25,10 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot-3
+          # comment out due to gradle build failure
+          # - samples/server/petstore/kotlin-spring-default/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'

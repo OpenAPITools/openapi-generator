@@ -114,12 +114,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         specialCharReplacements.put(">", "GreaterThan");
         specialCharReplacements.put("<", "LessThan");
 
-        // backslash and double quote need double the escapement for both Java and Haskell
-        specialCharReplacements.remove("\\");
-        specialCharReplacements.remove("\"");
-        specialCharReplacements.put("\\\\", "Back_Slash");
-        specialCharReplacements.put("\\\"", "Double_Quote");
-
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
 
@@ -658,6 +652,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(prop.name));
+            prop.vendorExtensions.put("x-base-name-string-literal", "\"" + escapeText(prop.getBaseName()) + "\"");
         }
 
         // Create newtypes for things with non-object types
@@ -668,8 +663,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             model.vendorExtensions.put("x-custom-newtype", newtype);
         }
 
-        // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and FromJSON instances.
-        model.vendorExtensions.put("x-prefix", prefix);
         model.vendorExtensions.put("x-data", dataOrNewtype);
 
         return model;

@@ -132,6 +132,8 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**RolesReportGet**](docs/DefaultApi.md#rolesreportget) | **GET** /roles/report | 
+*DefaultApi* | [**Test**](docs/DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -222,6 +224,7 @@ Class | Method | HTTP request | Description
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
+ - [Model.NotificationtestGetElementsV1ResponseMPayload](docs/NotificationtestGetElementsV1ResponseMPayload.md)
  - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NullableGuidClass](docs/NullableGuidClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
@@ -234,6 +237,7 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [Model.OuterEnumTest](docs/OuterEnumTest.md)
  - [Model.ParentPet](docs/ParentPet.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.Pig](docs/Pig.md)
@@ -242,6 +246,8 @@ Class | Method | HTTP request | Description
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
+ - [Model.RolesReportsHash](docs/RolesReportsHash.md)
+ - [Model.RolesReportsHashRole](docs/RolesReportsHashRole.md)
  - [Model.ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Model.Shape](docs/Shape.md)
  - [Model.ShapeInterface](docs/ShapeInterface.md)

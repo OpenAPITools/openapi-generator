@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -192,6 +193,7 @@ public class XmlItem {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -335,6 +337,7 @@ public class XmlItem {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -513,6 +516,7 @@ public class XmlItem {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -691,6 +695,7 @@ public class XmlItem {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -869,6 +874,7 @@ public class XmlItem {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

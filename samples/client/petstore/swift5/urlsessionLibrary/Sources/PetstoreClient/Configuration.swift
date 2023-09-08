@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 @available(*, deprecated, renamed: "PetstoreClientAPI.Configuration")
 public typealias Configuration = PetstoreClientAPI.Configuration

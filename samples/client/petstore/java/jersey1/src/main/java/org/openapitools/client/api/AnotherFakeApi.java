@@ -21,6 +21,7 @@ import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 
 import java.util.ArrayList;
@@ -51,12 +52,18 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
+   * @param uuidTest to test uuid example value (required)
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
+  public Client call123testSpecialTags(UUID uuidTest, Client body) throws ApiException {
     Object localVarPostBody = body;
+    
+    // verify the required parameter 'uuidTest' is set
+    if (uuidTest == null) {
+      throw new ApiException(400, "Missing the required parameter 'uuidTest' when calling call123testSpecialTags");
+    }
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -74,7 +81,9 @@ public class AnotherFakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
-    
+    if (uuidTest != null)
+      localVarHeaderParams.put("uuid_test", apiClient.parameterToString(uuidTest));
+
     
     
     final String[] localVarAccepts = {

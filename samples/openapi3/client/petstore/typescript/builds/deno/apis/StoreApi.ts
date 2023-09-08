@@ -1,7 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
@@ -162,7 +162,7 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteOrder
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteOrder(response: ResponseContext): Promise< void> {
+     public async deleteOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
@@ -173,7 +173,7 @@ export class StoreApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            return;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
 
         throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -186,14 +186,14 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to getInventory
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getInventory(response: ResponseContext): Promise<{ [key: string]: number; } > {
+     public async getInventoryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<{ [key: string]: number; } >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: { [key: string]: number; } = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "{ [key: string]: number; }", "int32"
             ) as { [key: string]: number; };
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -202,7 +202,7 @@ export class StoreApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "{ [key: string]: number; }", "int32"
             ) as { [key: string]: number; };
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -215,14 +215,14 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to getOrderById
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getOrderById(response: ResponseContext): Promise<Order > {
+     public async getOrderByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Order = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Order", ""
             ) as Order;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
@@ -237,7 +237,7 @@ export class StoreApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Order", ""
             ) as Order;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -250,14 +250,14 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to placeOrder
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async placeOrder(response: ResponseContext): Promise<Order > {
+     public async placeOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Order = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Order", ""
             ) as Order;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid Order", undefined, response.headers);
@@ -269,7 +269,7 @@ export class StoreApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Order", ""
             ) as Order;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);

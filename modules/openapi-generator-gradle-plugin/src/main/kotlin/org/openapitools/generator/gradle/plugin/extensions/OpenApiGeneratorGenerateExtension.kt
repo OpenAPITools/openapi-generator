@@ -178,6 +178,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val parameterNameMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between a model name and the new name
+     */
+    val modelNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     val openapiNormalizer = project.objects.mapProperty<String, String>()

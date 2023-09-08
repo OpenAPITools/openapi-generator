@@ -3,6 +3,7 @@ Org.OpenAPITools.sln
 README.md
 api/openapi.yaml
 appveyor.yml
+docs/Env.md
 docs/FakeApi.md
 docs/PropertyNameMapping.md
 git_push.sh
@@ -25,5 +26,6 @@ src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
+src/Org.OpenAPITools/Model/Env.cs
 src/Org.OpenAPITools/Model/PropertyNameMapping.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj

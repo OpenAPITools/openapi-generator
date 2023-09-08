@@ -699,7 +699,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "@\"" + (String) p.getDefault() + "\"";
+                return "@\"" + String.valueOf(p.getDefault()) + "\"";
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {

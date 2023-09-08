@@ -322,7 +322,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
-                }            }
+                }
+            }
 
             if (this.PatternWithDigits != null) {
                 // PatternWithDigits (string) pattern
@@ -330,7 +331,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
-                }            }
+                }
+            }
 
             if (this.PatternWithDigitsAndDelimiter != null) {
                 // PatternWithDigitsAndDelimiter (string) pattern
@@ -338,7 +340,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
-                }            }
+                }
+            }
 
             if (this.VarString != null) {
                 // VarString (string) pattern
@@ -346,7 +349,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexVarString.Match(this.VarString).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
-                }            }
+                }
+            }
 
             // UnsignedInteger (uint) maximum
             if (this.UnsignedInteger > (uint)200)
@@ -426,10 +430,10 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "binary":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

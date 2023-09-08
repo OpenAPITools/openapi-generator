@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // User - A User who is purchasing from the pet store
@@ -31,21 +27,37 @@ type User struct {
 
 	Password string `json:"password,omitempty"`
 
-	Phone string `json:"phone,omitempty"`
+	Phone *string `json:"phone,omitempty"`
 
 	// User Status
 	UserStatus int32 `json:"userStatus,omitempty"`
-}
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *User) UnmarshalJSON(data []byte) error {
+	// An array 1-deep.
+	DeepSliceModel *[][][]Tag `json:"deepSliceModel"`
 
-	type Alias User // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
+	// An array 1-deep.
+	DeepSliceMap [][]AnObject `json:"deepSliceMap,omitempty"`
 }
 
 // AssertUserRequired checks if the required fields are not zero-ed
 func AssertUserRequired(obj User) error {
+	elements := map[string]interface{}{
+		"deepSliceModel": obj.DeepSliceModel,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if obj.DeepSliceModel != nil {
+		if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagRequired); err != nil {
+			return err
+		}
+	}
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectRequired); err != nil {
+		return err
+	}
 	return nil
 }
 

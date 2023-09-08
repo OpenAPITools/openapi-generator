@@ -6,6 +6,7 @@ import org.openapitools.model.*;
 import com.sun.jersey.multipart.FormDataParam;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -21,7 +22,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AnotherFakeApiServiceImpl extends AnotherFakeApiService {
     @Override
-    public Response call123testSpecialTags(Client body, SecurityContext securityContext)
+    public Response call123testSpecialTags( @NotNull UUID uuidTest, Client body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

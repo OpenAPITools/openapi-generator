@@ -19,6 +19,7 @@ import java.io.IOException
 import okhttp3.OkHttpClient
 import okhttp3.HttpUrl
 
+import org.openapitools.client.models.Environment
 
 import com.squareup.moshi.Json
 
@@ -51,19 +52,20 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
      * @param type type
      * @param typeWithUnderscore type_
      * @param httpDebugOption http debug option (to test parameter naming option)
-     * @return void
+     * @return Environment
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getParameterNameMapping(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : Unit {
+    fun getParameterNameMapping(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : Environment {
         val localVarResponse = getParameterNameMappingWithHttpInfo(underscoreType = underscoreType, type = type, typeWithUnderscore = typeWithUnderscore, httpDebugOption = httpDebugOption)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Environment
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -72,7 +74,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -84,15 +86,16 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
      * @param type type
      * @param typeWithUnderscore type_
      * @param httpDebugOption http debug option (to test parameter naming option)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<Environment?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getParameterNameMappingWithHttpInfo(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : ApiResponse<Unit?> {
+    fun getParameterNameMappingWithHttpInfo(underscoreType: kotlin.Long, type: kotlin.String, typeWithUnderscore: kotlin.String, httpDebugOption: kotlin.String) : ApiResponse<Environment?> {
         val localVariableConfig = getParameterNameMappingRequestConfig(underscoreType = underscoreType, type = type, typeWithUnderscore = typeWithUnderscore, httpDebugOption = httpDebugOption)
 
-        return request<Unit, Unit>(
+        return request<Unit, Environment>(
             localVariableConfig
         )
     }
@@ -116,7 +119,8 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         underscoreType.apply { localVariableHeaders["_type"] = this.toString() }
         typeWithUnderscore.apply { localVariableHeaders["type_"] = this.toString() }
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/fake/parameter-name-mapping",

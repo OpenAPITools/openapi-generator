@@ -53,6 +53,7 @@ docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
+docs/NotificationtestGetElementsV1ResponseMPayload.md
 docs/NullableClass.md
 docs/NullableGuidClass.md
 docs/NullableShape.md
@@ -65,6 +66,7 @@ docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterEnumTest.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
@@ -74,6 +76,8 @@ docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
 docs/Return.md
+docs/RolesReportsHash.md
+docs/RolesReportsHashRole.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -168,6 +172,7 @@ src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
+src/Org.OpenAPITools/Model/NotificationtestGetElementsV1ResponseMPayload.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
 src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
@@ -180,6 +185,7 @@ src/Org.OpenAPITools/Model/OuterEnum.cs
 src/Org.OpenAPITools/Model/OuterEnumDefaultValue.cs
 src/Org.OpenAPITools/Model/OuterEnumInteger.cs
 src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
+src/Org.OpenAPITools/Model/OuterEnumTest.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Pig.cs
@@ -188,6 +194,8 @@ src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/Return.cs
+src/Org.OpenAPITools/Model/RolesReportsHash.cs
+src/Org.OpenAPITools/Model/RolesReportsHashRole.cs
 src/Org.OpenAPITools/Model/ScaleneTriangle.cs
 src/Org.OpenAPITools/Model/Shape.cs
 src/Org.OpenAPITools/Model/ShapeInterface.cs

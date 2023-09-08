@@ -47,7 +47,7 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Apple()
         {
-            Apple apple = new("cultivar", "origin");
+            Apple apple = new("#000000", "cultivar", "origin");
             string appleJson = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
             Apple? apple2 = JsonSerializer.Deserialize<Apple>(appleJson, _jsonSerializerOptions);
             Assert.IsTrue(apple2 != null && apple.Cultivar.Equals(apple2.Cultivar) && apple.Origin.Equals(apple2.Origin));
@@ -81,7 +81,7 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void GmFruit()
         {
-            Apple apple = new("cultivar", "origin");
+            Apple apple = new("#000000", "cultivar", "origin");
             Banana banana = new(10);
             GmFruit gmFruit = new(apple, banana, "yellow");
             string gmFruitJson = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);

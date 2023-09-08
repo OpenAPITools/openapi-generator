@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumInteger FromString(string value)
         {
-            if (value == (0).ToString())
+            if (value.Equals((0).ToString()))
                 return OuterEnumInteger.NUMBER_0;
 
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return OuterEnumInteger.NUMBER_1;
 
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return OuterEnumInteger.NUMBER_2;
 
             throw new NotImplementedException($"Could not convert value to type OuterEnumInteger: '{value}'");
@@ -75,13 +75,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumInteger? FromStringOrDefault(string value)
         {
-            if (value == (0).ToString())
+            if (value.Equals((0).ToString()))
                 return OuterEnumInteger.NUMBER_0;
 
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return OuterEnumInteger.NUMBER_1;
 
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return OuterEnumInteger.NUMBER_2;
 
             return null;
@@ -175,5 +175,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnumInteger?.ToString() ?? "null");
         }
     }
-
 }

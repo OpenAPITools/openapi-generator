@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -57,6 +59,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -146,7 +149,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock",
                         "long", "namespace", "new", "null", "object", "operator", "out", "override", "params",
                         "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed",
-                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw",
+                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "system", "this", "throw",
                         "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
                         "virtual", "void", "volatile", "while")
         );
@@ -411,15 +414,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("required", new RequiredParameterLambda().generator(this))
+                .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
+                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
-                .put("indent3", new IndentedLambda(12, " "))
-                .put("indent4", new IndentedLambda(16, " "));
+                .put("indent3", new IndentedLambda(12, " ", false))
+                .put("indent4", new IndentedLambda(16, " ", false))
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -521,10 +527,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
             // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
             model.setHasDiscriminatorWithNonEmptyMapping(
-                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null &&model.oneOf.size() > 0)) &&
-                    model.discriminator != null &&
-                    model.discriminator.getMappedModels() != null &&
-                    model.discriminator.getMappedModels().size() > 0);
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null && model.oneOf.size() > 0)) &&
+                            model.discriminator != null &&
+                            model.discriminator.getMappedModels() != null &&
+                            model.discriminator.getMappedModels().size() > 0);
 
             if (model.isEnum) {
                 enumRefs.put(model.getClassname(), model);
@@ -539,29 +545,29 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (composedSchemas != null) {
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
-                    for(CodegenProperty property : allOf) {
+                    for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
-                    for(CodegenProperty property : anyOf) {
+                    for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
-                    for(CodegenProperty property : oneOf) {
+                    for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
             }
@@ -598,10 +604,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     *  Returns true if the model contains any properties with a public setter
-     *  If true, the model's constructor accessor should be made public to ensure end users
-     *  can instantiate the object. If false, then the model is only ever given
-     *  to us by the server, so we do not need a public constructor
+     * Returns true if the model contains any properties with a public setter
+     * If true, the model's constructor accessor should be made public to ensure end users
+     * can instantiate the object. If false, then the model is only ever given
+     * to us by the server, so we do not need a public constructor
      */
     private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
         if (processed == null) {
@@ -636,7 +642,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
-    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+    private void patchPropertyVendorExtensions(CodegenProperty property) {
         Boolean isValueType = isValueType(property);
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
@@ -656,20 +662,25 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        patchPropertyVendorExtensinos(property);
+        patchPropertyVendorExtensions(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
 
-        // fix incorrect data types for maps of maps
-        if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
-        if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            // fix incorrect data types for maps of maps
+            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+
+            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+        });
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
@@ -740,13 +751,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                     // Check return types for collection
                     if (operation.returnType != null) {
-                        String typeMapping;
                         int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        if (namespaceEnd > 0) {
-                            typeMapping = operation.returnType.substring(namespaceEnd);
-                        } else {
-                            typeMapping = operation.returnType;
-                        }
+                        String typeMapping = namespaceEnd > 0
+                                ? operation.returnType.substring(namespaceEnd)
+                                : operation.returnType;
 
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
@@ -850,14 +858,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /** Returns the model related to the given parameter */
+    /**
+     * Returns the model related to the given parameter
+     */
     private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
         return parameter.isModel
-            ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
-            : null;
+                ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
+                : null;
     }
 
-    /** This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property */
+    /**
+     * This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property
+     */
     protected void patchVendorExtensionNullableValueTypeLegacy(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);
@@ -890,7 +902,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        // default noop
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+
+            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+        });
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
@@ -1021,8 +1049,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = this.escapeReservedWord(name);
 
         return name.equalsIgnoreCase(model.getClassname())
-            ? this.invalidNamePrefix + camelize(name)
-            : name;
+                ? this.invalidNamePrefix + camelize(name)
+                : name;
     }
 
     @Override
@@ -1046,8 +1074,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toExampleValue(Schema p) {
         return p.getExample() == null
-            ? null
-            : p.getExample().toString();
+                ? null
+                : p.getExample().toString();
     }
 
     /**
@@ -1176,6 +1204,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
@@ -1321,6 +1354,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return this.nullReferenceTypesFlag;
     }
 
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
+    }
+
     public void setInterfacePrefix(final String interfacePrefix) {
         this.interfacePrefix = interfacePrefix;
     }
@@ -1353,7 +1394,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override
@@ -1575,6 +1622,56 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+    }
+
+    /*
+     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+     */
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
+            // check if the pattern has any modifiers
+            // gmiyuvsd - ecma modifiers
+            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
+            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
+            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
+
+            int end = hasModifiers.matcher(pattern).find()
+                ? pattern.lastIndexOf('/')
+                : pattern.length() - 1;
+
+            int start = pattern.startsWith("/")
+                ? 1
+                : 0;
+
+            Map<Character, String> optionsMap = new HashMap();
+            optionsMap.put('i', "IgnoreCase");
+            optionsMap.put('m', "Multiline");
+            optionsMap.put('s', "SingleLine");
+            optionsMap.put('n', "ExplicitCapture");
+            optionsMap.put('x', "IgnorePatternWhitespace");
+
+            List<String> modifiers = new ArrayList<String>();
+            modifiers.add("CultureInvariant");
+
+            for (char c : pattern.substring(end).toCharArray()) {
+                if (optionsMap.containsKey(c)) {
+                    modifiers.add(optionsMap.get(c));
+                } else if (c == 'l'){
+                    modifiers.remove("CultureInvariant");
+                } else {
+                    vendorExtensions.put("x-modifier-" + c, c);
+                }
+            }
+
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 

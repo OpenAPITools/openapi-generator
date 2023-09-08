@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -97,13 +100,13 @@ open class Response<T> {
 
     public convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
         let rawHeader = response.allHeaderFields
-        var header = [String: String]()
+        var responseHeader = [String: String]()
         for (key, value) in rawHeader {
             if let key = key.base as? String, let value = value as? String {
-                header[key] = value
+                responseHeader[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, body: body, bodyData: bodyData)
+        self.init(statusCode: response.statusCode, header: responseHeader, body: body, bodyData: bodyData)
     }
 }
 

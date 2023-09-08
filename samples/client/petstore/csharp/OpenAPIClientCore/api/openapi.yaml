@@ -41,6 +41,17 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /roles/report:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RolesReport'
+                type: array
+          description: returns report
   /hello:
     get:
       description: Hello
@@ -1145,6 +1156,17 @@ paths:
       responses:
         "200":
           description: OK
+  /test:
+    get:
+      operationId: Test
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+          description: Successful response
+      summary: Retrieve an existing Notificationtest's Elements
 components:
   requestBodies:
     UserArray:
@@ -1181,6 +1203,20 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    RolesReport:
+      description: Roles report
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+      type: array
+    RolesReportsHash:
+      description: Role report Hash
+      properties:
+        role_uuid:
+          format: uuid
+          type: string
+        role:
+          $ref: '#/components/schemas/RolesReportsHash_role'
+      type: object
     Foo:
       example:
         bar: bar
@@ -1553,6 +1589,19 @@ components:
       - -efg
       - (xyz)
       type: string
+    Outer_Enum_Test:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      type: string
     Enum_Test:
       properties:
         enum_string:
@@ -1560,12 +1609,26 @@ components:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_string_required:
           enum:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_integer:
           enum:
@@ -1941,6 +2004,9 @@ components:
         origin:
           pattern: "/^[A-Z\\s]*$/i"
           type: string
+        color_code:
+          pattern: "^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$"
+          type: string
       type: object
     banana:
       properties:
@@ -2266,6 +2332,29 @@ components:
           - notUnknown
           type: string
       type: object
+    Custom-Variableobject-Response:
+      additionalProperties: true
+      description: A Variable object without predefined property names
+      type: object
+    Field-pkiNotificationtestID:
+      type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+      example:
+        a_objVariableobject:
+        - null
+        - null
+        pkiNotificationtestID: 0
+      properties:
+        pkiNotificationtestID:
+          type: integer
+        a_objVariableobject:
+          items:
+            $ref: '#/components/schemas/Custom-Variableobject-Response'
+          type: array
+      required:
+      - a_objVariableobject
+      - pkiNotificationtestID
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2419,6 +2508,11 @@ components:
         required:
         - country
         type: object
+    RolesReportsHash_role:
+      properties:
+        name:
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

@@ -603,7 +603,7 @@ public class Example {
 
 ### Return type
 
-**BigDecimal**
+[**BigDecimal**](BigDecimal.md)
 
 
 ### Authorization
@@ -671,7 +671,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<**BigDecimal**>
+ApiResponse<[**BigDecimal**](BigDecimal.md)>
 
 
 ### Authorization

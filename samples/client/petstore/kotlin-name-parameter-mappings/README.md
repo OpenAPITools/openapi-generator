@@ -50,6 +50,7 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [org.openapitools.client.models.Environment](docs/Environment.md)
  - [org.openapitools.client.models.PropertyNameMapping](docs/PropertyNameMapping.md)
 
 

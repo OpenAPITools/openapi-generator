@@ -759,8 +759,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         CodegenProperty returnProperty = op.returnProperty;
+        CodegenProperty returnType = null;
         if (returnProperty != null) {
             CodegenProperty itemType = returnProperty.getItems();
+            returnType = itemType;
             if (itemType != null) {
                 String dataType;
                 if (itemType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
@@ -775,6 +777,73 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
                 returnProperty.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
                 returnProperty.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+            }
+        }
+
+        for (CodegenResponse rsp : op.responses) {
+
+            if (rsp.dataType != null) {
+                String dataType = rsp.dataType;
+                if (returnType != null) {
+                    if (returnType.vendorExtensions.containsKey(X_ADA_VECTOR_TYPE_NAME)) {
+                        dataType = (String) returnType.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                        rsp.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
+                    }
+                    rsp.vendorExtensions.put("x-is-model-type", isModelType(returnType));
+                    rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnType));
+                    rsp.vendorExtensions.put("x-is-nullable", returnType.isNull);
+
+                    // Convert optional members to use the Nullable_<T> type.
+                    Boolean required = returnType.getHasRequired();
+                    if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                        rsp.dataType = nullableTypeMapping.get(dataType);
+                        rsp.vendorExtensions.put("x-is-required", false);
+                    } else {
+                        rsp.vendorExtensions.put("x-is-required", true);
+                    }
+                    if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                        if (returnType.isLong && !required) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        } else if (rsp.isLong && "int64".equals(returnType.dataFormat)) {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                        } else {
+                            rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                        }
+                    }
+                    rsp.vendorExtensions.put("x-scz-return", true);
+                } else {
+                    rsp.vendorExtensions.put("x-scz-no-return", true);
+                    if (returnProperty != null) {
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
+                            rsp.vendorExtensions.put(X_ADA_TYPE_NAME, returnProperty.dataType);
+                        }
+                        rsp.vendorExtensions.put("x-is-model-type", isModelType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-stream-type", isStreamType(returnProperty));
+                        rsp.vendorExtensions.put("x-is-nullable", returnProperty.isNull);
+
+                        // Convert optional members to use the Nullable_<T> type.
+                        Boolean required = returnProperty.getHasRequired();
+                        if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(dataType)) {
+                            rsp.dataType = nullableTypeMapping.get(dataType);
+                            rsp.vendorExtensions.put("x-is-required", false);
+                        } else {
+                            rsp.vendorExtensions.put("x-is-required", true);
+                        }
+                        if (!rsp.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                            if (returnProperty.isLong && !required) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            } else if (rsp.isLong && "int64".equals(returnProperty.dataFormat)) {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                            } else {
+                                rsp.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                            }
+                        }
+                    }
+                }
+            }
+            for (CodegenProperty header : rsp.headers) {
+                header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 
@@ -831,7 +900,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 //LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
                 return -1;
             }
-            if (depend != null && (depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
+            if (depend != null && depend.size() != (second.depend == null ? 0 : second.depend.size())) {
                 //LOGGER.debug("Compare " + name + " with " + second.name + "=D"
                 //        + (depend.size() - second.depend.size()));
                 return depend.size() - second.depend.size();

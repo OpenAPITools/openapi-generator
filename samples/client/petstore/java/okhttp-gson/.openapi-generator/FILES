@@ -80,6 +80,7 @@ docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
 docs/Scalar.md
+docs/ScalarAnyOf.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -206,6 +207,7 @@ src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/client/model/Scalar.java
+src/main/java/org/openapitools/client/model/ScalarAnyOf.java
 src/main/java/org/openapitools/client/model/ScaleneTriangle.java
 src/main/java/org/openapitools/client/model/Shape.java
 src/main/java/org/openapitools/client/model/ShapeInterface.java

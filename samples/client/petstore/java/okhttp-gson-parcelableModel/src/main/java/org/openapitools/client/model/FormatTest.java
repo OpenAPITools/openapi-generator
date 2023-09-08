@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -508,7 +507,7 @@ public class FormatTest implements Parcelable {
     integer = (Integer)in.readValue(null);
     int32 = (Integer)in.readValue(null);
     int64 = (Long)in.readValue(null);
-    number = (BigDecimal)in.readValue(null);
+    number = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     _float = (Float)in.readValue(null);
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);
@@ -518,7 +517,7 @@ public class FormatTest implements Parcelable {
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
-    bigDecimal = (BigDecimal)in.readValue(null);
+    bigDecimal = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
 
   public int describeContents() {
@@ -576,9 +575,9 @@ public class FormatTest implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!FormatTest.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

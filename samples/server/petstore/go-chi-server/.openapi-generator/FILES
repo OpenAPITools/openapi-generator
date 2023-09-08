@@ -13,10 +13,13 @@ go/error.go
 go/helpers.go
 go/impl.go
 go/logger.go
+go/model_an_object.go
 go/model_api_response.go
 go/model_category.go
 go/model_order.go
+go/model_order_info.go
 go/model_pet.go
+go/model_special_info.go
 go/model_tag.go
 go/model_user.go
 go/routers.go

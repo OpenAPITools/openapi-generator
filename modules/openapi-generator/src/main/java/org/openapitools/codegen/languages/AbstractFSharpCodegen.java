@@ -795,7 +795,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
+                String _default = String.valueOf(p.getDefault());
                 if (p.getEnum() == null) {
                     return "\"" + _default + "\"";
                 } else {
@@ -1133,5 +1133,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.F_SHARP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.F_SHARP;
+    }
 }

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import org.openapitools.client.model.Scalar;
 
 
@@ -182,7 +181,6 @@ public class Value extends AbstractOpenApiSchema {
      * List<Scalar>, Scalar
      *
      * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {

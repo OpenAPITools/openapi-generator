@@ -482,6 +482,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(toModelFilename(name));
@@ -489,6 +494,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelFilename(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        // and convert it to snake case
+        if (modelNameMapping.containsKey(name)) {
+            return underscore(modelNameMapping.get(name));
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -991,4 +1002,5 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELIXIR; }
+
 }

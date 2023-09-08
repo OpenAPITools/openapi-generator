@@ -1168,6 +1168,49 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/parameter-string-number:
+    get:
+      operationId: getParameterStringNumber
+      parameters:
+      - description: string number
+        explode: false
+        in: header
+        name: string_number
+        required: true
+        schema:
+          format: number
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter string number
+      tags:
+      - another_fake
+      x-accepts: application/json
+  /fake/parameter-array-number:
+    get:
+      operationId: getParameterArrayNumber
+      parameters:
+      - description: array integer
+        explode: false
+        in: header
+        name: array
+        required: true
+        schema:
+          default:
+          - 1
+          items:
+            type: integer
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter array number default value
+      tags:
+      - another_fake
+      x-accepts: application/json
   /values:
     get:
       description: ""
@@ -2295,6 +2338,13 @@ components:
         type: string
       - type: number
       - type: boolean
+    ScalarAnyOf:
+      anyOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+      description: Values of scalar type using anyOf
     Array:
       description: Values of array type
       items:

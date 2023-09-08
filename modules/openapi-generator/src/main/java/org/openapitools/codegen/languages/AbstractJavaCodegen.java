@@ -196,7 +196,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null")
+                        "native", "super", "while", "null", "offsetdatetime", "localdate", "localtime")
         );
 
         languageSpecificPrimitives = Sets.newHashSet("String",
@@ -986,10 +986,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         final_values.add(element.asText());
                     });
                 } else if (schema.getDefault() instanceof Collection) {
-                    var _default = (Collection<String>) schema.getDefault();
+                    var _default = (Collection<Object>) schema.getDefault();
                     List<String> final_values = _values;
                     _default.forEach((element) -> {
-                        final_values.add(element);
+                        final_values.add(String.valueOf(element));
                     });
                 } else { // single value
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
@@ -1062,7 +1062,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else { // has default value
                 return toArrayDefaultValue(cp, schema);
             }
-        } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
+        } else if (ModelUtils.isMapSchema(schema) && !(ModelUtils.isComposedSchema(schema))) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
                 if (schema.getDefault() != null) {
@@ -1349,8 +1349,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (example == null) {
             example = "null";
         } else if (Boolean.TRUE.equals(p.isArray)) {
-
-            if (p.items.defaultValue != null) {
+            if (p.items != null && p.items.defaultValue != null) {
                 String innerExample;
                 if ("String".equals(p.items.dataType)) {
                     innerExample = "\"" + p.items.defaultValue + "\"";
@@ -1471,12 +1470,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // hard-coded Arrays import in Java client as it has been removed from the templates
+        if (this instanceof JavaClientCodegen &&
+                ("jersey2".equals(library) ||
+                        "jersey3".equals(library) ||
+                        "native".equals(library) ||
+                        "okhttp-gson".equals(library))) {
+            model.imports.add("Arrays");
+        }
+
         if ("array".equals(property.containerType)) {
             model.imports.add("ArrayList");
+            model.imports.add("Arrays");
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
-            boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
-            if (canNotBeWrappedToNullable) {
+            if (!openApiNullable || !property.isNullable) { // cannot be wrapped to nullable
                 model.imports.add("JsonDeserialize");
                 property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
             }
@@ -1637,11 +1645,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .map(Schema::getProperties))
                     .forEach(schemas -> schemas.replaceAll(
                             (name, s) -> Stream.of(s)
-                                    .filter(schema -> schema instanceof ComposedSchema)
-                                    .map(schema -> (ComposedSchema) schema)
-                                    .filter(schema -> Objects.nonNull(schema.getAnyOf()))
-                                    .flatMap(schema -> schema.getAnyOf().stream())
-                                    .filter(schema -> Objects.nonNull(schema.getEnum()))
+                                    .filter(schema -> ModelUtils.isComposedSchema((Schema) schema))
+                                    //.map(schema -> (ComposedSchema) schema)
+                                    .filter(schema -> Objects.nonNull(((Schema) schema).getAnyOf()))
+                                    .flatMap(schema -> ((Schema) schema).getAnyOf().stream())
+                                    .filter(schema -> Objects.nonNull(((Schema) schema).getEnum()))
                                     .findFirst()
                                     .orElse((Schema) s)));
         }
