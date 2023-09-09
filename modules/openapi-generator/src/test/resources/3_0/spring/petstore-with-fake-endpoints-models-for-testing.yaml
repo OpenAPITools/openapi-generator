@@ -2051,3 +2051,11 @@ components:
           type: string
         property name with spaces:
           type: string
+    NullableMapProperty:
+      type: object
+      properties:
+        languageValues:
+          nullable: true
+          type: object
+          additionalProperties:
+            type: string

@@ -2186,6 +2186,14 @@ components:
         property name with spaces:
           type: string
       type: object
+    NullableMapProperty:
+      properties:
+        languageValues:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
+      type: object
     updatePetWithForm_request:
       properties:
         name:
