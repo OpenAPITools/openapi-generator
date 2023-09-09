@@ -24,42 +24,43 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Foo
+ * DogAllOf
  */
 @JsonPropertyOrder({
-  Foo.JSON_PROPERTY_BAR
+  DogAllOf.JSON_PROPERTY_BREED
 })
+@JsonTypeName("Dog_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Foo {
-  public static final String JSON_PROPERTY_BAR = "bar";
-  private String bar = "bar";
+public class DogAllOf {
+  public static final String JSON_PROPERTY_BREED = "breed";
+  private String breed;
 
-  public Foo() {
+  public DogAllOf() {
   }
 
-  public Foo bar(String bar) {
+  public DogAllOf breed(String breed) {
     
-    this.bar = bar;
+    this.breed = breed;
     return this;
   }
 
    /**
-   * Get bar
-   * @return bar
+   * Get breed
+   * @return breed
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getBar() {
-    return bar;
+  public String getBreed() {
+    return breed;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
-    this.bar = bar;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
 
@@ -71,20 +72,20 @@ public class Foo {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Foo foo = (Foo) o;
-    return Objects.equals(this.bar, foo.bar);
+    DogAllOf dogAllOf = (DogAllOf) o;
+    return Objects.equals(this.breed, dogAllOf.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar);
+    return Objects.hash(breed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Foo {\n");
-    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("class DogAllOf {\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

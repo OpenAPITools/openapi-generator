@@ -63,6 +63,7 @@ public class File {
     this.sourceURI = sourceURI;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

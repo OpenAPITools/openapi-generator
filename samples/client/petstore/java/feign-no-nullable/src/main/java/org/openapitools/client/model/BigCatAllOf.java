@@ -24,42 +24,83 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Foo
+ * BigCatAllOf
  */
 @JsonPropertyOrder({
-  Foo.JSON_PROPERTY_BAR
+  BigCatAllOf.JSON_PROPERTY_KIND
 })
+@JsonTypeName("BigCat_allOf")
+@javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Foo {
-  public static final String JSON_PROPERTY_BAR = "bar";
-  private String bar = "bar";
+public class BigCatAllOf {
+  /**
+   * Gets or Sets kind
+   */
+  public enum KindEnum {
+    LIONS("lions"),
+    
+    TIGERS("tigers"),
+    
+    LEOPARDS("leopards"),
+    
+    JAGUARS("jaguars");
 
-  public Foo() {
+    private String value;
+
+    KindEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static KindEnum fromValue(String value) {
+      for (KindEnum b : KindEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
   }
 
-  public Foo bar(String bar) {
+  public static final String JSON_PROPERTY_KIND = "kind";
+  private KindEnum kind;
+
+  public BigCatAllOf() {
+  }
+
+  public BigCatAllOf kind(KindEnum kind) {
     
-    this.bar = bar;
+    this.kind = kind;
     return this;
   }
 
    /**
-   * Get bar
-   * @return bar
+   * Get kind
+   * @return kind
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getBar() {
-    return bar;
+  public KindEnum getKind() {
+    return kind;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
-    this.bar = bar;
+  public void setKind(KindEnum kind) {
+    this.kind = kind;
   }
 
 
@@ -71,20 +112,20 @@ public class Foo {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Foo foo = (Foo) o;
-    return Objects.equals(this.bar, foo.bar);
+    BigCatAllOf bigCatAllOf = (BigCatAllOf) o;
+    return Objects.equals(this.kind, bigCatAllOf.kind);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar);
+    return Objects.hash(kind);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Foo {\n");
-    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("class BigCatAllOf {\n");
+    sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
     sb.append("}");
     return sb.toString();
   }
