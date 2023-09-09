@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
 |authorizationFilterPattern|Configure the authorization filter pattern for the client. Generally defined when generating clients from multiple specification files| |null|
+|autosetConstants|Automatically set Required Params having a Single enum value i.e. Constants in generated code| |false|
 |basePathSeparator|Configure the separator to use between the application name and base path when referencing the property| |-|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
