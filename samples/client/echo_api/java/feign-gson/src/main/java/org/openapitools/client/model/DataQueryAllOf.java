@@ -22,16 +22,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.openapitools.client.model.Query;
 
 /**
- * DataQuery
+ * DataQueryAllOf
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class DataQuery extends Query {
+public class DataQueryAllOf {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
   private String suffix;
@@ -44,11 +40,10 @@ public class DataQuery extends Query {
   @SerializedName(SERIALIZED_NAME_DATE)
   private OffsetDateTime date;
 
-  public DataQuery() {
-
+  public DataQueryAllOf() {
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQueryAllOf suffix(String suffix) {
     
     this.suffix = suffix;
     return this;
@@ -70,7 +65,7 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery text(String text) {
+  public DataQueryAllOf text(String text) {
     
     this.text = text;
     return this;
@@ -92,7 +87,7 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQueryAllOf date(OffsetDateTime date) {
     
     this.date = date;
     return this;
@@ -122,23 +117,21 @@ public class DataQuery extends Query {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DataQuery dataQuery = (DataQuery) o;
-    return Objects.equals(this.suffix, dataQuery.suffix) &&
-        Objects.equals(this.text, dataQuery.text) &&
-        Objects.equals(this.date, dataQuery.date) &&
-        super.equals(o);
+    DataQueryAllOf dataQueryAllOf = (DataQueryAllOf) o;
+    return Objects.equals(this.suffix, dataQueryAllOf.suffix) &&
+        Objects.equals(this.text, dataQueryAllOf.text) &&
+        Objects.equals(this.date, dataQueryAllOf.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, super.hashCode());
+    return Objects.hash(suffix, text, date);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DataQuery {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class DataQueryAllOf {\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");

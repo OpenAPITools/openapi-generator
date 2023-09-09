@@ -24,42 +24,43 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Foo
+ * CatAllOf
  */
 @JsonPropertyOrder({
-  Foo.JSON_PROPERTY_BAR
+  CatAllOf.JSON_PROPERTY_DECLAWED
 })
+@JsonTypeName("Cat_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Foo {
-  public static final String JSON_PROPERTY_BAR = "bar";
-  private String bar = "bar";
+public class CatAllOf {
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  private Boolean declawed;
 
-  public Foo() {
+  public CatAllOf() {
   }
 
-  public Foo bar(String bar) {
+  public CatAllOf declawed(Boolean declawed) {
     
-    this.bar = bar;
+    this.declawed = declawed;
     return this;
   }
 
    /**
-   * Get bar
-   * @return bar
+   * Get declawed
+   * @return declawed
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getBar() {
-    return bar;
+  public Boolean isDeclawed() {
+    return declawed;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBar(String bar) {
-    this.bar = bar;
+  public void setDeclawed(Boolean declawed) {
+    this.declawed = declawed;
   }
 
 
@@ -71,20 +72,20 @@ public class Foo {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Foo foo = (Foo) o;
-    return Objects.equals(this.bar, foo.bar);
+    CatAllOf catAllOf = (CatAllOf) o;
+    return Objects.equals(this.declawed, catAllOf.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar);
+    return Objects.hash(declawed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Foo {\n");
-    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("class CatAllOf {\n");
+    sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();
   }
