@@ -2,7 +2,7 @@ group "org.openapitools"
 version "1.0.0"
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = "7.4.2"
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
