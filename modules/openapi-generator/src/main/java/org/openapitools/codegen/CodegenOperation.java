@@ -393,6 +393,7 @@ public class CodegenOperation {
         sb.append(", operationIdLowerCase='").append(operationIdLowerCase).append('\'');
         sb.append(", operationIdCamelCase='").append(operationIdCamelCase).append('\'');
         sb.append(", operationIdSnakeCase='").append(operationIdSnakeCase).append('\'');
+        sb.append(", constantParams='").append(constantParams).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -473,7 +474,8 @@ public class CodegenOperation {
                 Objects.equals(operationIdOriginal, that.operationIdOriginal) &&
                 Objects.equals(operationIdLowerCase, that.operationIdLowerCase) &&
                 Objects.equals(operationIdCamelCase, that.operationIdCamelCase) &&
-                Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase);
+                Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase) &&
+                Objects.equals(constantParams, that.constantParams);
     }
 
     @Override
@@ -489,6 +491,6 @@ public class CodegenOperation {
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
                 vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams, notNullableParams);
+                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams, notNullableParams, constantParams);
     }
 }
