@@ -172,6 +172,7 @@ public class EnumArrays {
     this.arrayEnum = arrayEnum;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

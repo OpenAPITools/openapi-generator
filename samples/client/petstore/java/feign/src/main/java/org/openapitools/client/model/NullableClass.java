@@ -56,7 +56,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class NullableClass {
+public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
@@ -94,6 +94,7 @@ public class NullableClass {
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
+
   }
 
   public NullableClass integerProp(Integer integerProp) {
@@ -615,7 +616,8 @@ public class NullableClass {
         Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
         equalsNullable(this.objectNullableProp, nullableClass.objectNullableProp) &&
         equalsNullable(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable) &&
+        super.equals(o);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -624,7 +626,7 @@ public class NullableClass {
 
   @Override
   public int hashCode() {
-    return Objects.hash(hashCodeNullable(integerProp), hashCodeNullable(numberProp), hashCodeNullable(booleanProp), hashCodeNullable(stringProp), hashCodeNullable(dateProp), hashCodeNullable(datetimeProp), hashCodeNullable(arrayNullableProp), hashCodeNullable(arrayAndItemsNullableProp), arrayItemsNullable, hashCodeNullable(objectNullableProp), hashCodeNullable(objectAndItemsNullableProp), objectItemsNullable);
+    return Objects.hash(hashCodeNullable(integerProp), hashCodeNullable(numberProp), hashCodeNullable(booleanProp), hashCodeNullable(stringProp), hashCodeNullable(dateProp), hashCodeNullable(datetimeProp), hashCodeNullable(arrayNullableProp), hashCodeNullable(arrayAndItemsNullableProp), arrayItemsNullable, hashCodeNullable(objectNullableProp), hashCodeNullable(objectAndItemsNullableProp), objectItemsNullable, super.hashCode());
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -638,6 +640,7 @@ public class NullableClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NullableClass {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    integerProp: ").append(toIndentedString(integerProp)).append("\n");
     sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
     sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");
