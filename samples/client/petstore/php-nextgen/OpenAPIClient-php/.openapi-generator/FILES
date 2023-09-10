@@ -123,5 +123,3 @@ src/Model/SpecialModelName.php
 src/Model/Tag.php
 src/Model/User.php
 src/ObjectSerializer.php
-tests/Model/ChildWithNullableTest.php
-tests/Model/ParentWithNullableTest.php

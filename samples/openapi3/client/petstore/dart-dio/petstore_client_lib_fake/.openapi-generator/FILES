@@ -125,5 +125,3 @@ lib/src/model/tag.dart
 lib/src/model/user.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/child_with_nullable_test.dart
-test/parent_with_nullable_test.dart
