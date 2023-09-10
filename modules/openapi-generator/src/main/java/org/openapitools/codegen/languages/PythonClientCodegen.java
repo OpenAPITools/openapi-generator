@@ -49,6 +49,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String USE_PYDANTIC_V2 = "usePydanticV2";
 
     protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -164,6 +165,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(USE_PYDANTIC_V2, "Use Pydantic v2 (beta support)")
+                .defaultValue(false));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -254,6 +257,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             } catch (NumberFormatException | NullPointerException e) {
                 throw new IllegalArgumentException("recursionLimit must be an integer, e.g. 2000.");
             }
+        }
+
+        // to use Pydantic V2?
+        if (additionalProperties.containsKey(USE_PYDANTIC_V2)) {
+            setUsePydanticV2(Boolean.valueOf(additionalProperties.get(USE_PYDANTIC_V2).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {

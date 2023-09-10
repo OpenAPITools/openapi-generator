@@ -53,6 +53,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
+    protected boolean usePydanticV2;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
     // map of set (model imports)
@@ -638,6 +639,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return pattern;
     }
 
+    public void setUsePydanticV2(boolean usePydanticV2) {
+        this.usePydanticV2 = usePydanticV2;
+    }
+
     public void setPackageName(String packageName) {
         this.packageName = packageName;
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
@@ -1075,10 +1080,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (cp.isArray) {
             String constraints = "";
             if (cp.maxItems != null) {
-                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+                String max = usePydanticV2 ? "max_length" : "max_items";
+                constraints += String.format(Locale.ROOT, ", %s=%d", max, cp.maxItems);
             }
             if (cp.minItems != null) {
-                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+                String min = usePydanticV2 ? "min_length" : "min_items";
+                constraints += String.format(Locale.ROOT, ", %s=%d", min, cp.minItems);
             }
             if (cp.getUniqueItems()) {
                 constraints += ", unique_items=True";
@@ -1360,10 +1367,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (cp.isArray) {
             String constraints = "";
             if (cp.maxItems != null) {
-                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+                String max = usePydanticV2 ? "max_length" : "max_items";
+                constraints += String.format(Locale.ROOT, ", %s=%d", max, cp.maxItems);
             }
             if (cp.minItems != null) {
-                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+                String min = usePydanticV2 ? "min_length" : "min_items";
+                constraints += String.format(Locale.ROOT, ", %s=%d", min, cp.minItems);
             }
             if (cp.getUniqueItems()) {
                 constraints += ", unique_items=True";

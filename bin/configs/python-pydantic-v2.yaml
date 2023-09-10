@@ -1,0 +1,13 @@
+generatorName: python
+outputDir: samples/openapi3/client/petstore/python-pydantic-v2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-pydantic-v2.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: petstore_api
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+  mapNumberTo: StrictFloat
+  usePydanticV2: true
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore

@@ -1222,6 +1222,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-pydantic-v2</module>
                 <module>samples/openapi3/client/petstore/python-aiohttp</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
