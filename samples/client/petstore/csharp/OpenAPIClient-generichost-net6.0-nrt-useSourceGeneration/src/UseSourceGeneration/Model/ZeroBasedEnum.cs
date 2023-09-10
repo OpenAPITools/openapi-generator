@@ -181,6 +181,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ZeroBasedEnum))]
+    [JsonSerializable(typeof(List<ZeroBasedEnum>))]
     public partial class ZeroBasedEnumSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -197,6 +198,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ZeroBasedEnum))]
+    [JsonSerializable(typeof(List<ZeroBasedEnum>))]
     public partial class ZeroBasedEnumDeserializationContext : JsonSerializerContext
     {
         /// <summary>

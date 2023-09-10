@@ -251,6 +251,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Pig))]
+    [JsonSerializable(typeof(List<Pig>))]
     public partial class PigSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -267,6 +268,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Pig))]
+    [JsonSerializable(typeof(List<Pig>))]
     public partial class PigDeserializationContext : JsonSerializerContext
     {
         /// <summary>

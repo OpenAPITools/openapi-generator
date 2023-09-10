@@ -209,6 +209,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ArrayTest))]
+    [JsonSerializable(typeof(List<ArrayTest>))]
     public partial class ArrayTestSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -225,6 +226,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ArrayTest))]
+    [JsonSerializable(typeof(List<ArrayTest>))]
     public partial class ArrayTestDeserializationContext : JsonSerializerContext
     {
         /// <summary>

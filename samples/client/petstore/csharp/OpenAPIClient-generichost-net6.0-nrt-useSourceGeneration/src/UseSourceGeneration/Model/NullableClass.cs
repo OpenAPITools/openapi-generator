@@ -385,6 +385,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableClass))]
+    [JsonSerializable(typeof(List<NullableClass>))]
     public partial class NullableClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -401,6 +402,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NullableClass))]
+    [JsonSerializable(typeof(List<NullableClass>))]
     public partial class NullableClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

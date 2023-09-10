@@ -302,6 +302,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(AdditionalPropertiesClass))]
+    [JsonSerializable(typeof(List<AdditionalPropertiesClass>))]
     public partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -318,6 +319,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(AdditionalPropertiesClass))]
+    [JsonSerializable(typeof(List<AdditionalPropertiesClass>))]
     public partial class AdditionalPropertiesClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

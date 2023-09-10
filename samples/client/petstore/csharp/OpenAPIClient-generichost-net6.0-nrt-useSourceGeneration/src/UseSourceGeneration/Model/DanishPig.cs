@@ -169,6 +169,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DanishPig))]
+    [JsonSerializable(typeof(List<DanishPig>))]
     public partial class DanishPigSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -185,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DanishPig))]
+    [JsonSerializable(typeof(List<DanishPig>))]
     public partial class DanishPigDeserializationContext : JsonSerializerContext
     {
         /// <summary>

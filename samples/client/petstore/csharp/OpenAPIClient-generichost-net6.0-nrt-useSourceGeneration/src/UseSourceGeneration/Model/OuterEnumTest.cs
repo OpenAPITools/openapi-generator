@@ -265,6 +265,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnumTest))]
+    [JsonSerializable(typeof(List<OuterEnumTest>))]
     public partial class OuterEnumTestSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -281,6 +282,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterEnumTest))]
+    [JsonSerializable(typeof(List<OuterEnumTest>))]
     public partial class OuterEnumTestDeserializationContext : JsonSerializerContext
     {
         /// <summary>

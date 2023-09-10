@@ -171,6 +171,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
+    [JsonSerializable(typeof(List<TestCollectionEndingWithWordListObject>))]
     public partial class TestCollectionEndingWithWordListObjectSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -187,6 +188,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordListObject))]
+    [JsonSerializable(typeof(List<TestCollectionEndingWithWordListObject>))]
     public partial class TestCollectionEndingWithWordListObjectDeserializationContext : JsonSerializerContext
     {
         /// <summary>

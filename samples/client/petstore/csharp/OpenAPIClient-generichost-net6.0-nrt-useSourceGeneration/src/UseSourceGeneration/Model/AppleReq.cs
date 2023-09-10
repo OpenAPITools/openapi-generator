@@ -180,6 +180,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(AppleReq))]
+    [JsonSerializable(typeof(List<AppleReq>))]
     public partial class AppleReqSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -196,6 +197,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(AppleReq))]
+    [JsonSerializable(typeof(List<AppleReq>))]
     public partial class AppleReqDeserializationContext : JsonSerializerContext
     {
         /// <summary>

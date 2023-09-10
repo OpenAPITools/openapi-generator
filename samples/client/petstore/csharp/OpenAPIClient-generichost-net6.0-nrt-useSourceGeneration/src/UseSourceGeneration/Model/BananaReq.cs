@@ -181,6 +181,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(BananaReq))]
+    [JsonSerializable(typeof(List<BananaReq>))]
     public partial class BananaReqSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -197,6 +198,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(BananaReq))]
+    [JsonSerializable(typeof(List<BananaReq>))]
     public partial class BananaReqDeserializationContext : JsonSerializerContext
     {
         /// <summary>

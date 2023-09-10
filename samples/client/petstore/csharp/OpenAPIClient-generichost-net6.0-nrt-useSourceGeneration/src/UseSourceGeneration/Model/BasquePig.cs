@@ -169,6 +169,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(BasquePig))]
+    [JsonSerializable(typeof(List<BasquePig>))]
     public partial class BasquePigSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -185,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(BasquePig))]
+    [JsonSerializable(typeof(List<BasquePig>))]
     public partial class BasquePigDeserializationContext : JsonSerializerContext
     {
         /// <summary>

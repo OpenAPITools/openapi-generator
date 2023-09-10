@@ -190,6 +190,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
+    [JsonSerializable(typeof(List<FileSchemaTestClass>))]
     public partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -206,6 +207,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
+    [JsonSerializable(typeof(List<FileSchemaTestClass>))]
     public partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

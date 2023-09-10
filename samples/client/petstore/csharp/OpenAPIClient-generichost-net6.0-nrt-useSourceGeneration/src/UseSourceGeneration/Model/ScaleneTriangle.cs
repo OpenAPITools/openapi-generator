@@ -186,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ScaleneTriangle))]
+    [JsonSerializable(typeof(List<ScaleneTriangle>))]
     public partial class ScaleneTriangleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -202,6 +203,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ScaleneTriangle))]
+    [JsonSerializable(typeof(List<ScaleneTriangle>))]
     public partial class ScaleneTriangleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

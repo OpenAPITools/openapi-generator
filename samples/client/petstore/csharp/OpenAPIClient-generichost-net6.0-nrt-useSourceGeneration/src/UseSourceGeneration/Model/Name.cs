@@ -260,6 +260,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Name))]
+    [JsonSerializable(typeof(List<Name>))]
     public partial class NameSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -276,6 +277,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Name))]
+    [JsonSerializable(typeof(List<Name>))]
     public partial class NameDeserializationContext : JsonSerializerContext
     {
         /// <summary>

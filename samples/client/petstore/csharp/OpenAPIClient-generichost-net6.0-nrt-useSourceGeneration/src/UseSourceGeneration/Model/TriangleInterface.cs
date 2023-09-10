@@ -169,6 +169,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TriangleInterface))]
+    [JsonSerializable(typeof(List<TriangleInterface>))]
     public partial class TriangleInterfaceSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -185,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(TriangleInterface))]
+    [JsonSerializable(typeof(List<TriangleInterface>))]
     public partial class TriangleInterfaceDeserializationContext : JsonSerializerContext
     {
         /// <summary>

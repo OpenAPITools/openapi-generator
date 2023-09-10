@@ -294,6 +294,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(MapTest))]
+    [JsonSerializable(typeof(List<MapTest>))]
     public partial class MapTestSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -310,6 +311,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(MapTest))]
+    [JsonSerializable(typeof(List<MapTest>))]
     public partial class MapTestDeserializationContext : JsonSerializerContext
     {
         /// <summary>

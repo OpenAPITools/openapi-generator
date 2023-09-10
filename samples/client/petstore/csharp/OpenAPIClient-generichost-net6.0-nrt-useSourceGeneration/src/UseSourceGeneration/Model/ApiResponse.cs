@@ -204,6 +204,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ApiResponse))]
+    [JsonSerializable(typeof(List<ApiResponse>))]
     public partial class ApiResponseSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -220,6 +221,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ApiResponse))]
+    [JsonSerializable(typeof(List<ApiResponse>))]
     public partial class ApiResponseDeserializationContext : JsonSerializerContext
     {
         /// <summary>

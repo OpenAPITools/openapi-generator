@@ -170,6 +170,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NumberOnly))]
+    [JsonSerializable(typeof(List<NumberOnly>))]
     public partial class NumberOnlySerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -186,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NumberOnly))]
+    [JsonSerializable(typeof(List<NumberOnly>))]
     public partial class NumberOnlyDeserializationContext : JsonSerializerContext
     {
         /// <summary>

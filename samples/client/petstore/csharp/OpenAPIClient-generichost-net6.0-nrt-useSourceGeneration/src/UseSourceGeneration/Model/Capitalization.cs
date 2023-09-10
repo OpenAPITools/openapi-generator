@@ -255,6 +255,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Capitalization))]
+    [JsonSerializable(typeof(List<Capitalization>))]
     public partial class CapitalizationSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -271,6 +272,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Capitalization))]
+    [JsonSerializable(typeof(List<Capitalization>))]
     public partial class CapitalizationDeserializationContext : JsonSerializerContext
     {
         /// <summary>

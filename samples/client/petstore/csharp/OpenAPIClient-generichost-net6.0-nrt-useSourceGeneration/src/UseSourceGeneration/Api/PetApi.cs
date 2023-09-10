@@ -57,7 +57,7 @@ namespace UseSourceGeneration.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes a pet
@@ -82,7 +82,7 @@ namespace UseSourceGeneration.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> DeletePetOrDefaultAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by status
@@ -105,7 +105,7 @@ namespace UseSourceGeneration.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
+        Task<List<Pet>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by tags
@@ -128,7 +128,7 @@ namespace UseSourceGeneration.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
+        Task<List<Pet>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find pet by ID
@@ -151,7 +151,7 @@ namespace UseSourceGeneration.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Pet&gt;?&gt;</returns>
-        Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
+        Task<Pet?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -174,7 +174,7 @@ namespace UseSourceGeneration.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;UpdatePet200Response&gt;?&gt;</returns>
-        Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
+        Task<UpdatePet200Response?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -201,7 +201,7 @@ namespace UseSourceGeneration.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> UpdatePetWithFormOrDefaultAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image
@@ -228,7 +228,7 @@ namespace UseSourceGeneration.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;?&gt;</returns>
-        Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -255,7 +255,7 @@ namespace UseSourceGeneration.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;?&gt;</returns>
-        Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -587,8 +587,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="AddPetResponse"/>&gt;</returns>
+        public async Task<AddPetResponse?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -704,25 +704,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="AddPetResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public AddPetResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="AddPetResponse"/>
@@ -814,8 +799,8 @@ namespace UseSourceGeneration.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeletePetResponse"/>&gt;</returns>
+        public async Task<DeletePetResponse?> DeletePetOrDefaultAsync(long petId, Option<string> apiKey = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -908,25 +893,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="DeletePetResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public DeletePetResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="DeletePetResponse"/>
@@ -1013,8 +983,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FindPetsByStatusResponse"/>&gt;</returns>
+        public async Task<FindPetsByStatusResponse?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1132,8 +1102,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly List&lt;Pet&gt;DeserializationContext? _listltPetgtDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
+            // isContainer: 
+            // items: Response
+            // datatype Pet
+            private readonly PetDeserializationContext? _petDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1144,12 +1116,12 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FindPetsByStatusResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltPetgtDeserializationContext"></param>
+            /// <param name="petDeserializationContext"></param>
             /// <param name="DeserializationContext"></param>
             public FindPetsByStatusResponse(UseSourceGeneration.Client.ApiResponse content,
-                List&lt;Pet&gt;DeserializationContext listltPetgtDeserializationContext                DeserializationContext DeserializationContext)
+                PetDeserializationContext petDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _listltPetgtDeserializationContext = listltPetgtDeserializationContext;
+                _petDeserializationContext = petDeserializationContext;
                 _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
@@ -1187,9 +1159,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltPetgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtDeserializationContext.List&lt;Pet&gt;);
+                result = _petDeserializationContext == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _petDeserializationContext.ListPet);
 
                 return result != null;
             }
@@ -1287,8 +1259,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FindPetsByTagsResponse"/>&gt;</returns>
+        public async Task<FindPetsByTagsResponse?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1406,8 +1378,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly List&lt;Pet&gt;DeserializationContext? _listltPetgtDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
+            // isContainer: 
+            // items: Response
+            // datatype Pet
+            private readonly PetDeserializationContext? _petDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1418,12 +1392,12 @@ namespace UseSourceGeneration.Api
             /// The <see cref="FindPetsByTagsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltPetgtDeserializationContext"></param>
+            /// <param name="petDeserializationContext"></param>
             /// <param name="DeserializationContext"></param>
             public FindPetsByTagsResponse(UseSourceGeneration.Client.ApiResponse content,
-                List&lt;Pet&gt;DeserializationContext listltPetgtDeserializationContext                DeserializationContext DeserializationContext)
+                PetDeserializationContext petDeserializationContext                DeserializationContext DeserializationContext)
             {
-                _listltPetgtDeserializationContext = listltPetgtDeserializationContext;
+                _petDeserializationContext = petDeserializationContext;
                 _DeserializationContext = DeserializationContext;
                 Content = content;
                 OnCreated();
@@ -1461,9 +1435,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltPetgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Pet&gt;>(Content.RawContent, _listltPetgtDeserializationContext.List&lt;Pet&gt;);
+                result = _petDeserializationContext == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(Content.RawContent, _petDeserializationContext.ListPet);
 
                 return result != null;
             }
@@ -1550,8 +1524,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetPetByIdResponse"/>&gt;</returns>
+        public async Task<GetPetByIdResponse?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1648,9 +1622,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly PetDeserializationContext? _petDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1812,8 +1787,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="UpdatePet200Response"/></returns>
-        public async Task<ApiResponse<UpdatePet200Response>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdatePetResponse"/>&gt;</returns>
+        public async Task<UpdatePetResponse?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1938,10 +1913,13 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly UpdatePet200ResponseDeserializationContext? _updatePet200ResponseDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly UpdatePet200ResponseDeserializationContext? _updatePet200ResponseDeserializationContext;
 
             /// <summary>
@@ -2175,8 +2153,8 @@ namespace UseSourceGeneration.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdatePetWithFormResponse"/>&gt;</returns>
+        public async Task<UpdatePetWithFormResponse?> UpdatePetWithFormOrDefaultAsync(long petId, Option<string> name = default, Option<string> status = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2288,25 +2266,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="UpdatePetWithFormResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public UpdatePetWithFormResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="UpdatePetWithFormResponse"/>
@@ -2407,8 +2370,8 @@ namespace UseSourceGeneration.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UploadFileResponse"/>&gt;</returns>
+        public async Task<UploadFileResponse?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2529,6 +2492,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly ApiResponseDeserializationContext? _apiResponseDeserializationContext;
 
             /// <summary>
@@ -2689,8 +2655,8 @@ namespace UseSourceGeneration.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UploadFileWithRequiredFileResponse"/>&gt;</returns>
+        public async Task<UploadFileWithRequiredFileResponse?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2811,6 +2777,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly ApiResponseDeserializationContext? _apiResponseDeserializationContext;
 
             /// <summary>

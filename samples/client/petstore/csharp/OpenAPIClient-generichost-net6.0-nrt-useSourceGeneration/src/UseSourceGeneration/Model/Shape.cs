@@ -251,6 +251,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Shape))]
+    [JsonSerializable(typeof(List<Shape>))]
     public partial class ShapeSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -267,6 +268,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Shape))]
+    [JsonSerializable(typeof(List<Shape>))]
     public partial class ShapeDeserializationContext : JsonSerializerContext
     {
         /// <summary>

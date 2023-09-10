@@ -55,7 +55,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;HealthCheckResult&gt;?&gt;</returns>
-        Task<ApiResponse<HealthCheckResult>?> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<HealthCheckResult?> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -78,7 +78,7 @@ namespace UseSourceGeneration.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;bool&gt;?&gt;</returns>
-        Task<ApiResponse<bool>?> FakeOuterBooleanSerializeOrDefaultAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<bool?> FakeOuterBooleanSerializeOrDefaultAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -101,7 +101,7 @@ namespace UseSourceGeneration.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;OuterComposite&gt;?&gt;</returns>
-        Task<ApiResponse<OuterComposite>?> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<OuterComposite?> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -124,7 +124,7 @@ namespace UseSourceGeneration.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;decimal&gt;?&gt;</returns>
-        Task<ApiResponse<decimal>?> FakeOuterNumberSerializeOrDefaultAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<decimal?> FakeOuterNumberSerializeOrDefaultAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -149,7 +149,7 @@ namespace UseSourceGeneration.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;string&gt;?&gt;</returns>
-        Task<ApiResponse<string>?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<string?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Array of Enums
@@ -170,7 +170,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;OuterEnum&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<OuterEnum>>?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<List<OuterEnum>?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -193,7 +193,7 @@ namespace UseSourceGeneration.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -218,7 +218,7 @@ namespace UseSourceGeneration.Api
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -241,7 +241,7 @@ namespace UseSourceGeneration.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
-        Task<ApiResponse<ModelClient>?> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ModelClient?> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -290,7 +290,7 @@ namespace UseSourceGeneration.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -327,7 +327,7 @@ namespace UseSourceGeneration.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -360,7 +360,7 @@ namespace UseSourceGeneration.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test inline additionalProperties
@@ -383,7 +383,7 @@ namespace UseSourceGeneration.Api
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test json serialization of form data
@@ -408,7 +408,7 @@ namespace UseSourceGeneration.Api
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -447,7 +447,7 @@ namespace UseSourceGeneration.Api
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -881,8 +881,8 @@ namespace UseSourceGeneration.Api
         /// Health check endpoint 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
-        public async Task<ApiResponse<HealthCheckResult>?> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeHealthGetResponse"/>&gt;</returns>
+        public async Task<FakeHealthGetResponse?> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -962,6 +962,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly HealthCheckResultDeserializationContext? _healthCheckResultDeserializationContext;
 
             /// <summary>
@@ -1097,8 +1100,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="bool"/></returns>
-        public async Task<ApiResponse<bool>?> FakeOuterBooleanSerializeOrDefaultAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterBooleanSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterBooleanSerializeResponse?> FakeOuterBooleanSerializeOrDefaultAsync(Option<bool> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1195,25 +1198,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly boolDeserializationContext? _varBoolDeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="FakeOuterBooleanSerializeResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="varBoolDeserializationContext"></param>
-            public FakeOuterBooleanSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                boolDeserializationContext varBoolDeserializationContext)
-            {
-                _varBoolDeserializationContext = varBoolDeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="FakeOuterBooleanSerializeResponse"/>
@@ -1247,10 +1235,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varBoolDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _varBoolDeserializationContext.bool);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<bool>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -1341,8 +1326,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
-        public async Task<ApiResponse<OuterComposite>?> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterCompositeSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterCompositeSerializeResponse?> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1441,6 +1426,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly OuterCompositeDeserializationContext? _outerCompositeDeserializationContext;
 
             /// <summary>
@@ -1576,8 +1564,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="decimal"/></returns>
-        public async Task<ApiResponse<decimal>?> FakeOuterNumberSerializeOrDefaultAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterNumberSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterNumberSerializeResponse?> FakeOuterNumberSerializeOrDefaultAsync(Option<decimal> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1674,25 +1662,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly decimalDeserializationContext? _varDecimalDeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="FakeOuterNumberSerializeResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="varDecimalDeserializationContext"></param>
-            public FakeOuterNumberSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                decimalDeserializationContext varDecimalDeserializationContext)
-            {
-                _varDecimalDeserializationContext = varDecimalDeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="FakeOuterNumberSerializeResponse"/>
@@ -1726,10 +1699,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varDecimalDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _varDecimalDeserializationContext.decimal);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<decimal>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -1825,8 +1795,8 @@ namespace UseSourceGeneration.Api
         /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FakeOuterStringSerializeResponse"/>&gt;</returns>
+        public async Task<FakeOuterStringSerializeResponse?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1932,25 +1902,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly stringDeserializationContext? _varStringDeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="FakeOuterStringSerializeResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="varStringDeserializationContext"></param>
-            public FakeOuterStringSerializeResponse(UseSourceGeneration.Client.ApiResponse content,
-                stringDeserializationContext varStringDeserializationContext)
-            {
-                _varStringDeserializationContext = varStringDeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="FakeOuterStringSerializeResponse"/>
@@ -1984,10 +1939,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varStringDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringDeserializationContext.string);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -2060,8 +2012,8 @@ namespace UseSourceGeneration.Api
         /// Array of Enums 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<OuterEnum>>?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetArrayOfEnumsResponse"/>&gt;</returns>
+        public async Task<GetArrayOfEnumsResponse?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2141,7 +2093,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly List&lt;OuterEnum&gt;DeserializationContext? _listltOuterEnumgtDeserializationContext;
+            // isContainer: 
+            // items: Response
+            // datatype OuterEnum
+            private readonly OuterEnumDeserializationContext? _outerEnumDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -2152,11 +2107,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="GetArrayOfEnumsResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltOuterEnumgtDeserializationContext"></param>
+            /// <param name="outerEnumDeserializationContext"></param>
             public GetArrayOfEnumsResponse(UseSourceGeneration.Client.ApiResponse content,
-                List&lt;OuterEnum&gt;DeserializationContext listltOuterEnumgtDeserializationContext)
+                OuterEnumDeserializationContext outerEnumDeserializationContext)
             {
-                _listltOuterEnumgtDeserializationContext = listltOuterEnumgtDeserializationContext;
+                _outerEnumDeserializationContext = outerEnumDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -2193,9 +2148,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltOuterEnumgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;OuterEnum&gt;>(Content.RawContent, _listltOuterEnumgtDeserializationContext.List&lt;OuterEnum&gt;);
+                result = _outerEnumDeserializationContext == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<OuterEnum>>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List<OuterEnum>>(Content.RawContent, _outerEnumDeserializationContext.ListOuterEnum);
 
                 return result != null;
             }
@@ -2287,8 +2242,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestBodyWithFileSchemaResponse"/>&gt;</returns>
+        public async Task<TestBodyWithFileSchemaResponse?> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2377,25 +2332,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestBodyWithFileSchemaResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestBodyWithFileSchemaResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestBodyWithFileSchemaResponse"/>
@@ -2491,8 +2431,8 @@ namespace UseSourceGeneration.Api
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestBodyWithQueryParamsResponse"/>&gt;</returns>
+        public async Task<TestBodyWithQueryParamsResponse?> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2588,25 +2528,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestBodyWithQueryParamsResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestBodyWithQueryParamsResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestBodyWithQueryParamsResponse"/>
@@ -2693,8 +2618,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>?> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestClientModelResponse"/>&gt;</returns>
+        public async Task<TestClientModelResponse?> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2792,6 +2717,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly ModelClientDeserializationContext? _modelClientDeserializationContext;
 
             /// <summary>
@@ -3023,8 +2951,8 @@ namespace UseSourceGeneration.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestEndpointParametersResponse"/>&gt;</returns>
+        public async Task<TestEndpointParametersResponse?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -3180,28 +3108,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestEndpointParametersResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestEndpointParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestEndpointParametersResponse"/>
@@ -3349,8 +3259,8 @@ namespace UseSourceGeneration.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestEnumParametersResponse"/>&gt;</returns>
+        public async Task<TestEnumParametersResponse?> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -3476,28 +3386,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestEnumParametersResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestEnumParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestEnumParametersResponse"/>
@@ -3604,8 +3496,8 @@ namespace UseSourceGeneration.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestGroupParametersResponse"/>&gt;</returns>
+        public async Task<TestGroupParametersResponse?> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -3714,25 +3606,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestGroupParametersResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestGroupParametersResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestGroupParametersResponse"/>
@@ -3819,8 +3696,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestInlineAdditionalPropertiesResponse"/>&gt;</returns>
+        public async Task<TestInlineAdditionalPropertiesResponse?> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -3909,25 +3786,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestInlineAdditionalPropertiesResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestInlineAdditionalPropertiesResponse"/>
@@ -4023,8 +3885,8 @@ namespace UseSourceGeneration.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestJsonFormDataResponse"/>&gt;</returns>
+        public async Task<TestJsonFormDataResponse?> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -4122,25 +3984,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestJsonFormDataResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestJsonFormDataResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestJsonFormDataResponse"/>
@@ -4291,8 +4138,8 @@ namespace UseSourceGeneration.Api
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestQueryParameterCollectionFormatResponse"/>&gt;</returns>
+        public async Task<TestQueryParameterCollectionFormatResponse?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string?> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -4394,25 +4241,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="TestQueryParameterCollectionFormatResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public TestQueryParameterCollectionFormatResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="TestQueryParameterCollectionFormatResponse"/>

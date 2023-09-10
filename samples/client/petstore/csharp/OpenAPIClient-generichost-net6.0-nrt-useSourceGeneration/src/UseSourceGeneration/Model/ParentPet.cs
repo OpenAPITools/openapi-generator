@@ -145,6 +145,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ParentPet))]
+    [JsonSerializable(typeof(List<ParentPet>))]
     public partial class ParentPetSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -161,6 +162,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ParentPet))]
+    [JsonSerializable(typeof(List<ParentPet>))]
     public partial class ParentPetDeserializationContext : JsonSerializerContext
     {
         /// <summary>

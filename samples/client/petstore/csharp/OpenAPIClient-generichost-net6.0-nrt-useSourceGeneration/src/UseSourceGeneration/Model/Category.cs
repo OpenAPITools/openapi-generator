@@ -187,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Category))]
+    [JsonSerializable(typeof(List<Category>))]
     public partial class CategorySerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -203,6 +204,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Category))]
+    [JsonSerializable(typeof(List<Category>))]
     public partial class CategoryDeserializationContext : JsonSerializerContext
     {
         /// <summary>

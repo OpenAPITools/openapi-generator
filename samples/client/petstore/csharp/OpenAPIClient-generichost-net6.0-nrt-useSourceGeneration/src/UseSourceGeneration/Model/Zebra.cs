@@ -285,6 +285,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Zebra))]
+    [JsonSerializable(typeof(List<Zebra>))]
     public partial class ZebraSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -301,6 +302,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Zebra))]
+    [JsonSerializable(typeof(List<Zebra>))]
     public partial class ZebraDeserializationContext : JsonSerializerContext
     {
         /// <summary>

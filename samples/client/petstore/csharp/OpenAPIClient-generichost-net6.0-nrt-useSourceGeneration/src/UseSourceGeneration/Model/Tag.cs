@@ -187,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Tag))]
+    [JsonSerializable(typeof(List<Tag>))]
     public partial class TagSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -203,6 +204,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Tag))]
+    [JsonSerializable(typeof(List<Tag>))]
     public partial class TagDeserializationContext : JsonSerializerContext
     {
         /// <summary>

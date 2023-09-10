@@ -18,6 +18,8 @@ using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using UseSourceGeneration.Api;
 using UseSourceGeneration.Model;
+using System.Text.Json.Serialization.Metadata;
+using Polly;
 
 namespace UseSourceGeneration.Client
 {
@@ -137,6 +139,18 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new ZeroBasedEnumJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumNullableJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
+
+            _jsonOptions.AddContext<OuterEnumDeserializationContext>();
+            //_jsonOptions.TypeInfoResolver
+
+            var options = new JsonSerializerOptions
+            {
+                TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                    OuterEnumDeserializationContext.Default,
+                    new DefaultJsonTypeInfoResolver()
+                )
+            };
+
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
 
@@ -422,4 +436,21 @@ namespace UseSourceGeneration.Client
             return this;
         }
     }
+
+    public class Foo : IJsonTypeInfoResolver // DefaultJsonTypeInfoResolver
+    {
+        public JsonTypeInfo? GetTypeInfo(Type type, JsonSerializerOptions options)
+        {
+            return new OuterEnumDeserializationContext().OuterEnum;
+        }
+    }
 }
+
+
+//var options = new JsonSerializerOptions
+//{
+//    TypeInfoResolver = JsonTypeInfoResolver.Combine(
+//        ContextA.Default,
+//        ContextB.Default,
+//        new DefaultJsonTypeInfoResolver())
+//};

@@ -166,6 +166,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HealthCheckResult))]
+    [JsonSerializable(typeof(List<HealthCheckResult>))]
     public partial class HealthCheckResultSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -182,6 +183,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(HealthCheckResult))]
+    [JsonSerializable(typeof(List<HealthCheckResult>))]
     public partial class HealthCheckResultDeserializationContext : JsonSerializerContext
     {
         /// <summary>

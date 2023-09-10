@@ -171,6 +171,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
+    [JsonSerializable(typeof(List<FooGetDefaultResponse>))]
     public partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -187,6 +188,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
+    [JsonSerializable(typeof(List<FooGetDefaultResponse>))]
     public partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
     {
         /// <summary>

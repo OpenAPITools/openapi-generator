@@ -188,6 +188,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
+    [JsonSerializable(typeof(List<ActivityOutputElementRepresentation>))]
     public partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -204,6 +205,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
+    [JsonSerializable(typeof(List<ActivityOutputElementRepresentation>))]
     public partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
     {
         /// <summary>

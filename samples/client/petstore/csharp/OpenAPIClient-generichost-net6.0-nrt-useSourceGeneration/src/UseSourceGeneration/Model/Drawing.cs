@@ -233,6 +233,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Drawing))]
+    [JsonSerializable(typeof(List<Drawing>))]
     public partial class DrawingSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -249,6 +250,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Drawing))]
+    [JsonSerializable(typeof(List<Drawing>))]
     public partial class DrawingDeserializationContext : JsonSerializerContext
     {
         /// <summary>

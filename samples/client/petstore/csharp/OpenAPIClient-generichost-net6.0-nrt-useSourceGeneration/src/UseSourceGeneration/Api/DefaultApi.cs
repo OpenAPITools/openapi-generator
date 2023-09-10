@@ -55,7 +55,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;FooGetDefaultResponse&gt;?&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>?> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<FooGetDefaultResponse?> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -78,7 +78,7 @@ namespace UseSourceGeneration.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -99,7 +99,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<Guid>>?> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<List<Guid>?> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -120,7 +120,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;List&lt;RolesReportsHash&gt;&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<List<RolesReportsHash>>>?> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<List<List<RolesReportsHash>>?> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -141,7 +141,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;NotificationtestGetElementsV1ResponseMPayload&gt;?&gt;</returns>
-        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<NotificationtestGetElementsV1ResponseMPayload?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -372,8 +372,8 @@ namespace UseSourceGeneration.Api
         ///  
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>?> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="FooGetResponse"/>&gt;</returns>
+        public async Task<FooGetResponse?> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -453,6 +453,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly FooGetDefaultResponseDeserializationContext? _fooGetDefaultResponseDeserializationContext;
 
             /// <summary>
@@ -599,8 +602,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetCountryResponse"/>&gt;</returns>
+        public async Task<GetCountryResponse?> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -695,25 +698,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="GetCountryResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public GetCountryResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="GetCountryResponse"/>
@@ -782,8 +770,8 @@ namespace UseSourceGeneration.Api
         /// Hello Hello
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Guid>>?> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="HelloResponse"/>&gt;</returns>
+        public async Task<HelloResponse?> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -863,25 +851,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly List&lt;Guid&gt;DeserializationContext? _listltGuidgtDeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="HelloResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="listltGuidgtDeserializationContext"></param>
-            public HelloResponse(UseSourceGeneration.Client.ApiResponse content,
-                List&lt;Guid&gt;DeserializationContext listltGuidgtDeserializationContext)
-            {
-                _listltGuidgtDeserializationContext = listltGuidgtDeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="HelloResponse"/>
@@ -915,10 +888,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltGuidgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;Guid&gt;>(Content.RawContent, _listltGuidgtDeserializationContext.List&lt;Guid&gt;);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -991,8 +961,8 @@ namespace UseSourceGeneration.Api
         ///  
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<List<RolesReportsHash>>>?> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="RolesReportGetResponse"/>&gt;</returns>
+        public async Task<RolesReportGetResponse?> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1072,7 +1042,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly List&lt;List&gt;DeserializationContext? _listltListgtDeserializationContext;
+            // isContainer: 
+            // items: Response
+            // datatype List&lt;RolesReportsHash&gt;
+            private readonly List&lt;RolesReportsHash&gt;DeserializationContext? _listltRolesReportsHashgtDeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1083,11 +1056,11 @@ namespace UseSourceGeneration.Api
             /// The <see cref="RolesReportGetResponse"/>
             /// </summary>
             /// <param name="content"></param>
-            /// <param name="listltListgtDeserializationContext"></param>
+            /// <param name="listltRolesReportsHashgtDeserializationContext"></param>
             public RolesReportGetResponse(UseSourceGeneration.Client.ApiResponse content,
-                List&lt;List&gt;DeserializationContext listltListgtDeserializationContext)
+                List&lt;RolesReportsHash&gt;DeserializationContext listltRolesReportsHashgtDeserializationContext)
             {
-                _listltListgtDeserializationContext = listltListgtDeserializationContext;
+                _listltRolesReportsHashgtDeserializationContext = listltRolesReportsHashgtDeserializationContext;
                 Content = content;
                 OnCreated();
             }
@@ -1124,9 +1097,9 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _listltListgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<List&lt;List&gt;>(Content.RawContent, _listltListgtDeserializationContext.List&lt;List&gt;);
+                result = _listltRolesReportsHashgtDeserializationContext == null
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(Content.RawContent, _jsonSerializerOptions)
+                    : System.Text.Json.JsonSerializer.Deserialize<List<List>>(Content.RawContent, _listltRolesReportsHashgtDeserializationContext.ListList&lt;RolesReportsHash&gt;);
 
                 return result != null;
             }
@@ -1200,8 +1173,8 @@ namespace UseSourceGeneration.Api
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
-        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="TestResponse"/>&gt;</returns>
+        public async Task<TestResponse?> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1281,6 +1254,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly NotificationtestGetElementsV1ResponseMPayloadDeserializationContext? _notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
 
             /// <summary>

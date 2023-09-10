@@ -57,7 +57,7 @@ namespace UseSourceGeneration.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
-        Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ModelClient?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -223,8 +223,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="Call123TestSpecialTagsResponse"/>&gt;</returns>
+        public async Task<Call123TestSpecialTagsResponse?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -322,6 +322,9 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly ModelClientDeserializationContext? _modelClientDeserializationContext;
 
             /// <summary>

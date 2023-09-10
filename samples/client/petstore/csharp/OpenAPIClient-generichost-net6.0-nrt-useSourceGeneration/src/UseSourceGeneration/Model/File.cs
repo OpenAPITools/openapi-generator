@@ -170,6 +170,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(File))]
+    [JsonSerializable(typeof(List<File>))]
     public partial class FileSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -186,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(File))]
+    [JsonSerializable(typeof(List<File>))]
     public partial class FileDeserializationContext : JsonSerializerContext
     {
         /// <summary>

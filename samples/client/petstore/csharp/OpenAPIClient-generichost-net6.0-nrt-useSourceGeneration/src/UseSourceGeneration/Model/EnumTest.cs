@@ -836,6 +836,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumTest))]
+    [JsonSerializable(typeof(List<EnumTest>))]
     public partial class EnumTestSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -852,6 +853,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EnumTest))]
+    [JsonSerializable(typeof(List<EnumTest>))]
     public partial class EnumTestDeserializationContext : JsonSerializerContext
     {
         /// <summary>

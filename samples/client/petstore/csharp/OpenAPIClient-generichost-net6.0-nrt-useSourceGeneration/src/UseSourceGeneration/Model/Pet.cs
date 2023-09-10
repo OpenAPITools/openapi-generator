@@ -353,6 +353,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Pet))]
+    [JsonSerializable(typeof(List<Pet>))]
     public partial class PetSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -369,6 +370,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Pet))]
+    [JsonSerializable(typeof(List<Pet>))]
     public partial class PetDeserializationContext : JsonSerializerContext
     {
         /// <summary>

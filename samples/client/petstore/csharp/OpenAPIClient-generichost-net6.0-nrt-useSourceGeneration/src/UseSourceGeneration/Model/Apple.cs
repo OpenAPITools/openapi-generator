@@ -230,6 +230,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Apple))]
+    [JsonSerializable(typeof(List<Apple>))]
     public partial class AppleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -246,6 +247,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Apple))]
+    [JsonSerializable(typeof(List<Apple>))]
     public partial class AppleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

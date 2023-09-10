@@ -172,6 +172,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Cat))]
+    [JsonSerializable(typeof(List<Cat>))]
     public partial class CatSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -188,6 +189,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Cat))]
+    [JsonSerializable(typeof(List<Cat>))]
     public partial class CatDeserializationContext : JsonSerializerContext
     {
         /// <summary>

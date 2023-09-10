@@ -251,6 +251,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableShape))]
+    [JsonSerializable(typeof(List<NullableShape>))]
     public partial class NullableShapeSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -267,6 +268,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NullableShape))]
+    [JsonSerializable(typeof(List<NullableShape>))]
     public partial class NullableShapeDeserializationContext : JsonSerializerContext
     {
         /// <summary>

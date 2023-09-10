@@ -205,6 +205,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Whale))]
+    [JsonSerializable(typeof(List<Whale>))]
     public partial class WhaleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -221,6 +222,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Whale))]
+    [JsonSerializable(typeof(List<Whale>))]
     public partial class WhaleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

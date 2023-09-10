@@ -628,6 +628,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FormatTest))]
+    [JsonSerializable(typeof(List<FormatTest>))]
     public partial class FormatTestSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -644,6 +645,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(FormatTest))]
+    [JsonSerializable(typeof(List<FormatTest>))]
     public partial class FormatTestDeserializationContext : JsonSerializerContext
     {
         /// <summary>

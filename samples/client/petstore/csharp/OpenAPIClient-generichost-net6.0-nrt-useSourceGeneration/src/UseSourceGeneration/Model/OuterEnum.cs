@@ -195,6 +195,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnum))]
+    [JsonSerializable(typeof(List<OuterEnum>))]
     public partial class OuterEnumSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -211,6 +212,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterEnum))]
+    [JsonSerializable(typeof(List<OuterEnum>))]
     public partial class OuterEnumDeserializationContext : JsonSerializerContext
     {
         /// <summary>

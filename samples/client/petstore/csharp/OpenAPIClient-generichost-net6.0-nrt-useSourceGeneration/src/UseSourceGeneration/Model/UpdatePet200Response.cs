@@ -171,6 +171,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(UpdatePet200Response))]
+    [JsonSerializable(typeof(List<UpdatePet200Response>))]
     public partial class UpdatePet200ResponseSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -187,6 +188,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(UpdatePet200Response))]
+    [JsonSerializable(typeof(List<UpdatePet200Response>))]
     public partial class UpdatePet200ResponseDeserializationContext : JsonSerializerContext
     {
         /// <summary>

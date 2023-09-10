@@ -189,6 +189,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NotificationtestGetElementsV1ResponseMPayload))]
+    [JsonSerializable(typeof(List<NotificationtestGetElementsV1ResponseMPayload>))]
     public partial class NotificationtestGetElementsV1ResponseMPayloadSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -205,6 +206,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NotificationtestGetElementsV1ResponseMPayload))]
+    [JsonSerializable(typeof(List<NotificationtestGetElementsV1ResponseMPayload>))]
     public partial class NotificationtestGetElementsV1ResponseMPayloadDeserializationContext : JsonSerializerContext
     {
         /// <summary>

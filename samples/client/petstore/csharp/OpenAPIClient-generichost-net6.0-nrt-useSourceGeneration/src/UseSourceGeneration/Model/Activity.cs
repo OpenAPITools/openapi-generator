@@ -171,6 +171,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Activity))]
+    [JsonSerializable(typeof(List<Activity>))]
     public partial class ActivitySerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -187,6 +188,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Activity))]
+    [JsonSerializable(typeof(List<Activity>))]
     public partial class ActivityDeserializationContext : JsonSerializerContext
     {
         /// <summary>

@@ -5,6 +5,7 @@
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof({{classname}}))]
+    [JsonSerializable(typeof(List<{{classname}}>))]
     {{>visibility}} partial class {{classname}}SerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -21,6 +22,7 @@
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof({{classname}}))]
+    [JsonSerializable(typeof(List<{{classname}}>))]
     {{>visibility}} partial class {{classname}}DeserializationContext : JsonSerializerContext
     {
         /// <summary>

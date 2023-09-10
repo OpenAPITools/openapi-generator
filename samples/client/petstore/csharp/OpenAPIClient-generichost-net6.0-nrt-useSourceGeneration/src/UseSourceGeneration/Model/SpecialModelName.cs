@@ -187,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(SpecialModelName))]
+    [JsonSerializable(typeof(List<SpecialModelName>))]
     public partial class SpecialModelNameSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -203,6 +204,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(SpecialModelName))]
+    [JsonSerializable(typeof(List<SpecialModelName>))]
     public partial class SpecialModelNameDeserializationContext : JsonSerializerContext
     {
         /// <summary>

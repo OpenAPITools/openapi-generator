@@ -172,6 +172,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableGuidClass))]
+    [JsonSerializable(typeof(List<NullableGuidClass>))]
     public partial class NullableGuidClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -188,6 +189,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(NullableGuidClass))]
+    [JsonSerializable(typeof(List<NullableGuidClass>))]
     public partial class NullableGuidClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

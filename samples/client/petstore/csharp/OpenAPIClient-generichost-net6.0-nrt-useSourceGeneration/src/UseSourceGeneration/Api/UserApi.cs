@@ -57,7 +57,7 @@ namespace UseSourceGeneration.Api
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -80,7 +80,7 @@ namespace UseSourceGeneration.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -103,7 +103,7 @@ namespace UseSourceGeneration.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete user
@@ -126,7 +126,7 @@ namespace UseSourceGeneration.Api
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get user by user name
@@ -149,7 +149,7 @@ namespace UseSourceGeneration.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;User&gt;?&gt;</returns>
-        Task<ApiResponse<User>?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+        Task<User?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs user into the system
@@ -174,7 +174,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;string&gt;?&gt;</returns>
-        Task<ApiResponse<string>?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
+        Task<string?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs out current logged in user session
@@ -195,7 +195,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updated user
@@ -220,7 +220,7 @@ namespace UseSourceGeneration.Api
         /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -526,8 +526,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUserResponse"/>&gt;</returns>
+        public async Task<CreateUserResponse?> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -616,25 +616,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="CreateUserResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public CreateUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="CreateUserResponse"/>
@@ -721,8 +706,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUsersWithArrayInputResponse"/>&gt;</returns>
+        public async Task<CreateUsersWithArrayInputResponse?> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -811,25 +796,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="CreateUsersWithArrayInputResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public CreateUsersWithArrayInputResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="CreateUsersWithArrayInputResponse"/>
@@ -916,8 +886,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="CreateUsersWithListInputResponse"/>&gt;</returns>
+        public async Task<CreateUsersWithListInputResponse?> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1006,25 +976,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="CreateUsersWithListInputResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public CreateUsersWithListInputResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="CreateUsersWithListInputResponse"/>
@@ -1111,8 +1066,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeleteUserResponse"/>&gt;</returns>
+        public async Task<DeleteUserResponse?> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1189,28 +1144,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="DeleteUserResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public DeleteUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="DeleteUserResponse"/>
@@ -1303,8 +1240,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
-        public async Task<ApiResponse<User>?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetUserByNameResponse"/>&gt;</returns>
+        public async Task<GetUserByNameResponse?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1391,9 +1328,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly UserDeserializationContext? _userDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1564,8 +1502,8 @@ namespace UseSourceGeneration.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="LoginUserResponse"/>&gt;</returns>
+        public async Task<LoginUserResponse?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1659,28 +1597,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly stringDeserializationContext? _varStringDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="LoginUserResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="varStringDeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public LoginUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                stringDeserializationContext varStringDeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _varStringDeserializationContext = varStringDeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="LoginUserResponse"/>
@@ -1714,10 +1634,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _varStringDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _varStringDeserializationContext.string);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<string>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -1796,8 +1713,8 @@ namespace UseSourceGeneration.Api
         /// Logs out current logged in user session 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="LogoutUserResponse"/>&gt;</returns>
+        public async Task<LogoutUserResponse?> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1868,25 +1785,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="LogoutUserResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            public LogoutUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="LogoutUserResponse"/>
@@ -1982,8 +1884,8 @@ namespace UseSourceGeneration.Api
         /// <param name="user">Updated user object</param>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="UpdateUserResponse"/>&gt;</returns>
+        public async Task<UpdateUserResponse?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2074,28 +1976,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="UpdateUserResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public UpdateUserResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="UpdateUserResponse"/>

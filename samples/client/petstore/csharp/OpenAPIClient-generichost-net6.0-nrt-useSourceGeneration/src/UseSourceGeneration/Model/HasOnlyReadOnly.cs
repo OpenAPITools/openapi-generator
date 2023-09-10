@@ -223,6 +223,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HasOnlyReadOnly))]
+    [JsonSerializable(typeof(List<HasOnlyReadOnly>))]
     public partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -239,6 +240,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(HasOnlyReadOnly))]
+    [JsonSerializable(typeof(List<HasOnlyReadOnly>))]
     public partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
     {
         /// <summary>

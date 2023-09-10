@@ -222,6 +222,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
+    [JsonSerializable(typeof(List<ReadOnlyFirst>))]
     public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -238,6 +239,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
+    [JsonSerializable(typeof(List<ReadOnlyFirst>))]
     public partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
     {
         /// <summary>

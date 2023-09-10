@@ -2,15 +2,21 @@
 result = null;
 if (!Is{{vendorExtensions.x-http-status}}())
     return false;
+
 {{^useSourceGeneration}}
 result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _jsonSerializerOptions);
 return result != null;
 {{/useSourceGeneration}}
 {{#useSourceGeneration}}
-
-result = _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}DeserializationContext == null
-    ? System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _jsonSerializerOptions)
-    : System.Text.Json.JsonSerializer.Deserialize<{{dataType}}>(Content.RawContent, _{{#lambda.camelcase_param}}{{dataType}}{{/lambda.camelcase_param}}DeserializationContext.{{dataType}});
+{{#isPrimitiveType}}
+result = System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _jsonSerializerOptions);
+return result != null;
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+result = _{{#lambda.camelcase_param}}{{#items}}{{datatypeWithEnum}}{{/items}}{{^items}}{{{dataType}}}{{/items}}{{/lambda.camelcase_param}}DeserializationContext == null
+    ? System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _jsonSerializerOptions)
+    : System.Text.Json.JsonSerializer.Deserialize<{{{dataType}}}>(Content.RawContent, _{{#lambda.camelcase_param}}{{#items}}{{datatypeWithEnum}}{{/items}}{{^items}}{{{dataType}}}{{/items}}{{/lambda.camelcase_param}}DeserializationContext.{{#items}}List{{datatypeWithEnum}}{{/items}}{{^items}}{{dataType}}{{/items}});
 
 return result != null;
+{{/isPrimitiveType}}
 {{/useSourceGeneration}}

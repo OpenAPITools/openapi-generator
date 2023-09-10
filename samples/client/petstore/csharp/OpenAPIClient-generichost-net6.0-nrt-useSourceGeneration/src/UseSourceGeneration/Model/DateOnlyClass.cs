@@ -176,6 +176,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DateOnlyClass))]
+    [JsonSerializable(typeof(List<DateOnlyClass>))]
     public partial class DateOnlyClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -192,6 +193,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(DateOnlyClass))]
+    [JsonSerializable(typeof(List<DateOnlyClass>))]
     public partial class DateOnlyClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

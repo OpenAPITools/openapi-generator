@@ -228,6 +228,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
+    [JsonSerializable(typeof(List<ObjectWithDeprecatedFields>))]
     public partial class ObjectWithDeprecatedFieldsSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -244,6 +245,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
+    [JsonSerializable(typeof(List<ObjectWithDeprecatedFields>))]
     public partial class ObjectWithDeprecatedFieldsDeserializationContext : JsonSerializerContext
     {
         /// <summary>

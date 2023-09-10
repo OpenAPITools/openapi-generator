@@ -205,6 +205,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterComposite))]
+    [JsonSerializable(typeof(List<OuterComposite>))]
     public partial class OuterCompositeSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -221,6 +222,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OuterComposite))]
+    [JsonSerializable(typeof(List<OuterComposite>))]
     public partial class OuterCompositeDeserializationContext : JsonSerializerContext
     {
         /// <summary>

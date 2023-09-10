@@ -186,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EquilateralTriangle))]
+    [JsonSerializable(typeof(List<EquilateralTriangle>))]
     public partial class EquilateralTriangleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -202,6 +203,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EquilateralTriangle))]
+    [JsonSerializable(typeof(List<EquilateralTriangle>))]
     public partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

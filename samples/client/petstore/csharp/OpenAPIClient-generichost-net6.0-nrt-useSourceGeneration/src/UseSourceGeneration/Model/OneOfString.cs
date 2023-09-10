@@ -166,6 +166,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OneOfString))]
+    [JsonSerializable(typeof(List<OneOfString>))]
     public partial class OneOfStringSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -182,6 +183,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(OneOfString))]
+    [JsonSerializable(typeof(List<OneOfString>))]
     public partial class OneOfStringDeserializationContext : JsonSerializerContext
     {
         /// <summary>

@@ -169,6 +169,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(RolesReportsHashRole))]
+    [JsonSerializable(typeof(List<RolesReportsHashRole>))]
     public partial class RolesReportsHashRoleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -185,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(RolesReportsHashRole))]
+    [JsonSerializable(typeof(List<RolesReportsHashRole>))]
     public partial class RolesReportsHashRoleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

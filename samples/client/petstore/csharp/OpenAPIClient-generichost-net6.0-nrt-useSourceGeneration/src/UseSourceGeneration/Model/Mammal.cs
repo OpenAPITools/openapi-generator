@@ -282,6 +282,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Mammal))]
+    [JsonSerializable(typeof(List<Mammal>))]
     public partial class MammalSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -298,6 +299,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Mammal))]
+    [JsonSerializable(typeof(List<Mammal>))]
     public partial class MammalDeserializationContext : JsonSerializerContext
     {
         /// <summary>

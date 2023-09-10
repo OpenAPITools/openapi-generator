@@ -179,6 +179,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(GrandparentAnimal))]
+    [JsonSerializable(typeof(List<GrandparentAnimal>))]
     public partial class GrandparentAnimalSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -195,6 +196,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(GrandparentAnimal))]
+    [JsonSerializable(typeof(List<GrandparentAnimal>))]
     public partial class GrandparentAnimalDeserializationContext : JsonSerializerContext
     {
         /// <summary>

@@ -195,6 +195,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumClass))]
+    [JsonSerializable(typeof(List<EnumClass>))]
     public partial class EnumClassSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -211,6 +212,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(EnumClass))]
+    [JsonSerializable(typeof(List<EnumClass>))]
     public partial class EnumClassDeserializationContext : JsonSerializerContext
     {
         /// <summary>

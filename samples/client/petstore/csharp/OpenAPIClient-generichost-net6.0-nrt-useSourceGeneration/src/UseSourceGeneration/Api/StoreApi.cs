@@ -57,7 +57,7 @@ namespace UseSourceGeneration.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<object?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -78,7 +78,7 @@ namespace UseSourceGeneration.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Dictionary&lt;string, int&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<Dictionary<string, int>>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find purchase order by ID
@@ -101,7 +101,7 @@ namespace UseSourceGeneration.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Order&gt;?&gt;</returns>
-        Task<ApiResponse<Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -124,7 +124,7 @@ namespace UseSourceGeneration.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Order&gt;?&gt;</returns>
-        Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
+        Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -350,8 +350,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="DeleteOrderResponse"/>&gt;</returns>
+        public async Task<DeleteOrderResponse?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -428,28 +428,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="DeleteOrderResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="DeserializationContext"></param>
-            /// <param name="DeserializationContext"></param>
-            public DeleteOrderResponse(UseSourceGeneration.Client.ApiResponse content,
-                DeserializationContext DeserializationContext                DeserializationContext DeserializationContext)
-            {
-                _DeserializationContext = DeserializationContext;
-                _DeserializationContext = DeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="DeleteOrderResponse"/>
@@ -524,8 +506,8 @@ namespace UseSourceGeneration.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
-        public async Task<ApiResponse<Dictionary<string, int>>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetInventoryResponse"/>&gt;</returns>
+        public async Task<GetInventoryResponse?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -617,25 +599,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
-            private readonly Dictionary&lt;string, int&gt;DeserializationContext? _dictionaryltstringIntgtDeserializationContext;
-
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
             /// </summary>
             public UseSourceGeneration.Client.ApiResponse Content { get; }
-
-            /// <summary>
-            /// The <see cref="GetInventoryResponse"/>
-            /// </summary>
-            /// <param name="content"></param>
-            /// <param name="dictionaryltstringIntgtDeserializationContext"></param>
-            public GetInventoryResponse(UseSourceGeneration.Client.ApiResponse content,
-                Dictionary&lt;string, int&gt;DeserializationContext dictionaryltstringIntgtDeserializationContext)
-            {
-                _dictionaryltstringIntgtDeserializationContext = dictionaryltstringIntgtDeserializationContext;
-                Content = content;
-                OnCreated();
-            }
 
             /// <summary>
             /// The <see cref="GetInventoryResponse"/>
@@ -669,10 +636,7 @@ namespace UseSourceGeneration.Api
                 if (!IsOk())
                     return false;
 
-                result = _dictionaryltstringIntgtDeserializationContext == null
-                    ? System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _jsonSerializerOptions)
-                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary&lt;string, int&gt;>(Content.RawContent, _dictionaryltstringIntgtDeserializationContext.Dictionary&lt;string, int&gt;);
-
+                result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(Content.RawContent, _jsonSerializerOptions);
                 return result != null;
             }
 
@@ -752,8 +716,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="GetOrderByIdResponse"/>&gt;</returns>
+        public async Task<GetOrderByIdResponse?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -838,9 +802,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly OrderDeserializationContext? _orderDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>
@@ -1002,8 +967,8 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="PlaceOrderResponse"/>&gt;</returns>
+        public async Task<PlaceOrderResponse?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1102,8 +1067,10 @@ namespace UseSourceGeneration.Api
             /// </summary>
             private System.Text.Json.JsonSerializerOptions? _jsonSerializerOptions;
 
+            // isContainer: 
+            // items: 
+            // datatype 
             private readonly OrderDeserializationContext? _orderDeserializationContext;
-            private readonly DeserializationContext? _DeserializationContext;
 
             /// <summary>
             /// The <see cref="UseSourceGeneration.Client.ApiResponse"/>

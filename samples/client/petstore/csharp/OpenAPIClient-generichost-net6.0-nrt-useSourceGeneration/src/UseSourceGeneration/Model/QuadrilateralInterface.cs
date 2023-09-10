@@ -169,6 +169,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(QuadrilateralInterface))]
+    [JsonSerializable(typeof(List<QuadrilateralInterface>))]
     public partial class QuadrilateralInterfaceSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -185,6 +186,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(QuadrilateralInterface))]
+    [JsonSerializable(typeof(List<QuadrilateralInterface>))]
     public partial class QuadrilateralInterfaceDeserializationContext : JsonSerializerContext
     {
         /// <summary>

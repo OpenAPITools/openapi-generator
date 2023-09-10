@@ -230,6 +230,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ChildCat))]
+    [JsonSerializable(typeof(List<ChildCat>))]
     public partial class ChildCatSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -246,6 +247,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(ChildCat))]
+    [JsonSerializable(typeof(List<ChildCat>))]
     public partial class ChildCatDeserializationContext : JsonSerializerContext
     {
         /// <summary>

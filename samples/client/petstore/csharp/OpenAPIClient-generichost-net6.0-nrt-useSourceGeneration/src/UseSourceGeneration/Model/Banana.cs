@@ -170,6 +170,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Banana))]
+    [JsonSerializable(typeof(List<Banana>))]
     public partial class BananaSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -186,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Banana))]
+    [JsonSerializable(typeof(List<Banana>))]
     public partial class BananaDeserializationContext : JsonSerializerContext
     {
         /// <summary>

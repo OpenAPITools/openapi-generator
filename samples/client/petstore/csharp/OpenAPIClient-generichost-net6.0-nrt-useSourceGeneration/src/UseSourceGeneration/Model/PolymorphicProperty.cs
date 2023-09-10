@@ -245,6 +245,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(PolymorphicProperty))]
+    [JsonSerializable(typeof(List<PolymorphicProperty>))]
     public partial class PolymorphicPropertySerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -261,6 +262,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(PolymorphicProperty))]
+    [JsonSerializable(typeof(List<PolymorphicProperty>))]
     public partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
     {
         /// <summary>

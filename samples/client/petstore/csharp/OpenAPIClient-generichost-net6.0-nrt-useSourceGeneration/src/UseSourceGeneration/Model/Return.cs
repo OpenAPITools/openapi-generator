@@ -170,6 +170,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Return))]
+    [JsonSerializable(typeof(List<Return>))]
     public partial class ReturnSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -186,6 +187,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Return))]
+    [JsonSerializable(typeof(List<Return>))]
     public partial class ReturnDeserializationContext : JsonSerializerContext
     {
         /// <summary>

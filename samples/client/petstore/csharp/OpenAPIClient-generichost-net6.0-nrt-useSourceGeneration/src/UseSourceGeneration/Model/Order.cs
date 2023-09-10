@@ -356,6 +356,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Order))]
+    [JsonSerializable(typeof(List<Order>))]
     public partial class OrderSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -372,6 +373,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Order))]
+    [JsonSerializable(typeof(List<Order>))]
     public partial class OrderDeserializationContext : JsonSerializerContext
     {
         /// <summary>

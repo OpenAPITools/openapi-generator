@@ -179,6 +179,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(IsoscelesTriangle))]
+    [JsonSerializable(typeof(List<IsoscelesTriangle>))]
     public partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -195,6 +196,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(IsoscelesTriangle))]
+    [JsonSerializable(typeof(List<IsoscelesTriangle>))]
     public partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
     {
         /// <summary>

@@ -213,6 +213,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Fruit))]
+    [JsonSerializable(typeof(List<Fruit>))]
     public partial class FruitSerializationContext : JsonSerializerContext
     {
         /// <summary>
@@ -229,6 +230,7 @@ namespace UseSourceGeneration.Model
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(Fruit))]
+    [JsonSerializable(typeof(List<Fruit>))]
     public partial class FruitDeserializationContext : JsonSerializerContext
     {
         /// <summary>
