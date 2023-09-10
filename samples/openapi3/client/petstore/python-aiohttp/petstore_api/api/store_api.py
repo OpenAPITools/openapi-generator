@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
 from typing import overload, Optional, Union, Awaitable
 
 from typing_extensions import Annotated
@@ -54,7 +55,7 @@ class StoreApi:
     def delete_order(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def delete_order(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
@@ -86,7 +87,7 @@ class StoreApi:
             kwargs['async_req'] = async_req
         return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def delete_order_with_http_info(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
@@ -198,7 +199,7 @@ class StoreApi:
     def get_inventory(self, async_req: Optional[bool]=True, **kwargs) -> Dict[str, int]:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def get_inventory(self, async_req: Optional[bool]=None, **kwargs) -> Union[Dict[str, int], Awaitable[Dict[str, int]]]:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
@@ -228,7 +229,7 @@ class StoreApi:
             kwargs['async_req'] = async_req
         return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def get_inventory_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
@@ -340,7 +341,7 @@ class StoreApi:
     def get_order_by_id(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], async_req: Optional[bool]=True, **kwargs) -> Order:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def get_order_by_id(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], async_req: Optional[bool]=None, **kwargs) -> Union[Order, Awaitable[Order]]:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
@@ -372,7 +373,7 @@ class StoreApi:
             kwargs['async_req'] = async_req
         return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def get_order_by_id_with_http_info(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> ApiResponse:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
@@ -492,7 +493,7 @@ class StoreApi:
     def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], async_req: Optional[bool]=True, **kwargs) -> Order:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], async_req: Optional[bool]=None, **kwargs) -> Union[Order, Awaitable[Order]]:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
@@ -524,7 +525,7 @@ class StoreApi:
             kwargs['async_req'] = async_req
         return self.place_order_with_http_info(order, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def place_order_with_http_info(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs) -> ApiResponse:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 

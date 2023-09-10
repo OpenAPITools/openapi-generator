@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
 from typing import overload, Optional, Union, Awaitable
 
 from typing_extensions import Annotated
@@ -52,7 +53,7 @@ class FakeClassnameTags123Api:
     def test_classname(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=True, **kwargs) -> Client:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def test_classname(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=None, **kwargs) -> Union[Client, Awaitable[Client]]:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
@@ -84,7 +85,7 @@ class FakeClassnameTags123Api:
             kwargs['async_req'] = async_req
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_classname_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 

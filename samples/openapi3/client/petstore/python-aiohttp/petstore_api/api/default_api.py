@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
 from typing import overload, Optional, Union, Awaitable
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
@@ -49,7 +50,7 @@ class DefaultApi:
     def foo_get(self, async_req: Optional[bool]=True, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         ...
 
-    @validate_arguments
+    @validate_call
     def foo_get(self, async_req: Optional[bool]=None, **kwargs) -> Union[FooGetDefaultResponse, Awaitable[FooGetDefaultResponse]]:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -78,7 +79,7 @@ class DefaultApi:
             kwargs['async_req'] = async_req
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 

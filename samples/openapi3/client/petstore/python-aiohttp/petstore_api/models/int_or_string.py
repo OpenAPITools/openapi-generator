@@ -23,8 +23,6 @@ from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, valid
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
-INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
-
 class IntOrString(BaseModel):
     """
     IntOrString
@@ -37,10 +35,11 @@ class IntOrString(BaseModel):
         actual_instance: Union[int, str]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: List[str] = Literal["int", "str"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True,
+    }
 
     def __init__(self, *args, **kwargs) -> None:
         if args:

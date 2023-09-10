@@ -18,6 +18,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
 
 from pydantic import StrictBool, StrictInt, StrictStr
 
@@ -44,7 +45,7 @@ class HeaderApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def test_header_integer_boolean_string(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test header parameter(s)  # noqa: E501
 
@@ -78,7 +79,7 @@ class HeaderApi:
             raise ValueError(message)
         return self.test_header_integer_boolean_string_with_http_info(integer_header, boolean_header, string_header, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_header_integer_boolean_string_with_http_info(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test header parameter(s)  # noqa: E501
 

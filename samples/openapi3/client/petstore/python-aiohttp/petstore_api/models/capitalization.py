@@ -33,10 +33,11 @@ class Capitalization(BaseModel):
     att_name: Optional[StrictStr] = Field(None, alias="ATT_NAME", description="Name of the pet ")
     __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    """Pydantic configuration"""
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+    }
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

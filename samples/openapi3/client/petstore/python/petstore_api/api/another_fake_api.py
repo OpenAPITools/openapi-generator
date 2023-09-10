@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
 
 from typing_extensions import Annotated
 from pydantic import Field
@@ -43,7 +44,7 @@ class AnotherFakeApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test special tags  # noqa: E501
 
@@ -73,7 +74,7 @@ class AnotherFakeApi:
             raise ValueError(message)
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 

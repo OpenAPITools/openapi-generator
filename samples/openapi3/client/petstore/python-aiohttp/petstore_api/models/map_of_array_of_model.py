@@ -29,10 +29,11 @@ class MapOfArrayOfModel(BaseModel):
     shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(None, alias="shopIdToOrgOnlineLipMap")
     __properties = ["shopIdToOrgOnlineLipMap"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    """Pydantic configuration"""
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+    }
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

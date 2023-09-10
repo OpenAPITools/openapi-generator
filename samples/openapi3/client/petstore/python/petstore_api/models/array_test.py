@@ -32,10 +32,11 @@ class ArrayTest(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    """Pydantic configuration"""
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+    }
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
