@@ -143,9 +143,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasicBasic}}
+    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{#isApiKey}}
     authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
     authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
     // Prevent the authentications from being modified.

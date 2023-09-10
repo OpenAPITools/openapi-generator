@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 internal class Configuration {
     

@@ -187,7 +187,7 @@ The `new.sh` created our three required files. Let's start filling out each of t
 # Documentation for {{appName}}
 
 {{#generateApiDocs}}
-<a name="documentation-for-api-endpoints"></a>
+<a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
 All URIs are relative to *{{{basePath}}}*
@@ -199,7 +199,7 @@ Class | Method | HTTP request | Description
 {{/generateApiDocs}}
 
 {{#generateModelDocs}}
-<a name="documentation-for-models"></a>
+<a id="documentation-for-models"></a>
 ## Documentation for Models
 
 {{#modelPackage}}
@@ -211,19 +211,13 @@ No model defined in this package
 {{/modelPackage}}
 {{/generateModelDocs}}
 
-<a name="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
+<a id="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
 ## Documentation for Authorization
 
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}}
-Authentication schemes defined for the API:
-{{/last}}
-{{/authMethods}}
-{{#authMethods}}
-<a name="{{name}}"></a>
+<a id="{{name}}"></a>
 ### {{name}}
 
 {{#isApiKey}}- **Type**: API key
@@ -270,7 +264,7 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a name="{{operationId}}"></a>
+<a id="{{operationId}}"></a>
 # **{{operationId}}**
 > {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 

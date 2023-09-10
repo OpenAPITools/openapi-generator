@@ -13,7 +13,6 @@ client.go
 configuration.go
 docs/AdditionalPropertiesClass.md
 docs/AllOfPrimitiveTypes.md
-docs/AllOfPrimitiveTypesAllOf.md
 docs/Animal.md
 docs/AnotherFakeAPI.md
 docs/ApiResponse.md
@@ -26,15 +25,12 @@ docs/Banana.md
 docs/BananaReq.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultAPI.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/DuplicatedPropChild.md
-docs/DuplicatedPropChildAllOf.md
 docs/DuplicatedPropParent.md
 docs/EnumArrays.md
 docs/EnumClass.md
@@ -73,6 +69,7 @@ docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetAPI.md
+docs/PropertyNameMapping.md
 docs/ReadOnlyFirst.md
 docs/ReadOnlyWithDefault.md
 docs/Return.md
@@ -91,7 +88,6 @@ model__foo_get_default_response.go
 model__special_model_name_.go
 model_additional_properties_class.go
 model_all_of_primitive_types.go
-model_all_of_primitive_types_all_of.go
 model_animal.go
 model_api_response.go
 model_apple.go
@@ -103,14 +99,11 @@ model_banana.go
 model_banana_req.go
 model_capitalization.go
 model_cat.go
-model_cat_all_of.go
 model_category.go
 model_class_model.go
 model_client.go
 model_dog.go
-model_dog_all_of.go
 model_duplicated_prop_child.go
-model_duplicated_prop_child_all_of.go
 model_duplicated_prop_parent.go
 model_enum_arrays.go
 model_enum_class.go
@@ -144,6 +137,7 @@ model_outer_enum_default_value.go
 model_outer_enum_integer.go
 model_outer_enum_integer_default_value.go
 model_pet.go
+model_property_name_mapping.go
 model_read_only_first.go
 model_read_only_with_default.go
 model_return.go

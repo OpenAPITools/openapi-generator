@@ -38,7 +38,7 @@ public class JavaModelEnumTest {
     public void converterTest() {
         final StringSchema enumSchema = new StringSchema();
         enumSchema.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -61,7 +61,7 @@ public class JavaModelEnumTest {
     public void converterInArrayTest() {
         final ArraySchema enumSchema = new ArraySchema().items(
                 new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -94,7 +94,7 @@ public class JavaModelEnumTest {
         final ArraySchema enumSchema = new ArraySchema().items(
                 new ArraySchema().items(
                         new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb")));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);

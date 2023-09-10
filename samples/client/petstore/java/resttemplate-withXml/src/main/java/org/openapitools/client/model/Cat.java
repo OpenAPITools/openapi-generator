@@ -43,9 +43,6 @@ import io.github.threetenjaxb.core.*;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-})
 
 @XmlRootElement(name = "Cat")
 @XmlAccessorType(XmlAccessType.FIELD)

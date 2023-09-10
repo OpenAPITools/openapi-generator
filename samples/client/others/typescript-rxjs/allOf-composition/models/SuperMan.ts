@@ -14,11 +14,10 @@
 import type {
     Hero,
     Human,
-    SuperBoyAllOf,
 } from './';
 
 /**
  * @type SuperMan
  * @export
  */
-export type SuperMan = Hero & Human & SuperBoyAllOf;
+export type SuperMan = Hero & Human;

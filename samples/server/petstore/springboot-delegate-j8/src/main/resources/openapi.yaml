@@ -1088,6 +1088,23 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/response-with-example:
+    get:
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
+          description: Success
+      tags:
+      - fake
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1439,15 +1456,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2155,6 +2186,14 @@ components:
         property name with spaces:
           type: string
       type: object
+    NullableMapProperty:
+      properties:
+        languageValues:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
+      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -2290,29 +2329,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

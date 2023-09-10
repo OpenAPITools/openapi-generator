@@ -468,6 +468,11 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.name, "MINUS_EFG")
         self.assertEqual(a, "-efg")
 
+    def test_nullable_property_pattern(self):
+        a = petstore_api.NullableProperty(id=12, name=None)
+        self.assertEqual(a.id, 12)
+        self.assertEqual(a.name, None)
+
     def test_int_or_string_oneof(self):
         a = petstore_api.IntOrString("-efg")
         self.assertEqual(a.actual_instance, "-efg")
@@ -478,3 +483,54 @@ class ModelTests(unittest.TestCase):
             a = petstore_api.IntOrString(1)
         except ValueError as e:
             self.assertTrue("ensure this value is greater than or equal to 10" in str(e))
+
+    def test_map_of_array_of_model(self):
+        a = petstore_api.MapOfArrayOfModel()
+        t = petstore_api.Tag(id=123, name="tag name")
+        a.shop_id_to_org_online_lip_map = {"somekey": [t]}
+        self.assertEqual(a.to_dict(), {'shopIdToOrgOnlineLipMap': {'somekey': [{'id': 123, 'name': 'tag name'}]}})
+        self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap": {"somekey": [{"id": 123, "name": "tag name"}]}}')
+        a2 = petstore_api.MapOfArrayOfModel.from_dict(a.to_dict())
+        self.assertEqual(a.to_dict(), a2.to_dict())
+
+    def test_array_of_array_of_model(self):
+        a = petstore_api.ArrayOfArrayOfModel()
+        t = petstore_api.Tag(id=123, name="tag name")
+        a.another_property = [[t]]
+        self.assertEqual(a.to_dict(), {'another_property': [[ {'id': 123, 'name': 'tag name'} ]]})
+        self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
+        a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
+        self.assertEqual(a.to_dict(), a2.to_dict())
+
+    def test_object_with_additional_properties(self):
+        a = petstore_api.ObjectToTestAdditionalProperties()
+        a.additional_properties = { "abc": 123 }
+        # should not throw the following errors:
+        #   pydantic.errors.ConfigError: field "additional_properties" not yet prepared so type is still a ForwardRef, you might need to call ObjectToTestAdditionalProperties.update_forward_refs().
+
+    def test_first_ref(self):
+        # shouldn't throw "still a ForwardRef" error
+        a = petstore_api.FirstRef.from_dict({})
+        self.assertEqual(a.to_json(), "{}")
+
+    def test_allof(self):
+        # for issue 16104
+        model = petstore_api.Tiger.from_json('{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
+        # shouldn't throw NameError
+        self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
+
+    def test_additional_properties(self):
+        a1 = petstore_api.AdditionalPropertiesAnyType()
+        a1.additional_properties = { "abc": 123 }
+        self.assertEqual(a1.to_dict(), {"abc": 123})
+        self.assertEqual(a1.to_json(), "{\"abc\": 123}")
+
+        a2 = petstore_api.AdditionalPropertiesObject()
+        a2.additional_properties = { "efg": 45.6 }
+        self.assertEqual(a2.to_dict(), {"efg": 45.6})
+        self.assertEqual(a2.to_json(), "{\"efg\": 45.6}")
+
+        a3 = petstore_api.AdditionalPropertiesWithDescriptionOnly()
+        a3.additional_properties = { "xyz": 45.6 }
+        self.assertEqual(a3.to_dict(), {"xyz": 45.6})
+        self.assertEqual(a3.to_json(), "{\"xyz\": 45.6}")

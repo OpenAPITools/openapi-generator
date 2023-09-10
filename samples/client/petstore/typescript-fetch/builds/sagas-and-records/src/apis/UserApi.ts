@@ -17,13 +17,13 @@ import * as runtime from '../runtime';
 import type {
   DefaultMetaOnlyResponse,
   User,
-} from '../models';
+} from '../models/index';
 import {
     DefaultMetaOnlyResponseFromJSON,
     DefaultMetaOnlyResponseToJSON,
     UserFromJSON,
     UserToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface CreateUserRequest {
     body: User;

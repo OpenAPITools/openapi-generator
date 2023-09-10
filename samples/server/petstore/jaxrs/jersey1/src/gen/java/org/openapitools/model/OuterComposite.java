@@ -115,9 +115,9 @@ public class OuterComposite   {
       return false;
     }
     OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
-        Objects.equals(this.myString, outerComposite.myString) &&
-        Objects.equals(this.myBoolean, outerComposite.myBoolean);
+    return Objects.equals(myNumber, outerComposite.myNumber) &&
+        Objects.equals(myString, outerComposite.myString) &&
+        Objects.equals(myBoolean, outerComposite.myBoolean);
   }
 
   @Override

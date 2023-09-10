@@ -60,8 +60,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
-    protected String apiDocPath = "doc" + File.separator;
-    protected String modelDocPath = "doc" + File.separator;
+    protected String apiDocPath = "doc/";
+    protected String modelDocPath = "doc/";
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
@@ -518,7 +518,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
-            Schema<?> inner = getAdditionalProperties(target);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
             if (inner == null) {
                 LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");

@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -102,4 +101,3 @@ public class Category  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 
@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -289,26 +288,27 @@ public class ObjectWithDeprecatedFields {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to ObjectWithDeprecatedFields
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to ObjectWithDeprecatedFields
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
       // validate the optional field `deprecatedRef`
       if (jsonObj.get("deprecatedRef") != null && !jsonObj.get("deprecatedRef").isJsonNull()) {
-        DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
+        DeprecatedObject.validateJsonElement(jsonObj.get("deprecatedRef"));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("bars") != null && !jsonObj.get("bars").isJsonArray()) {
+      if (jsonObj.get("bars") != null && !jsonObj.get("bars").isJsonNull() && !jsonObj.get("bars").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `bars` to be an array in the JSON string but got `%s`", jsonObj.get("bars").toString()));
       }
   }
@@ -350,8 +350,9 @@ public class ObjectWithDeprecatedFields {
 
            @Override
            public ObjectWithDeprecatedFields read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              ObjectWithDeprecatedFields instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

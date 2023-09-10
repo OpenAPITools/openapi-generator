@@ -20,7 +20,7 @@ class HealthCheckResult {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-     other.nullableMessage == nullableMessage;
+    other.nullableMessage == nullableMessage;
 
   @override
   int get hashCode =>

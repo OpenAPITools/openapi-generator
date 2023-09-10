@@ -62,6 +62,27 @@ paths:
       - form
       x-content-type: application/x-www-form-urlencoded
       x-accepts: text/plain
+  /form/oneof:
+    post:
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/test_form_oneof_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for oneOf schema
+      tags:
+      - form
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts: text/plain
   /header/integer/boolean/string:
     get:
       description: Test header parameter(s)
@@ -427,6 +448,44 @@ paths:
       tags:
       - body
       x-accepts: image/gif
+  /body/application/octetstream/array_of_binary:
+    post:
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test array of binary in multipart mime
+      tags:
+      - body
+      x-content-type: multipart/form-data
+      x-accepts: text/plain
+  /auth/http/basic:
+    post:
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_auth: []
+      summary: To test HTTP basic authentication
+      tags:
+      - auth
+      x-accepts: text/plain
 components:
   requestBodies:
     Pet:
@@ -610,7 +669,19 @@ components:
       x-parent: true
     DataQuery:
       allOf:
-      - $ref: '#/components/schemas/DataQuery_allOf'
+      - properties:
+          suffix:
+            description: test suffix
+            type: string
+          text:
+            description: Some text containing white spaces
+            example: Some text
+            type: string
+          date:
+            description: A date
+            format: date-time
+            type: string
+        type: object
       - $ref: '#/components/schemas/Query'
     NumberPropertiesOnly:
       properties:
@@ -634,6 +705,26 @@ components:
         string_form:
           type: string
       type: object
+    test_form_oneof_request_oneOf:
+      properties:
+        form1:
+          type: string
+        form2:
+          type: integer
+      type: object
+    test_form_oneof_request_oneOf_1:
+      properties:
+        form3:
+          type: string
+        form4:
+          type: boolean
+      type: object
+    test_form_oneof_request:
+      oneOf:
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
+      - $ref: '#/components/schemas/Tag'
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -645,19 +736,18 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
-    DataQuery_allOf:
+    test_body_multipart_formdata_array_of_binary_request:
       properties:
-        suffix:
-          description: test suffix
-          type: string
-        text:
-          description: Some text containing white spaces
-          example: Some text
-          type: string
-        date:
-          description: A date
-          format: date-time
-          type: string
+        files:
+          items:
+            format: binary
+            type: string
+          type: array
+      required:
+      - files
       type: object
-      example: null
+  securitySchemes:
+    http_auth:
+      scheme: basic
+      type: http
 

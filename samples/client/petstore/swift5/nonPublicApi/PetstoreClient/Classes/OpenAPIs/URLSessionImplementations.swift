@@ -124,6 +124,8 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
+            } else if contentType.hasPrefix("application/octet-stream"){
+                encoding = OctetStreamEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
             }
@@ -330,8 +332,8 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
         default:
 
             guard let unwrappedData = data, !unwrappedData.isEmpty else {
-                if let E = T.self as? ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T, bodyData: data)))
+                if let expressibleByNilLiteralType = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }
@@ -567,10 +569,9 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-                return mimetype as String
-            }
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
+                let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+            return mimetype as String
         }
         return "application/octet-stream"
     }
@@ -587,6 +588,24 @@ private class FormURLEncoding: ParameterEncoding {
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private class OctetStreamEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         }
 
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)

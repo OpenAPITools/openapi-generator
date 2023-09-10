@@ -123,6 +123,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -193,6 +194,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -333,6 +335,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -470,6 +473,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -546,6 +550,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -684,6 +689,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -757,6 +763,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -837,6 +844,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -912,6 +920,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
+
 
 
 ### Parameters

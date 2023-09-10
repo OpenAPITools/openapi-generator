@@ -36,10 +36,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
+import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -56,6 +58,7 @@ import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
+import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -203,7 +206,7 @@ public class DefaultGenerator implements Generator {
     void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
-        generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.APIS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
+        generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
         generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
         generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
 
@@ -252,10 +255,18 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
+        if (opts != null && opts.getGeneratorSettings() != null) {
+            config.typeMapping().putAll(opts.getGeneratorSettings().getTypeMappings());
+            config.importMapping().putAll(opts.getGeneratorSettings().getImportMappings());
+        }
 
         // normalize the spec
         try {
             if (config.getUseOpenAPINormalizer()) {
+                SemVer version = new SemVer(openAPI.getOpenapi());
+                if (version.atLeast("3.1.0")) {
+                    config.openapiNormalizer().put("NORMALIZE_31SPEC", "true");
+                }
                 OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
                 openapiNormalizer.normalize();
             }
@@ -268,7 +279,8 @@ public class DefaultGenerator implements Generator {
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.setInlineSchemaOptions(config.inlineSchemaOption());
+
             inlineModelResolver.flatten(openAPI);
         }
 
@@ -467,7 +479,7 @@ public class DefaultGenerator implements Generator {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
                         String filename = config.modelFilename(templateName, name);
                         Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                        this.templateProcessor.skip(path, "Skipped prior to model processing due to schema mapping.");
                     }
                     continue;
                 }
@@ -486,7 +498,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation

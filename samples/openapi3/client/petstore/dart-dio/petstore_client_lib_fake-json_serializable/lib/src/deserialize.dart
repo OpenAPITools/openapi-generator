@@ -7,14 +7,13 @@ import 'package:openapi/src/model/array_of_number_only.dart';
 import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -77,8 +76,6 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return Capitalization.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Cat':
           return Cat.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'CatAllOf':
-          return CatAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Category':
           return Category.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ClassModel':
@@ -87,12 +84,12 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return DeprecatedObject.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Dog':
           return Dog.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'DogAllOf':
-          return DogAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'EnumArrays':
           return EnumArrays.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'EnumTest':
           return EnumTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'FakeBigDecimalMap200Response':
+          return FakeBigDecimalMap200Response.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Foo':

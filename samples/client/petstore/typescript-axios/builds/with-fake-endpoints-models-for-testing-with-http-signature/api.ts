@@ -262,19 +262,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -327,19 +314,6 @@ export interface Dog extends Animal {
      * 
      * @type {string}
      * @memberof Dog
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
      */
     'breed'?: string;
 }
@@ -837,7 +811,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object | any;
+    [key: string]: object;
 
     /**
      * 
@@ -2088,14 +2062,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (requiredBooleanGroup != null) {
-                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
-                    ? requiredBooleanGroup 
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
+                    ? requiredBooleanGroup
                     : JSON.stringify(requiredBooleanGroup);
             }
 
             if (booleanGroup != null) {
-                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
-                    ? booleanGroup 
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
+                    ? booleanGroup
                     : JSON.stringify(booleanGroup);
             }
 

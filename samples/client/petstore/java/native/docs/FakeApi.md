@@ -4,6 +4,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**fakeBigDecimalMap**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
+| [**fakeBigDecimalMapWithHttpInfo**](FakeApi.md#fakeBigDecimalMapWithHttpInfo) | **GET** /fake/BigDecimalMap |  |
 | [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeHealthGetWithHttpInfo**](FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
@@ -35,6 +37,132 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testQueryParameterCollectionFormatWithHttpInfo**](FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-parameters |  |
 
+
+
+## fakeBigDecimalMap
+
+> FakeBigDecimalMap200Response fakeBigDecimalMap()
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            FakeBigDecimalMap200Response result = apiInstance.fakeBigDecimalMap();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#fakeBigDecimalMap");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+## fakeBigDecimalMapWithHttpInfo
+
+> ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap fakeBigDecimalMapWithHttpInfo()
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            ApiResponse<FakeBigDecimalMap200Response> response = apiInstance.fakeBigDecimalMapWithHttpInfo();
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#fakeBigDecimalMap");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+ApiResponse<[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 
 ## fakeHealthGet

@@ -17,13 +17,13 @@ import * as runtime from '../runtime';
 import type {
   GetMatchingPartsResponse,
   GetPetPartTypeResponse,
-} from '../models';
+} from '../models/index';
 import {
     GetMatchingPartsResponseFromJSON,
     GetMatchingPartsResponseToJSON,
     GetPetPartTypeResponseFromJSON,
     GetPetPartTypeResponseToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface GetFakePetPartTypeRequest {
     fakePetPartId: number;

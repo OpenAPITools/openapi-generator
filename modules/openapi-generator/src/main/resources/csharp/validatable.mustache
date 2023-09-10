@@ -1,0 +1,135 @@
+{{#discriminator}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
+{{/discriminator}}
+{{^discriminator}}
+  {{#parent}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
+  {{/parent}}
+  {{^parent}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+  {{/parent}}
+{{/discriminator}}
+            {{#parent}}
+            {{^isArray}}
+            {{^isMap}}
+            foreach (var x in {{#discriminator}}base.{{/discriminator}}BaseValidate(validationContext))
+            {
+                yield return x;
+            }
+            {{/isMap}}
+            {{/isArray}}
+            {{/parent}}
+            {{#vars}}
+            {{#hasValidation}}
+            {{^isEnum}}
+            {{#maxLength}}
+            // {{{name}}} ({{{dataType}}}) maxLength
+            if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maxLength}}
+            {{#minLength}}
+            // {{{name}}} ({{{dataType}}}) minLength
+            if (this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minLength}}
+            {{#maximum}}
+            // {{{name}}} ({{{dataType}}}) maximum
+            if (this.{{{name}}} > ({{{dataType}}}){{maximum}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maximum}}
+            {{#minimum}}
+            // {{{name}}} ({{{dataType}}}) minimum
+            if (this.{{{name}}} < ({{{dataType}}}){{minimum}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minimum}}
+            {{#pattern}}
+            {{^isByteArray}}
+            {{#vendorExtensions.x-is-value-type}}
+            {{#isNullable}}
+            if (this.{{{name}}} != null){
+                {{#lambda.trimTrailingWithNewLine}}
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWithNewLine}}
+            }
+
+            {{/isNullable}}
+            {{^isNullable}}
+            {{#lambda.trimTrailingWithNewLine}}
+            {{#lambda.indent3}}
+            {{>ValidateRegex}}
+            {{/lambda.indent3}}
+
+            {{/lambda.trimTrailingWithNewLine}}
+            {{/isNullable}}
+            {{/vendorExtensions.x-is-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
+            if (this.{{{name}}} != null) {
+                {{#lambda.trimTrailingWithNewLine}}
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWithNewLine}}
+            }
+
+            {{/vendorExtensions.x-is-value-type}}
+            {{/isByteArray}}
+            {{/pattern}}
+            {{/isEnum}}
+            {{/hasValidation}}
+            {{/vars}}
+            yield break;
+        }

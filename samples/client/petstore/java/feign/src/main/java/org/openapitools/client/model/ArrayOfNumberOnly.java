@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -72,6 +73,7 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

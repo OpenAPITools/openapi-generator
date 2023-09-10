@@ -22,7 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd></dl>|none|
+|annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|none|
 |apiPackage|package for generated api classes| |org.openapitools.client.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java-client|
@@ -48,7 +48,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |errorObjectType|Error Object type. (This option is for okhttp-gson-next-gen only)| |null|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |generateClientAsBean|For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
@@ -82,9 +81,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |supportStreaming|Support streaming endpoint (beta)| |false|
+|supportUrlQuery|Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
+|useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
@@ -197,7 +198,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>int</li>
 <li>interface</li>
 <li>list</li>
+<li>localdate</li>
 <li>localreturntype</li>
+<li>localtime</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
 <li>localvarauthnames</li>
@@ -215,6 +218,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>new</li>
 <li>null</li>
 <li>object</li>
+<li>offsetdatetime</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -337,15 +341,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
-|OAuth2_Password|✗|OAS2,OAS3
-|OAuth2_ClientCredentials|✗|OAS2,OAS3
-|OAuth2_AuthorizationCode|✗|OAS2,OAS3
-|SignatureAuth|✗|OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✓|OAS2,OAS3
+|OAuth2_ClientCredentials|✓|OAS2,OAS3
+|OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✓|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

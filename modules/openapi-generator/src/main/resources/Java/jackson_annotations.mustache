@@ -11,9 +11,10 @@
   @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
     {{/isContainer}}
     {{#isContainer}}
-      {{#isXmlWrapped}}
-  // items.xmlName={{items.xmlName}}
-  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}, {{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{items.baseName}}{{/items.xmlName}}")
-      {{/isXmlWrapped}}
+    {{#xmlName}}
+  // xmlName={{.}}
+    {{/xmlName}}
+  @JacksonXmlProperty({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/xmlName}}")
+  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}{{#xmlNamespace}}, namespace="{{.}}"{{/xmlNamespace}}{{#isXmlWrapped}}, localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{/isXmlWrapped}})
     {{/isContainer}}
   {{/withXml}}

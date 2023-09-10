@@ -4,7 +4,10 @@
 // https://openapi-generator.tech
 //
 
-import Foundation{{#useVapor}}
+import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif{{#useVapor}}
 import Vapor
 {{/useVapor}}
 

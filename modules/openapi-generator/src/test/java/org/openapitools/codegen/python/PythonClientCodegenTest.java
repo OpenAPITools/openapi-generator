@@ -136,6 +136,15 @@ public class PythonClientCodegenTest {
         Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
     }
 
+    @Test(description = "test backslash default")
+    public void testBackslashDefault() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setDefault("\\");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'\\\\'", defaultValue);
+    }
+
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");
@@ -422,5 +431,74 @@ public class PythonClientCodegenTest {
 
         Assert.assertTrue(files.size() > 0);
         return outputPath + "/";
+    }
+
+    @Test(description = "test containerType in parameters")
+    public void testContainerType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // path parameter
+        String path = "/store/order/{orderId}";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "orderId");
+
+        // query parameter
+        path = "/user/login";
+        p = openAPI.getPaths().get(path).getGet();
+        op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "username");
+        Assert.assertEquals(op.allParams.get(1).containerType, null);
+        Assert.assertEquals(op.allParams.get(1).baseName, "password");
+
+        // body parameter
+        path = "/user/createWithList";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "User");
+        Assert.assertEquals(op.allParams.get(0).containerType, "array");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
+
+        path = "/pet";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, null);
+
+    }
+
+    @Test(description = "test containerType (dict) in parameters")
+    public void testContainerTypeForDict() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dict_query_parameter.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // query parameter
+        String path = "/query_parameter_dict";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, "map");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
+        Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
+    }
+
+    @Test(description = "convert a model with dollar signs")
+    public void modelTestDollarSign() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dollar-in-names-pull14359.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
+        Assert.assertEquals(simpleName.name, "$DollarModel$");
+        Assert.assertEquals(simpleName.classname, "DollarModel");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
+
+        List<CodegenProperty> vars = simpleName.getVars();
+        Assert.assertEquals(vars.size(), 1);
+        CodegenProperty property = vars.get(0);
+        Assert.assertEquals(property.name, "dollar_value");
     }
 }

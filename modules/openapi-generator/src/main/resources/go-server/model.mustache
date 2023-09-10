@@ -39,30 +39,6 @@ type {{classname}} struct {
 {{/vars}}
 }{{/isEnum}}
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *{{classname}}) UnmarshalJSON(data []byte) error {
-	{{#vars}}
-	{{#defaultValue}}
-	{{^isArray}}
-	{{#isBoolean}}
-	m.{{name}} = {{{.}}}
-	{{/isBoolean}}
-	{{#isNumeric}}
-	m.{{name}} = {{{.}}}
-	{{/isNumeric}}
-	{{^isBoolean}}
-	{{^isNumeric}}
-	m.{{name}} = "{{{.}}}"
-	{{/isNumeric}}
-	{{/isBoolean}}
-	{{/isArray}}
-	{{/defaultValue}}
-	{{/vars}}
-
-	type Alias {{classname}} // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // Assert{{classname}}Required checks if the required fields are not zero-ed
 func Assert{{classname}}Required(obj {{classname}}) error {
 {{#hasRequired}}

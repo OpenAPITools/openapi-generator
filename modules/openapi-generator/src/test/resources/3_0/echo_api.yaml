@@ -83,6 +83,40 @@ paths:
             text/plain:
               schema:
                 type: string
+  # form parameter tests for oneOf schema
+  /form/oneof:
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for oneOf schema
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              oneOf:
+                - type: object
+                  properties:
+                    form1:
+                      type: string
+                    form2:
+                      type: integer
+                - type: object
+                  properties:
+                    form3:
+                      type: string
+                    form4:
+                      type: boolean
+                - $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # header parameter tests
   /header/integer/boolean/string:
     get:
@@ -423,8 +457,56 @@ paths:
               schema:
                 type: string
                 format: binary
-
+  # Array of binary in multipart mime tests
+  /body/application/octetstream/array_of_binary:
+    post:
+      tags:
+        - body
+      summary: Test array of binary in multipart mime
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - files
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # To test http basic auth
+  /auth/http/basic:
+    post:
+      tags:
+        - auth
+      security:
+        - http_auth: []
+      summary: To test HTTP basic authentication
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
+  securitySchemes:
+    http_auth:
+      type: http
+      scheme: basic
   requestBodies:
     Pet:
       content:

@@ -315,19 +315,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -369,32 +356,6 @@ export const ChildCatPetTypeEnum = {
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
-
-/**
- * 
- * @export
- * @interface ChildCatAllOf
- */
-export interface ChildCatAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'pet_type'?: ChildCatAllOfPetTypeEnum;
-}
-
-export const ChildCatAllOfPetTypeEnum = {
-    ChildCat: 'ChildCat'
-} as const;
-
-export type ChildCatAllOfPetTypeEnum = typeof ChildCatAllOfPetTypeEnum[keyof typeof ChildCatAllOfPetTypeEnum];
 
 /**
  * Model for testing model with \"_class\" property
@@ -483,23 +444,10 @@ export interface Dog extends Animal {
 /**
  * 
  * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
  * @interface Drawing
  */
 export interface Drawing {
-    [key: string]: Fruit | any;
+    [key: string]: Fruit;
 
     /**
      * 
@@ -512,7 +460,7 @@ export interface Drawing {
      * @type {ShapeOrNull}
      * @memberof Drawing
      */
-    'shapeOrNull'?: ShapeOrNull;
+    'shapeOrNull'?: ShapeOrNull | null;
     /**
      * 
      * @type {NullableShape}
@@ -846,7 +794,7 @@ export type Fruit = Apple | Banana;
  * @type FruitReq
  * @export
  */
-export type FruitReq = AppleReq | BananaReq | Null;
+export type FruitReq = AppleReq | BananaReq;
 
 /**
  * 
@@ -1095,7 +1043,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object | any;
+    [key: string]: object;
 
     /**
      * 
@@ -1520,7 +1468,7 @@ export interface ShapeInterface {
  * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
  * @export
  */
-export type ShapeOrNull = Null | Quadrilateral | Triangle;
+export type ShapeOrNull = Quadrilateral | Triangle;
 
 /**
  * 
@@ -2490,14 +2438,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (requiredBooleanGroup != null) {
-                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
-                    ? requiredBooleanGroup 
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
+                    ? requiredBooleanGroup
                     : JSON.stringify(requiredBooleanGroup);
             }
 
             if (booleanGroup != null) {
-                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
-                    ? booleanGroup 
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
+                    ? booleanGroup
                     : JSON.stringify(booleanGroup);
             }
 

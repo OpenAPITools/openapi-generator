@@ -395,11 +395,42 @@ or
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
 
+## Name Mapping
+
+One can map the property name using `nameMappings` option and parameter name using `parameterNameMappings` option to something else. Consider the following schema:
+```
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
+```
+`_type`, `type`, `type_` will result in property name collision in the Java client generator for example. We can resolve the issue using `nameMappings` by mapping `_type` to `underscoreType`, `type_` to `typeWithUnderscore`.
+
+Here is an example to use `nameMappings` and `parameterNameMapping` in CLI:
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml  -o /tmp/java2/ --name-mappings _type=underscoreType,type_=typeWithUnderscore, --parameter-name-mappings _type=paramType,type_=typeParam
+```
+
+To map model names, use `modelNameMappings` option, e.g.
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g csharp -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -o /tmp/csharp/ --model-name-mappings Tag=Label
+```
+will rename the `Tag` schema to `Label` instead.
+
+Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings).
+
+NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
+
 ## Schema Mapping
 
 One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mappings TypeAlias=foo.bar.TypeAlias
 ```
 Another example (in conjunction with --type-mappings):
 ```sh
@@ -445,12 +476,16 @@ For example, to name the inline schema `meta_200_response` as `MetaObject`, use 
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
 ```
 
-Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
+Another useful option is `inlineSchemaOptions`, which allows you to customize how inline schemas are handled or named
 ```
---inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
+--inline-schema-options ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+- `ARRAY_ITEM_SUFFIX` sets the array item suffix
+- `MAP_ITEM_SUFFIX` set the map item suffix
+- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
+- `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
 
 ## OpenAPI Normalizer
 
@@ -509,7 +544,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 Example:
 ```
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=true
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=another_tag_name
 ```
 
 - `ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE`: when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1) by adding x-unsigned to the schema

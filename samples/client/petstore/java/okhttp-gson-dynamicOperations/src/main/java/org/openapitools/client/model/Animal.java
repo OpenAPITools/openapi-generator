@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -162,30 +161,30 @@ public class Animal {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Animal
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to Animal
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!Animal.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!Animal.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Animal is not found in the empty JSON string", Animal.openapiRequiredFields.toString()));
         }
       }
 
-      String discriminatorValue = jsonObj.get("className").getAsString();
+      String discriminatorValue = jsonElement.getAsJsonObject().get("className").getAsString();
       switch (discriminatorValue) {
         case "BigCat":
-          BigCat.validateJsonObject(jsonObj);
+          BigCat.validateJsonElement(jsonElement);
           break;
         case "Cat":
-          Cat.validateJsonObject(jsonObj);
+          Cat.validateJsonElement(jsonElement);
           break;
         case "Dog":
-          Dog.validateJsonObject(jsonObj);
+          Dog.validateJsonElement(jsonElement);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }

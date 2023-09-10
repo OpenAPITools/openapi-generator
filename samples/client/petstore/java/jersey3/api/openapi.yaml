@@ -1416,12 +1416,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1973,8 +1979,8 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
     appleReq:
@@ -2023,8 +2029,8 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/Triangle'
       - $ref: '#/components/schemas/Quadrilateral'
     NullableShape:
@@ -2105,7 +2111,16 @@ components:
     ChildCat:
       allOf:
       - $ref: '#/components/schemas/ParentPet'
-      - $ref: '#/components/schemas/ChildCat_allOf'
+      - properties:
+          name:
+            type: string
+          pet_type:
+            default: ChildCat
+            enum:
+            - ChildCat
+            type: string
+            x-enum-as-string: true
+        type: object
     ArrayOfEnums:
       items:
         $ref: '#/components/schemas/OuterEnum'
@@ -2281,30 +2296,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    ChildCat_allOf:
-      properties:
-        name:
-          type: string
-        pet_type:
-          default: ChildCat
-          enum:
-          - ChildCat
-          type: string
-          x-enum-as-string: true
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

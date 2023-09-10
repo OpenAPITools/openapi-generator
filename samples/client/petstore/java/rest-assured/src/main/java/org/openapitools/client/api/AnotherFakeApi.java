@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +80,7 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      *
+     * @see #uuidTestHeader to test uuid example value (required)
      * @see #body client model (required)
      * return Client
      */
@@ -124,6 +126,17 @@ public class AnotherFakeApi {
          */
         public Call123testSpecialTagsOper body(Client body) {
             reqSpec.setBody(body);
+            return this;
+        }
+
+        public static final String UUID_TEST_HEADER = "uuid_test";
+
+        /**
+         * @param uuidTest (UUID) to test uuid example value (required)
+         * @return operation
+         */
+        public Call123testSpecialTagsOper uuidTestHeader(String uuidTest) {
+            reqSpec.addHeader(UUID_TEST_HEADER, uuidTest);
             return this;
         }
 

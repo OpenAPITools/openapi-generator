@@ -26,9 +26,9 @@ class ArrayTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
-     other.arrayOfString == arrayOfString &&
-     other.arrayArrayOfInteger == arrayArrayOfInteger &&
-     other.arrayArrayOfModel == arrayArrayOfModel;
+    _deepEquality.equals(other.arrayOfString, arrayOfString) &&
+    _deepEquality.equals(other.arrayArrayOfInteger, arrayArrayOfInteger) &&
+    _deepEquality.equals(other.arrayArrayOfModel, arrayArrayOfModel);
 
   @override
   int get hashCode =>

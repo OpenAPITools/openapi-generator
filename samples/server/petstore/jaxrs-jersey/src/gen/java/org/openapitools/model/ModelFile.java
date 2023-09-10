@@ -66,7 +66,7 @@ public class ModelFile   {
       return false;
     }
     ModelFile _file = (ModelFile) o;
-    return Objects.equals(this.sourceURI, _file.sourceURI);
+    return Objects.equals(sourceURI, _file.sourceURI);
   }
 
   @Override

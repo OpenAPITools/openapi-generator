@@ -31,12 +31,17 @@ components:
       anyOf:
         - type: string
         - $ref: '#/components/schemas/EnumString'
+        - $ref: '#/components/schemas/EnumNullString'
         - $ref: '#/components/schemas/EnumNull'
     EnumString:
       type: string
       enum:
         - A
         - B
+    EnumNullString:
+      type: string
+      enum:
+        - 'null'
     EnumNull:
       type: string
       enum:

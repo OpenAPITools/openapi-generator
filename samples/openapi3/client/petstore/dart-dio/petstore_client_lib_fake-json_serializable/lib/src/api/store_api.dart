@@ -30,7 +30,7 @@ class StoreApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> deleteOrder({ 
     required String orderId,
     CancelToken? cancelToken,
@@ -76,7 +76,7 @@ class StoreApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Map<String, int>] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<Map<String, int>>> getInventory({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -119,10 +119,10 @@ class StoreApi {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawData, 'Map<String, int>', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -153,7 +153,7 @@ _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawD
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<Order>> getOrderById({ 
     required int orderId,
     CancelToken? cancelToken,
@@ -190,10 +190,10 @@ _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawD
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -224,7 +224,7 @@ _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Ord
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<Order>> placeOrder({ 
     required Order order,
     CancelToken? cancelToken,
@@ -253,12 +253,12 @@ _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Ord
     try {
 _bodyData=jsonEncode(order);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -279,10 +279,10 @@ _bodyData=jsonEncode(order);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

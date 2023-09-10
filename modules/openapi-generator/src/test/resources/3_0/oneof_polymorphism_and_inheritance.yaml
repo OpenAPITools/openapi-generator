@@ -177,6 +177,38 @@ components:
           type: string
       allOf:
         - $ref: '#/components/schemas/Pizza'
+    FruitType:
+      type: string
+      enum: [APPLE, BANANA]
+    Fruit:
+      type: object
+      properties:
+        fruitType:
+          $ref: "#/components/schemas/FruitType"
+      required:
+        - fruitType
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+    Apple:
+      type: object
+      required:
+        - seeds
+      properties:
+        seeds:
+          type: integer
+    Banana:
+      type: object
+      required:
+        - length
+      properties:
+        length:
+          type: integer
 
   requestBodies:
     Foo:

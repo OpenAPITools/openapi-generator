@@ -23,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
+|enumPropertyNamingReplaceSpecialChar|Set to true to replace '-' and '+' symbols with 'minus_' and 'plus_' in enum of type string| |false|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fileContentDataType|Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)| |Buffer|
 |framework|Specify the framework which should be used in the client code.|<dl><dt>**fetch-api**</dt><dd>fetch-api</dd><dt>**jquery**</dt><dd>jquery</dd></dl>|fetch-api|
@@ -256,11 +257,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3

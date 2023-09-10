@@ -31,6 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
+|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 
 ## IMPORT MAPPING
 
@@ -220,7 +221,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
-|SignatureAuth|✗|OAS3
+|SignatureAuth|✓|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

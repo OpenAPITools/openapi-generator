@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -185,36 +184,37 @@ public class DataQuery extends Query {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
+    openapiFields.add("id");
+    openapiFields.add("outcomes");
     openapiFields.add("suffix");
     openapiFields.add("text");
     openapiFields.add("date");
-    openapiFields.add("id");
-    openapiFields.add("outcomes");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to DataQuery
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to DataQuery
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!DataQuery.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!DataQuery.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in DataQuery is not found in the empty JSON string", DataQuery.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DataQuery.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("suffix") != null && !jsonObj.get("suffix").isJsonNull()) && !jsonObj.get("suffix").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `suffix` to be a primitive type in the JSON string but got `%s`", jsonObj.get("suffix").toString()));
       }
@@ -243,9 +243,9 @@ public class DataQuery extends Query {
 
            @Override
            public DataQuery read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

@@ -3,11 +3,11 @@
 .gitlab-ci.yml
 .travis.yml
 README.md
+docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
 docs/DataQuery.md
-docs/DataQueryAllOf.md
 docs/DefaultValue.md
 docs/FormApi.md
 docs/HeaderApi.md
@@ -23,6 +23,7 @@ docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
 openapi_client/__init__.py
 openapi_client/api/__init__.py
+openapi_client/api/auth_api.py
 openapi_client/api/body_api.py
 openapi_client/api/form_api.py
 openapi_client/api/header_api.py
@@ -36,7 +37,6 @@ openapi_client/models/__init__.py
 openapi_client/models/bird.py
 openapi_client/models/category.py
 openapi_client/models/data_query.py
-openapi_client/models/data_query_all_of.py
 openapi_client/models/default_value.py
 openapi_client/models/number_properties_only.py
 openapi_client/models/pet.py
@@ -45,6 +45,7 @@ openapi_client/models/string_enum_ref.py
 openapi_client/models/tag.py
 openapi_client/models/test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.py
 openapi_client/models/test_query_style_form_explode_true_array_string_query_object_parameter.py
+openapi_client/py.typed
 openapi_client/rest.py
 pyproject.toml
 requirements.txt

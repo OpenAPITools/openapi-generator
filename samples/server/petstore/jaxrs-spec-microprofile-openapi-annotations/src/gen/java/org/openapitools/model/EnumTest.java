@@ -1,14 +1,11 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -234,7 +231,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
@@ -254,7 +250,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("enum_string_required")
   @NotNull
@@ -275,7 +270,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -295,7 +289,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -315,7 +308,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {

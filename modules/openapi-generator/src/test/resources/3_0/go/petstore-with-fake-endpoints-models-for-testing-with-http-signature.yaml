@@ -1178,6 +1178,41 @@ paths:
       responses:
         '200':
           description: OK
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2058,3 +2093,13 @@ components:
           test: 
             type: string
             format: date-time
+    PropertyNameMapping:
+      properties: 
+        http_debug_operation: 
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

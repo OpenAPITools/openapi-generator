@@ -47,6 +47,17 @@ paths:
           schema:
             type: string
             example: 888
+        - description: Custom HTTP header
+          name: Custom-Header
+          in: header
+          schema:
+            type: string
+        - description: Custom HTTP header with default
+          name: Another-Custom-Header
+          in: header
+          schema:
+            type: string
+            default: abc
 
       responses:
         '200':
@@ -233,6 +244,31 @@ paths:
       description: Create a new user.
       tags:
         - basic
+  '/groups/{groupId}':
+    get:
+      summary: Get group by ID
+      tags:
+        - advanced
+      parameters:
+        - description: group Id
+          name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Group Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '404':
+          description: Group Not Found
+      operationId: get-groups-groupId
+      description: Get group of users
+
 components:
   securitySchemes:
     BasicAuth:
@@ -292,6 +328,20 @@ components:
         - lastName
         - email
         - emailVerified
+    Group:
+      title: Group
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given group.
+        name:
+          type: string
+          example: admin
+      required:
+        - id
+        - name
   examples:
     get-user-basic:
       summary: Example request for Get User

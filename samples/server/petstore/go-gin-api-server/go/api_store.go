@@ -10,27 +10,20 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// DeleteOrder - Delete purchase order by ID
-func DeleteOrder(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// GetInventory - Returns pet inventories by status
-func GetInventory(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// GetOrderById - Find purchase order by ID
-func GetOrderById(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// PlaceOrder - Place an order for a pet
-func PlaceOrder(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type StoreAPI struct {
+	// Delete /v2/store/order/:orderId
+	// Delete purchase order by ID
+	DeleteOrder gin.HandlerFunc
+	// Get /v2/store/inventory
+	// Returns pet inventories by status
+	GetInventory gin.HandlerFunc
+	// Get /v2/store/order/:orderId
+	// Find purchase order by ID
+	GetOrderById gin.HandlerFunc
+	// Post /v2/store/order
+	// Place an order for a pet
+	PlaceOrder gin.HandlerFunc
 }

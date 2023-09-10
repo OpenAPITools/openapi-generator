@@ -4,7 +4,7 @@ org.openapitools.codegen.languages.AndroidClientCodegen
 org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
-org.openapitools.codegen.languages.AspNetCoreServerCodegen
+org.openapitools.codegen.languages.AspNetServerCodegen
 org.openapitools.codegen.languages.AvroSchemaCodegen
 org.openapitools.codegen.languages.BashClientCodegen
 org.openapitools.codegen.languages.CrystalClientCodegen
@@ -21,8 +21,7 @@ org.openapitools.codegen.languages.CppTinyClientCodegen
 org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CppUE4ClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
-org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
-org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen
+org.openapitools.codegen.languages.CSharpFunctionsServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
 org.openapitools.codegen.languages.EiffelClientCodegen
@@ -91,9 +90,9 @@ org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PlantumlDocumentationCodegen
 org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
+org.openapitools.codegen.languages.PhpNextgenClientCodegen
 org.openapitools.codegen.languages.PhpLaravelServerCodegen
 org.openapitools.codegen.languages.PhpLumenServerCodegen
-org.openapitools.codegen.languages.PhpSlimServerCodegen
 org.openapitools.codegen.languages.PhpSlim4ServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
@@ -116,17 +115,18 @@ org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
 org.openapitools.codegen.languages.ScalaAkkaHttpServerCodegen
 org.openapitools.codegen.languages.ScalaFinchServerCodegen
-org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalaSttpClientCodegen
+org.openapitools.codegen.languages.ScalaSttp4ClientCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen
 org.openapitools.codegen.languages.SpringCodegen
 org.openapitools.codegen.languages.StaticDocCodegen
 org.openapitools.codegen.languages.StaticHtmlGenerator
 org.openapitools.codegen.languages.StaticHtml2Generator
 org.openapitools.codegen.languages.Swift5ClientCodegen
+org.openapitools.codegen.languages.SwiftCombineClientCodegen
 org.openapitools.codegen.languages.TypeScriptClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
@@ -140,3 +140,4 @@ org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.XojoClientCodegen
+org.openapitools.codegen.languages.ZapierClientCodegen

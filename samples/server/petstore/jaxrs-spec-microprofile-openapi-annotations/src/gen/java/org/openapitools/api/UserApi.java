@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import java.util.List;
 import java.time.LocalDateTime;
 import org.openapitools.model.User;
 
@@ -8,7 +7,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 
-import io.swagger.annotations.*;
 
 
 import java.io.InputStream;
@@ -57,16 +55,11 @@ import javax.validation.Valid;
          scheme = "basic"
     )
 })
-@Api(description = "the user API")
 @Path("/user")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class UserApi {
 
     @POST
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUser", summary = "Create user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -81,10 +74,6 @@ public class UserApi {
 
     @POST
     @Path("/createWithArray")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithArrayInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -99,10 +88,6 @@ public class UserApi {
 
     @POST
     @Path("/createWithList")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithListInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -117,11 +102,6 @@ public class UserApi {
 
     @DELETE
     @Path("/{username}")
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deleteUser", summary = "Delete user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -133,19 +113,13 @@ public class UserApi {
                 
             })
         })
-    public Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be deleted") String username) {
+    public Response deleteUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be deleted") String username) {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = User.class),
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "getUserByName", summary = "Get user by user name", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -163,18 +137,13 @@ public class UserApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be fetched. Use user1 for testing.") String username) {
+    public Response getUserByName(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be fetched. Use user1 for testing.") String username) {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "loginUser", summary = "Logs user into the system", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -191,16 +160,12 @@ public class UserApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The password for login in clear text")  String password) {
+    public Response loginUser(@QueryParam("username") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The user name for login")  String username,@QueryParam("password") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The password for login in clear text")  String password) {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/logout")
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "logoutUser", summary = "Logs out current logged in user session", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -215,11 +180,6 @@ public class UserApi {
 
     @PUT
     @Path("/{username}")
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updateUser", summary = "Updated user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -231,7 +191,7 @@ public class UserApi {
                 
             })
         })
-    public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User body) {
+    public Response updateUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User body) {
         return Response.ok().entity("magic!").build();
     }
 }

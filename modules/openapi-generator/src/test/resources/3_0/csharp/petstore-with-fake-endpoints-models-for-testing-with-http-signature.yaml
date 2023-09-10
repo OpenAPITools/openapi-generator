@@ -17,6 +17,17 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /roles/report:
+    get:
+      responses:
+        '200':
+          description: returns report
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RolesReport'
   /hello:
     get:
       summary: Hello
@@ -1067,6 +1078,34 @@ paths:
             type: array
             items:
               type: string
+        - name: requiredNotNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: requiredNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: true
+        - name: notRequiredNotNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: notRequiredNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: true
       responses:
         "200":
           description: Success
@@ -1157,6 +1196,17 @@ paths:
       responses:
         '200':
           description: OK
+  /test:
+      get:
+          responses:
+              '200':
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+                  description: Successful response
+          operationId: Test
+          summary: Retrieve an existing Notificationtest's Elements
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1248,6 +1298,23 @@ components:
       type: http
       scheme: signature
   schemas:
+    RolesReport:
+      description: Roles report
+      type: array
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+    RolesReportsHash:
+      description: Role report Hash
+      type: object
+      properties:
+        role_uuid:
+          type: string
+          format: uuid
+        role:
+          type: object
+          properties:
+            name:
+              type: string
     Foo:
       type: object
       properties:
@@ -1582,6 +1649,17 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+    Outer_Enum_Test:
+      type: string
+      enum:
+        - UPPER
+        - lower
+        - ''
+        - "Value\twith tab"
+        - 'Value with " quote'
+        - 'Value with escaped \" quote'
+        - "Duplicate\nvalue"
+        - "Duplicate\r\nvalue"
     Enum_Test:
       type: object
       required:
@@ -1593,12 +1671,22 @@ components:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_integer:
           type: integer
           format: int32
@@ -1951,6 +2039,9 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+        color_code:
+          type: string
+          pattern: ^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$
       nullable: true
     banana:
       type: object
@@ -2292,3 +2383,21 @@ components:
           enum:
             - unknown
             - notUnknown
+    Custom-Variableobject-Response:
+        description: A Variable object without predefined property names
+        type: object
+        additionalProperties: true
+    Field-pkiNotificationtestID:
+        type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+        required:
+            - pkiNotificationtestID
+            - a_objVariableobject
+        type: object
+        properties:
+            pkiNotificationtestID:
+                $ref: '#/components/schemas/Field-pkiNotificationtestID'
+            a_objVariableobject:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Custom-Variableobject-Response'

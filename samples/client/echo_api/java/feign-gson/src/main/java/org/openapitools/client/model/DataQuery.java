@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
@@ -112,17 +113,6 @@ public class DataQuery extends Query {
     this.date = date;
   }
 
-  @Override
-  public DataQuery id(Long id) {
-    this.setId(id);
-    return this;
-  }
-
-  @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
-    this.setOutcomes(outcomes);
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {

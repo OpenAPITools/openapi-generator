@@ -1,5 +1,5 @@
-import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, NormalizedRecordEntities{{/returnPassthrough}}} from "../runtimeSagasAndRecords";
-import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, NormalizedRecordEntities{{/returnPassthrough}}} from "../runtimeSagasAndRecords{{importFileExtension}}";
+import {getApiEntitiesState} from "../ApiEntitiesSelectors{{importFileExtension}}"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
 import {select, call} from "redux-saga/effects";
@@ -11,19 +11,19 @@ import {
     {{classname}}{{enumName}},
 {{/isEnum}}
 {{/vars}}
-} from './{{classname}}';
+} from './{{classname}}{{importFileExtension}}';
 
 {{#imports}}
 import {
     {{{.}}},
-} from './{{{.}}}';
+} from './{{{.}}}{{importFileExtension}}';
 {{/imports}}
 
 {{#modelImports}}
 import {
     {{{.}}}Record,
     {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils
-} from './{{{.}}}Record';
+} from './{{{.}}}Record{{importFileExtension}}';
 {{/modelImports}}
 
 export const {{classname}}RecordProps = {

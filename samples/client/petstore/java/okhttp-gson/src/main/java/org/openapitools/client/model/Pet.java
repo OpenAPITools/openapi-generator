@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -389,27 +388,28 @@ public class Pet {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Pet
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to Pet
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : Pet.openapiRequiredFields) {
-        if (jsonObj.get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `category`
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
-        Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
+        Category.validateJsonElement(jsonObj.get("category"));
       }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
@@ -430,7 +430,7 @@ public class Pet {
 
           // validate the optional field `tags` (array)
           for (int i = 0; i < jsonArraytags.size(); i++) {
-            Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
+            Tag.validateJsonElement(jsonArraytags.get(i));
           };
         }
       }
@@ -476,8 +476,9 @@ public class Pet {
 
            @Override
            public Pet read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              Pet instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

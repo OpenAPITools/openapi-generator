@@ -8,6 +8,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
 jobs:
   build:
@@ -38,14 +40,16 @@ jobs:
           - samples/client/petstore/java/resttemplate-withXml
           - samples/client/petstore/java/webclient
           - samples/client/petstore/java/webclient-nullable-arrays
+          - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/resteasy
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
           - samples/client/petstore/java/microprofile-rest-client
           - samples/client/petstore/java/microprofile-rest-client-3.0
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/jersey1
@@ -54,8 +58,11 @@ jobs:
           - samples/client/petstore/java/okhttp-gson-swagger1/
           - samples/client/petstore/java/resttemplate-swagger1/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/
+          - samples/client/petstore/java/okhttp-gson-swagger2/
+          - samples/client/petstore/java/resttemplate-swagger2/
+          - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'

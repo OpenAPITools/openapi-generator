@@ -181,7 +181,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -203,7 +203,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 
@@ -251,7 +251,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -275,7 +275,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 
@@ -465,7 +465,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             String result = apiInstance.testQueryStyleDeepObjectExplodeTrueObject(queryObject);
             System.out.println(result);
@@ -531,7 +531,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());
@@ -733,7 +733,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
         try {
             String result = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject);
             System.out.println(result);
@@ -799,7 +799,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());
@@ -867,7 +867,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             String result = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject);
             System.out.println(result);
@@ -933,7 +933,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());

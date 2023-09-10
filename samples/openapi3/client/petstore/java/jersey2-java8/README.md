@@ -193,17 +193,14 @@ Class | Method | HTTP request | Description
  - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ChildCat](docs/ChildCat.md)
- - [ChildCatAllOf](docs/ChildCatAllOf.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
@@ -301,13 +298,13 @@ Authentication schemes defined for the API:
 ### bearer_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 <a id="http_signature_test"></a>
 ### http_signature_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Recommendation

@@ -60,36 +60,36 @@ public class PizzaSpeziale extends Pizza {
     this.toppings = toppings;
   }
 
+
   public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
-    super.setPizzaSize(pizzaSize);
+    super.pizzaSize(pizzaSize);
     return this;
   }
 
   public PizzaSpeziale href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public PizzaSpeziale id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public PizzaSpeziale atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public PizzaSpeziale atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public PizzaSpeziale atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

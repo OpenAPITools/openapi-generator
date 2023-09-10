@@ -1,0 +1,94 @@
+---
+openapi: 3.0.2
+info:
+  version: 0.0.0
+  title: Wrong Constructor
+
+paths: {}
+
+components:
+
+  schemas:
+    BaseType:
+      type: object
+      required:
+        - schemaVersion
+        - id
+      properties:
+        schemaVersion:
+          $ref: "#/components/schemas/SchemaVersion"
+        id:
+          type: string
+          format: "uuid"
+        freeTextField:
+          type: array
+          default: [ ]
+          minItems: 0
+          maxItems: 6
+          items:
+            type: string
+            maxLength: 255
+      discriminator:
+        propertyName: type
+        mapping:
+          SubType: "#/components/schemas/SubType"
+
+
+    IntermediateType:
+      allOf:
+        - $ref: "#/components/schemas/BaseType"
+        - type: object
+          required:
+            - OneBoolean
+          properties:
+            OneBoolean:
+              type: boolean
+              default: false
+            OneOptionalBoolean:
+              type: boolean
+              default: false
+
+    IntermediateSubType:
+      allOf:
+        - $ref: "#/components/schemas/IntermediateType"
+        - type: object
+          required:
+            - someBoolean
+            - someEnum
+          properties:
+            someBoolean:
+              type: boolean
+              default: false
+            someEnum:
+              $ref: "#/components/schemas/SomeEnum"
+
+    SubType:
+      allOf:
+        - $ref: "#/components/schemas/IntermediateSubType"
+        - type: object
+          properties:
+            type:
+              type: string
+              default: "SubType"
+              enum: [ "SubType" ]
+          required:
+            - type
+
+
+    SomeEnum:
+      type: string
+      enum:
+        - LIT1
+        - LIT2
+      x-enum-varnames:
+        - Literal1
+        - Literal2
+
+
+    SchemaVersion:
+      type: string
+      default: "1.0.0"
+      x-enum-varnames:
+        - CURRENT
+      enum:
+        - "1.0.0"

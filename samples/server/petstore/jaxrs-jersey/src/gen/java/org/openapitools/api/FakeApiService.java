@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
+import org.openapitools.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
@@ -28,6 +29,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class FakeApiService {
+    public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHttpSignatureTest(Pet pet,String query1,String header1,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext) throws NotFoundException;

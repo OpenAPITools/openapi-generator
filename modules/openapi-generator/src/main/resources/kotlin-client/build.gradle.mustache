@@ -9,7 +9,7 @@ wrapper {
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.7.21'
+    ext.kotlin_version = '1.8.10'
     {{#jvm-ktor}}
     ext.ktor_version = '2.1.3'
     {{/jvm-ktor}}
@@ -28,6 +28,15 @@ buildscript {
     {{#jvm-vertx}}
     ext.vertx_version = "4.3.3"
     {{/jvm-vertx}}
+    {{#jvm-spring-webclient}}
+    {{#useSpringBoot3}}
+    ext.spring_boot_version = "3.1.0"
+    {{/useSpringBoot3}}
+    {{^useSpringBoot3}}
+    ext.spring_boot_version = "2.7.12"
+    {{/useSpringBoot3}}
+    ext.reactor_version = "3.5.6"
+    {{/jvm-spring-webclient}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -73,7 +82,13 @@ idea {
     }
 }
 {{/idea}}
-
+{{#jvm-spring-webclient}}{{#useSpringBoot3}}
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useSpringBoot3}}{{/jvm-spring-webclient}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
@@ -84,13 +99,13 @@ dependencies {
     {{#moshi}}
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.14.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.14.0"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
-    implementation "com.squareup.moshi:moshi:1.13.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
+    implementation "com.squareup.moshi:moshi:1.14.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.14.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.14.0"
     {{/moshiCodeGen}}
     {{/moshi}}
     {{#gson}}
@@ -98,8 +113,8 @@ dependencies {
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.3"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3"
     {{/jackson}}
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
@@ -120,10 +135,14 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
     {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
     {{/jvm-okhttp4}}
+    {{#jvm-spring-webclient}}
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
+    implementation "io.projectreactor:reactor-core:$reactor_version"
+    {{/jvm-spring-webclient}}
     {{#threetenbp}}
-    implementation "org.threeten:threetenbp:1.5.1"
+    implementation "org.threeten:threetenbp:1.6.8"
     {{/threetenbp}}
     {{#jvm-retrofit2}}
     {{#hasOAuthMethods}}

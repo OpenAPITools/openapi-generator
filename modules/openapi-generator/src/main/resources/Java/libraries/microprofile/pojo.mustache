@@ -1,29 +1,4 @@
 {{#withXml}}
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlElement;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlRootElement;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlAccessType;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlAccessorType;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlType;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlEnum;
-import {{rootJavaEEPackage}}.xml.bind.annotation.XmlEnumValue;
-{{/withXml}}
-{{^withXml}}
-import java.lang.reflect.Type;
-import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeDeserializer;
-import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeSerializer;
-import {{rootJavaEEPackage}}.json.bind.serializer.DeserializationContext;
-import {{rootJavaEEPackage}}.json.bind.serializer.JsonbDeserializer;
-import {{rootJavaEEPackage}}.json.bind.serializer.JsonbSerializer;
-import {{rootJavaEEPackage}}.json.bind.serializer.SerializationContext;
-import {{rootJavaEEPackage}}.json.stream.JsonGenerator;
-import {{rootJavaEEPackage}}.json.stream.JsonParser;
-import {{rootJavaEEPackage}}.json.bind.annotation.JsonbProperty;
-{{#vendorExtensions.x-has-readonly-properties}}
-import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
-{{/vendorExtensions.x-has-readonly-properties}}
-{{/withXml}}
-
-{{#withXml}}
 @XmlAccessorType(XmlAccessType.FIELD)
 {{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
     { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
@@ -31,6 +6,18 @@ import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
 {{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
 {{/withXml}}
+{{#jackson}}
+@JsonPropertyOrder({
+{{#vars}}
+  {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
+{{/vars}}
+})
+{{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
+@JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
+{{/isClassnameSanitized}}
+{{/jackson}}
 {{#description}}
 /**
   * {{{.}}}
@@ -44,6 +31,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+{{#jackson}}
+  public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+{{/jackson}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
@@ -53,7 +43,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   **/
 {{/description}}
   {{^withXml}}
-  @JsonbProperty("{{baseName}}")
+  {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
   {{/withXml}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}
@@ -69,10 +59,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public {{classname}}() {
   }
 
-  @JsonbCreator
+ {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    @JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}) {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}
@@ -105,7 +95,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}} public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
@@ -124,8 +114,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   /**
     * Set {{name}}
   **/
-  {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -136,6 +126,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+    }
     this.{{name}}.add({{name}}Item);
     return this;
   }
@@ -143,6 +136,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+    }
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }

@@ -59,31 +59,31 @@ public class Pasta extends Entity {
     this.vendor = vendor;
   }
 
+
   public Pasta href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public Pasta id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public Pasta atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public Pasta atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public Pasta atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

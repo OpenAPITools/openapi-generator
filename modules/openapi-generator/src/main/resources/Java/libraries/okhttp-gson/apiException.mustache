@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 {{/caseInsensitiveResponseHeaders}}
 
-import {{javaxPackage}}.ws.rs.core.GenericType;
 
 /**
  * <p>ApiException class.</p>
@@ -23,7 +22,7 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
     {{#errorObjectType}}
     private {{{errorObjectType}}} errorObject = null;
     {{/errorObjectType}}
- 
+
     /**
      * <p>Constructor for ApiException.</p>
      */

@@ -127,9 +127,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override

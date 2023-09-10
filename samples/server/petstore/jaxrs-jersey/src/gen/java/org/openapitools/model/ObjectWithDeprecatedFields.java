@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -151,10 +152,10 @@ public class ObjectWithDeprecatedFields   {
       return false;
     }
     ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
-        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
-        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
-        Objects.equals(this.bars, objectWithDeprecatedFields.bars);
+    return Objects.equals(uuid, objectWithDeprecatedFields.uuid) &&
+        Objects.equals(id, objectWithDeprecatedFields.id) &&
+        Objects.equals(deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
+        Objects.equals(bars, objectWithDeprecatedFields.bars);
   }
 
   @Override

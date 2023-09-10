@@ -12,7 +12,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EnumArrayTesting {
     #[serde(rename = "required_enums")]
     pub required_enums: Vec<RequiredEnums>,

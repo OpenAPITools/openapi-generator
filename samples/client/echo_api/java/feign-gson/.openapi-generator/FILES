@@ -19,6 +19,7 @@ src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/AuthApi.java
 src/main/java/org/openapitools/client/api/BodyApi.java
 src/main/java/org/openapitools/client/api/FormApi.java
 src/main/java/org/openapitools/client/api/HeaderApi.java
@@ -31,7 +32,6 @@ src/main/java/org/openapitools/client/model/ApiResponse.java
 src/main/java/org/openapitools/client/model/Bird.java
 src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/DataQuery.java
-src/main/java/org/openapitools/client/model/DataQueryAllOf.java
 src/main/java/org/openapitools/client/model/DefaultValue.java
 src/main/java/org/openapitools/client/model/NumberPropertiesOnly.java
 src/main/java/org/openapitools/client/model/Pet.java

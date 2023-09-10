@@ -58,9 +58,11 @@ import kotlin.collections.Map
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
+{{^useFeignClient}}
 {{=<% %>=}}
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
+{{/useFeignClient}}
 {{#operations}}
 interface {{classname}} {
 {{#isDelegate}}
@@ -75,7 +77,7 @@ interface {{classname}} {
         operationId = "{{{operationId}}}",
         description = """{{{unescapedNotes}}}""",
         responses = [{{#responses}}
-            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content(schema = Schema(implementation = {{{baseType}}}::class))]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
+            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
         security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
     ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}

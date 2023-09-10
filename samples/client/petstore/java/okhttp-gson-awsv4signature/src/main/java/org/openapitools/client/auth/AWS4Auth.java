@@ -22,12 +22,14 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.List;
 
-import com.amazonaws.DefaultRequest;
-import com.amazonaws.auth.AWS4Signer;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AnonymousAWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.http.HttpMethodName;
+import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.signer.Aws4Signer;
+import software.amazon.awssdk.auth.signer.params.Aws4SignerParams;
+import software.amazon.awssdk.http.SdkHttpFullRequest;
+import software.amazon.awssdk.http.SdkHttpMethod;
+import software.amazon.awssdk.regions.Region;
 
 import okio.Buffer;
 
@@ -39,11 +41,11 @@ public class AWS4Auth implements Authentication {
   private String service;
 
   public AWS4Auth() {
-    this.credentials = new AnonymousAWSCredentials();
+    this.credentials = AnonymousCredentialsProvider.create().resolveCredentials();
   }
 
   public void setCredentials(String accessKey, String secretKey) {
-    this.credentials = new BasicAWSCredentials(accessKey, secretKey);
+    this.credentials = AwsBasicCredentials.create(accessKey, secretKey);
   }
 
   public void setRegion(String region) {
@@ -55,28 +57,50 @@ public class AWS4Auth implements Authentication {
   }
 
   @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
-      String payload, String method, URI uri) throws ApiException {
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams,
+      Map<String, String> cookieParams, String payload, String method, URI uri)
+      throws ApiException {
 
-    DefaultRequest<String> signableRequest = new DefaultRequest<>(this.service);
+    SdkHttpFullRequest.Builder requestBuilder =
+        SdkHttpFullRequest.builder().uri(uri).method(SdkHttpMethod.fromValue(method));
 
-    signableRequest.setContent(new ByteArrayInputStream(payload.getBytes()));
+    ContentStreamProvider provider = new ContentStreamProvider() {
+      @Override
+      public InputStream newStream() {
+        InputStream is = new ByteArrayInputStream(payload.getBytes(StandardCharsets.UTF_8));
+        return is;
+      }
+    };
 
-    signableRequest.setHttpMethod(HttpMethodName.valueOf(method));
-    URI targetUri = null;
-    try {
-      targetUri = new URI(uri.getScheme(), "", uri.getHost(), uri.getPort(), "", "", "");
-    } catch (URISyntaxException e) {
-      return;
+    requestBuilder = requestBuilder.contentStreamProvider(provider);
+
+    SdkHttpFullRequest signableRequest = sign(requestBuilder);
+
+    Map<String, String> headers = signableRequest.headers().entrySet().stream()
+        .collect(Collectors.toMap(s -> s.getKey(), e -> e.getValue().get(0)));
+
+    headerParams.putAll(headers);
+  }
+
+  /**
+   * AWS Signature Version 4 signing.
+   * 
+   * @param request {@link SdkHttpFullRequest.Builder}
+   * @return {@link SdkHttpFullRequest}
+   */
+  private SdkHttpFullRequest sign(final SdkHttpFullRequest.Builder request) {
+
+    SdkHttpFullRequest req = request.build();
+
+    if (this.service != null && this.region != null && this.credentials != null) {
+      Aws4SignerParams params = Aws4SignerParams.builder().signingName(this.service)
+          .signingRegion(Region.of(this.region)).awsCredentials(this.credentials).build();
+
+      Aws4Signer signer = Aws4Signer.create();
+
+      req = signer.sign(req, params);
     }
-    signableRequest.setEndpoint(targetUri);
-    signableRequest.setResourcePath(uri.getPath());
 
-    AWS4Signer signer = new AWS4Signer(false);
-    signer.setServiceName(this.service);
-    signer.setRegionName(this.region);
-    signer.sign(signableRequest, credentials);
-
-    headerParams.putAll(signableRequest.getHeaders());
+    return req;
   }
 }

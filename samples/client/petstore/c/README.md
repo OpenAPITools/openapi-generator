@@ -89,6 +89,7 @@ Category | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [MappedModel_t](docs/MappedModel.md)
  - [api_response_t](docs/api_response.md)
  - [category_t](docs/category.md)
  - [order_t](docs/order.md)

@@ -30,11 +30,15 @@ components:
       description: to test anyOf
       anyOf:
         - type: string
+        - type: 'null'
         - type: null
+        - $ref: null
     OneOfTest:
       description: to test oneOf
       oneOf:
         - type: integer
+        - type: 'null'
+        - type: null
         - $ref: null
     OneOfNullableTest:
       description: to test oneOf nullable

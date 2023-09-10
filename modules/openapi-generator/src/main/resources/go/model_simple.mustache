@@ -311,7 +311,6 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
-	{{^isReadOnly}}
 	{{#required}}
 	toSerialize["{{baseName}}"] = o.{{name}}
 	{{/required}}
@@ -320,10 +319,6 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 		toSerialize["{{baseName}}"] = o.{{name}}
 	}
 	{{/required}}
-	{{/isReadOnly}}
-	{{#isReadOnly}}
-	// skip: {{baseName}} is readOnly
-	{{/isReadOnly}}
 	{{/isNullable}}
 	{{/vars}}
 	{{#isAdditionalPropertiesTrue}}

@@ -163,9 +163,24 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies default values for inline schema naming convention
+     * Specifies options for inline schemas
      */
-    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+    val inlineSchemaOptions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a property name and the new name
+     */
+    val nameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a parameter name and the new name
+     */
+    val parameterNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a model name and the new name
+     */
+    val modelNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -359,6 +374,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    val dryRun = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -381,5 +401,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         skipValidateSpec.set(false)
         generateAliasAsModel.set(false)
         cleanupOutput.set(false)
+        dryRun.set(false)
     }
 }

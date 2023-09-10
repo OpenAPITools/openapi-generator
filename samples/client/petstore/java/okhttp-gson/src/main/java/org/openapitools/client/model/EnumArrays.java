@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -310,22 +309,23 @@ public class EnumArrays {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to EnumArrays
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to EnumArrays
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in EnumArrays is not found in the empty JSON string", EnumArrays.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonArray()) {
+      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonNull() && !jsonObj.get("array_enum").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }
   }
@@ -367,8 +367,9 @@ public class EnumArrays {
 
            @Override
            public EnumArrays read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              EnumArrays instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

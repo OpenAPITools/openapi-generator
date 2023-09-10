@@ -64,7 +64,7 @@ pub enum {{{classname}}} {
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -82,7 +82,7 @@ impl {{{classname}}} {
     pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{#isArray}}Vec<{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}{{^required}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/isModel}}{{/required}},
+            {{{name}}}{{^required}}{{#isContainer}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isArray}}{{^isMap}}{{#isNullable}}: None{{/isNullable}}{{/isMap}}{{/isArray}}{{/isContainer}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/isModel}}{{/required}},
             {{/vars}}
         }
     }

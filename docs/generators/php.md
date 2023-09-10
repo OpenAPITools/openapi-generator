@@ -20,13 +20,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
+|artifactUrl|artifact URL in generated pom.xml| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
+|composerPackageName|The name to use in the composer package name field. e.g. `vendor/project` (must be lowercase and consist of words separated by `-`, `.` or `_`).| |null|
+|developerOrganization|developer organization in generated pom.xml| |null|
+|developerOrganizationUrl|developer organization URL in generated pom.xml| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |hideGenerationTimestamp|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |true|
 |invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|HTTP library template (sub-template) to use|<dl><dt>**guzzle**</dt><dd>Guzzle</dd><dt>**psr-18**</dt><dd>psr/http-client-implementation, also known as PSR-18. (beta support)</dd></dl>|guzzle|
+|licenseName|The name of the license| |null|
 |modelPackage|package for generated models| |null|
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -245,11 +251,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3

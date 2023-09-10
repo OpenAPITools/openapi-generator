@@ -1,6 +1,7 @@
 package controllers;
 
 import apimodels.Client;
+import java.util.UUID;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
@@ -26,8 +27,8 @@ public abstract class AnotherFakeApiControllerImpInterface {
     @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
-    public Result call123testSpecialTagsHttp(Http.Request request, Client body) throws Exception {
-        Client obj = call123testSpecialTags(request, body);
+    public Result call123testSpecialTagsHttp(Http.Request request, UUID uuidTest, Client body) throws Exception {
+        Client obj = call123testSpecialTags(request, uuidTest, body);
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -39,6 +40,6 @@ public abstract class AnotherFakeApiControllerImpInterface {
 
     }
 
-    public abstract Client call123testSpecialTags(Http.Request request, Client body) throws Exception;
+    public abstract Client call123testSpecialTags(Http.Request request, UUID uuidTest, Client body) throws Exception;
 
 }
