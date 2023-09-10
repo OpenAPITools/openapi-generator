@@ -360,32 +360,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The UserSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(User))]
-    public partial class UserSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The UserSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public UserSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// UserDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(User))]
-    public partial class UserDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// UserDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public UserDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class UserSerializationContext : JsonSerializerContext { }
 }

@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The TriangleInterfaceSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TriangleInterface))]
-    public partial class TriangleInterfaceSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TriangleInterfaceSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TriangleInterfaceDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(TriangleInterface))]
-    public partial class TriangleInterfaceDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TriangleInterfaceDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class TriangleInterfaceSerializationContext : JsonSerializerContext { }
 }

@@ -15,6 +15,8 @@ public class UnitTest1
     {
         private readonly IHost _host;
 
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
+
         public SerializationTests()
         {
             IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
@@ -42,17 +44,16 @@ public class UnitTest1
             });
 
             _host = hostBuild.Build();
+
+            _jsonSerializerOptions = _host.Services.GetRequiredService<JsonSerializerOptionsProvider>().Options;
         }
 
         [TestMethod]
         public void Category()
         {
-            CategorySerializationContext serializationContext = _host.Services.GetRequiredService<CategorySerializationContext>();
-            CategoryDeserializationContext deserializationContext = _host.Services.GetRequiredService<CategoryDeserializationContext>();
-
             Category category = new(1, "test");
-            string categoryJson = JsonSerializer.Serialize(category, serializationContext.Category);
-            Category? category2 = JsonSerializer.Deserialize(categoryJson, deserializationContext.Category);
+            string categoryJson = JsonSerializer.Serialize(category, _jsonSerializerOptions);
+            Category? category2 = JsonSerializer.Deserialize<Category>(categoryJson, _jsonSerializerOptions);
             Assert.AreEqual(category.Id, category2?.Id);
             Assert.AreEqual(category.Name, category2?.Name);
         }
@@ -60,25 +61,19 @@ public class UnitTest1
         [TestMethod]
         public void Apple()
         {
-            AppleSerializationContext serializationContext = _host.Services.GetRequiredService<AppleSerializationContext>();
-            AppleDeserializationContext deserializationContext = _host.Services.GetRequiredService<AppleDeserializationContext>();
-
             Apple apple = new("#000000", "cultivar", "origin");
-            string appleJson = JsonSerializer.Serialize(apple, serializationContext.Apple);
-            Apple? apple2 = JsonSerializer.Deserialize(appleJson, deserializationContext.Apple);
+            string appleJson = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
+            Apple? apple2 = JsonSerializer.Deserialize<Apple>(appleJson, _jsonSerializerOptions);
             Assert.IsTrue(apple2 != null && apple.Cultivar.Equals(apple2.Cultivar) && apple.Origin.Equals(apple2.Origin));
         }
 
         [TestMethod]
         public void Pig()
         {
-            PigSerializationContext serializationContext = _host.Services.GetRequiredService<PigSerializationContext>();
-            PigDeserializationContext deserializationContext = _host.Services.GetRequiredService<PigDeserializationContext>();
-
             BasquePig basquePig = new("BasquePig");
             Pig pig = new(basquePig, "BasquePig");
-            string pigJson = JsonSerializer.Serialize(pig, serializationContext.Pig);
-            Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, deserializationContext.Pig);
+            string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
+            Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
             Assert.IsTrue(
                 pig.DanishPig == null &&
                 pig.BasquePig != null &&
@@ -91,26 +86,20 @@ public class UnitTest1
         [TestMethod]
         public void DanishPig()
         {
-            DanishPigSerializationContext serializationContext = _host.Services.GetRequiredService<DanishPigSerializationContext>();
-            DanishPigDeserializationContext deserializationContext = _host.Services.GetRequiredService<DanishPigDeserializationContext>();
-
             DanishPig danishPig = new("danishPig");
-            string danishPigJson = JsonSerializer.Serialize(danishPig, serializationContext.DanishPig);
-            DanishPig? danishPig2 = JsonSerializer.Deserialize(danishPigJson, deserializationContext.DanishPig);
+            string danishPigJson = JsonSerializer.Serialize(danishPig, _jsonSerializerOptions);
+            DanishPig? danishPig2 = JsonSerializer.Deserialize<DanishPig>(danishPigJson, _jsonSerializerOptions);
             Assert.IsTrue(danishPig2 != null && danishPig.ClassName.Equals(danishPig2.ClassName));
         }
 
         [TestMethod]
         public void GmFruit()
         {
-            GmFruitSerializationContext serializationContext = _host.Services.GetRequiredService<GmFruitSerializationContext>();
-            GmFruitDeserializationContext deserializationContext = _host.Services.GetRequiredService<GmFruitDeserializationContext>();
-
             Apple apple = new("#000000", "cultivar", "origin");
             Banana banana = new(10);
             GmFruit gmFruit = new(apple, banana, "yellow");
-            string gmFruitJson = JsonSerializer.Serialize(gmFruit, serializationContext.GmFruit);
-            GmFruit? gmFruit2 = JsonSerializer.Deserialize<GmFruit>(gmFruitJson, deserializationContext.GmFruit);
+            string gmFruitJson = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);
+            GmFruit? gmFruit2 = JsonSerializer.Deserialize<GmFruit>(gmFruitJson, _jsonSerializerOptions);
             Assert.IsTrue(
                 gmFruit.Apple != null &&
                 gmFruit.Banana != null &&
@@ -129,25 +118,19 @@ public class UnitTest1
         [TestMethod]
         public void EquilateralTriangle()
         {
-            EquilateralTriangleSerializationContext serializationContext = _host.Services.GetRequiredService<EquilateralTriangleSerializationContext>();
-            EquilateralTriangleDeserializationContext deserializationContext = _host.Services.GetRequiredService<EquilateralTriangleDeserializationContext>();
-
             EquilateralTriangle equilateralTriangle = new("triangle", "equilateral");
-            string equilateralTriangleJson = JsonSerializer.Serialize(equilateralTriangle, serializationContext.EquilateralTriangle);
-            EquilateralTriangle? equilateralTriangle2 = JsonSerializer.Deserialize(equilateralTriangleJson, deserializationContext.EquilateralTriangle);
+            string equilateralTriangleJson = JsonSerializer.Serialize(equilateralTriangle, _jsonSerializerOptions);
+            EquilateralTriangle? equilateralTriangle2 = JsonSerializer.Deserialize<EquilateralTriangle>(equilateralTriangleJson, _jsonSerializerOptions);
             Assert.IsTrue(equilateralTriangle2 != null && equilateralTriangle.TriangleType.Equals(equilateralTriangle2.TriangleType) && equilateralTriangle.ShapeType.Equals(equilateralTriangle2.ShapeType));
         }
 
         [TestMethod]
         public void Quadrilateral()
         {
-            QuadrilateralSerializationContext serializationContext = _host.Services.GetRequiredService<QuadrilateralSerializationContext>();
-            QuadrilateralDeserializationContext deserializationContext = _host.Services.GetRequiredService<QuadrilateralDeserializationContext>();
-
             ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
             Quadrilateral quadrilateral = new(complexQuadrilateral, "ComplexQuadrilateral");
-            string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, serializationContext.Quadrilateral);
-            Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize(quadrilateralJson, deserializationContext.Quadrilateral);
+            string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
+            Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
             Assert.IsTrue(
                 quadrilateral.ComplexQuadrilateral != null &&
                 quadrilateral2 != null &&
@@ -160,24 +143,18 @@ public class UnitTest1
         [TestMethod]
         public void ChildCatTest()
         {
-            ChildCatSerializationContext serializationContext = _host.Services.GetRequiredService<ChildCatSerializationContext>();
-            ChildCatDeserializationContext deserializationContext = _host.Services.GetRequiredService<ChildCatDeserializationContext>();
-
             ChildCat childCat = new("some name", ChildCat.PetTypeEnum.ChildCat);
-            string childCatJson = JsonSerializer.Serialize(childCat, serializationContext.ChildCat);
-            ChildCat? childCat2 = JsonSerializer.Deserialize(childCatJson, deserializationContext.ChildCat);
+            string childCatJson = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
+            ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, _jsonSerializerOptions);
             Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name.Equals(childCat2.Name));
         }
 
         [TestMethod]
         public void Cat()
         {
-            CatSerializationContext serializationContext = _host.Services.GetRequiredService<CatSerializationContext>();
-            CatDeserializationContext deserializationContext = _host.Services.GetRequiredService<CatDeserializationContext>();
-
             Cat cat = new("cat", false, "black"); // TODO: where is the address property?
-            string catJson = JsonSerializer.Serialize(cat, serializationContext.Cat);
-            Cat? cat2 = JsonSerializer.Deserialize(catJson, deserializationContext.Cat);
+            string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
+            Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
             Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color.Equals(cat2.Color)); // TODO: add the address property
         }
     }

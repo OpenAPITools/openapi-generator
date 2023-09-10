@@ -110,38 +110,8 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// The JsonSerialzierOptions
         /// </summary>
-        private System.Text.Json.JsonSerializerOptions{{#useSourceGeneration}}{{nrt?}}{{/useSourceGeneration}} _jsonSerializerOptions;
+        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
 
-        {{#useSourceGeneration}}
-        /// <summary>
-        /// The JsonTypeInfo
-        /// </summary>
-        private readonly System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>{{nrt?}} _typeInfo;
-
-        /// <summary>
-        /// Construct the response using an HttpResponseMessage
-        /// </summary>
-        /// <param name="httpRequestMessage"></param>
-        /// <param name="httpResponseMessage"></param>
-        /// <param name="rawContent"></param>
-        /// <param name="path"></param>
-        /// <param name="requestedAt"></param>
-        /// <param name="typeInfo"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> typeInfo)
-        {
-            StatusCode = httpResponseMessage.StatusCode;
-            Headers = httpResponseMessage.Headers;
-            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            ReasonPhrase = httpResponseMessage.ReasonPhrase;
-            RawContent = rawContent;
-            Path = path;
-            RequestUri = httpRequestMessage.RequestUri;
-            RequestedAt = requestedAt;
-            _typeInfo = typeInfo;
-            OnCreated(httpRequestMessage, httpResponseMessage);
-        }
-
-        {{/useSourceGeneration}}
         /// <summary>
         /// Construct the response using an HttpResponseMessage
         /// </summary>

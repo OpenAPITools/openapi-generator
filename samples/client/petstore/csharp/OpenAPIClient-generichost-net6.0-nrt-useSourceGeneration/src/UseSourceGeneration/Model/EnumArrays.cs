@@ -326,32 +326,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The EnumArraysSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumArrays))]
-    public partial class EnumArraysSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EnumArraysSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumArraysSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EnumArraysDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EnumArrays))]
-    public partial class EnumArraysDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EnumArraysDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumArraysDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class EnumArraysSerializationContext : JsonSerializerContext { }
 }

@@ -51,15 +51,23 @@ namespace {{packageName}}.{{clientPackage}}
             {{#useSourceGeneration}}
 
             {{#models}}
-            {{#model}}
-            _services.AddSingleton<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}SerializationContext>();
-            {{/model}}
+            {{#-first}}
+            _jsonOptions.TypeInfoResolver = System.Text.Json.Serialization.Metadata.JsonTypeInfoResolver.Combine(
+            {{/-first}}
             {{/models}}
-
+                {{#lambda.joinLinesWithComma}}
+                {{#models}}
+                {{#model}}
+                new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}SerializationContext(){{#-last}},{{/-last}}
+                {{/model}}
+                {{/models}}
+                {{/lambda.joinLinesWithComma}}
             {{#models}}
-            {{#model}}
-            _services.AddSingleton<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}DeserializationContext>();
-            {{/model}}
+            {{#-last}}
+
+                new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver()
+            );
+            {{/-last}}
             {{/models}}
 
             {{/useSourceGeneration}}

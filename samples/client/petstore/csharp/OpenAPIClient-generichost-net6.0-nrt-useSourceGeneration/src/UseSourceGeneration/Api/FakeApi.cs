@@ -762,9 +762,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class FakeApi : IFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-        private HealthCheckResultDeserializationContext _healthCheckResultDeserializationContext;
-        private OuterCompositeDeserializationContext _outerCompositeDeserializationContext;
-        private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -811,9 +808,6 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,
-            HealthCheckResultDeserializationContext healthCheckResultDeserializationContext,
-            OuterCompositeDeserializationContext outerCompositeDeserializationContext,
-            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -821,9 +815,6 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            _healthCheckResultDeserializationContext = healthCheckResultDeserializationContext;
-            _outerCompositeDeserializationContext = outerCompositeDeserializationContext;
-            _modelClientDeserializationContext = modelClientDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeApiEvents;
@@ -931,7 +922,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _healthCheckResultDeserializationContext.HealthCheckResult);
+                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
 
@@ -1222,7 +1213,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _outerCompositeDeserializationContext.OuterComposite);
+                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
 
@@ -2091,7 +2082,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
 

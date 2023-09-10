@@ -184,32 +184,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ScaleneTriangleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ScaleneTriangle))]
-    public partial class ScaleneTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ScaleneTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ScaleneTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ScaleneTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ScaleneTriangle))]
-    public partial class ScaleneTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ScaleneTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ScaleneTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ScaleneTriangleSerializationContext : JsonSerializerContext { }
 }

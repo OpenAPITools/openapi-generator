@@ -220,32 +220,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ReadOnlyFirstSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ReadOnlyFirst))]
-    public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ReadOnlyFirstSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReadOnlyFirstSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ReadOnlyFirstDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ReadOnlyFirst))]
-    public partial class ReadOnlyFirstDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ReadOnlyFirstDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ReadOnlyFirstDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext { }
 }
