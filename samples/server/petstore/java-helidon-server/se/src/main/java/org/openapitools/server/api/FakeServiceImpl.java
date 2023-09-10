@@ -1,6 +1,7 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
 import org.openapitools.server.model.FakeBigDecimalMap200Response;
@@ -94,6 +95,10 @@ public class FakeServiceImpl implements FakeService {
     }
 
     public void testJsonFormData(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void testNullable(ServerRequest request, ServerResponse response, ChildWithNullable childWithNullable) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

@@ -120,6 +120,13 @@ Route::post('/v2/fake/inline-additionalProperties', 'FakeController@testInlineAd
  */
 Route::get('/v2/fake/jsonFormData', 'FakeController@testJsonFormData');
 /**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+
+ */
+Route::post('/v2/fake/nullable', 'FakeController@testNullable');
+/**
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types

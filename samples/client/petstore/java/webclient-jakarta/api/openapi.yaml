@@ -1031,6 +1031,25 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: application/json
+  /fake/nullable:
+    post:
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test nullable parent property
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1862,6 +1881,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - ChildWithNullable
+          type: string
+        nullableProperty:
+          nullable: true
+          type: string
+      type: object
+    ChildWithNullable:
+      allOf:
+      - $ref: '#/components/schemas/ParentWithNullable'
+      - properties:
+          otherProperty:
+            type: string
+        type: object
     StringBooleanMap:
       additionalProperties:
         type: boolean

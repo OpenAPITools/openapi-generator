@@ -90,6 +90,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/Api/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/Api/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testNullable**](docs/Api/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/Api/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
@@ -126,6 +127,7 @@ Class | Method | HTTP request | Description
 - [Capitalization](docs/Model/Capitalization.md)
 - [Cat](docs/Model/Cat.md)
 - [Category](docs/Model/Category.md)
+- [ChildWithNullable](docs/Model/ChildWithNullable.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
@@ -157,6 +159,7 @@ Class | Method | HTTP request | Description
 - [OuterEnumInteger](docs/Model/OuterEnumInteger.md)
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
+- [ParentWithNullable](docs/Model/ParentWithNullable.md)
 - [Pet](docs/Model/Pet.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SingleRefType](docs/Model/SingleRefType.md)

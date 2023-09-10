@@ -1,6 +1,7 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
 import org.openapitools.server.model.FakeBigDecimalMap200Response;
@@ -48,6 +49,7 @@ public interface FakeService extends Service {
         rules.delete("/fake", this::testGroupParameters);
         rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
         rules.get("/fake/jsonFormData", this::testJsonFormData);
+        rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable));
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
     }
 
@@ -176,6 +178,14 @@ public interface FakeService extends Service {
      * @param response the server response
      */
     void testJsonFormData(ServerRequest request, ServerResponse response);
+
+    /**
+     * POST /fake/nullable : test nullable parent property.
+     * @param request the server request
+     * @param response the server response
+     * @param childWithNullable request body 
+     */
+    void testNullable(ServerRequest request, ServerResponse response, ChildWithNullable childWithNullable);
 
     /**
      * PUT /fake/test-query-parameters.
