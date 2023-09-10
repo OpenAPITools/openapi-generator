@@ -22,7 +22,7 @@ from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING, ClassVar
+from typing import Union, Any, List, TYPE_CHECKING
 try:
     from typing import Literal
 except ImportError:
@@ -51,7 +51,7 @@ class Pig(BaseModel):
         "validate_assignment": True,
     }
 
-    discriminator_value_class_map: ClassVar[dict] = {
+    discriminator_value_class_map = {
     }
 
     def __init__(self, *args, **kwargs) -> None:

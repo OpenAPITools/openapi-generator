@@ -21,7 +21,6 @@ import re  # noqa: F401
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, validator
 from typing import Union, Any, List, TYPE_CHECKING
-from pydantic import StrictStr, Field
 
 INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
 

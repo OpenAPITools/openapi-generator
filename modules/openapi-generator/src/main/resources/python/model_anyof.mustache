@@ -10,11 +10,13 @@ import re  # noqa: F401
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from typing import Union, Any, List, TYPE_CHECKING
+{{#usePydanticV2}}
 try:
     from typing import Literal
 except ImportError:
     from typing_extensions import Literal
 from pydantic import StrictStr, Field
+{{/usePydanticV2}}
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
 

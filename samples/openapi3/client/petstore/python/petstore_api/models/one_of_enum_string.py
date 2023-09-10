@@ -23,7 +23,6 @@ from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from typing import Union, Any, List, TYPE_CHECKING
-from pydantic import StrictStr, Field
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
 
