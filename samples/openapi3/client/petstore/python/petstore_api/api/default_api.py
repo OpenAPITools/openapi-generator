@@ -17,7 +17,6 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
-from typing_extensions import Annotated
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 

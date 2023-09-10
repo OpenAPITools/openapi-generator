@@ -101,11 +101,11 @@ test {
 }
 
 ext {
-    swagger_annotations_version = "1.5.24"
-    jackson_version = "2.13.4"
-    jackson_databind_version = "2.13.4.2"
+    swagger_annotations_version = "1.6.11"
+    jackson_version = "2.14.3"
+    jackson_databind_version = "2.14.3"
     jakarta_annotation_version = "1.3.5"
-    feign_version = "10.11"
+    feign_version = "10.12"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
@@ -130,7 +130,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
-    testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.35.1"
     testImplementation "org.hamcrest:hamcrest:2.2"
     testImplementation "commons-io:commons-io:2.8.0"
     testImplementation "ch.qos.logback:logback-classic:1.2.3"

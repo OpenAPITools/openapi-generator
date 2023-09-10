@@ -82,6 +82,7 @@ public class PetDto {
     }
   }
 
+  @Deprecated
   private StatusEnum status;
 
   public PetDto() {
@@ -221,14 +222,20 @@ public class PetDto {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

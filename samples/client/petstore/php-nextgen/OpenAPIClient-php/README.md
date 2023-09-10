@@ -7,7 +7,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 8.0 and later.
+PHP 8.1 and later.
 
 ### Composer
 

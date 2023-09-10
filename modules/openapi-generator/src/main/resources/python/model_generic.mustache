@@ -12,7 +12,7 @@ import json
 
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
-    {{{description}}}{{^description}}{{{classname}}}{{/description}}
+    {{#description}}{{{description}}}  # noqa: E501{{/description}}{{^description}}{{{classname}}}{{/description}}
     """
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}

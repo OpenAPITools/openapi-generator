@@ -141,6 +141,7 @@ Class | Method | HTTP request | Description
  - [PSPetstore\Model.Model200Response](docs/Model200Response.md)
  - [PSPetstore\Model.ModelReturn](docs/ModelReturn.md)
  - [PSPetstore\Model.Name](docs/Name.md)
+ - [PSPetstore\Model.NewModel](docs/NewModel.md)
  - [PSPetstore\Model.NullableClass](docs/NullableClass.md)
  - [PSPetstore\Model.NullableShape](docs/NullableShape.md)
  - [PSPetstore\Model.NumberOnly](docs/NumberOnly.md)

@@ -17,7 +17,7 @@ docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
-docs/DeprecatedObject.md
+docs/DeprecatedModel.md
 docs/Dog.md
 docs/EnumArrays.md
 docs/EnumClass.md
@@ -79,7 +79,7 @@ lib/WWW/OpenAPIClient/Object/Category.pm
 lib/WWW/OpenAPIClient/Object/ChildWithNullable.pm
 lib/WWW/OpenAPIClient/Object/ClassModel.pm
 lib/WWW/OpenAPIClient/Object/Client.pm
-lib/WWW/OpenAPIClient/Object/DeprecatedObject.pm
+lib/WWW/OpenAPIClient/Object/DeprecatedModel.pm
 lib/WWW/OpenAPIClient/Object/Dog.pm
 lib/WWW/OpenAPIClient/Object/EnumArrays.pm
 lib/WWW/OpenAPIClient/Object/EnumClass.pm

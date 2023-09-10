@@ -1,10 +1,12 @@
 group "{{groupId}}"
 version "{{artifactVersion}}"
+{{^omitGradleWrapper}}
 
 wrapper {
     gradleVersion = "7.4.2"
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
+{{/omitGradleWrapper}}
 
 buildscript {
     ext.kotlin_version = "1.7.20"

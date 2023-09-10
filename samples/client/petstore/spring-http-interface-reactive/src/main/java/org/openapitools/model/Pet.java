@@ -77,6 +77,7 @@ public class Pet {
     }
   }
 
+  @Deprecated
   private StatusEnum status;
 
   public Pet() {
@@ -211,13 +212,19 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

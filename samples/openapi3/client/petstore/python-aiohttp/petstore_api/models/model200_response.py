@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Model200Response(BaseModel):
     """
-    Model for testing model name starting with number
+    Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(None, alias="class")

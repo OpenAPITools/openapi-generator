@@ -1747,6 +1747,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         hasModelsToImport = false;
+        boolean importAnnotated = false;
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
@@ -1807,6 +1808,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     param.vendorExtensions.put("x-py-typing", typing);
                 } else {
                     param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
+                    importAnnotated = true;
                 }
             }
 
@@ -1837,6 +1839,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<Map<String, String>> newImports = new ArrayList<>();
+
+        if (importAnnotated) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format(Locale.ROOT, String.format(Locale.ROOT, "from typing_extensions import Annotated")));
+            newImports.add(item);
+        }
 
         // need datetime import
         if (!datetimeImports.isEmpty()) {
