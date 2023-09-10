@@ -50,7 +50,7 @@ class QueryApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_call
+    @validate_arguments
     def test_enum_ref_string(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -80,7 +80,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_enum_ref_string_with_http_info(enum_ref_string_query, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_enum_ref_string_with_http_info(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -190,7 +190,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_datetime_date_string(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -224,7 +224,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_datetime_date_string_with_http_info(datetime_query, date_query, string_query, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_datetime_date_string_with_http_info(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -352,7 +352,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_integer_boolean_string(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -386,7 +386,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_integer_boolean_string_with_http_info(integer_query, boolean_query, string_query, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_integer_boolean_string_with_http_info(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -508,7 +508,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_style_deep_object_explode_true_object(self, query_object : Optional[Pet] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -538,7 +538,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_style_deep_object_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_style_deep_object_explode_true_object_with_http_info(self, query_object : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -648,7 +648,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_style_deep_object_explode_true_object_all_of(self, query_object : Optional[Any] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -678,7 +678,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -788,7 +788,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_array_string(self, query_object : Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -818,7 +818,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_style_form_explode_true_array_string_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_array_string_with_http_info(self, query_object : Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -928,7 +928,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_object(self, query_object : Optional[Pet] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -958,7 +958,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_style_form_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_object_with_http_info(self, query_object : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -1068,7 +1068,7 @@ class QueryApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_object_all_of(self, query_object : Optional[Any] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
@@ -1098,7 +1098,7 @@ class QueryApi:
             raise ValueError(message)
         return self.test_query_style_form_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def test_query_style_form_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 

@@ -53,7 +53,7 @@ class AnotherFakeApi:
     def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=True, **kwargs) -> Client:  # noqa: E501
         ...
 
-    @validate_call
+    @validate_arguments
     def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=None, **kwargs) -> Union[Client, Awaitable[Client]]:  # noqa: E501
         """To test special tags  # noqa: E501
 
@@ -85,7 +85,7 @@ class AnotherFakeApi:
             kwargs['async_req'] = async_req
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 

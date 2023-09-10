@@ -50,7 +50,7 @@ class DefaultApi:
     def foo_get(self, async_req: Optional[bool]=True, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         ...
 
-    @validate_call
+    @validate_arguments
     def foo_get(self, async_req: Optional[bool]=None, **kwargs) -> Union[FooGetDefaultResponse, Awaitable[FooGetDefaultResponse]]:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -79,7 +79,7 @@ class DefaultApi:
             kwargs['async_req'] = async_req
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 

@@ -41,7 +41,7 @@ class DefaultApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_call
+    @validate_arguments
     def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -68,7 +68,7 @@ class DefaultApi:
             raise ValueError(message)
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 

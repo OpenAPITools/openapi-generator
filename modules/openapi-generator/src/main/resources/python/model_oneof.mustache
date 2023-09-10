@@ -12,6 +12,8 @@ import re  # noqa: F401
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
+{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
+
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{{description}}}{{^description}}{{{classname}}}{{/description}}
@@ -24,11 +26,24 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
+    {{#usePydanticV2}}
+    one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
+    one_of_schemas: List[str] = Field({{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS, const=True)
+    {{/usePydanticV2}}
+
+    """Pydantic configuration"""
+    {{#usePydanticV2}}
     model_config = {
         "validate_assignment": True,
     }
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
+    class Config:
+        validate_assignment = True
+    {{/usePydanticV2}}
 {{#discriminator}}
 
     discriminator_value_class_map = {

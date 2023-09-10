@@ -43,7 +43,7 @@ class PathApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_call
+    @validate_arguments
     def tests_path_string_path_string_integer_path_integer(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> str:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
@@ -75,7 +75,7 @@ class PathApi:
             raise ValueError(message)
         return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 

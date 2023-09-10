@@ -25,6 +25,8 @@ from petstore_api.models.danish_pig import DanishPig
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
+PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
+
 class Pig(BaseModel):
     """
     Pig
@@ -37,11 +39,12 @@ class Pig(BaseModel):
         actual_instance: Union[BasquePig, DanishPig]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Literal["BasquePig", "DanishPig"]
 
-    model_config = {
-        "validate_assignment": True,
-    }
+    one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
+
+    """Pydantic configuration"""
+    class Config:
+        validate_assignment = True
 
     discriminator_value_class_map = {
     }

@@ -23,6 +23,8 @@ from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conli
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
+COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
+
 class Color(BaseModel):
     """
     RGB array, RGBA array, or hex string.
@@ -37,11 +39,12 @@ class Color(BaseModel):
         actual_instance: Union[List[int], str]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Literal["List[int]", "str"]
 
-    model_config = {
-        "validate_assignment": True,
-    }
+    one_of_schemas: List[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
+
+    """Pydantic configuration"""
+    class Config:
+        validate_assignment = True
 
     def __init__(self, *args, **kwargs) -> None:
         if args:

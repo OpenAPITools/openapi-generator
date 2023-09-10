@@ -29,7 +29,12 @@ REQUIRES = [
     "pem>=19.3.0",
     "pycryptodome>=3.9.0",
 {{/hasHttpSignatureMethods}}
+{{#usePydanticV2}}
     "pydantic >= 2",
+{{/usePydanticV2}}
+{{^usePydanticV2}}
+    "pydantic >= 1.10.5, < 2",
+{{/usePydanticV2}}
     "aenum"
 ]
 

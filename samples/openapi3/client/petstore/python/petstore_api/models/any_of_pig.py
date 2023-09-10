@@ -42,9 +42,9 @@ class AnyOfPig(BaseModel):
         actual_instance: Any
     any_of_schemas: List[str] = Field(ANYOFPIG_ANY_OF_SCHEMAS, const=True)
 
-    model_config = {
-        "validate_assignment": True,
-    }
+    """Pydantic configuration"""
+    class Config:
+        validate_assignment = True
 
     def __init__(self, *args, **kwargs) -> None:
         if args:

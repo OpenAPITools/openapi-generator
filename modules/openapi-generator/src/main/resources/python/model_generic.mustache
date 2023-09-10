@@ -74,10 +74,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/vars}}
 
     """Pydantic configuration"""
+    {{#usePydanticV2}}
+    class Config:
+        allow_population_by_field_name = True
+        validate_assignment = True
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
     model_config = {
         "populate_by_name": True,
         "validate_assignment": True,
     }
+    {{/usePydanticV2}}
 
 {{#hasChildren}}
 {{#discriminator}}

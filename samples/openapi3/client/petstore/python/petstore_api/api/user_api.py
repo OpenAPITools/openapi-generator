@@ -44,7 +44,7 @@ class UserApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_call
+    @validate_arguments
     def create_user(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs) -> None:  # noqa: E501
         """Create user  # noqa: E501
 
@@ -74,7 +74,7 @@ class UserApi:
             raise ValueError(message)
         return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def create_user_with_http_info(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Create user  # noqa: E501
 
@@ -200,7 +200,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def create_users_with_array_input(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -230,7 +230,7 @@ class UserApi:
             raise ValueError(message)
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def create_users_with_array_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -341,7 +341,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def create_users_with_list_input(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -371,7 +371,7 @@ class UserApi:
             raise ValueError(message)
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def create_users_with_list_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -482,7 +482,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def delete_user(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs) -> None:  # noqa: E501
         """Delete user  # noqa: E501
 
@@ -512,7 +512,7 @@ class UserApi:
             raise ValueError(message)
         return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
         """Delete user  # noqa: E501
 
@@ -616,7 +616,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def get_user_by_name(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> User:  # noqa: E501
         """Get user by user name  # noqa: E501
 
@@ -646,7 +646,7 @@ class UserApi:
             raise ValueError(message)
         return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> ApiResponse:  # noqa: E501
         """Get user by user name  # noqa: E501
 
@@ -758,7 +758,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def login_user(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs) -> str:  # noqa: E501
         """Logs user into the system  # noqa: E501
 
@@ -790,7 +790,7 @@ class UserApi:
             raise ValueError(message)
         return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def login_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs) -> ApiResponse:  # noqa: E501
         """Logs user into the system  # noqa: E501
 
@@ -907,7 +907,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def logout_user(self, **kwargs) -> None:  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
@@ -935,7 +935,7 @@ class UserApi:
             raise ValueError(message)
         return self.logout_user_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def logout_user_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
@@ -1033,7 +1033,7 @@ class UserApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_call
+    @validate_arguments
     def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs) -> None:  # noqa: E501
         """Updated user  # noqa: E501
 
@@ -1065,7 +1065,7 @@ class UserApi:
             raise ValueError(message)
         return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
 
-    @validate_call
+    @validate_arguments
     def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Updated user  # noqa: E501
 
