@@ -24,6 +24,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,6 +159,32 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 }
             }
         }
+        return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap operations = objs.getOperations();
+        for (CodegenOperation operation : operations.getOperation()) {
+            LOGGER.error("PHPHPHP operation: {}", operation.operationId);
+            if (operation.returnType == null) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
+            }
+            else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+            }
+
+            for (CodegenParameter param : operation.allParams) {
+                if (param.isArray || param.isMap) {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
+                }
+                else {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
+                }
+            }
+        }
+
         return objs;
     }
 }

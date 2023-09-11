@@ -77,10 +77,10 @@ class DefaultApi
     ];
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int|null             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -131,7 +131,9 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\FooGetDefaultResponse
      */
-    public function fooGet(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGet(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): \OpenAPI\Client\Model\FooGetDefaultResponse
     {
         list($response) = $this->fooGetWithHttpInfo($contentType);
         return $response;
@@ -146,7 +148,9 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\FooGetDefaultResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fooGetWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetWithHttpInfo(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): array
     {
         $request = $this->fooGetRequest($contentType);
 
@@ -242,7 +246,9 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fooGetAsync(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetAsync(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->fooGetAsyncWithHttpInfo($contentType)
             ->then(
@@ -260,7 +266,9 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fooGetAsyncWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\FooGetDefaultResponse';
         $request = $this->fooGetRequest($contentType);
@@ -309,7 +317,9 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fooGetRequest(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetRequest(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): Request
     {
 
 
@@ -383,7 +393,7 @@ class DefaultApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

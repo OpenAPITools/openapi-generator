@@ -77,10 +77,10 @@ class AnotherFakeApi
     ];
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int|null             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -134,7 +134,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function call123TestSpecialTags($client, string $contentType = self::contentTypes['call123TestSpecialTags'][0])
+    public function call123TestSpecialTags(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['call123TestSpecialTags'][0]
+    ): \OpenAPI\Client\Model\Client
     {
         list($response) = $this->call123TestSpecialTagsWithHttpInfo($client, $contentType);
         return $response;
@@ -152,7 +155,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function call123TestSpecialTagsWithHttpInfo($client, string $contentType = self::contentTypes['call123TestSpecialTags'][0])
+    public function call123TestSpecialTagsWithHttpInfo(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['call123TestSpecialTags'][0]
+    ): array
     {
         $request = $this->call123TestSpecialTagsRequest($client, $contentType);
 
@@ -251,7 +257,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function call123TestSpecialTagsAsync($client, string $contentType = self::contentTypes['call123TestSpecialTags'][0])
+    public function call123TestSpecialTagsAsync(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['call123TestSpecialTags'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->call123TestSpecialTagsAsyncWithHttpInfo($client, $contentType)
             ->then(
@@ -272,7 +281,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function call123TestSpecialTagsAsyncWithHttpInfo($client, string $contentType = self::contentTypes['call123TestSpecialTags'][0])
+    public function call123TestSpecialTagsAsyncWithHttpInfo(
+        $client,
+        string $contentType = self::contentTypes['call123TestSpecialTags'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->call123TestSpecialTagsRequest($client, $contentType);
@@ -322,7 +334,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function call123TestSpecialTagsRequest($client, string $contentType = self::contentTypes['call123TestSpecialTags'][0])
+    public function call123TestSpecialTagsRequest(
+        $client,
+        string $contentType = self::contentTypes['call123TestSpecialTags'][0]
+    ): Request
     {
 
         // verify the required parameter 'client' is set
@@ -410,7 +425,7 @@ class AnotherFakeApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

@@ -103,10 +103,10 @@ class PetApi
     ];
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int|null             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -178,7 +178,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function addPet($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['addPet'][0])
+    public function addPet(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['addPet'][0]
+    ): void
     {
         $this->addPetWithHttpInfo($pet, $hostIndex, $variables, $contentType);
     }
@@ -213,7 +218,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function addPetWithHttpInfo($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['addPet'][0])
+    public function addPetWithHttpInfo(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['addPet'][0]
+    ): array
     {
         $request = $this->addPetRequest($pet, $hostIndex, $variables, $contentType);
 
@@ -290,7 +300,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addPetAsync($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['addPet'][0])
+    public function addPetAsync(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['addPet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->addPetAsyncWithHttpInfo($pet, $hostIndex, $variables, $contentType)
             ->then(
@@ -329,7 +344,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addPetAsyncWithHttpInfo($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['addPet'][0])
+    public function addPetAsyncWithHttpInfo(
+        $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['addPet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '';
         $request = $this->addPetRequest($pet, $hostIndex, $variables, $contentType);
@@ -384,7 +404,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function addPetRequest($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['addPet'][0])
+    public function addPetRequest(
+        $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['addPet'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet' is set
@@ -528,14 +553,18 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key api_key (optional)
+     * @param  string|null $api_key api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function deletePet($pet_id, $api_key = null, string $contentType = self::contentTypes['deletePet'][0])
+    public function deletePet(
+        int $pet_id,
+        ?string $api_key = null,
+        string $contentType = self::contentTypes['deletePet'][0]
+    ): void
     {
         $this->deletePetWithHttpInfo($pet_id, $api_key, $contentType);
     }
@@ -546,14 +575,18 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string|null $api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deletePetWithHttpInfo($pet_id, $api_key = null, string $contentType = self::contentTypes['deletePet'][0])
+    public function deletePetWithHttpInfo(
+        int $pet_id,
+        ?string $api_key = null,
+        string $contentType = self::contentTypes['deletePet'][0]
+    ): array
     {
         $request = $this->deletePetRequest($pet_id, $api_key, $contentType);
 
@@ -607,13 +640,17 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string|null $api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deletePetAsync($pet_id, $api_key = null, string $contentType = self::contentTypes['deletePet'][0])
+    public function deletePetAsync(
+        int $pet_id,
+        ?string $api_key = null,
+        string $contentType = self::contentTypes['deletePet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->deletePetAsyncWithHttpInfo($pet_id, $api_key, $contentType)
             ->then(
@@ -629,13 +666,17 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string|null $api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deletePetAsyncWithHttpInfo($pet_id, $api_key = null, string $contentType = self::contentTypes['deletePet'][0])
+    public function deletePetAsyncWithHttpInfo(
+        $pet_id,
+        $api_key = null,
+        string $contentType = self::contentTypes['deletePet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '';
         $request = $this->deletePetRequest($pet_id, $api_key, $contentType);
@@ -667,13 +708,17 @@ class PetApi
      * Create request for operation 'deletePet'
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string|null $api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deletePetRequest($pet_id, $api_key = null, string $contentType = self::contentTypes['deletePet'][0])
+    public function deletePetRequest(
+        $pet_id,
+        $api_key = null,
+        string $contentType = self::contentTypes['deletePet'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet_id' is set
@@ -777,7 +822,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet[]
      */
-    public function findPetsByStatus($status, string $contentType = self::contentTypes['findPetsByStatus'][0])
+    public function findPetsByStatus(
+        array $status,
+        string $contentType = self::contentTypes['findPetsByStatus'][0]
+    ): \OpenAPI\Client\Model\Pet[]
     {
         list($response) = $this->findPetsByStatusWithHttpInfo($status, $contentType);
         return $response;
@@ -795,7 +843,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
-    public function findPetsByStatusWithHttpInfo($status, string $contentType = self::contentTypes['findPetsByStatus'][0])
+    public function findPetsByStatusWithHttpInfo(
+        array $status,
+        string $contentType = self::contentTypes['findPetsByStatus'][0]
+    ): array
     {
         $request = $this->findPetsByStatusRequest($status, $contentType);
 
@@ -894,7 +945,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function findPetsByStatusAsync($status, string $contentType = self::contentTypes['findPetsByStatus'][0])
+    public function findPetsByStatusAsync(
+        array $status,
+        string $contentType = self::contentTypes['findPetsByStatus'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->findPetsByStatusAsyncWithHttpInfo($status, $contentType)
             ->then(
@@ -915,7 +969,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function findPetsByStatusAsyncWithHttpInfo($status, string $contentType = self::contentTypes['findPetsByStatus'][0])
+    public function findPetsByStatusAsyncWithHttpInfo(
+        $status,
+        string $contentType = self::contentTypes['findPetsByStatus'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByStatusRequest($status, $contentType);
@@ -965,7 +1022,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function findPetsByStatusRequest($status, string $contentType = self::contentTypes['findPetsByStatus'][0])
+    public function findPetsByStatusRequest(
+        $status,
+        string $contentType = self::contentTypes['findPetsByStatus'][0]
+    ): Request
     {
 
         // verify the required parameter 'status' is set
@@ -1066,7 +1126,10 @@ class PetApi
      * @return \OpenAPI\Client\Model\Pet[]
      * @deprecated
      */
-    public function findPetsByTags($tags, string $contentType = self::contentTypes['findPetsByTags'][0])
+    public function findPetsByTags(
+        array $tags,
+        string $contentType = self::contentTypes['findPetsByTags'][0]
+    ): \OpenAPI\Client\Model\Pet[]
     {
         list($response) = $this->findPetsByTagsWithHttpInfo($tags, $contentType);
         return $response;
@@ -1085,7 +1148,10 @@ class PetApi
      * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @deprecated
      */
-    public function findPetsByTagsWithHttpInfo($tags, string $contentType = self::contentTypes['findPetsByTags'][0])
+    public function findPetsByTagsWithHttpInfo(
+        array $tags,
+        string $contentType = self::contentTypes['findPetsByTags'][0]
+    ): array
     {
         $request = $this->findPetsByTagsRequest($tags, $contentType);
 
@@ -1185,7 +1251,10 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      * @deprecated
      */
-    public function findPetsByTagsAsync($tags, string $contentType = self::contentTypes['findPetsByTags'][0])
+    public function findPetsByTagsAsync(
+        array $tags,
+        string $contentType = self::contentTypes['findPetsByTags'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->findPetsByTagsAsyncWithHttpInfo($tags, $contentType)
             ->then(
@@ -1207,7 +1276,10 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      * @deprecated
      */
-    public function findPetsByTagsAsyncWithHttpInfo($tags, string $contentType = self::contentTypes['findPetsByTags'][0])
+    public function findPetsByTagsAsyncWithHttpInfo(
+        $tags,
+        string $contentType = self::contentTypes['findPetsByTags'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByTagsRequest($tags, $contentType);
@@ -1258,7 +1330,10 @@ class PetApi
      * @return \GuzzleHttp\Psr7\Request
      * @deprecated
      */
-    public function findPetsByTagsRequest($tags, string $contentType = self::contentTypes['findPetsByTags'][0])
+    public function findPetsByTagsRequest(
+        $tags,
+        string $contentType = self::contentTypes['findPetsByTags'][0]
+    ): Request
     {
 
         // verify the required parameter 'tags' is set
@@ -1358,7 +1433,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet
      */
-    public function getPetById($pet_id, string $contentType = self::contentTypes['getPetById'][0])
+    public function getPetById(
+        int $pet_id,
+        string $contentType = self::contentTypes['getPetById'][0]
+    ): \OpenAPI\Client\Model\Pet
     {
         list($response) = $this->getPetByIdWithHttpInfo($pet_id, $contentType);
         return $response;
@@ -1376,7 +1454,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getPetByIdWithHttpInfo($pet_id, string $contentType = self::contentTypes['getPetById'][0])
+    public function getPetByIdWithHttpInfo(
+        int $pet_id,
+        string $contentType = self::contentTypes['getPetById'][0]
+    ): array
     {
         $request = $this->getPetByIdRequest($pet_id, $contentType);
 
@@ -1475,7 +1556,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getPetByIdAsync($pet_id, string $contentType = self::contentTypes['getPetById'][0])
+    public function getPetByIdAsync(
+        int $pet_id,
+        string $contentType = self::contentTypes['getPetById'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->getPetByIdAsyncWithHttpInfo($pet_id, $contentType)
             ->then(
@@ -1496,7 +1580,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getPetByIdAsyncWithHttpInfo($pet_id, string $contentType = self::contentTypes['getPetById'][0])
+    public function getPetByIdAsyncWithHttpInfo(
+        $pet_id,
+        string $contentType = self::contentTypes['getPetById'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Pet';
         $request = $this->getPetByIdRequest($pet_id, $contentType);
@@ -1546,7 +1633,10 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getPetByIdRequest($pet_id, string $contentType = self::contentTypes['getPetById'][0])
+    public function getPetByIdRequest(
+        $pet_id,
+        string $contentType = self::contentTypes['getPetById'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet_id' is set
@@ -1664,7 +1754,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updatePet($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['updatePet'][0])
+    public function updatePet(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['updatePet'][0]
+    ): void
     {
         $this->updatePetWithHttpInfo($pet, $hostIndex, $variables, $contentType);
     }
@@ -1699,7 +1794,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updatePetWithHttpInfo($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['updatePet'][0])
+    public function updatePetWithHttpInfo(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['updatePet'][0]
+    ): array
     {
         $request = $this->updatePetRequest($pet, $hostIndex, $variables, $contentType);
 
@@ -1776,7 +1876,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetAsync($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['updatePet'][0])
+    public function updatePetAsync(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['updatePet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->updatePetAsyncWithHttpInfo($pet, $hostIndex, $variables, $contentType)
             ->then(
@@ -1815,7 +1920,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetAsyncWithHttpInfo($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['updatePet'][0])
+    public function updatePetAsyncWithHttpInfo(
+        $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['updatePet'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '';
         $request = $this->updatePetRequest($pet, $hostIndex, $variables, $contentType);
@@ -1870,7 +1980,12 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updatePetRequest($pet, ?int $hostIndex = null, array $variables = [], string $contentType = self::contentTypes['updatePet'][0])
+    public function updatePetRequest(
+        $pet,
+        ?int $hostIndex = null,
+        array $variables = [],
+        string $contentType = self::contentTypes['updatePet'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet' is set
@@ -2014,15 +2129,20 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string|null $name Updated name of the pet (optional)
+     * @param  string|null $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updatePetWithForm($pet_id, $name = null, $status = null, string $contentType = self::contentTypes['updatePetWithForm'][0])
+    public function updatePetWithForm(
+        int $pet_id,
+        ?string $name = null,
+        ?string $status = null,
+        string $contentType = self::contentTypes['updatePetWithForm'][0]
+    ): void
     {
         $this->updatePetWithFormWithHttpInfo($pet_id, $name, $status, $contentType);
     }
@@ -2033,15 +2153,20 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string|null $name Updated name of the pet (optional)
+     * @param  string|null $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null, string $contentType = self::contentTypes['updatePetWithForm'][0])
+    public function updatePetWithFormWithHttpInfo(
+        int $pet_id,
+        ?string $name = null,
+        ?string $status = null,
+        string $contentType = self::contentTypes['updatePetWithForm'][0]
+    ): array
     {
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status, $contentType);
 
@@ -2095,14 +2220,19 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string|null $name Updated name of the pet (optional)
+     * @param  string|null $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsync($pet_id, $name = null, $status = null, string $contentType = self::contentTypes['updatePetWithForm'][0])
+    public function updatePetWithFormAsync(
+        int $pet_id,
+        ?string $name = null,
+        ?string $status = null,
+        string $contentType = self::contentTypes['updatePetWithForm'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->updatePetWithFormAsyncWithHttpInfo($pet_id, $name, $status, $contentType)
             ->then(
@@ -2118,14 +2248,19 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string|null $name Updated name of the pet (optional)
+     * @param  string|null $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = null, $status = null, string $contentType = self::contentTypes['updatePetWithForm'][0])
+    public function updatePetWithFormAsyncWithHttpInfo(
+        $pet_id,
+        $name = null,
+        $status = null,
+        string $contentType = self::contentTypes['updatePetWithForm'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '';
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status, $contentType);
@@ -2157,14 +2292,19 @@ class PetApi
      * Create request for operation 'updatePetWithForm'
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string|null $name Updated name of the pet (optional)
+     * @param  string|null $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updatePetWithFormRequest($pet_id, $name = null, $status = null, string $contentType = self::contentTypes['updatePetWithForm'][0])
+    public function updatePetWithFormRequest(
+        $pet_id,
+        $name = null,
+        $status = null,
+        string $contentType = self::contentTypes['updatePetWithForm'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet_id' is set
@@ -2267,15 +2407,20 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject|null $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
-    public function uploadFile($pet_id, $additional_metadata = null, $file = null, string $contentType = self::contentTypes['uploadFile'][0])
+    public function uploadFile(
+        int $pet_id,
+        ?string $additional_metadata = null,
+        ?\SplFileObject $file = null,
+        string $contentType = self::contentTypes['uploadFile'][0]
+    ): \OpenAPI\Client\Model\ApiResponse
     {
         list($response) = $this->uploadFileWithHttpInfo($pet_id, $additional_metadata, $file, $contentType);
         return $response;
@@ -2287,15 +2432,20 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject|null $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null, string $contentType = self::contentTypes['uploadFile'][0])
+    public function uploadFileWithHttpInfo(
+        int $pet_id,
+        ?string $additional_metadata = null,
+        ?\SplFileObject $file = null,
+        string $contentType = self::contentTypes['uploadFile'][0]
+    ): array
     {
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file, $contentType);
 
@@ -2389,14 +2539,19 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject|null $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsync($pet_id, $additional_metadata = null, $file = null, string $contentType = self::contentTypes['uploadFile'][0])
+    public function uploadFileAsync(
+        int $pet_id,
+        ?string $additional_metadata = null,
+        ?\SplFileObject $file = null,
+        string $contentType = self::contentTypes['uploadFile'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata, $file, $contentType)
             ->then(
@@ -2412,14 +2567,19 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject|null $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = null, $file = null, string $contentType = self::contentTypes['uploadFile'][0])
+    public function uploadFileAsyncWithHttpInfo(
+        $pet_id,
+        $additional_metadata = null,
+        $file = null,
+        string $contentType = self::contentTypes['uploadFile'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file, $contentType);
@@ -2464,14 +2624,19 @@ class PetApi
      * Create request for operation 'uploadFile'
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject|null $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadFileRequest($pet_id, $additional_metadata = null, $file = null, string $contentType = self::contentTypes['uploadFile'][0])
+    public function uploadFileRequest(
+        $pet_id,
+        $additional_metadata = null,
+        $file = null,
+        string $contentType = self::contentTypes['uploadFile'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet_id' is set
@@ -2583,14 +2748,19 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
-    public function uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata = null, string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0])
+    public function uploadFileWithRequiredFile(
+        int $pet_id,
+        \SplFileObject $required_file,
+        ?string $additional_metadata = null,
+        string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
+    ): \OpenAPI\Client\Model\ApiResponse
     {
         list($response) = $this->uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata, $contentType);
         return $response;
@@ -2603,14 +2773,19 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata = null, string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0])
+    public function uploadFileWithRequiredFileWithHttpInfo(
+        int $pet_id,
+        \SplFileObject $required_file,
+        ?string $additional_metadata = null,
+        string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
+    ): array
     {
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata, $contentType);
 
@@ -2705,13 +2880,18 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = null, string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0])
+    public function uploadFileWithRequiredFileAsync(
+        int $pet_id,
+        \SplFileObject $required_file,
+        ?string $additional_metadata = null,
+        string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         return $this->uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata, $contentType)
             ->then(
@@ -2728,13 +2908,18 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = null, string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0])
+    public function uploadFileWithRequiredFileAsyncWithHttpInfo(
+        $pet_id,
+        $required_file,
+        $additional_metadata = null,
+        string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
+    ): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata, $contentType);
@@ -2780,13 +2965,18 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string|null $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null, string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0])
+    public function uploadFileWithRequiredFileRequest(
+        $pet_id,
+        $required_file,
+        $additional_metadata = null,
+        string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet_id' is set
@@ -2903,7 +3093,7 @@ class PetApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {
