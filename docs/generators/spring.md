@@ -77,13 +77,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
+|serverSentEvents|boolean, toggles to generate server send events using spring boot SseEmitter. only available, if 'reactive' option is active| |false|
 |singleContentTypes|Whether to select only one produces/consumes content-type by operation.| |false|
 |skipDefaultInterface|Whether to skip generation of default implementations for java8 interfaces| |false|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
-|sse|boolean, toggles to generate server send events using spring boot SseEmitter. only available, if 'reactive' option is active| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|

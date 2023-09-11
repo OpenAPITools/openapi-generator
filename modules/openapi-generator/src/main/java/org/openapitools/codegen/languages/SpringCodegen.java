@@ -97,7 +97,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
-    public static final String SSE = "sse";
+    public static final String SSE = "serverSentEvents";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_BOOT = "spring-boot";
@@ -1259,7 +1259,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ApiIgnore");
             }
-            if(sse) {
+            if (sse) {
                 var MEDIA_EVENT_STREAM = "text/event-stream";
                 // inspecting used streaming media types
                 /*
@@ -1301,7 +1301,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         throw new RuntimeException("only single item type is supported, when SSE is detected");
                     }
                     codegenOperation.vendorExtensions.put("x-sse", true);
-                } // no SSE complaint definition
+                } // Not an SSE compliant definition
             }
         }
         return codegenOperation;
