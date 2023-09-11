@@ -49,14 +49,14 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'EnumArrays';
+    protected static string $openAPIModelName = 'EnumArrays';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'just_symbol' => 'string',
         'array_enum' => 'string[]'
     ];
@@ -64,11 +64,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'just_symbol' => null,
         'array_enum' => null
     ];
@@ -76,7 +74,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'just_symbol' => false,
@@ -86,16 +84,16 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -103,9 +101,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -113,7 +111,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -123,7 +121,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -133,7 +131,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -166,9 +164,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'just_symbol' => 'just_symbol',
         'array_enum' => 'array_enum'
     ];
@@ -176,9 +174,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'just_symbol' => 'setJustSymbol',
         'array_enum' => 'setArrayEnum'
     ];
@@ -186,9 +184,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'just_symbol' => 'getJustSymbol',
         'array_enum' => 'getArrayEnum'
     ];
@@ -197,9 +195,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -207,9 +205,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -217,9 +215,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -229,7 +227,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -268,9 +266,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
@@ -293,7 +291,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -305,9 +303,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -329,7 +327,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -340,7 +338,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getJustSymbol()
+    public function getJustSymbol(): ?string
     {
         return $this->container['just_symbol'];
     }
@@ -350,9 +348,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $just_symbol just_symbol
      *
-     * @return self
+     * @return $this
      */
-    public function setJustSymbol($just_symbol)
+    public function setJustSymbol(?string $just_symbol): static
     {
         if (is_null($just_symbol)) {
             throw new \InvalidArgumentException('non-nullable just_symbol cannot be null');
@@ -377,7 +375,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayEnum()
+    public function getArrayEnum(): ?array
     {
         return $this->container['array_enum'];
     }
@@ -387,9 +385,9 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_enum array_enum
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayEnum($array_enum)
+    public function setArrayEnum(?array $array_enum): static
     {
         if (is_null($array_enum)) {
             throw new \InvalidArgumentException('non-nullable array_enum cannot be null');
@@ -414,7 +412,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -427,7 +425,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed|null
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -440,7 +438,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -456,7 +454,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -469,7 +467,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -479,7 +477,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -492,7 +490,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

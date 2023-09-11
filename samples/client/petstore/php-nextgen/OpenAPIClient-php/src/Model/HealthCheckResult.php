@@ -50,32 +50,30 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
       *
       * @var string
       */
-    protected static $openAPIModelName = 'HealthCheckResult';
+    protected static string $openAPIModelName = 'HealthCheckResult';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'nullable_message' => 'string'
     ];
 
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'nullable_message' => null
     ];
 
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'nullable_message' => true
@@ -84,16 +82,16 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -101,9 +99,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -111,7 +109,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -121,7 +119,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -131,7 +129,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -164,27 +162,27 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'nullable_message' => 'NullableMessage'
     ];
 
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'nullable_message' => 'setNullableMessage'
     ];
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'nullable_message' => 'getNullableMessage'
     ];
 
@@ -192,9 +190,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -202,9 +200,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -212,9 +210,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -224,7 +222,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -233,9 +231,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
@@ -257,7 +255,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -269,9 +267,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -284,7 +282,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -295,7 +293,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string|null
      */
-    public function getNullableMessage()
+    public function getNullableMessage(): ?string
     {
         return $this->container['nullable_message'];
     }
@@ -305,9 +303,9 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @param string|null $nullable_message nullable_message
      *
-     * @return self
+     * @return $this
      */
-    public function setNullableMessage($nullable_message)
+    public function setNullableMessage(?string $nullable_message): static
     {
         if (is_null($nullable_message)) {
             array_push($this->openAPINullablesSetToNull, 'nullable_message');
@@ -330,7 +328,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -343,7 +341,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      * @return mixed|null
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -356,7 +354,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -372,7 +370,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -385,7 +383,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -395,7 +393,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -408,7 +406,7 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

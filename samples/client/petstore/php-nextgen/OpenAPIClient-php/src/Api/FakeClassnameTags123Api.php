@@ -52,22 +52,22 @@ class FakeClassnameTags123Api
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -76,7 +76,7 @@ class FakeClassnameTags123Api
         ],
     ];
 
-/**
+    /**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
@@ -86,7 +86,7 @@ class FakeClassnameTags123Api
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -99,7 +99,7 @@ class FakeClassnameTags123Api
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -109,7 +109,7 @@ class FakeClassnameTags123Api
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -117,7 +117,7 @@ class FakeClassnameTags123Api
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }

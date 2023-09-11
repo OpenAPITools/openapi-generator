@@ -49,32 +49,30 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
       *
       * @var string
       */
-    protected static $openAPIModelName = 'ArrayOfNumberOnly';
+    protected static string $openAPIModelName = 'ArrayOfNumberOnly';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'array_number' => 'float[]'
     ];
 
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'array_number' => null
     ];
 
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'array_number' => false
@@ -83,16 +81,16 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -100,9 +98,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -110,7 +108,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -120,7 +118,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -130,7 +128,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -163,27 +161,27 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'array_number' => 'ArrayNumber'
     ];
 
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'array_number' => 'setArrayNumber'
     ];
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'array_number' => 'getArrayNumber'
     ];
 
@@ -191,9 +189,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -201,9 +199,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -211,9 +209,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -223,7 +221,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -232,9 +230,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
@@ -256,7 +254,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -268,9 +266,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -283,7 +281,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -294,7 +292,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return float[]|null
      */
-    public function getArrayNumber()
+    public function getArrayNumber(): ?array
     {
         return $this->container['array_number'];
     }
@@ -304,9 +302,9 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @param float[]|null $array_number array_number
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayNumber($array_number)
+    public function setArrayNumber(?array $array_number): static
     {
         if (is_null($array_number)) {
             throw new \InvalidArgumentException('non-nullable array_number cannot be null');
@@ -322,7 +320,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -335,7 +333,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      * @return mixed|null
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -348,7 +346,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -364,7 +362,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -377,7 +375,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -387,7 +385,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -400,7 +398,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

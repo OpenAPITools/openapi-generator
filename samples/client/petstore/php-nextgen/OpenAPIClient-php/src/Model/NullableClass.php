@@ -49,14 +49,14 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'NullableClass';
+    protected static string $openAPIModelName = 'NullableClass';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'integer_prop' => 'int',
         'number_prop' => 'float',
         'boolean_prop' => 'bool',
@@ -74,11 +74,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'integer_prop' => null,
         'number_prop' => null,
         'boolean_prop' => null,
@@ -96,7 +94,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'integer_prop' => true,
@@ -116,16 +114,16 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -133,9 +131,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -143,7 +141,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -153,7 +151,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -163,7 +161,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -196,9 +194,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'integer_prop' => 'integer_prop',
         'number_prop' => 'number_prop',
         'boolean_prop' => 'boolean_prop',
@@ -216,9 +214,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'integer_prop' => 'setIntegerProp',
         'number_prop' => 'setNumberProp',
         'boolean_prop' => 'setBooleanProp',
@@ -236,9 +234,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'integer_prop' => 'getIntegerProp',
         'number_prop' => 'getNumberProp',
         'boolean_prop' => 'getBooleanProp',
@@ -257,9 +255,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -267,9 +265,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -277,9 +275,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -289,7 +287,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -298,9 +296,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
@@ -333,7 +331,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -345,9 +343,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -360,7 +358,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -371,7 +369,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return int|null
      */
-    public function getIntegerProp()
+    public function getIntegerProp(): ?int
     {
         return $this->container['integer_prop'];
     }
@@ -381,9 +379,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param int|null $integer_prop integer_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setIntegerProp($integer_prop)
+    public function setIntegerProp(?int $integer_prop): static
     {
         if (is_null($integer_prop)) {
             array_push($this->openAPINullablesSetToNull, 'integer_prop');
@@ -405,7 +403,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return float|null
      */
-    public function getNumberProp()
+    public function getNumberProp(): ?float
     {
         return $this->container['number_prop'];
     }
@@ -415,9 +413,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param float|null $number_prop number_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setNumberProp($number_prop)
+    public function setNumberProp(?float $number_prop): static
     {
         if (is_null($number_prop)) {
             array_push($this->openAPINullablesSetToNull, 'number_prop');
@@ -439,7 +437,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool|null
      */
-    public function getBooleanProp()
+    public function getBooleanProp(): ?bool
     {
         return $this->container['boolean_prop'];
     }
@@ -449,9 +447,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param bool|null $boolean_prop boolean_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setBooleanProp($boolean_prop)
+    public function setBooleanProp(?bool $boolean_prop): static
     {
         if (is_null($boolean_prop)) {
             array_push($this->openAPINullablesSetToNull, 'boolean_prop');
@@ -473,7 +471,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getStringProp()
+    public function getStringProp(): ?string
     {
         return $this->container['string_prop'];
     }
@@ -483,9 +481,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $string_prop string_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setStringProp($string_prop)
+    public function setStringProp(?string $string_prop): static
     {
         if (is_null($string_prop)) {
             array_push($this->openAPINullablesSetToNull, 'string_prop');
@@ -507,7 +505,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return \DateTime|null
      */
-    public function getDateProp()
+    public function getDateProp(): ?\DateTime
     {
         return $this->container['date_prop'];
     }
@@ -517,9 +515,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param \DateTime|null $date_prop date_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setDateProp($date_prop)
+    public function setDateProp(?\DateTime $date_prop): static
     {
         if (is_null($date_prop)) {
             array_push($this->openAPINullablesSetToNull, 'date_prop');
@@ -541,7 +539,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return \DateTime|null
      */
-    public function getDatetimeProp()
+    public function getDatetimeProp(): ?\DateTime
     {
         return $this->container['datetime_prop'];
     }
@@ -551,9 +549,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param \DateTime|null $datetime_prop datetime_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setDatetimeProp($datetime_prop)
+    public function setDatetimeProp(?\DateTime $datetime_prop): static
     {
         if (is_null($datetime_prop)) {
             array_push($this->openAPINullablesSetToNull, 'datetime_prop');
@@ -575,7 +573,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return object[]|null
      */
-    public function getArrayNullableProp()
+    public function getArrayNullableProp(): ?array
     {
         return $this->container['array_nullable_prop'];
     }
@@ -585,9 +583,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param object[]|null $array_nullable_prop array_nullable_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayNullableProp($array_nullable_prop)
+    public function setArrayNullableProp(?array $array_nullable_prop): static
     {
         if (is_null($array_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'array_nullable_prop');
@@ -609,7 +607,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return object[]|null
      */
-    public function getArrayAndItemsNullableProp()
+    public function getArrayAndItemsNullableProp(): ?array
     {
         return $this->container['array_and_items_nullable_prop'];
     }
@@ -619,9 +617,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param object[]|null $array_and_items_nullable_prop array_and_items_nullable_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayAndItemsNullableProp($array_and_items_nullable_prop)
+    public function setArrayAndItemsNullableProp(?array $array_and_items_nullable_prop): static
     {
         if (is_null($array_and_items_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'array_and_items_nullable_prop');
@@ -643,7 +641,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return object[]|null
      */
-    public function getArrayItemsNullable()
+    public function getArrayItemsNullable(): ?array
     {
         return $this->container['array_items_nullable'];
     }
@@ -653,9 +651,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param object[]|null $array_items_nullable array_items_nullable
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayItemsNullable($array_items_nullable)
+    public function setArrayItemsNullable(?array $array_items_nullable): static
     {
         if (is_null($array_items_nullable)) {
             throw new \InvalidArgumentException('non-nullable array_items_nullable cannot be null');
@@ -670,7 +668,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,object>|null
      */
-    public function getObjectNullableProp()
+    public function getObjectNullableProp(): ?array
     {
         return $this->container['object_nullable_prop'];
     }
@@ -680,9 +678,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,object>|null $object_nullable_prop object_nullable_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setObjectNullableProp($object_nullable_prop)
+    public function setObjectNullableProp(?array $object_nullable_prop): static
     {
         if (is_null($object_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'object_nullable_prop');
@@ -704,7 +702,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,object>|null
      */
-    public function getObjectAndItemsNullableProp()
+    public function getObjectAndItemsNullableProp(): ?array
     {
         return $this->container['object_and_items_nullable_prop'];
     }
@@ -714,9 +712,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,object>|null $object_and_items_nullable_prop object_and_items_nullable_prop
      *
-     * @return self
+     * @return $this
      */
-    public function setObjectAndItemsNullableProp($object_and_items_nullable_prop)
+    public function setObjectAndItemsNullableProp(?array $object_and_items_nullable_prop): static
     {
         if (is_null($object_and_items_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'object_and_items_nullable_prop');
@@ -738,7 +736,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,object>|null
      */
-    public function getObjectItemsNullable()
+    public function getObjectItemsNullable(): ?array
     {
         return $this->container['object_items_nullable'];
     }
@@ -748,9 +746,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,object>|null $object_items_nullable object_items_nullable
      *
-     * @return self
+     * @return $this
      */
-    public function setObjectItemsNullable($object_items_nullable)
+    public function setObjectItemsNullable(?array $object_items_nullable): static
     {
         if (is_null($object_items_nullable)) {
             throw new \InvalidArgumentException('non-nullable object_items_nullable cannot be null');
@@ -766,7 +764,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -779,7 +777,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed|null
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -792,7 +790,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -808,7 +806,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -821,7 +819,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -831,7 +829,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -844,7 +842,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

@@ -18,11 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
@@ -141,6 +137,15 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     private ModelsMap postProcessModelsMap(ModelsMap objs) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
+
+            for (CodegenProperty prop : model.vars) {
+                if (prop.isArray || prop.isMap) {
+                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", "array");
+                }
+                else {
+                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", prop.dataType);
+                }
+            }
 
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
