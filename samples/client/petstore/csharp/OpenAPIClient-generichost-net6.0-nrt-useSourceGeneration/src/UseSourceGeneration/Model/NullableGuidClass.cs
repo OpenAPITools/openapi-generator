@@ -170,32 +170,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The NullableGuidClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableGuidClass))]
-    public partial class NullableGuidClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NullableGuidClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableGuidClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NullableGuidClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NullableGuidClass))]
-    public partial class NullableGuidClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NullableGuidClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableGuidClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class NullableGuidClassSerializationContext : JsonSerializerContext { }
 }

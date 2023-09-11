@@ -249,32 +249,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The PigSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Pig))]
-    public partial class PigSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PigSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PigDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Pig))]
-    public partial class PigDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PigDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class PigSerializationContext : JsonSerializerContext { }
 }

@@ -169,32 +169,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ActivitySerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Activity))]
-    public partial class ActivitySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ActivitySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivitySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ActivityDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Activity))]
-    public partial class ActivityDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ActivityDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivityDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ActivitySerializationContext : JsonSerializerContext { }
 }

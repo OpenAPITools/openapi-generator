@@ -169,32 +169,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The FooGetDefaultResponseSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FooGetDefaultResponse))]
-    public partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FooGetDefaultResponseSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FooGetDefaultResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FooGetDefaultResponseDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FooGetDefaultResponse))]
-    public partial class FooGetDefaultResponseDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FooGetDefaultResponseDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FooGetDefaultResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class FooGetDefaultResponseSerializationContext : JsonSerializerContext { }
 }

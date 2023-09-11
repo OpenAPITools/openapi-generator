@@ -193,32 +193,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The OuterEnumDefaultValueSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnumDefaultValue))]
-    public partial class OuterEnumDefaultValueSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterEnumDefaultValueSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumDefaultValueSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterEnumDefaultValueDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterEnumDefaultValue))]
-    public partial class OuterEnumDefaultValueDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterEnumDefaultValueDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumDefaultValueDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class OuterEnumDefaultValueSerializationContext : JsonSerializerContext { }
 }

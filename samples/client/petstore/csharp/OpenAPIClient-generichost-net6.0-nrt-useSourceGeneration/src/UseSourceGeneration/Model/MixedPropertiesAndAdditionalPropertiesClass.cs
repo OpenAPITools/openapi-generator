@@ -234,32 +234,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The MixedPropertiesAndAdditionalPropertiesClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
-    public partial class MixedPropertiesAndAdditionalPropertiesClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The MixedPropertiesAndAdditionalPropertiesClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MixedPropertiesAndAdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// MixedPropertiesAndAdditionalPropertiesClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
-    public partial class MixedPropertiesAndAdditionalPropertiesClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// MixedPropertiesAndAdditionalPropertiesClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MixedPropertiesAndAdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class MixedPropertiesAndAdditionalPropertiesClassSerializationContext : JsonSerializerContext { }
 }

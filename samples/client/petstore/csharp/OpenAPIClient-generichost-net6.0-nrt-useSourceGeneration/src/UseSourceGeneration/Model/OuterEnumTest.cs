@@ -263,32 +263,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The OuterEnumTestSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnumTest))]
-    public partial class OuterEnumTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterEnumTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterEnumTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterEnumTest))]
-    public partial class OuterEnumTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterEnumTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class OuterEnumTestSerializationContext : JsonSerializerContext { }
 }

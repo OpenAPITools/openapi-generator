@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ClassModelSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ClassModel))]
-    public partial class ClassModelSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ClassModelSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ClassModelSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ClassModelDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ClassModel))]
-    public partial class ClassModelDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ClassModelDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ClassModelDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ClassModelSerializationContext : JsonSerializerContext { }
 }

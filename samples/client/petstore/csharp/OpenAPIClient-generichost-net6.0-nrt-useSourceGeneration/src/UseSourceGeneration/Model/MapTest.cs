@@ -292,32 +292,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The MapTestSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(MapTest))]
-    public partial class MapTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The MapTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MapTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// MapTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(MapTest))]
-    public partial class MapTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// MapTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MapTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class MapTestSerializationContext : JsonSerializerContext { }
 }

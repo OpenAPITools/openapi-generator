@@ -143,32 +143,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ParentPetSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ParentPet))]
-    public partial class ParentPetSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ParentPetSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ParentPetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ParentPetDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ParentPet))]
-    public partial class ParentPetDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ParentPetDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ParentPetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ParentPetSerializationContext : JsonSerializerContext { }
 }

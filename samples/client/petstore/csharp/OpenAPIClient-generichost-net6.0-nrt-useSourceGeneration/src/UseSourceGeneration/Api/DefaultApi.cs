@@ -256,8 +256,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-        private FooGetDefaultResponseDeserializationContext _fooGetDefaultResponseDeserializationContext;
-        private NotificationtestGetElementsV1ResponseMPayloadDeserializationContext _notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -304,8 +302,6 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
-            FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext,
-            NotificationtestGetElementsV1ResponseMPayloadDeserializationContext notificationtestGetElementsV1ResponseMPayloadDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -313,8 +309,6 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            _fooGetDefaultResponseDeserializationContext = fooGetDefaultResponseDeserializationContext;
-            _notificationtestGetElementsV1ResponseMPayloadDeserializationContext = notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;
@@ -422,7 +416,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _fooGetDefaultResponseDeserializationContext.FooGetDefaultResponse);
+                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 
@@ -915,7 +909,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar = new ApiResponse<NotificationtestGetElementsV1ResponseMPayload>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _notificationtestGetElementsV1ResponseMPayloadDeserializationContext.NotificationtestGetElementsV1ResponseMPayload);
+                        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar = new ApiResponse<NotificationtestGetElementsV1ResponseMPayload>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestDefaultImplementation(apiResponseLocalVar);
 

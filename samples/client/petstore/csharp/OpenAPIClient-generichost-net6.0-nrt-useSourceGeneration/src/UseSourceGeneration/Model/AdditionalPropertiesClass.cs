@@ -300,32 +300,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The AdditionalPropertiesClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    public partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AdditionalPropertiesClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AdditionalPropertiesClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AdditionalPropertiesClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(AdditionalPropertiesClass))]
-    public partial class AdditionalPropertiesClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AdditionalPropertiesClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AdditionalPropertiesClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class AdditionalPropertiesClassSerializationContext : JsonSerializerContext { }
 }

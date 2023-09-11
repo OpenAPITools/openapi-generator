@@ -174,32 +174,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The DateOnlyClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DateOnlyClass))]
-    public partial class DateOnlyClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DateOnlyClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DateOnlyClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DateOnlyClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(DateOnlyClass))]
-    public partial class DateOnlyClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DateOnlyClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DateOnlyClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class DateOnlyClassSerializationContext : JsonSerializerContext { }
 }

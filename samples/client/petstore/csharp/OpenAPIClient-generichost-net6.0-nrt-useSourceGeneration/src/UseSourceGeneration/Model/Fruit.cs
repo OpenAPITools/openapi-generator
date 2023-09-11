@@ -211,32 +211,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The FruitSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Fruit))]
-    public partial class FruitSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FruitSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FruitSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FruitDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Fruit))]
-    public partial class FruitDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FruitDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FruitDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class FruitSerializationContext : JsonSerializerContext { }
 }

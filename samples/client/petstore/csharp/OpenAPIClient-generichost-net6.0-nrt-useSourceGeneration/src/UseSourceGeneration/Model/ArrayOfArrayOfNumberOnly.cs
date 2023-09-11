@@ -169,32 +169,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ArrayOfArrayOfNumberOnlySerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    public partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ArrayOfArrayOfNumberOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayOfArrayOfNumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ArrayOfArrayOfNumberOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ArrayOfArrayOfNumberOnly))]
-    public partial class ArrayOfArrayOfNumberOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ArrayOfArrayOfNumberOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayOfArrayOfNumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ArrayOfArrayOfNumberOnlySerializationContext : JsonSerializerContext { }
 }

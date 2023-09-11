@@ -139,183 +139,97 @@ namespace UseSourceGeneration.Client
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
 
-            _services.AddSingleton<ActivitySerializationContext>();
-            _services.AddSingleton<ActivityOutputElementRepresentationSerializationContext>();
-            _services.AddSingleton<AdditionalPropertiesClassSerializationContext>();
-            _services.AddSingleton<AnimalSerializationContext>();
-            _services.AddSingleton<ApiResponseSerializationContext>();
-            _services.AddSingleton<AppleSerializationContext>();
-            _services.AddSingleton<AppleReqSerializationContext>();
-            _services.AddSingleton<ArrayOfArrayOfNumberOnlySerializationContext>();
-            _services.AddSingleton<ArrayOfNumberOnlySerializationContext>();
-            _services.AddSingleton<ArrayTestSerializationContext>();
-            _services.AddSingleton<BananaSerializationContext>();
-            _services.AddSingleton<BananaReqSerializationContext>();
-            _services.AddSingleton<BasquePigSerializationContext>();
-            _services.AddSingleton<CapitalizationSerializationContext>();
-            _services.AddSingleton<CatSerializationContext>();
-            _services.AddSingleton<CategorySerializationContext>();
-            _services.AddSingleton<ChildCatSerializationContext>();
-            _services.AddSingleton<ClassModelSerializationContext>();
-            _services.AddSingleton<ComplexQuadrilateralSerializationContext>();
-            _services.AddSingleton<DanishPigSerializationContext>();
-            _services.AddSingleton<DateOnlyClassSerializationContext>();
-            _services.AddSingleton<DeprecatedObjectSerializationContext>();
-            _services.AddSingleton<DogSerializationContext>();
-            _services.AddSingleton<DrawingSerializationContext>();
-            _services.AddSingleton<EnumArraysSerializationContext>();
-            _services.AddSingleton<EnumClassSerializationContext>();
-            _services.AddSingleton<EnumTestSerializationContext>();
-            _services.AddSingleton<EquilateralTriangleSerializationContext>();
-            _services.AddSingleton<FileSerializationContext>();
-            _services.AddSingleton<FileSchemaTestClassSerializationContext>();
-            _services.AddSingleton<FooSerializationContext>();
-            _services.AddSingleton<FooGetDefaultResponseSerializationContext>();
-            _services.AddSingleton<FormatTestSerializationContext>();
-            _services.AddSingleton<FruitSerializationContext>();
-            _services.AddSingleton<FruitReqSerializationContext>();
-            _services.AddSingleton<GmFruitSerializationContext>();
-            _services.AddSingleton<GrandparentAnimalSerializationContext>();
-            _services.AddSingleton<HasOnlyReadOnlySerializationContext>();
-            _services.AddSingleton<HealthCheckResultSerializationContext>();
-            _services.AddSingleton<IsoscelesTriangleSerializationContext>();
-            _services.AddSingleton<ListSerializationContext>();
-            _services.AddSingleton<LiteralStringClassSerializationContext>();
-            _services.AddSingleton<MammalSerializationContext>();
-            _services.AddSingleton<MapTestSerializationContext>();
-            _services.AddSingleton<MixedPropertiesAndAdditionalPropertiesClassSerializationContext>();
-            _services.AddSingleton<Model200ResponseSerializationContext>();
-            _services.AddSingleton<ModelClientSerializationContext>();
-            _services.AddSingleton<NameSerializationContext>();
-            _services.AddSingleton<NotificationtestGetElementsV1ResponseMPayloadSerializationContext>();
-            _services.AddSingleton<NullableClassSerializationContext>();
-            _services.AddSingleton<NullableGuidClassSerializationContext>();
-            _services.AddSingleton<NullableShapeSerializationContext>();
-            _services.AddSingleton<NumberOnlySerializationContext>();
-            _services.AddSingleton<ObjectWithDeprecatedFieldsSerializationContext>();
-            _services.AddSingleton<OneOfStringSerializationContext>();
-            _services.AddSingleton<OrderSerializationContext>();
-            _services.AddSingleton<OuterCompositeSerializationContext>();
-            _services.AddSingleton<OuterEnumSerializationContext>();
-            _services.AddSingleton<OuterEnumDefaultValueSerializationContext>();
-            _services.AddSingleton<OuterEnumIntegerSerializationContext>();
-            _services.AddSingleton<OuterEnumIntegerDefaultValueSerializationContext>();
-            _services.AddSingleton<OuterEnumTestSerializationContext>();
-            _services.AddSingleton<ParentPetSerializationContext>();
-            _services.AddSingleton<PetSerializationContext>();
-            _services.AddSingleton<PigSerializationContext>();
-            _services.AddSingleton<PolymorphicPropertySerializationContext>();
-            _services.AddSingleton<QuadrilateralSerializationContext>();
-            _services.AddSingleton<QuadrilateralInterfaceSerializationContext>();
-            _services.AddSingleton<ReadOnlyFirstSerializationContext>();
-            _services.AddSingleton<ReturnSerializationContext>();
-            _services.AddSingleton<RolesReportsHashSerializationContext>();
-            _services.AddSingleton<RolesReportsHashRoleSerializationContext>();
-            _services.AddSingleton<ScaleneTriangleSerializationContext>();
-            _services.AddSingleton<ShapeSerializationContext>();
-            _services.AddSingleton<ShapeInterfaceSerializationContext>();
-            _services.AddSingleton<ShapeOrNullSerializationContext>();
-            _services.AddSingleton<SimpleQuadrilateralSerializationContext>();
-            _services.AddSingleton<SpecialModelNameSerializationContext>();
-            _services.AddSingleton<TagSerializationContext>();
-            _services.AddSingleton<TestCollectionEndingWithWordListSerializationContext>();
-            _services.AddSingleton<TestCollectionEndingWithWordListObjectSerializationContext>();
-            _services.AddSingleton<TriangleSerializationContext>();
-            _services.AddSingleton<TriangleInterfaceSerializationContext>();
-            _services.AddSingleton<UserSerializationContext>();
-            _services.AddSingleton<WhaleSerializationContext>();
-            _services.AddSingleton<ZebraSerializationContext>();
-            _services.AddSingleton<ZeroBasedEnumSerializationContext>();
-            _services.AddSingleton<ZeroBasedEnumClassSerializationContext>();
-
-            _services.AddSingleton<ActivityDeserializationContext>();
-            _services.AddSingleton<ActivityOutputElementRepresentationDeserializationContext>();
-            _services.AddSingleton<AdditionalPropertiesClassDeserializationContext>();
-            _services.AddSingleton<AnimalDeserializationContext>();
-            _services.AddSingleton<ApiResponseDeserializationContext>();
-            _services.AddSingleton<AppleDeserializationContext>();
-            _services.AddSingleton<AppleReqDeserializationContext>();
-            _services.AddSingleton<ArrayOfArrayOfNumberOnlyDeserializationContext>();
-            _services.AddSingleton<ArrayOfNumberOnlyDeserializationContext>();
-            _services.AddSingleton<ArrayTestDeserializationContext>();
-            _services.AddSingleton<BananaDeserializationContext>();
-            _services.AddSingleton<BananaReqDeserializationContext>();
-            _services.AddSingleton<BasquePigDeserializationContext>();
-            _services.AddSingleton<CapitalizationDeserializationContext>();
-            _services.AddSingleton<CatDeserializationContext>();
-            _services.AddSingleton<CategoryDeserializationContext>();
-            _services.AddSingleton<ChildCatDeserializationContext>();
-            _services.AddSingleton<ClassModelDeserializationContext>();
-            _services.AddSingleton<ComplexQuadrilateralDeserializationContext>();
-            _services.AddSingleton<DanishPigDeserializationContext>();
-            _services.AddSingleton<DateOnlyClassDeserializationContext>();
-            _services.AddSingleton<DeprecatedObjectDeserializationContext>();
-            _services.AddSingleton<DogDeserializationContext>();
-            _services.AddSingleton<DrawingDeserializationContext>();
-            _services.AddSingleton<EnumArraysDeserializationContext>();
-            _services.AddSingleton<EnumClassDeserializationContext>();
-            _services.AddSingleton<EnumTestDeserializationContext>();
-            _services.AddSingleton<EquilateralTriangleDeserializationContext>();
-            _services.AddSingleton<FileDeserializationContext>();
-            _services.AddSingleton<FileSchemaTestClassDeserializationContext>();
-            _services.AddSingleton<FooDeserializationContext>();
-            _services.AddSingleton<FooGetDefaultResponseDeserializationContext>();
-            _services.AddSingleton<FormatTestDeserializationContext>();
-            _services.AddSingleton<FruitDeserializationContext>();
-            _services.AddSingleton<FruitReqDeserializationContext>();
-            _services.AddSingleton<GmFruitDeserializationContext>();
-            _services.AddSingleton<GrandparentAnimalDeserializationContext>();
-            _services.AddSingleton<HasOnlyReadOnlyDeserializationContext>();
-            _services.AddSingleton<HealthCheckResultDeserializationContext>();
-            _services.AddSingleton<IsoscelesTriangleDeserializationContext>();
-            _services.AddSingleton<ListDeserializationContext>();
-            _services.AddSingleton<LiteralStringClassDeserializationContext>();
-            _services.AddSingleton<MammalDeserializationContext>();
-            _services.AddSingleton<MapTestDeserializationContext>();
-            _services.AddSingleton<MixedPropertiesAndAdditionalPropertiesClassDeserializationContext>();
-            _services.AddSingleton<Model200ResponseDeserializationContext>();
-            _services.AddSingleton<ModelClientDeserializationContext>();
-            _services.AddSingleton<NameDeserializationContext>();
-            _services.AddSingleton<NotificationtestGetElementsV1ResponseMPayloadDeserializationContext>();
-            _services.AddSingleton<NullableClassDeserializationContext>();
-            _services.AddSingleton<NullableGuidClassDeserializationContext>();
-            _services.AddSingleton<NullableShapeDeserializationContext>();
-            _services.AddSingleton<NumberOnlyDeserializationContext>();
-            _services.AddSingleton<ObjectWithDeprecatedFieldsDeserializationContext>();
-            _services.AddSingleton<OneOfStringDeserializationContext>();
-            _services.AddSingleton<OrderDeserializationContext>();
-            _services.AddSingleton<OuterCompositeDeserializationContext>();
-            _services.AddSingleton<OuterEnumDeserializationContext>();
-            _services.AddSingleton<OuterEnumDefaultValueDeserializationContext>();
-            _services.AddSingleton<OuterEnumIntegerDeserializationContext>();
-            _services.AddSingleton<OuterEnumIntegerDefaultValueDeserializationContext>();
-            _services.AddSingleton<OuterEnumTestDeserializationContext>();
-            _services.AddSingleton<ParentPetDeserializationContext>();
-            _services.AddSingleton<PetDeserializationContext>();
-            _services.AddSingleton<PigDeserializationContext>();
-            _services.AddSingleton<PolymorphicPropertyDeserializationContext>();
-            _services.AddSingleton<QuadrilateralDeserializationContext>();
-            _services.AddSingleton<QuadrilateralInterfaceDeserializationContext>();
-            _services.AddSingleton<ReadOnlyFirstDeserializationContext>();
-            _services.AddSingleton<ReturnDeserializationContext>();
-            _services.AddSingleton<RolesReportsHashDeserializationContext>();
-            _services.AddSingleton<RolesReportsHashRoleDeserializationContext>();
-            _services.AddSingleton<ScaleneTriangleDeserializationContext>();
-            _services.AddSingleton<ShapeDeserializationContext>();
-            _services.AddSingleton<ShapeInterfaceDeserializationContext>();
-            _services.AddSingleton<ShapeOrNullDeserializationContext>();
-            _services.AddSingleton<SimpleQuadrilateralDeserializationContext>();
-            _services.AddSingleton<SpecialModelNameDeserializationContext>();
-            _services.AddSingleton<TagDeserializationContext>();
-            _services.AddSingleton<TestCollectionEndingWithWordListDeserializationContext>();
-            _services.AddSingleton<TestCollectionEndingWithWordListObjectDeserializationContext>();
-            _services.AddSingleton<TriangleDeserializationContext>();
-            _services.AddSingleton<TriangleInterfaceDeserializationContext>();
-            _services.AddSingleton<UserDeserializationContext>();
-            _services.AddSingleton<WhaleDeserializationContext>();
-            _services.AddSingleton<ZebraDeserializationContext>();
-            _services.AddSingleton<ZeroBasedEnumDeserializationContext>();
-            _services.AddSingleton<ZeroBasedEnumClassDeserializationContext>();
+            _jsonOptions.TypeInfoResolver = System.Text.Json.Serialization.Metadata.JsonTypeInfoResolver.Combine(
+                new ActivitySerializationContext(),
+                new ActivityOutputElementRepresentationSerializationContext(),
+                new AdditionalPropertiesClassSerializationContext(),
+                new AnimalSerializationContext(),
+                new ApiResponseSerializationContext(),
+                new AppleSerializationContext(),
+                new AppleReqSerializationContext(),
+                new ArrayOfArrayOfNumberOnlySerializationContext(),
+                new ArrayOfNumberOnlySerializationContext(),
+                new ArrayTestSerializationContext(),
+                new BananaSerializationContext(),
+                new BananaReqSerializationContext(),
+                new BasquePigSerializationContext(),
+                new CapitalizationSerializationContext(),
+                new CatSerializationContext(),
+                new CategorySerializationContext(),
+                new ChildCatSerializationContext(),
+                new ClassModelSerializationContext(),
+                new ComplexQuadrilateralSerializationContext(),
+                new DanishPigSerializationContext(),
+                new DateOnlyClassSerializationContext(),
+                new DeprecatedObjectSerializationContext(),
+                new DogSerializationContext(),
+                new DrawingSerializationContext(),
+                new EnumArraysSerializationContext(),
+                new EnumClassSerializationContext(),
+                new EnumTestSerializationContext(),
+                new EquilateralTriangleSerializationContext(),
+                new FileSerializationContext(),
+                new FileSchemaTestClassSerializationContext(),
+                new FooSerializationContext(),
+                new FooGetDefaultResponseSerializationContext(),
+                new FormatTestSerializationContext(),
+                new FruitSerializationContext(),
+                new FruitReqSerializationContext(),
+                new GmFruitSerializationContext(),
+                new GrandparentAnimalSerializationContext(),
+                new HasOnlyReadOnlySerializationContext(),
+                new HealthCheckResultSerializationContext(),
+                new IsoscelesTriangleSerializationContext(),
+                new ListSerializationContext(),
+                new LiteralStringClassSerializationContext(),
+                new MammalSerializationContext(),
+                new MapTestSerializationContext(),
+                new MixedPropertiesAndAdditionalPropertiesClassSerializationContext(),
+                new Model200ResponseSerializationContext(),
+                new ModelClientSerializationContext(),
+                new NameSerializationContext(),
+                new NotificationtestGetElementsV1ResponseMPayloadSerializationContext(),
+                new NullableClassSerializationContext(),
+                new NullableGuidClassSerializationContext(),
+                new NullableShapeSerializationContext(),
+                new NumberOnlySerializationContext(),
+                new ObjectWithDeprecatedFieldsSerializationContext(),
+                new OneOfStringSerializationContext(),
+                new OrderSerializationContext(),
+                new OuterCompositeSerializationContext(),
+                new OuterEnumSerializationContext(),
+                new OuterEnumDefaultValueSerializationContext(),
+                new OuterEnumIntegerSerializationContext(),
+                new OuterEnumIntegerDefaultValueSerializationContext(),
+                new OuterEnumTestSerializationContext(),
+                new ParentPetSerializationContext(),
+                new PetSerializationContext(),
+                new PigSerializationContext(),
+                new PolymorphicPropertySerializationContext(),
+                new QuadrilateralSerializationContext(),
+                new QuadrilateralInterfaceSerializationContext(),
+                new ReadOnlyFirstSerializationContext(),
+                new ReturnSerializationContext(),
+                new RolesReportsHashSerializationContext(),
+                new RolesReportsHashRoleSerializationContext(),
+                new ScaleneTriangleSerializationContext(),
+                new ShapeSerializationContext(),
+                new ShapeInterfaceSerializationContext(),
+                new ShapeOrNullSerializationContext(),
+                new SimpleQuadrilateralSerializationContext(),
+                new SpecialModelNameSerializationContext(),
+                new TagSerializationContext(),
+                new TestCollectionEndingWithWordListSerializationContext(),
+                new TestCollectionEndingWithWordListObjectSerializationContext(),
+                new TriangleSerializationContext(),
+                new TriangleInterfaceSerializationContext(),
+                new UserSerializationContext(),
+                new WhaleSerializationContext(),
+                new ZebraSerializationContext(),
+                new ZeroBasedEnumSerializationContext(),
+                new ZeroBasedEnumClassSerializationContext(),
+                new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver()
+            );
 
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
