@@ -18,7 +18,6 @@ import warnings
 
 from pydantic import validate_arguments, ValidationError
 
-from typing_extensions import Annotated
 from datetime import date, datetime
 
 from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, conbytes, confloat, conint, conlist, constr, validator

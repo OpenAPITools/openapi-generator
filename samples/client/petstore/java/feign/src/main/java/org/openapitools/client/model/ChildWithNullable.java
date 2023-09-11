@@ -74,17 +74,6 @@ public class ChildWithNullable extends ParentWithNullable {
     this.otherProperty = otherProperty;
   }
 
-  @Override
-  public ChildWithNullable type(TypeEnum type) {
-    this.setType(type);
-    return this;
-  }
-
-  @Override
-  public ChildWithNullable nullableProperty(String nullableProperty) {
-    this.setNullableProperty(nullableProperty);
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {

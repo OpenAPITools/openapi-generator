@@ -50,12 +50,12 @@ public class ChildWithNullable extends ParentWithNullable {
 
 
   public ChildWithNullable type(TypeEnum type) {
-    super.setType(type);
+    super.type(type);
     return this;
   }
 
   public ChildWithNullable nullableProperty(String nullableProperty) {
-    super.setNullableProperty(nullableProperty);
+    super.nullableProperty(nullableProperty);
     return this;
   }
   @Override

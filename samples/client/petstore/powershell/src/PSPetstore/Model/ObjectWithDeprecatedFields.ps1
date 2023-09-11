@@ -22,7 +22,7 @@ No description available.
 No description available.
 .PARAMETER Bars
 No description available.
-.PARAMETER SomethingElse
+.PARAMETER NameMapping
 No description available.
 .OUTPUTS
 
@@ -46,7 +46,7 @@ function Initialize-PSObjectWithDeprecatedFields {
         ${Bars},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${SomethingElse}
+        ${NameMapping}
     )
 
     Process {
@@ -59,7 +59,7 @@ function Initialize-PSObjectWithDeprecatedFields {
             "id" = ${Id}
             "deprecatedRef" = ${DeprecatedRef}
             "bars" = ${Bars}
-            "name_mapping" = ${SomethingElse}
+            "name_mapping" = ${NameMapping}
         }
 
 
@@ -129,9 +129,9 @@ function ConvertFrom-PSJsonToObjectWithDeprecatedFields {
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "name_mapping"))) { #optional property not found
-            $SomethingElse = $null
+            $NameMapping = $null
         } else {
-            $SomethingElse = $JsonParameters.PSobject.Properties["name_mapping"].value
+            $NameMapping = $JsonParameters.PSobject.Properties["name_mapping"].value
         }
 
         $PSO = [PSCustomObject]@{
@@ -139,7 +139,7 @@ function ConvertFrom-PSJsonToObjectWithDeprecatedFields {
             "id" = ${Id}
             "deprecatedRef" = ${DeprecatedRef}
             "bars" = ${Bars}
-            "name_mapping" = ${SomethingElse}
+            "name_mapping" = ${NameMapping}
         }
 
         return $PSO

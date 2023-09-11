@@ -74,7 +74,7 @@ public class ParentWithNullableDto {
 
   private TypeEnum type;
 
-  private JsonNullable<String> nullableProperty = JsonNullable.undefined();
+  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullableDto type(TypeEnum type) {
     this.type = type;

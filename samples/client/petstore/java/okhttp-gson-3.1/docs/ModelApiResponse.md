@@ -8,9 +8,9 @@ Describes the result of uploading an image resource
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**code** | **Integer** |  |  [optional] |
-|**type** | **String** |  |  [optional] |
-|**message** | **String** |  |  [optional] |
+|**code** | **Object** |  |  [optional] |
+|**type** | **Object** |  |  [optional] |
+|**message** | **Object** |  |  [optional] |
 
 
 

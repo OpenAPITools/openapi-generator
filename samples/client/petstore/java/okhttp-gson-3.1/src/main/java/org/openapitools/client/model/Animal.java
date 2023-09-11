@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,17 +54,17 @@ import org.openapitools.client.JSON;
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  protected String className;
+  protected Object className = null;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
+  private Object color = red;
 
   public Animal() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Animal className(String className) {
+  public Animal className(Object className) {
     
     this.className = className;
     return this;
@@ -73,18 +74,18 @@ public class Animal {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
-  public String getClassName() {
+  @javax.annotation.Nullable
+  public Object getClassName() {
     return className;
   }
 
 
-  public void setClassName(String className) {
+  public void setClassName(Object className) {
     this.className = className;
   }
 
 
-  public Animal color(String color) {
+  public Animal color(Object color) {
     
     this.color = color;
     return this;
@@ -95,12 +96,12 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-  public String getColor() {
+  public Object getColor() {
     return color;
   }
 
 
-  public void setColor(String color) {
+  public void setColor(Object color) {
     this.color = color;
   }
 
@@ -164,9 +165,20 @@ public class Animal {
         Objects.equals(this.additionalProperties, animal.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(className, color, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -219,19 +231,80 @@ public class Animal {
         }
       }
 
-      String discriminatorValue = jsonElement.getAsJsonObject().get("className").getAsString();
-      switch (discriminatorValue) {
-        case "Cat":
-          Cat.validateJsonElement(jsonElement);
-          break;
-        case "Dog":
-          Dog.validateJsonElement(jsonElement);
-          break;
-        default:
-          throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : Animal.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        }
       }
   }
 
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Animal.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Animal' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Animal> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Animal.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Animal>() {
+           @Override
+           public void write(JsonWriter out, Animal value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                 }
+               }
+             }
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Animal read(JsonReader in) throws IOException {
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             Animal instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
+           }
+
+       }.nullSafe();
+    }
+  }
 
  /**
   * Create an instance of Animal given an JSON string

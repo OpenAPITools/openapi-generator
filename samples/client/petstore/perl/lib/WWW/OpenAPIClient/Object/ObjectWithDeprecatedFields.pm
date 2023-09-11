@@ -30,7 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::OpenAPIClient::Object::DeprecatedModel;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -235,7 +235,7 @@ __PACKAGE__->method_documentation({
         read_only => '',
             },
     'deprecated_ref' => {
-        datatype => 'DeprecatedModel',
+        datatype => 'DeprecatedObject',
         base_name => 'deprecatedRef',
         description => '',
         format => '',
@@ -253,7 +253,7 @@ __PACKAGE__->method_documentation({
 __PACKAGE__->openapi_types( {
     'uuid' => 'string',
     'id' => 'double',
-    'deprecated_ref' => 'DeprecatedModel',
+    'deprecated_ref' => 'DeprecatedObject',
     'bars' => 'ARRAY[string]'
 } );
 

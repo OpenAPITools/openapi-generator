@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,40 +54,40 @@ import org.openapitools.client.JSON;
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Long id;
+  private Object id = null;
 
   public static final String SERIALIZED_NAME_USERNAME = "username";
   @SerializedName(SERIALIZED_NAME_USERNAME)
-  private String username;
+  private Object username = null;
 
   public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)
-  private String firstName;
+  private Object firstName = null;
 
   public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
   @SerializedName(SERIALIZED_NAME_LAST_NAME)
-  private String lastName;
+  private Object lastName = null;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
   @SerializedName(SERIALIZED_NAME_EMAIL)
-  private String email;
+  private Object email = null;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
-  private String password;
+  private Object password = null;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
   @SerializedName(SERIALIZED_NAME_PHONE)
-  private String phone;
+  private Object phone = null;
 
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
-  private Integer userStatus;
+  private Object userStatus = null;
 
   public User() {
   }
 
-  public User id(Long id) {
+  public User id(Object id) {
     
     this.id = id;
     return this;
@@ -97,17 +98,17 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-  public Long getId() {
+  public Object getId() {
     return id;
   }
 
 
-  public void setId(Long id) {
+  public void setId(Object id) {
     this.id = id;
   }
 
 
-  public User username(String username) {
+  public User username(Object username) {
     
     this.username = username;
     return this;
@@ -118,17 +119,17 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-  public String getUsername() {
+  public Object getUsername() {
     return username;
   }
 
 
-  public void setUsername(String username) {
+  public void setUsername(Object username) {
     this.username = username;
   }
 
 
-  public User firstName(String firstName) {
+  public User firstName(Object firstName) {
     
     this.firstName = firstName;
     return this;
@@ -139,17 +140,17 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  public String getFirstName() {
+  public Object getFirstName() {
     return firstName;
   }
 
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(Object firstName) {
     this.firstName = firstName;
   }
 
 
-  public User lastName(String lastName) {
+  public User lastName(Object lastName) {
     
     this.lastName = lastName;
     return this;
@@ -160,17 +161,17 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  public String getLastName() {
+  public Object getLastName() {
     return lastName;
   }
 
 
-  public void setLastName(String lastName) {
+  public void setLastName(Object lastName) {
     this.lastName = lastName;
   }
 
 
-  public User email(String email) {
+  public User email(Object email) {
     
     this.email = email;
     return this;
@@ -181,17 +182,17 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-  public String getEmail() {
+  public Object getEmail() {
     return email;
   }
 
 
-  public void setEmail(String email) {
+  public void setEmail(Object email) {
     this.email = email;
   }
 
 
-  public User password(String password) {
+  public User password(Object password) {
     
     this.password = password;
     return this;
@@ -202,17 +203,17 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-  public String getPassword() {
+  public Object getPassword() {
     return password;
   }
 
 
-  public void setPassword(String password) {
+  public void setPassword(Object password) {
     this.password = password;
   }
 
 
-  public User phone(String phone) {
+  public User phone(Object phone) {
     
     this.phone = phone;
     return this;
@@ -223,17 +224,17 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-  public String getPhone() {
+  public Object getPhone() {
     return phone;
   }
 
 
-  public void setPhone(String phone) {
+  public void setPhone(Object phone) {
     this.phone = phone;
   }
 
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(Object userStatus) {
     
     this.userStatus = userStatus;
     return this;
@@ -244,12 +245,12 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  public Integer getUserStatus() {
+  public Object getUserStatus() {
     return userStatus;
   }
 
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(Object userStatus) {
     this.userStatus = userStatus;
   }
 
@@ -319,9 +320,20 @@ public class User {
         Objects.equals(this.additionalProperties, user.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -385,24 +397,6 @@ public class User {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
-      }
-      if ((jsonObj.get("firstName") != null && !jsonObj.get("firstName").isJsonNull()) && !jsonObj.get("firstName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `firstName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("firstName").toString()));
-      }
-      if ((jsonObj.get("lastName") != null && !jsonObj.get("lastName").isJsonNull()) && !jsonObj.get("lastName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `lastName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lastName").toString()));
-      }
-      if ((jsonObj.get("email") != null && !jsonObj.get("email").isJsonNull()) && !jsonObj.get("email").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj.get("email").toString()));
-      }
-      if ((jsonObj.get("password") != null && !jsonObj.get("password").isJsonNull()) && !jsonObj.get("password").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
-      }
-      if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
-      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
