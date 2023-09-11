@@ -53,11 +53,6 @@
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
         </developer>
-        <developer>
-            <id>spacether</id>
-            <name>Justin Black</name>
-            <email>justin.a.black@gmail.com</email>
-        </developer>
     </developers>
     <issueManagement>
         <system>github</system>
