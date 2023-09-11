@@ -256,6 +256,8 @@ namespace UseSourceGeneration.Api
     public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private FooGetDefaultResponseDeserializationContext _fooGetDefaultResponseDeserializationContext;
+        private NotificationtestGetElementsV1ResponseMPayloadDeserializationContext _notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -301,7 +303,9 @@ namespace UseSourceGeneration.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,,
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
+            FooGetDefaultResponseDeserializationContext fooGetDefaultResponseDeserializationContext,
+            NotificationtestGetElementsV1ResponseMPayloadDeserializationContext notificationtestGetElementsV1ResponseMPayloadDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -309,6 +313,8 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _fooGetDefaultResponseDeserializationContext = fooGetDefaultResponseDeserializationContext;
+            _notificationtestGetElementsV1ResponseMPayloadDeserializationContext = notificationtestGetElementsV1ResponseMPayloadDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;

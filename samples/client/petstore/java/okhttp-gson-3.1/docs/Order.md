@@ -8,12 +8,12 @@ An order for a pets from the pet store
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **Object** |  |  [optional] |
-|**petId** | **Object** |  |  [optional] |
-|**quantity** | **Object** |  |  [optional] |
-|**shipDate** | **Object** |  |  [optional] |
+|**id** | **Long** |  |  [optional] |
+|**petId** | **Long** |  |  [optional] |
+|**quantity** | **Integer** |  |  [optional] |
+|**shipDate** | **OffsetDateTime** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional] |
-|**complete** | **Object** |  |  [optional] |
+|**complete** | **Boolean** |  |  [optional] |
 
 
 

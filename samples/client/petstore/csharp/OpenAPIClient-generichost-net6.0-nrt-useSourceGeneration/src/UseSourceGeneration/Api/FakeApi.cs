@@ -762,6 +762,9 @@ namespace UseSourceGeneration.Api
     public sealed partial class FakeApi : IFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private HealthCheckResultDeserializationContext _healthCheckResultDeserializationContext;
+        private OuterCompositeDeserializationContext _outerCompositeDeserializationContext;
+        private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -807,7 +810,10 @@ namespace UseSourceGeneration.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,,
+        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,
+            HealthCheckResultDeserializationContext healthCheckResultDeserializationContext,
+            OuterCompositeDeserializationContext outerCompositeDeserializationContext,
+            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -815,6 +821,9 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _healthCheckResultDeserializationContext = healthCheckResultDeserializationContext;
+            _outerCompositeDeserializationContext = outerCompositeDeserializationContext;
+            _modelClientDeserializationContext = modelClientDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeApiEvents;

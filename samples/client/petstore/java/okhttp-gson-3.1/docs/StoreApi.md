@@ -33,7 +33,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     StoreApi apiInstance = new StoreApi(defaultClient);
-    Object orderId = null; // Object | ID of the order that needs to be deleted
+    String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
     try {
       apiInstance.deleteOrder(orderId);
     } catch (ApiException e) {
@@ -51,7 +51,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **orderId** | [**Object**](.md)| ID of the order that needs to be deleted | |
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -74,7 +74,7 @@ No authorization required
 
 <a id="getInventory"></a>
 # **getInventory**
-> Map&lt;String, Object&gt; getInventory()
+> Map&lt;String, Integer&gt; getInventory()
 
 Returns pet inventories by status
 
@@ -103,7 +103,7 @@ public class Example {
 
     StoreApi apiInstance = new StoreApi(defaultClient);
     try {
-      Map<String, Object> result = apiInstance.getInventory();
+      Map<String, Integer> result = apiInstance.getInventory();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling StoreApi#getInventory");
@@ -121,7 +121,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Map&lt;String, Object&gt;**
+**Map&lt;String, Integer&gt;**
 
 ### Authorization
 
@@ -160,7 +160,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     StoreApi apiInstance = new StoreApi(defaultClient);
-    Object orderId = null; // Object | ID of pet that needs to be fetched
+    Long orderId = 56L; // Long | ID of pet that needs to be fetched
     try {
       Order result = apiInstance.getOrderById(orderId);
       System.out.println(result);
@@ -179,7 +179,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **orderId** | [**Object**](.md)| ID of pet that needs to be fetched | |
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 

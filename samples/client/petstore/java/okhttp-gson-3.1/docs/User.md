@@ -8,14 +8,14 @@ A User who is purchasing from the pet store
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **Object** |  |  [optional] |
-|**username** | **Object** |  |  [optional] |
-|**firstName** | **Object** |  |  [optional] |
-|**lastName** | **Object** |  |  [optional] |
-|**email** | **Object** |  |  [optional] |
-|**password** | **Object** |  |  [optional] |
-|**phone** | **Object** |  |  [optional] |
-|**userStatus** | **Object** | User Status |  [optional] |
+|**id** | **Long** |  |  [optional] |
+|**username** | **String** |  |  [optional] |
+|**firstName** | **String** |  |  [optional] |
+|**lastName** | **String** |  |  [optional] |
+|**email** | **String** |  |  [optional] |
+|**password** | **String** |  |  [optional] |
+|**phone** | **String** |  |  [optional] |
+|**userStatus** | **Integer** | User Status |  [optional] |
 
 
 

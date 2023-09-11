@@ -8,8 +8,8 @@ A tag for a pet
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **Object** |  |  [optional] |
-|**name** | **Object** |  |  [optional] |
+|**id** | **Long** |  |  [optional] |
+|**name** | **String** |  |  [optional] |
 
 
 

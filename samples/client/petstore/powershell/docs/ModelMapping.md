@@ -1,4 +1,4 @@
-# ModelMapping
+# NewModel
 ## Properties
 
 Name | Type | Description | Notes
@@ -9,12 +9,12 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$ModelMapping = Initialize-PSPetstoreModelMapping  -Name null
+$NewModel = Initialize-PSPetstoreNewModel  -Name null
 ```
 
 - Convert the resource to JSON
 ```powershell
-$ModelMapping | ConvertTo-JSON
+$NewModel | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

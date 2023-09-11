@@ -85,7 +85,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderCall(Object orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteOrderCall(String orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -130,7 +130,7 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteOrderValidateBeforeCall(Object orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteOrderValidateBeforeCall(String orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling deleteOrder(Async)");
@@ -152,7 +152,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteOrder(Object orderId) throws ApiException {
+    public void deleteOrder(String orderId) throws ApiException {
         deleteOrderWithHttpInfo(orderId);
     }
 
@@ -169,7 +169,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteOrderWithHttpInfo(Object orderId) throws ApiException {
+    public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -188,7 +188,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderAsync(Object orderId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteOrderAsync(String orderId, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -258,7 +258,7 @@ public class StoreApi {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return Map&lt;String, Object&gt;
+     * @return Map&lt;String, Integer&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -266,15 +266,15 @@ public class StoreApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Map<String, Object> getInventory() throws ApiException {
-        ApiResponse<Map<String, Object>> localVarResp = getInventoryWithHttpInfo();
+    public Map<String, Integer> getInventory() throws ApiException {
+        ApiResponse<Map<String, Integer>> localVarResp = getInventoryWithHttpInfo();
         return localVarResp.getData();
     }
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
+     * @return ApiResponse&lt;Map&lt;String, Integer&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -282,9 +282,9 @@ public class StoreApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Map<String, Object>> getInventoryWithHttpInfo() throws ApiException {
+    public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = getInventoryValidateBeforeCall(null);
-        Type localVarReturnType = new TypeToken<Map<String, Object>>(){}.getType();
+        Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
@@ -300,10 +300,10 @@ public class StoreApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getInventoryAsync(final ApiCallback<Map<String, Object>> _callback) throws ApiException {
+    public okhttp3.Call getInventoryAsync(final ApiCallback<Map<String, Integer>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getInventoryValidateBeforeCall(_callback);
-        Type localVarReturnType = new TypeToken<Map<String, Object>>(){}.getType();
+        Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
@@ -321,7 +321,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdCall(Object orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdCall(Long orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -368,7 +368,7 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getOrderByIdValidateBeforeCall(Object orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getOrderByIdValidateBeforeCall(Long orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
@@ -392,7 +392,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public Order getOrderById(Object orderId) throws ApiException {
+    public Order getOrderById(Long orderId) throws ApiException {
         ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId);
         return localVarResp.getData();
     }
@@ -411,7 +411,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> getOrderByIdWithHttpInfo(Object orderId) throws ApiException {
+    public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -432,7 +432,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdAsync(Object orderId, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();

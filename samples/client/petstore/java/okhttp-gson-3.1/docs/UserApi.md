@@ -84,7 +84,7 @@ null (empty response body)
 
 <a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -112,9 +112,9 @@ public class Example {
     //api_key.setApiKeyPrefix("Token");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object body = null; // Object | List of user object
+    List<User> user = Arrays.asList(); // List<User> | List of user object
     try {
-      apiInstance.createUsersWithArrayInput(body);
+      apiInstance.createUsersWithArrayInput(user);
     } catch (ApiException e) {
       System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
       System.err.println("Status code: " + e.getCode());
@@ -130,7 +130,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Object**| List of user object | |
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -152,7 +152,7 @@ null (empty response body)
 
 <a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -180,9 +180,9 @@ public class Example {
     //api_key.setApiKeyPrefix("Token");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object body = null; // Object | List of user object
+    List<User> user = Arrays.asList(); // List<User> | List of user object
     try {
-      apiInstance.createUsersWithListInput(body);
+      apiInstance.createUsersWithListInput(user);
     } catch (ApiException e) {
       System.err.println("Exception when calling UserApi#createUsersWithListInput");
       System.err.println("Status code: " + e.getCode());
@@ -198,7 +198,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Object**| List of user object | |
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -248,7 +248,7 @@ public class Example {
     //api_key.setApiKeyPrefix("Token");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object username = null; // Object | The name that needs to be deleted
+    String username = "username_example"; // String | The name that needs to be deleted
     try {
       apiInstance.deleteUser(username);
     } catch (ApiException e) {
@@ -266,7 +266,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **username** | [**Object**](.md)| The name that needs to be deleted | |
+| **username** | **String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -310,7 +310,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object username = null; // Object | The name that needs to be fetched. Use user1 for testing.
+    String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
     try {
       User result = apiInstance.getUserByName(username);
       System.out.println(result);
@@ -329,7 +329,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **username** | [**Object**](.md)| The name that needs to be fetched. Use user1 for testing. | |
+| **username** | **String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -353,7 +353,7 @@ No authorization required
 
 <a id="loginUser"></a>
 # **loginUser**
-> Object loginUser(username, password)
+> String loginUser(username, password)
 
 Logs user into the system
 
@@ -374,10 +374,10 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object username = null; // Object | The user name for login
-    Object password = null; // Object | The password for login in clear text
+    String username = "username_example"; // String | The user name for login
+    String password = "password_example"; // String | The password for login in clear text
     try {
-      Object result = apiInstance.loginUser(username, password);
+      String result = apiInstance.loginUser(username, password);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling UserApi#loginUser");
@@ -394,12 +394,12 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **username** | [**Object**](.md)| The user name for login | |
-| **password** | [**Object**](.md)| The password for login in clear text | |
+| **username** | **String**| The user name for login | |
+| **password** | **String**| The password for login in clear text | |
 
 ### Return type
 
-**Object**
+**String**
 
 ### Authorization
 
@@ -510,7 +510,7 @@ public class Example {
     //api_key.setApiKeyPrefix("Token");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    Object username = null; // Object | name that need to be deleted
+    String username = "username_example"; // String | name that need to be deleted
     User user = new User(); // User | Updated user object
     try {
       apiInstance.updateUser(username, user);
@@ -529,7 +529,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **username** | [**Object**](.md)| name that need to be deleted | |
+| **username** | **String**| name that need to be deleted | |
 | **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type

@@ -98,6 +98,8 @@ paths:
             - available
             - pending
             - sold
+            type: string
+          type: array
         style: form
       responses:
         "200":
@@ -106,10 +108,12 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
+                type: array
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
+                type: array
           description: successful operation
         "400":
           description: Invalid status value
@@ -133,7 +137,9 @@ paths:
         name: tags
         required: true
         schema:
-          items: {}
+          items:
+            type: string
+          type: array
         style: form
       responses:
         "200":
@@ -142,10 +148,12 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
+                type: array
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
+                type: array
           description: successful operation
         "400":
           description: Invalid tag value
@@ -165,7 +173,8 @@ paths:
         in: header
         name: api_key
         required: false
-        schema: {}
+        schema:
+          type: string
         style: simple
       - description: Pet id to delete
         explode: false
@@ -174,6 +183,7 @@ paths:
         required: true
         schema:
           format: int64
+          type: integer
         style: simple
       responses:
         "400":
@@ -197,6 +207,7 @@ paths:
         required: true
         schema:
           format: int64
+          type: integer
         style: simple
       responses:
         "200":
@@ -229,6 +240,7 @@ paths:
         required: true
         schema:
           format: int64
+          type: integer
         style: simple
       requestBody:
         content:
@@ -259,6 +271,7 @@ paths:
         required: true
         schema:
           format: int64
+          type: integer
         style: simple
       requestBody:
         content:
@@ -292,6 +305,7 @@ paths:
               schema:
                 additionalProperties:
                   format: int32
+                  type: integer
           description: successful operation
       security:
       - api_key: []
@@ -338,7 +352,8 @@ paths:
         in: path
         name: orderId
         required: true
-        schema: {}
+        schema:
+          type: string
         style: simple
       responses:
         "400":
@@ -363,6 +378,7 @@ paths:
           format: int64
           maximum: 5
           minimum: 1
+          type: integer
         style: simple
       responses:
         "200":
@@ -447,21 +463,25 @@ paths:
         required: true
         schema:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          type: string
         style: form
       - description: The password for login in clear text
         explode: true
         in: query
         name: password
         required: true
-        schema: {}
+        schema:
+          type: string
         style: form
       responses:
         "200":
           content:
             application/xml:
-              schema: {}
+              schema:
+                type: string
             application/json:
-              schema: {}
+              schema:
+                type: string
           description: successful operation
           headers:
             Set-Cookie:
@@ -470,18 +490,21 @@ paths:
               explode: false
               schema:
                 example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
               style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false
               schema:
                 format: int32
+                type: integer
               style: simple
             X-Expires-After:
               description: date in UTC when token expires
               explode: false
               schema:
                 format: date-time
+                type: string
               style: simple
         "400":
           description: Invalid username/password supplied
@@ -512,7 +535,8 @@ paths:
         in: path
         name: username
         required: true
-        schema: {}
+        schema:
+          type: string
         style: simple
       responses:
         "400":
@@ -534,7 +558,8 @@ paths:
         in: path
         name: username
         required: true
-        schema: {}
+        schema:
+          type: string
         style: simple
       responses:
         "200":
@@ -563,7 +588,8 @@ paths:
         in: path
         name: username
         required: true
-        schema: {}
+        schema:
+          type: string
         style: simple
       requestBody:
         content:
@@ -592,6 +618,7 @@ components:
           schema:
             items:
               $ref: '#/components/schemas/User'
+            type: array
       description: List of user object
       required: true
     Pet:
@@ -608,106 +635,138 @@ components:
     Order:
       description: An order for a pets from the pet store
       example:
-        petId: ""
-        quantity: ""
-        id: ""
-        shipDate: ""
-        complete: ""
-        status: ""
+        petId: 6
+        quantity: 1
+        id: 0
+        shipDate: 2000-01-23T04:56:07.000+00:00
+        complete: false
+        status: placed
       properties:
         id:
           format: int64
+          type: integer
         petId:
           format: int64
+          type: integer
         quantity:
           format: int32
+          type: integer
         shipDate:
           format: date-time
+          type: string
         status:
           description: Order Status
           enum:
           - placed
           - approved
           - delivered
+          type: string
         complete:
           default: false
+          type: boolean
       title: Pet Order
       xml:
         name: Order
     Category:
       description: A category for a pet
       example:
-        name: ""
-        id: ""
+        name: name
+        id: 6
       properties:
         id:
           format: int64
+          type: integer
         name:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          type: string
       title: Pet category
       xml:
         name: Category
     User:
       description: A User who is purchasing from the pet store
       example:
-        firstName: ""
-        lastName: ""
-        password: ""
-        userStatus: ""
-        phone: ""
-        id: ""
-        email: ""
-        username: ""
+        firstName: firstName
+        lastName: lastName
+        password: password
+        userStatus: 6
+        phone: phone
+        id: 0
+        email: email
+        username: username
       properties:
         id:
           format: int64
-        username: {}
-        firstName: {}
-        lastName: {}
-        email: {}
-        password: {}
-        phone: {}
+          type: integer
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
         userStatus:
           description: User Status
           format: int32
+          type: integer
       title: a User
       xml:
         name: User
     Tag:
       description: A tag for a pet
+      example:
+        name: name
+        id: 1
       properties:
         id:
           format: int64
-        name: {}
+          type: integer
+        name:
+          type: string
       title: Pet Tag
       xml:
         name: Tag
     Pet:
       description: A pet for sale in the pet store
       example:
-        photoUrls: ""
+        photoUrls:
+        - photoUrls
+        - photoUrls
         name: doggie
-        id: ""
+        id: 0
         category:
-          name: ""
-          id: ""
-        tags: ""
-        status: ""
+          name: name
+          id: 6
+        tags:
+        - name: name
+          id: 1
+        - name: name
+          id: 1
+        status: available
       properties:
         id:
           format: int64
+          type: integer
         category:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
+          type: string
         photoUrls:
-          items: {}
+          items:
+            type: string
+          type: array
           xml:
             name: photoUrl
             wrapped: true
         tags:
           items:
             $ref: '#/components/schemas/Tag'
+          type: array
           xml:
             name: tag
             wrapped: true
@@ -718,6 +777,7 @@ components:
           - available
           - pending
           - sold
+          type: string
       required:
       - name
       - photoUrls
@@ -727,53 +787,69 @@ components:
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:
-        code: ""
-        type: ""
-        message: ""
+        code: 0
+        type: type
+        message: message
       properties:
         code:
           format: int32
-        type: {}
-        message: {}
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
       title: An uploaded response
     StringOrInt:
+      anyOf:
+      - type: string
+      - format: int32
+        type: integer
       description: string or int
     OneOfStringOrInt:
       description: string or int (onefOf)
-      nullable: true
-      oneOf: []
+      oneOf:
+      - type: string
+      - type: integer
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - properties:
-          breed: {}
+          breed:
+            type: string
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - properties:
-          declawed: {}
+          declawed:
+            type: boolean
     Animal:
       discriminator:
         propertyName: className
       properties:
-        className: {}
+        className:
+          type: string
         color:
           default: red
+          type: string
       required:
       - className
     updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
+          type: string
         status:
           description: Updated status of the pet
+          type: string
     uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
+          type: string
         file:
           description: file to upload
           format: binary
+          type: string
   securitySchemes:
     petstore_auth:
       flows:

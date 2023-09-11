@@ -395,6 +395,7 @@ namespace UseSourceGeneration.Api
     public sealed partial class UserApi : IUserApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private UserDeserializationContext _userDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -440,7 +441,8 @@ namespace UseSourceGeneration.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,,
+        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,
+            UserDeserializationContext userDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -448,6 +450,7 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _userDeserializationContext = userDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = userApiEvents;

@@ -21,7 +21,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,16 +53,16 @@ import org.openapitools.client.JSON;
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Object id = null;
+  private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private Object name = null;
+  private String name;
 
   public Category() {
   }
 
-  public Category id(Object id) {
+  public Category id(Long id) {
     
     this.id = id;
     return this;
@@ -74,17 +73,17 @@ public class Category {
    * @return id
   **/
   @javax.annotation.Nullable
-  public Object getId() {
+  public Long getId() {
     return id;
   }
 
 
-  public void setId(Object id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
 
-  public Category name(Object name) {
+  public Category name(String name) {
     
     this.name = name;
     return this;
@@ -95,12 +94,12 @@ public class Category {
    * @return name
   **/
   @javax.annotation.Nullable
-  public Object getName() {
+  public String getName() {
     return name;
   }
 
 
-  public void setName(Object name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -164,20 +163,9 @@ public class Category {
         Objects.equals(this.additionalProperties, category.additionalProperties);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(id, name, additionalProperties);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -229,6 +217,9 @@ public class Category {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

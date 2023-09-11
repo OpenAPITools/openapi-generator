@@ -19,6 +19,7 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 from typing import overload, Optional, Union, Awaitable
 
+from typing_extensions import Annotated
 from pydantic import Field, StrictStr, conlist
 
 from petstore_api.models.user import User

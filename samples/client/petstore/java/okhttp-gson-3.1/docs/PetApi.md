@@ -110,8 +110,8 @@ public class Example {
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object petId = null; // Object | Pet id to delete
-    Object apiKey = null; // Object | 
+    Long petId = 56L; // Long | Pet id to delete
+    String apiKey = "apiKey_example"; // String | 
     try {
       apiInstance.deletePet(petId, apiKey);
     } catch (ApiException e) {
@@ -129,8 +129,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **petId** | [**Object**](.md)| Pet id to delete | |
-| **apiKey** | [**Object**](.md)|  | [optional] |
+| **petId** | **Long**| Pet id to delete | |
+| **apiKey** | **String**|  | [optional] |
 
 ### Return type
 
@@ -152,7 +152,7 @@ null (empty response body)
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> Object findPetsByStatus(status)
+> List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -178,9 +178,9 @@ public class Example {
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object status = null; // Object | Status values that need to be considered for filter
+    List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
     try {
-      Object result = apiInstance.findPetsByStatus(status);
+      List<Pet> result = apiInstance.findPetsByStatus(status);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#findPetsByStatus");
@@ -197,11 +197,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **status** | [**Object**](.md)| Status values that need to be considered for filter | |
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
-**Object**
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -220,7 +220,7 @@ public class Example {
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> Object findPetsByTags(tags)
+> List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -246,9 +246,9 @@ public class Example {
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object tags = null; // Object | Tags to filter by
+    List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
     try {
-      Object result = apiInstance.findPetsByTags(tags);
+      List<Pet> result = apiInstance.findPetsByTags(tags);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -265,11 +265,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **tags** | [**Object**](.md)| Tags to filter by | |
+| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-**Object**
+[**List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -316,7 +316,7 @@ public class Example {
     //api_key.setApiKeyPrefix("Token");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object petId = null; // Object | ID of pet to return
+    Long petId = 56L; // Long | ID of pet to return
     try {
       Pet result = apiInstance.getPetById(petId);
       System.out.println(result);
@@ -335,7 +335,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **petId** | [**Object**](.md)| ID of pet to return | |
+| **petId** | **Long**| ID of pet to return | |
 
 ### Return type
 
@@ -455,9 +455,9 @@ public class Example {
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object petId = null; // Object | ID of pet that needs to be updated
-    Object name = null; // Object | Updated name of the pet
-    Object status = null; // Object | Updated status of the pet
+    Long petId = 56L; // Long | ID of pet that needs to be updated
+    String name = "name_example"; // String | Updated name of the pet
+    String status = "status_example"; // String | Updated status of the pet
     try {
       apiInstance.updatePetWithForm(petId, name, status);
     } catch (ApiException e) {
@@ -475,9 +475,9 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **petId** | [**Object**](.md)| ID of pet that needs to be updated | |
-| **name** | [**Object**](Object.md)| Updated name of the pet | [optional] |
-| **status** | [**Object**](Object.md)| Updated status of the pet | [optional] |
+| **petId** | **Long**| ID of pet that needs to be updated | |
+| **name** | **String**| Updated name of the pet | [optional] |
+| **status** | **String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -525,9 +525,9 @@ public class Example {
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Object petId = null; // Object | ID of pet to update
-    Object additionalMetadata = null; // Object | Additional data to pass to server
-    Object _file = null; // Object | file to upload
+    Long petId = 56L; // Long | ID of pet to update
+    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+    File _file = new File("/path/to/file"); // File | file to upload
     try {
       ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
       System.out.println(result);
@@ -546,9 +546,9 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **petId** | [**Object**](.md)| ID of pet to update | |
-| **additionalMetadata** | [**Object**](Object.md)| Additional data to pass to server | [optional] |
-| **_file** | [**Object**](Object.md)| file to upload | [optional] |
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
 
 ### Return type
 

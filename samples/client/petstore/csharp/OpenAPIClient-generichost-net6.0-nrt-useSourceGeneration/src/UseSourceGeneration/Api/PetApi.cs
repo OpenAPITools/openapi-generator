@@ -450,6 +450,8 @@ namespace UseSourceGeneration.Api
     public sealed partial class PetApi : IPetApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+        private PetDeserializationContext _petDeserializationContext;
+        private ApiResponseDeserializationContext _apiResponseDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -495,7 +497,9 @@ namespace UseSourceGeneration.Api
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetApiEvents petApiEvents,,
+        public PetApi(ILogger<PetApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetApiEvents petApiEvents,
+            PetDeserializationContext petDeserializationContext,
+            ApiResponseDeserializationContext apiResponseDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -503,6 +507,8 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
+            _petDeserializationContext = petDeserializationContext;
+            _apiResponseDeserializationContext = apiResponseDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = petApiEvents;

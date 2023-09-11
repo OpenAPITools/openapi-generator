@@ -20,9 +20,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.openapitools.client.model.Category;
-import org.openapitools.jackson.nullable.JsonNullable;
+import org.openapitools.client.model.Tag;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,7 +57,7 @@ import org.openapitools.client.JSON;
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Object id = null;
+  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
@@ -63,15 +65,15 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private Object name = null;
+  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private Object photoUrls = null;
+  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private Object tags = null;
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -84,13 +86,13 @@ public class Pet {
     
     SOLD("sold");
 
-    private Object value;
+    private String value;
 
-    StatusEnum(Object value) {
+    StatusEnum(String value) {
       this.value = value;
     }
 
-    public Object getValue() {
+    public String getValue() {
       return value;
     }
 
@@ -99,13 +101,13 @@ public class Pet {
       return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(Object value) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -116,7 +118,7 @@ public class Pet {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        Object value =  jsonReader.nextObject();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
@@ -125,12 +127,12 @@ public class Pet {
   public static final String SERIALIZED_NAME_STATUS = "status";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet() {
   }
 
-  public Pet id(Object id) {
+  public Pet id(Long id) {
     
     this.id = id;
     return this;
@@ -141,12 +143,12 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-  public Object getId() {
+  public Long getId() {
     return id;
   }
 
 
-  public void setId(Object id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -172,7 +174,7 @@ public class Pet {
   }
 
 
-  public Pet name(Object name) {
+  public Pet name(String name) {
     
     this.name = name;
     return this;
@@ -182,20 +184,28 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
-  public Object getName() {
+  @javax.annotation.Nonnull
+  public String getName() {
     return name;
   }
 
 
-  public void setName(Object name) {
+  public void setName(String name) {
     this.name = name;
   }
 
 
-  public Pet photoUrls(Object photoUrls) {
+  public Pet photoUrls(List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
+    return this;
+  }
+
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
+    this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
@@ -203,20 +213,28 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nullable
-  public Object getPhotoUrls() {
+  @javax.annotation.Nonnull
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
-  public void setPhotoUrls(Object photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public Pet tags(Object tags) {
+  public Pet tags(List<Tag> tags) {
     
     this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
+    this.tags.add(tagsItem);
     return this;
   }
 
@@ -225,12 +243,12 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
-  public Object getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
 
-  public void setTags(Object tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -323,20 +341,9 @@ public class Pet {
         Objects.equals(this.additionalProperties, pet.additionalProperties);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status, additionalProperties);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -408,6 +415,32 @@ public class Pet {
       // validate the optional field `category`
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
         Category.validateJsonElement(jsonObj.get("category"));
+      }
+      if (!jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      // ensure the required json array is present
+      if (jsonObj.get("photoUrls") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
+      }
+      if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
+        JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
+        if (jsonArraytags != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("tags").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+          }
+
+          // validate the optional field `tags` (array)
+          for (int i = 0; i < jsonArraytags.size(); i++) {
+            Tag.validateJsonElement(jsonArraytags.get(i));
+          };
+        }
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
   }
 
