@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -80,7 +82,7 @@ class FakeClassnameTags123Api
      * @param ClientInterface|null $client
      * @param Configuration|null   $config
      * @param HeaderSelector|null  $selector
-     * @param int|null             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -130,8 +132,8 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
     public function testClassname(
@@ -151,8 +153,8 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
     public function testClassnameWithHttpInfo(
@@ -254,13 +256,13 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function testClassnameAsync(
         \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['testClassname'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->testClassnameAsyncWithHttpInfo($client, $contentType)
             ->then(
@@ -278,13 +280,13 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function testClassnameAsyncWithHttpInfo(
         $client,
         string $contentType = self::contentTypes['testClassname'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClassnameRequest($client, $contentType);
@@ -331,7 +333,7 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testClassnameRequest(
@@ -342,7 +344,7 @@ class FakeClassnameTags123Api
 
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $client when calling testClassname'
             );
         }

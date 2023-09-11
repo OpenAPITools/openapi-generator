@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * AllOfWithSingleRef Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializable
+class AllOfWithSingleRef implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -243,8 +246,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -314,7 +316,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     public function setUsername(?string $username): static
     {
         if (is_null($username)) {
-            throw new \InvalidArgumentException('non-nullable username cannot be null');
+            throw new InvalidArgumentException('non-nullable username cannot be null');
         }
         $this->container['username'] = $username;
 
@@ -341,7 +343,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     public function setSingleRefType(?\OpenAPI\Client\Model\SingleRefType $single_ref_type): static
     {
         if (is_null($single_ref_type)) {
-            throw new \InvalidArgumentException('non-nullable single_ref_type cannot be null');
+            throw new InvalidArgumentException('non-nullable single_ref_type cannot be null');
         }
         $this->container['single_ref_type'] = $single_ref_type;
 
@@ -366,7 +368,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -408,7 +410,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

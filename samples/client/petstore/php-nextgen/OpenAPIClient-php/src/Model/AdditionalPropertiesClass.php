@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * AdditionalPropertiesClass Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSerializable
+class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -243,8 +246,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -314,7 +316,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     public function setMapProperty(?array $map_property): static
     {
         if (is_null($map_property)) {
-            throw new \InvalidArgumentException('non-nullable map_property cannot be null');
+            throw new InvalidArgumentException('non-nullable map_property cannot be null');
         }
         $this->container['map_property'] = $map_property;
 
@@ -341,7 +343,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     public function setMapOfMapProperty(?array $map_of_map_property): static
     {
         if (is_null($map_of_map_property)) {
-            throw new \InvalidArgumentException('non-nullable map_of_map_property cannot be null');
+            throw new InvalidArgumentException('non-nullable map_of_map_property cannot be null');
         }
         $this->container['map_of_map_property'] = $map_of_map_property;
 
@@ -366,7 +368,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -408,7 +410,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

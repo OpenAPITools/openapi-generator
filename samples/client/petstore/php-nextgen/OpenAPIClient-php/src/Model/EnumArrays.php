@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * EnumArrays Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
+class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -273,8 +276,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -353,11 +355,11 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setJustSymbol(?string $just_symbol): static
     {
         if (is_null($just_symbol)) {
-            throw new \InvalidArgumentException('non-nullable just_symbol cannot be null');
+            throw new InvalidArgumentException('non-nullable just_symbol cannot be null');
         }
         $allowedValues = $this->getJustSymbolAllowableValues();
         if (!in_array($just_symbol, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'just_symbol', must be one of '%s'",
                     $just_symbol,
@@ -390,11 +392,11 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setArrayEnum(?array $array_enum): static
     {
         if (is_null($array_enum)) {
-            throw new \InvalidArgumentException('non-nullable array_enum cannot be null');
+            throw new InvalidArgumentException('non-nullable array_enum cannot be null');
         }
         $allowedValues = $this->getArrayEnumAllowableValues();
         if (array_diff($array_enum, $allowedValues)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'array_enum', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -424,7 +426,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -466,7 +468,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

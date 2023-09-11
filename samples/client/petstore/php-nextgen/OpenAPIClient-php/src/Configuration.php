@@ -27,6 +27,8 @@
 
 namespace OpenAPI\Client;
 
+use InvalidArgumentException;
+
 /**
  * Configuration Class Doc Comment
  *
@@ -41,7 +43,7 @@ class Configuration
     public const BOOLEAN_FORMAT_STRING = 'string';
 
     /**
-     * @var Configuration
+     * @var Configuration|null
      */
     private static ?Configuration $defaultConfiguration = null;
 
@@ -164,7 +166,7 @@ class Configuration
      *
      * @return $this
      */
-    public function setApiKeyPrefix(string $apiKeyIdentifier, string $prefix)
+    public function setApiKeyPrefix(string $apiKeyIdentifier, string $prefix): static
     {
         $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
         return $this;
@@ -208,7 +210,7 @@ class Configuration
     /**
      * Sets boolean format for query string.
      *
-     * @param string $booleanFormatForQueryString Boolean format for query string
+     * @param string $booleanFormat Boolean format for query string
      *
      * @return $this
      */
@@ -303,15 +305,11 @@ class Configuration
      *
      * @param string $userAgent the user agent of the api client
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return $this
      */
     public function setUserAgent(string $userAgent): static
     {
-        if (!is_string($userAgent)) {
-            throw new \InvalidArgumentException('User-agent must be a string.');
-        }
-
         $this->userAgent = $userAgent;
         return $this;
     }
@@ -416,7 +414,7 @@ class Configuration
      *
      * @return void
      */
-    public static function setDefaultConfiguration(Configuration $config)
+    public static function setDefaultConfiguration(Configuration $config): void
     {
         self::$defaultConfiguration = $config;
     }
@@ -517,7 +515,7 @@ class Configuration
     /**
     * Returns URL based on host settings, index and variables
     *
-    * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
+    * @param array      $hostsSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
     * @param int        $hostIndex    index of the host settings
     * @param array|null $variables    hash of variable and the corresponding value (optional)
     * @return string URL based on host settings
@@ -530,7 +528,7 @@ class Configuration
 
         // check array index out of bound
         if ($hostIndex < 0 || $hostIndex >= count($hostsSettings)) {
-            throw new \InvalidArgumentException("Invalid index $hostIndex when selecting the host. Must be less than ".count($hostsSettings));
+            throw new InvalidArgumentException("Invalid index $hostIndex when selecting the host. Must be less than ".count($hostsSettings));
         }
 
         $host = $hostsSettings[$hostIndex];
@@ -542,7 +540,7 @@ class Configuration
                 if (!isset($variable['enum_values']) || in_array($variables[$name], $variable["enum_values"], true)) { // check to see if the value is in the enum
                     $url = str_replace("{".$name."}", $variables[$name], $url);
                 } else {
-                    throw new \InvalidArgumentException("The variable `$name` in the host URL has invalid value ".$variables[$name].". Must be ".join(',', $variable["enum_values"]).".");
+                    throw new InvalidArgumentException("The variable `$name` in the host URL has invalid value ".$variables[$name].". Must be ".join(',', $variable["enum_values"]).".");
                 }
             } else {
                 // use default value

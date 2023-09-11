@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * Order Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class Order implements ModelInterface, ArrayAccess, \JsonSerializable
+class Order implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -284,8 +287,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -368,7 +370,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setId(?int $id): static
     {
         if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+            throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
 
@@ -395,7 +397,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPetId(?int $pet_id): static
     {
         if (is_null($pet_id)) {
-            throw new \InvalidArgumentException('non-nullable pet_id cannot be null');
+            throw new InvalidArgumentException('non-nullable pet_id cannot be null');
         }
         $this->container['pet_id'] = $pet_id;
 
@@ -422,7 +424,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setQuantity(?int $quantity): static
     {
         if (is_null($quantity)) {
-            throw new \InvalidArgumentException('non-nullable quantity cannot be null');
+            throw new InvalidArgumentException('non-nullable quantity cannot be null');
         }
         $this->container['quantity'] = $quantity;
 
@@ -449,7 +451,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setShipDate(?\DateTime $ship_date): static
     {
         if (is_null($ship_date)) {
-            throw new \InvalidArgumentException('non-nullable ship_date cannot be null');
+            throw new InvalidArgumentException('non-nullable ship_date cannot be null');
         }
         $this->container['ship_date'] = $ship_date;
 
@@ -476,11 +478,11 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setStatus(?string $status): static
     {
         if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
+            throw new InvalidArgumentException('non-nullable status cannot be null');
         }
         $allowedValues = $this->getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'status', must be one of '%s'",
                     $status,
@@ -513,7 +515,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setComplete(?bool $complete): static
     {
         if (is_null($complete)) {
-            throw new \InvalidArgumentException('non-nullable complete cannot be null');
+            throw new InvalidArgumentException('non-nullable complete cannot be null');
         }
         $this->container['complete'] = $complete;
 
@@ -538,7 +540,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -580,7 +582,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

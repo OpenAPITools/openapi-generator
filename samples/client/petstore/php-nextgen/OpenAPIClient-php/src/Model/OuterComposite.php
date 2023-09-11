@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * OuterComposite Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
+class OuterComposite implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -249,8 +252,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -321,7 +323,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMyNumber(?float $my_number): static
     {
         if (is_null($my_number)) {
-            throw new \InvalidArgumentException('non-nullable my_number cannot be null');
+            throw new InvalidArgumentException('non-nullable my_number cannot be null');
         }
         $this->container['my_number'] = $my_number;
 
@@ -348,7 +350,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMyString(?string $my_string): static
     {
         if (is_null($my_string)) {
-            throw new \InvalidArgumentException('non-nullable my_string cannot be null');
+            throw new InvalidArgumentException('non-nullable my_string cannot be null');
         }
         $this->container['my_string'] = $my_string;
 
@@ -375,7 +377,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMyBoolean(?bool $my_boolean): static
     {
         if (is_null($my_boolean)) {
-            throw new \InvalidArgumentException('non-nullable my_boolean cannot be null');
+            throw new InvalidArgumentException('non-nullable my_boolean cannot be null');
         }
         $this->container['my_boolean'] = $my_boolean;
 
@@ -400,7 +402,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -442,7 +444,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

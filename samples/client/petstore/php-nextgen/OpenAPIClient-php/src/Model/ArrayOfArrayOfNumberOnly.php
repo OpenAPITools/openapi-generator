@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * ArrayOfArrayOfNumberOnly Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializable
+class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -237,8 +240,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -307,7 +309,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
     public function setArrayArrayNumber(?array $array_array_number): static
     {
         if (is_null($array_array_number)) {
-            throw new \InvalidArgumentException('non-nullable array_array_number cannot be null');
+            throw new InvalidArgumentException('non-nullable array_array_number cannot be null');
         }
         $this->container['array_array_number'] = $array_array_number;
 
@@ -332,7 +334,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -374,7 +376,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

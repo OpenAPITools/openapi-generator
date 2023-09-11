@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * MapTest Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
+class MapTest implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -270,8 +273,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -343,7 +345,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMapMapOfString(?array $map_map_of_string): static
     {
         if (is_null($map_map_of_string)) {
-            throw new \InvalidArgumentException('non-nullable map_map_of_string cannot be null');
+            throw new InvalidArgumentException('non-nullable map_map_of_string cannot be null');
         }
         $this->container['map_map_of_string'] = $map_map_of_string;
 
@@ -370,11 +372,11 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setMapOfEnumString(?array $map_of_enum_string): static
     {
         if (is_null($map_of_enum_string)) {
-            throw new \InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
+            throw new InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
         }
         $allowedValues = $this->getMapOfEnumStringAllowableValues();
         if (array_diff($map_of_enum_string, $allowedValues)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'map_of_enum_string', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -406,7 +408,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setDirectMap(?array $direct_map): static
     {
         if (is_null($direct_map)) {
-            throw new \InvalidArgumentException('non-nullable direct_map cannot be null');
+            throw new InvalidArgumentException('non-nullable direct_map cannot be null');
         }
         $this->container['direct_map'] = $direct_map;
 
@@ -433,7 +435,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setIndirectMap(?array $indirect_map): static
     {
         if (is_null($indirect_map)) {
-            throw new \InvalidArgumentException('non-nullable indirect_map cannot be null');
+            throw new InvalidArgumentException('non-nullable indirect_map cannot be null');
         }
         $this->container['indirect_map'] = $indirect_map;
 
@@ -458,7 +460,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -500,7 +502,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

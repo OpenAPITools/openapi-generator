@@ -27,7 +27,6 @@
  */
 
 namespace OpenAPI\Client\Model;
-use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * Dog Class Doc Comment
@@ -36,7 +35,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
 class Dog extends Animal
 {
@@ -229,8 +228,7 @@ class Dog extends Animal
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -301,7 +299,7 @@ class Dog extends Animal
     public function setBreed(?string $breed): static
     {
         if (is_null($breed)) {
-            throw new \InvalidArgumentException('non-nullable breed cannot be null');
+            throw new InvalidArgumentException('non-nullable breed cannot be null');
         }
         $this->container['breed'] = $breed;
 
@@ -326,7 +324,7 @@ class Dog extends Animal
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -368,7 +366,7 @@ class Dog extends Animal
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

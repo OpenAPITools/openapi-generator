@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * Pet Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
+class Pet implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -284,8 +287,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -374,7 +376,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setId(?int $id): static
     {
         if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+            throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
 
@@ -401,7 +403,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setCategory(?\OpenAPI\Client\Model\Category $category): static
     {
         if (is_null($category)) {
-            throw new \InvalidArgumentException('non-nullable category cannot be null');
+            throw new InvalidArgumentException('non-nullable category cannot be null');
         }
         $this->container['category'] = $category;
 
@@ -428,7 +430,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setName(string $name): static
     {
         if (is_null($name)) {
-            throw new \InvalidArgumentException('non-nullable name cannot be null');
+            throw new InvalidArgumentException('non-nullable name cannot be null');
         }
         $this->container['name'] = $name;
 
@@ -455,7 +457,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPhotoUrls(array $photo_urls): static
     {
         if (is_null($photo_urls)) {
-            throw new \InvalidArgumentException('non-nullable photo_urls cannot be null');
+            throw new InvalidArgumentException('non-nullable photo_urls cannot be null');
         }
 
 
@@ -484,7 +486,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setTags(?array $tags): static
     {
         if (is_null($tags)) {
-            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+            throw new InvalidArgumentException('non-nullable tags cannot be null');
         }
         $this->container['tags'] = $tags;
 
@@ -511,11 +513,11 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setStatus(?string $status): static
     {
         if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
+            throw new InvalidArgumentException('non-nullable status cannot be null');
         }
         $allowedValues = $this->getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'status', must be one of '%s'",
                     $status,
@@ -546,7 +548,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -588,7 +590,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

@@ -27,7 +27,8 @@
 
 namespace OpenAPI\Client;
 
-use \Exception;
+use Exception;
+use stdClass;
 
 /**
  * ApiException Class Doc Comment
@@ -42,9 +43,9 @@ class ApiException extends Exception
     /**
      * The HTTP body of the server response either as Json or string.
      *
-     * @var \stdClass|string|null
+     * @var stdClass|string|null
      */
-    protected \stdClass|string|null $responseBody;
+    protected stdClass|string|null $responseBody;
 
     /**
      * The HTTP header of the server response.
@@ -66,7 +67,7 @@ class ApiException extends Exception
      * @param string                $message         Error message
      * @param int                   $code            HTTP status code
      * @param string[]|null         $responseHeaders HTTP response header
-     * @param mixed $responseBody    HTTP decoded body of the server response either as \stdClass or string
+     * @param mixed $responseBody    HTTP decoded body of the server response either as stdClass or string
      */
     public function __construct(string $message = "", int $code = 0, ?array $responseHeaders = [], mixed $responseBody = null)
     {
@@ -88,9 +89,9 @@ class ApiException extends Exception
     /**
      * Gets the HTTP body of the server response either as Json or string
      *
-     * @return \stdClass|string|null HTTP body of the server response either as \stdClass or string
+     * @return stdClass|string|null HTTP body of the server response either as \stdClass or string
      */
-    public function getResponseBody(): \stdClass|string|null
+    public function getResponseBody(): stdClass|string|null
     {
         return $this->responseBody;
     }

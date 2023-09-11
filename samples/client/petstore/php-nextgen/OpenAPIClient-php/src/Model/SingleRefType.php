@@ -27,7 +27,6 @@
  */
 
 namespace OpenAPI\Client\Model;
-use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * SingleRefType Class Doc Comment

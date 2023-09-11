@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -101,7 +103,7 @@ class UserApi
      * @param ClientInterface|null $client
      * @param Configuration|null   $config
      * @param HeaderSelector|null  $selector
-     * @param int|null             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -151,8 +153,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUser(
@@ -171,8 +173,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUserWithHttpInfo(
@@ -234,13 +236,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUserAsync(
         \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['createUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->createUserAsyncWithHttpInfo($user, $contentType)
             ->then(
@@ -258,13 +260,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUserAsyncWithHttpInfo(
         $user,
         string $contentType = self::contentTypes['createUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->createUserRequest($user, $contentType);
@@ -298,7 +300,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function createUserRequest(
@@ -309,7 +311,7 @@ class UserApi
 
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUser'
             );
         }
@@ -394,8 +396,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUsersWithArrayInput(
@@ -414,8 +416,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithArrayInputWithHttpInfo(
@@ -477,13 +479,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUsersWithArrayInputAsync(
         array $user,
         string $contentType = self::contentTypes['createUsersWithArrayInput'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->createUsersWithArrayInputAsyncWithHttpInfo($user, $contentType)
             ->then(
@@ -501,13 +503,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUsersWithArrayInputAsyncWithHttpInfo(
         $user,
         string $contentType = self::contentTypes['createUsersWithArrayInput'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->createUsersWithArrayInputRequest($user, $contentType);
@@ -541,7 +543,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function createUsersWithArrayInputRequest(
@@ -552,7 +554,7 @@ class UserApi
 
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUsersWithArrayInput'
             );
         }
@@ -637,8 +639,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUsersWithListInput(
@@ -657,8 +659,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithListInputWithHttpInfo(
@@ -720,13 +722,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUsersWithListInputAsync(
         array $user,
         string $contentType = self::contentTypes['createUsersWithListInput'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->createUsersWithListInputAsyncWithHttpInfo($user, $contentType)
             ->then(
@@ -744,13 +746,13 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createUsersWithListInputAsyncWithHttpInfo(
         $user,
         string $contentType = self::contentTypes['createUsersWithListInput'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->createUsersWithListInputRequest($user, $contentType);
@@ -784,7 +786,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function createUsersWithListInputRequest(
@@ -795,7 +797,7 @@ class UserApi
 
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUsersWithListInput'
             );
         }
@@ -880,8 +882,8 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function deleteUser(
@@ -900,8 +902,8 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteUserWithHttpInfo(
@@ -963,13 +965,13 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function deleteUserAsync(
         string $username,
         string $contentType = self::contentTypes['deleteUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->deleteUserAsyncWithHttpInfo($username, $contentType)
             ->then(
@@ -987,13 +989,13 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function deleteUserAsyncWithHttpInfo(
         $username,
         string $contentType = self::contentTypes['deleteUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->deleteUserRequest($username, $contentType);
@@ -1027,7 +1029,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function deleteUserRequest(
@@ -1038,7 +1040,7 @@ class UserApi
 
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling deleteUser'
             );
         }
@@ -1124,8 +1126,8 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\User
      */
     public function getUserByName(
@@ -1145,8 +1147,8 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserByNameWithHttpInfo(
@@ -1248,13 +1250,13 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getUserByNameAsync(
         string $username,
         string $contentType = self::contentTypes['getUserByName'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->getUserByNameAsyncWithHttpInfo($username, $contentType)
             ->then(
@@ -1272,13 +1274,13 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getUserByNameAsyncWithHttpInfo(
         $username,
         string $contentType = self::contentTypes['getUserByName'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\User';
         $request = $this->getUserByNameRequest($username, $contentType);
@@ -1325,7 +1327,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function getUserByNameRequest(
@@ -1336,7 +1338,7 @@ class UserApi
 
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling getUserByName'
             );
         }
@@ -1423,8 +1425,8 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
     public function loginUser(
@@ -1446,8 +1448,8 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function loginUserWithHttpInfo(
@@ -1551,14 +1553,14 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function loginUserAsync(
         string $username,
         string $password,
         string $contentType = self::contentTypes['loginUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->loginUserAsyncWithHttpInfo($username, $password, $contentType)
             ->then(
@@ -1577,14 +1579,14 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function loginUserAsyncWithHttpInfo(
         $username,
         $password,
         string $contentType = self::contentTypes['loginUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->loginUserRequest($username, $password, $contentType);
@@ -1632,7 +1634,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function loginUserRequest(
@@ -1644,14 +1646,14 @@ class UserApi
 
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling loginUser'
             );
         }
 
         // verify the required parameter 'password' is set
         if ($password === null || (is_array($password) && count($password) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $password when calling loginUser'
             );
         }
@@ -1746,8 +1748,8 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function logoutUser(
@@ -1764,8 +1766,8 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function logoutUserWithHttpInfo(
@@ -1825,12 +1827,12 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function logoutUserAsync(
         string $contentType = self::contentTypes['logoutUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->logoutUserAsyncWithHttpInfo($contentType)
             ->then(
@@ -1847,12 +1849,12 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function logoutUserAsyncWithHttpInfo(
         string $contentType = self::contentTypes['logoutUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->logoutUserRequest($contentType);
@@ -1885,7 +1887,7 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function logoutUserRequest(
@@ -1967,8 +1969,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
     public function updateUser(
@@ -1989,8 +1991,8 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserWithHttpInfo(
@@ -2054,14 +2056,14 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function updateUserAsync(
         string $username,
         \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['updateUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         return $this->updateUserAsyncWithHttpInfo($username, $user, $contentType)
             ->then(
@@ -2080,14 +2082,14 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
     public function updateUserAsyncWithHttpInfo(
         $username,
         $user,
         string $contentType = self::contentTypes['updateUser'][0]
-    ): \GuzzleHttp\Promise\PromiseInterface
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->updateUserRequest($username, $user, $contentType);
@@ -2122,7 +2124,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function updateUserRequest(
@@ -2134,14 +2136,14 @@ class UserApi
 
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling updateUser'
             );
         }
 
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling updateUser'
             );
         }

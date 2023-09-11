@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * FileSchemaTestClass Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializable
+class FileSchemaTestClass implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -243,8 +246,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -314,7 +316,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     public function setFile(?\OpenAPI\Client\Model\File $file): static
     {
         if (is_null($file)) {
-            throw new \InvalidArgumentException('non-nullable file cannot be null');
+            throw new InvalidArgumentException('non-nullable file cannot be null');
         }
         $this->container['file'] = $file;
 
@@ -341,7 +343,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     public function setFiles(?array $files): static
     {
         if (is_null($files)) {
-            throw new \InvalidArgumentException('non-nullable files cannot be null');
+            throw new InvalidArgumentException('non-nullable files cannot be null');
         }
         $this->container['files'] = $files;
 
@@ -366,7 +368,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -408,7 +410,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

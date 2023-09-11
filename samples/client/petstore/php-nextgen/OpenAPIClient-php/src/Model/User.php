@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * User Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class User implements ModelInterface, ArrayAccess, \JsonSerializable
+class User implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -279,8 +282,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -356,7 +358,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setId(?int $id): static
     {
         if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+            throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
 
@@ -383,7 +385,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setUsername(?string $username): static
     {
         if (is_null($username)) {
-            throw new \InvalidArgumentException('non-nullable username cannot be null');
+            throw new InvalidArgumentException('non-nullable username cannot be null');
         }
         $this->container['username'] = $username;
 
@@ -410,7 +412,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setFirstName(?string $first_name): static
     {
         if (is_null($first_name)) {
-            throw new \InvalidArgumentException('non-nullable first_name cannot be null');
+            throw new InvalidArgumentException('non-nullable first_name cannot be null');
         }
         $this->container['first_name'] = $first_name;
 
@@ -437,7 +439,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setLastName(?string $last_name): static
     {
         if (is_null($last_name)) {
-            throw new \InvalidArgumentException('non-nullable last_name cannot be null');
+            throw new InvalidArgumentException('non-nullable last_name cannot be null');
         }
         $this->container['last_name'] = $last_name;
 
@@ -464,7 +466,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setEmail(?string $email): static
     {
         if (is_null($email)) {
-            throw new \InvalidArgumentException('non-nullable email cannot be null');
+            throw new InvalidArgumentException('non-nullable email cannot be null');
         }
         $this->container['email'] = $email;
 
@@ -491,7 +493,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPassword(?string $password): static
     {
         if (is_null($password)) {
-            throw new \InvalidArgumentException('non-nullable password cannot be null');
+            throw new InvalidArgumentException('non-nullable password cannot be null');
         }
         $this->container['password'] = $password;
 
@@ -518,7 +520,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setPhone(?string $phone): static
     {
         if (is_null($phone)) {
-            throw new \InvalidArgumentException('non-nullable phone cannot be null');
+            throw new InvalidArgumentException('non-nullable phone cannot be null');
         }
         $this->container['phone'] = $phone;
 
@@ -545,7 +547,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setUserStatus(?int $user_status): static
     {
         if (is_null($user_status)) {
-            throw new \InvalidArgumentException('non-nullable user_status cannot be null');
+            throw new InvalidArgumentException('non-nullable user_status cannot be null');
         }
         $this->container['user_status'] = $user_status;
 
@@ -570,7 +572,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -612,7 +614,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);

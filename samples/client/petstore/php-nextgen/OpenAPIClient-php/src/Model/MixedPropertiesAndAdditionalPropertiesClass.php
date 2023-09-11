@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSerializable
+class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -249,8 +252,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -321,7 +323,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     public function setUuid(?string $uuid): static
     {
         if (is_null($uuid)) {
-            throw new \InvalidArgumentException('non-nullable uuid cannot be null');
+            throw new InvalidArgumentException('non-nullable uuid cannot be null');
         }
         $this->container['uuid'] = $uuid;
 
@@ -348,7 +350,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     public function setDateTime(?\DateTime $date_time): static
     {
         if (is_null($date_time)) {
-            throw new \InvalidArgumentException('non-nullable date_time cannot be null');
+            throw new InvalidArgumentException('non-nullable date_time cannot be null');
         }
         $this->container['date_time'] = $date_time;
 
@@ -375,7 +377,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     public function setMap(?array $map): static
     {
         if (is_null($map)) {
-            throw new \InvalidArgumentException('non-nullable map cannot be null');
+            throw new InvalidArgumentException('non-nullable map cannot be null');
         }
         $this->container['map'] = $map;
 
@@ -400,7 +402,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
@@ -442,7 +444,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
