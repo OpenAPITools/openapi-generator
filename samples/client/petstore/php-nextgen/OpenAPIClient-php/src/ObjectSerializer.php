@@ -88,7 +88,7 @@ class ObjectSerializer
                     $getter = $data::getters()[$property];
                     $value = $data->$getter();
                     if ($value !== null && !in_array($openAPIType, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
-                        if ($openAPIType instanceof \BackedEnum) {
+                        if (is_sublass_of($openAPIType, '\BackedEnum')) {
                             $data = $openAPIType::tryFrom($data);
                             if ($data === null) {
                                 $imploded = implode("', '", array_map(fn($case) => $case->value, $openAPIType::cases()));
@@ -495,7 +495,7 @@ class ObjectSerializer
         }
 
 
-        if ($class instanceof \BackedEnum) {
+        if (is_subclass_of($class, '\BackedEnum')) {
             $data = $class::tryFrom($data);
             if ($data === null) {
                 $imploded = implode("', '", array_map(fn($case) => $case->value, $class::cases()));
