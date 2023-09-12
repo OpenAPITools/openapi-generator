@@ -449,6 +449,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
+                .put("doublequote", new DoubleQuoteLambda())
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " ", false))
                 .put("indented_12", new IndentedLambda(12, " ", false))

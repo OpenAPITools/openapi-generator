@@ -45,13 +45,46 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     }
 
     /**
+     * enum for parameter queryDefaultEnum
+     */
+     enum class QueryDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+         @Json(name = "A") a("A"),
+         @Json(name = "B") b("B"),
+         @Json(name = "C") c("C")
+     }
+
+    /**
+     * enum for parameter headerDefaultEnum
+     */
+     enum class HeaderDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+         @Json(name = "A") a("A"),
+         @Json(name = "B") b("B"),
+         @Json(name = "C") c("C")
+     }
+
+    /**
+     * enum for parameter cookieDefaultEnum
+     */
+     enum class CookieDefaultEnumFindPetsByStatus(val value: kotlin.String) {
+         @Json(name = "A") a("A"),
+         @Json(name = "B") b("B"),
+         @Json(name = "C") c("C")
+     }
+
+    /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
+     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
+     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
+     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
@@ -64,8 +97,8 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", headerDefault: kotlin.String? = "available", cookieDefault: kotlin.String? = "available", queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
-        val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
+    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", queryDefaultEnum: QueryDefaultEnumFindPetsByStatus? = QueryDefaultEnumFindPetsByStatus.b, queryDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), headerDefault: kotlin.String? = "available", headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus? = HeaderDefaultEnumFindPetsByStatus.b, headerDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), cookieDefault: kotlin.String? = "available", cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus? = CookieDefaultEnumFindPetsByStatus.b, cookieDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
+        val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, queryDefaultEnum = queryDefaultEnum, queryDefaultInt = queryDefaultInt, headerDefault = headerDefault, headerDefaultEnum = headerDefaultEnum, headerDefaultInt = headerDefaultInt, cookieDefault = cookieDefault, cookieDefaultEnum = cookieDefaultEnum, cookieDefaultInt = cookieDefaultInt, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -88,8 +121,14 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
+     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
+     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
+     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
@@ -99,8 +138,8 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : ApiResponse<Unit?> {
-        val localVariableConfig = findPetsByStatusRequestConfig(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
+    fun findPetsByStatusWithHttpInfo(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: java.math.BigDecimal?, headerDefault: kotlin.String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: java.math.BigDecimal?, cookieDefault: kotlin.String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: java.math.BigDecimal?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : ApiResponse<Unit?> {
+        val localVariableConfig = findPetsByStatusRequestConfig(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, queryDefaultEnum = queryDefaultEnum, queryDefaultInt = queryDefaultInt, headerDefault = headerDefault, headerDefaultEnum = headerDefaultEnum, headerDefaultInt = headerDefaultInt, cookieDefault = cookieDefault, cookieDefaultEnum = cookieDefaultEnum, cookieDefaultInt = cookieDefaultInt, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -113,20 +152,32 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
+     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
+     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
+     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
      * @param dollarQueryDollarDollarSign query parameter with dollar sign (optional)
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, queryDefaultEnum: QueryDefaultEnumFindPetsByStatus?, queryDefaultInt: java.math.BigDecimal?, headerDefault: kotlin.String?, headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus?, headerDefaultInt: java.math.BigDecimal?, cookieDefault: kotlin.String?, cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus?, cookieDefaultInt: java.math.BigDecimal?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryDefault != null) {
                     put("query_default", listOf(queryDefault.toString()))
+                }
+                if (queryDefaultEnum != null) {
+                    put("query_default_enum", listOf(queryDefaultEnum.value))
+                }
+                if (queryDefaultInt != null) {
+                    put("query_default_int", listOf(queryDefaultInt.toString()))
                 }
                 if (queryNullable != null) {
                     put("query_nullable", listOf(queryNullable.toString()))
@@ -137,6 +188,8 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         headerDefault?.apply { localVariableHeaders["header_default"] = this.toString() }
+        headerDefaultEnum?.apply { localVariableHeaders["header_default_enum"] = this.toString() }
+        headerDefaultInt?.apply { localVariableHeaders["header_default_int"] = this.toString() }
         headerNullable?.apply { localVariableHeaders["header_nullable"] = this.toString() }
         
         return RequestConfig(

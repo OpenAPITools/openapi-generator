@@ -25,24 +25,26 @@ import java.io.Writer;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
- * Replaces backslash with forward slash in the text.
+ * Double quote the text if it's not already the case.
  *
  * Register:
  * <pre>
- * additionalProperties.put("forwardslash", new ForwardSlashLambda());
+ * additionalProperties.put("doublequote", new DoubleQuoteLambda());
  * </pre>
  *
  * Use:
  * <pre>
- * {{#forwardslash}}{{summary}}{{/forwardslash}}
+ * {{#doublequote}}{{summary}}{{/doublequote}}
  * </pre>
  */
-public class ForwardSlashLambda implements Mustache.Lambda {
+public class DoubleQuoteLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        writer.write(fragment.execute()
-                .replace("\\/", "/")
-                .replace("\\", "/")
-                .replace("//", "/"));
+        String input = fragment.execute();
+        if (input.startsWith("\"") && input.endsWith("\"")) {
+            writer.write(input);
+        } else {
+            writer.write("\"" + input + "\"");
+        }
     }
 }
