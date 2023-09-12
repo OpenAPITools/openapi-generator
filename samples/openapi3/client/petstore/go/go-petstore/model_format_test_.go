@@ -570,9 +570,13 @@ func (o FormatTest) ToMap() (map[string]interface{}, error) {
 func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 	varFormatTest := _FormatTest{}
 
-	if err = json.Unmarshal(bytes, &varFormatTest); err == nil {
-		*o = FormatTest(varFormatTest)
+	err = json.Unmarshal(bytes, &varFormatTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FormatTest(varFormatTest)
 
 	additionalProperties := make(map[string]interface{})
 

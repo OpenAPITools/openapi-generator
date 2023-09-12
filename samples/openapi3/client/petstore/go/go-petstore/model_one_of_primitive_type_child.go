@@ -98,9 +98,13 @@ func (o OneOfPrimitiveTypeChild) ToMap() (map[string]interface{}, error) {
 func (o *OneOfPrimitiveTypeChild) UnmarshalJSON(bytes []byte) (err error) {
 	varOneOfPrimitiveTypeChild := _OneOfPrimitiveTypeChild{}
 
-	if err = json.Unmarshal(bytes, &varOneOfPrimitiveTypeChild); err == nil {
-		*o = OneOfPrimitiveTypeChild(varOneOfPrimitiveTypeChild)
+	err = json.Unmarshal(bytes, &varOneOfPrimitiveTypeChild)
+
+	if err != nil {
+		return err
 	}
+
+	*o = OneOfPrimitiveTypeChild(varOneOfPrimitiveTypeChild)
 
 	additionalProperties := make(map[string]interface{})
 

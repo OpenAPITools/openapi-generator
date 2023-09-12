@@ -125,9 +125,13 @@ func (o AppleReq) ToMap() (map[string]interface{}, error) {
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {
 	varAppleReq := _AppleReq{}
 
-	if err = json.Unmarshal(bytes, &varAppleReq); err == nil {
-		*o = AppleReq(varAppleReq)
+	err = json.Unmarshal(bytes, &varAppleReq)
+
+	if err != nil {
+		return err
 	}
+
+	*o = AppleReq(varAppleReq)
 
 	additionalProperties := make(map[string]interface{})
 

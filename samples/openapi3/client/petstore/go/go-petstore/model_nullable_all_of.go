@@ -108,9 +108,13 @@ func (o NullableAllOf) ToMap() (map[string]interface{}, error) {
 func (o *NullableAllOf) UnmarshalJSON(bytes []byte) (err error) {
 	varNullableAllOf := _NullableAllOf{}
 
-	if err = json.Unmarshal(bytes, &varNullableAllOf); err == nil {
-		*o = NullableAllOf(varNullableAllOf)
+	err = json.Unmarshal(bytes, &varNullableAllOf)
+
+	if err != nil {
+		return err
 	}
+
+	*o = NullableAllOf(varNullableAllOf)
 
 	additionalProperties := make(map[string]interface{})
 

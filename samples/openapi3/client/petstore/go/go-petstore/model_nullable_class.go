@@ -563,9 +563,13 @@ func (o NullableClass) ToMap() (map[string]interface{}, error) {
 func (o *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
 	varNullableClass := _NullableClass{}
 
-	if err = json.Unmarshal(bytes, &varNullableClass); err == nil {
-		*o = NullableClass(varNullableClass)
+	err = json.Unmarshal(bytes, &varNullableClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = NullableClass(varNullableClass)
 
 	additionalProperties := make(map[string]interface{})
 
