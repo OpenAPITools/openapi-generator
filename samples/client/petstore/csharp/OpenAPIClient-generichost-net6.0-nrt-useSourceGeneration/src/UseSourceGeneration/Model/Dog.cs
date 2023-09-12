@@ -169,32 +169,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The DogSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Dog))]
-    public partial class DogSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DogSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DogSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DogDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Dog))]
-    public partial class DogDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DogDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DogDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class DogSerializationContext : JsonSerializerContext { }
 }

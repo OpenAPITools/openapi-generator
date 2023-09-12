@@ -2,7 +2,7 @@
 /**
  * SingleRefType
  *
- * PHP version 8.0
+ * PHP version 8.1
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -37,26 +37,12 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class SingleRefType
+enum SingleRefType: string
 {
-    /**
-     * Possible values of this enum
-     */
-    public const ADMIN = 'admin';
+    case ADMIN = 'admin';
 
-    public const USER = 'user';
+    case USER = 'user';
 
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public static function getAllowableEnumValues()
-    {
-        return [
-            self::ADMIN,
-            self::USER
-        ];
-    }
 }
 
 

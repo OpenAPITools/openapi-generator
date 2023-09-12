@@ -2,7 +2,7 @@
 /**
  * Model200Response
  *
- * PHP version 8.0
+ * PHP version 8.1
  *
  * @category Class
  * @package  OpenAPI\Client

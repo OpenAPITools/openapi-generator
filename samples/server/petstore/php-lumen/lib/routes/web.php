@@ -136,6 +136,13 @@ $router->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditio
 $router->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
 
 /**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+ */
+$router->post('/v2/fake/nullable', 'FakeApi@testNullable');
+
+/**
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types

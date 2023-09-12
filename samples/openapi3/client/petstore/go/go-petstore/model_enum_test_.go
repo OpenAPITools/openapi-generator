@@ -359,9 +359,13 @@ func (o EnumTest) ToMap() (map[string]interface{}, error) {
 func (o *EnumTest) UnmarshalJSON(bytes []byte) (err error) {
 	varEnumTest := _EnumTest{}
 
-	if err = json.Unmarshal(bytes, &varEnumTest); err == nil {
-		*o = EnumTest(varEnumTest)
+	err = json.Unmarshal(bytes, &varEnumTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = EnumTest(varEnumTest)
 
 	additionalProperties := make(map[string]interface{})
 

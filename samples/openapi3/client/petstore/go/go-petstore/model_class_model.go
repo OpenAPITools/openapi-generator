@@ -98,9 +98,13 @@ func (o ClassModel) ToMap() (map[string]interface{}, error) {
 func (o *ClassModel) UnmarshalJSON(bytes []byte) (err error) {
 	varClassModel := _ClassModel{}
 
-	if err = json.Unmarshal(bytes, &varClassModel); err == nil {
-		*o = ClassModel(varClassModel)
+	err = json.Unmarshal(bytes, &varClassModel)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ClassModel(varClassModel)
 
 	additionalProperties := make(map[string]interface{})
 

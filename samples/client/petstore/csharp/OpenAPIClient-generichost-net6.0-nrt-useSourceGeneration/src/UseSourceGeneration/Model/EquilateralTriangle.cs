@@ -184,32 +184,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The EquilateralTriangleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EquilateralTriangle))]
-    public partial class EquilateralTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EquilateralTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EquilateralTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EquilateralTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EquilateralTriangle))]
-    public partial class EquilateralTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EquilateralTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EquilateralTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class EquilateralTriangleSerializationContext : JsonSerializerContext { }
 }

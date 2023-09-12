@@ -326,9 +326,13 @@ func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {
 	varReadOnlyWithDefault := _ReadOnlyWithDefault{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyWithDefault); err == nil {
-		*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
+	err = json.Unmarshal(bytes, &varReadOnlyWithDefault)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
 
 	additionalProperties := make(map[string]interface{})
 

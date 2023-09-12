@@ -184,32 +184,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The OuterEnumIntegerSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterEnumInteger))]
-    public partial class OuterEnumIntegerSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterEnumIntegerSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumIntegerSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterEnumIntegerDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterEnumInteger))]
-    public partial class OuterEnumIntegerDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterEnumIntegerDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterEnumIntegerDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class OuterEnumIntegerSerializationContext : JsonSerializerContext { }
 }

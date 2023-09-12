@@ -619,6 +619,37 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  test nullable parent property
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `child_with_nullable` (ChildWithNullable): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_nullable(Tesla.Env.client, OpenapiPetstore.Model.ChildWithNullable.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_nullable(connection, child_with_nullable, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/nullable")
+      |> add_param(:body, :body, child_with_nullable)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
+    ])
+  end
+
+  @doc """
   To test the collection format in query parameters
 
   ### Parameters

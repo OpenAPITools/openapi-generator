@@ -53,11 +53,6 @@
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
         </developer>
-        <developer>
-            <id>spacether</id>
-            <name>Justin Black</name>
-            <email>justin.a.black@gmail.com</email>
-        </developer>
     </developers>
     <issueManagement>
         <system>github</system>
@@ -1292,6 +1287,7 @@
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/okhttp-gson-3.1</module>
+                <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
@@ -1474,7 +1470,7 @@
         <groovy.version>3.0.9</groovy.version>
         <guava.version>31.1-jre</guava.version>
         <handlebars-java.version>4.3.1</handlebars-java.version>
-        <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
+        <jackson-threetenbp.version>2.14.3</jackson-threetenbp.version>
         <jackson-databind.version>2.14.0</jackson-databind.version>
         <jackson.version>2.14.0</jackson.version>
         <jacoco.version>0.8.10</jacoco.version>

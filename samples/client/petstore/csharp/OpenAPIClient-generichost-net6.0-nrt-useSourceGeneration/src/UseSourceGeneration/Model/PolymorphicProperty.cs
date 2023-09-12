@@ -243,32 +243,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The PolymorphicPropertySerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(PolymorphicProperty))]
-    public partial class PolymorphicPropertySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PolymorphicPropertySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PolymorphicPropertySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PolymorphicPropertyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(PolymorphicProperty))]
-    public partial class PolymorphicPropertyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PolymorphicPropertyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PolymorphicPropertyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class PolymorphicPropertySerializationContext : JsonSerializerContext { }
 }

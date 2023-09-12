@@ -2,7 +2,7 @@
 /**
  * EnumClass
  *
- * PHP version 8.0
+ * PHP version 8.1
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -37,29 +37,14 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class EnumClass
+enum EnumClass: string
 {
-    /**
-     * Possible values of this enum
-     */
-    public const ABC = '_abc';
+    case ABC = '_abc';
 
-    public const EFG = '-efg';
+    case EFG = '-efg';
 
-    public const XYZ = '(xyz)';
+    case XYZ = '(xyz)';
 
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public static function getAllowableEnumValues()
-    {
-        return [
-            self::ABC,
-            self::EFG,
-            self::XYZ
-        ];
-    }
 }
 
 

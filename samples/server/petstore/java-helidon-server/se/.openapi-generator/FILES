@@ -27,6 +27,7 @@ src/main/java/org/openapitools/server/model/ArrayTest.java
 src/main/java/org/openapitools/server/model/Capitalization.java
 src/main/java/org/openapitools/server/model/Cat.java
 src/main/java/org/openapitools/server/model/Category.java
+src/main/java/org/openapitools/server/model/ChildWithNullable.java
 src/main/java/org/openapitools/server/model/ClassModel.java
 src/main/java/org/openapitools/server/model/Client.java
 src/main/java/org/openapitools/server/model/DeprecatedObject.java
@@ -59,6 +60,7 @@ src/main/java/org/openapitools/server/model/OuterEnumDefaultValue.java
 src/main/java/org/openapitools/server/model/OuterEnumInteger.java
 src/main/java/org/openapitools/server/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/server/model/OuterObjectWithEnumProperty.java
+src/main/java/org/openapitools/server/model/ParentWithNullable.java
 src/main/java/org/openapitools/server/model/Pet.java
 src/main/java/org/openapitools/server/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/server/model/SingleRefType.java

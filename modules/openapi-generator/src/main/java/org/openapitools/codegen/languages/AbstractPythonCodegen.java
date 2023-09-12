@@ -529,7 +529,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
             example += ")";
         } else {
-            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
+            LOGGER.debug("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -591,7 +591,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
         } else {
-            LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
+            LOGGER.debug("Type {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {

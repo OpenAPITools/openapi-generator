@@ -202,32 +202,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ApiResponseSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ApiResponse))]
-    public partial class ApiResponseSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ApiResponseSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ApiResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ApiResponseDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ApiResponse))]
-    public partial class ApiResponseDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ApiResponseDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ApiResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ApiResponseSerializationContext : JsonSerializerContext { }
 }

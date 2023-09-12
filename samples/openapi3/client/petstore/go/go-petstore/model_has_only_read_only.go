@@ -134,9 +134,13 @@ func (o HasOnlyReadOnly) ToMap() (map[string]interface{}, error) {
 func (o *HasOnlyReadOnly) UnmarshalJSON(bytes []byte) (err error) {
 	varHasOnlyReadOnly := _HasOnlyReadOnly{}
 
-	if err = json.Unmarshal(bytes, &varHasOnlyReadOnly); err == nil {
-		*o = HasOnlyReadOnly(varHasOnlyReadOnly)
+	err = json.Unmarshal(bytes, &varHasOnlyReadOnly)
+
+	if err != nil {
+		return err
 	}
+
+	*o = HasOnlyReadOnly(varHasOnlyReadOnly)
 
 	additionalProperties := make(map[string]interface{})
 

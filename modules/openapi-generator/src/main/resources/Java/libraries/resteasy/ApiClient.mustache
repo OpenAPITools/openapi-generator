@@ -33,6 +33,7 @@ import {{javaxPackage}}.ws.rs.client.Entity;
 import {{javaxPackage}}.ws.rs.client.Invocation;
 import {{javaxPackage}}.ws.rs.client.WebTarget;
 import {{javaxPackage}}.ws.rs.core.Form;
+import {{javaxPackage}}.ws.rs.core.GenericEntity;
 import {{javaxPackage}}.ws.rs.core.GenericType;
 import {{javaxPackage}}.ws.rs.core.MediaType;
 import {{javaxPackage}}.ws.rs.core.Response;
@@ -497,15 +498,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           try {
-            multipart.addFormData(param.getValue().toString(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+            multipart.addFormData(param.getKey(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
           } catch (FileNotFoundException e) {
             throw new ApiException("Could not serialize multipart/form-data "+e.getMessage());
           }
         } else {
-          multipart.addFormData(param.getValue().toString(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+          multipart.addFormData(param.getKey(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
         }
       }
-      entity = Entity.entity(multipart.getFormData(), MediaType.MULTIPART_FORM_DATA_TYPE);
+      GenericEntity<MultipartFormDataOutput> genericEntity = new GenericEntity<MultipartFormDataOutput>(multipart) { };
+      entity = Entity.entity(genericEntity, MediaType.MULTIPART_FORM_DATA_TYPE);
     } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
       Form form = new Form();
       for (Entry<String, Object> param: formParams.entrySet()) {

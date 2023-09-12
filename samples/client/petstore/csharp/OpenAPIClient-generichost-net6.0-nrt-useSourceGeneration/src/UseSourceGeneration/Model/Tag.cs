@@ -185,32 +185,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The TagSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Tag))]
-    public partial class TagSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TagSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TagSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TagDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Tag))]
-    public partial class TagDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TagDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TagDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class TagSerializationContext : JsonSerializerContext { }
 }

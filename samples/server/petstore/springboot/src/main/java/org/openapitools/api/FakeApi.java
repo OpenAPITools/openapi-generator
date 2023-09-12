@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullableDto;
 import org.openapitools.model.ClientDto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClassDto;
@@ -538,6 +539,35 @@ public interface FakeApi {
     default ResponseEntity<Void> testJsonFormData(
         @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * POST /fake/nullable : test nullable parent property
+     * 
+     *
+     * @param childWithNullableDto request body (required)
+     * @return successful operation (status code 200)
+     */
+    @ApiOperation(
+        tags = { "fake" },
+        value = "test nullable parent property",
+        nickname = "testNullable",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/nullable",
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<Void> testNullable(
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullableDto childWithNullableDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

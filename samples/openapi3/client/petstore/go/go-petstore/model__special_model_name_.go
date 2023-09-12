@@ -98,9 +98,13 @@ func (o SpecialModelName) ToMap() (map[string]interface{}, error) {
 func (o *SpecialModelName) UnmarshalJSON(bytes []byte) (err error) {
 	varSpecialModelName := _SpecialModelName{}
 
-	if err = json.Unmarshal(bytes, &varSpecialModelName); err == nil {
-		*o = SpecialModelName(varSpecialModelName)
+	err = json.Unmarshal(bytes, &varSpecialModelName)
+
+	if err != nil {
+		return err
 	}
+
+	*o = SpecialModelName(varSpecialModelName)
 
 	additionalProperties := make(map[string]interface{})
 

@@ -35,6 +35,7 @@ src/main/java/org/openapitools/model/BigCatDto.java
 src/main/java/org/openapitools/model/CapitalizationDto.java
 src/main/java/org/openapitools/model/CatDto.java
 src/main/java/org/openapitools/model/CategoryDto.java
+src/main/java/org/openapitools/model/ChildWithNullableDto.java
 src/main/java/org/openapitools/model/ClassModelDto.java
 src/main/java/org/openapitools/model/ClientDto.java
 src/main/java/org/openapitools/model/ContainerDefaultValueDto.java
@@ -51,10 +52,12 @@ src/main/java/org/openapitools/model/MapTestDto.java
 src/main/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClassDto.java
 src/main/java/org/openapitools/model/Model200ResponseDto.java
 src/main/java/org/openapitools/model/NameDto.java
+src/main/java/org/openapitools/model/NullableMapPropertyDto.java
 src/main/java/org/openapitools/model/NumberOnlyDto.java
 src/main/java/org/openapitools/model/OrderDto.java
 src/main/java/org/openapitools/model/OuterCompositeDto.java
 src/main/java/org/openapitools/model/OuterEnumDto.java
+src/main/java/org/openapitools/model/ParentWithNullableDto.java
 src/main/java/org/openapitools/model/PetDto.java
 src/main/java/org/openapitools/model/ReadOnlyFirstDto.java
 src/main/java/org/openapitools/model/ResponseObjectWithDifferentFieldNamesDto.java

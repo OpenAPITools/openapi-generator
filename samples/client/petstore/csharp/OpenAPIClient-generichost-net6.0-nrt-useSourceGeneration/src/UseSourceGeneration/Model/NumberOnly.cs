@@ -168,32 +168,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The NumberOnlySerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NumberOnly))]
-    public partial class NumberOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NumberOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NumberOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NumberOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NumberOnly))]
-    public partial class NumberOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NumberOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NumberOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class NumberOnlySerializationContext : JsonSerializerContext { }
 }
