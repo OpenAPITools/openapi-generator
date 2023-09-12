@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -167,7 +168,6 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
-            LOGGER.error("PHPHPHP operation: {}", operation.operationId);
             if (operation.returnType == null) {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
             }
@@ -186,5 +186,17 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        if (codegenProperty.isArray) {
+            if (schema.getDefault() != null) {
+                return "[" + schema.getDefault().toString() + "]";
+            } else {
+                return null;
+            }
+        }
+        return super.toDefaultValue(codegenProperty, schema);
     }
 }
