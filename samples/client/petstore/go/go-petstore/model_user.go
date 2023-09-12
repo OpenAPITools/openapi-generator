@@ -17,6 +17,7 @@ import (
 // checks if the User type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &User{}
 
+
 // User struct for User
 type User struct {
 	Id *int64 `json:"id,omitempty"`

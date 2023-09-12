@@ -17,6 +17,101 @@ import (
 // checks if the MapTest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &MapTest{}
 
+// MapTestInner the model 'MapTestInner'
+type MapTestInner string
+
+// List of MapTestInner
+const (
+	MAPTEST_UPPER MapTestInner = "UPPER"
+	MAPTEST_LOWER MapTestInner = "lower"
+)
+
+// All allowed values of MapTestInner enum
+var AllowedMapTestInnerEnumValues = []MapTestInner{
+	"UPPER",
+	"lower",
+}
+
+func (v *MapTestInner) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := MapTestInner(value)
+	for _, existing := range AllowedMapTestInnerEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid MapTestInner", value)
+}
+
+// NewMapTestInnerFromValue returns a pointer to a valid MapTestInner
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewMapTestInnerFromValue(v string) (*MapTestInner, error) {
+	ev := MapTestInner(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for MapTestInner: valid values are %v", v, AllowedMapTestInnerEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v MapTestInner) IsValid() bool {
+	for _, existing := range AllowedMapTestInnerEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Inner value
+func (v MapTestInner) Ptr() *MapTestInner {
+	return &v
+}
+
+type NullableMapTestInner struct {
+	value *MapTestInner
+	isSet bool
+}
+
+func (v NullableMapTestInner) Get() *MapTestInner {
+	return v.value
+}
+
+func (v *NullableMapTestInner) Set(val *MapTestInner) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableMapTestInner) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableMapTestInner) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableMapTestInner(val *MapTestInner) *NullableMapTestInner {
+	return &NullableMapTestInner{value: val, isSet: true}
+}
+
+func (v NullableMapTestInner) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableMapTestInner) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`

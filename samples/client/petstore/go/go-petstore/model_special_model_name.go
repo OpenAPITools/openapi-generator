@@ -17,6 +17,7 @@ import (
 // checks if the SpecialModelName type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SpecialModelName{}
 
+
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`

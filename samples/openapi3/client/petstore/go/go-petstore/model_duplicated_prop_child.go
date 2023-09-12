@@ -19,6 +19,7 @@ import (
 // checks if the DuplicatedPropChild type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DuplicatedPropChild{}
 
+
 // DuplicatedPropChild struct for DuplicatedPropChild
 type DuplicatedPropChild struct {
 	DuplicatedPropParent

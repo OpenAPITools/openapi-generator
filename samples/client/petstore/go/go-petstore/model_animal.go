@@ -17,6 +17,7 @@ import (
 // checks if the Animal type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Animal{}
 
+
 // Animal struct for Animal
 type Animal struct {
 	ClassName string `json:"className"`

@@ -17,6 +17,7 @@ import (
 // checks if the Return type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Return{}
 
+
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`

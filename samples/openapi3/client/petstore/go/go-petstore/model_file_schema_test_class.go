@@ -17,6 +17,7 @@ import (
 // checks if the FileSchemaTestClass type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FileSchemaTestClass{}
 
+
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`

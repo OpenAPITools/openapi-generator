@@ -17,6 +17,7 @@ import (
 // checks if the ClassModel type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ClassModel{}
 
+
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`

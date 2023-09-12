@@ -17,6 +17,7 @@ import (
 // checks if the FooGetDefaultResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FooGetDefaultResponse{}
 
+
 // FooGetDefaultResponse struct for FooGetDefaultResponse
 type FooGetDefaultResponse struct {
 	String *Foo `json:"string,omitempty"`

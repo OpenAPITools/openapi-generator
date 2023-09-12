@@ -17,6 +17,7 @@ import (
 // checks if the Whale type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Whale{}
 
+
 // Whale struct for Whale
 type Whale struct {
 	HasBaleen *bool `json:"hasBaleen,omitempty"`

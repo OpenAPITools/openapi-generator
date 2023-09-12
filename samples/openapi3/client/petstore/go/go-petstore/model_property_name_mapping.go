@@ -17,6 +17,7 @@ import (
 // checks if the PropertyNameMapping type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &PropertyNameMapping{}
 
+
 // PropertyNameMapping struct for PropertyNameMapping
 type PropertyNameMapping struct {
 	HTTPDebugOperation *string `json:"http_debug_operation,omitempty"`

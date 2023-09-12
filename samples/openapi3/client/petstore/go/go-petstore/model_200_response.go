@@ -17,6 +17,7 @@ import (
 // checks if the Model200Response type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Model200Response{}
 
+
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`

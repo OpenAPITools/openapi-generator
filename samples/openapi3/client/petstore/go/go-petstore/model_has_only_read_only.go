@@ -17,6 +17,7 @@ import (
 // checks if the HasOnlyReadOnly type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &HasOnlyReadOnly{}
 
+
 // HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar *string `json:"bar,omitempty"`

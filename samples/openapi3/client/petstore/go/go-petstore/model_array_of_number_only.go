@@ -17,6 +17,7 @@ import (
 // checks if the ArrayOfNumberOnly type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ArrayOfNumberOnly{}
 
+
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
 	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`

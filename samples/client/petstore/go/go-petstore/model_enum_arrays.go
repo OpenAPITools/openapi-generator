@@ -17,6 +17,195 @@ import (
 // checks if the EnumArrays type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &EnumArrays{}
 
+// EnumArraysJustSymbol the model 'EnumArraysJustSymbol'
+type EnumArraysJustSymbol string
+
+// List of EnumArraysJustSymbol
+const (
+	ENUMARRAYS_GREATER_THAN_OR_EQUAL_TO EnumArraysJustSymbol = ">="
+	ENUMARRAYS_DOLLAR EnumArraysJustSymbol = "$"
+)
+
+// All allowed values of EnumArraysJustSymbol enum
+var AllowedEnumArraysJustSymbolEnumValues = []EnumArraysJustSymbol{
+	">=",
+	"$",
+}
+
+func (v *EnumArraysJustSymbol) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumArraysJustSymbol(value)
+	for _, existing := range AllowedEnumArraysJustSymbolEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumArraysJustSymbol", value)
+}
+
+// NewEnumArraysJustSymbolFromValue returns a pointer to a valid EnumArraysJustSymbol
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumArraysJustSymbolFromValue(v string) (*EnumArraysJustSymbol, error) {
+	ev := EnumArraysJustSymbol(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumArraysJustSymbol: valid values are %v", v, AllowedEnumArraysJustSymbolEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumArraysJustSymbol) IsValid() bool {
+	for _, existing := range AllowedEnumArraysJustSymbolEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to JustSymbol value
+func (v EnumArraysJustSymbol) Ptr() *EnumArraysJustSymbol {
+	return &v
+}
+
+type NullableEnumArraysJustSymbol struct {
+	value *EnumArraysJustSymbol
+	isSet bool
+}
+
+func (v NullableEnumArraysJustSymbol) Get() *EnumArraysJustSymbol {
+	return v.value
+}
+
+func (v *NullableEnumArraysJustSymbol) Set(val *EnumArraysJustSymbol) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumArraysJustSymbol) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumArraysJustSymbol) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumArraysJustSymbol(val *EnumArraysJustSymbol) *NullableEnumArraysJustSymbol {
+	return &NullableEnumArraysJustSymbol{value: val, isSet: true}
+}
+
+func (v NullableEnumArraysJustSymbol) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumArraysJustSymbol) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+// EnumArraysArrayEnum the model 'EnumArraysArrayEnum'
+type EnumArraysArrayEnum string
+
+// List of EnumArraysArrayEnum
+const (
+	ENUMARRAYS_FISH EnumArraysArrayEnum = "fish"
+	ENUMARRAYS_CRAB EnumArraysArrayEnum = "crab"
+)
+
+// All allowed values of EnumArraysArrayEnum enum
+var AllowedEnumArraysArrayEnumEnumValues = []EnumArraysArrayEnum{
+	"fish",
+	"crab",
+}
+
+func (v *EnumArraysArrayEnum) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumArraysArrayEnum(value)
+	for _, existing := range AllowedEnumArraysArrayEnumEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumArraysArrayEnum", value)
+}
+
+// NewEnumArraysArrayEnumFromValue returns a pointer to a valid EnumArraysArrayEnum
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumArraysArrayEnumFromValue(v string) (*EnumArraysArrayEnum, error) {
+	ev := EnumArraysArrayEnum(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumArraysArrayEnum: valid values are %v", v, AllowedEnumArraysArrayEnumEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumArraysArrayEnum) IsValid() bool {
+	for _, existing := range AllowedEnumArraysArrayEnumEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to ArrayEnum value
+func (v EnumArraysArrayEnum) Ptr() *EnumArraysArrayEnum {
+	return &v
+}
+
+type NullableEnumArraysArrayEnum struct {
+	value *EnumArraysArrayEnum
+	isSet bool
+}
+
+func (v NullableEnumArraysArrayEnum) Get() *EnumArraysArrayEnum {
+	return v.value
+}
+
+func (v *NullableEnumArraysArrayEnum) Set(val *EnumArraysArrayEnum) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumArraysArrayEnum) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumArraysArrayEnum) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumArraysArrayEnum(val *EnumArraysArrayEnum) *NullableEnumArraysArrayEnum {
+	return &NullableEnumArraysArrayEnum{value: val, isSet: true}
+}
+
+func (v NullableEnumArraysArrayEnum) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumArraysArrayEnum) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`

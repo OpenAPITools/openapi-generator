@@ -19,6 +19,7 @@ import (
 // checks if the FormatTest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FormatTest{}
 
+
 // FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`

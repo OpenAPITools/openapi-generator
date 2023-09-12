@@ -17,6 +17,7 @@ import (
 // checks if the AppleReq type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AppleReq{}
 
+
 // AppleReq struct for AppleReq
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`

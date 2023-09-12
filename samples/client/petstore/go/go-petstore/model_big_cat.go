@@ -17,6 +17,105 @@ import (
 // checks if the BigCat type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &BigCat{}
 
+// BigCatKind the model 'BigCatKind'
+type BigCatKind string
+
+// List of BigCatKind
+const (
+	BIGCAT_LIONS BigCatKind = "lions"
+	BIGCAT_TIGERS BigCatKind = "tigers"
+	BIGCAT_LEOPARDS BigCatKind = "leopards"
+	BIGCAT_JAGUARS BigCatKind = "jaguars"
+)
+
+// All allowed values of BigCatKind enum
+var AllowedBigCatKindEnumValues = []BigCatKind{
+	"lions",
+	"tigers",
+	"leopards",
+	"jaguars",
+}
+
+func (v *BigCatKind) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := BigCatKind(value)
+	for _, existing := range AllowedBigCatKindEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid BigCatKind", value)
+}
+
+// NewBigCatKindFromValue returns a pointer to a valid BigCatKind
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewBigCatKindFromValue(v string) (*BigCatKind, error) {
+	ev := BigCatKind(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for BigCatKind: valid values are %v", v, AllowedBigCatKindEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v BigCatKind) IsValid() bool {
+	for _, existing := range AllowedBigCatKindEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Kind value
+func (v BigCatKind) Ptr() *BigCatKind {
+	return &v
+}
+
+type NullableBigCatKind struct {
+	value *BigCatKind
+	isSet bool
+}
+
+func (v NullableBigCatKind) Get() *BigCatKind {
+	return v.value
+}
+
+func (v *NullableBigCatKind) Set(val *BigCatKind) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableBigCatKind) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableBigCatKind) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableBigCatKind(val *BigCatKind) *NullableBigCatKind {
+	return &NullableBigCatKind{value: val, isSet: true}
+}
+
+func (v NullableBigCatKind) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableBigCatKind) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // BigCat struct for BigCat
 type BigCat struct {
 	Cat

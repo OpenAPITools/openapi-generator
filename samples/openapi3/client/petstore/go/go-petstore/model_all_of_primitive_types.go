@@ -18,6 +18,7 @@ import (
 // checks if the AllOfPrimitiveTypes type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AllOfPrimitiveTypes{}
 
+
 // AllOfPrimitiveTypes struct for AllOfPrimitiveTypes
 type AllOfPrimitiveTypes struct {
 	Test *time.Time `json:"test,omitempty"`

@@ -17,6 +17,7 @@ import (
 // checks if the OneOfPrimitiveTypeChild type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &OneOfPrimitiveTypeChild{}
 
+
 // OneOfPrimitiveTypeChild struct for OneOfPrimitiveTypeChild
 type OneOfPrimitiveTypeChild struct {
 	Name *string `json:"name,omitempty"`

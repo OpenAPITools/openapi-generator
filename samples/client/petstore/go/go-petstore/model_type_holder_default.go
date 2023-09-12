@@ -17,6 +17,7 @@ import (
 // checks if the TypeHolderDefault type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TypeHolderDefault{}
 
+
 // TypeHolderDefault struct for TypeHolderDefault
 type TypeHolderDefault struct {
 	StringItem string `json:"string_item"`

@@ -17,6 +17,103 @@ import (
 // checks if the Zebra type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Zebra{}
 
+// ZebraType the model 'ZebraType'
+type ZebraType string
+
+// List of ZebraType
+const (
+	ZEBRA_PLAINS ZebraType = "plains"
+	ZEBRA_MOUNTAIN ZebraType = "mountain"
+	ZEBRA_GREVYS ZebraType = "grevys"
+)
+
+// All allowed values of ZebraType enum
+var AllowedZebraTypeEnumValues = []ZebraType{
+	"plains",
+	"mountain",
+	"grevys",
+}
+
+func (v *ZebraType) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := ZebraType(value)
+	for _, existing := range AllowedZebraTypeEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid ZebraType", value)
+}
+
+// NewZebraTypeFromValue returns a pointer to a valid ZebraType
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewZebraTypeFromValue(v string) (*ZebraType, error) {
+	ev := ZebraType(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for ZebraType: valid values are %v", v, AllowedZebraTypeEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v ZebraType) IsValid() bool {
+	for _, existing := range AllowedZebraTypeEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Type value
+func (v ZebraType) Ptr() *ZebraType {
+	return &v
+}
+
+type NullableZebraType struct {
+	value *ZebraType
+	isSet bool
+}
+
+func (v NullableZebraType) Get() *ZebraType {
+	return v.value
+}
+
+func (v *NullableZebraType) Set(val *ZebraType) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableZebraType) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableZebraType) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableZebraType(val *ZebraType) *NullableZebraType {
+	return &NullableZebraType{value: val, isSet: true}
+}
+
+func (v NullableZebraType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableZebraType) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // Zebra struct for Zebra
 type Zebra struct {
 	Type *string `json:"type,omitempty"`

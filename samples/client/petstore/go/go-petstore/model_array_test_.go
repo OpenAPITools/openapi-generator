@@ -17,6 +17,7 @@ import (
 // checks if the ArrayTest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ArrayTest{}
 
+
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString []string `json:"array_of_string,omitempty"`

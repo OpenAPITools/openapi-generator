@@ -17,6 +17,103 @@ import (
 // checks if the Pet type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Pet{}
 
+// PetStatus pet status in the store
+type PetStatus string
+
+// List of PetStatus
+const (
+	PET_AVAILABLE PetStatus = "available"
+	PET_PENDING PetStatus = "pending"
+	PET_SOLD PetStatus = "sold"
+)
+
+// All allowed values of PetStatus enum
+var AllowedPetStatusEnumValues = []PetStatus{
+	"available",
+	"pending",
+	"sold",
+}
+
+func (v *PetStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := PetStatus(value)
+	for _, existing := range AllowedPetStatusEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid PetStatus", value)
+}
+
+// NewPetStatusFromValue returns a pointer to a valid PetStatus
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewPetStatusFromValue(v string) (*PetStatus, error) {
+	ev := PetStatus(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for PetStatus: valid values are %v", v, AllowedPetStatusEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v PetStatus) IsValid() bool {
+	for _, existing := range AllowedPetStatusEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Status value
+func (v PetStatus) Ptr() *PetStatus {
+	return &v
+}
+
+type NullablePetStatus struct {
+	value *PetStatus
+	isSet bool
+}
+
+func (v NullablePetStatus) Get() *PetStatus {
+	return v.value
+}
+
+func (v *NullablePetStatus) Set(val *PetStatus) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullablePetStatus) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullablePetStatus) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullablePetStatus(val *PetStatus) *NullablePetStatus {
+	return &NullablePetStatus{value: val, isSet: true}
+}
+
+func (v NullablePetStatus) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullablePetStatus) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`

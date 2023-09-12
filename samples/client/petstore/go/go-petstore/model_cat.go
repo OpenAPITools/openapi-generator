@@ -17,6 +17,7 @@ import (
 // checks if the Cat type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Cat{}
 
+
 // Cat struct for Cat
 type Cat struct {
 	Animal

@@ -17,6 +17,7 @@ import (
 // checks if the ApiResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ApiResponse{}
 
+
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`

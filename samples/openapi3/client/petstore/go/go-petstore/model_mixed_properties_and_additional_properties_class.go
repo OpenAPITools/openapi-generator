@@ -18,6 +18,7 @@ import (
 // checks if the MixedPropertiesAndAdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &MixedPropertiesAndAdditionalPropertiesClass{}
 
+
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`

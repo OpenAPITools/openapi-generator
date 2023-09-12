@@ -18,6 +18,103 @@ import (
 // checks if the Order type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Order{}
 
+// OrderStatus Order Status
+type OrderStatus string
+
+// List of OrderStatus
+const (
+	ORDER_PLACED OrderStatus = "placed"
+	ORDER_APPROVED OrderStatus = "approved"
+	ORDER_DELIVERED OrderStatus = "delivered"
+)
+
+// All allowed values of OrderStatus enum
+var AllowedOrderStatusEnumValues = []OrderStatus{
+	"placed",
+	"approved",
+	"delivered",
+}
+
+func (v *OrderStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := OrderStatus(value)
+	for _, existing := range AllowedOrderStatusEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid OrderStatus", value)
+}
+
+// NewOrderStatusFromValue returns a pointer to a valid OrderStatus
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewOrderStatusFromValue(v string) (*OrderStatus, error) {
+	ev := OrderStatus(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for OrderStatus: valid values are %v", v, AllowedOrderStatusEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v OrderStatus) IsValid() bool {
+	for _, existing := range AllowedOrderStatusEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Status value
+func (v OrderStatus) Ptr() *OrderStatus {
+	return &v
+}
+
+type NullableOrderStatus struct {
+	value *OrderStatus
+	isSet bool
+}
+
+func (v NullableOrderStatus) Get() *OrderStatus {
+	return v.value
+}
+
+func (v *NullableOrderStatus) Set(val *OrderStatus) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableOrderStatus) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableOrderStatus) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableOrderStatus(val *OrderStatus) *NullableOrderStatus {
+	return &NullableOrderStatus{value: val, isSet: true}
+}
+
+func (v NullableOrderStatus) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableOrderStatus) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // Order struct for Order
 type Order struct {
 	Id *int64 `json:"id,omitempty"`

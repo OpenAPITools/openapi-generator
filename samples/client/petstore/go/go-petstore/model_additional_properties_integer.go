@@ -17,6 +17,7 @@ import (
 // checks if the AdditionalPropertiesInteger type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AdditionalPropertiesInteger{}
 
+
 // AdditionalPropertiesInteger struct for AdditionalPropertiesInteger
 type AdditionalPropertiesInteger struct {
 	Name *string `json:"name,omitempty"`

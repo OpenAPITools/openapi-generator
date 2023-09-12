@@ -18,6 +18,7 @@ import (
 // checks if the NullableClass type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NullableClass{}
 
+
 // NullableClass struct for NullableClass
 type NullableClass struct {
 	IntegerProp NullableInt32 `json:"integer_prop,omitempty"`

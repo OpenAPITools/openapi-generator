@@ -17,6 +17,7 @@ import (
 // checks if the AdditionalPropertiesAnyType type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AdditionalPropertiesAnyType{}
 
+
 // AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
 	Name *string `json:"name,omitempty"`

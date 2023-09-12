@@ -17,6 +17,7 @@ import (
 // checks if the Client type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Client{}
 
+
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`

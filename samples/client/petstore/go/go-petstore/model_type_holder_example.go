@@ -17,6 +17,7 @@ import (
 // checks if the TypeHolderExample type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TypeHolderExample{}
 
+
 // TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
 	StringItem string `json:"string_item"`

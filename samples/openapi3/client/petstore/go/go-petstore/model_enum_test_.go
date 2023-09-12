@@ -17,6 +17,387 @@ import (
 // checks if the EnumTest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &EnumTest{}
 
+// EnumTestEnumString the model 'EnumTestEnumString'
+type EnumTestEnumString string
+
+// List of EnumTestEnumString
+const (
+	ENUMTEST_UPPER EnumTestEnumString = "UPPER"
+	ENUMTEST_LOWER EnumTestEnumString = "lower"
+	ENUMTEST_EMPTY EnumTestEnumString = ""
+)
+
+// All allowed values of EnumTestEnumString enum
+var AllowedEnumTestEnumStringEnumValues = []EnumTestEnumString{
+	"UPPER",
+	"lower",
+	"",
+}
+
+func (v *EnumTestEnumString) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumTestEnumString(value)
+	for _, existing := range AllowedEnumTestEnumStringEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumTestEnumString", value)
+}
+
+// NewEnumTestEnumStringFromValue returns a pointer to a valid EnumTestEnumString
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumTestEnumStringFromValue(v string) (*EnumTestEnumString, error) {
+	ev := EnumTestEnumString(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumTestEnumString: valid values are %v", v, AllowedEnumTestEnumStringEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumTestEnumString) IsValid() bool {
+	for _, existing := range AllowedEnumTestEnumStringEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to EnumString value
+func (v EnumTestEnumString) Ptr() *EnumTestEnumString {
+	return &v
+}
+
+type NullableEnumTestEnumString struct {
+	value *EnumTestEnumString
+	isSet bool
+}
+
+func (v NullableEnumTestEnumString) Get() *EnumTestEnumString {
+	return v.value
+}
+
+func (v *NullableEnumTestEnumString) Set(val *EnumTestEnumString) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumTestEnumString) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumTestEnumString) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumTestEnumString(val *EnumTestEnumString) *NullableEnumTestEnumString {
+	return &NullableEnumTestEnumString{value: val, isSet: true}
+}
+
+func (v NullableEnumTestEnumString) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumTestEnumString) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+// EnumTestEnumStringRequired the model 'EnumTestEnumStringRequired'
+type EnumTestEnumStringRequired string
+
+// List of EnumTestEnumStringRequired
+const (
+	ENUMTEST_UPPER EnumTestEnumStringRequired = "UPPER"
+	ENUMTEST_LOWER EnumTestEnumStringRequired = "lower"
+	ENUMTEST_EMPTY EnumTestEnumStringRequired = ""
+)
+
+// All allowed values of EnumTestEnumStringRequired enum
+var AllowedEnumTestEnumStringRequiredEnumValues = []EnumTestEnumStringRequired{
+	"UPPER",
+	"lower",
+	"",
+}
+
+func (v *EnumTestEnumStringRequired) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumTestEnumStringRequired(value)
+	for _, existing := range AllowedEnumTestEnumStringRequiredEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumTestEnumStringRequired", value)
+}
+
+// NewEnumTestEnumStringRequiredFromValue returns a pointer to a valid EnumTestEnumStringRequired
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumTestEnumStringRequiredFromValue(v string) (*EnumTestEnumStringRequired, error) {
+	ev := EnumTestEnumStringRequired(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumTestEnumStringRequired: valid values are %v", v, AllowedEnumTestEnumStringRequiredEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumTestEnumStringRequired) IsValid() bool {
+	for _, existing := range AllowedEnumTestEnumStringRequiredEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to EnumStringRequired value
+func (v EnumTestEnumStringRequired) Ptr() *EnumTestEnumStringRequired {
+	return &v
+}
+
+type NullableEnumTestEnumStringRequired struct {
+	value *EnumTestEnumStringRequired
+	isSet bool
+}
+
+func (v NullableEnumTestEnumStringRequired) Get() *EnumTestEnumStringRequired {
+	return v.value
+}
+
+func (v *NullableEnumTestEnumStringRequired) Set(val *EnumTestEnumStringRequired) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumTestEnumStringRequired) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumTestEnumStringRequired) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumTestEnumStringRequired(val *EnumTestEnumStringRequired) *NullableEnumTestEnumStringRequired {
+	return &NullableEnumTestEnumStringRequired{value: val, isSet: true}
+}
+
+func (v NullableEnumTestEnumStringRequired) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumTestEnumStringRequired) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+// EnumTestEnumInteger the model 'EnumTestEnumInteger'
+type EnumTestEnumInteger int32
+
+// List of EnumTestEnumInteger
+const (
+	ENUMTEST__1 EnumTestEnumInteger = 1
+	ENUMTEST__MINUS_1 EnumTestEnumInteger = -1
+)
+
+// All allowed values of EnumTestEnumInteger enum
+var AllowedEnumTestEnumIntegerEnumValues = []EnumTestEnumInteger{
+	1,
+	-1,
+}
+
+func (v *EnumTestEnumInteger) UnmarshalJSON(src []byte) error {
+	var value int32
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumTestEnumInteger(value)
+	for _, existing := range AllowedEnumTestEnumIntegerEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumTestEnumInteger", value)
+}
+
+// NewEnumTestEnumIntegerFromValue returns a pointer to a valid EnumTestEnumInteger
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumTestEnumIntegerFromValue(v int32) (*EnumTestEnumInteger, error) {
+	ev := EnumTestEnumInteger(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumTestEnumInteger: valid values are %v", v, AllowedEnumTestEnumIntegerEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumTestEnumInteger) IsValid() bool {
+	for _, existing := range AllowedEnumTestEnumIntegerEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to EnumInteger value
+func (v EnumTestEnumInteger) Ptr() *EnumTestEnumInteger {
+	return &v
+}
+
+type NullableEnumTestEnumInteger struct {
+	value *EnumTestEnumInteger
+	isSet bool
+}
+
+func (v NullableEnumTestEnumInteger) Get() *EnumTestEnumInteger {
+	return v.value
+}
+
+func (v *NullableEnumTestEnumInteger) Set(val *EnumTestEnumInteger) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumTestEnumInteger) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumTestEnumInteger) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumTestEnumInteger(val *EnumTestEnumInteger) *NullableEnumTestEnumInteger {
+	return &NullableEnumTestEnumInteger{value: val, isSet: true}
+}
+
+func (v NullableEnumTestEnumInteger) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumTestEnumInteger) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+// EnumTestEnumNumber the model 'EnumTestEnumNumber'
+type EnumTestEnumNumber double
+
+// List of EnumTestEnumNumber
+const (
+	ENUMTEST__1_DOT_1 EnumTestEnumNumber = 1.1
+	ENUMTEST__MINUS_1_DOT_2 EnumTestEnumNumber = -1.2
+)
+
+// All allowed values of EnumTestEnumNumber enum
+var AllowedEnumTestEnumNumberEnumValues = []EnumTestEnumNumber{
+	1.1,
+	-1.2,
+}
+
+func (v *EnumTestEnumNumber) UnmarshalJSON(src []byte) error {
+	var value double
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumTestEnumNumber(value)
+	for _, existing := range AllowedEnumTestEnumNumberEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumTestEnumNumber", value)
+}
+
+// NewEnumTestEnumNumberFromValue returns a pointer to a valid EnumTestEnumNumber
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumTestEnumNumberFromValue(v double) (*EnumTestEnumNumber, error) {
+	ev := EnumTestEnumNumber(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumTestEnumNumber: valid values are %v", v, AllowedEnumTestEnumNumberEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumTestEnumNumber) IsValid() bool {
+	for _, existing := range AllowedEnumTestEnumNumberEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to EnumNumber value
+func (v EnumTestEnumNumber) Ptr() *EnumTestEnumNumber {
+	return &v
+}
+
+type NullableEnumTestEnumNumber struct {
+	value *EnumTestEnumNumber
+	isSet bool
+}
+
+func (v NullableEnumTestEnumNumber) Get() *EnumTestEnumNumber {
+	return v.value
+}
+
+func (v *NullableEnumTestEnumNumber) Set(val *EnumTestEnumNumber) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumTestEnumNumber) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumTestEnumNumber) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumTestEnumNumber(val *EnumTestEnumNumber) *NullableEnumTestEnumNumber {
+	return &NullableEnumTestEnumNumber{value: val, isSet: true}
+}
+
+func (v NullableEnumTestEnumNumber) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableEnumTestEnumNumber) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString *string `json:"enum_string,omitempty"`

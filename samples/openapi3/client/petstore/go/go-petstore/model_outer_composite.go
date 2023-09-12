@@ -17,6 +17,7 @@ import (
 // checks if the OuterComposite type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &OuterComposite{}
 
+
 // OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`

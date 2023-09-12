@@ -17,6 +17,7 @@ import (
 // checks if the ReadOnlyFirst type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ReadOnlyFirst{}
 
+
 // ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`

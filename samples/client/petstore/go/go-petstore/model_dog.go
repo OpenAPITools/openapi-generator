@@ -17,6 +17,7 @@ import (
 // checks if the Dog type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Dog{}
 
+
 // Dog struct for Dog
 type Dog struct {
 	Animal

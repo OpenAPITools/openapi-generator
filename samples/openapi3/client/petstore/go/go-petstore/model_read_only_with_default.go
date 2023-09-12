@@ -17,6 +17,7 @@ import (
 // checks if the ReadOnlyWithDefault type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ReadOnlyWithDefault{}
 
+
 // ReadOnlyWithDefault struct for ReadOnlyWithDefault
 type ReadOnlyWithDefault struct {
 	Prop1 *string `json:"prop1,omitempty"`

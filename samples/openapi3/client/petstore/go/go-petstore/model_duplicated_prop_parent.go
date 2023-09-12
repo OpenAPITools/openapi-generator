@@ -17,6 +17,7 @@ import (
 // checks if the DuplicatedPropParent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DuplicatedPropParent{}
 
+
 // DuplicatedPropParent parent model with duplicated property
 type DuplicatedPropParent struct {
 	// A discriminator value

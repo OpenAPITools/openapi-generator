@@ -17,6 +17,7 @@ import (
 // checks if the Name type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Name{}
 
+
 // Name Model for testing model name same as property name
 type Name struct {
 	Name int32 `json:"name"`

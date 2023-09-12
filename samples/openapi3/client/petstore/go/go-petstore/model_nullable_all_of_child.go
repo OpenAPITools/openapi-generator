@@ -17,6 +17,7 @@ import (
 // checks if the NullableAllOfChild type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NullableAllOfChild{}
 
+
 // NullableAllOfChild struct for NullableAllOfChild
 type NullableAllOfChild struct {
 	Name *string `json:"name,omitempty"`

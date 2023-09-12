@@ -17,6 +17,7 @@ import (
 // checks if the Banana type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Banana{}
 
+
 // Banana struct for Banana
 type Banana struct {
 	LengthCm *float32 `json:"lengthCm,omitempty"`

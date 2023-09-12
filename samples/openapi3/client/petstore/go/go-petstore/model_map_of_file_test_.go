@@ -18,6 +18,7 @@ import (
 // checks if the MapOfFileTest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &MapOfFileTest{}
 
+
 // MapOfFileTest test map of file in a property
 type MapOfFileTest struct {
 	// a property to test map of file

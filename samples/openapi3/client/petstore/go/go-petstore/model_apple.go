@@ -17,6 +17,7 @@ import (
 // checks if the Apple type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Apple{}
 
+
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`

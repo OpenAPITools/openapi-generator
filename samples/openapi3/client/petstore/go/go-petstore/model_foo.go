@@ -17,6 +17,7 @@ import (
 // checks if the Foo type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Foo{}
 
+
 // Foo struct for Foo
 type Foo struct {
 	Bar *string `json:"bar,omitempty"`

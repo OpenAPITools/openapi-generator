@@ -17,6 +17,7 @@ import (
 // checks if the Capitalization type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Capitalization{}
 
+
 // Capitalization struct for Capitalization
 type Capitalization struct {
 	SmallCamel *string `json:"smallCamel,omitempty"`

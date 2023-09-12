@@ -17,6 +17,7 @@ import (
 // checks if the List type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &List{}
 
+
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
