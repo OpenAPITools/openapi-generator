@@ -13,7 +13,6 @@
 package org.openapitools.client.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -265,3 +264,4 @@ public class Pet  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

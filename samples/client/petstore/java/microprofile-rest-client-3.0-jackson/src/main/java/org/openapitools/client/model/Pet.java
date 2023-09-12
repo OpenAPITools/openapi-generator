@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -290,3 +289,4 @@ public class Pet  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
