@@ -17,11 +17,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 ## addPet
 
-> Pet addPet(pet)
+> void addPet(body)
 
 Add a new pet to the store
-
-
 
 ### Example
 
@@ -44,9 +42,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            Pet result = apiInstance.addPet(pet);
+            void result = apiInstance.addPet(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
@@ -64,11 +62,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**void**](Void.md)
 
 ### Authorization
 
@@ -77,13 +75,12 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: application/xml, application/json
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -92,8 +89,6 @@ public class Example {
 > void deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 
@@ -301,7 +296,6 @@ public class Example {
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
-| **206** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
 
@@ -382,11 +376,9 @@ public class Example {
 
 ## updatePet
 
-> Pet updatePet(pet)
+> void updatePet(body)
 
 Update an existing pet
-
-
 
 ### Example
 
@@ -409,9 +401,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            Pet result = apiInstance.updatePet(pet);
+            void result = apiInstance.updatePet(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
@@ -429,11 +421,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**void**](Void.md)
 
 ### Authorization
 
@@ -442,13 +434,12 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: application/xml, application/json
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -459,8 +450,6 @@ public class Example {
 > void updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 
@@ -534,8 +523,6 @@ public class Example {
 > ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
-
-
 
 ### Example
 

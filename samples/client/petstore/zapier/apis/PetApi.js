@@ -176,7 +176,7 @@ module.exports = {
                     return results;
                 })
             },
-            sample: samples['PetSample']samples['PetSample']
+            sample: samples['PetSample']
         }
     },
     getPetById: {

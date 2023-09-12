@@ -157,10 +157,6 @@ public class PetController {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
             }),
-            @ApiResponse(responseCode = "206", description = "successful operation", content = {
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
-            }),
             @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
         parameters = {

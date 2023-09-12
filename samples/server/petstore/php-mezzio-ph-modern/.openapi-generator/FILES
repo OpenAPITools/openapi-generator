@@ -12,8 +12,6 @@ src/App/DTO/Category.php
 src/App/DTO/Collection.php
 src/App/DTO/Collection1.php
 src/App/DTO/Collection10.php
-src/App/DTO/Collection11.php
-src/App/DTO/Collection12.php
 src/App/DTO/Collection2.php
 src/App/DTO/Collection3.php
 src/App/DTO/Collection4.php

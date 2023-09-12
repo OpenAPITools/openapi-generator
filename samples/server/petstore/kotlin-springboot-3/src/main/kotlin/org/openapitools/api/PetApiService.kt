@@ -44,7 +44,6 @@ interface PetApiService {
      *
      * @param tags Tags to filter by (required)
      * @return successful operation (status code 200)
-     *         or successful operation (status code 206)
      *         or Invalid tag value (status code 400)
      * @deprecated
      * @see PetApi#findPetsByTags

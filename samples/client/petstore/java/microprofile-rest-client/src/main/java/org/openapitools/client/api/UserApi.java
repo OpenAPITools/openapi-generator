@@ -36,7 +36,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient(configKey="user-api")
+@RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {
@@ -49,30 +49,23 @@ public interface UserApi  {
      */
     @POST
     
-    @Consumes({ "application/json" })
-    void createUser(User user) throws ApiException, ProcessingException;
+    void createUser(User body) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
-     *
-     * 
      *
      */
     @POST
     @Path("/createWithArray")
-    @Consumes({ "application/json" })
-    void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
      */
     @POST
     @Path("/createWithList")
-    @Consumes({ "application/json" })
-    void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
      * Delete user
@@ -87,8 +80,6 @@ public interface UserApi  {
     /**
      * Get user by user name
      *
-     * 
-     *
      */
     @GET
     @Path("/{username}")
@@ -98,8 +89,6 @@ public interface UserApi  {
     /**
      * Logs user into the system
      *
-     * 
-     *
      */
     @GET
     @Path("/login")
@@ -108,8 +97,6 @@ public interface UserApi  {
 
     /**
      * Logs out current logged in user session
-     *
-     * 
      *
      */
     @GET
@@ -124,6 +111,5 @@ public interface UserApi  {
      */
     @PUT
     @Path("/{username}")
-    @Consumes({ "application/json" })
-    void updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
+    void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
 }

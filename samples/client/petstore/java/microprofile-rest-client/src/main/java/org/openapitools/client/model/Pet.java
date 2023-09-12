@@ -216,9 +216,7 @@ public class Pet  {
  /**
    * pet status in the store
    * @return status
-   * @deprecated
   **/
-  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }

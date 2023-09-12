@@ -530,13 +530,6 @@ export class PetApiResponseProcessor {
             ) as Array<Pet>;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
-        if (isCodeInRange("206", response.httpStatusCode)) {
-            const body: Array<Pet> = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Pet>", ""
-            ) as Array<Pet>;
-            return body;
-        }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid tag value", undefined, response.headers);
         }

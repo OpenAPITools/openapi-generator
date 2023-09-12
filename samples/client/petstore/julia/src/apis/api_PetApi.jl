@@ -109,7 +109,6 @@ end
 
 const _returntypes_find_pets_by_tags_PetApi = Dict{Regex,Type}(
     Regex("^" * replace("200", "x"=>".") * "\$") => Vector{Pet},
-    Regex("^" * replace("206", "x"=>".") * "\$") => Vector{Pet},
     Regex("^" * replace("400", "x"=>".") * "\$") => Nothing,
 )
 

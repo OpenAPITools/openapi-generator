@@ -530,7 +530,6 @@ public class Example {
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
-| **206** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
 ## findPetsByTagsWithHttpInfo
@@ -605,7 +604,6 @@ ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
-| **206** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
 
