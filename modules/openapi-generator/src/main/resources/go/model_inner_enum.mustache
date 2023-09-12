@@ -1,0 +1,101 @@
+// {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} {{{description}}}{{^description}}the model '{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}'{{/description}}
+type {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} {{{format}}}{{^format}}{{dataType}}{{/format}}
+
+// List of {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{{classname.toUpperCase}}}_{{name}} {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} = {{{value}}}
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+
+// All allowed values of {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} enum
+var Allowed{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}EnumValues = []{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+func (v *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) UnmarshalJSON(src []byte) error {
+	var value {{{format}}}{{^format}}{{dataType}}{{/format}}
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}(value)
+	for _, existing := range Allowed{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}EnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid {{classname}}{{{name}}}", value)
+}
+
+// New{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}FromValue returns a pointer to a valid {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func New{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) (*{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}, error) {
+	ev := {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}: valid values are %v", v, Allowed{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}EnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) IsValid() bool {
+	for _, existing := range Allowed{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}EnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to {{{name}}} value
+func (v {{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) Ptr() *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} {
+	return &v
+}
+
+type Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} struct {
+	value *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}
+	isSet bool
+}
+
+func (v Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) Get() *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} {
+	return v.value
+}
+
+func (v *Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) Set(val *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) IsSet() bool {
+	return v.isSet
+}
+
+func (v *Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}(val *{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) *Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}} {
+	return &Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}{value: val, isSet: true}
+}
+
+func (v Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *Nullable{{{classname}}}{{#lambda.pascalcase}}{{{nameInCamelCase}}}{{/lambda.pascalcase}}) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
