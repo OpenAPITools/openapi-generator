@@ -427,6 +427,30 @@ class FakeController extends Controller
         return response('How about implementing testJsonFormData as a get method ?');
     }
     /**
+     * Operation testNullable
+     *
+     * test nullable parent property.
+     *
+     *
+     * @return Http response
+     */
+    public function testNullable()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['childWithNullable'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $childWithNullable when calling testNullable');
+        }
+        $childWithNullable = $input['childWithNullable'];
+
+
+        return response('How about implementing testNullable as a post method ?');
+    }
+    /**
      * Operation fakeOuterBooleanSerialize
      *
      * .

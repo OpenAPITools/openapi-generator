@@ -17,6 +17,7 @@ docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
+docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
@@ -51,6 +52,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/ParentWithNullable.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -82,6 +84,7 @@ lib/petstore/models/array_test.rb
 lib/petstore/models/capitalization.rb
 lib/petstore/models/cat.rb
 lib/petstore/models/category.rb
+lib/petstore/models/child_with_nullable.rb
 lib/petstore/models/class_model.rb
 lib/petstore/models/client.rb
 lib/petstore/models/deprecated_object.rb
@@ -113,6 +116,7 @@ lib/petstore/models/outer_enum_default_value.rb
 lib/petstore/models/outer_enum_integer.rb
 lib/petstore/models/outer_enum_integer_default_value.rb
 lib/petstore/models/outer_object_with_enum_property.rb
+lib/petstore/models/parent_with_nullable.rb
 lib/petstore/models/pet.rb
 lib/petstore/models/read_only_first.rb
 lib/petstore/models/single_ref_type.rb

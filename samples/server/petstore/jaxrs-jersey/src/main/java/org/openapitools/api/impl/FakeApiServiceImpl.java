@@ -2,6 +2,7 @@ package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
@@ -110,6 +111,11 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testJsonFormData(String param, String param2, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testNullable(ChildWithNullable childWithNullable, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
