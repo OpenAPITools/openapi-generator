@@ -153,7 +153,7 @@ public class OpenAPINormalizer {
 
         // loop through all the rules
         for (Map.Entry<String, String> rule : inputRules.entrySet()) {
-            LOGGER.info("processing rule {} => {}", rule.getKey(), rule.getValue());
+            LOGGER.debug("processing rule {} => {}", rule.getKey(), rule.getValue());
             if (!ruleNames.contains(rule.getKey())) { // invalid rule name
                 LOGGER.warn("Invalid openapi-normalizer rule name: ", rule.getKey());
             } else if (enableAll) {
@@ -882,6 +882,11 @@ public class OpenAPINormalizer {
         if (!getRule(NORMALIZE_31SPEC)) {
             return schema;
         }
+
+        if (schema == null || schema.getTypes() == null) {
+            return null;
+        }
+
         // process null
         if (schema.getTypes().contains("null")) {
             schema.setNullable(true);
