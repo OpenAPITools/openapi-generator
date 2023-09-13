@@ -409,7 +409,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
 	{{/isAdditionalPropertiesTrue}}
-	if err := d.Decode(&{{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.ErrUnexpectedEOF) {{/required}}{
+	if err := d.Decode(&{{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.EOF) {{/required}}{
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
