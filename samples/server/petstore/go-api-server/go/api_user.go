@@ -98,7 +98,7 @@ func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(&userParam); err != nil  {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -125,7 +125,7 @@ func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(&userParam); err != nil  {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -150,7 +150,7 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(&userParam); err != nil  {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -249,7 +249,7 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(&userParam); err != nil  {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}

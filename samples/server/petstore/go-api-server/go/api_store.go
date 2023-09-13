@@ -127,7 +127,7 @@ func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	orderParam := Order{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&orderParam); err != nil {
+	if err := d.Decode(&orderParam); err != nil  {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
