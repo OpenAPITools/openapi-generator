@@ -18,6 +18,7 @@ import (
 // checks if the TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter{}
 
+
 // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter struct for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 type TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter struct {
 	Size *string `json:"size,omitempty"`

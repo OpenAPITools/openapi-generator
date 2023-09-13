@@ -18,6 +18,7 @@ import (
 // checks if the Tag type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Tag{}
 
+
 // Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`

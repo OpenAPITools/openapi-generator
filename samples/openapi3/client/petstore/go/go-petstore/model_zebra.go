@@ -116,7 +116,7 @@ func (v *NullableZebraType) UnmarshalJSON(src []byte) error {
 
 // Zebra struct for Zebra
 type Zebra struct {
-	Type *string `json:"type,omitempty"`
+	Type *ZebraType `json:"type,omitempty"`
 	ClassName string `json:"className"`
 	AdditionalProperties map[string]interface{}
 }
@@ -142,9 +142,9 @@ func NewZebraWithDefaults() *Zebra {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Zebra) GetType() string {
+func (o *Zebra) GetType() ZebraType {
 	if o == nil || IsNil(o.Type) {
-		var ret string
+		var ret ZebraType
 		return ret
 	}
 	return *o.Type
@@ -152,9 +152,9 @@ func (o *Zebra) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Zebra) GetTypeOk() (*string, bool) {
+func (o *Zebra) GetTypeOk() (*ZebraType, bool) {
 	if o == nil || IsNil(o.Type) {
-		return nil, false
+		return o.Type, false
 	}
 	return o.Type, true
 }
@@ -169,7 +169,7 @@ func (o *Zebra) HasType() bool {
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *Zebra) SetType(v string) {
+func (o *Zebra) SetType(v ZebraType) {
 	o.Type = &v
 }
 

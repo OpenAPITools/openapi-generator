@@ -18,6 +18,7 @@ import (
 // checks if the TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter{}
 
+
 // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter struct for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 type TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter struct {
 	Values []string `json:"values,omitempty"`

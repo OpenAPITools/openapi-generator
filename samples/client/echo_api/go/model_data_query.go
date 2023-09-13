@@ -19,6 +19,7 @@ import (
 // checks if the DataQuery type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DataQuery{}
 
+
 // DataQuery struct for DataQuery
 type DataQuery struct {
 	Query

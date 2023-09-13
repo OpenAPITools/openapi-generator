@@ -18,10 +18,107 @@ import (
 // checks if the DefaultValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DefaultValue{}
 
+// DefaultValueArrayStringEnumDefault the model 'DefaultValueArrayStringEnumDefault'
+type DefaultValueArrayStringEnumDefault string
+
+// List of DefaultValueArrayStringEnumDefault
+const (
+	DEFAULTVALUE_SUCCESS DefaultValueArrayStringEnumDefault = "success"
+	DEFAULTVALUE_FAILURE DefaultValueArrayStringEnumDefault = "failure"
+	DEFAULTVALUE_UNCLASSIFIED DefaultValueArrayStringEnumDefault = "unclassified"
+)
+
+// All allowed values of DefaultValueArrayStringEnumDefault enum
+var AllowedDefaultValueArrayStringEnumDefaultEnumValues = []DefaultValueArrayStringEnumDefault{
+	"success",
+	"failure",
+	"unclassified",
+}
+
+func (v *DefaultValueArrayStringEnumDefault) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := DefaultValueArrayStringEnumDefault(value)
+	for _, existing := range AllowedDefaultValueArrayStringEnumDefaultEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid DefaultValueArrayStringEnumDefault", value)
+}
+
+// NewDefaultValueArrayStringEnumDefaultFromValue returns a pointer to a valid DefaultValueArrayStringEnumDefault
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewDefaultValueArrayStringEnumDefaultFromValue(v string) (*DefaultValueArrayStringEnumDefault, error) {
+	ev := DefaultValueArrayStringEnumDefault(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for DefaultValueArrayStringEnumDefault: valid values are %v", v, AllowedDefaultValueArrayStringEnumDefaultEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v DefaultValueArrayStringEnumDefault) IsValid() bool {
+	for _, existing := range AllowedDefaultValueArrayStringEnumDefaultEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to ArrayStringEnumDefault value
+func (v DefaultValueArrayStringEnumDefault) Ptr() *DefaultValueArrayStringEnumDefault {
+	return &v
+}
+
+type NullableDefaultValueArrayStringEnumDefault struct {
+	value *DefaultValueArrayStringEnumDefault
+	isSet bool
+}
+
+func (v NullableDefaultValueArrayStringEnumDefault) Get() *DefaultValueArrayStringEnumDefault {
+	return v.value
+}
+
+func (v *NullableDefaultValueArrayStringEnumDefault) Set(val *DefaultValueArrayStringEnumDefault) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableDefaultValueArrayStringEnumDefault) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableDefaultValueArrayStringEnumDefault) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableDefaultValueArrayStringEnumDefault(val *DefaultValueArrayStringEnumDefault) *NullableDefaultValueArrayStringEnumDefault {
+	return &NullableDefaultValueArrayStringEnumDefault{value: val, isSet: true}
+}
+
+func (v NullableDefaultValueArrayStringEnumDefault) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableDefaultValueArrayStringEnumDefault) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // DefaultValue to test the default value of properties
 type DefaultValue struct {
 	ArrayStringEnumRefDefault []StringEnumRef `json:"array_string_enum_ref_default,omitempty"`
-	ArrayStringEnumDefault []string `json:"array_string_enum_default,omitempty"`
+	ArrayStringEnumDefault DefaultValueArrayStringEnumDefault `json:"array_string_enum_default,omitempty"`
 	ArrayStringDefault []string `json:"array_string_default,omitempty"`
 	ArrayIntegerDefault []int32 `json:"array_integer_default,omitempty"`
 	ArrayString []string `json:"array_string,omitempty"`
@@ -80,9 +177,9 @@ func (o *DefaultValue) SetArrayStringEnumRefDefault(v []StringEnumRef) {
 }
 
 // GetArrayStringEnumDefault returns the ArrayStringEnumDefault field value if set, zero value otherwise.
-func (o *DefaultValue) GetArrayStringEnumDefault() []string {
+func (o *DefaultValue) GetArrayStringEnumDefault() DefaultValueArrayStringEnumDefault {
 	if o == nil || IsNil(o.ArrayStringEnumDefault) {
-		var ret []string
+		var ret DefaultValueArrayStringEnumDefault
 		return ret
 	}
 	return o.ArrayStringEnumDefault
@@ -90,9 +187,9 @@ func (o *DefaultValue) GetArrayStringEnumDefault() []string {
 
 // GetArrayStringEnumDefaultOk returns a tuple with the ArrayStringEnumDefault field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DefaultValue) GetArrayStringEnumDefaultOk() ([]string, bool) {
+func (o *DefaultValue) GetArrayStringEnumDefaultOk() (DefaultValueArrayStringEnumDefault, bool) {
 	if o == nil || IsNil(o.ArrayStringEnumDefault) {
-		return nil, false
+		return o.ArrayStringEnumDefault, false
 	}
 	return o.ArrayStringEnumDefault, true
 }
@@ -107,7 +204,7 @@ func (o *DefaultValue) HasArrayStringEnumDefault() bool {
 }
 
 // SetArrayStringEnumDefault gets a reference to the given []string and assigns it to the ArrayStringEnumDefault field.
-func (o *DefaultValue) SetArrayStringEnumDefault(v []string) {
+func (o *DefaultValue) SetArrayStringEnumDefault(v DefaultValueArrayStringEnumDefault) {
 	o.ArrayStringEnumDefault = v
 }
 

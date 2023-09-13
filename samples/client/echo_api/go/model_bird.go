@@ -18,6 +18,7 @@ import (
 // checks if the Bird type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Bird{}
 
+
 // Bird struct for Bird
 type Bird struct {
 	Size *string `json:"size,omitempty"`

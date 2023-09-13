@@ -115,7 +115,7 @@ func (v *NullableMapTestInner) UnmarshalJSON(src []byte) error {
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
-	MapOfEnumString *map[string]string `json:"map_of_enum_string,omitempty"`
+	MapOfEnumString *MapTestMapOfEnumString `json:"map_of_enum_string,omitempty"`
 	DirectMap *map[string]bool `json:"direct_map,omitempty"`
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -173,9 +173,9 @@ func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 }
 
 // GetMapOfEnumString returns the MapOfEnumString field value if set, zero value otherwise.
-func (o *MapTest) GetMapOfEnumString() map[string]string {
+func (o *MapTest) GetMapOfEnumString() MapTestMapOfEnumString {
 	if o == nil || IsNil(o.MapOfEnumString) {
-		var ret map[string]string
+		var ret MapTestMapOfEnumString
 		return ret
 	}
 	return *o.MapOfEnumString
@@ -183,9 +183,9 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
+func (o *MapTest) GetMapOfEnumStringOk() (*MapTestMapOfEnumString, bool) {
 	if o == nil || IsNil(o.MapOfEnumString) {
-		return nil, false
+		return o.MapOfEnumString, false
 	}
 	return o.MapOfEnumString, true
 }
@@ -200,7 +200,7 @@ func (o *MapTest) HasMapOfEnumString() bool {
 }
 
 // SetMapOfEnumString gets a reference to the given map[string]string and assigns it to the MapOfEnumString field.
-func (o *MapTest) SetMapOfEnumString(v map[string]string) {
+func (o *MapTest) SetMapOfEnumString(v MapTestMapOfEnumString) {
 	o.MapOfEnumString = &v
 }
 

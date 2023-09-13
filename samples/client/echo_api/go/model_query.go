@@ -18,11 +18,108 @@ import (
 // checks if the Query type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Query{}
 
+// QueryOutcomes the model 'QueryOutcomes'
+type QueryOutcomes string
+
+// List of QueryOutcomes
+const (
+	QUERY_SUCCESS QueryOutcomes = "SUCCESS"
+	QUERY_FAILURE QueryOutcomes = "FAILURE"
+	QUERY_SKIPPED QueryOutcomes = "SKIPPED"
+)
+
+// All allowed values of QueryOutcomes enum
+var AllowedQueryOutcomesEnumValues = []QueryOutcomes{
+	"SUCCESS",
+	"FAILURE",
+	"SKIPPED",
+}
+
+func (v *QueryOutcomes) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := QueryOutcomes(value)
+	for _, existing := range AllowedQueryOutcomesEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid QueryOutcomes", value)
+}
+
+// NewQueryOutcomesFromValue returns a pointer to a valid QueryOutcomes
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewQueryOutcomesFromValue(v string) (*QueryOutcomes, error) {
+	ev := QueryOutcomes(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for QueryOutcomes: valid values are %v", v, AllowedQueryOutcomesEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v QueryOutcomes) IsValid() bool {
+	for _, existing := range AllowedQueryOutcomesEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to Outcomes value
+func (v QueryOutcomes) Ptr() *QueryOutcomes {
+	return &v
+}
+
+type NullableQueryOutcomes struct {
+	value *QueryOutcomes
+	isSet bool
+}
+
+func (v NullableQueryOutcomes) Get() *QueryOutcomes {
+	return v.value
+}
+
+func (v *NullableQueryOutcomes) Set(val *QueryOutcomes) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableQueryOutcomes) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableQueryOutcomes) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableQueryOutcomes(val *QueryOutcomes) *NullableQueryOutcomes {
+	return &NullableQueryOutcomes{value: val, isSet: true}
+}
+
+func (v NullableQueryOutcomes) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableQueryOutcomes) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+
 // Query struct for Query
 type Query struct {
 	// Query
 	Id *int64 `json:"id,omitempty"`
-	Outcomes []string `json:"outcomes,omitempty"`
+	Outcomes QueryOutcomes `json:"outcomes,omitempty"`
 }
 
 // NewQuery instantiates a new Query object
@@ -75,9 +172,9 @@ func (o *Query) SetId(v int64) {
 }
 
 // GetOutcomes returns the Outcomes field value if set, zero value otherwise.
-func (o *Query) GetOutcomes() []string {
+func (o *Query) GetOutcomes() QueryOutcomes {
 	if o == nil || IsNil(o.Outcomes) {
-		var ret []string
+		var ret QueryOutcomes
 		return ret
 	}
 	return o.Outcomes
@@ -85,9 +182,9 @@ func (o *Query) GetOutcomes() []string {
 
 // GetOutcomesOk returns a tuple with the Outcomes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Query) GetOutcomesOk() ([]string, bool) {
+func (o *Query) GetOutcomesOk() (QueryOutcomes, bool) {
 	if o == nil || IsNil(o.Outcomes) {
-		return nil, false
+		return o.Outcomes, false
 	}
 	return o.Outcomes, true
 }
@@ -102,7 +199,7 @@ func (o *Query) HasOutcomes() bool {
 }
 
 // SetOutcomes gets a reference to the given []string and assigns it to the Outcomes field.
-func (o *Query) SetOutcomes(v []string) {
+func (o *Query) SetOutcomes(v QueryOutcomes) {
 	o.Outcomes = v
 }
 

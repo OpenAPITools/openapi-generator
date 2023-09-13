@@ -18,6 +18,7 @@ import (
 // checks if the NumberPropertiesOnly type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NumberPropertiesOnly{}
 
+
 // NumberPropertiesOnly struct for NumberPropertiesOnly
 type NumberPropertiesOnly struct {
 	Number *float32 `json:"number,omitempty"`

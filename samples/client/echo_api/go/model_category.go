@@ -18,6 +18,7 @@ import (
 // checks if the Category type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Category{}
 
+
 // Category struct for Category
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
