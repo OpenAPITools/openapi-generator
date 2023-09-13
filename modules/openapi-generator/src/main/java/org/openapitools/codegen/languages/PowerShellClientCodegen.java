@@ -568,7 +568,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
-        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+        this.setDisallowAdditionalPropertiesIfNotPresent(false);
 
         // default value in the template
         additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
