@@ -98,7 +98,7 @@ func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil  {
+	if err := d.Decode(&petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -195,7 +195,7 @@ func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil  {
+	if err := d.Decode(&petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
