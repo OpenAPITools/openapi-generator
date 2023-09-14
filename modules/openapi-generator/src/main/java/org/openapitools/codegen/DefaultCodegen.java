@@ -478,6 +478,11 @@ public class DefaultCodegen implements CodegenConfig {
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
 
+            if (model == null) {
+                LOGGER.warn("Null model found in postProcessAllModels: {}", entry.getKey());
+                continue;
+            }
+
             // add the model to the discriminator's mapping so templates have access to more than just the string to string mapping
             if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
                 for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
@@ -5977,6 +5982,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static Boolean isAliasOfSimpleTypes(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         return (!ModelUtils.isObjectSchema(schema)
                 && !ModelUtils.isArraySchema(schema)
                 && !ModelUtils.isMapSchema(schema)
