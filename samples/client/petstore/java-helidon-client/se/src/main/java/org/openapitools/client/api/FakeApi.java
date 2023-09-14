@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiResponse;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -143,6 +144,14 @@ public interface FakeApi {
   * @return {@code ApiResponse<Void>}
   */
   ApiResponse<Void> testJsonFormData(String param, String param2);
+
+ /**
+  * test nullable parent property
+  * 
+  * @param childWithNullable request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testNullable(ChildWithNullable childWithNullable);
 
   ApiResponse<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language);
 

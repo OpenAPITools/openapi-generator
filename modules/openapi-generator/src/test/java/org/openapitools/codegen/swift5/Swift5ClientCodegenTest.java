@@ -292,4 +292,32 @@ public class Swift5ClientCodegenTest {
         }
     }
 
+    @Test(description = "optional form parameters when using oneOf schema", enabled = true)
+    public void oneOfFormParameterTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_15511.yaml");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+        final String path = "/as/token.oauth2";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+
+        Assert.assertEquals(op.formParams.size(), 6);
+
+        Assert.assertEquals(op.formParams.get(0).baseName, "client_id");
+        Assert.assertEquals(op.formParams.get(1).baseName, "grant_type");
+        Assert.assertEquals(op.formParams.get(2).baseName, "password");
+        Assert.assertEquals(op.formParams.get(3).baseName, "scope");
+        Assert.assertEquals(op.formParams.get(4).baseName, "username");
+        Assert.assertEquals(op.formParams.get(5).baseName, "refresh_token");
+
+        Assert.assertEquals(op.formParams.get(0).required, false);
+        Assert.assertEquals(op.formParams.get(1).required, false);
+        Assert.assertEquals(op.formParams.get(2).required, false);
+        Assert.assertEquals(op.formParams.get(3).required, false);
+        Assert.assertEquals(op.formParams.get(4).required, false);
+        Assert.assertEquals(op.formParams.get(5).required, false);
+
+    }
+
 }

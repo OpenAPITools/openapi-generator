@@ -1649,6 +1649,17 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+    Outer_Enum_Test:
+      type: string
+      enum:
+        - UPPER
+        - lower
+        - ''
+        - "Value\twith tab"
+        - 'Value with " quote'
+        - 'Value with escaped \" quote'
+        - "Duplicate\nvalue"
+        - "Duplicate\r\nvalue"
     Enum_Test:
       type: object
       required:
@@ -1660,12 +1671,22 @@ components:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_integer:
           type: integer
           format: int32

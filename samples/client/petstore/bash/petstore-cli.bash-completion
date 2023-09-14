@@ -109,7 +109,7 @@ _petstore-cli()
     # An associative array of operations to their parameters
     # Only include path, query and header parameters
     declare -A operation_parameters
-    operation_parameters["call123TestSpecialTags"]=""
+    operation_parameters["call123TestSpecialTags"]="uuid_test: "
     operation_parameters["createXmlItem"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
     operation_parameters["fakeOuterCompositeSerialize"]=""

@@ -1131,6 +1131,56 @@ class FakeApi {
     }
   }
 
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/nullable';
+
+    // ignore: prefer_final_locals
+    Object? postBody = childWithNullable;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
+    final response = await testNullableWithHttpInfo(childWithNullable,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// To test the collection format in query parameters
   ///
   /// Note: This method returns the HTTP [Response].

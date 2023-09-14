@@ -140,19 +140,21 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T{{nrt?}} AsModel(System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
+        public T{{nrt?}} AsModel()
         {
+            {{#lambda.trimTrailingWithNewLine}}
 {{>AsModel}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
 
         /// <summary>
         /// Returns true when the model can be deserialized
         /// </summary>
-        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model, System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
+        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model)
         {
             try
             {
-                model = AsModel(options);
+                model = AsModel();
                 return model != null;
             }
             catch

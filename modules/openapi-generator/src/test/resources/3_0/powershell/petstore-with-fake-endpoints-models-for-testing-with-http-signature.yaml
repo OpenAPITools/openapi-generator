@@ -2129,6 +2129,11 @@ components:
       properties:
         name:
           type: string
+    model-mapping:
+      type: object
+      properties:
+        name:
+          type: string
     ObjectWithDeprecatedFields:
       type: object
       properties:
@@ -2144,6 +2149,8 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+        name_mapping:
+          type: string
     PetWithRequiredTags:
       type: object
       required:

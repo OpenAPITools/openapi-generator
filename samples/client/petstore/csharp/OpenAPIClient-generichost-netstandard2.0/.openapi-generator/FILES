@@ -71,6 +71,7 @@ docs/models/OuterEnum.md
 docs/models/OuterEnumDefaultValue.md
 docs/models/OuterEnumInteger.md
 docs/models/OuterEnumIntegerDefaultValue.md
+docs/models/OuterEnumTest.md
 docs/models/ParentPet.md
 docs/models/Pet.md
 docs/models/Pig.md
@@ -196,6 +197,7 @@ src/Org.OpenAPITools/Model/OuterEnum.cs
 src/Org.OpenAPITools/Model/OuterEnumDefaultValue.cs
 src/Org.OpenAPITools/Model/OuterEnumInteger.cs
 src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
+src/Org.OpenAPITools/Model/OuterEnumTest.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Pig.cs

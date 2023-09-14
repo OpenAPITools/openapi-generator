@@ -15,13 +15,14 @@ open class AnotherFakeAPI {
     /**
      To test special tags
      
+     - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) -> RequestTask {
-        return call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    open class func call123testSpecialTags(uuidTest: UUID, body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) -> RequestTask {
+        return call123testSpecialTagsWithRequestBuilder(uuidTest: uuidTest, body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -35,10 +36,11 @@ open class AnotherFakeAPI {
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
+     - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func call123testSpecialTagsWithRequestBuilder(uuidTest: UUID, body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/another-fake/dummy"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
@@ -46,7 +48,7 @@ open class AnotherFakeAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "uuid_test": uuidTest.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

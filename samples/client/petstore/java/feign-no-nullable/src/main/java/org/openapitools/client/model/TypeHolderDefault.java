@@ -195,6 +195,7 @@ public class TypeHolderDefault {
     this.arrayItem = arrayItem;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

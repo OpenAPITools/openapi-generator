@@ -200,6 +200,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     }
 
     private String sourceFolderByPackage(String packageName) {
-        return sourceFolder + File.separator + packageName.replaceAll("[.]", File.separator);
+        return sourceFolder + File.separator + packageName.replace('.', File.separatorChar);
     }
 }

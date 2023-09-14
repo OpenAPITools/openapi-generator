@@ -354,7 +354,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveRequestBodyInvalidRef() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/invalid_ref_request_body.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI
@@ -807,7 +807,7 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
-        assertTrue(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline") instanceof ComposedSchema);
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline")));
 
         ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("ComposedObjectModelInline");
 
@@ -830,19 +830,19 @@ public class InlineModelResolverTest {
         assertTrue(openAPI.getComponents().getSchemas().get("CustomerType") instanceof StringSchema);
         assertTrue(openAPI.getComponents().getSchemas().get("Entity") instanceof ObjectSchema);
 
-        assertTrue(openAPI.getComponents().getSchemas().get("Party") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Contact") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Customer") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Person") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Organization") instanceof ComposedSchema);
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Party")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Contact")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Customer")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Person")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Organization")));
 
         assertTrue(openAPI.getComponents().getSchemas().get("ApiError") instanceof ObjectSchema);
 
-        assertFalse(openAPI.getComponents().getSchemas().get("Party_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Contact_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Customer_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Person_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Organization_allOf") instanceof ComposedSchema);
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Party_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Contact_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Customer_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Person_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Organization_allOf")));
 
         // Party
         ComposedSchema party = (ComposedSchema) openAPI.getComponents().getSchemas().get("Party");

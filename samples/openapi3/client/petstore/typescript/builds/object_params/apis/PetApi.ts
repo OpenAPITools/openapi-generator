@@ -1,7 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
@@ -438,14 +438,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to addPet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async addPet(response: ResponseContext): Promise<Pet > {
+     public async addPetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Pet = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined, response.headers);
@@ -457,7 +457,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -470,7 +470,7 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to deletePet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deletePet(response: ResponseContext): Promise< void> {
+     public async deletePetWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid pet value", undefined, response.headers);
@@ -478,7 +478,7 @@ export class PetApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            return;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -491,14 +491,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to findPetsByStatus
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async findPetsByStatus(response: ResponseContext): Promise<Array<Pet> > {
+     public async findPetsByStatusWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Pet> >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Array<Pet> = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<Pet>", ""
             ) as Array<Pet>;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid status value", undefined, response.headers);
@@ -510,7 +510,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<Pet>", ""
             ) as Array<Pet>;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -523,14 +523,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to findPetsByTags
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async findPetsByTags(response: ResponseContext): Promise<Array<Pet> > {
+     public async findPetsByTagsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Pet> >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Array<Pet> = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<Pet>", ""
             ) as Array<Pet>;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid tag value", undefined, response.headers);
@@ -542,7 +542,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<Pet>", ""
             ) as Array<Pet>;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -555,14 +555,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to getPetById
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getPetById(response: ResponseContext): Promise<Pet > {
+     public async getPetByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Pet = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
@@ -577,7 +577,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -590,14 +590,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to updatePet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async updatePet(response: ResponseContext): Promise<Pet > {
+     public async updatePetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Pet = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
@@ -615,7 +615,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Pet", ""
             ) as Pet;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -628,7 +628,7 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to updatePetWithForm
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async updatePetWithForm(response: ResponseContext): Promise< void> {
+     public async updatePetWithFormWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined, response.headers);
@@ -636,7 +636,7 @@ export class PetApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            return;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
@@ -649,14 +649,14 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to uploadFile
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async uploadFile(response: ResponseContext): Promise<ApiResponse > {
+     public async uploadFileWithHttpInfo(response: ResponseContext): Promise<HttpInfo<ApiResponse >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: ApiResponse = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "ApiResponse", ""
             ) as ApiResponse;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -665,7 +665,7 @@ export class PetApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "ApiResponse", ""
             ) as ApiResponse;
-            return body;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
         throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);

@@ -449,7 +449,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         }
         {{/minimum}}
         {{#pattern}}
-        if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(!preg_match("{{{pattern}}}", ${{name}}))) {
+        if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(!preg_match("{{{pattern}}}", ObjectSerializer::toString(${{name}})))) {
             throw new \InvalidArgumentException("invalid value for \${{name}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}

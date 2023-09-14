@@ -98,9 +98,13 @@ func (o ArrayOfArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {
 	varArrayOfArrayOfNumberOnly := _ArrayOfArrayOfNumberOnly{}
 
-	if err = json.Unmarshal(bytes, &varArrayOfArrayOfNumberOnly); err == nil {
-		*o = ArrayOfArrayOfNumberOnly(varArrayOfArrayOfNumberOnly)
+	err = json.Unmarshal(bytes, &varArrayOfArrayOfNumberOnly)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ArrayOfArrayOfNumberOnly(varArrayOfArrayOfNumberOnly)
 
 	additionalProperties := make(map[string]interface{})
 

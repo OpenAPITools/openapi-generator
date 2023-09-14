@@ -182,14 +182,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
-            String defaultValue = (String)p.getDefault();
-            if (defaultValue != null) {
-                defaultValue = defaultValue.replace("\\", "\\\\")
-                    .replace("'", "\'");
-                if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
-                    return "'''" + defaultValue + "'''";
-                } else {
-                    return "'" + defaultValue + "'";
+            if (p.getDefault() != null) {
+                String defaultValue = String.valueOf(p.getDefault());
+                if (defaultValue != null) {
+                    defaultValue = defaultValue.replace("\\", "\\\\")
+                            .replace("'", "\'");
+                    if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+                        return "'''" + defaultValue + "'''";
+                    } else {
+                        return "'" + defaultValue + "'";
+                    }
                 }
             }
         } else if (ModelUtils.isArraySchema(p)) {
@@ -351,7 +353,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // correct "&#39;"s into "'"s after toString()
         if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
-            example = (String) schema.getDefault();
+            example = String.valueOf(schema.getDefault());
         }
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
@@ -527,7 +529,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
             example += ")";
         } else {
-            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
+            LOGGER.debug("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -589,7 +591,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
         } else {
-            LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
+            LOGGER.debug("Type {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
@@ -1745,6 +1747,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         hasModelsToImport = false;
+        boolean importAnnotated = false;
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
@@ -1805,6 +1808,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     param.vendorExtensions.put("x-py-typing", typing);
                 } else {
                     param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
+                    importAnnotated = true;
                 }
             }
 
@@ -1835,6 +1839,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<Map<String, String>> newImports = new ArrayList<>();
+
+        if (importAnnotated) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format(Locale.ROOT, String.format(Locale.ROOT, "from typing_extensions import Annotated")));
+            newImports.add(item);
+        }
 
         // need datetime import
         if (!datetimeImports.isEmpty()) {
@@ -1970,5 +1980,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
         return value;
+    }
+
+    /**
+     * checks if the data should be classified as "string" in enum
+     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "str".equals(dataType);
     }
 }

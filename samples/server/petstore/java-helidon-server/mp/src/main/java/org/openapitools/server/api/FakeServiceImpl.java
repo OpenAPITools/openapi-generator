@@ -13,6 +13,7 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
 import org.openapitools.server.model.FakeBigDecimalMap200Response;
@@ -158,6 +159,12 @@ public class FakeServiceImpl implements FakeService {
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     public void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
+    }
+
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    public void testNullable(@Valid @NotNull ChildWithNullable childWithNullable) {
     }
 
     @PUT

@@ -2,13 +2,18 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -49,33 +54,25 @@ public class FakeApiImpl implements FakeApi {
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-        * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @param resultHandler Asynchronous result handler
     */
-    public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
-        createXmlItem(xmlItem, null, resultHandler);
+    public void fakeBigDecimalMap(Handler<AsyncResult<FakeBigDecimalMap200Response>> resultHandler) {
+        fakeBigDecimalMap(null, resultHandler);
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-    * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void createXmlItem(XmlItem xmlItem, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = xmlItem;
-        
-        // verify the required parameter 'xmlItem' is set
-        if (xmlItem == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'xmlItem' when calling createXmlItem"));
-            return;
-        }
+    public void fakeBigDecimalMap(ApiClient.AuthInfo authInfo, Handler<AsyncResult<FakeBigDecimalMap200Response>> resultHandler) {
+        Object localVarBody = null;
         
         // create path and map variables
-        String localVarPath = "/fake/create_xml_item";
+        String localVarPath = "/fake/BigDecimalMap";
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -90,11 +87,106 @@ public class FakeApiImpl implements FakeApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = {  };
-        String[] localVarContentTypes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" };
+        String[] localVarAccepts = { "*/*" };
+        String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
+        TypeReference<FakeBigDecimalMap200Response> localVarReturnType = new TypeReference<FakeBigDecimalMap200Response>() {};
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+    /**
+    * Health check endpoint
+    * 
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHealthGet(Handler<AsyncResult<HealthCheckResult>> resultHandler) {
+        fakeHealthGet(null, resultHandler);
+    }
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    /**
+    * Health check endpoint
+    * 
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHealthGet(ApiClient.AuthInfo authInfo, Handler<AsyncResult<HealthCheckResult>> resultHandler) {
+        Object localVarBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/fake/health";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "application/json" };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<HealthCheckResult> localVarReturnType = new TypeReference<HealthCheckResult>() {};
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+    /**
+    * test http signature authentication
+    * 
+        * @param pet Pet object that needs to be added to the store (required)
+        * @param query1 query parameter (optional)
+        * @param header1 header parameter (optional)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHttpSignatureTest(Pet pet, String query1, String header1, Handler<AsyncResult<Void>> resultHandler) {
+        fakeHttpSignatureTest(pet, query1, header1, null, resultHandler);
+    }
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store (required)
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHttpSignatureTest(Pet pet, String query1, String header1, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = pet;
+        
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling fakeHttpSignatureTest"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/http-signature-test";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_1", query1));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        if (header1 != null)
+        localVarHeaderParams.add("header_1", apiClient.parameterToString(header1));
+
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json", "application/xml" };
+        String[] localVarAuthNames = new String[] { "http_signature_test" };
+
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
     * 
@@ -133,7 +225,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
@@ -141,22 +233,22 @@ public class FakeApiImpl implements FakeApi {
     /**
     * 
     * Test serialization of object with outer number type
-        * @param body Input composite as post body (optional)
+        * @param outerComposite Input composite as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        fakeOuterCompositeSerialize(body, null, resultHandler);
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        fakeOuterCompositeSerialize(outerComposite, null, resultHandler);
     }
 
     /**
     * 
     * Test serialization of object with outer number type
-    * @param body Input composite as post body (optional)
+    * @param outerComposite Input composite as post body (optional)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        Object localVarBody = body;
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        Object localVarBody = outerComposite;
         
         // create path and map variables
         String localVarPath = "/fake/outer/composite";
@@ -175,7 +267,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
@@ -217,7 +309,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
@@ -259,34 +351,130 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-        * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+        * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithFileSchema(FileSchemaTestClass body, Handler<AsyncResult<Void>> resultHandler) {
-        testBodyWithFileSchema(body, null, resultHandler);
+    public void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, Handler<AsyncResult<OuterObjectWithEnumProperty>> resultHandler) {
+        fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, null, resultHandler);
     }
 
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithFileSchema(FileSchemaTestClass body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterObjectWithEnumProperty>> resultHandler) {
+        Object localVarBody = outerObjectWithEnumProperty;
+        
+        // verify the required parameter 'outerObjectWithEnumProperty' is set
+        if (outerObjectWithEnumProperty == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/property/enum-int";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "*/*" };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<OuterObjectWithEnumProperty> localVarReturnType = new TypeReference<OuterObjectWithEnumProperty>() {};
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+        * @param body image to upload (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithBinary(AsyncFile body, Handler<AsyncResult<Void>> resultHandler) {
+        testBodyWithBinary(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+    * @param body image to upload (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithBinary(AsyncFile body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
         if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema"));
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testBodyWithBinary"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/body-with-binary";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "image/png" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        * @param fileSchemaTestClass  (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
+        testBodyWithFileSchema(fileSchemaTestClass, null, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = fileSchemaTestClass;
+        
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema"));
             return;
         }
         
@@ -316,23 +504,23 @@ public class FakeApiImpl implements FakeApi {
     * 
     * 
         * @param query  (required)
-        * @param body  (required)
+        * @param user  (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithQueryParams(String query, User body, Handler<AsyncResult<Void>> resultHandler) {
-        testBodyWithQueryParams(query, body, null, resultHandler);
+    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
+        testBodyWithQueryParams(query, user, null, resultHandler);
     }
 
     /**
     * 
     * 
     * @param query  (required)
-    * @param body  (required)
+    * @param user  (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithQueryParams(String query, User body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = body;
+    public void testBodyWithQueryParams(String query, User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = user;
         
         // verify the required parameter 'query' is set
         if (query == null) {
@@ -340,9 +528,9 @@ public class FakeApiImpl implements FakeApi {
             return;
         }
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams"));
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams"));
             return;
         }
         
@@ -372,26 +560,26 @@ public class FakeApiImpl implements FakeApi {
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-        * @param body client model (required)
+        * @param client client model (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        testClientModel(body, null, resultHandler);
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        testClientModel(client, null, resultHandler);
     }
 
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testClientModel(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = body;
+    public void testClientModel(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = client;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClientModel"));
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClientModel"));
             return;
         }
         
@@ -418,8 +606,8 @@ public class FakeApiImpl implements FakeApi {
         apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         * @param number None (required)
         * @param _double None (required)
         * @param patternWithoutDelimiter None (required)
@@ -441,8 +629,8 @@ public class FakeApiImpl implements FakeApi {
     }
 
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * @param number None (required)
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
@@ -532,12 +720,13 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
         * @param enumQueryInteger Query parameter enum test (double) (optional)
         * @param enumQueryDouble Query parameter enum test (double) (optional)
+        * @param enumQueryModelArray  (optional)
         * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
         * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
-        testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null, resultHandler);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
+        testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, null, resultHandler);
     }
 
     /**
@@ -549,12 +738,13 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // create path and map variables
@@ -562,10 +752,11 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
-        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_string", enumQueryString));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_integer", enumQueryInteger));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_double", enumQueryDouble));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "enum_query_model_array", enumQueryModelArray));
 
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
@@ -663,33 +854,33 @@ if (booleanGroup != null)
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "bearer_test" };
 
         apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
     * test inline additionalProperties
     * 
-        * @param param request body (required)
+        * @param requestBody request body (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> resultHandler) {
-        testInlineAdditionalProperties(param, null, resultHandler);
+    public void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        testInlineAdditionalProperties(requestBody, null, resultHandler);
     }
 
     /**
     * test inline additionalProperties
     * 
-    * @param param request body (required)
+    * @param requestBody request body (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testInlineAdditionalProperties(Map<String, String> param, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = param;
+    public void testInlineAdditionalProperties(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = requestBody;
         
-        // verify the required parameter 'param' is set
-        if (param == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties"));
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties"));
             return;
         }
         
@@ -774,6 +965,54 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
+    * test nullable parent property
+    * 
+        * @param childWithNullable request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, Handler<AsyncResult<Void>> resultHandler) {
+        testNullable(childWithNullable, null, resultHandler);
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = childWithNullable;
+        
+        // verify the required parameter 'childWithNullable' is set
+        if (childWithNullable == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'childWithNullable' when calling testNullable"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/nullable";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+    /**
     * 
     * To test the collection format in query parameters
         * @param pipe  (required)
@@ -781,10 +1020,12 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         * @param http  (required)
         * @param url  (required)
         * @param context  (required)
+        * @param allowEmpty  (required)
+        * @param language  (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
-        testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, null, resultHandler);
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Handler<AsyncResult<Void>> resultHandler) {
+        testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, null, resultHandler);
     }
 
     /**
@@ -795,10 +1036,12 @@ if (param2 != null) localVarFormParams.put("param2", param2);
     * @param http  (required)
     * @param url  (required)
     * @param context  (required)
+    * @param allowEmpty  (required)
+    * @param language  (optional)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'pipe' is set
@@ -831,16 +1074,24 @@ if (param2 != null) localVarFormParams.put("param2", param2);
             return;
         }
         
+        // verify the required parameter 'allowEmpty' is set
+        if (allowEmpty == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'allowEmpty' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
         // create path and map variables
         String localVarPath = "/fake/test-query-parameters";
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
-        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("pipes", "pipe", pipe));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
         localVarQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
         localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "language", language));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "allowEmpty", allowEmpty));
 
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();

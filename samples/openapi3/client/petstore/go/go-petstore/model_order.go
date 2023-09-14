@@ -284,9 +284,13 @@ func (o Order) ToMap() (map[string]interface{}, error) {
 func (o *Order) UnmarshalJSON(bytes []byte) (err error) {
 	varOrder := _Order{}
 
-	if err = json.Unmarshal(bytes, &varOrder); err == nil {
-		*o = Order(varOrder)
+	err = json.Unmarshal(bytes, &varOrder)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Order(varOrder)
 
 	additionalProperties := make(map[string]interface{})
 

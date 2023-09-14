@@ -6,6 +6,7 @@ api/StoreAPI.c
 api/StoreAPI.h
 api/UserAPI.c
 api/UserAPI.h
+docs/MappedModel.md
 docs/PetAPI.md
 docs/StoreAPI.md
 docs/UserAPI.md
@@ -27,6 +28,8 @@ model/api_response.c
 model/api_response.h
 model/category.c
 model/category.h
+model/mapped_model.c
+model/mapped_model.h
 model/object.c
 model/object.h
 model/order.c

@@ -1,6 +1,7 @@
 package org.openapitools.virtualan.api;
 
 import java.math.BigDecimal;
+import org.openapitools.virtualan.model.ChildWithNullable;
 import org.openapitools.virtualan.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.virtualan.model.FileSchemaTestClass;

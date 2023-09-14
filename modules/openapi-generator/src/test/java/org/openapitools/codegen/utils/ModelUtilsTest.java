@@ -114,6 +114,14 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testNestedFormParameter() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/nestedFormParameter.yaml");
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 1);
+        Assert.assertTrue(unusedSchemas.contains("OuterObject"), "contains 'OuterObject'");
+    }
+
+    @Test
     public void testNoComponentsSection() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);

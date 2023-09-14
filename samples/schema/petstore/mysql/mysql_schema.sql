@@ -111,6 +111,16 @@ CREATE TABLE IF NOT EXISTS `Category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `ChildWithNullable` generated from model 'ChildWithNullable'
+--
+
+CREATE TABLE IF NOT EXISTS `ChildWithNullable` (
+  `type` ENUM('ChildWithNullable') DEFAULT NULL,
+  `nullableProperty` TEXT DEFAULT NULL,
+  `otherProperty` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `ClassModel` generated from model 'ClassModel'
 -- Model for testing model with \&quot;_class\&quot; property
 --
@@ -361,6 +371,15 @@ CREATE TABLE IF NOT EXISTS `OuterComposite` (
 
 CREATE TABLE IF NOT EXISTS `OuterObjectWithEnumProperty` (
   `value` TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `ParentWithNullable` generated from model 'ParentWithNullable'
+--
+
+CREATE TABLE IF NOT EXISTS `ParentWithNullable` (
+  `type` ENUM('ChildWithNullable') DEFAULT NULL,
+  `nullableProperty` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

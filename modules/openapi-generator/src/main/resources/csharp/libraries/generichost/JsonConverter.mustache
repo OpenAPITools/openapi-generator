@@ -66,9 +66,9 @@
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string{{nrt?}} propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
+                    if (localVarJsonPropertyName{{nrt?}}.Equals("{{propertyBaseName}}"){{#nrt}} ?? false{{/nrt}})
                     {
                         string{{nrt?}} discriminator = utf8JsonReaderDiscriminator.GetString();
                         {{#mappedModels}}
@@ -156,10 +156,10 @@
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string{{nrt?}} propertyName = utf8JsonReader.GetString();
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         {{#allVars}}
                         case "{{baseName}}":
@@ -351,7 +351,7 @@
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
-            {{#lambda.trimTrailingWhiteSpace}}
+            {{#lambda.trimTrailingWithNewLine}}
             {{#lambda.trimLineBreaks}}
             {{#allVars}}
             {{#isString}}
@@ -513,6 +513,6 @@
             {{/isUuid}}
             {{/allVars}}
             {{/lambda.trimLineBreaks}}
-            {{/lambda.trimTrailingWhiteSpace}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
     }

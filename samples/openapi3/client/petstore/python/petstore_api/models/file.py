@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictStr
 
 class File(BaseModel):
     """
-    Must be named `File` for test.
+    Must be named `File` for test.  # noqa: E501
     """
     source_uri: Optional[StrictStr] = Field(None, alias="sourceURI", description="Test capitalization")
     additional_properties: Dict[str, Any] = {}
