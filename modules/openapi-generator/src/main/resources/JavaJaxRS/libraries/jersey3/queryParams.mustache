@@ -1,7 +1,6 @@
 {{#isQueryParam}}{{!
 
     }}@Schema(description = "{{{description}}}"{{!
-        }}{{#required}}, required = true{{/required}}{{!
         }}{{^isContainer}}{{!
             }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
             }}{{#defaultValue}}, defaultValue = "{{{.}}}"{{/defaultValue}}{{!
@@ -14,7 +13,12 @@
         }}{{/defaultValue}}{{!
     }}{{/isContainer}}{{!
 
-    }} @QueryParam("{{baseName}}"){{!
+    }}{{^isMap}}{{!
+        }} @QueryParam("{{baseName}}"){{!
+    }}{{/isMap}}{{!
+    }}{{#isMap}}{{!
+        }} @Parameter(description="{{baseName}}"){{!
+    }}{{/isMap}}{{!
 
     }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
 
