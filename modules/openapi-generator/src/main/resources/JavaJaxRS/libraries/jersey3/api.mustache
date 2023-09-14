@@ -42,16 +42,17 @@ import {{javaxPackage}}.validation.Valid;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
+
    private final {{classname}}Service delegate;
 
    public {{classname}}(@Context ServletConfig servletContext) {
-      {{classname}}Service delegate = null;
 
+      {{classname}}Service delegate = null;
       if (servletContext != null) {
          String implClass = servletContext.getInitParameter("{{classname}}.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = ({{classname}}Service) Class.forName(implClass).newInstance();
+               delegate = ({{classname}}Service) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
@@ -61,43 +62,24 @@ public class {{classname}}  {
       if (delegate == null) {
          delegate = {{classname}}ServiceFactory.get{{classname}}();
       }
-
       this.delegate = delegate;
    }
 
 {{#operation}}
-    @{{javaxPackage}}.ws.rs.{{httpMethod}}
-    {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
-    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
-    {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
-    @Operation(summary = "{{{summary}}}", description = "{{{description}}}", 
-        responses = {
-            {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}", content = @Content(schema = @Schema(implementation = {{{baseType}}}.class))),
-            {{/responses}}
-            }
-    , tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} }) 
-//    ==> Previous Swagger1 annotations <== RESOLVED WITH THE ABOVE FOR SWAGGER 2.X   
-//    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-//        {{#authMethods}}@io.swagger.annotations.Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-//            {{#scopes}}@io.swagger.annotations.AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
-//            {{/-last}}{{/scopes}}
-//        }{{/isOAuth}}){{^-last}},
-//        {{/-last}}{{/authMethods}}
-//    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
-//    @io.swagger.annotations.ApiResponses(value = {
-//        {{#responses}}
-//        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
-//        {{/responses}}
-//    })
-//    ==> Previous Swagger1 annotations <== HOW TO DEAL WITH THIS PART?
-//    {{#implicitHeadersParams.0}}
-//    @io.swagger.annotations.ApiImplicitParams({
-//        {{#implicitHeadersParams}}
-//        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
-//        {{/implicitHeadersParams}}
-//        })
-//    {{/implicitHeadersParams.0}}
+
+    @{{javaxPackage}}.ws.rs.{{httpMethod}}{{!
+    }}{{#subresourceOperation}}
+    @Path("{{{path}}}"){{/subresourceOperation}}{{!
+    }}{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{!
+    }}{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    @Operation(summary = "{{{summary}}}", description = "{{{description}}}", responses = {
+        {{#responses}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}", content = 
+                @Content(schema = @Schema(implementation = {{{baseType}}}.class))),
+        {{/responses}}
+            }, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} }) 
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.{{nickname}}({{#allParams}}{{#isFormParam}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{/isFormParam}}{{^isFile}}{{paramName}}{{/isFile}}{{^isFormParam}}{{#isFile}}{{paramName}}{{/isFile}}{{/isFormParam}}, {{/allParams}}securityContext);
