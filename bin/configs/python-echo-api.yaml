@@ -1,6 +1,0 @@
-generatorName: python
-outputDir: samples/client/echo_api/python
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
-templateDir: modules/openapi-generator/src/main/resources/python
-additionalProperties:
-  hideGenerationTimestamp: "true"
