@@ -520,15 +520,6 @@ public class CodeGenMojo extends AbstractMojo {
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
 
-        if (cleanupOutput) {
-            try {
-                FileUtils.deleteDirectory(output);
-                LOGGER.info("Previous run output is removed from {}", output);
-            } catch (IOException e) {
-                LOGGER.warn("Failed to clean-up output directory {}", output, e);
-            }
-        }
-
         addCompileSourceRootIfConfigured();
 
         try {
@@ -566,10 +557,19 @@ public class CodeGenMojo extends AbstractMojo {
                 }
             }
 
+            if (cleanupOutput) {
+                try {
+                    FileUtils.deleteDirectory(output);
+                    LOGGER.info("Previous run output is removed from {}", output);
+                } catch (IOException e) {
+                    LOGGER.warn("Failed to clean up output directory {}", output, e);
+                }
+            }
+
             // attempt to read from config file
             CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
 
-            // if a config file wasn't specified or we were unable to read it
+            // if a config file wasn't specified, or we were unable to read it
             if (configurator == null) {
                 configurator = new CodegenConfigurator();
             }
@@ -938,8 +938,8 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Calculate openapi specification file hash. If specification is hosted on remote resource it is downloaded first
      *
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     * @param inputSpecFile - Openapi specification input file to calculate its hash.
+     *                        Does not take into account if input spec is hosted on remote resource
      * @return openapi specification file hash
      * @throws IOException
      */
@@ -991,8 +991,8 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Get specification hash file
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     * @param inputSpecFile - Openapi specification input file to calculate its hash.
+     *                        Does not take into account if input spec is hosted on remote resource
      * @return a file with previously calculated hash
      */
     private File getHashFile(File inputSpecFile) {

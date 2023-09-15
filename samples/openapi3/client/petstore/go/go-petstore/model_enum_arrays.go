@@ -134,9 +134,13 @@ func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 func (o *EnumArrays) UnmarshalJSON(bytes []byte) (err error) {
 	varEnumArrays := _EnumArrays{}
 
-	if err = json.Unmarshal(bytes, &varEnumArrays); err == nil {
-		*o = EnumArrays(varEnumArrays)
+	err = json.Unmarshal(bytes, &varEnumArrays)
+
+	if err != nil {
+		return err
 	}
+
+	*o = EnumArrays(varEnumArrays)
 
 	additionalProperties := make(map[string]interface{})
 

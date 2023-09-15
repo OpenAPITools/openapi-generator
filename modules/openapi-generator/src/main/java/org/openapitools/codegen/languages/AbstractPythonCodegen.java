@@ -529,7 +529,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
             example += ")";
         } else {
-            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
+            LOGGER.debug("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -591,7 +591,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
         } else {
-            LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
+            LOGGER.debug("Type {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
@@ -1980,5 +1980,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
         return value;
+    }
+
+    /**
+     * checks if the data should be classified as "string" in enum
+     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "str".equals(dataType);
     }
 }

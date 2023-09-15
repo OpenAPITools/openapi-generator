@@ -212,6 +212,7 @@ samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
 samples/client/petstore/kotlin*/src/main/kotlin/test/
 samples/client/petstore/kotlin*/build/
+samples/server/others/kotlin-server/jaxrs-spec/build/
 
 # haskell
 .stack-work

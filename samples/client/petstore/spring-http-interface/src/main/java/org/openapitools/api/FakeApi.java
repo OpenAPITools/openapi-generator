@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullableDto;
 import org.openapitools.model.ClientDto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClassDto;
@@ -314,6 +315,24 @@ public interface FakeApi {
     ResponseEntity<Void> testJsonFormData(
          @RequestParam(value = "param", required = true) String param,
          @RequestParam(value = "param2", required = true) String param2
+    );
+
+
+    /**
+     * POST /fake/nullable : test nullable parent property
+     * 
+     *
+     * @param childWithNullableDto request body (required)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "POST",
+        value = "/fake/nullable",
+        accept = "application/json",
+        contentType = "application/json"
+    )
+    ResponseEntity<Void> testNullable(
+         @RequestBody ChildWithNullableDto childWithNullableDto
     );
 
 

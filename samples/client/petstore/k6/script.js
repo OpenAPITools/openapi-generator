@@ -158,6 +158,22 @@ export default function() {
         }
     });
 
+    group("/fake/nullable", () => {
+
+        // Request No. 1: testNullable
+        {
+            let url = BASE_URL + `/fake/nullable`;
+            // TODO: edit the parameters of the request body.
+            let body = {"type": "string", "nullableProperty": "string", "otherProperty": "string"};
+            let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
+            let request = http.post(url, JSON.stringify(body), params);
+
+            check(request, {
+                "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
     group("/fake_classname_test", () => {
 
         // Request No. 1: testClassname

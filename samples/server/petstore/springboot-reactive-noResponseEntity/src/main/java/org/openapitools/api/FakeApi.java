@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
@@ -529,6 +530,36 @@ public interface FakeApi {
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testJsonFormData(param, param2, exchange);
+    }
+
+
+    /**
+     * POST /fake/nullable : test nullable parent property
+     * 
+     *
+     * @param childWithNullable request body (required)
+     * @return successful operation (status code 200)
+     */
+    @ApiOperation(
+        tags = { "fake" },
+        value = "test nullable parent property",
+        nickname = "testNullable",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/nullable",
+        consumes = { "application/json" }
+    )
+    @ResponseStatus(HttpStatus.OK)
+    default Mono<Void> testNullable(
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable,
+        @ApiIgnore final ServerWebExchange exchange
+    ) {
+        return getDelegate().testNullable(childWithNullable, exchange);
     }
 
 
