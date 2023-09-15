@@ -85,14 +85,6 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: to test const
-        explode: true
-        in: query
-        name: constant_test
-        required: true
-        schema:
-          type: string
-        style: form
       - deprecated: true
         description: Status values that need to be considered for filter
         explode: false
