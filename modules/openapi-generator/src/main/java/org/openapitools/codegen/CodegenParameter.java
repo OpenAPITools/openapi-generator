@@ -113,7 +113,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public Number multipleOf;
 
-    public String constant; // for const
+    public String constant; // for const or enum with a single item
 
     private Integer maxProperties;
     private Integer minProperties;
