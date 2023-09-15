@@ -17,7 +17,9 @@ import io.ktor.server.resources.head
 import io.ktor.server.resources.patch
 {{/featureResources}}
 import io.ktor.server.routing.*
+{{#hasAuthMethods}}
 import {{packageName}}.infrastructure.ApiPrincipal
+{{/hasAuthMethods}}
 {{#imports}}import {{import}}
 {{/imports}}
 
