@@ -25,7 +25,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPackage|package for generated api classes| |org.openapitools.api|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-groovy|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
-|autosetConstants|Automatically set Required Params having a Single enum value i.e. Constants in generated code| |false|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
