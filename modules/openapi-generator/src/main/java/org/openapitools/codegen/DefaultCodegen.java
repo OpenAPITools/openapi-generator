@@ -4593,6 +4593,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> optionalParams = new ArrayList<>();
         List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
         List<CodegenParameter> notNullableParams = new ArrayList<>();
+        List<CodegenParameter> constantParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4656,20 +4657,22 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
 
-                allParams.add(p);
-
-                if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
-                    queryParams.add(p.copy());
-                } else if (param instanceof PathParameter || "path".equalsIgnoreCase(param.getIn())) {
-                    pathParams.add(p.copy());
-                } else if (param instanceof HeaderParameter || "header".equalsIgnoreCase(param.getIn())) {
-                    headerParams.add(p.copy());
-                } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
-                    cookieParams.add(p.copy());
-                } else {
-                    LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
+                if (p.constant != null) { // for constant
+                    constantParams.add(p.copy());
+                } else { // a typical parameter
+                    allParams.add(p);
+                    if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
+                        queryParams.add(p.copy());
+                    } else if (param instanceof PathParameter || "path".equalsIgnoreCase(param.getIn())) {
+                        pathParams.add(p.copy());
+                    } else if (param instanceof HeaderParameter || "header".equalsIgnoreCase(param.getIn())) {
+                        headerParams.add(p.copy());
+                    } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
+                        cookieParams.add(p.copy());
+                    } else {
+                        LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
+                    }
                 }
-
             }
         }
 
@@ -5354,6 +5357,16 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
+
+        // set constant
+        if (codegenParameter.getIsEnumOrRef()) { // enum with only 1 item
+            Schema enumSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema(parameterSchema));
+            if (enumSchema.getEnum() != null && enumSchema.getEnum().size() == 1) { // only 1 element
+                codegenParameter.constant = toDefaultParameterValue(codegenProperty, enumSchema);
+            }
+        } else if (parameterSchema.getConst() != null) { // JSON Sschema keyword `const`
+            codegenParameter.constant = String.valueOf(parameterSchema.getConst());
+        }
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;

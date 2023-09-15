@@ -211,6 +211,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private LinkedHashMap<String, List<String>> dependentRequired;
     private CodegenProperty contains;
 
+    // JSON Schema keywords
+    private String constant; // for `const`
+
     @Override
     public CodegenProperty getContains() {
         return contains;
@@ -1036,6 +1039,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return isEnum || isEnumRef;
     }
 
+    public void setConstant(String constant) {
+        this.constant = constant;
+    }
+
+    public String getConstant() {
+        return constant;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -1150,6 +1161,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", format=").append(format);
         sb.append(", dependentRequired=").append(dependentRequired);
         sb.append(", contains=").append(contains);
+        sb.append(", constant=").append(constant);
         sb.append('}');
         return sb.toString();
     }
@@ -1266,7 +1278,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(xmlPrefix, that.xmlPrefix) &&
                 Objects.equals(xmlName, that.xmlName) &&
                 Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(multipleOf, that.multipleOf);
+                Objects.equals(multipleOf, that.multipleOf) &&
+                Objects.equals(constant, that.getConstant());
     }
 
     @Override
@@ -1288,6 +1301,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
                 ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
-                format, dependentRequired, contains);
+                format, dependentRequired, contains, constant);
     }
 }
