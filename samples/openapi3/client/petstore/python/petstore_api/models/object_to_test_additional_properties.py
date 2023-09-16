@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictBool
 
 class ObjectToTestAdditionalProperties(BaseModel):
     """
-    Minimal object
+    Minimal object  # noqa: E501
     """
     var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
     additional_properties: Dict[str, Any] = {}

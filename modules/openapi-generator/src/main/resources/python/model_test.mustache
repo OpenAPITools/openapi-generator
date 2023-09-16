@@ -7,9 +7,7 @@ import datetime
 
 {{#models}}
 {{#model}}
-import {{packageName}}
 from {{modelPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
-from {{packageName}}.rest import ApiException
 
 class Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
@@ -21,21 +19,21 @@ class Test{{classname}}(unittest.TestCase):
         pass
 {{^isEnum}}
 
-    def make_instance(self, include_optional):
+    def make_instance(self, include_optional) -> {{classname}}:
         """Test {{classname}}
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
         # uncomment below to create an instance of `{{{classname}}}`
         """
-        model = {{packageName}}.models.{{classFilename}}.{{classname}}()  # noqa: E501
-        if include_optional :
+        model = {{classname}}()  # noqa: E501
+        if include_optional:
             return {{classname}}(
                 {{#vars}}
-                {{name}} = {{{example}}}{{^example}}None{{/example}}{{^-last}}, {{/-last}}
+                {{name}} = {{{example}}}{{^example}}None{{/example}}{{^-last}},{{/-last}}
                 {{/vars}}
             )
-        else :
+        else:
             return {{classname}}(
                 {{#vars}}
                 {{#required}}

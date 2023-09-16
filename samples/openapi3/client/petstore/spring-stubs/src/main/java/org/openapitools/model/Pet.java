@@ -77,6 +77,7 @@ public class Pet {
     }
   }
 
+  @Deprecated
   private StatusEnum status;
 
   public Pet() {
@@ -215,14 +216,20 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
-  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

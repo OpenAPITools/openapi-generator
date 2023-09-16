@@ -235,9 +235,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (allowableValues.containsKey("values")) {
-            List<String> values = (List<String>) allowableValues.get("values");
-            for (String value : values) {
-                value = prefix + "_" + value;
+            List<Object> values = (List<Object>) allowableValues.get("values");
+            for (Object value : values) {
+                value = prefix + "_" + String.valueOf(value);
             }
         }
     }
@@ -435,7 +435,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                if (Pattern.compile("\r\n|\r|\n").matcher(String.valueOf(p.getDefault())).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + p.getDefault() + "'";

@@ -24,7 +24,7 @@ jobs:
           - samples/server/petstore/go-api-server/
           - samples/server/petstore/go-chi-server/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: "stable"

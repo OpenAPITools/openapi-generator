@@ -42,6 +42,7 @@ docs/List.md
 docs/Mammal.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
+docs/ModelMapping.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
@@ -131,6 +132,7 @@ src/PSPetstore/Model/MixedPropertiesAndAdditionalPropertiesClass.ps1
 src/PSPetstore/Model/Model200Response.ps1
 src/PSPetstore/Model/ModelReturn.ps1
 src/PSPetstore/Model/Name.ps1
+src/PSPetstore/Model/NewModel.ps1
 src/PSPetstore/Model/NullableClass.ps1
 src/PSPetstore/Model/NullableShape.ps1
 src/PSPetstore/Model/NumberOnly.ps1

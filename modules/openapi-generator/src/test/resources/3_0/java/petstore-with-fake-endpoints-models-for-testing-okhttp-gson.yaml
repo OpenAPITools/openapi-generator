@@ -1155,6 +1155,26 @@ paths:
       responses:
         200:
           description: OK
+  /fake/parameter-array-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter array number default value
+      operationId: getParameterArrayNumber
+      parameters:
+        - name: array
+          in: header
+          description: array integer
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+            default:
+              - 1
+      responses:
+        200:
+          description: OK
   /values:
     get:
       tags:

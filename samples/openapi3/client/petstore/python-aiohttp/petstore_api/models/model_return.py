@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictInt
 
 class ModelReturn(BaseModel):
     """
-    Model for testing reserved words
+    Model for testing reserved words  # noqa: E501
     """
     var_return: Optional[StrictInt] = Field(None, alias="return")
     __properties = ["return"]

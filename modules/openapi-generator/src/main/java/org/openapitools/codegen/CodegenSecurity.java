@@ -89,6 +89,10 @@ public class CodegenSecurity {
     public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
         CodegenSecurity filteredSecurity = new CodegenSecurity(this);
 
+        if (scopes == null) {
+            return filteredSecurity;
+        }
+
         List<Map<String, Object>> returnedScopes = new ArrayList<Map<String, Object>>();
         Map<String, Object> lastScope = null;
         for (String filterScopeName : filterScopes) {

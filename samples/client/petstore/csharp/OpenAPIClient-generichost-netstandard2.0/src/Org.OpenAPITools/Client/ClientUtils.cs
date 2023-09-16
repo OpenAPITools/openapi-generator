@@ -161,6 +161,8 @@ namespace Org.OpenAPITools.Client
                 return OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger).ToString();
             if (obj is OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue)
                 return OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue).ToString();
+            if (obj is OuterEnumTest outerEnumTest)
+                return OuterEnumTestValueConverter.ToJsonValue(outerEnumTest);
             if (obj is Pet.StatusEnum petStatusEnum)
                 return Pet.StatusEnumToJsonValue(petStatusEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)

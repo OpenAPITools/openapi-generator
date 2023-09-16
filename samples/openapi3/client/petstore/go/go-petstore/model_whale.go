@@ -161,9 +161,13 @@ func (o Whale) ToMap() (map[string]interface{}, error) {
 func (o *Whale) UnmarshalJSON(bytes []byte) (err error) {
 	varWhale := _Whale{}
 
-	if err = json.Unmarshal(bytes, &varWhale); err == nil {
-		*o = Whale(varWhale)
+	err = json.Unmarshal(bytes, &varWhale)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Whale(varWhale)
 
 	additionalProperties := make(map[string]interface{})
 

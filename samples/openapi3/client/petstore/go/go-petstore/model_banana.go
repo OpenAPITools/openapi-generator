@@ -98,9 +98,13 @@ func (o Banana) ToMap() (map[string]interface{}, error) {
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
 	varBanana := _Banana{}
 
-	if err = json.Unmarshal(bytes, &varBanana); err == nil {
-		*o = Banana(varBanana)
+	err = json.Unmarshal(bytes, &varBanana)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Banana(varBanana)
 
 	additionalProperties := make(map[string]interface{})
 

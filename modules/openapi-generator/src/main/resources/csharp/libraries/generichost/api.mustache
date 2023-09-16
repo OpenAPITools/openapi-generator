@@ -71,7 +71,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// </summary>
     {{>visibility}} class {{classname}}Events
     {
-        {{#lambda.trimTrailingWhiteSpace}}
+        {{#lambda.trimTrailingWithNewLine}}
         {{#operation}}
         /// <summary>
         /// The event raised after the server response
@@ -94,7 +94,7 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         {{/operation}}
-        {{/lambda.trimTrailingWhiteSpace}}
+        {{/lambda.trimTrailingWithNewLine}}
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns></returns>
         private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
-            {{#lambda.trimTrailingWhiteSpace}}
+            {{#lambda.trimTrailingWithNewLine}}
             {{#vendorExtensions.x-not-nullable-reference-types}}
             {{#required}}
             {{^vendorExtensions.x-is-value-type}}
@@ -200,7 +200,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/vendorExtensions.x-is-value-type}}
             {{/required}}
             {{/vendorExtensions.x-not-nullable-reference-types}}
-            {{/lambda.trimTrailingWhiteSpace}}
+            {{/lambda.trimTrailingWithNewLine}}
         }
 
         {{/vendorExtensions.x-has-not-nullable-reference-types}}

@@ -20,6 +20,8 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +46,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() {
-        Pet body = null;
-        api.addPet(body);
+        Pet pet = null;
+        api.addPet(pet);
 
         // TODO: test validations
     }
@@ -125,8 +127,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() {
-        Pet body = null;
-        api.updatePet(body);
+        Pet pet = null;
+        api.updatePet(pet);
 
         // TODO: test validations
     }
@@ -161,8 +163,8 @@ public class PetApiTest {
     public void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }

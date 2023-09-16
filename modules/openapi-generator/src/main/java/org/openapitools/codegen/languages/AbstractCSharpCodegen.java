@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -58,6 +59,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -412,15 +414,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("required", new RequiredParameterLambda().generator(this))
+                .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
+                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
-                .put("indent3", new IndentedLambda(12, " "))
-                .put("indent4", new IndentedLambda(16, " "));
+                .put("indent3", new IndentedLambda(12, " ", false))
+                .put("indent4", new IndentedLambda(16, " ", false))
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -522,7 +527,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
             // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
             model.setHasDiscriminatorWithNonEmptyMapping(
-                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null && model.oneOf.size() > 0)) &&
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.oneOf != null && model.oneOf.size() > 0)) &&
                             model.discriminator != null &&
                             model.discriminator.getMappedModels() != null &&
                             model.discriminator.getMappedModels().size() > 0);
@@ -1349,6 +1354,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return this.nullReferenceTypesFlag;
     }
 
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
+    }
+
     public void setInterfacePrefix(final String interfacePrefix) {
         this.interfacePrefix = interfacePrefix;
     }
@@ -1381,7 +1394,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override

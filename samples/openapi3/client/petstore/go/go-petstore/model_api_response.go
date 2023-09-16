@@ -170,9 +170,13 @@ func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {
 	varApiResponse := _ApiResponse{}
 
-	if err = json.Unmarshal(bytes, &varApiResponse); err == nil {
-		*o = ApiResponse(varApiResponse)
+	err = json.Unmarshal(bytes, &varApiResponse)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ApiResponse(varApiResponse)
 
 	additionalProperties := make(map[string]interface{})
 

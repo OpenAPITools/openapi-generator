@@ -171,9 +171,13 @@ func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() (map[string]interfa
 func (o *MixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
 	varMixedPropertiesAndAdditionalPropertiesClass := _MixedPropertiesAndAdditionalPropertiesClass{}
 
-	if err = json.Unmarshal(bytes, &varMixedPropertiesAndAdditionalPropertiesClass); err == nil {
-		*o = MixedPropertiesAndAdditionalPropertiesClass(varMixedPropertiesAndAdditionalPropertiesClass)
+	err = json.Unmarshal(bytes, &varMixedPropertiesAndAdditionalPropertiesClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = MixedPropertiesAndAdditionalPropertiesClass(varMixedPropertiesAndAdditionalPropertiesClass)
 
 	additionalProperties := make(map[string]interface{})
 

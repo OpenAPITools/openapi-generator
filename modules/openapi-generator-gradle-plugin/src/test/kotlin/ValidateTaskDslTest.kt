@@ -144,4 +144,161 @@ class ValidateTaskDslTest : TestBase() {
             "Expected a failed run, but found ${result.task(":openApiValidate")?.outcome}"
         )
     }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `validateGoodSpec as defined task should succeed on valid spec`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+            |    inputSpec.set(file("spec.yaml").absolutePath)
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("validateGoodSpec")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Unexpected/no message presented to the user for a valid spec."
+        )
+        assertEquals(
+            SUCCESS, result.task(":validateGoodSpec")?.outcome,
+            "Expected a successful run, but found ${result.task(":validateGoodSpec")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `validateBadSpec as defined task should fail on invalid spec`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+        )
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+            |    inputSpec.set(file("spec.yaml").absolutePath)
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("validateBadSpec")
+            .withPluginClasspath()
+            .buildAndFail()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is invalid."),
+            "Unexpected/no message presented to the user for an invalid spec."
+        )
+        assertEquals(
+            FAILED, result.task(":validateBadSpec")?.outcome,
+            "Expected a failed run, but found ${result.task(":validateBadSpec")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should succeed with recommendations on valid spec`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
+        )
+
+        // recommend = true is the default
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   inputSpec = file("spec.yaml").absolutePath
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Unexpected/no message presented to the user for a valid spec."
+        )
+        assertTrue(
+            result.output.contains("Spec has issues or recommendations."),
+            "Unexpected/no recommendations message presented to the user for a valid spec."
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should succeed without recommendations on valid spec`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
+        )
+
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   inputSpec = file("spec.yaml").absolutePath
+            |   recommend = false
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Unexpected/no message presented to the user for a valid spec."
+        )
+        assertTrue(
+            result.output.contains("Spec has issues or recommendations.").not(),
+            "Unexpected/recommendations message presented to the user for a valid spec"
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
 }

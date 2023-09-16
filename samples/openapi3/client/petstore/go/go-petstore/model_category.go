@@ -127,9 +127,13 @@ func (o Category) ToMap() (map[string]interface{}, error) {
 func (o *Category) UnmarshalJSON(bytes []byte) (err error) {
 	varCategory := _Category{}
 
-	if err = json.Unmarshal(bytes, &varCategory); err == nil {
-		*o = Category(varCategory)
+	err = json.Unmarshal(bytes, &varCategory)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Category(varCategory)
 
 	additionalProperties := make(map[string]interface{})
 
