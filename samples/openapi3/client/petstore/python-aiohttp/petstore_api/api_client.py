@@ -58,6 +58,7 @@ class ApiClient:
         'object': object,
     }
     _pool = None
+
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None) -> None:
         # use default configuration if none is provided
