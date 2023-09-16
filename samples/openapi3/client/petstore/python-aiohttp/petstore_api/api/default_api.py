@@ -41,26 +41,11 @@ class DefaultApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @overload
-    async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
-        ...
-
-    @overload
-    def foo_get(self, async_req: Optional[bool]=True, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
-        ...
-
     @validate_arguments
-    def foo_get(self, async_req: Optional[bool]=None, **kwargs) -> Union[FooGetDefaultResponse, Awaitable[FooGetDefaultResponse]]:  # noqa: E501
+    async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.foo_get(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -74,22 +59,13 @@ class DefaultApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the foo_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        if async_req is not None:
-            kwargs['async_req'] = async_req
-        return self.foo_get_with_http_info(**kwargs)  # noqa: E501
+        return await self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     @validate_arguments
-    def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    async def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.foo_get_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -119,7 +95,6 @@ class DefaultApi:
         ]
         _all_params.extend(
             [
-                'async_req',
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
@@ -163,7 +138,7 @@ class DefaultApi:
         _response_types_map = {
         }
 
-        return self.api_client.call_api(
+        return await self.api_client.call_api(
             '/foo', 'GET',
             _path_params,
             _query_params,
@@ -173,7 +148,6 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
