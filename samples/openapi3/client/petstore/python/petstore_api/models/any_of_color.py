@@ -19,7 +19,9 @@ import pprint
 import re  # noqa: F401
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import Field
+from typing import Annotated
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
@@ -31,11 +33,11 @@ class AnyOfColor(BaseModel):
     """
 
     # data type: List[int]
-    anyof_schema_1_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=3, min_items=3)] = Field(None, description="RGB three element array with values 0-255.")
+    anyof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=3, max_items=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
     # data type: List[int]
-    anyof_schema_2_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=4, min_items=4)] = Field(None, description="RGBA four element array with values 0-255.")
+    anyof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=4, max_items=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
-    anyof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(None, description="Hex color string, such as #00FF00.")
+    anyof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     if TYPE_CHECKING:
         actual_instance: Union[List[int], str]
     else:

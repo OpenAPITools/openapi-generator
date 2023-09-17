@@ -20,14 +20,15 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 
 class Query(BaseModel):
     """
     Query
     """
-    id: Optional[StrictInt] = Field(None, description="Query")
-    outcomes: Optional[conlist(StrictStr)] = None
+    id: Optional[StrictInt] = Field(default=None, description="Query")
+    outcomes: Optional[List[StrictStr]] = None
     __properties = ["id", "outcomes"]
 
     @validator('outcomes')

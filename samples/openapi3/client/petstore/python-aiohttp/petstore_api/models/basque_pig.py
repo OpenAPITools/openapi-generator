@@ -19,14 +19,15 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(..., alias="className")
-    color: StrictStr = Field(...)
+    class_name: StrictStr = Field(alias="className")
+    color: StrictStr
     __properties = ["className", "color"]
 
     class Config:

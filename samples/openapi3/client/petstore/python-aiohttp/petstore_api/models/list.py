@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class List(BaseModel):
     """
     List
     """
-    var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
+    var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
     __properties = ["123-list"]
 
     class Config:

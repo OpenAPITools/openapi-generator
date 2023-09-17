@@ -19,8 +19,9 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictFloat, StrictStr, conlist
+from pydantic import BaseModel, StrictFloat, StrictStr
 from petstore_api.models.deprecated_object import DeprecatedObject
+from pydantic import Field
 
 class ObjectWithDeprecatedFields(BaseModel):
     """
@@ -28,8 +29,8 @@ class ObjectWithDeprecatedFields(BaseModel):
     """
     uuid: Optional[StrictStr] = None
     id: Optional[StrictFloat] = None
-    deprecated_ref: Optional[DeprecatedObject] = Field(None, alias="deprecatedRef")
-    bars: Optional[conlist(StrictStr)] = None
+    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
+    bars: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["uuid", "id", "deprecatedRef", "bars"]
 

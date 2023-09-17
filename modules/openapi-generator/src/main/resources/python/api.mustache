@@ -7,9 +7,7 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
-{{#asyncio}}
-from typing import overload, Optional, Union, Awaitable
-{{/asyncio}}
+from typing import cast, overload, Optional, Union, Awaitable, Dict, List, Tuple
 
 {{#imports}}
 {{import}}

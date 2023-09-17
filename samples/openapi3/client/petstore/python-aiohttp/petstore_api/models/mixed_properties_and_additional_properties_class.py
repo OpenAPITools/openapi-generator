@@ -19,15 +19,16 @@ import json
 
 from datetime import datetime
 from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 from petstore_api.models.animal import Animal
+from pydantic import Field
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     MixedPropertiesAndAdditionalPropertiesClass
     """
     uuid: Optional[StrictStr] = None
-    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     __properties = ["uuid", "dateTime", "map"]
 

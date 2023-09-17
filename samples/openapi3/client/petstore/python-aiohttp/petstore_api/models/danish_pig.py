@@ -19,14 +19,15 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class DanishPig(BaseModel):
     """
     DanishPig
     """
-    class_name: StrictStr = Field(..., alias="className")
-    size: StrictInt = Field(...)
+    class_name: StrictStr = Field(alias="className")
+    size: StrictInt
     __properties = ["className", "size"]
 
     class Config:

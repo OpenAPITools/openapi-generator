@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class ClassModel(BaseModel):
     """
     Model for testing model with \"_class\" property  # noqa: E501
     """
-    var_class: Optional[StrictStr] = Field(None, alias="_class")
+    var_class: Optional[StrictStr] = Field(default=None, alias="_class")
     __properties = ["_class"]
 
     class Config:

@@ -19,14 +19,15 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class Model200Response(BaseModel):
     """
     Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
-    var_class: Optional[StrictStr] = Field(None, alias="class")
+    var_class: Optional[StrictStr] = Field(default=None, alias="class")
     additional_properties: Dict[str, Any] = {}
     __properties = ["name", "class"]
 

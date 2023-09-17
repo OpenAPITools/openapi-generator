@@ -19,7 +19,9 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import Field
+from typing import Annotated
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
@@ -30,7 +32,7 @@ class IntOrString(BaseModel):
     IntOrString
     """
     # data type: int
-    oneof_schema_1_validator: Optional[conint(strict=True, ge=10)] = None
+    oneof_schema_1_validator: Optional[Annotated[int, Field(strict=True, ge=10)]] = None
     # data type: str
     oneof_schema_2_validator: Optional[StrictStr] = None
     if TYPE_CHECKING:

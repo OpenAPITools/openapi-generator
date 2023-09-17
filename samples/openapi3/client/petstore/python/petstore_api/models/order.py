@@ -19,17 +19,18 @@ import json
 
 from datetime import datetime
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, validator
+from pydantic import Field
 
 class Order(BaseModel):
     """
     Order
     """
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(None, alias="petId")
+    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(None, alias="shipDate")
-    status: Optional[StrictStr] = Field(None, description="Order Status")
+    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]

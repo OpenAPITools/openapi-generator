@@ -19,14 +19,15 @@ import json
 
 
 from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(..., alias="className")
-    color: StrictStr = Field(...)
+    class_name: StrictStr = Field(alias="className")
+    color: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color"]
 

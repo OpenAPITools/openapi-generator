@@ -19,14 +19,14 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from petstore_api.models.tag import Tag
 
 class ArrayOfArrayOfModel(BaseModel):
     """
     ArrayOfArrayOfModel
     """
-    another_property: Optional[conlist(conlist(Tag))] = None
+    another_property: Optional[List[List[Tag]]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["another_property"]
 

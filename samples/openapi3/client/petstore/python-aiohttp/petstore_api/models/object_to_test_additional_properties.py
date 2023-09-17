@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool
+from pydantic import BaseModel, StrictBool
+from pydantic import Field
 
 class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501
     """
-    var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
+    var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
     __properties = ["property"]
 
     class Config:

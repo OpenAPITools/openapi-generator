@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 
@@ -28,7 +28,7 @@ class OuterObjectWithEnumProperty(BaseModel):
     OuterObjectWithEnumProperty
     """
     str_value: Optional[OuterEnum] = None
-    value: OuterEnumInteger = Field(...)
+    value: OuterEnumInteger
     additional_properties: Dict[str, Any] = {}
     __properties = ["str_value", "value"]
 

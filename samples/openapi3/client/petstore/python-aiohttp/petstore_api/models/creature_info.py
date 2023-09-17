@@ -19,13 +19,13 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 
 class CreatureInfo(BaseModel):
     """
     CreatureInfo
     """
-    name: StrictStr = Field(...)
+    name: StrictStr
     __properties = ["name"]
 
     class Config:

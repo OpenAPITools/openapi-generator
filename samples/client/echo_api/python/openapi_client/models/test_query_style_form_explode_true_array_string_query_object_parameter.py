@@ -20,13 +20,13 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, conlist
+from pydantic import BaseModel, StrictStr
 
 class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     """
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """
-    values: Optional[conlist(StrictStr)] = None
+    values: Optional[List[StrictStr]] = None
     __properties = ["values"]
 
     class Config:

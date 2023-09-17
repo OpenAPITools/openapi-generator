@@ -20,7 +20,9 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, StrictFloat, StrictInt, confloat, conint
+from pydantic import BaseModel, StrictFloat, StrictInt
+from pydantic import Field
+from typing import Annotated
 
 class NumberPropertiesOnly(BaseModel):
     """
@@ -28,7 +30,7 @@ class NumberPropertiesOnly(BaseModel):
     """
     number: Optional[Union[StrictFloat, StrictInt]] = None
     float: Optional[Union[StrictFloat, StrictInt]] = None
-    double: Optional[Union[confloat(le=50.2, ge=0.8, strict=True), conint(le=50, ge=1, strict=True)]] = None
+    double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
     __properties = ["number", "float", "double"]
 
     class Config:

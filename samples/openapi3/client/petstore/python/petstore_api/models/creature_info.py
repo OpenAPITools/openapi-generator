@@ -19,13 +19,13 @@ import json
 
 
 from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 
 class CreatureInfo(BaseModel):
     """
     CreatureInfo
     """
-    name: StrictStr = Field(...)
+    name: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["name"]
 

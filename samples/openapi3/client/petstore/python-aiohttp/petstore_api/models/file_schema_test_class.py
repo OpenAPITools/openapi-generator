@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from petstore_api.models.file import File
 
 class FileSchemaTestClass(BaseModel):
@@ -27,7 +27,7 @@ class FileSchemaTestClass(BaseModel):
     FileSchemaTestClass
     """
     file: Optional[File] = None
-    files: Optional[conlist(File)] = None
+    files: Optional[List[File]] = None
     __properties = ["file", "files"]
 
     class Config:

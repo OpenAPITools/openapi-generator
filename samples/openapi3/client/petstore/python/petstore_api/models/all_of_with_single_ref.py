@@ -19,15 +19,16 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 from petstore_api.models.single_ref_type import SingleRefType
+from pydantic import Field
 
 class AllOfWithSingleRef(BaseModel):
     """
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     additional_properties: Dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 

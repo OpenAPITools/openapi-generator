@@ -19,16 +19,17 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class Name(BaseModel):
     """
     Model for testing model name same as property name  # noqa: E501
     """
-    name: StrictInt = Field(...)
+    name: StrictInt
     snake_case: Optional[StrictInt] = None
-    var_property: Optional[StrictStr] = Field(None, alias="property")
-    var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
+    var_property: Optional[StrictStr] = Field(default=None, alias="property")
+    var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
     additional_properties: Dict[str, Any] = {}
     __properties = ["name", "snake_case", "property", "123Number"]
 

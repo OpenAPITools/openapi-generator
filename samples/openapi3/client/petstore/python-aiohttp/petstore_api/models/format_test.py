@@ -19,29 +19,32 @@ import json
 
 from datetime import date, datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
+from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, validator
+from decimal import Decimal
+from pydantic import Field
+from typing import Annotated
 
 class FormatTest(BaseModel):
     """
     FormatTest
     """
-    integer: Optional[conint(strict=True, le=100, ge=10)] = None
-    int32: Optional[conint(strict=True, le=200, ge=20)] = None
+    integer: Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None
+    int32: Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None
     int64: Optional[StrictInt] = None
-    number: confloat(le=543.2, ge=32.1) = Field(...)
-    float: Optional[confloat(le=987.6, ge=54.3)] = None
-    double: Optional[confloat(le=123.4, ge=67.8)] = None
-    decimal: Optional[condecimal()] = None
-    string: Optional[constr(strict=True)] = None
-    string_with_double_quote_pattern: Optional[constr(strict=True)] = None
+    number: Annotated[float, Field(le=543.2, ge=32.1)]
+    float: Optional[Annotated[float, Field(le=987.6, ge=54.3)]] = None
+    double: Optional[Annotated[float, Field(le=123.4, ge=67.8)]] = None
+    decimal: Optional[Decimal] = None
+    string: Optional[Annotated[str, Field(strict=True)]] = None
+    string_with_double_quote_pattern: Optional[Annotated[str, Field(strict=True)]] = None
     byte: Optional[Union[StrictBytes, StrictStr]] = None
     binary: Optional[Union[StrictBytes, StrictStr]] = None
-    var_date: date = Field(..., alias="date")
-    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    var_date: date = Field(alias="date")
+    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     uuid: Optional[StrictStr] = None
-    password: constr(strict=True, max_length=64, min_length=10) = Field(...)
-    pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
-    pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+    password: Annotated[str, Field(min_length=10, strict=True, max_length=64)]
+    pattern_with_digits: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
+    pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
     __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
     @validator('string')

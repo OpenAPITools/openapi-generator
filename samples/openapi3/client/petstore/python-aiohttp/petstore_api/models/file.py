@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class File(BaseModel):
     """
     Must be named `File` for test.  # noqa: E501
     """
-    source_uri: Optional[StrictStr] = Field(None, alias="sourceURI", description="Test capitalization")
+    source_uri: Optional[StrictStr] = Field(default=None, description="Test capitalization", alias="sourceURI")
     __properties = ["sourceURI"]
 
     class Config:

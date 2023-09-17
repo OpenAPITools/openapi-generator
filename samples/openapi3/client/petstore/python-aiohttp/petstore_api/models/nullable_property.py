@@ -19,14 +19,16 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, constr, validator
+from pydantic import BaseModel, StrictInt, validator
+from pydantic import Field
+from typing import Annotated
 
 class NullableProperty(BaseModel):
     """
     NullableProperty
     """
-    id: StrictInt = Field(...)
-    name: Optional[constr(strict=True)] = Field(...)
+    id: StrictInt
+    name: Optional[Annotated[str, Field(strict=True)]]
     __properties = ["id", "name"]
 
     @validator('name')

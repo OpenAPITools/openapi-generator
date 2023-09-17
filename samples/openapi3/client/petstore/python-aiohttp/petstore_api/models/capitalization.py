@@ -19,18 +19,19 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class Capitalization(BaseModel):
     """
     Capitalization
     """
-    small_camel: Optional[StrictStr] = Field(None, alias="smallCamel")
-    capital_camel: Optional[StrictStr] = Field(None, alias="CapitalCamel")
-    small_snake: Optional[StrictStr] = Field(None, alias="small_Snake")
-    capital_snake: Optional[StrictStr] = Field(None, alias="Capital_Snake")
-    sca_eth_flow_points: Optional[StrictStr] = Field(None, alias="SCA_ETH_Flow_Points")
-    att_name: Optional[StrictStr] = Field(None, alias="ATT_NAME", description="Name of the pet ")
+    small_camel: Optional[StrictStr] = Field(default=None, alias="smallCamel")
+    capital_camel: Optional[StrictStr] = Field(default=None, alias="CapitalCamel")
+    small_snake: Optional[StrictStr] = Field(default=None, alias="small_Snake")
+    capital_snake: Optional[StrictStr] = Field(default=None, alias="Capital_Snake")
+    sca_eth_flow_points: Optional[StrictStr] = Field(default=None, alias="SCA_ETH_Flow_Points")
+    att_name: Optional[StrictStr] = Field(default=None, description="Name of the pet ", alias="ATT_NAME")
     __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
     class Config:

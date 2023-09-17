@@ -19,13 +19,14 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictFloat, conlist
+from pydantic import BaseModel, StrictFloat
+from pydantic import Field
 
 class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
     """
-    array_number: Optional[conlist(StrictFloat)] = Field(None, alias="ArrayNumber")
+    array_number: Optional[List[StrictFloat]] = Field(default=None, alias="ArrayNumber")
     additional_properties: Dict[str, Any] = {}
     __properties = ["ArrayNumber"]
 

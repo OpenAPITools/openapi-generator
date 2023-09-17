@@ -19,13 +19,14 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictFloat
+from pydantic import BaseModel, StrictFloat
+from pydantic import Field
 
 class NumberOnly(BaseModel):
     """
     NumberOnly
     """
-    just_number: Optional[StrictFloat] = Field(None, alias="JustNumber")
+    just_number: Optional[StrictFloat] = Field(default=None, alias="JustNumber")
     additional_properties: Dict[str, Any] = {}
     __properties = ["JustNumber"]
 

@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class Animal(BaseModel):
     """
     Animal
     """
-    class_name: StrictStr = Field(..., alias="className")
+    class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
     __properties = ["className", "color"]
 

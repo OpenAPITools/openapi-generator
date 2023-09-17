@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    type: Optional[StrictStr] = Field(None, alias="_type")
+    type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None
     __properties = ["_type", "type", "type_"]

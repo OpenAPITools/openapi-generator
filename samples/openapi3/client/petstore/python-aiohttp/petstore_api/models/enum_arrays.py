@@ -19,14 +19,14 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictStr, validator
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """
     just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[conlist(StrictStr)] = None
+    array_enum: Optional[List[StrictStr]] = None
     __properties = ["just_symbol", "array_enum"]
 
     @validator('just_symbol')

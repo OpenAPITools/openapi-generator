@@ -20,16 +20,17 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import Field, StrictStr
+from pydantic import StrictStr
 from openapi_client.models.query import Query
+from pydantic import Field
 
 class DataQuery(Query):
     """
     DataQuery
     """
-    suffix: Optional[StrictStr] = Field(None, description="test suffix")
-    text: Optional[StrictStr] = Field(None, description="Some text containing white spaces")
-    var_date: Optional[datetime] = Field(None, alias="date", description="A date")
+    suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
+    text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
+    var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
     __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     class Config:

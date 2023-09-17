@@ -19,14 +19,14 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
 
 class Category(BaseModel):
     """
     Category
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = Field(...)
+    name: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "name"]
 

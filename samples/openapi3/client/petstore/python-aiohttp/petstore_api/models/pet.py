@@ -19,9 +19,11 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
+from pydantic import Field
+from typing import Annotated
 
 class Pet(BaseModel):
     """
@@ -29,10 +31,10 @@ class Pet(BaseModel):
     """
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
-    name: StrictStr = Field(...)
-    photo_urls: conlist(StrictStr, min_items=0, unique_items=True) = Field(..., alias="photoUrls")
-    tags: Optional[conlist(Tag)] = None
-    status: Optional[StrictStr] = Field(None, description="pet status in the store")
+    name: StrictStr
+    photo_urls: Annotated[List[StrictStr], Field(unique_items=True, min_items=0)] = Field(alias="photoUrls")
+    tags: Optional[List[Tag]] = None
+    status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @validator('status')

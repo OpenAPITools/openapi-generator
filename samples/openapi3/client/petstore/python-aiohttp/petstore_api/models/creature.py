@@ -19,15 +19,15 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 from petstore_api.models.creature_info import CreatureInfo
 
 class Creature(BaseModel):
     """
     Creature
     """
-    info: CreatureInfo = Field(...)
-    type: StrictStr = Field(...)
+    info: CreatureInfo
+    type: StrictStr
     __properties = ["info", "type"]
 
     class Config:
