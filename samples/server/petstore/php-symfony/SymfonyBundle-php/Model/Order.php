@@ -232,11 +232,11 @@ class Order
     /**
      * Gets complete.
      *
-     * @return bool|null
+     * @return bool
      */
-    public function isComplete(): ?bool
+    public function isComplete(): bool
     {
-        return $this->complete;
+        return $this->complete ?? false;
     }
 
     /**

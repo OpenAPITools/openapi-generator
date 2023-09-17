@@ -21,11 +21,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Gets {{name}}.
      *
-     * @return {{{vendorExtensions.x-comment-type}}}
+     * @return {{{vendorExtensions.x-comment-type-for-getter}}}
      */
-    public function {{getter}}(){{#vendorExtensions.x-parameter-type}}: {{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
+    public function {{getter}}(){{#vendorExtensions.x-parameter-type-for-getter}}: {{vendorExtensions.x-parameter-type-for-getter}}{{/vendorExtensions.x-parameter-type-for-getter}}
     {
-        return $this->{{name}};
+        return {{#defaultValue}}$this->{{name}} ?? {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}$this->{{name}}{{/defaultValue}};
     }
 
     /**

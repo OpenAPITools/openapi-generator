@@ -466,12 +466,25 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             if (var.dataType != null) {
                 // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
-                var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType));
-                var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType));
+
+                String parameterType = getTypeHintNullable(var.dataType);
+                String commentType = getTypeHintNullableForComments(var.dataType);
+                String parameterTypeForGetter = null;
+                String commentTypeForGetter = null;
+
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType + "[]"));
-                    var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType + "[]"));
+                    parameterType = getTypeHintNullable(var.dataType + "[]");
+                    commentType = getTypeHintNullableForComments(var.dataType + "[]");
+                } else if (var.defaultValue != null) {
+                    // Make type hint without nullable for var with scalar type
+                    parameterTypeForGetter = getTypeHint(var.dataType);
+                    commentTypeForGetter = getTypeHint(var.dataType);
                 }
+
+                var.vendorExtensions.put("x-parameter-type", parameterType);
+                var.vendorExtensions.put("x-parameter-type-for-getter", parameterTypeForGetter != null ? parameterTypeForGetter : parameterType);
+                var.vendorExtensions.put("x-comment-type", commentType);
+                var.vendorExtensions.put("x-comment-type-for-getter", commentTypeForGetter != null ? commentTypeForGetter : commentType);
             }
         }
 
@@ -483,7 +496,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             return dataType;
         }
 
-        return  "\\" + dataType;
+        return "\\" + dataType;
     }
 
     /**
