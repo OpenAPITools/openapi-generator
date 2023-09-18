@@ -928,11 +928,8 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
-* [@spacether](https://github.com/spacether) (2020/05) [:heart:][spacether sponsorship]
 
 :heart: = Link to support the contributor directly
-
-[spacether sponsorship]: https://github.com/sponsors/spacether/
 
 #### Template Creator
 
@@ -1004,6 +1001,7 @@ Here is a list of template creators:
    * PowerShell (refactored in 5.0.0): @wing328
    * Python: @spacether [:heart:][spacether sponsorship]
    * Python-Experimental: @spacether [:heart:][spacether sponsorship]
+   * Python (refactored in 7.0.0): @wing328
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Rust: @farcaller
