@@ -5365,7 +5365,17 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.constant = toDefaultParameterValue(codegenProperty, enumSchema);
             }
         } else if (parameterSchema.getConst() != null) { // JSON Sschema keyword `const`
-            codegenParameter.constant = String.valueOf(parameterSchema.getConst());
+            Schema temp = null;
+            Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+            String constantValue = String.valueOf(parameterSchema.getConst());
+            if (pattern.matcher(constantValue).matches()) { // numeric constant value
+                temp = new NumberSchema();
+                temp.setDefault(constantValue);
+            } else { // constant value is a string
+                temp = new StringSchema();
+                temp.setDefault(constantValue);
+            }
+            codegenParameter.constant = toDefaultParameterValue(temp);
         }
 
         finishUpdatingParameter(codegenParameter, parameter);
