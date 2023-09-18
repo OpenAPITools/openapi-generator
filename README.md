@@ -15,7 +15,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.0.1`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.1.0`):
 [![Build Status](https://api.travis-ci.com/OpenAPITools/openapi-generator.svg?branch=master&status=passed)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
@@ -115,13 +115,13 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.0.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.1-SNAPSHOT/) | 08.09.2023   | Patch release (enhancements, bug fixes, etc)      |
-| [7.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.0.0) (latest stable release)                                                    | 25.08.2023   | Major release with breaking changes (no fallback) |
+| 7.1.0 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.1.0-SNAPSHOT/) | 18.10.2023   | Minor release with breaking changes (with fallback) |
+| [7.0.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.0.1) (latest stable release)                                                    | 18.09.2023   | Patch release (enhancements, bug fixes, etc) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
-OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
+OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0, 3.1 (beta support)
 
 (We do not publish daily/nightly build. Please use SNAPSHOT instead)
 
@@ -179,16 +179,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.0/openapi-generator-cli-7.0.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.0/openapi-generator-cli-7.0.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.0/openapi-generator-cli-7.0.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -423,7 +423,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 7.0.0
+openapi-generator-cli version-manager set 7.0.1
 ```
 
 Or install it as dev-dependency:
@@ -447,7 +447,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.0/openapi-generator-cli-7.0.0.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -928,11 +928,8 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
-* [@spacether](https://github.com/spacether) (2020/05) [:heart:][spacether sponsorship]
 
 :heart: = Link to support the contributor directly
-
-[spacether sponsorship]: https://github.com/sponsors/spacether/
 
 #### Template Creator
 
@@ -1004,6 +1001,7 @@ Here is a list of template creators:
    * PowerShell (refactored in 5.0.0): @wing328
    * Python: @spacether [:heart:][spacether sponsorship]
    * Python-Experimental: @spacether [:heart:][spacether sponsorship]
+   * Python (refactored in 7.0.0): @wing328
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Rust: @farcaller
