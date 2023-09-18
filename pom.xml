@@ -1290,6 +1290,8 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
+                <!-- server -->
+                <module>samples/server/petstore/java-undertow</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
