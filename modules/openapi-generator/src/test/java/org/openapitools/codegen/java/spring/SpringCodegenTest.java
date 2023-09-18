@@ -3091,11 +3091,11 @@ public class SpringCodegenTest {
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Flux<String>")
-				.toFileAssert()
+                .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Flux<EventType>")
-				.toFileAssert()
+                .toFileAssert()
                 .assertMethod("nonSSE", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Mono<ResponseEntity<String>>");
@@ -3105,17 +3105,17 @@ public class SpringCodegenTest {
                 .isNotNull()
                 .hasReturnType("Flux<String>")
                 .bodyContainsLines("return Flux.empty();")
-				.toFileAssert()
-				.assertMethod("sseVariant2", "ServerWebExchange")
-				.isNotNull()
-				.hasReturnType("Flux<EventType>")
-				.bodyContainsLines("return Flux.empty();")
-				.toFileAssert()
-				.assertMethod("nonSSE", "ServerWebExchange")
-				.isNotNull()
-				.hasReturnType("Mono<ResponseEntity<String>>")
-				.bodyContainsLines("return result.then(Mono.empty());")
-		;
+                .toFileAssert()
+                .assertMethod("sseVariant2", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<EventType>")
+                .bodyContainsLines("return Flux.empty();")
+                .toFileAssert()
+                .assertMethod("nonSSE", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Mono<ResponseEntity<String>>")
+                .bodyContainsLines("return result.then(Mono.empty());")
+        ;
 
     }
 }
