@@ -20,6 +20,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -268,6 +269,18 @@ public class FakeApi  {
     public Response testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  Map<String, String> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
+    }
+    @javax.ws.rs.POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testInlineFreeformAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, securityContext);
     }
     @javax.ws.rs.GET
     @Path("/jsonFormData")

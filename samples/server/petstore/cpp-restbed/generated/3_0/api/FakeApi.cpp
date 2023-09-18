@@ -1791,6 +1791,119 @@ std::string FakeInline_additionalPropertiesResource::extractFormParamsFromBody(c
     }
     return "";
 }
+FakeInline_freeform_additionalPropertiesResource::FakeInline_freeform_additionalPropertiesResource(const std::string& context /* = "/v2" */)
+{
+	this->set_path(context + "/fake/inline-freeform-additionalProperties");
+	this->set_method_handler("POST",
+		std::bind(&FakeInline_freeform_additionalPropertiesResource::handler_POST_internal, this,
+			std::placeholders::_1));
+}
+
+std::pair<int, std::string> FakeInline_freeform_additionalPropertiesResource::handleFakeApiException(const FakeApiException& e)
+{
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
+}
+
+std::pair<int, std::string> FakeInline_freeform_additionalPropertiesResource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> FakeInline_freeform_additionalPropertiesResource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void FakeInline_freeform_additionalPropertiesResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void FakeInline_freeform_additionalPropertiesResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
+{
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
+}
+
+void FakeInline_freeform_additionalPropertiesResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void FakeInline_freeform_additionalPropertiesResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+{
+    const auto request = session->get_request();
+    // body params or form params here from the body content string
+    std::string bodyContent = extractBodyContent(session);
+    auto testInlineFreeformAdditionalPropertiesRequest = extractJsonModelBodyParam<TestInlineFreeformAdditionalProperties_request>(bodyContent);
+    
+    int status_code = 500;
+    std::string result = "";
+    
+    try {
+        status_code =
+            handler_POST(testInlineFreeformAdditionalPropertiesRequest);
+    }
+    catch(const FakeApiException& e) {
+        std::tie(status_code, result) = handleFakeApiException(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+    
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
+    
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    defaultSessionClose(session, status_code, result);
+}
+
+
+int FakeInline_freeform_additionalPropertiesResource::handler_POST(
+        TestInlineFreeformAdditionalProperties_request & testInlineFreeformAdditionalPropertiesRequest)
+{
+    return handler_POST_func(testInlineFreeformAdditionalPropertiesRequest);
+}
+
+
+std::string FakeInline_freeform_additionalPropertiesResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+
+std::string FakeInline_freeform_additionalPropertiesResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
 FakeJsonFormDataResource::FakeJsonFormDataResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/fake/jsonFormData");
@@ -2247,6 +2360,12 @@ std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> FakeA
     }
     return m_spFakeInline_additionalPropertiesResource;
 }
+std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> FakeApi::getFakeInline_freeform_additionalPropertiesResource() {
+    if (!m_spFakeInline_freeform_additionalPropertiesResource) {
+        setResource(std::make_shared<FakeApiResources::FakeInline_freeform_additionalPropertiesResource>());
+    }
+    return m_spFakeInline_freeform_additionalPropertiesResource;
+}
 std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> FakeApi::getFakeJsonFormDataResource() {
     if (!m_spFakeJsonFormDataResource) {
         setResource(std::make_shared<FakeApiResources::FakeJsonFormDataResource>());
@@ -2317,6 +2436,10 @@ void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeInline_additiona
     m_spFakeInline_additionalPropertiesResource = resource;
     m_service->publish(m_spFakeInline_additionalPropertiesResource);
 }
+void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> resource) {
+    m_spFakeInline_freeform_additionalPropertiesResource = resource;
+    m_service->publish(m_spFakeInline_freeform_additionalPropertiesResource);
+}
 void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> resource) {
     m_spFakeJsonFormDataResource = resource;
     m_service->publish(m_spFakeJsonFormDataResource);
@@ -2381,6 +2504,10 @@ void FakeApi::setFakeApiFakeInline_additionalPropertiesResource(std::shared_ptr<
     m_spFakeInline_additionalPropertiesResource = spFakeInline_additionalPropertiesResource;
     m_service->publish(m_spFakeInline_additionalPropertiesResource);
 }
+void FakeApi::setFakeApiFakeInline_freeform_additionalPropertiesResource(std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> spFakeInline_freeform_additionalPropertiesResource) {
+    m_spFakeInline_freeform_additionalPropertiesResource = spFakeInline_freeform_additionalPropertiesResource;
+    m_service->publish(m_spFakeInline_freeform_additionalPropertiesResource);
+}
 void FakeApi::setFakeApiFakeJsonFormDataResource(std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> spFakeJsonFormDataResource) {
     m_spFakeJsonFormDataResource = spFakeJsonFormDataResource;
     m_service->publish(m_spFakeJsonFormDataResource);
@@ -2434,6 +2561,9 @@ void FakeApi::publishDefaultResources() {
     }
     if (!m_spFakeInline_additionalPropertiesResource) {
         setResource(std::make_shared<FakeApiResources::FakeInline_additionalPropertiesResource>());
+    }
+    if (!m_spFakeInline_freeform_additionalPropertiesResource) {
+        setResource(std::make_shared<FakeApiResources::FakeInline_freeform_additionalPropertiesResource>());
     }
     if (!m_spFakeJsonFormDataResource) {
         setResource(std::make_shared<FakeApiResources::FakeJsonFormDataResource>());

@@ -21,6 +21,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters |
 | [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
 
@@ -1169,6 +1170,69 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+## test_inline_freeform_additional_properties
+
+> test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request)
+
+test inline free-form additionalProperties
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+test_inline_freeform_additional_properties_request = Petstore::TestInlineFreeformAdditionalPropertiesRequest.new # TestInlineFreeformAdditionalPropertiesRequest | request body
+
+begin
+  # test inline free-form additionalProperties
+  api_instance.test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_inline_freeform_additional_properties: #{e}"
+end
+```
+
+#### Using the test_inline_freeform_additional_properties_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request)
+
+```ruby
+begin
+  # test inline free-form additionalProperties
+  data, status_code, headers = api_instance.test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_inline_freeform_additional_properties_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **test_inline_freeform_additional_properties_request** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md) | request body |  |
 
 ### Return type
 

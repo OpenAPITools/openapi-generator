@@ -4526,6 +4526,218 @@ class FakeApi
     }
 
     /**
+     * Operation testInlineFreeformAdditionalProperties
+     *
+     * test inline free-form additionalProperties
+     *
+     * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request)
+    {
+        $this->testInlineFreeformAdditionalPropertiesWithHttpInfo($test_inline_freeform_additional_properties_request);
+    }
+
+    /**
+     * Operation testInlineFreeformAdditionalPropertiesWithHttpInfo
+     *
+     * test inline free-form additionalProperties
+     *
+     * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function testInlineFreeformAdditionalPropertiesWithHttpInfo($test_inline_freeform_additional_properties_request)
+    {
+        $request = $this->testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation testInlineFreeformAdditionalPropertiesAsync
+     *
+     * test inline free-form additionalProperties
+     *
+     * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function testInlineFreeformAdditionalPropertiesAsync($test_inline_freeform_additional_properties_request)
+    {
+        return $this->testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo($test_inline_freeform_additional_properties_request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo
+     *
+     * test inline free-form additionalProperties
+     *
+     * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo($test_inline_freeform_additional_properties_request)
+    {
+        $returnType = '';
+        $request = $this->testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'testInlineFreeformAdditionalProperties'
+     *
+     * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request)
+    {
+        // verify the required parameter 'test_inline_freeform_additional_properties_request' is set
+        if ($test_inline_freeform_additional_properties_request === null || (is_array($test_inline_freeform_additional_properties_request) && count($test_inline_freeform_additional_properties_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $test_inline_freeform_additional_properties_request when calling testInlineFreeformAdditionalProperties'
+            );
+        }
+
+        $resourcePath = '/fake/inline-freeform-additionalProperties';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                []
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                [],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($test_inline_freeform_additional_properties_request)) {
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($test_inline_freeform_additional_properties_request));
+            } else {
+                $httpBody = $test_inline_freeform_additional_properties_request;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = Query::build($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
      * Operation testJsonFormData
      *
      * test json serialization of form data

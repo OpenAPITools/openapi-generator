@@ -56,6 +56,7 @@ doc/SingleRefType.md
 doc/SpecialModelName.md
 doc/StoreApi.md
 doc/Tag.md
+doc/TestInlineFreeformAdditionalPropertiesRequest.md
 doc/User.md
 doc/UserApi.md
 git_push.sh
@@ -123,5 +124,6 @@ lib/model/read_only_first.dart
 lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
 lib/model/tag.dart
+lib/model/test_inline_freeform_additional_properties_request.dart
 lib/model/user.dart
 pubspec.yaml

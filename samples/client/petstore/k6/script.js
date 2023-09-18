@@ -121,6 +121,22 @@ export default function() {
         }
     });
 
+    group("/fake/inline-freeform-additionalProperties", () => {
+
+        // Request No. 1: testInlineFreeformAdditionalProperties
+        {
+            let url = BASE_URL + `/fake/inline-freeform-additionalProperties`;
+            // TODO: edit the parameters of the request body.
+            let body = {"someProperty": "string"};
+            let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
+            let request = http.post(url, JSON.stringify(body), params);
+
+            check(request, {
+                "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
     group("/user/{username}", () => {
         let username = 'TODO_EDIT_THE_USERNAME'; // specify value as there is no example value for this parameter in OpenAPI spec
 

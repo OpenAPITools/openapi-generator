@@ -431,6 +431,14 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `testInlineFreeformAdditionalProperties_request` generated from model 'testInlineFreeformAdditionalPropertiesUnderscorerequest'
+--
+
+CREATE TABLE IF NOT EXISTS `testInlineFreeformAdditionalProperties_request` (
+  `someProperty` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `User` generated from model 'User'
 --
 

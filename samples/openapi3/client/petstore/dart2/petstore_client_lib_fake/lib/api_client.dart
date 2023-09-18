@@ -278,6 +278,8 @@ class ApiClient {
           return SpecialModelName.fromJson(value);
         case 'Tag':
           return Tag.fromJson(value);
+        case 'TestInlineFreeformAdditionalPropertiesRequest':
+          return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value);
         case 'User':
           return User.fromJson(value);
         default:

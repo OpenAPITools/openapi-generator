@@ -21,6 +21,7 @@ Method | HTTP request | Description
 [**testEnumParameters()**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testInlineFreeformAdditionalProperties()**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 [**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
@@ -1016,6 +1017,61 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_body** | [**array<string,string>**](../Model/string.md)| request body |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testInlineFreeformAdditionalProperties()`
+
+```php
+testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request)
+```
+
+test inline free-form additionalProperties
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
+    new GuzzleHttp\Client()
+);
+$test_inline_freeform_additional_properties_request = new \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest(); // \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest | request body
+
+try {
+    $apiInstance->testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testInlineFreeformAdditionalProperties: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test_inline_freeform_additional_properties_request** | [**\OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest**](../Model/TestInlineFreeformAdditionalPropertiesRequest.md)| request body |
 
 ### Return type
 

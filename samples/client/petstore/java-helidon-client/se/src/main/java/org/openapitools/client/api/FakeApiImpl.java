@@ -44,6 +44,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import java.util.ArrayList;
 import org.openapitools.client.Pair;
@@ -75,6 +76,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<Void> RESPONSE_TYPE_testEnumParameters = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testGroupParameters = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testInlineAdditionalProperties = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testInlineFreeformAdditionalProperties = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testJsonFormData = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testNullable = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testQueryParameterCollectionFormat = ResponseType.create(Void.class);
@@ -811,6 +813,44 @@ public class FakeApiImpl implements FakeApi {
   protected ApiResponse<Void> testInlineAdditionalPropertiesSubmit(WebClientRequestBuilder webClientRequestBuilder, Map<String, String> requestBody) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(requestBody);
     return ApiResponse.create(RESPONSE_TYPE_testInlineAdditionalProperties, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    Objects.requireNonNull(testInlineFreeformAdditionalPropertiesRequest, "Required parameter 'testInlineFreeformAdditionalPropertiesRequest' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testInlineFreeformAdditionalPropertiesRequestBuilder(testInlineFreeformAdditionalPropertiesRequest);
+    return testInlineFreeformAdditionalPropertiesSubmit(webClientRequestBuilder, testInlineFreeformAdditionalPropertiesRequest);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testInlineFreeformAdditionalProperties operation.
+   * Optional customization point for subclasses.
+   *
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @return WebClientRequestBuilder for testInlineFreeformAdditionalProperties
+   */
+  protected WebClientRequestBuilder testInlineFreeformAdditionalPropertiesRequestBuilder(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/inline-freeform-additionalProperties");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testInlineFreeformAdditionalProperties operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testInlineFreeformAdditionalPropertiesSubmit(WebClientRequestBuilder webClientRequestBuilder, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(testInlineFreeformAdditionalPropertiesRequest);
+    return ApiResponse.create(RESPONSE_TYPE_testInlineFreeformAdditionalProperties, webClientResponse);
   }
 
   @Override

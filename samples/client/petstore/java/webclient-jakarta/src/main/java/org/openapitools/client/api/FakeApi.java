@@ -15,6 +15,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.util.HashMap;
@@ -1367,6 +1368,75 @@ public class FakeApi {
      */
     public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(Map<String, String> requestBody) throws WebClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
+    }
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        Object postBody = testInlineFreeformAdditionalPropertiesRequest;
+        // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+        if (testInlineFreeformAdditionalPropertiesRequest == null) {
+            throw new WebClientResponseException("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/inline-freeform-additionalProperties", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
     /**
      * test json serialization of form data
