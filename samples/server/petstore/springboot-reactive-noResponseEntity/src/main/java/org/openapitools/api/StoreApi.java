@@ -56,6 +56,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}"
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    
     default Mono<Void> deleteOrder(
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
         @ApiIgnore final ServerWebExchange exchange
@@ -90,6 +91,7 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
+    
     default Mono<Map<String, Integer>> getInventory(
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -124,6 +126,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
+    
     default Mono<Order> getOrderById(
         @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
         @ApiIgnore final ServerWebExchange exchange
@@ -158,6 +161,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
+    
     default Mono<Order> placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
         @ApiIgnore final ServerWebExchange exchange

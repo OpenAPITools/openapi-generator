@@ -58,6 +58,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
+    
     default Mono<ResponseEntity<Client>> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @ApiIgnore final ServerWebExchange exchange

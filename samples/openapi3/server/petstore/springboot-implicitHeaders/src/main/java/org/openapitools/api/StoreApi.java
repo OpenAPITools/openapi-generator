@@ -64,6 +64,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{order_id}"
     )
+    
     default ResponseEntity<Void> deleteOrder(
         @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) {
@@ -97,6 +98,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
+    
     default ResponseEntity<Map<String, Integer>> getInventory(
         
     ) {
@@ -133,6 +135,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
+    
     default ResponseEntity<Order> getOrderById(
         @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
@@ -182,6 +185,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {

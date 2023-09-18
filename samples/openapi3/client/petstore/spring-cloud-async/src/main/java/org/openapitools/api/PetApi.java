@@ -69,6 +69,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
+    
     CompletableFuture<ResponseEntity<Pet>> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     );
@@ -98,6 +99,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
+    
     CompletableFuture<ResponseEntity<Void>> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
@@ -133,6 +135,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = "application/json"
     )
+    
     CompletableFuture<ResponseEntity<List<Pet>>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status
     );
@@ -169,6 +172,7 @@ public interface PetApi {
         value = "/pet/findByTags",
         produces = "application/json"
     )
+    
     CompletableFuture<ResponseEntity<List<Pet>>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags
     );
@@ -205,6 +209,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
+    
     CompletableFuture<ResponseEntity<Pet>> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     );
@@ -247,6 +252,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
+    
     CompletableFuture<ResponseEntity<Pet>> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     );
@@ -278,6 +284,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
+    
     CompletableFuture<ResponseEntity<Void>> updatePetWithForm(
         @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
@@ -314,6 +321,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
+    
     CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
