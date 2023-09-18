@@ -115,13 +115,13 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.0.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.1-SNAPSHOT/) | 08.09.2023   | Patch release (enhancements, bug fixes, etc)      |
-| [7.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.0.0) (latest stable release)                                                    | 25.08.2023   | Major release with breaking changes (no fallback) |
+| 7.1.0 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.1.0-SNAPSHOT/) | 18.10.2023   | Minor release with breaking changes (with fallback) |
+| [7.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.0.1) (latest stable release)                                                    | 18.09.2023   | Patch release (enhancements, bug fixes, etc) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
-OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
+OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0, 3.1 (beta support)
 
 (We do not publish daily/nightly build. Please use SNAPSHOT instead)
 
