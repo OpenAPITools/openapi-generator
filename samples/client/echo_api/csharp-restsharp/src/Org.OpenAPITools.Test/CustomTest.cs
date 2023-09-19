@@ -46,24 +46,6 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("/query/style_form/explode_true/object?query_object=class%20Pet%20%7b%0a%20%20Id%3a%2012345%0a%20%20Name%3a%20Hello%20World%0a%20%20Category%3a%20class%20Category%20%7b%0a%20%20Id%3a%20987%0a%20%20Name%3a%20new%20category%0a%7d%0a%0a%20%20PhotoUrls%3a%20System.Collections.Generic.List%601%5bSystem.String%5d%0a%20%20Tags%3a%20%0a%20%20Status%3a%20%0a%7d%0a", p.path);
         }
 
-        /**
-         * Test query parameter(s)
-         * <p>
-         * Test query parameter(s)
-         *
-         * @throws ApiException if the Api call fails
-         */
-        [Fact]
-        public void TestQueryStyleFormExplodeTrueObjectAllOfTest()
-        {
-            DataQuery queryObject = new DataQuery() { Text = "Hello World" };
-            queryObject.Id = 3487L;
-            queryObject.Outcomes = new List<Query.OutcomesEnum>() { Query.OutcomesEnum.SKIPPED, Query.OutcomesEnum.FAILURE };
-            String response = api.TestQueryStyleFormExplodeTrueObjectAllOf(queryObject);
-            EchoServerResponseParser p = new EchoServerResponseParser(response);
-            Assert.Equal("/query/style_form/explode_true/object/allOf?query_object=class%20DataQuery%20%7b%0a%20%20class%20Query%20%7b%0a%20%20%20%20Id%3a%203487%0a%20%20%20%20Outcomes%3a%20System.Collections.Generic.List%601%5bOrg.OpenAPITools.Model.Query%2bOutcomesEnum%5d%0a%20%20%7d%0a%20%20%0a%20%20Suffix%3a%20%0a%20%20Text%3a%20Hello%20World%0a%20%20Date%3a%2001.01.0001%2000%3a00%3a00%0a%7d%0a", p.path);
-        }
-
         [Fact]
         public void testQueryStyleDeepObjectExplodeTrueObjectTest()
         {
