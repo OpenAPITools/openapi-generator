@@ -37,7 +37,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["application/json", "application/xml"]
     )
     fun addPet( @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
-        return ResponseEntity(service.addPet(pet), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -46,7 +46,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/{petId}"]
     )
     fun deletePet( @PathVariable("petId") petId: kotlin.Long, @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -56,7 +56,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
-        return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -66,7 +66,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
-        return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -76,7 +76,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/xml", "application/json"]
     )
     fun getPetById( @PathVariable("petId") petId: kotlin.Long): ResponseEntity<Pet> {
-        return ResponseEntity(service.getPetById(petId), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -87,7 +87,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["application/json", "application/xml"]
     )
     fun updatePet( @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
-        return ResponseEntity(service.updatePet(pet), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -97,7 +97,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "name", required = false) name: kotlin.String? , @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -108,6 +108,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["multipart/form-data"]
     )
     fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file") file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
-        return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

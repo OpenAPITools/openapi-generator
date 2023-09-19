@@ -34,7 +34,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user"]
     )
     fun createUser( @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -43,7 +43,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithArray"]
     )
     fun createUsersWithArrayInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -52,7 +52,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithList"]
     )
     fun createUsersWithListInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -61,7 +61,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"]
     )
     fun deleteUser( @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
-        return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -71,7 +71,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
-        return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -81,7 +81,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
-        return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -90,7 +90,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/logout"]
     )
     fun logoutUser(): ResponseEntity<Unit> {
-        return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
@@ -99,6 +99,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"]
     )
     fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
