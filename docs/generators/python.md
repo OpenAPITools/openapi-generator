@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
+|usePydanticV2|Use Pydantic v2 (beta support)| |false|
 
 ## IMPORT MAPPING
 

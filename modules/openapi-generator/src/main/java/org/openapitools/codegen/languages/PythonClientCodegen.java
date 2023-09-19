@@ -166,7 +166,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(USE_PYDANTIC_V2, "Use Pydantic v2 (beta support)")
-                .defaultValue(false));
+                .defaultValue("false"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
