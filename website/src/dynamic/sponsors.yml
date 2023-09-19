@@ -78,3 +78,8 @@
   image: "img/companies/bairesdev.png"
   infoLink: "https://www.bairesdev.com/sponsoring-open-source-projects/"
   bronze: true
+-
+  caption: "dmTECH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dm-jobs.com/"
+  bronze: true
