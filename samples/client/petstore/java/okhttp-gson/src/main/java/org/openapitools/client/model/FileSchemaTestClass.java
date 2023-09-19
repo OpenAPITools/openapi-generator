@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 
@@ -35,13 +35,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -57,7 +60,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = new ArrayList<>();
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -73,7 +76,6 @@ public class FileSchemaTestClass {
    * @return _file
   **/
   @javax.annotation.Nullable
-
   public ModelFile getFile() {
     return _file;
   }
@@ -103,7 +105,6 @@ public class FileSchemaTestClass {
    * @return files
   **/
   @javax.annotation.Nullable
-
   public List<ModelFile> getFiles() {
     return files;
   }
@@ -215,20 +216,21 @@ public class FileSchemaTestClass {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to FileSchemaTestClass
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to FileSchemaTestClass
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `file`
       if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
-        ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
+        ModelFile.validateJsonElement(jsonObj.get("file"));
       }
       if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
         JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
@@ -240,7 +242,7 @@ public class FileSchemaTestClass {
 
           // validate the optional field `files` (array)
           for (int i = 0; i < jsonArrayfiles.size(); i++) {
-            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+            ModelFile.validateJsonElement(jsonArrayfiles.get(i));
           };
         }
       }
@@ -283,8 +285,9 @@ public class FileSchemaTestClass {
 
            @Override
            public FileSchemaTestClass read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              FileSchemaTestClass instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

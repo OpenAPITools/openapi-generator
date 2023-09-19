@@ -23,14 +23,14 @@ import 'package:openapi/src/model/array_of_number_only.dart';
 import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
+import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -56,6 +56,7 @@ import 'package:openapi/src/model/outer_enum_default_value.dart';
 import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
@@ -75,14 +76,14 @@ part 'serializers.g.dart';
   ArrayTest,
   Capitalization,
   Cat,
-  CatAllOf,$CatAllOf,
   Category,
+  ChildWithNullable,
   ClassModel,
   DeprecatedObject,
   Dog,
-  DogAllOf,$DogAllOf,
   EnumArrays,
   EnumTest,
+  FakeBigDecimalMap200Response,
   FileSchemaTestClass,
   Foo,
   FooGetDefaultResponse,
@@ -108,6 +109,7 @@ part 'serializers.g.dart';
   OuterEnumInteger,
   OuterEnumIntegerDefaultValue,
   OuterObjectWithEnumProperty,
+  ParentWithNullable,$ParentWithNullable,
   Pet,
   ReadOnlyFirst,
   SingleRefType,
@@ -149,8 +151,7 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<String>(),
       )
       ..add(Animal.serializer)
-      ..add(CatAllOf.serializer)
-      ..add(DogAllOf.serializer)
+      ..add(ParentWithNullable.serializer)
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())

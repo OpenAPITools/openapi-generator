@@ -1,0 +1,29 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://testspec.org/v2'
+info:
+  description: for testing query parameter dict
+  version: 1.0.0
+  title: test spec
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /query_parameter_dict:
+    get:
+      tags:
+        - fake
+      summary: query parameter test
+      description: query parameter test
+      operationId: query_parameter_test
+      parameters:
+        - name: dict_string_integer
+          in: query
+          schema:
+            additionalProperties:
+              type: integer
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value

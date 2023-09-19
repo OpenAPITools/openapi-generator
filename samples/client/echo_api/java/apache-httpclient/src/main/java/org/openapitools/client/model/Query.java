@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -141,7 +142,6 @@ public class Query {
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -289,6 +289,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     static class HTTPRequest {
+        String operationId;
         String method;
         boolean isDelete;
         String path;
@@ -304,12 +305,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         @Nullable
         DataExtractSubstituteParameter dataExtract;
 
-        public HTTPRequest(String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
+        public HTTPRequest(String operationId, String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
                            boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
                            DataExtractSubstituteParameter dataExtract) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
             this.method = method.equals("delete") ? "del" : method;
             this.isDelete = method.equals("delete");
+            this.operationId = operationId;
             this.path = path;
             this.query = query;
             this.body = body;
@@ -535,8 +537,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
 
-                if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                    String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                     String contentTypeValue = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                     if (contentTypeValue.equals("*/*"))
@@ -645,7 +647,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // calculate order for this current request
                 Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
 
-                requests.put(requestOrder, new HTTPRequest(method.toString().toLowerCase(Locale.ROOT), path,
+                requests.put(requestOrder, new HTTPRequest(operationId, method.toString().toLowerCase(Locale.ROOT), path,
                         queryParams.size() > 0 ? queryParams : null,
                         bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null, hasRequestBodyExample,
                         params.headers.size() > 0 ? params : null, k6Checks.size() > 0 ? k6Checks : null,

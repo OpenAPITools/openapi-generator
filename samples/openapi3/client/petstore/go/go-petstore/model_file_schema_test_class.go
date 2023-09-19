@@ -134,9 +134,13 @@ func (o FileSchemaTestClass) ToMap() (map[string]interface{}, error) {
 func (o *FileSchemaTestClass) UnmarshalJSON(bytes []byte) (err error) {
 	varFileSchemaTestClass := _FileSchemaTestClass{}
 
-	if err = json.Unmarshal(bytes, &varFileSchemaTestClass); err == nil {
-		*o = FileSchemaTestClass(varFileSchemaTestClass)
+	err = json.Unmarshal(bytes, &varFileSchemaTestClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FileSchemaTestClass(varFileSchemaTestClass)
 
 	additionalProperties := make(map[string]interface{})
 

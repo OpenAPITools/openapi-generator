@@ -237,7 +237,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{#uniqueItems}}
         if (getActualInstance() != null) {
           int i = 0;
-          for ({{items.dataType}} _item : ({{{dataType}}})getActualInstance()) {
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -260,7 +260,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{#uniqueItems}}
         if (getActualInstance() != null) {
           int i = 0;
-          for ({{items.dataType}} _item : ({{{dataType}}})getActualInstance()) {
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             if (_item != null) {
               joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
@@ -284,7 +284,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{#uniqueItems}}
         if (getActualInstance() != null) {
           int i = 0;
-          for ({{items.dataType}} _item : ({{{dataType}}})getActualInstance()) {
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             if (_item != null) {
               joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),

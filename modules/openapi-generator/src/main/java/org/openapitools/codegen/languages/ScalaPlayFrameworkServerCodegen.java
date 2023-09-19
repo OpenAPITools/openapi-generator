@@ -224,7 +224,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("indented_4", new IndentedLambda(4, " "));
+                .put("indented_4", new IndentedLambda(4, " ", false));
     }
 
     @Override
@@ -363,7 +363,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema ap = getAdditionalProperties(p);
+            Schema ap = ModelUtils.getAdditionalProperties(p);
             String inner = getSchemaType(ap);
             return "Map.empty[String, " + inner + "]";
         }

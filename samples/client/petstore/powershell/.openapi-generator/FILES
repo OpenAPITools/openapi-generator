@@ -15,7 +15,6 @@ docs/BananaReq.md
 docs/BasquePig.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
@@ -23,7 +22,6 @@ docs/ComplexQuadrilateral.md
 docs/DanishPig.md
 docs/DeprecatedObject.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
 docs/EnumTest.md
@@ -44,6 +42,7 @@ docs/List.md
 docs/Mammal.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
+docs/ModelMapping.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
@@ -103,7 +102,6 @@ src/PSPetstore/Model/BananaReq.ps1
 src/PSPetstore/Model/BasquePig.ps1
 src/PSPetstore/Model/Capitalization.ps1
 src/PSPetstore/Model/Cat.ps1
-src/PSPetstore/Model/CatAllOf.ps1
 src/PSPetstore/Model/Category.ps1
 src/PSPetstore/Model/ClassModel.ps1
 src/PSPetstore/Model/Client.ps1
@@ -111,7 +109,6 @@ src/PSPetstore/Model/ComplexQuadrilateral.ps1
 src/PSPetstore/Model/DanishPig.ps1
 src/PSPetstore/Model/DeprecatedObject.ps1
 src/PSPetstore/Model/Dog.ps1
-src/PSPetstore/Model/DogAllOf.ps1
 src/PSPetstore/Model/Drawing.ps1
 src/PSPetstore/Model/EnumArrays.ps1
 src/PSPetstore/Model/EnumTest.ps1
@@ -135,6 +132,7 @@ src/PSPetstore/Model/MixedPropertiesAndAdditionalPropertiesClass.ps1
 src/PSPetstore/Model/Model200Response.ps1
 src/PSPetstore/Model/ModelReturn.ps1
 src/PSPetstore/Model/Name.ps1
+src/PSPetstore/Model/NewModel.ps1
 src/PSPetstore/Model/NullableClass.ps1
 src/PSPetstore/Model/NullableShape.ps1
 src/PSPetstore/Model/NumberOnly.ps1

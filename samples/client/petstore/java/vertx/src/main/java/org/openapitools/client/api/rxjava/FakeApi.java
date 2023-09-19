@@ -2,13 +2,18 @@ package org.openapitools.client.api.rxjava;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 import org.openapitools.client.ApiClient;
 
 import java.util.*;
@@ -31,48 +36,138 @@ public class FakeApi {
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-    * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @param resultHandler Asynchronous result handler
     */
-    public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.createXmlItem(xmlItem, resultHandler);
+    public void fakeBigDecimalMap(Handler<AsyncResult<FakeBigDecimalMap200Response>> resultHandler) {
+        delegate.fakeBigDecimalMap(resultHandler);
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-    * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void createXmlItem(XmlItem xmlItem, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.createXmlItem(xmlItem, authInfo, resultHandler);
+    public void fakeBigDecimalMap(ApiClient.AuthInfo authInfo, Handler<AsyncResult<FakeBigDecimalMap200Response>> resultHandler) {
+        delegate.fakeBigDecimalMap(authInfo, resultHandler);
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-    * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxCreateXmlItem(XmlItem xmlItem) {
+    public Single<FakeBigDecimalMap200Response> rxFakeBigDecimalMap() {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.createXmlItem(xmlItem, fut)
+            delegate.fakeBigDecimalMap(fut)
         ));
     }
 
     /**
-    * creates an XmlItem
-    * this route creates an XmlItem
-    * @param xmlItem XmlItem Body (required)
+    * 
+    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxCreateXmlItem(XmlItem xmlItem, ApiClient.AuthInfo authInfo) {
+    public Single<FakeBigDecimalMap200Response> rxFakeBigDecimalMap(ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.createXmlItem(xmlItem, authInfo, fut)
+            delegate.fakeBigDecimalMap(authInfo, fut)
+        ));
+    }
+    /**
+    * Health check endpoint
+    * 
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHealthGet(Handler<AsyncResult<HealthCheckResult>> resultHandler) {
+        delegate.fakeHealthGet(resultHandler);
+    }
+
+    /**
+    * Health check endpoint
+    * 
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHealthGet(ApiClient.AuthInfo authInfo, Handler<AsyncResult<HealthCheckResult>> resultHandler) {
+        delegate.fakeHealthGet(authInfo, resultHandler);
+    }
+
+    /**
+    * Health check endpoint
+    * 
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<HealthCheckResult> rxFakeHealthGet() {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.fakeHealthGet(fut)
+        ));
+    }
+
+    /**
+    * Health check endpoint
+    * 
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<HealthCheckResult> rxFakeHealthGet(ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.fakeHealthGet(authInfo, fut)
+        ));
+    }
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store (required)
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHttpSignatureTest(Pet pet, String query1, String header1, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.fakeHttpSignatureTest(pet, query1, header1, resultHandler);
+    }
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store (required)
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeHttpSignatureTest(Pet pet, String query1, String header1, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.fakeHttpSignatureTest(pet, query1, header1, authInfo, resultHandler);
+    }
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store (required)
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxFakeHttpSignatureTest(Pet pet, String query1, String header1) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.fakeHttpSignatureTest(pet, query1, header1, fut)
+        ));
+    }
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store (required)
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxFakeHttpSignatureTest(Pet pet, String query1, String header1, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.fakeHttpSignatureTest(pet, query1, header1, authInfo, fut)
         ));
     }
     /**
@@ -123,46 +218,46 @@ public class FakeApi {
     /**
     * 
     * Test serialization of object with outer number type
-    * @param body Input composite as post body (optional)
+    * @param outerComposite Input composite as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        delegate.fakeOuterCompositeSerialize(body, resultHandler);
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        delegate.fakeOuterCompositeSerialize(outerComposite, resultHandler);
     }
 
     /**
     * 
     * Test serialization of object with outer number type
-    * @param body Input composite as post body (optional)
+    * @param outerComposite Input composite as post body (optional)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        delegate.fakeOuterCompositeSerialize(body, authInfo, resultHandler);
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        delegate.fakeOuterCompositeSerialize(outerComposite, authInfo, resultHandler);
     }
 
     /**
     * 
     * Test serialization of object with outer number type
-    * @param body Input composite as post body (optional)
+    * @param outerComposite Input composite as post body (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body) {
+    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite outerComposite) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.fakeOuterCompositeSerialize(body, fut)
+            delegate.fakeOuterCompositeSerialize(outerComposite, fut)
         ));
     }
 
     /**
     * 
     * Test serialization of object with outer number type
-    * @param body Input composite as post body (optional)
+    * @param outerComposite Input composite as post body (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo) {
+    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite outerComposite, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.fakeOuterCompositeSerialize(body, authInfo, fut)
+            delegate.fakeOuterCompositeSerialize(outerComposite, authInfo, fut)
         ));
     }
     /**
@@ -257,82 +352,172 @@ public class FakeApi {
     }
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithFileSchema(FileSchemaTestClass body, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithFileSchema(body, resultHandler);
+    public void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, Handler<AsyncResult<OuterObjectWithEnumProperty>> resultHandler) {
+        delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, resultHandler);
     }
 
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithFileSchema(FileSchemaTestClass body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithFileSchema(body, authInfo, resultHandler);
+    public void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterObjectWithEnumProperty>> resultHandler) {
+        delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, authInfo, resultHandler);
     }
 
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass body) {
+    public Single<OuterObjectWithEnumProperty> rxFakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testBodyWithFileSchema(body, fut)
+            delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, fut)
         ));
     }
 
     /**
     * 
-    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param body  (required)
+    * Test serialization of enum (int) properties with examples
+    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass body, ApiClient.AuthInfo authInfo) {
+    public Single<OuterObjectWithEnumProperty> rxFakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testBodyWithFileSchema(body, authInfo, fut)
+            delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, authInfo, fut)
+        ));
+    }
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+    * @param body image to upload (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithBinary(AsyncFile body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithBinary(body, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+    * @param body image to upload (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithBinary(AsyncFile body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithBinary(body, authInfo, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+    * @param body image to upload (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestBodyWithBinary(AsyncFile body) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testBodyWithBinary(body, fut)
+        ));
+    }
+
+    /**
+    * 
+    * For this test, the body has to be a binary file.
+    * @param body image to upload (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestBodyWithBinary(AsyncFile body, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testBodyWithBinary(body, authInfo, fut)
+        ));
+    }
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithFileSchema(fileSchemaTestClass, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithFileSchema(fileSchemaTestClass, authInfo, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testBodyWithFileSchema(fileSchemaTestClass, fut)
+        ));
+    }
+
+    /**
+    * 
+    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testBodyWithFileSchema(fileSchemaTestClass, authInfo, fut)
         ));
     }
     /**
     * 
     * 
     * @param query  (required)
-    * @param body  (required)
+    * @param user  (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithQueryParams(String query, User body, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithQueryParams(query, body, resultHandler);
+    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithQueryParams(query, user, resultHandler);
     }
 
     /**
     * 
     * 
     * @param query  (required)
-    * @param body  (required)
+    * @param user  (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testBodyWithQueryParams(String query, User body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithQueryParams(query, body, authInfo, resultHandler);
+    public void testBodyWithQueryParams(String query, User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithQueryParams(query, user, authInfo, resultHandler);
     }
 
     /**
     * 
     * 
     * @param query  (required)
-    * @param body  (required)
+    * @param user  (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestBodyWithQueryParams(String query, User body) {
+    public Single<Void> rxTestBodyWithQueryParams(String query, User user) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testBodyWithQueryParams(query, body, fut)
+            delegate.testBodyWithQueryParams(query, user, fut)
         ));
     }
 
@@ -340,63 +525,63 @@ public class FakeApi {
     * 
     * 
     * @param query  (required)
-    * @param body  (required)
+    * @param user  (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestBodyWithQueryParams(String query, User body, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxTestBodyWithQueryParams(String query, User user, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testBodyWithQueryParams(query, body, authInfo, fut)
+            delegate.testBodyWithQueryParams(query, user, authInfo, fut)
         ));
     }
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-    * @param body client model (required)
+    * @param client client model (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClientModel(body, resultHandler);
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClientModel(client, resultHandler);
     }
 
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testClientModel(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClientModel(body, authInfo, resultHandler);
+    public void testClientModel(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClientModel(client, authInfo, resultHandler);
     }
 
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-    * @param body client model (required)
+    * @param client client model (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Client> rxTestClientModel(Client body) {
+    public Single<Client> rxTestClientModel(Client client) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testClientModel(body, fut)
+            delegate.testClientModel(client, fut)
         ));
     }
 
     /**
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
-    * @param body client model (required)
+    * @param client client model (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Client> rxTestClientModel(Client body, ApiClient.AuthInfo authInfo) {
+    public Single<Client> rxTestClientModel(Client client, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testClientModel(body, authInfo, fut)
+            delegate.testClientModel(client, authInfo, fut)
         ));
     }
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * @param number None (required)
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
@@ -418,8 +603,8 @@ public class FakeApi {
     }
 
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * @param number None (required)
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
@@ -442,8 +627,8 @@ public class FakeApi {
     }
 
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * @param number None (required)
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
@@ -467,8 +652,8 @@ public class FakeApi {
     }
 
     /**
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * @param number None (required)
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
@@ -500,12 +685,13 @@ public class FakeApi {
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, resultHandler);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, resultHandler);
     }
 
     /**
@@ -517,13 +703,14 @@ public class FakeApi {
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, authInfo, resultHandler);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, authInfo, resultHandler);
     }
 
     /**
@@ -535,13 +722,14 @@ public class FakeApi {
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
+    public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, fut)
+            delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, fut)
         ));
     }
 
@@ -554,14 +742,15 @@ public class FakeApi {
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, authInfo, fut)
+            delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, authInfo, fut)
         ));
     }
     /**
@@ -632,46 +821,46 @@ public class FakeApi {
     /**
     * test inline additionalProperties
     * 
-    * @param param request body (required)
+    * @param requestBody request body (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testInlineAdditionalProperties(param, resultHandler);
+    public void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineAdditionalProperties(requestBody, resultHandler);
     }
 
     /**
     * test inline additionalProperties
     * 
-    * @param param request body (required)
+    * @param requestBody request body (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testInlineAdditionalProperties(Map<String, String> param, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testInlineAdditionalProperties(param, authInfo, resultHandler);
+    public void testInlineAdditionalProperties(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineAdditionalProperties(requestBody, authInfo, resultHandler);
     }
 
     /**
     * test inline additionalProperties
     * 
-    * @param param request body (required)
+    * @param requestBody request body (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> param) {
+    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> requestBody) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testInlineAdditionalProperties(param, fut)
+            delegate.testInlineAdditionalProperties(requestBody, fut)
         ));
     }
 
     /**
     * test inline additionalProperties
     * 
-    * @param param request body (required)
+    * @param requestBody request body (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> param, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> requestBody, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testInlineAdditionalProperties(param, authInfo, fut)
+            delegate.testInlineAdditionalProperties(requestBody, authInfo, fut)
         ));
     }
     /**
@@ -724,32 +913,64 @@ public class FakeApi {
         ));
     }
     /**
+    * test nullable parent property
     * 
-    * To test the collection format in query parameters
-    * @param pipe  (required)
-    * @param ioutil  (required)
-    * @param http  (required)
-    * @param url  (required)
-    * @param context  (required)
+    * @param childWithNullable request body (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, resultHandler);
+    public void testNullable(ChildWithNullable childWithNullable, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testNullable(childWithNullable, resultHandler);
     }
 
     /**
+    * test nullable parent property
     * 
-    * To test the collection format in query parameters
-    * @param pipe  (required)
-    * @param ioutil  (required)
-    * @param http  (required)
-    * @param url  (required)
-    * @param context  (required)
+    * @param childWithNullable request body (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, authInfo, resultHandler);
+    public void testNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testNullable(childWithNullable, authInfo, resultHandler);
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestNullable(ChildWithNullable childWithNullable) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testNullable(childWithNullable, fut)
+        ));
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testNullable(childWithNullable, authInfo, fut)
+        ));
+    }
+    /**
+    * 
+    * To test the collection format in query parameters
+    * @param pipe  (required)
+    * @param ioutil  (required)
+    * @param http  (required)
+    * @param url  (required)
+    * @param context  (required)
+    * @param allowEmpty  (required)
+    * @param language  (optional)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, resultHandler);
     }
 
     /**
@@ -760,11 +981,30 @@ public class FakeApi {
     * @param http  (required)
     * @param url  (required)
     * @param context  (required)
+    * @param allowEmpty  (required)
+    * @param language  (optional)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, authInfo, resultHandler);
+    }
+
+    /**
+    * 
+    * To test the collection format in query parameters
+    * @param pipe  (required)
+    * @param ioutil  (required)
+    * @param http  (required)
+    * @param url  (required)
+    * @param context  (required)
+    * @param allowEmpty  (required)
+    * @param language  (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, fut)
+            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, fut)
         ));
     }
 
@@ -776,12 +1016,14 @@ public class FakeApi {
     * @param http  (required)
     * @param url  (required)
     * @param context  (required)
+    * @param allowEmpty  (required)
+    * @param language  (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, authInfo, fut)
+            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, authInfo, fut)
         ));
     }
 

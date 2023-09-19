@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**getEnum**](EnumApi.md#getEnum) | **GET** /enum | Get enums
 
 
-<a name="getEnum"></a>
+<a id="getEnum"></a>
 # **getEnum**
 > PetEnum getEnum()
 

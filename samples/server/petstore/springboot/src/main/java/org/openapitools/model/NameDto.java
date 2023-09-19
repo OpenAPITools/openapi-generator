@@ -25,17 +25,24 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NameDto {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123Number;
+
+  public NameDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public NameDto(Integer name) {
+    this.name = name;
+  }
 
   public NameDto name(Integer name) {
     this.name = name;
@@ -48,6 +55,7 @@ public class NameDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -67,6 +75,7 @@ public class NameDto {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -86,6 +95,7 @@ public class NameDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -105,6 +115,7 @@ public class NameDto {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
+  @JsonProperty("123Number")
   public Integer get123Number() {
     return _123Number;
   }

@@ -96,7 +96,6 @@ public class AllOfWithSingleRef {
     this.singleRefType = singleRefType;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -180,7 +179,12 @@ public class AllOfWithSingleRef {
 
     // add `SingleRefType` to the URL query string
     if (getSingleRefType() != null) {
-      joiner.add(getSingleRefType().toUrlQueryString(prefix + "SingleRefType" + suffix));
+      try {
+        joiner.add(String.format("%sSingleRefType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSingleRefType()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
     return joiner.toString();

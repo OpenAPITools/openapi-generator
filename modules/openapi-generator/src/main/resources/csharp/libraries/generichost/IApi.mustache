@@ -1,0 +1,15 @@
+using System.Net.Http;
+
+namespace {{packageName}}.{{apiPackage}}
+{
+    /// <summary>
+    /// Any Api client
+    /// </summary>
+    {{>visibility}} interface {{interfacePrefix}}Api
+    {
+        /// <summary>
+        /// The HttpClient
+        /// </summary>
+        HttpClient HttpClient { get; }
+    }
+}

@@ -311,7 +311,6 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
-	{{^isReadOnly}}
 	{{#required}}
 	toSerialize["{{baseName}}"] = o.{{name}}
 	{{/required}}
@@ -320,10 +319,6 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 		toSerialize["{{baseName}}"] = o.{{name}}
 	}
 	{{/required}}
-	{{/isReadOnly}}
-	{{#isReadOnly}}
-	// skip: {{baseName}} is readOnly
-	{{/isReadOnly}}
 	{{/isNullable}}
 	{{/vars}}
 	{{#isAdditionalPropertiesTrue}}
@@ -409,9 +404,13 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{#isMap}}
 	var{{{classname}}} := _{{{classname}}}{}
 
-	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
-		*o = {{{classname}}}(var{{{classname}}})
+	err = json.Unmarshal(bytes, &var{{{classname}}})
+
+	if err != nil {
+		return err
 	}
+
+	*o = {{{classname}}}(var{{{classname}}})
 
 	additionalProperties := make(map[string]interface{})
 
@@ -428,9 +427,13 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{^parent}}
 	var{{{classname}}} := _{{{classname}}}{}
 
-	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
-		*o = {{{classname}}}(var{{{classname}}})
+	err = json.Unmarshal(bytes, &var{{{classname}}})
+
+	if err != nil {
+		return err
 	}
+
+	*o = {{{classname}}}(var{{{classname}}})
 
 	additionalProperties := make(map[string]interface{})
 

@@ -108,9 +108,13 @@ func (o HealthCheckResult) ToMap() (map[string]interface{}, error) {
 func (o *HealthCheckResult) UnmarshalJSON(bytes []byte) (err error) {
 	varHealthCheckResult := _HealthCheckResult{}
 
-	if err = json.Unmarshal(bytes, &varHealthCheckResult); err == nil {
-		*o = HealthCheckResult(varHealthCheckResult)
+	err = json.Unmarshal(bytes, &varHealthCheckResult)
+
+	if err != nil {
+		return err
 	}
+
+	*o = HealthCheckResult(varHealthCheckResult)
 
 	additionalProperties := make(map[string]interface{})
 

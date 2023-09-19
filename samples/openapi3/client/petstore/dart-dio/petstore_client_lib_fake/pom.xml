@@ -24,7 +24,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <id>pub-get</id>
@@ -33,8 +32,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>pub</executable>
+                            <executable>dart</executable>
                             <arguments>
+                                <argument>pub</argument>
                                 <argument>get</argument>
                             </arguments>
                         </configuration>
@@ -46,7 +46,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>pub</executable>
+                            <executable>dart</executable>
                             <arguments>
                                 <argument>run</argument>
                                 <argument>build_runner</argument>
@@ -89,8 +89,9 @@
                         </goals>
                         <configuration>
                             <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>pub</executable>
+                            <executable>dart</executable>
                             <arguments>
+                                <argument>pub</argument>
                                 <argument>get</argument>
                             </arguments>
                         </configuration>

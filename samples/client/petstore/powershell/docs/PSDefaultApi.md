@@ -1,4 +1,4 @@
-# PSPetstore.PSPetstore/Api.PSDefaultApi
+# PSPetstore.PSPetstore\Api.PSDefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**Invoke-PSFooGet**](PSDefaultApi.md#Invoke-PSFooGet) | **GET** /foo | 
 
 
-<a name="Invoke-PSFooGet"></a>
+<a id="Invoke-PSFooGet"></a>
 # **Invoke-PSFooGet**
 > FooGetDefaultResponse Invoke-PSFooGet<br>
 

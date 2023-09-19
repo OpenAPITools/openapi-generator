@@ -211,3 +211,11 @@ components:
           nullable: true
           allOf:
             - $ref: "#/components/schemas/NumberEnum"
+        default-number-enum:
+          default: 2
+          allOf:
+            - $ref: "#/components/schemas/NumberEnum"
+        allof-number-enum:
+          allOf:
+            - $ref: "#/components/schemas/NumberEnum"
+

@@ -1,0 +1,81 @@
+name: Samples C# .Net 6
+
+on:
+  push:
+    paths:
+      # build C# API client (multiple frameworks)
+      - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/**
+      # build C# API client (httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
+      # build C# API client (generichost)
+      - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0/**
+      # build C# API client (netcore)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/OpenAPIClientCore/**
+      # build C# API client (.net framework 4.7)
+      - samples/client/petstore/csharp/OpenAPIClient-net47/**
+      # build C# API client (.net framework 4.8)
+      - samples/client/petstore/csharp/OpenAPIClient-net48/**
+      # build C# API client (.net 5.0)
+      - samples/client/petstore/csharp/OpenAPIClient-net5.0/**
+      # build C# API client (.net 5.0 with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (property, parameter name mappings)
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
+  pull_request:
+    paths:
+      # build C# API client (multiple frameworks)
+      - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/**
+      # build C# API client (httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
+      # build C# API client (generichost)
+      - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0/**
+      # build C# API client (netcore)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/OpenAPIClientCore/**
+      # build C# API client (.net framework 4.7)
+      - samples/client/petstore/csharp/OpenAPIClient-net47/**
+      # build C# API client (.net framework 4.8)
+      - samples/client/petstore/csharp/OpenAPIClient-net48/**
+      # build C# API client (.net 5.0)
+      - samples/client/petstore/csharp/OpenAPIClient-net5.0/**
+      # build C# API client (.net 5.0 with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (property, parameter name mappings)
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
+jobs:
+  build:
+    name: Build .Net clients
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          # build C# API client (multiple frameworks)
+          - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/
+          # build C# API client (httpclient)
+          - samples/client/petstore/csharp/OpenAPIClient-httpclient/
+          # build C# API client (generichost)
+          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0/
+          # build C# API client (netcore)
+          - samples/client/petstore/csharp/OpenAPIClient/
+          - samples/client/petstore/csharp/OpenAPIClientCore/
+          # build C# API client (.net framework 4.7)
+          - samples/client/petstore/csharp/OpenAPIClient-net47/
+          # build C# API client (.net framework 4.8)
+          - samples/client/petstore/csharp/OpenAPIClient-net48/
+          # build C# API client (.net 5.0)
+          - samples/client/petstore/csharp/OpenAPIClient-net5.0/
+          # build C# API client (.net 5.0 with ConditionalSerialization)
+          - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/
+          # build C# API client (property, parameter name mappings)
+          - samples/client/petstore/csharp-restsharp-name-parameter-mappings
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: '6.0.x'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: dotnet build Org.OpenAPITools.sln

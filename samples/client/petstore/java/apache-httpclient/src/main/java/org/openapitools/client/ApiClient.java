@@ -20,6 +20,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.cookie.Cookie;
@@ -163,6 +164,7 @@ public class ApiClient extends JavaTimeFormatter {
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.registerModule(new JsonNullableModule());
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
@@ -177,7 +179,6 @@ public class ApiClient extends JavaTimeFormatter {
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
-    authentications.put("http_signature_test", new HttpBearerAuth("signature"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

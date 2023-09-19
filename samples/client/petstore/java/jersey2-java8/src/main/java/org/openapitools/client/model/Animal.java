@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,9 +24,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -153,14 +150,14 @@ public class Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("BigCat", BigCat.class);
-  mappings.put("Cat", Cat.class);
-  mappings.put("Dog", Dog.class);
-  mappings.put("Animal", Animal.class);
-  JSON.registerDiscriminator(Animal.class, "className", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("BigCat", BigCat.class);
+    mappings.put("Cat", Cat.class);
+    mappings.put("Dog", Dog.class);
+    mappings.put("Animal", Animal.class);
+    JSON.registerDiscriminator(Animal.class, "className", mappings);
+  }
 }
 

@@ -22,7 +22,6 @@ import ArrayTest from './model/ArrayTest';
 import BasquePig from './model/BasquePig';
 import Capitalization from './model/Capitalization';
 import Cat from './model/Cat';
-import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
@@ -30,7 +29,6 @@ import Color from './model/Color';
 import DanishPig from './model/DanishPig';
 import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
-import DogAllOf from './model/DogAllOf';
 import EnumArrays from './model/EnumArrays';
 import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
@@ -40,7 +38,7 @@ import Foo from './model/Foo';
 import FooGetDefaultResponse from './model/FooGetDefaultResponse';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
-import HealthCheckResult from './model/HealthCheckResult';
+import HealthCheckStatus from './model/HealthCheckStatus';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
@@ -168,12 +166,6 @@ export {
     Cat,
 
     /**
-     * The CatAllOf model constructor.
-     * @property {module:model/CatAllOf}
-     */
-    CatAllOf,
-
-    /**
      * The Category model constructor.
      * @property {module:model/Category}
      */
@@ -214,12 +206,6 @@ export {
      * @property {module:model/Dog}
      */
     Dog,
-
-    /**
-     * The DogAllOf model constructor.
-     * @property {module:model/DogAllOf}
-     */
-    DogAllOf,
 
     /**
      * The EnumArrays model constructor.
@@ -276,10 +262,10 @@ export {
     HasOnlyReadOnly,
 
     /**
-     * The HealthCheckResult model constructor.
-     * @property {module:model/HealthCheckResult}
+     * The HealthCheckStatus model constructor.
+     * @property {module:model/HealthCheckStatus}
      */
-    HealthCheckResult,
+    HealthCheckStatus,
 
     /**
      * The List model constructor.

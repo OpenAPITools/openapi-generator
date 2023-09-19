@@ -41,6 +41,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -99,6 +100,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    private boolean cleanupOutput;
+
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
@@ -112,7 +116,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpecRootDirectory;
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;
@@ -323,10 +327,28 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameMappings;
 
     /**
-     * A map of inline scheme naming convention and the value
+     * A map of inline scheme option and the value
      */
-    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
-    private List<String> inlineSchemaNameDefaults;
+    @Parameter(name = "inlineSchemaOptions", property = "openapi.generator.maven.plugin.inlineSchemaOptions")
+    private List<String> inlineSchemaOptions;
+
+    /**
+     * A map of property names and the new names
+     */
+    @Parameter(name = "nameMappings", property = "openapi.generator.maven.plugin.nameMappings")
+    private List<String> nameMappings;
+
+    /**
+     * A map of parameter names and the new names
+     */
+    @Parameter(name = "parameterNameMappings", property = "openapi.generator.maven.plugin.parameterNameMappings")
+    private List<String> parameterNameMappings;
+
+    /**
+     * A map of model names and the new names
+     */
+    @Parameter(name = "modelNameMappings", property = "openapi.generator.maven.plugin.modelNameMappings")
+    private List<String> modelNameMappings;
 
     /**
      * A set of rules for OpenAPI normalizer
@@ -456,6 +478,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.dryRun")
+    private Boolean dryRun = false;
+
     // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
@@ -494,6 +519,7 @@ public class CodeGenMojo extends AbstractMojo {
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
         addCompileSourceRootIfConfigured();
 
         try {
@@ -531,10 +557,19 @@ public class CodeGenMojo extends AbstractMojo {
                 }
             }
 
+            if (cleanupOutput) {
+                try {
+                    FileUtils.deleteDirectory(output);
+                    LOGGER.info("Previous run output is removed from {}", output);
+                } catch (IOException e) {
+                    LOGGER.warn("Failed to clean up output directory {}", output, e);
+                }
+            }
+
             // attempt to read from config file
             CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
 
-            // if a config file wasn't specified or we were unable to read it
+            // if a config file wasn't specified, or we were unable to read it
             if (configurator == null) {
                 configurator = new CodegenConfigurator();
             }
@@ -719,9 +754,9 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
-                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
-                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
+                // Retained for backwards-compatibility with configOptions -> inline-schema-options
+                if (inlineSchemaOptions == null && configOptions.containsKey("inline-schema-options")) {
+                    applyInlineSchemaOptionsKvp(configOptions.get("inline-schema-options").toString(),
                             configurator);
                 }
 
@@ -779,9 +814,24 @@ public class CodeGenMojo extends AbstractMojo {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
             }
 
-            // Apply Inline Schema Name Defaults
-            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
-                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+            // Apply Inline Schema Options
+            if (inlineSchemaOptions != null && (configOptions == null || !configOptions.containsKey("inline-schema-options"))) {
+                applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+            }
+
+            // Apply Name Mappings
+            if (nameMappings != null && (configOptions == null || !configOptions.containsKey("name-mappings"))) {
+                applyNameMappingsKvpList(nameMappings, configurator);
+            }
+
+            // Apply Parameter Name Mappings
+            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
+                applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+            }
+
+            // Apply Model Name Mappings
+            if (modelNameMappings != null && (configOptions == null || !configOptions.containsKey("model-name-mappings"))) {
+                applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
             // Apply OpenAPI normalizer rules
@@ -853,7 +903,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator().opts(input).generate();
+            new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
@@ -888,8 +938,8 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Calculate openapi specification file hash. If specification is hosted on remote resource it is downloaded first
      *
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     * @param inputSpecFile - Openapi specification input file to calculate its hash.
+     *                        Does not take into account if input spec is hosted on remote resource
      * @return openapi specification file hash
      * @throws IOException
      */
@@ -941,8 +991,8 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Get specification hash file
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     * @param inputSpecFile - Openapi specification input file to calculate its hash.
+     *                        Does not take into account if input spec is hosted on remote resource
      * @return a file with previously calculated hash
      */
     private File getHashFile(File inputSpecFile) {

@@ -16,8 +16,15 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
-import javax.validation.constraints.*
 import javax.validation.Valid
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -65,7 +72,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "findPetsByStatus",
         description = """Multiple status values can be provided with comma separated strings""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid status value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
@@ -83,7 +90,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "findPetsByTags",
         description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )

@@ -117,7 +117,9 @@ func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 
 func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	// skip: bar is readOnly
+	if !IsNil(o.Bar) {
+		toSerialize["bar"] = o.Bar
+	}
 	if !IsNil(o.Baz) {
 		toSerialize["baz"] = o.Baz
 	}
@@ -132,9 +134,13 @@ func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 func (o *ReadOnlyFirst) UnmarshalJSON(bytes []byte) (err error) {
 	varReadOnlyFirst := _ReadOnlyFirst{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyFirst); err == nil {
-		*o = ReadOnlyFirst(varReadOnlyFirst)
+	err = json.Unmarshal(bytes, &varReadOnlyFirst)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyFirst(varReadOnlyFirst)
 
 	additionalProperties := make(map[string]interface{})
 

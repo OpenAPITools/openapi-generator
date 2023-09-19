@@ -70,11 +70,11 @@ void Example::exampleFunction1(){
       apiInstance.setUsername("YOUR USERNAME");
       apiInstance.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
       // Configure HTTP bearer authorization: {{{name}}}
-      apiInstance.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+      apiInstance.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{#isHttpSignature}}
+      //No Http Signature Authentication supported right now{{/isHttpSignature}}{{/isBasic}}{{#isApiKey}}
       // Configure API key authorization: {{{name}}}
       apiInstance.setApiKey("YOUR API KEY NAME","YOUR API KEY");{{/isApiKey}}{{#isOAuth}}
-      //OAuth Authentication supported right now{{/isOAuth}}{{#isHttpSignature}}
-      //No Http Signature Authentication supported right now{{/isHttpSignature}}
+      //OAuth Authentication supported right now{{/isOAuth}}
       {{/authMethods}}
       {{/hasAuthMethods}}
         {{#allParams}}
@@ -165,8 +165,13 @@ servers:
 - **Type**: HTTP basic authentication
 {{/isBasicBasic}}
 {{#isBasicBearer}}
-- **Type**: HTTP Bearer Token authentication
+
+- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}
 
 - **Type**: OAuth

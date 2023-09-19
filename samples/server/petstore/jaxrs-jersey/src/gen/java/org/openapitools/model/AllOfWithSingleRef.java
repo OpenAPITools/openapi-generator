@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.SingleRefType;
@@ -90,8 +91,8 @@ public class AllOfWithSingleRef   {
       return false;
     }
     AllOfWithSingleRef allOfWithSingleRef = (AllOfWithSingleRef) o;
-    return Objects.equals(this.username, allOfWithSingleRef.username) &&
-        Objects.equals(this.singleRefType, allOfWithSingleRef.singleRefType);
+    return Objects.equals(username, allOfWithSingleRef.username) &&
+        Objects.equals(singleRefType, allOfWithSingleRef.singleRefType);
   }
 
   @Override

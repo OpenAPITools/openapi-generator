@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,12 +25,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass {
 
-  @JsonProperty("file")
   private File file;
 
-  @JsonProperty("files")
   @Valid
-  private List<@Valid File> files = null;
+  private List<@Valid File> files;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -42,6 +41,7 @@ public class FileSchemaTestClass {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("file")
   public File getFile() {
     return file;
   }
@@ -69,6 +69,7 @@ public class FileSchemaTestClass {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("files")
   public List<@Valid File> getFiles() {
     return files;
   }

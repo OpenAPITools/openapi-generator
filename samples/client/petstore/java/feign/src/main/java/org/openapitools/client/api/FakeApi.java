@@ -5,8 +5,10 @@ import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -25,6 +27,31 @@ import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public interface FakeApi extends ApiClient.Api {
+
+
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return FakeBigDecimalMap200Response
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  FakeBigDecimalMap200Response fakeBigDecimalMap();
+
+  /**
+   * 
+   * Similar to <code>fakeBigDecimalMap</code> but it also returns the http response headers .
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapWithHttpInfo();
+
 
 
   /**
@@ -810,6 +837,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   ApiResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
+
+
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testNullable(ChildWithNullable childWithNullable);
+
+  /**
+   * test nullable parent property
+   * Similar to <code>testNullable</code> but it also returns the http response headers .
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable);
 
 
 

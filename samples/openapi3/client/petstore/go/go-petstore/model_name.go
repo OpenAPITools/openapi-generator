@@ -177,11 +177,15 @@ func (o Name) MarshalJSON() ([]byte, error) {
 func (o Name) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
-	// skip: snake_case is readOnly
+	if !IsNil(o.SnakeCase) {
+		toSerialize["snake_case"] = o.SnakeCase
+	}
 	if !IsNil(o.Property) {
 		toSerialize["property"] = o.Property
 	}
-	// skip: 123Number is readOnly
+	if !IsNil(o.Var123Number) {
+		toSerialize["123Number"] = o.Var123Number
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -193,9 +197,13 @@ func (o Name) ToMap() (map[string]interface{}, error) {
 func (o *Name) UnmarshalJSON(bytes []byte) (err error) {
 	varName := _Name{}
 
-	if err = json.Unmarshal(bytes, &varName); err == nil {
-		*o = Name(varName)
+	err = json.Unmarshal(bytes, &varName)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Name(varName)
 
 	additionalProperties := make(map[string]interface{})
 

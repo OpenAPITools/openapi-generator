@@ -194,7 +194,6 @@ public class Capitalization {
     this.ATT_NAME = ATT_NAME;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

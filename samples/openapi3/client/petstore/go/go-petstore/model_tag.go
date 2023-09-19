@@ -134,9 +134,13 @@ func (o Tag) ToMap() (map[string]interface{}, error) {
 func (o *Tag) UnmarshalJSON(bytes []byte) (err error) {
 	varTag := _Tag{}
 
-	if err = json.Unmarshal(bytes, &varTag); err == nil {
-		*o = Tag(varTag)
+	err = json.Unmarshal(bytes, &varTag)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Tag(varTag)
 
 	additionalProperties := make(map[string]interface{})
 

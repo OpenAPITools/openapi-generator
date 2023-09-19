@@ -1,0 +1,39 @@
+name: Docker tests
+
+on:
+  push:
+    paths:
+      - Dockerfile
+      - run-in-docker.sh
+      - pom.xml
+      - modules/openapi-generator-online/pom.xml
+      - modules/openapi-generator-online/Dockerfile
+  pull_request:
+    paths:
+      - Dockerfile
+      - run-in-docker.sh
+      - pom.xml
+      - modules/openapi-generator-online/pom.xml
+      - modules/openapi-generator-online/Dockerfile
+jobs:
+  build:
+    name: 'Build: Docker'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Test run-in-docker.sh
+        shell: bash
+        run: |
+          sed -i 's/ -it / /g' run-in-docker.sh
+          ./run-in-docker.sh mvn clean install
+
+      - name: Build Dockerfile
+        shell: bash
+        run: docker build .
+
+      - name: Build modules/openapi-generator-online
+        shell: bash
+        run: |
+          docker build modules/openapi-generator-online/ -t test

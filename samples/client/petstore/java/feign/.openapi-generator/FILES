@@ -47,16 +47,16 @@ src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Capitalization.java
 src/main/java/org/openapitools/client/model/Cat.java
-src/main/java/org/openapitools/client/model/CatAllOf.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/ChildWithNullable.java
 src/main/java/org/openapitools/client/model/ClassModel.java
 src/main/java/org/openapitools/client/model/Client.java
 src/main/java/org/openapitools/client/model/DeprecatedObject.java
 src/main/java/org/openapitools/client/model/Dog.java
-src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
+src/main/java/org/openapitools/client/model/FakeBigDecimalMap200Response.java
 src/main/java/org/openapitools/client/model/File.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
@@ -81,6 +81,7 @@ src/main/java/org/openapitools/client/model/OuterEnumDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterObjectWithEnumProperty.java
+src/main/java/org/openapitools/client/model/ParentWithNullable.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/client/model/SingleRefType.java

@@ -22,7 +22,7 @@
         <swagger-annotations.version>1.6.6</swagger-annotations.version>
         {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>}2.2.7</swagger-annotations.version>
+        <swagger-annotations.version>2.2.7</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
@@ -108,10 +108,10 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
             {{^parentOverridden}}
-            <version>2.2.5.RELEASE</version>
+            <version>5.7.8</version>
             {{/parentOverridden}}
         </dependency>
         {{#withXml}}

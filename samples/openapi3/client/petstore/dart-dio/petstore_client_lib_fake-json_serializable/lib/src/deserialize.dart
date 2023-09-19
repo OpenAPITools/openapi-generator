@@ -7,14 +7,14 @@ import 'package:openapi/src/model/array_of_number_only.dart';
 import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
+import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -35,6 +35,7 @@ import 'package:openapi/src/model/object_with_deprecated_fields.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
@@ -77,22 +78,22 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return Capitalization.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Cat':
           return Cat.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'CatAllOf':
-          return CatAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Category':
           return Category.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ChildWithNullable':
+          return ChildWithNullable.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ClassModel':
           return ClassModel.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'DeprecatedObject':
           return DeprecatedObject.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Dog':
           return Dog.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'DogAllOf':
-          return DogAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'EnumArrays':
           return EnumArrays.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'EnumTest':
           return EnumTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'FakeBigDecimalMap200Response':
+          return FakeBigDecimalMap200Response.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Foo':
@@ -148,6 +149,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           
         case 'OuterObjectWithEnumProperty':
           return OuterObjectWithEnumProperty.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ParentWithNullable':
+          return ParentWithNullable.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Pet':
           return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ReadOnlyFirst':

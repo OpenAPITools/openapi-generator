@@ -251,16 +251,16 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
-use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
-use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
@@ -284,6 +284,7 @@ use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
+use WWW::OpenAPIClient::Object::ParentWithNullable;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
@@ -319,16 +320,16 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
-use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
-use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
@@ -352,6 +353,7 @@ use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
+use WWW::OpenAPIClient::Object::ParentWithNullable;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
@@ -386,6 +388,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_big_decimal_map**](docs/FakeApi.md#fake_big_decimal_map) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -402,6 +405,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_nullable**](docs/FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
@@ -437,16 +441,16 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ArrayTest](docs/ArrayTest.md)
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
- - [WWW::OpenAPIClient::Object::CatAllOf](docs/CatAllOf.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
+ - [WWW::OpenAPIClient::Object::ChildWithNullable](docs/ChildWithNullable.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
- - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedModel](docs/DeprecatedModel.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
- - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)
+ - [WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [WWW::OpenAPIClient::Object::File](docs/File.md)
  - [WWW::OpenAPIClient::Object::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [WWW::OpenAPIClient::Object::Foo](docs/Foo.md)
@@ -470,6 +474,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [WWW::OpenAPIClient::Object::ParentWithNullable](docs/ParentWithNullable.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
@@ -480,6 +485,7 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR AUTHORIZATION
 
+Authentication schemes defined for the API:
 ## petstore_auth
 
 - **Type**: OAuth
@@ -507,9 +513,9 @@ Class | Method | HTTP request | Description
 
 ## bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 ## http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 

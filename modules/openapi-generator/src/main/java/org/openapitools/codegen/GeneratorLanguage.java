@@ -26,14 +26,14 @@ public enum GeneratorLanguage {
     JAVA("Java"), ADA("Ada"), APEX("Apex"), BASH("Bash"), C("C"),
     CLOJURE("Clojure"), C_PLUS_PLUS("C++"), CRYSTAL("Crystal"), C_SHARP("C#"),
     DART("Dart"), EIFFEL("Eiffel"), ELIXIR("Elixir"), ELM("Elm"),
-    ERLANG("Erlang"), FLASH("Flash"), F_SHARP("F#"), GO("Go"),
+    ERLANG("Erlang"), F_SHARP("F#"), GO("Go"),
     JAVASCRIPT("Javascript"), GRAPH_QL("GraphQL"), GROOVY("Groovy"),
     HASKELL("Haskell"), HTTP("Jetbrains HTTP Client (HTTP/REST)"), TYPESCRIPT("Typescript"), K_SIX("k6"), KOTLIN("Kotlin"),
     KTORM("Ktorm"), LUA("Lua"), MYSQL("Mysql"), NIM("Nim"),
     OBJECTIVE_C("Objective-C"), OCAML("OCaml"), PERL("Perl"), PHP("PHP"),
     POWERSHELL("PowerShell"), PROTOBUF("Protocol Buffers (Protobuf)"), PYTHON("Python"),
     R("R"), RUBY("Ruby"), RUST("Rust"), SCALA("Scala"), SWIFT("Swift"),
-    WSDL("Web Services Description Language (WSDL)"), JULIA("Julia");
+    WSDL("Web Services Description Language (WSDL)"), JULIA("Julia"), XOJO("Xojo");
 
     private final String label;
 

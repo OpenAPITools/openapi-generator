@@ -1,0 +1,13 @@
+OpenAPITransport/Package.swift
+OpenAPITransport/Sources/OpenAPITransport.swift
+PetstoreOpenAPI/Package.swift
+PetstoreOpenAPI/Sources/APIs/PetAPI.swift
+PetstoreOpenAPI/Sources/APIs/StoreAPI.swift
+PetstoreOpenAPI/Sources/APIs/UserAPI.swift
+PetstoreOpenAPI/Sources/Models/ApiResponse.swift
+PetstoreOpenAPI/Sources/Models/Category.swift
+PetstoreOpenAPI/Sources/Models/Order.swift
+PetstoreOpenAPI/Sources/Models/Pet.swift
+PetstoreOpenAPI/Sources/Models/Tag.swift
+PetstoreOpenAPI/Sources/Models/User.swift
+PetstoreOpenAPI/Sources/Private/OpenISO8601DateFormatter.swift

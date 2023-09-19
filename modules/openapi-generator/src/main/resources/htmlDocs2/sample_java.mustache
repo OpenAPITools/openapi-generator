@@ -11,11 +11,11 @@ public class {{{classname}}}Example {
         {{#hasAuthMethods}}
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         {{#authMethods}}
-        {{^isBasicBearer}}{{#isBasic}}
+        {{#isBasicBasic}}
         // Configure HTTP basic authorization: {{{name}}}
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
-        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
         // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
         HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{#isApiKey}}

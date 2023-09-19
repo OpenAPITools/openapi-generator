@@ -787,6 +787,11 @@ paths:
                   description: None
                   type: string
                   format: binary
+                byte_with_max_length:
+                  description: None
+                  type: string
+                  format: byte
+                  maxLength: 64
                 date:
                   description: None
                   type: string
@@ -1234,6 +1239,68 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/any_type_body:
+    post:
+      tags:
+        - fake
+      summary: test any type request body
+      operationId: fakeAnyTypeRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
+  /fake/uuid_example:
+    get:
+      tags:
+        - fake
+      summary: test uuid example
+      operationId: fakeUuidExample
+      parameters:
+        - name: uuid_example
+          in: query
+          description: uuid example
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 84529ad2-2265-4e15-b76b-c17025d848f6
+      responses:
+        "200":
+          description: Get successful
+  /fake/enum_ref_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test enum reference query parameter
+      operationId: fakeEnumRefQueryParameter
+      parameters:
+        - name: enum_ref
+          in: query
+          description: enum reference
+          schema:
+            $ref: '#/components/schemas/EnumClass'
+      responses:
+        "200":
+          description: Get successful
+  /fake/return_list_of_object:
+    get:
+      tags:
+        - fake
+      summary: test returning list of objects
+      operationId: fake_return_list_of_objects
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ListOfObjects"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1577,6 +1644,9 @@ components:
         string:
           type: string
           pattern: '/[a-z]/i'
+        string_with_double_quote_pattern:
+          type: string
+          pattern: 'this is "something"'
         byte:
           type: string
           format: byte
@@ -1630,6 +1700,14 @@ components:
             - UPPER
             - lower
             - ''
+        enum_integer_default:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 5
+            - 14
+          default: 5
         enum_integer:
           type: integer
           format: int32
@@ -1824,10 +1902,24 @@ components:
     OuterEnumIntegerDefaultValue:
       type: integer
       enum:
+      - -1
       - 0
       - 1
       - 2
       default: 0
+    SpecialCharacterEnum:
+      type: string
+      enum:
+      - "456"
+      - "123abc"
+      - "_"
+      - " "
+      - "&"
+      - "$"
+      - ">="
+      - "this_is_!"
+      - "import" # reserved word
+      - " hello world "
     OuterComposite:
       type: object
       properties:
@@ -2022,6 +2114,8 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+        nested_oneof_enum_string:
+          $ref: '#/components/schemas/OneOfEnumString'
     Self-Reference-Model:
       type: object
       properties:
@@ -2074,3 +2168,165 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    OneOfEnumString:
+      description: oneOf enum strings
+      oneOf:
+      - $ref: '#/components/schemas/EnumString1'
+      - $ref: '#/components/schemas/EnumString2'
+    EnumString1:
+      type: string
+      enum:
+        - "a"
+        - "b"
+    EnumString2:
+      type: string
+      enum:
+        - "c"
+        - "d"
+    InnerDictWithProperty:
+      type: object
+      properties:
+        aProperty:
+          type: object
+    DictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    ParentWithOptionalDict:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    Circular-Reference-Model:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/FirstRef'
+    FirstRef:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/SecondRef'
+    SecondRef:
+      type: object
+      properties:
+        category:
+          type: string
+        circular_ref:
+          $ref: '#/components/schemas/Circular-Reference-Model'
+    InnerDictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    Parent:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    IntOrString:
+      oneOf:
+      - type: integer
+        minimum: 10
+      - type: string
+    NullableProperty:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          nullable: true
+          pattern: "^[A-Z].*"
+    MapOfArrayOfModel:
+      type: object
+      properties:
+        shopIdToOrgOnlineLipMap:
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+    ArrayOfArrayOfModel:
+      type: object
+      properties:
+        another_property:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
+    ObjectToTestAdditionalProperties:
+      description: Minimal object
+      type: object
+      properties:
+        property:
+          description: Property
+          type: boolean
+          default: false
+    Creature:
+      type: object
+      required:
+        - info
+        - type
+      properties:
+        info:
+          $ref: "#/components/schemas/CreatureInfo"
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    CreatureInfo:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Tiger:
+      allOf:
+        - $ref: "#/components/schemas/Tiger"
+        - type: object
+          properties:
+            skill:
+              type: string
+    AdditionalPropertiesObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    AdditionalPropertiesAnyType:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: {}
+    AdditionalPropertiesWithDescriptionOnly:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        description: This is what the additional property is
+    ListOfObjects:
+      type: array
+      title: ListOfObjects
+      items:
+        $ref: "#/components/schemas/Tag"

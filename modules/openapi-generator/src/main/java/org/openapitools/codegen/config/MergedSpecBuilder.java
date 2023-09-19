@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class MergedSpecBuilder {
         deleteMergedFileFromPreviousRun();
         List<String> specRelatedPaths = getAllSpecFilesInDirectory();
         if (specRelatedPaths.isEmpty()) {
-            throw new RuntimeException("Spec directory doesn't contains any specification");
+            throw new RuntimeException("Spec directory doesn't contain any specification");
         }
         LOGGER.info("In spec root directory {} found specs {}", inputSpecRootDirectory, specRelatedPaths);
 
@@ -120,8 +121,8 @@ public class MergedSpecBuilder {
 
     private List<String> getAllSpecFilesInDirectory() {
         Path rootDirectory = new File(inputSpecRootDirectory).toPath();
-        try {
-            return Files.walk(rootDirectory)
+        try (Stream<Path> pathStream = Files.walk(rootDirectory)) {
+            return pathStream
                 .filter(path -> !Files.isDirectory(path))
                 .map(path -> rootDirectory.relativize(path).toString())
                 .collect(Collectors.toList());

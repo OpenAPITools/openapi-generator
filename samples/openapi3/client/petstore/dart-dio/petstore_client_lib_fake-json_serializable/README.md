@@ -53,7 +53,7 @@ final ModelClient modelClient = ; // ModelClient | client model
 try {
     final response = await api.call123testSpecialTags(modelClient);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
 
@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AnotherFakeApi*](doc/AnotherFakeApi.md) | [**call123testSpecialTags**](doc/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 [*DefaultApi*](doc/DefaultApi.md) | [**fooGet**](doc/DefaultApi.md#fooget) | **GET** /foo | 
+[*FakeApi*](doc/FakeApi.md) | [**fakeBigDecimalMap**](doc/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 [*FakeApi*](doc/FakeApi.md) | [**fakeHealthGet**](doc/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [*FakeApi*](doc/FakeApi.md) | [**fakeHttpSignatureTest**](doc/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterBooleanSerialize**](doc/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -83,6 +84,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testGroupParameters**](doc/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [*FakeApi*](doc/FakeApi.md) | [**testInlineAdditionalProperties**](doc/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[*FakeApi*](doc/FakeApi.md) | [**testNullable**](doc/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
@@ -119,14 +121,14 @@ Class | Method | HTTP request | Description
  - [ArrayTest](doc/ArrayTest.md)
  - [Capitalization](doc/Capitalization.md)
  - [Cat](doc/Cat.md)
- - [CatAllOf](doc/CatAllOf.md)
  - [Category](doc/Category.md)
+ - [ChildWithNullable](doc/ChildWithNullable.md)
  - [ClassModel](doc/ClassModel.md)
  - [DeprecatedObject](doc/DeprecatedObject.md)
  - [Dog](doc/Dog.md)
- - [DogAllOf](doc/DogAllOf.md)
  - [EnumArrays](doc/EnumArrays.md)
  - [EnumTest](doc/EnumTest.md)
+ - [FakeBigDecimalMap200Response](doc/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](doc/FileSchemaTestClass.md)
  - [Foo](doc/Foo.md)
  - [FooGetDefaultResponse](doc/FooGetDefaultResponse.md)
@@ -152,6 +154,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](doc/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](doc/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](doc/OuterObjectWithEnumProperty.md)
+ - [ParentWithNullable](doc/ParentWithNullable.md)
  - [Pet](doc/Pet.md)
  - [ReadOnlyFirst](doc/ReadOnlyFirst.md)
  - [SingleRefType](doc/SingleRefType.md)
@@ -163,7 +166,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -172,29 +176,29 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
-## api_key
+### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-## api_key_query
+### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## http_basic_test
+### http_basic_test
 
 - **Type**: HTTP basic authentication
 
-## bearer_test
+### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
-## http_signature_test
+### http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Author

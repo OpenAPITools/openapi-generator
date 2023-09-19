@@ -291,7 +291,7 @@
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-jre8</artifactId>
-            <version>2.27.2</version>
+            <version>2.35.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -306,12 +306,11 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-annotations-version>1.6.6</swagger-annotations-version>
-        <feign-version>10.11</feign-version>
+        <feign-version>10.12</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         <gson-version>2.8.6</gson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        <jackson-databind-version>2.13.4.2</jackson-databind-version>
+        <jackson-databind-version>2.14.3</jackson-databind-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>5.7.0</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

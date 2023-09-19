@@ -3,10 +3,10 @@ name: Samples C# .Net Standard
 on:
   push:
     paths:
-      - 'samples/client/petstore/csharp-netcore/**netstandard**/'
+      - 'samples/client/petstore/csharp/**netstandard**/'
   pull_request:
     paths:
-      - 'samples/client/petstore/csharp-netcore/**netstandard**/'
+      - 'samples/client/petstore/csharp/**netstandard**/'
 jobs:
   build:
     name: Build .Net projects
@@ -16,10 +16,10 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netstandard2.0
+          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.0.3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3.2.0
         with:
           dotnet-version: 3.1.*
       - name: Build

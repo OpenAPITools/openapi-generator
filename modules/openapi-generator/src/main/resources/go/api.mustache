@@ -189,7 +189,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i).Interface(), "{{collectionFormat}}")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
@@ -207,7 +207,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i).Interface(), "{{collectionFormat}}")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
@@ -216,7 +216,10 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{^isCollectionFormatMulti}}
 		parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
-	}
+	{{#defaultValue}}} else {
+		var defaultValue {{{dataType}}} = {{{.}}}
+		r.{{paramName}} = &defaultValue
+	{{/defaultValue}}}
 	{{/required}}
 	{{/queryParams}}
 	// to determine the Content-Type header

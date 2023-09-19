@@ -14,7 +14,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 const std::string {{classname}}::base = "{{basePathWithoutHost}}";
 
 {{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 

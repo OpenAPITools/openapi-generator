@@ -77,6 +77,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *Petstore::DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*Petstore::FakeApi* | [**fake_big_decimal_map**](docs/FakeApi.md#fake_big_decimal_map) | **GET** /fake/BigDecimalMap | 
 *Petstore::FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *Petstore::FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -93,6 +94,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*Petstore::FakeApi* | [**test_nullable**](docs/FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 *Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *Petstore::PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
@@ -129,16 +131,16 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
- - [Petstore::CatAllOf](docs/CatAllOf.md)
  - [Petstore::Category](docs/Category.md)
+ - [Petstore::ChildWithNullable](docs/ChildWithNullable.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
  - [Petstore::DeprecatedObject](docs/DeprecatedObject.md)
  - [Petstore::Dog](docs/Dog.md)
- - [Petstore::DogAllOf](docs/DogAllOf.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
+ - [Petstore::FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [Petstore::File](docs/File.md)
  - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Petstore::Foo](docs/Foo.md)
@@ -162,6 +164,7 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [Petstore::ParentWithNullable](docs/ParentWithNullable.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SingleRefType](docs/SingleRefType.md)
@@ -173,6 +176,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -207,4 +211,5 @@ Class | Method | HTTP request | Description
 
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
 

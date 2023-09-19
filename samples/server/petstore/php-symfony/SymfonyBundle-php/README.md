@@ -67,7 +67,7 @@ Step 4: Implement the API calls:
 
 ```php
 <?php
-// src/Acme/MyBundle/Api/PetApiInterface.php
+// src/Acme/MyBundle/Api/PetApi.php
 
 namespace Acme\MyBundle\Api;
 
@@ -153,7 +153,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -162,7 +163,7 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
-## api_key
+### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
@@ -44,9 +43,6 @@ import io.github.threetenjaxb.core.*;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-})
 
 @XmlRootElement(name = "Cat")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -87,6 +83,17 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  @Override
+  public Cat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Cat color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

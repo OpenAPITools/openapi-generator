@@ -20,7 +20,10 @@ var _ MappedNullable = &AdditionalPropertiesString{}
 // AdditionalPropertiesString struct for AdditionalPropertiesString
 type AdditionalPropertiesString struct {
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AdditionalPropertiesString AdditionalPropertiesString
 
 // NewAdditionalPropertiesString instantiates a new AdditionalPropertiesString object
 // This constructor will assign default values to properties that have it defined,
@@ -84,7 +87,33 @@ func (o AdditionalPropertiesString) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *AdditionalPropertiesString) UnmarshalJSON(bytes []byte) (err error) {
+	varAdditionalPropertiesString := _AdditionalPropertiesString{}
+
+	err = json.Unmarshal(bytes, &varAdditionalPropertiesString)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AdditionalPropertiesString(varAdditionalPropertiesString)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAdditionalPropertiesString struct {

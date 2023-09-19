@@ -16,6 +16,50 @@ class FakeApi {
 
   final ApiClient apiClient;
 
+  /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> fakeBigDecimalMapWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/BigDecimalMap';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+  Future<FakeBigDecimalMap200Response?> fakeBigDecimalMap() async {
+    final response = await fakeBigDecimalMapWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FakeBigDecimalMap200Response',) as FakeBigDecimalMap200Response;
+    
+    }
+    return null;
+  }
+
   /// Health check endpoint
   ///
   /// Note: This method returns the HTTP [Response].
@@ -1082,6 +1126,56 @@ class FakeApi {
   ///   field2
   Future<void> testJsonFormData(String param, String param2,) async {
     final response = await testJsonFormDataWithHttpInfo(param, param2,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/nullable';
+
+    // ignore: prefer_final_locals
+    Object? postBody = childWithNullable;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
+    final response = await testNullableWithHttpInfo(childWithNullable,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

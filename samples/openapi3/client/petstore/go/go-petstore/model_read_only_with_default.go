@@ -294,16 +294,24 @@ func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
 
 func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	// skip: prop1 is readOnly
-	// skip: prop2 is readOnly
+	if !IsNil(o.Prop1) {
+		toSerialize["prop1"] = o.Prop1
+	}
+	if !IsNil(o.Prop2) {
+		toSerialize["prop2"] = o.Prop2
+	}
 	if !IsNil(o.Prop3) {
 		toSerialize["prop3"] = o.Prop3
 	}
-	// skip: boolProp1 is readOnly
+	if !IsNil(o.BoolProp1) {
+		toSerialize["boolProp1"] = o.BoolProp1
+	}
 	if !IsNil(o.BoolProp2) {
 		toSerialize["boolProp2"] = o.BoolProp2
 	}
-	// skip: intProp1 is readOnly
+	if !IsNil(o.IntProp1) {
+		toSerialize["intProp1"] = o.IntProp1
+	}
 	if !IsNil(o.IntProp2) {
 		toSerialize["intProp2"] = o.IntProp2
 	}
@@ -318,9 +326,13 @@ func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {
 	varReadOnlyWithDefault := _ReadOnlyWithDefault{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyWithDefault); err == nil {
-		*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
+	err = json.Unmarshal(bytes, &varReadOnlyWithDefault)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
 
 	additionalProperties := make(map[string]interface{})
 

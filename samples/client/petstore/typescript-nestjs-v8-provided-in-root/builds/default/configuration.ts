@@ -1,3 +1,5 @@
+import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
@@ -76,4 +78,28 @@ export class Configuration {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
+}
+
+export interface ConfigurationFactory {
+  createConfiguration(): Promise<Configuration> | Configuration;
+}
+
+export interface AsyncConfiguration extends Pick<ModuleMetadata, 'imports'> {
+  /**
+   * The `useExisting` syntax allows you to create aliases for existing providers.
+   */
+  useExisting?: Type<ConfigurationFactory>;
+  /**
+   * The `useClass` syntax allows you to dynamically determine a class
+   * that a token should resolve to.
+   */
+  useClass?: Type<ConfigurationFactory>;
+  /**
+   * The `useFactory` syntax allows for creating providers dynamically.
+   */
+  useFactory?: (...args: any[]) => Promise<Configuration> | Configuration;
+  /**
+   * Optional list of providers to be injected into the context of the Factory function.
+   */
+  inject?: any[];
 }

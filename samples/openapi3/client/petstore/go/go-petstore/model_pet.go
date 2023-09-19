@@ -265,9 +265,13 @@ func (o Pet) ToMap() (map[string]interface{}, error) {
 func (o *Pet) UnmarshalJSON(bytes []byte) (err error) {
 	varPet := _Pet{}
 
-	if err = json.Unmarshal(bytes, &varPet); err == nil {
-		*o = Pet(varPet)
+	err = json.Unmarshal(bytes, &varPet)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Pet(varPet)
 
 	additionalProperties := make(map[string]interface{})
 

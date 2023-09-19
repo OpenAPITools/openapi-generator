@@ -8,16 +8,16 @@ Model/ArrayOfNumberOnly.sql
 Model/ArrayTest.sql
 Model/Capitalization.sql
 Model/Cat.sql
-Model/CatAllOf.sql
 Model/Category.sql
+Model/ChildWithNullable.sql
 Model/ClassModel.sql
 Model/Client.sql
 Model/DeprecatedObject.sql
 Model/Dog.sql
-Model/DogAllOf.sql
 Model/EnumArrays.sql
 Model/EnumClass.sql
 Model/EnumTest.sql
+Model/FakeBigDecimalMap200Response.sql
 Model/File.sql
 Model/FileSchemaTestClass.sql
 Model/Foo.sql
@@ -39,6 +39,7 @@ Model/OuterEnumDefaultValue.sql
 Model/OuterEnumInteger.sql
 Model/OuterEnumIntegerDefaultValue.sql
 Model/OuterObjectWithEnumProperty.sql
+Model/ParentWithNullable.sql
 Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql

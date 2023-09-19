@@ -670,12 +670,14 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
         petId:
           type: integer
           format: int64
         quantity:
           type: integer
           format: int32
+          minimum: 0
         shipDate:
           type: string
           format: date-time
@@ -714,10 +716,14 @@ components:
           format: int64
         username:
           type: string
+          maxLength: 90
+          minLength: 1
+          pattern: '^[a-z][-a-z0-9]*$'
         firstName:
           type: string
         lastName:
           type: string
+          minLength: 1
         email:
           type: string
         password:
@@ -728,6 +734,9 @@ components:
           type: integer
           format: int32
           description: User Status
+      required:
+        - username
+        - lastName
       xml:
         name: User
     Tag:
@@ -913,3 +922,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ObjectRefItem'
+    NullableArray:
+      type: object
+      properties:
+        array_nullable:
+          type: array
+          nullable: true
+          items:
+            type: string
+        just_array:
+          type: array
+          items:
+            type: string
+        nullable_string:
+          type: string
+          nullable: true
+        just_string:
+          type: string

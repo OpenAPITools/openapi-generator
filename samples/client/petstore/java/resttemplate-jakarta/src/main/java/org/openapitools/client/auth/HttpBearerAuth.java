@@ -1,30 +1,34 @@
 package org.openapitools.client.auth;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
+import java.util.Optional;
+import java.util.function.Supplier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBearerAuth implements Authentication {
     private final String scheme;
-    private String bearerToken;
+    private Supplier<String> tokenSupplier;
 
     public HttpBearerAuth(String scheme) {
         this.scheme = scheme;
     }
 
     public String getBearerToken() {
-        return bearerToken;
+        return tokenSupplier.get();
     }
 
     public void setBearerToken(String bearerToken) {
-        this.bearerToken = bearerToken;
+        this.tokenSupplier = () -> bearerToken;
+    }
+    
+    public void setBearerToken(Supplier<String> tokenSupplier) {
+        this.tokenSupplier = tokenSupplier;
     }
 
     @Override
     public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
+        String bearerToken = Optional.ofNullable(tokenSupplier).map(Supplier::get).orElse(null);
         if (bearerToken == null) {
             return;
         }

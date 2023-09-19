@@ -341,7 +341,8 @@ case $state in
       call123TestSpecialTags)
         local -a _op_arguments
         _op_arguments=(
-                              )
+                              "uuid_test\::[HEADER] to test uuid example value"
+)
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       createXmlItem)

@@ -9,18 +9,21 @@
 
 package petstoreserver
 
+
+
+
 // Pet - A pet for sale in the pet store
 type Pet struct {
 
 	Id int64 `json:"id,omitempty"`
 
-	Category Category `json:"category,omitempty"`
+	Category *Category `json:"category,omitempty"`
 
 	Name string `json:"name"`
 
-	PhotoUrls []string `json:"photoUrls"`
+	PhotoUrls *[]string `json:"photoUrls"`
 
-	Tags []Tag `json:"tags,omitempty"`
+	Tags *[]Tag `json:"tags,omitempty"`
 
 	// pet status in the store
 	// Deprecated
@@ -39,25 +42,22 @@ func AssertPetRequired(obj Pet) error {
 		}
 	}
 
-	if err := AssertCategoryRequired(obj.Category); err != nil {
-		return err
-	}
-	for _, el := range obj.Tags {
-		if err := AssertTagRequired(el); err != nil {
+	if obj.Category != nil {
+		if err := AssertCategoryRequired(*obj.Category); err != nil {
 			return err
+		}
+	}
+	if obj.Tags != nil {
+		for _, el := range *obj.Tags {
+			if err := AssertTagRequired(el); err != nil {
+				return err
+			}
 		}
 	}
 	return nil
 }
 
-// AssertRecursePetRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Pet (e.g. [][]Pet), otherwise ErrTypeAssertionError is thrown.
-func AssertRecursePetRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aPet, ok := obj.(Pet)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertPetRequired(aPet)
-	})
+// AssertPetConstraints checks if the values respects the defined constraints
+func AssertPetConstraints(obj Pet) error {
+	return nil
 }

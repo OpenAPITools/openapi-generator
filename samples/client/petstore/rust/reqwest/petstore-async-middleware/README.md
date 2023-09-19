@@ -58,6 +58,7 @@ Class | Method | HTTP request | Description
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
+ - [NullableArray](docs/NullableArray.md)
  - [OptionalTesting](docs/OptionalTesting.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)

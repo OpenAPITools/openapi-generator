@@ -208,6 +208,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
 
         <!-- JSON processing: jackson -->
         <dependency>
@@ -270,6 +277,9 @@
         {{#swagger1AnnotationLibrary}}
         <swagger-annotations-version>1.6.9</swagger-annotations-version>
         {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations-version>2.2.9</swagger-annotations-version>
+        {{/swagger2AnnotationLibrary}}
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <jackson-version>2.14.1</jackson-version>

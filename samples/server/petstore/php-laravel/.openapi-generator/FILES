@@ -31,16 +31,16 @@ lib/app/Models/ArrayOfNumberOnly.php
 lib/app/Models/ArrayTest.php
 lib/app/Models/Capitalization.php
 lib/app/Models/Cat.php
-lib/app/Models/CatAllOf.php
 lib/app/Models/Category.php
+lib/app/Models/ChildWithNullable.php
 lib/app/Models/ClassModel.php
 lib/app/Models/Client.php
 lib/app/Models/DeprecatedObject.php
 lib/app/Models/Dog.php
-lib/app/Models/DogAllOf.php
 lib/app/Models/EnumArrays.php
 lib/app/Models/EnumClass.php
 lib/app/Models/EnumTest.php
+lib/app/Models/FakeBigDecimalMap200Response.php
 lib/app/Models/File.php
 lib/app/Models/FileSchemaTestClass.php
 lib/app/Models/Foo.php
@@ -64,6 +64,7 @@ lib/app/Models/OuterEnumDefaultValue.php
 lib/app/Models/OuterEnumInteger.php
 lib/app/Models/OuterEnumIntegerDefaultValue.php
 lib/app/Models/OuterObjectWithEnumProperty.php
+lib/app/Models/ParentWithNullable.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SingleRefType.php

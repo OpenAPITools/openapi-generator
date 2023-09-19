@@ -5,9 +5,11 @@ import org.openapitools.api.*;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
+import org.openapitools.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class FakeApiService {
+    public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHttpSignatureTest(Pet pet,String query1,String header1,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext) throws NotFoundException;
@@ -44,6 +47,7 @@ public abstract class FakeApiService {
     public abstract Response testGroupParameters( @NotNull Integer requiredStringGroup, @NotNull Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group,Integer stringGroup,Boolean booleanGroup,Long int64Group,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testNullable(ChildWithNullable childWithNullable,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testQueryParameterCollectionFormat( @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context, @NotNull String allowEmpty,Map<String, String> language,SecurityContext securityContext) throws NotFoundException;
     public abstract Response uploadFileWithRequiredFile(Long petId,FormDataBodyPart requiredFileBodypart,String additionalMetadata,SecurityContext securityContext) throws NotFoundException;
 }

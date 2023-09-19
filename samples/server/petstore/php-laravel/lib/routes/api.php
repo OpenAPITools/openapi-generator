@@ -64,6 +64,13 @@ Route::get('/v2/fake', 'FakeController@testEnumParameters');
  */
 Route::delete('/v2/fake', 'FakeController@testGroupParameters');
 /**
+ * get fakeBigDecimalMap
+ * Summary: 
+ * Notes: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+ * Output-Formats: [*_/_*]
+ */
+Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -112,6 +119,13 @@ Route::post('/v2/fake/inline-additionalProperties', 'FakeController@testInlineAd
 
  */
 Route::get('/v2/fake/jsonFormData', 'FakeController@testJsonFormData');
+/**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+
+ */
+Route::post('/v2/fake/nullable', 'FakeController@testNullable');
 /**
  * post fakeOuterBooleanSerialize
  * Summary: 

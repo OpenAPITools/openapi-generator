@@ -1,6 +1,7 @@
 package org.openapitools.server.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ReadOnlyFirst;
 
@@ -8,9 +9,9 @@ import org.openapitools.server.model.ReadOnlyFirst;
 
 public class ArrayTest   {
 
-    private List<String> arrayOfString = new ArrayList<>();
-    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-    private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+    private List<String> arrayOfString;
+    private List<List<Long>> arrayArrayOfInteger;
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
     /**
      * Default constructor.

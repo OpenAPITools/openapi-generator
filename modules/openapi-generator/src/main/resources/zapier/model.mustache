@@ -1,0 +1,93 @@
+const utils = require('../utils/utils');
+{{#imports}}{{{import}}}
+{{/imports}}
+{{#models}}
+{{#model}}
+
+{{#isEnum}}
+module.exports = {
+        fields: (key) => (
+            {
+                label: `{{#description}}{{{.}}} - {{/description}}[${key.replaceAll('__', '.')}]`,
+                choices: [
+                    {{#allowableValues}}
+                    {{#values}}
+                    '{{.}}',
+                    {{/values}}
+                    {{/allowableValues}}
+                ],
+            }
+        )
+    }
+{{/isEnum}}
+{{^isEnum}}
+module.exports = {
+    fields: (prefix = '', isInput = true, isArrayChild = false) => {
+        const {keyPrefix, labelPrefix} = utils.buildKeyAndLabel(prefix, isInput, isArrayChild)
+        return [
+            {{#vars}}
+            {{#isPrimitiveType}}
+            {
+                key: `${keyPrefix}{{baseName}}`,
+                label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
+                {{#isArray}}
+                list: true,
+                type: '{{#items}}{{baseType}}{{/items}}',
+                {{/isArray}}
+                {{^isArray}}
+                {{#isFreeFormObject}}
+                dict: true,
+                {{/isFreeFormObject}}
+                {{^isFreeFormObject}}
+                type: '{{baseType}}',
+                {{/isFreeFormObject}}
+                {{/isArray}}
+                {{#isEnum}}
+                choices: [
+                    {{#_enum}}
+                    '{{.}}',
+                    {{/_enum}}
+                ],
+                {{/isEnum}}
+            },
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isArray}}
+            {
+                key: `${keyPrefix}{{baseName}}`,{{#items}}{{^isEnumRef}}
+                label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
+                children: {{complexType}}.fields(`${keyPrefix}{{baseName}}${!isInput ? '[]' : ''}`, isInput, true), {{/isEnumRef}}{{#isEnumRef}}
+                list: true,
+                type: 'string',
+                ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),{{/isEnumRef}}{{/items}}
+            },
+            {{/isArray}}
+            {{^isArray}}
+            {{^allowableValues}}
+            {{^isFreeFormObject}}
+            ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),
+            {{/isFreeFormObject}}
+            {{/allowableValues}}
+            {{#allowableValues}}
+            {
+                key: `${keyPrefix}{{baseName}}`,
+                ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),
+            },
+            {{/allowableValues}}
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{/vars}}
+        ]
+    },
+    mapping: (bundle, prefix = '') => {
+        const {keyPrefix} = utils.buildKeyAndLabel(prefix)
+        return {
+            {{#vars}}
+            '{{baseName}}': {{#isPrimitiveType}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/isPrimitiveType}}{{^isPrimitiveType}}{{^allowableValues}}{{^isArray}}utils.removeIfEmpty({{complexType}}.mapping(bundle, `${keyPrefix}{{baseName}}`)){{/isArray}}{{#isArray}}utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}{{baseName}}`], `${keyPrefix}{{baseName}}`){{/isArray}}{{/allowableValues}}{{#allowableValues}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/allowableValues}}{{/isPrimitiveType}},
+            {{/vars}}
+        }
+    },
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}

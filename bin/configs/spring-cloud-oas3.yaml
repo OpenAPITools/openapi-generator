@@ -10,3 +10,4 @@ additionalProperties:
   interfaceOnly: "true"
   singleContentTypes: "true"
   hideGenerationTimestamp: "true"
+  useTags: "true"

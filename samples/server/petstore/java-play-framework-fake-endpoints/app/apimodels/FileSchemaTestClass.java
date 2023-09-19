@@ -2,6 +2,7 @@ package apimodels;
 
 import apimodels.ModelFile;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
@@ -47,10 +48,10 @@ public class FileSchemaTestClass   {
   }
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
-    if (files == null) {
-      files = new ArrayList<>();
+    if (this.files == null) {
+      this.files = new ArrayList<>();
     }
-    files.add(filesItem);
+    this.files.add(filesItem);
     return this;
   }
 

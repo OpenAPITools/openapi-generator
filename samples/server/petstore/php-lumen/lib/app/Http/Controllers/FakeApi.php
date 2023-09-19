@@ -227,6 +227,25 @@ class FakeApi extends Controller
         return response('How about implementing testGroupParameters as a delete method ?');
     }
     /**
+     * Operation fakeBigDecimalMap
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeBigDecimalMap()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fakeBigDecimalMap as a get method ?');
+    }
+    /**
      * Operation testBodyWithBinary
      *
      * .
@@ -402,6 +421,30 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testJsonFormData as a get method ?');
+    }
+    /**
+     * Operation testNullable
+     *
+     * test nullable parent property.
+     *
+     *
+     * @return Http response
+     */
+    public function testNullable()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['child_with_nullable'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $child_with_nullable when calling testNullable');
+        }
+        $child_with_nullable = $input['child_with_nullable'];
+
+
+        return response('How about implementing testNullable as a post method ?');
     }
     /**
      * Operation fakeOuterBooleanSerialize

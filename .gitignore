@@ -35,6 +35,8 @@ packages/
 nbproject/
 nbactions.xml
 nb-configuration.xml
+.direnv/
+**/:w
 
 .settings
 
@@ -87,6 +89,7 @@ samples/client/petstore/cpp-restsdk/cmake_install.cmake
 **/.gradle
 samples/client/petstore/java/hello.txt
 samples/client/petstore/java/okhttp-gson/hello.txt
+samples/client/petstore/java/okhttp-gson-3.1/hello.txt
 samples/client/petstore/java/jersey1/hello.txt
 samples/client/petstore/java/jersey2-java8/hello.txt
 samples/client/petstore/java/jersey2/hello.txt
@@ -171,17 +174,17 @@ samples/client/petstore/csharp-refactor/OpenAPIClient/nuget.exe
 # Python
 *.pyc
 __pycache__
+.venv/
 samples/client/petstore/python/dev-requirements.txt.log
 samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
 samples/client/petstore/python/.projectile
-samples/client/petstore/python/.venv/
-samples/client/petstore/python-asyncio/.venv/
 samples/client/petstore/python-asyncio/.pytest_cache/
-samples/client/petstore/python-tornado/.venv/
+
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-nextgen/OpenAPIClient-php/composer.lock
 samples/client/petstore/php-dt/composer.lock
 samples/client/petstore/php-dt-modern/composer.lock
 samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
@@ -209,6 +212,7 @@ samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
 samples/client/petstore/kotlin*/src/main/kotlin/test/
 samples/client/petstore/kotlin*/build/
+samples/server/others/kotlin-server/jaxrs-spec/build/
 
 # haskell
 .stack-work

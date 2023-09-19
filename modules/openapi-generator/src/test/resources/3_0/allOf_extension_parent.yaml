@@ -85,3 +85,15 @@ components:
           type: boolean
         mum_or_dad:
           type: string
+    allOfWithProperties:
+      description: parent object without x-parent extension
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AnotherParent'
+      properties:
+        isParent:
+          type: boolean
+        mum_or_dad:
+          type: string
+      required:
+        - isParent

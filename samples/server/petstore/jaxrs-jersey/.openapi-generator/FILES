@@ -29,16 +29,16 @@ src/gen/java/org/openapitools/model/ArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayTest.java
 src/gen/java/org/openapitools/model/Capitalization.java
 src/gen/java/org/openapitools/model/Cat.java
-src/gen/java/org/openapitools/model/CatAllOf.java
 src/gen/java/org/openapitools/model/Category.java
+src/gen/java/org/openapitools/model/ChildWithNullable.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
 src/gen/java/org/openapitools/model/DeprecatedObject.java
 src/gen/java/org/openapitools/model/Dog.java
-src/gen/java/org/openapitools/model/DogAllOf.java
 src/gen/java/org/openapitools/model/EnumArrays.java
 src/gen/java/org/openapitools/model/EnumClass.java
 src/gen/java/org/openapitools/model/EnumTest.java
+src/gen/java/org/openapitools/model/FakeBigDecimalMap200Response.java
 src/gen/java/org/openapitools/model/FileSchemaTestClass.java
 src/gen/java/org/openapitools/model/Foo.java
 src/gen/java/org/openapitools/model/FooGetDefaultResponse.java
@@ -63,6 +63,7 @@ src/gen/java/org/openapitools/model/OuterEnumDefaultValue.java
 src/gen/java/org/openapitools/model/OuterEnumInteger.java
 src/gen/java/org/openapitools/model/OuterEnumIntegerDefaultValue.java
 src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
+src/gen/java/org/openapitools/model/ParentWithNullable.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SingleRefType.java

@@ -80,6 +80,10 @@ components:
         type:
           type: string
       type: object
+    SimpleOneOf:
+      oneOf:
+      - type: string
+      - type: integer
     getPing_request:
       properties:
         name:

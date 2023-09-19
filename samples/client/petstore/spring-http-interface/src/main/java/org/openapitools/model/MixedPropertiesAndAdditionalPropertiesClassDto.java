@@ -27,16 +27,13 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
-  @JsonProperty("uuid")
   private UUID uuid;
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
   
-  private Map<String, AnimalDto> map = null;
+  private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;
@@ -48,6 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * @return uuid
   */
   
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -66,6 +64,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * @return dateTime
   */
   
+  @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -92,6 +91,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * @return map
   */
   
+  @JsonProperty("map")
   public Map<String, AnimalDto> getMap() {
     return map;
   }

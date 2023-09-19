@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -29,7 +30,7 @@ public class Pet   {
 
   private List<String> photoUrls = new ArrayList<>();
 
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
 
 public enum StatusEnum {
@@ -138,6 +139,9 @@ public enum StatusEnum {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }

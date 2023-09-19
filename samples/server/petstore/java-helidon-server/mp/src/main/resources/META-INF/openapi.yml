@@ -978,6 +978,21 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: '*/*'
+  /fake/BigDecimalMap:
+    get:
+      description: "for Java apache and Java native, test toUrlQueryString for maps\
+        \ with BegDecimal keys"
+      operationId: fakeBigDecimalMap
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fakeBigDecimalMap_200_response'
+          description: successful operation
+      tags:
+      - fake
+      x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -1012,6 +1027,25 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/nullable:
+    post:
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test nullable parent property
       tags:
       - fake
       x-content-type: application/json
@@ -1500,13 +1534,22 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
         propertyName: className
       properties:
         className:
@@ -1838,6 +1881,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - ChildWithNullable
+          type: string
+        nullableProperty:
+          nullable: true
+          type: string
+      type: object
+    ChildWithNullable:
+      allOf:
+      - $ref: '#/components/schemas/ParentWithNullable'
+      - properties:
+          otherProperty:
+            type: string
+        type: object
     StringBooleanMap:
       additionalProperties:
         type: boolean
@@ -2104,6 +2166,19 @@ components:
       - number
       - pattern_without_delimiter
       type: object
+    fakeBigDecimalMap_200_response:
+      example:
+        someId: 0.8008281904610115
+        someMap:
+          key: 6.027456183070403
+      properties:
+        someId:
+          type: number
+        someMap:
+          additionalProperties:
+            type: number
+          type: object
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2128,18 +2203,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

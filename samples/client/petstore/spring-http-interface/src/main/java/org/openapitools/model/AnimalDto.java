@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.model.BigCatDto;
-import org.openapitools.model.CatDto;
-import org.openapitools.model.DogDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -37,10 +34,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AnimalDto {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
 
   public AnimalDto className(String className) {
@@ -53,6 +48,7 @@ public class AnimalDto {
    * @return className
   */
   @NotNull
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -71,6 +67,7 @@ public class AnimalDto {
    * @return color
   */
   
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }
