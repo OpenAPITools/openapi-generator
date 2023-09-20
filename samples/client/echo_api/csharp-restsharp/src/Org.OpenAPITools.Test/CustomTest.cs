@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Test
             Pet queryObject = new Pet(12345L, "Hello World", new Category(987L, "new category"), new List<string> { "http://a.com", "http://b.com" });
             String response = api.TestQueryStyleDeepObjectExplodeTrueObject(queryObject);
             EchoServerResponseParser p = new EchoServerResponseParser(response);
-            Assert.Equal("/query/style_deepObject/explode_true/object?queryObject%5bid%5d=12345&queryObject%5bname%5d=Hello%20World&queryObject%5bcategory%5d=class%20Category%20%7b%0a%20%20Id%3a%20987%0a%20%20Name%3a%20new%20category%0a%7d%0a&queryObject%5bphotoUrls%5d=http%3a%2f%2fa.com%2chttp%3a%2f%2fb.com", p.path);
+            Assert.Equal("/query/style_deepObject/explode_true/object?queryObject%5bid%5d=12345&queryObject%5bname%5d=Hello%20World&queryObject%5bcategory%5d=class%20Category%20%7b%0a%20%20Id%3a%20987%0a%20%20Name%3a%20new%20category%0a%7d%0a&queryObject%5bphotoUrls%5d=http%3a%2f%2fa.com%2chttp%3a%2f%2fb.combreakit", p.path);
         }
 
 
