@@ -28,4 +28,6 @@ jobs:
           (cd http-echo-server && npm install && npm start &)
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: dotnet build Org.OpenAPITools.sln
+        run: |
+          dotnet build Org.OpenAPITools.sln
+          dotnet test Org.OpenAPITools.sln
