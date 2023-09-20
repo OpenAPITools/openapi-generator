@@ -39,7 +39,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
