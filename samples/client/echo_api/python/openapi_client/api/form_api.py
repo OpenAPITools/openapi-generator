@@ -161,13 +161,13 @@ class FormApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['integer_form']:
+        if _params['integer_form'] is not None:
             _form_params.append(('integer_form', _params['integer_form']))
 
-        if _params['boolean_form']:
+        if _params['boolean_form'] is not None:
             _form_params.append(('boolean_form', _params['boolean_form']))
 
-        if _params['string_form']:
+        if _params['string_form'] is not None:
             _form_params.append(('string_form', _params['string_form']))
 
         # process the body parameter
@@ -339,22 +339,22 @@ class FormApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['form1']:
+        if _params['form1'] is not None:
             _form_params.append(('form1', _params['form1']))
 
-        if _params['form2']:
+        if _params['form2'] is not None:
             _form_params.append(('form2', _params['form2']))
 
-        if _params['form3']:
+        if _params['form3'] is not None:
             _form_params.append(('form3', _params['form3']))
 
-        if _params['form4']:
+        if _params['form4'] is not None:
             _form_params.append(('form4', _params['form4']))
 
-        if _params['id']:
+        if _params['id'] is not None:
             _form_params.append(('id', _params['id']))
 
-        if _params['name']:
+        if _params['name'] is not None:
             _form_params.append(('name', _params['name']))
 
         # process the body parameter

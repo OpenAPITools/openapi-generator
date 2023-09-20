@@ -187,7 +187,7 @@ class {{classname}}:
         # process the path parameters
         _path_params = {}
 {{#pathParams}}
-        if _params['{{paramName}}']:
+        if _params['{{paramName}}'] is not None:
             _path_params['{{baseName}}'] = _params['{{paramName}}']
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
@@ -224,7 +224,7 @@ class {{classname}}:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 {{#headerParams}}
-        if _params['{{paramName}}']:
+        if _params['{{paramName}}'] is not None:
             _header_params['{{baseName}}'] = _params['{{paramName}}']
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
@@ -235,7 +235,7 @@ class {{classname}}:
         _form_params = []
         _files = {}
 {{#formParams}}
-        if _params['{{paramName}}']:
+        if _params['{{paramName}}'] is not None:
             {{^isFile}}
             _form_params.append(('{{{baseName}}}', _params['{{paramName}}']))
             {{/isFile}}

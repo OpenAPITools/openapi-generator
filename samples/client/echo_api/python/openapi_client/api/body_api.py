@@ -438,7 +438,7 @@ class BodyApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['files']:
+        if _params['files'] is not None:
             _files['files'] = _params['files']
             _collection_formats['files'] = 'csv'
 
