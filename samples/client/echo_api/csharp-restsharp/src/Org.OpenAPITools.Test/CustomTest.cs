@@ -31,12 +31,12 @@ namespace Org.OpenAPITools.Test
         }
 
         /**
- * Test query parameter(s)
- * <p>
- * Test query parameter(s)
- *
- * @throws ApiException if the Api call fails
- */
+         * Test query parameter(s)
+         * <p>
+         * Test query parameter(s)
+         *
+         * @throws ApiException if the Api call fails
+         */
         [Fact]
         public void TestQueryStyleFormExplodeTrueObjectTest()
         {
