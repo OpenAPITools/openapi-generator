@@ -262,7 +262,7 @@ class ApiClient:
         else:
             return ApiResponse(status_code = response_data.status,
                            data = return_data,
-                           headers = response_data.getheaders(),
+                           headers = response_data.headers,
                            raw_data = response_data.data)
 {{/tornado}}
 {{#tornado}}
@@ -271,7 +271,7 @@ class ApiClient:
         else:
             raise tornado.gen.Return(ApiResponse(status_code = response_data.status,
                                                  data = return_data,
-                                                 headers = response_data.getheaders(),
+                                                 headers = response_data.headers,
                                                  raw_data = response_data.data))
 {{/tornado}}
 
