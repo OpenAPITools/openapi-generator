@@ -95,6 +95,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
+    public CodegenProperty returnProperty;
     private boolean schemaIsFromAdditionalProperties;
 
     @Override

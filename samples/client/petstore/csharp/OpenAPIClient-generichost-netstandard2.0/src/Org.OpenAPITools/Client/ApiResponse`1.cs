@@ -9,8 +9,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace Org.OpenAPITools.Client
@@ -18,15 +16,15 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides a non-generic contract for the ApiResponse wrapper.
     /// </summary>
-    public interface IApiResponse
+    public partial interface IApiResponse
     {
         /// <summary>
-        /// The type that represents the server's response.
+        /// The IsSuccessStatusCode from the api response
         /// </summary>
-        Type ResponseType { get; }
+        bool IsSuccessStatusCode { get; }
 
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         HttpStatusCode StatusCode { get; }
@@ -42,9 +40,24 @@ namespace Org.OpenAPITools.Client
         DateTime DownloadedAt { get; }
 
         /// <summary>
+        /// The headers contained in the api response
+        /// </summary>
+        System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
         /// The path used when making the request.
         /// </summary>
         string Path { get; }
+
+        /// <summary>
+        /// The reason phrase contained in the api response
+        /// </summary>
+        string ReasonPhrase { get; }
+
+        /// <summary>
+        /// The DateTime when the request was sent.
+        /// </summary>
+        DateTime RequestedAt { get; }
 
         /// <summary>
         /// The Uri used when making the request.
@@ -55,26 +68,18 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public partial class ApiResponse<T> : IApiResponse
+    public partial class ApiResponse : IApiResponse
     {
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
-
-        /// <summary>
         /// The raw data
         /// </summary>
-        public string RawContent { get; private set; }
+        public string RawContent { get; protected set; }
 
         /// <summary>
         /// The IsSuccessStatusCode from the api response
@@ -112,9 +117,9 @@ namespace Org.OpenAPITools.Client
         public Uri RequestUri { get; }
 
         /// <summary>
-        /// The JsonSerialzierOptions
+        /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
         /// </summary>
-        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+        protected System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
         /// Construct the response using an HttpResponseMessage
@@ -140,33 +145,45 @@ namespace Org.OpenAPITools.Client
         }
 
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+    }
+
+    /// <summary>
+    /// An interface for responses of type 
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public interface IOk<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is Ok
+        /// </summary>
+        /// <returns></returns>
+        TType Ok();
 
         /// <summary>
-        /// Deserializes the server's response
+        /// Returns true if the response is Ok and the deserialized response is not null
         /// </summary>
-        public T AsModel()
-        {
-            // This logic may be modified with the AsModel.mustache template
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : default(T);
-        }
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool TryOk(out TType result);
+    }
+
+    /// <summary>
+    /// An interface for responses of type 
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public interface IDefault<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is Default
+        /// </summary>
+        /// <returns></returns>
+        TType Default();
 
         /// <summary>
-        /// Returns true when the model can be deserialized
+        /// Returns true if the response is Default and the deserialized response is not null
         /// </summary>
-        public bool TryToModel(out T model)
-        {
-            try
-            {
-                model = AsModel();
-                return model != null;
-            }
-            catch
-            {
-                model = default(T);
-                return false;
-            }
-        }
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool TryDefault(out TType result);
     }
 }
