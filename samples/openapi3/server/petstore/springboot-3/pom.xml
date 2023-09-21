@@ -4,7 +4,7 @@
     <artifactId>springboot</artifactId>
     <packaging>jar</packaging>
     <name>springboot</name>
-    <version>1.0.0-SNAPSHOT</version> <!-- this file -->
+    <version>1.0.0-SNAPSHOT</version>
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
