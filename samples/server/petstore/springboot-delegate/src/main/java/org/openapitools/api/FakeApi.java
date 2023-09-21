@@ -535,6 +535,7 @@ public interface FakeApi {
         value = "/fake/nullable",
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) {

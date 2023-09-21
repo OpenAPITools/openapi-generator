@@ -569,6 +569,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
+    
     default Mono<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable,
         @ApiIgnore final ServerWebExchange exchange
