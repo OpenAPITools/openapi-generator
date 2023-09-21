@@ -20,6 +20,8 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 from typing import cast, overload, Optional, Union, Awaitable, Dict, List, Tuple
 
+from pydantic import Field
+from typing import Annotated
 from pydantic import StrictBytes, StrictStr
 
 from typing import Any, Dict, List, Optional, Union
@@ -480,7 +482,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_free_form_object_response_string(self, body : Optional[Dict[str, Any]] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_free_form_object_response_string(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> str:  # noqa: E501
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -510,7 +512,7 @@ class BodyApi:
         return self.test_echo_body_free_form_object_response_string_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Optional[Dict[str, Any]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -627,7 +629,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_pet(self, pet : Optional[Pet] = None, **kwargs) -> Pet:  # noqa: E501
+    def test_echo_body_pet(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> Pet:  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -657,7 +659,7 @@ class BodyApi:
         return self.test_echo_body_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_pet_with_http_info(self, pet : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_pet_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -774,7 +776,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_pet_response_string(self, pet : Optional[Pet] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_pet_response_string(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> str:  # noqa: E501
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
@@ -804,7 +806,7 @@ class BodyApi:
         return self.test_echo_body_pet_response_string_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_pet_response_string_with_http_info(self, pet : Optional[Pet] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_pet_response_string_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
@@ -921,7 +923,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_tag_response_string(self, tag : Optional[Tag] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_tag_response_string(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> str:  # noqa: E501
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501
@@ -951,7 +953,7 @@ class BodyApi:
         return self.test_echo_body_tag_response_string_with_http_info(tag, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_tag_response_string_with_http_info(self, tag : Optional[Tag] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_tag_response_string_with_http_info(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501

@@ -48,7 +48,7 @@ class StoreApi:
         self.api_client = api_client
 
     @validate_arguments
-    def delete_order(self, order_id : StrictStr, **kwargs) -> None:  # noqa: E501
+    def delete_order(self, order_id : Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")], **kwargs) -> None:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -78,7 +78,7 @@ class StoreApi:
         return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_order_with_http_info(self, order_id : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def delete_order_with_http_info(self, order_id : Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -314,7 +314,7 @@ class StoreApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_order_by_id(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1)], **kwargs) -> Order:  # noqa: E501
+    def get_order_by_id(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")], **kwargs) -> Order:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -344,7 +344,7 @@ class StoreApi:
         return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_order_by_id_with_http_info(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1)], **kwargs) -> ApiResponse:  # noqa: E501
+    def get_order_by_id_with_http_info(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")], **kwargs) -> ApiResponse:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -456,7 +456,7 @@ class StoreApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def place_order(self, order : Order, **kwargs) -> Order:  # noqa: E501
+    def place_order(self, order : Annotated[Order, Field(description="order placed for purchasing the pet")], **kwargs) -> Order:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501
@@ -486,7 +486,7 @@ class StoreApi:
         return self.place_order_with_http_info(order, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def place_order_with_http_info(self, order : Order, **kwargs) -> ApiResponse:  # noqa: E501
+    def place_order_with_http_info(self, order : Annotated[Order, Field(description="order placed for purchasing the pet")], **kwargs) -> ApiResponse:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501

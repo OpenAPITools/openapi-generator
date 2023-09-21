@@ -1571,6 +1571,25 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
          *  constraints but part of the "type value".
          */
         public String asTypeConstraint(Imports imports) {
+            return asTypeConstraint(imports, false);
+        }
+
+        /* Generate the Python type, constraints + annotations
+         *
+         * This should be mostly used to build the type definition for a
+         * function/method parameter, such as :
+         *
+         *      def f(my_param: TypeConstrainWithAnnotations):
+         *          ...
+         *
+         *  Note that the default value is not managed here, but directly in
+         *  the Mustache template.
+         */
+        public String asTypeConstraintWithAnnotations(Imports imports) {
+            return asTypeConstraint(imports, true);
+        }
+
+        private String asTypeConstraint(Imports imports, boolean withAnnotations) {
             String typeParam = "";
             if (this.typeParams.size() > 0) {
                 List<String> types = new ArrayList<>();
@@ -1582,17 +1601,30 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             String currentType = this.type + typeParam;
 
-            if (this.constraints.size() > 0) {
-                List<String> ants = new ArrayList<>();
-                for (Map.Entry<String, Object> entry: this.constraints.entrySet()) {
+
+            // Build the parameters for the `Field`, possibly associated with
+            // the type definition.
+            // There can be no constraints nor annotations, in which case we
+            // simply won't build a Field object.
+            List<String> fieldParams = new ArrayList<>();
+            for (Map.Entry<String, Object> entry: this.constraints.entrySet()) {
+                String ans = entry.getKey() + "=";
+                ans += entry.getValue().toString();
+                fieldParams.add(ans);
+            }
+
+            if (withAnnotations) {
+                for (Map.Entry<String, Object> entry: this.annotations.entrySet()) {
                     String ans = entry.getKey() + "=";
                     ans += entry.getValue().toString();
-                    ants.add(ans);
+                    fieldParams.add(ans);
                 }
+            }
 
+            if (fieldParams.size() > 0) {
                 imports.add("pydantic", "Field");
                 imports.add("typing", "Annotated");
-                currentType = "Annotated[" + currentType + ", Field(" + StringUtils.join(ants, ", ") + ")]";
+                currentType = "Annotated[" + currentType + ", Field(" + StringUtils.join(fieldParams, ", ") + ")]";
             }
 
             return currentType;
@@ -2181,7 +2213,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
             }*/
 
-            return pt.asTypeConstraint(otherImports);
+            //return pt.asTypeConstraint(otherImports);
+            return pt.asTypeConstraintWithAnnotations(otherImports);
         }
     }
 }

@@ -19,6 +19,8 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 from typing import cast, overload, Optional, Union, Awaitable, Dict, List, Tuple
 
+from pydantic import Field
+from typing import Annotated
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
@@ -42,7 +44,7 @@ class FakeClassnameTags123Api:
         self.api_client = api_client
 
     @validate_arguments
-    def test_classname(self, client : Client, **kwargs) -> Client:  # noqa: E501
+    def test_classname(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -72,7 +74,7 @@ class FakeClassnameTags123Api:
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_classname_with_http_info(self, client : Client, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_classname_with_http_info(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501

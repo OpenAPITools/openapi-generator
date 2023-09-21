@@ -197,7 +197,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_enum_ref_query_parameter(self, enum_ref : Optional[EnumClass] = None, **kwargs) -> None:  # noqa: E501
+    def fake_enum_ref_query_parameter(self, enum_ref : Annotated[Optional[EnumClass], Field(description="enum reference")] = None, **kwargs) -> None:  # noqa: E501
         """test enum reference query parameter  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -226,7 +226,7 @@ class FakeApi:
         return self.fake_enum_ref_query_parameter_with_http_info(enum_ref, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_enum_ref_query_parameter_with_http_info(self, enum_ref : Optional[EnumClass] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_enum_ref_query_parameter_with_http_info(self, enum_ref : Annotated[Optional[EnumClass], Field(description="enum reference")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """test enum reference query parameter  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -459,7 +459,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_http_signature_test(self, pet : Pet, query_1 : Optional[StrictStr] = None, header_1 : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    def fake_http_signature_test(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> None:  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -492,7 +492,7 @@ class FakeApi:
         return self.fake_http_signature_test_with_http_info(pet, query_1, header_1, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_http_signature_test_with_http_info(self, pet : Pet, query_1 : Optional[StrictStr] = None, header_1 : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_http_signature_test_with_http_info(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -614,7 +614,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_boolean_serialize(self, body : Optional[StrictBool] = None, **kwargs) -> bool:  # noqa: E501
+    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> bool:  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
@@ -644,7 +644,7 @@ class FakeApi:
         return self.fake_outer_boolean_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_outer_boolean_serialize_with_http_info(self, body : Optional[StrictBool] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_outer_boolean_serialize_with_http_info(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
@@ -761,7 +761,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_composite_serialize(self, outer_composite : Optional[OuterComposite] = None, **kwargs) -> OuterComposite:  # noqa: E501
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> OuterComposite:  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -791,7 +791,7 @@ class FakeApi:
         return self.fake_outer_composite_serialize_with_http_info(outer_composite, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_outer_composite_serialize_with_http_info(self, outer_composite : Optional[OuterComposite] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_outer_composite_serialize_with_http_info(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -908,7 +908,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_number_serialize(self, body : Optional[StrictFloat] = None, **kwargs) -> float:  # noqa: E501
+    def fake_outer_number_serialize(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs) -> float:  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
@@ -938,7 +938,7 @@ class FakeApi:
         return self.fake_outer_number_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_outer_number_serialize_with_http_info(self, body : Optional[StrictFloat] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_outer_number_serialize_with_http_info(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
@@ -1055,7 +1055,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_string_serialize(self, body : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
+    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
@@ -1085,7 +1085,7 @@ class FakeApi:
         return self.fake_outer_string_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_outer_string_serialize_with_http_info(self, body : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_outer_string_serialize_with_http_info(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
@@ -1202,7 +1202,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : OuterObjectWithEnumProperty, **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
+    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")], **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
         """fake_property_enum_integer_serialize  # noqa: E501
 
         Test serialization of enum (int) properties with examples  # noqa: E501
@@ -1232,7 +1232,7 @@ class FakeApi:
         return self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_property_enum_integer_serialize_with_http_info(self, outer_object_with_enum_property : OuterObjectWithEnumProperty, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_property_enum_integer_serialize_with_http_info(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")], **kwargs) -> ApiResponse:  # noqa: E501
         """fake_property_enum_integer_serialize  # noqa: E501
 
         Test serialization of enum (int) properties with examples  # noqa: E501
@@ -1479,7 +1479,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_uuid_example(self, uuid_example : StrictStr, **kwargs) -> None:  # noqa: E501
+    def fake_uuid_example(self, uuid_example : Annotated[StrictStr, Field(description="uuid example")], **kwargs) -> None:  # noqa: E501
         """test uuid example  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1508,7 +1508,7 @@ class FakeApi:
         return self.fake_uuid_example_with_http_info(uuid_example, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_uuid_example_with_http_info(self, uuid_example : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_uuid_example_with_http_info(self, uuid_example : Annotated[StrictStr, Field(description="uuid example")], **kwargs) -> ApiResponse:  # noqa: E501
         """test uuid example  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1611,7 +1611,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_binary(self, body : Optional[Union[StrictBytes, StrictStr]], **kwargs) -> None:  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="image to upload")], **kwargs) -> None:  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1641,7 +1641,7 @@ class FakeApi:
         return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_binary_with_http_info(self, body : Optional[Union[StrictBytes, StrictStr]], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_body_with_binary_with_http_info(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="image to upload")], **kwargs) -> ApiResponse:  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -2045,7 +2045,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_client_model(self, client : Client, **kwargs) -> Client:  # noqa: E501
+    def test_client_model(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -2075,7 +2075,7 @@ class FakeApi:
         return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_client_model_with_http_info(self, client : Client, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_client_model_with_http_info(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -2335,7 +2335,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[float, Field(le=543.2, strict=True, ge=32.1)], double : Annotated[float, Field(le=123.4, strict=True, ge=67.8)], pattern_without_delimiter : Annotated[str, Field(strict=True)], byte : Union[StrictBytes, StrictStr], integer : Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None, int32 : Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None, int64 : Optional[StrictInt] = None, float : Optional[Annotated[float, Field(le=987.6, strict=True)]] = None, string : Optional[Annotated[str, Field(strict=True)]] = None, binary : Optional[Union[StrictBytes, StrictStr]] = None, byte_with_max_length : Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]] = None, var_date : Optional[date] = None, date_time : Optional[datetime] = None, password : Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]] = None, param_callback : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[float, Field(le=543.2, strict=True, ge=32.1, description="None")], double : Annotated[float, Field(le=123.4, strict=True, ge=67.8, description="None")], pattern_without_delimiter : Annotated[str, Field(strict=True, description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(description="None")], integer : Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=10)]], Field(description="None")] = None, int32 : Annotated[Optional[Annotated[int, Field(le=200, strict=True, ge=20)]], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[Annotated[float, Field(le=987.6, strict=True)]], Field(description="None")] = None, string : Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, byte_with_max_length : Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -2393,7 +2393,7 @@ class FakeApi:
         return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, byte_with_max_length, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_endpoint_parameters_with_http_info(self, number : Annotated[float, Field(le=543.2, strict=True, ge=32.1)], double : Annotated[float, Field(le=123.4, strict=True, ge=67.8)], pattern_without_delimiter : Annotated[str, Field(strict=True)], byte : Union[StrictBytes, StrictStr], integer : Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None, int32 : Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None, int64 : Optional[StrictInt] = None, float : Optional[Annotated[float, Field(le=987.6, strict=True)]] = None, string : Optional[Annotated[str, Field(strict=True)]] = None, binary : Optional[Union[StrictBytes, StrictStr]] = None, byte_with_max_length : Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]] = None, var_date : Optional[date] = None, date_time : Optional[datetime] = None, password : Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]] = None, param_callback : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_endpoint_parameters_with_http_info(self, number : Annotated[float, Field(le=543.2, strict=True, ge=32.1, description="None")], double : Annotated[float, Field(le=123.4, strict=True, ge=67.8, description="None")], pattern_without_delimiter : Annotated[str, Field(strict=True, description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(description="None")], integer : Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=10)]], Field(description="None")] = None, int32 : Annotated[Optional[Annotated[int, Field(le=200, strict=True, ge=20)]], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[Annotated[float, Field(le=987.6, strict=True)]], Field(description="None")] = None, string : Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, byte_with_max_length : Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -2588,7 +2588,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_group_parameters(self, required_string_group : StrictInt, required_boolean_group : StrictBool, required_int64_group : StrictInt, string_group : Optional[StrictInt] = None, boolean_group : Optional[StrictBool] = None, int64_group : Optional[StrictInt] = None, **kwargs) -> None:  # noqa: E501
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -2628,7 +2628,7 @@ class FakeApi:
         return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_group_parameters_with_http_info(self, required_string_group : StrictInt, required_boolean_group : StrictBool, required_int64_group : StrictInt, string_group : Optional[StrictInt] = None, boolean_group : Optional[StrictBool] = None, int64_group : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_group_parameters_with_http_info(self, required_string_group : Annotated[StrictInt, Field(description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -2762,7 +2762,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_inline_additional_properties(self, request_body : Dict[str, StrictStr], **kwargs) -> None:  # noqa: E501
+    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(description="request body")], **kwargs) -> None:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2792,7 +2792,7 @@ class FakeApi:
         return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_inline_additional_properties_with_http_info(self, request_body : Dict[str, StrictStr], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_inline_additional_properties_with_http_info(self, request_body : Annotated[Dict[str, StrictStr], Field(description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2903,7 +2903,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_json_form_data(self, param : StrictStr, param2 : StrictStr, **kwargs) -> None:  # noqa: E501
+    def test_json_form_data(self, param : Annotated[StrictStr, Field(description="field1")], param2 : Annotated[StrictStr, Field(description="field2")], **kwargs) -> None:  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
@@ -2935,7 +2935,7 @@ class FakeApi:
         return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_json_form_data_with_http_info(self, param : StrictStr, param2 : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_json_form_data_with_http_info(self, param : Annotated[StrictStr, Field(description="field1")], param2 : Annotated[StrictStr, Field(description="field2")], **kwargs) -> ApiResponse:  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
