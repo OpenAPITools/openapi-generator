@@ -125,7 +125,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/hasChildren}}
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.{{#usePydanticV2}}model_dump{{/usePydanticV2}}{{^usePydanticV2}}dict{{/usePydanticV2}}(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -138,7 +138,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.{{#usePydanticV2}}model_dump{{/usePydanticV2}}{{^usePydanticV2}}dict{{/usePydanticV2}}(by_alias=True,
                           exclude={
                             {{#vendorExtensions.x-py-readonly}}
                             "{{{.}}}",
