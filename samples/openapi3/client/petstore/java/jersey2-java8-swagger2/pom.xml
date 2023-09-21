@@ -338,7 +338,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>2.2.9</swagger-annotations-version>
+        <swagger-annotations-version>2.2.15</swagger-annotations-version>
         <jersey-version>2.35</jersey-version>
         <jackson-version>2.13.4</jackson-version>
         <jackson-databind-version>2.13.4.2</jackson-databind-version>
