@@ -1623,7 +1623,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             if (fieldParams.size() > 0) {
                 imports.add("pydantic", "Field");
-                imports.add("typing", "Annotated");
+                imports.add("typing_extensions", "Annotated");
                 currentType = "Annotated[" + currentType + ", Field(" + StringUtils.join(fieldParams, ", ") + ")]";
             }
 
