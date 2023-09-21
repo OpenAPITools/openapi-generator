@@ -187,32 +187,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The NotificationtestGetElementsV1ResponseMPayloadSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NotificationtestGetElementsV1ResponseMPayload))]
-    public partial class NotificationtestGetElementsV1ResponseMPayloadSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NotificationtestGetElementsV1ResponseMPayloadSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NotificationtestGetElementsV1ResponseMPayloadSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NotificationtestGetElementsV1ResponseMPayloadDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NotificationtestGetElementsV1ResponseMPayload))]
-    public partial class NotificationtestGetElementsV1ResponseMPayloadDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NotificationtestGetElementsV1ResponseMPayloadDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NotificationtestGetElementsV1ResponseMPayloadDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class NotificationtestGetElementsV1ResponseMPayloadSerializationContext : JsonSerializerContext { }
 }

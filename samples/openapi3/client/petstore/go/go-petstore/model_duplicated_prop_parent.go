@@ -90,9 +90,13 @@ func (o DuplicatedPropParent) ToMap() (map[string]interface{}, error) {
 func (o *DuplicatedPropParent) UnmarshalJSON(bytes []byte) (err error) {
 	varDuplicatedPropParent := _DuplicatedPropParent{}
 
-	if err = json.Unmarshal(bytes, &varDuplicatedPropParent); err == nil {
-		*o = DuplicatedPropParent(varDuplicatedPropParent)
+	err = json.Unmarshal(bytes, &varDuplicatedPropParent)
+
+	if err != nil {
+		return err
 	}
+
+	*o = DuplicatedPropParent(varDuplicatedPropParent)
 
 	additionalProperties := make(map[string]interface{})
 

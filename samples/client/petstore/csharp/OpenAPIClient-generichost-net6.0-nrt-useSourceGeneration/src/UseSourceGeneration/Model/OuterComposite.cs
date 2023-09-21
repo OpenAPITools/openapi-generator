@@ -203,32 +203,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The OuterCompositeSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(OuterComposite))]
-    public partial class OuterCompositeSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OuterCompositeSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterCompositeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OuterCompositeDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(OuterComposite))]
-    public partial class OuterCompositeDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OuterCompositeDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OuterCompositeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class OuterCompositeSerializationContext : JsonSerializerContext { }
 }

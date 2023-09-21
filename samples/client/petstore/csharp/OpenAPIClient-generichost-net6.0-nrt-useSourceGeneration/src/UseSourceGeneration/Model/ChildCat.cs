@@ -228,32 +228,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ChildCatSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ChildCat))]
-    public partial class ChildCatSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ChildCatSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ChildCatSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ChildCatDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ChildCat))]
-    public partial class ChildCatDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ChildCatDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ChildCatDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ChildCatSerializationContext : JsonSerializerContext { }
 }

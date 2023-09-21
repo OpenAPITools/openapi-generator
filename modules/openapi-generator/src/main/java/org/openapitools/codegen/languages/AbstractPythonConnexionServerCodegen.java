@@ -16,17 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -68,6 +60,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
@@ -178,7 +172,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
                 defaultValue("false"));
         cliOptions.add(new CliOption(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "generates test under the pythonSrcRoot folder.")
-            .defaultValue("false"));
+                .defaultValue("false"));
     }
 
     protected void addSupportingFiles() {
@@ -331,7 +325,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         }
         return camelize(name) + "Controller";
     }
-
 
 
     @Override
@@ -634,12 +627,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             addImport(model, "import re");
         }
         postProcessPattern(property.pattern, property.vendorExtensions);
-    }
-
-    @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
     }
 
     @Override

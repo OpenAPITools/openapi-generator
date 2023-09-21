@@ -168,32 +168,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The FileSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(File))]
-    public partial class FileSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FileSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FileDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(File))]
-    public partial class FileDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FileDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class FileSerializationContext : JsonSerializerContext { }
 }

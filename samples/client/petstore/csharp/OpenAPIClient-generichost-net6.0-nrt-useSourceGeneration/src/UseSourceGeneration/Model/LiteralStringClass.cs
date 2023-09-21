@@ -184,32 +184,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The LiteralStringClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(LiteralStringClass))]
-    public partial class LiteralStringClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The LiteralStringClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public LiteralStringClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// LiteralStringClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(LiteralStringClass))]
-    public partial class LiteralStringClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// LiteralStringClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public LiteralStringClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class LiteralStringClassSerializationContext : JsonSerializerContext { }
 }

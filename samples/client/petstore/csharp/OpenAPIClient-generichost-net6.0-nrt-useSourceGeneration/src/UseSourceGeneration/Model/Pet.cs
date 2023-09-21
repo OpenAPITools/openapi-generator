@@ -351,32 +351,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The PetSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Pet))]
-    public partial class PetSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The PetSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PetSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// PetDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Pet))]
-    public partial class PetDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// PetDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public PetDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class PetSerializationContext : JsonSerializerContext { }
 }

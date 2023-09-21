@@ -280,32 +280,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The MammalSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Mammal))]
-    public partial class MammalSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The MammalSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MammalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// MammalDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Mammal))]
-    public partial class MammalDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// MammalDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public MammalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class MammalSerializationContext : JsonSerializerContext { }
 }

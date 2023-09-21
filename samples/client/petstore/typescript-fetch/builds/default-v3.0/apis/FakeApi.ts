@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  ChildWithNullable,
   Client,
   EnumClass,
   FakeBigDecimalMap200Response,
@@ -26,6 +27,8 @@ import type {
   User,
 } from '../models/index';
 import {
+    ChildWithNullableFromJSON,
+    ChildWithNullableToJSON,
     ClientFromJSON,
     ClientToJSON,
     EnumClassFromJSON,
@@ -134,6 +137,10 @@ export interface TestInlineAdditionalPropertiesRequest {
 export interface TestJsonFormDataRequest {
     param: string;
     param2: string;
+}
+
+export interface TestNullableRequest {
+    childWithNullable: ChildWithNullable;
 }
 
 export interface TestQueryParameterCollectionFormatRequest {
@@ -899,6 +906,40 @@ export class FakeApi extends runtime.BaseAPI {
      */
     async testJsonFormData(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testJsonFormDataRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 
+     * test nullable parent property
+     */
+    async testNullableRaw(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.childWithNullable === null || requestParameters.childWithNullable === undefined) {
+            throw new runtime.RequiredError('childWithNullable','Required parameter requestParameters.childWithNullable was null or undefined when calling testNullable.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/nullable`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ChildWithNullableToJSON(requestParameters.childWithNullable),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 
+     * test nullable parent property
+     */
+    async testNullable(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.testNullableRaw(requestParameters, initOverrides);
     }
 
     /**

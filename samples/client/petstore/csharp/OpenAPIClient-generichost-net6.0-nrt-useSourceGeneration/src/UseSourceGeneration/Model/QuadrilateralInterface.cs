@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The QuadrilateralInterfaceSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(QuadrilateralInterface))]
-    public partial class QuadrilateralInterfaceSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The QuadrilateralInterfaceSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralInterfaceSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// QuadrilateralInterfaceDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(QuadrilateralInterface))]
-    public partial class QuadrilateralInterfaceDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// QuadrilateralInterfaceDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public QuadrilateralInterfaceDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class QuadrilateralInterfaceSerializationContext : JsonSerializerContext { }
 }

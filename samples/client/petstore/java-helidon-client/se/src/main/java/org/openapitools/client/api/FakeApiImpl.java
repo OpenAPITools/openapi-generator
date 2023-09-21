@@ -30,6 +30,7 @@ import io.helidon.webclient.WebClientResponse;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -75,6 +76,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<Void> RESPONSE_TYPE_testGroupParameters = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testInlineAdditionalProperties = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testJsonFormData = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testNullable = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testQueryParameterCollectionFormat = ResponseType.create(Void.class);
 
   /**
@@ -854,6 +856,44 @@ public class FakeApiImpl implements FakeApi {
             .toString();
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(formParams);
     return ApiResponse.create(RESPONSE_TYPE_testJsonFormData, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testNullable(ChildWithNullable childWithNullable) {
+    Objects.requireNonNull(childWithNullable, "Required parameter 'childWithNullable' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testNullableRequestBuilder(childWithNullable);
+    return testNullableSubmit(webClientRequestBuilder, childWithNullable);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testNullable operation.
+   * Optional customization point for subclasses.
+   *
+   * @param childWithNullable request body (required)
+   * @return WebClientRequestBuilder for testNullable
+   */
+  protected WebClientRequestBuilder testNullableRequestBuilder(ChildWithNullable childWithNullable) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/nullable");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testNullable operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param childWithNullable request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testNullableSubmit(WebClientRequestBuilder webClientRequestBuilder, ChildWithNullable childWithNullable) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(childWithNullable);
+    return ApiResponse.create(RESPONSE_TYPE_testNullable, webClientResponse);
   }
 
   @Override

@@ -626,32 +626,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The FormatTestSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FormatTest))]
-    public partial class FormatTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FormatTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FormatTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FormatTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FormatTest))]
-    public partial class FormatTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FormatTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FormatTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class FormatTestSerializationContext : JsonSerializerContext { }
 }

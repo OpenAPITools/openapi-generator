@@ -179,32 +179,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ZeroBasedEnumSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ZeroBasedEnum))]
-    public partial class ZeroBasedEnumSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ZeroBasedEnumSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ZeroBasedEnumDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ZeroBasedEnum))]
-    public partial class ZeroBasedEnumDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ZeroBasedEnumDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZeroBasedEnumDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ZeroBasedEnumSerializationContext : JsonSerializerContext { }
 }

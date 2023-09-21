@@ -571,7 +571,7 @@ class FakeApi:
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['header_1']:
+        if _params['header_1'] is not None:
             _header_params['header_1'] = _params['header_1']
 
         # process the form parameters
@@ -2509,49 +2509,49 @@ class FakeApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['integer']:
+        if _params['integer'] is not None:
             _form_params.append(('integer', _params['integer']))
 
-        if _params['int32']:
+        if _params['int32'] is not None:
             _form_params.append(('int32', _params['int32']))
 
-        if _params['int64']:
+        if _params['int64'] is not None:
             _form_params.append(('int64', _params['int64']))
 
-        if _params['number']:
+        if _params['number'] is not None:
             _form_params.append(('number', _params['number']))
 
-        if _params['float']:
+        if _params['float'] is not None:
             _form_params.append(('float', _params['float']))
 
-        if _params['double']:
+        if _params['double'] is not None:
             _form_params.append(('double', _params['double']))
 
-        if _params['string']:
+        if _params['string'] is not None:
             _form_params.append(('string', _params['string']))
 
-        if _params['pattern_without_delimiter']:
+        if _params['pattern_without_delimiter'] is not None:
             _form_params.append(('pattern_without_delimiter', _params['pattern_without_delimiter']))
 
-        if _params['byte']:
+        if _params['byte'] is not None:
             _form_params.append(('byte', _params['byte']))
 
-        if _params['binary']:
+        if _params['binary'] is not None:
             _files['binary'] = _params['binary']
 
-        if _params['byte_with_max_length']:
+        if _params['byte_with_max_length'] is not None:
             _form_params.append(('byte_with_max_length', _params['byte_with_max_length']))
 
-        if _params['var_date']:
+        if _params['var_date'] is not None:
             _form_params.append(('date', _params['var_date']))
 
-        if _params['date_time']:
+        if _params['date_time'] is not None:
             _form_params.append(('dateTime', _params['date_time']))
 
-        if _params['password']:
+        if _params['password'] is not None:
             _form_params.append(('password', _params['password']))
 
-        if _params['param_callback']:
+        if _params['param_callback'] is not None:
             _form_params.append(('callback', _params['param_callback']))
 
         # process the body parameter
@@ -2726,10 +2726,10 @@ class FakeApi:
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['required_boolean_group']:
+        if _params['required_boolean_group'] is not None:
             _header_params['required_boolean_group'] = _params['required_boolean_group']
 
-        if _params['boolean_group']:
+        if _params['boolean_group'] is not None:
             _header_params['boolean_group'] = _params['boolean_group']
 
         # process the form parameters
@@ -3012,10 +3012,10 @@ class FakeApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['param']:
+        if _params['param'] is not None:
             _form_params.append(('param', _params['param']))
 
-        if _params['param2']:
+        if _params['param2'] is not None:
             _form_params.append(('param2', _params['param2']))
 
         # process the body parameter

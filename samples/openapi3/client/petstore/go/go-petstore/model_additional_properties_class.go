@@ -134,9 +134,13 @@ func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
 	varAdditionalPropertiesClass := _AdditionalPropertiesClass{}
 
-	if err = json.Unmarshal(bytes, &varAdditionalPropertiesClass); err == nil {
-		*o = AdditionalPropertiesClass(varAdditionalPropertiesClass)
+	err = json.Unmarshal(bytes, &varAdditionalPropertiesClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = AdditionalPropertiesClass(varAdditionalPropertiesClass)
 
 	additionalProperties := make(map[string]interface{})
 

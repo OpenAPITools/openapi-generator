@@ -449,6 +449,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
+                .put("doublequote", new DoubleQuoteLambda())
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " ", false))
                 .put("indented_12", new IndentedLambda(12, " ", false))
@@ -476,6 +477,11 @@ public class DefaultCodegen implements CodegenConfig {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            if (model == null) {
+                LOGGER.warn("Null model found in postProcessAllModels: {}", entry.getKey());
+                continue;
+            }
 
             // add the model to the discriminator's mapping so templates have access to more than just the string to string mapping
             if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
@@ -2747,14 +2753,14 @@ public class DefaultCodegen implements CodegenConfig {
 
                     if (composed.getAnyOf() != null) {
                         if (m.anyOf.contains(languageType)) {
-                            LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            LOGGER.debug("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.anyOf.add(languageType);
 
                         }
                     } else if (composed.getOneOf() != null) {
                         if (m.oneOf.contains(languageType)) {
-                            LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            LOGGER.debug("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.oneOf.add(languageType);
                         }
@@ -5976,6 +5982,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static Boolean isAliasOfSimpleTypes(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         return (!ModelUtils.isObjectSchema(schema)
                 && !ModelUtils.isArraySchema(schema)
                 && !ModelUtils.isMapSchema(schema)

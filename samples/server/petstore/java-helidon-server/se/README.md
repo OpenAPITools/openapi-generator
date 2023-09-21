@@ -30,6 +30,7 @@ curl -X GET http://petstore.swagger.io:80/v2/fake
 curl -X DELETE http://petstore.swagger.io:80/v2/fake
 curl -X POST http://petstore.swagger.io:80/v2/fake/inline-additionalProperties
 curl -X GET http://petstore.swagger.io:80/v2/fake/jsonFormData
+curl -X POST http://petstore.swagger.io:80/v2/fake/nullable
 curl -X PUT http://petstore.swagger.io:80/v2/fake/test-query-parameters
 curl -X PATCH http://petstore.swagger.io:80/v2/fake_classname_test
 curl -X POST http://petstore.swagger.io:80/v2/pet

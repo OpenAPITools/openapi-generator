@@ -185,32 +185,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The Model200ResponseSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Model200Response))]
-    public partial class Model200ResponseSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The Model200ResponseSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public Model200ResponseSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// Model200ResponseDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Model200Response))]
-    public partial class Model200ResponseDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// Model200ResponseDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public Model200ResponseDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class Model200ResponseSerializationContext : JsonSerializerContext { }
 }

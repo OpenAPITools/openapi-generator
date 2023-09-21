@@ -206,9 +206,13 @@ func (o MapTest) ToMap() (map[string]interface{}, error) {
 func (o *MapTest) UnmarshalJSON(bytes []byte) (err error) {
 	varMapTest := _MapTest{}
 
-	if err = json.Unmarshal(bytes, &varMapTest); err == nil {
-		*o = MapTest(varMapTest)
+	err = json.Unmarshal(bytes, &varMapTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = MapTest(varMapTest)
 
 	additionalProperties := make(map[string]interface{})
 
