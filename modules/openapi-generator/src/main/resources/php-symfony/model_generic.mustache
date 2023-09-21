@@ -12,20 +12,22 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
         parent::__construct($data);
 
         {{/parentSchema}}
-        {{#vars}}
-        $this->{{name}} = $data['{{name}}'] ?? null;
-        {{/vars}}
+        if (is_array($data)) {
+            {{#vars}}
+            $this->{{name}} = array_key_exists('{{name}}', $data) ? $data['{{name}}'] : $this->{{name}};
+            {{/vars}}
+        }
     }
     {{#vars}}
 
     /**
      * Gets {{name}}.
      *
-     * @return {{{vendorExtensions.x-comment-type-for-getter}}}
+     * @return {{{vendorExtensions.x-comment-type}}}
      */
-    public function {{getter}}(){{#vendorExtensions.x-parameter-type-for-getter}}: {{vendorExtensions.x-parameter-type-for-getter}}{{/vendorExtensions.x-parameter-type-for-getter}}
+    public function {{getter}}(){{#vendorExtensions.x-parameter-type}}: {{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
     {
-        return {{#defaultValue}}$this->{{name}} ?? {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}$this->{{name}}{{/defaultValue}};
+        return $this->{{name}};
     }
 
     /**

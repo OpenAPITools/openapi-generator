@@ -66,8 +66,10 @@ class Tag
      */
     public function __construct(array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->name = $data['name'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+        }
     }
 
     /**
