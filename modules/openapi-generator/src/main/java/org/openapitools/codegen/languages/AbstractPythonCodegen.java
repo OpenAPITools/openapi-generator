@@ -1757,6 +1757,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType arrayType(IJsonSchemaValidationProperties cp) {
+            typingImports.add("List"); // for return type
             PythonType pt = new PythonType("List");
             if (cp.getMaxItems() != null) {
                 pt.constrain("max_items", cp.getMaxItems());
@@ -1768,7 +1769,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.constrain("unique_items", true);
             }
             pt.addTypeParam(getType(cp.getItems()));
-            typingImports.add("List"); // for return type
             return pt;
         }
 
@@ -1844,7 +1844,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     intt.constrain("strict", true);
 
                     typingImports.add("Union");
-
                     PythonType pt = new PythonType("Union");
                     pt.addTypeParam(floatt);
                     pt.addTypeParam(intt);
@@ -1925,7 +1924,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 typingImports.add("Union");
-
                 PythonType pt = new PythonType("Union");
                 pt.addTypeParam(bytest);
                 pt.addTypeParam(strt);
