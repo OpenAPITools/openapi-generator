@@ -68,8 +68,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             super().__init__(actual_instance=args[0])
         else:
             super().__init__(**kwargs)
-
+    {{#usePydanticV2}}
+    @field_validator('actual_instance')
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
     @validator('actual_instance')
+    {{/usePydanticV2}}
     def actual_instance_must_validate_anyof(cls, v):
         {{#isNullable}}
         if v is None:

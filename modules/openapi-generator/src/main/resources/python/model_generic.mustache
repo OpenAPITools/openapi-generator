@@ -24,7 +24,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
+    {{#usePydanticV2}}
+    @field_validator('{{{name}}}')
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
     @validator('{{{name}}}')
+    {{/usePydanticV2}}
     def {{{name}}}_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         {{^required}}
@@ -45,7 +50,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
 
+    {{#usePydanticV2}}
+    @field_validator('{{{name}}}')
+    {{/usePydanticV2}}
+    {{^usePydanticV2}}
     @validator('{{{name}}}')
+    {{/usePydanticV2}}
     def {{{name}}}_validate_enum(cls, value):
         """Validates the enum"""
         {{^required}}

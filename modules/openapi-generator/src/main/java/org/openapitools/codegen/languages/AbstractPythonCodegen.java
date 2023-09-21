@@ -871,13 +871,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
             } else if (!model.anyOf.isEmpty()) { // anyOF
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
             } else { // typical model
                 codegenProperties = model.vars;
 
@@ -1110,7 +1110,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     fieldCustomization.add("min_length=" + cp.getMinLength());
                 }
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
@@ -1229,7 +1229,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     fieldCustomization.add("max_length=" + cp.getMaxLength());
                 }
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
@@ -1347,7 +1347,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         if (cp.isEnum) {
-            pydanticImports.add("validator");
+            pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
         }
 
         /* comment out the following since Literal requires python 3.8
@@ -1397,7 +1397,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     fieldCustomization.add("min_length=" + cp.getMinLength());
                 }
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
@@ -1516,7 +1516,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     fieldCustomization.add("max_length=" + cp.getMaxLength());
                 }
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add(usePydanticV2 ? "field_validator" : "validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
