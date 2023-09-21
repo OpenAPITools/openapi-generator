@@ -21,7 +21,7 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictInt, validator
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 
 class NullableProperty(BaseModel):
     """

@@ -21,7 +21,7 @@ import re  # noqa: F401
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 

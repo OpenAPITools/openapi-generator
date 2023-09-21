@@ -19,6 +19,7 @@ pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
 pydantic = "^1.10.5, <2"
 aenum = ">=3.1.11"
+typing-extensions = ">=4.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.2.1"

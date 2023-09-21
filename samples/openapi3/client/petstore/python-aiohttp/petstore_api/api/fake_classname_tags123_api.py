@@ -19,7 +19,7 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient

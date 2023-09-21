@@ -19,7 +19,7 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 from pydantic import StrictBytes, StrictInt, StrictStr, validator
 
 from typing import List, Optional, Union

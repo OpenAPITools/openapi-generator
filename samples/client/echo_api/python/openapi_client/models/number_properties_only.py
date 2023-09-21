@@ -22,7 +22,7 @@ import json
 from typing import Optional, Union
 from pydantic import BaseModel, StrictFloat, StrictInt
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 
 class NumberPropertiesOnly(BaseModel):
     """

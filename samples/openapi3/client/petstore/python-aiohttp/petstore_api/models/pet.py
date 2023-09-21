@@ -23,7 +23,7 @@ from pydantic import BaseModel, StrictInt, StrictStr, validator
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 
 class Pet(BaseModel):
     """

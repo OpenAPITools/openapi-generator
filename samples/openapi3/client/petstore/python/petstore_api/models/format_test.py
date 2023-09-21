@@ -22,7 +22,7 @@ from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, validator
 from decimal import Decimal
 from pydantic import Field
-from typing import Annotated
+from typing_extensions import Annotated
 
 class FormatTest(BaseModel):
     """
