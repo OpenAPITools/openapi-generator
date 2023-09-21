@@ -104,7 +104,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{#mappedModels}}
     {{#-first}}
     # discriminator mappings
-    __discriminator_value_class_map = {
+    __discriminator_value_class_map: dict[str, str] = {
     {{/-first}}
         '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
     {{#-last}}

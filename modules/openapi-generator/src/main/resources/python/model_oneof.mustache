@@ -52,7 +52,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/usePydanticV2}}
 {{#discriminator}}
 
-    discriminator_value_class_map = {
+    discriminator_value_class_map: dict[str, str] = {
 {{#children}}
         '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
 {{/children}}
