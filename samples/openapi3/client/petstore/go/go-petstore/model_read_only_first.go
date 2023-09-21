@@ -134,9 +134,13 @@ func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 func (o *ReadOnlyFirst) UnmarshalJSON(bytes []byte) (err error) {
 	varReadOnlyFirst := _ReadOnlyFirst{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyFirst); err == nil {
-		*o = ReadOnlyFirst(varReadOnlyFirst)
+	err = json.Unmarshal(bytes, &varReadOnlyFirst)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyFirst(varReadOnlyFirst)
 
 	additionalProperties := make(map[string]interface{})
 

@@ -43,7 +43,6 @@ jobs:
           - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/resteasy
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson

@@ -21,6 +21,7 @@ docs/Model/ArrayTest.md
 docs/Model/Capitalization.md
 docs/Model/Cat.md
 docs/Model/Category.md
+docs/Model/ChildWithNullable.md
 docs/Model/ClassModel.md
 docs/Model/Client.md
 docs/Model/DeprecatedObject.md
@@ -52,6 +53,7 @@ docs/Model/OuterEnumDefaultValue.md
 docs/Model/OuterEnumInteger.md
 docs/Model/OuterEnumIntegerDefaultValue.md
 docs/Model/OuterObjectWithEnumProperty.md
+docs/Model/ParentWithNullable.md
 docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SingleRefType.md
@@ -80,6 +82,7 @@ src/Model/ArrayTest.php
 src/Model/Capitalization.php
 src/Model/Cat.php
 src/Model/Category.php
+src/Model/ChildWithNullable.php
 src/Model/ClassModel.php
 src/Model/Client.php
 src/Model/DeprecatedObject.php
@@ -112,6 +115,7 @@ src/Model/OuterEnumDefaultValue.php
 src/Model/OuterEnumInteger.php
 src/Model/OuterEnumIntegerDefaultValue.php
 src/Model/OuterObjectWithEnumProperty.php
+src/Model/ParentWithNullable.php
 src/Model/Pet.php
 src/Model/ReadOnlyFirst.php
 src/Model/SingleRefType.php

@@ -8,6 +8,7 @@ import org.openapitools.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -852,6 +853,48 @@ if (param2 != null)
 
 
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testNullable(ChildWithNullable childWithNullable) throws ApiException {
+    Object localVarPostBody = childWithNullable;
+    
+    // verify the required parameter 'childWithNullable' is set
+    if (childWithNullable == null) {
+      throw new ApiException(400, "Missing the required parameter 'childWithNullable' when calling testNullable");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/nullable".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * 

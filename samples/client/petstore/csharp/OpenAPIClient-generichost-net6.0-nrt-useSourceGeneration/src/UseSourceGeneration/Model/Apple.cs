@@ -228,32 +228,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The AppleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Apple))]
-    public partial class AppleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AppleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AppleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Apple))]
-    public partial class AppleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AppleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AppleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class AppleSerializationContext : JsonSerializerContext { }
 }

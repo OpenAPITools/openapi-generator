@@ -188,32 +188,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The FileSchemaTestClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(FileSchemaTestClass))]
-    public partial class FileSchemaTestClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The FileSchemaTestClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSchemaTestClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// FileSchemaTestClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(FileSchemaTestClass))]
-    public partial class FileSchemaTestClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// FileSchemaTestClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public FileSchemaTestClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class FileSchemaTestClassSerializationContext : JsonSerializerContext { }
 }

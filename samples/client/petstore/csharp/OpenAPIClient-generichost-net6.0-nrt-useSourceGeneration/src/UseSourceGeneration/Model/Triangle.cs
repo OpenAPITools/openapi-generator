@@ -280,32 +280,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The TriangleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Triangle))]
-    public partial class TriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Triangle))]
-    public partial class TriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class TriangleSerializationContext : JsonSerializerContext { }
 }

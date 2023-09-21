@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The BasquePigSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(BasquePig))]
-    public partial class BasquePigSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The BasquePigSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BasquePigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// BasquePigDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(BasquePig))]
-    public partial class BasquePigDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// BasquePigDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BasquePigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class BasquePigSerializationContext : JsonSerializerContext { }
 }

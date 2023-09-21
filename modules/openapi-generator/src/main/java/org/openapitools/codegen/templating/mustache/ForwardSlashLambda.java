@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
  *
  * Use:
  * <pre>
- * {{#fforwardslash}}{{summary}}{{/forwardslash}}
+ * {{#forwardslash}}{{summary}}{{/forwardslash}}
  * </pre>
  */
 public class ForwardSlashLambda implements Mustache.Lambda {

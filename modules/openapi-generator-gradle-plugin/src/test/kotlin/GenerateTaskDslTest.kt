@@ -4,7 +4,9 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.Test
 import java.io.File
+import java.nio.file.Files.createDirectory
 import java.nio.file.Files.createTempDirectory
+import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -55,6 +57,75 @@ class GenerateTaskDslTest : TestBase() {
         val result = GradleRunner.create()
             .withProjectDir(temp)
             .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        listOf(
+            "build/kotlin/.openapi-generator-ignore",
+            "build/kotlin/docs/PetsApi.md",
+            "build/kotlin/docs/Error.md",
+            "build/kotlin/docs/Pet.md",
+            "build/kotlin/README.md",
+            "build/kotlin/build.gradle",
+            "build/kotlin/.openapi-generator/VERSION",
+            "build/kotlin/settings.gradle",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
+        }
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
+    fun `openApiGenerate should create an expected file structure from root directory config`() {
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml"),
+            "spec-2.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.1.yaml")
+        )
+
+        // Arrange
+        val buildContents = """
+         plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpecRootDirectory = file("specs").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+        """.trimIndent()
+        val tempContractDirectory: File = createDirectory(Paths.get("${temp.path}/specs")).toFile()
+
+        File(temp, "build.gradle").writeText(buildContents)
+        projectFiles.forEach { entry ->
+            val target = File(tempContractDirectory, entry.key)
+            entry.value?.copyTo(target.outputStream())
+        }
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
             .withPluginClasspath()
             .build()
 

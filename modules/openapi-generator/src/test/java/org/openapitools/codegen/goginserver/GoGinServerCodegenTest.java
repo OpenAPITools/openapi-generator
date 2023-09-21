@@ -56,7 +56,7 @@ public class GoGinServerCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
                 "module github.com/my-user/my-repo");
         TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
-                "require github.com/gin-gonic/gin v1.9.0");
+                "require github.com/gin-gonic/gin v1.9.1");
     }
 
 }

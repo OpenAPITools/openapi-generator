@@ -13,7 +13,7 @@ install:
   - cmd: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore 
   - ps: Start-Sleep -s 120
   - ps: $PSVersionTable.PSVersion
-  - ps: Install-Module -Name Pester -Force -Scope CurrentUser
+  - ps: Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck
 build_script:
   - dotnet --info
   # build C# aspnetcore 5.0 server

@@ -62,6 +62,7 @@ public class ClassModel {
     this.propertyClass = propertyClass;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

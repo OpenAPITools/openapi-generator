@@ -37,6 +37,8 @@ model/Cat.cpp
 model/Cat.h
 model/Category.cpp
 model/Category.h
+model/ChildWithNullable.cpp
+model/ChildWithNullable.h
 model/ClassModel.cpp
 model/ClassModel.h
 model/Client.cpp
@@ -93,6 +95,8 @@ model/OuterEnumIntegerDefaultValue.cpp
 model/OuterEnumIntegerDefaultValue.h
 model/OuterObjectWithEnumProperty.cpp
 model/OuterObjectWithEnumProperty.h
+model/ParentWithNullable.cpp
+model/ParentWithNullable.h
 model/Pet.cpp
 model/Pet.h
 model/ReadOnlyFirst.cpp

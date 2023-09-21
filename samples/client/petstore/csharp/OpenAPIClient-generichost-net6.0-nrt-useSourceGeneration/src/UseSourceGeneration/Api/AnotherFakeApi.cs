@@ -92,7 +92,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class AnotherFakeApi : IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-        private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -139,7 +138,6 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, AnotherFakeApiEvents anotherFakeApiEvents,
-            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -147,7 +145,6 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            _modelClientDeserializationContext = modelClientDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = anotherFakeApiEvents;
@@ -291,7 +288,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
 

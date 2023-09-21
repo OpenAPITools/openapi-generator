@@ -194,32 +194,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The AnimalSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Animal))]
-    public partial class AnimalSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The AnimalSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AnimalSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// AnimalDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Animal))]
-    public partial class AnimalDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// AnimalDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public AnimalDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class AnimalSerializationContext : JsonSerializerContext { }
 }

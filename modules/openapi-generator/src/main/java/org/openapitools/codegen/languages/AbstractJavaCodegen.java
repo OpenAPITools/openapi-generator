@@ -83,6 +83,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+    public static final String AUTOSET_CONSTANTS = "autosetConstants";
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
@@ -137,6 +138,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+    protected boolean autosetConstants = false;
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
@@ -561,6 +563,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS_REGEX)) {
             this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
+        }
+
+        if (additionalProperties.containsKey(AUTOSET_CONSTANTS)) {
+            this.setAutosetConstants(Boolean.parseBoolean(additionalProperties.get(AUTOSET_CONSTANTS).toString()));
         }
 
         if (additionalProperties.containsKey(CAMEL_CASE_DOLLAR_SIGN)) {
@@ -1578,6 +1584,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             op.vendorExtensions.put("x-java-import", operationImports);
 
             handleImplicitHeaders(op);
+            handleConstantParams(op);
         }
 
         return objs;
@@ -2052,6 +2059,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.implicitHeadersRegex = implicitHeadersRegex;
     }
 
+    public void setAutosetConstants(boolean autosetConstants) {
+        this.autosetConstants = autosetConstants;
+    }
+
     public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
         this.camelCaseDollarSign = camelCaseDollarSign;
     }
@@ -2288,6 +2299,45 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 operation.headerParams.removeIf(header -> header.baseName.equals(p.baseName));
                 LOGGER.info("Update operation [{}]. Remove header [{}] because it's marked to be implicit", operation.operationId, p.baseName);
             } else {
+                operation.allParams.add(p);
+            }
+        }
+        operation.hasParams = !operation.allParams.isEmpty();
+    }
+
+    /**
+     * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.
+     * The definition of constant is single valued required enum params.
+     * The constantParams in the the generated code should be hardcoded to the constantValue if autosetConstants feature is enabled.
+     *
+     * @param operation - operation to be processed
+     */
+    protected void handleConstantParams(CodegenOperation operation) {
+        if (!autosetConstants || operation.allParams.isEmpty()) {            
+            return;
+        }
+        final ArrayList<CodegenParameter> copy = new ArrayList<>(operation.allParams);
+        // Remove all params from Params, Non constant params will be added back later.
+        operation.allParams.clear();
+
+        // Finds all constant params, removes them from allParams and adds them to constant params.
+        // Also, adds back non constant params to allParams.
+        for (CodegenParameter p : copy) {
+            if (p.isEnum && p.required && p._enum != null && p._enum.size() == 1) {
+                // Add to constantParams for use in the code generation templates. 
+                operation.constantParams.add(p);
+                if(p.isQueryParam) {
+                    operation.queryParams.removeIf(param -> param.baseName.equals(p.baseName));
+                }
+                if(p.isHeaderParam) {
+                    operation.headerParams.removeIf(param -> param.baseName.equals(p.baseName));
+                }
+                if(p.isCookieParam) {
+                    operation.cookieParams.removeIf(param -> param.baseName.equals(p.baseName));
+                }
+                LOGGER.info("Update operation [{}]. Remove parameter [{}] because it can only have a fixed value of [{}]", operation.operationId, p.baseName, p._enum.get(0));
+            } else {
+                // Add back to allParams as the param is not a constant.
                 operation.allParams.add(p);
             }
         }

@@ -35,7 +35,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public static final String FOLDER_STRATEGY_DEFAULT_VALUE = "Tags";
     // Select whether to create Postman variables for path templates
     public static final String PATH_PARAMS_AS_VARIABLES = "pathParamsAsVariables";
-    public static final Boolean PATH_PARAMS_AS_VARIABLES_DEFAULT_VALUE = true;
+    public static final Boolean PATH_PARAMS_AS_VARIABLES_DEFAULT_VALUE = false;
 
     public static final String POSTMAN_FILE_DEFAULT_VALUE = "postman.json";
 

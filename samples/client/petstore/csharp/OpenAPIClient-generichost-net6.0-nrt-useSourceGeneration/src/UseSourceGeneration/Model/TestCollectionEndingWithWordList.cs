@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The TestCollectionEndingWithWordListSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    public partial class TestCollectionEndingWithWordListSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The TestCollectionEndingWithWordListSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TestCollectionEndingWithWordListSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// TestCollectionEndingWithWordListDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(TestCollectionEndingWithWordList))]
-    public partial class TestCollectionEndingWithWordListDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// TestCollectionEndingWithWordListDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public TestCollectionEndingWithWordListDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class TestCollectionEndingWithWordListSerializationContext : JsonSerializerContext { }
 }

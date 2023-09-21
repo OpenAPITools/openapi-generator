@@ -383,32 +383,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The NullableClassSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(NullableClass))]
-    public partial class NullableClassSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The NullableClassSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableClassSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// NullableClassDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(NullableClass))]
-    public partial class NullableClassDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// NullableClassDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public NullableClassDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class NullableClassSerializationContext : JsonSerializerContext { }
 }

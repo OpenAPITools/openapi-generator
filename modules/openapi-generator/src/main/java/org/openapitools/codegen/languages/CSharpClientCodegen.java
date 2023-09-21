@@ -862,8 +862,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void setUseSourceGeneration(final Boolean useSourceGeneration) {
-        if (useSourceGeneration && !this.additionalProperties.containsKey(NET_60_OR_LATER)) {
-            throw new RuntimeException("Source generation is only compatible with .Net 6 or later.");
+        if (useSourceGeneration && !this.additionalProperties.containsKey(NET_70_OR_LATER)) {
+            throw new RuntimeException("Source generation is only compatible with .Net 7 or later.");
         }
         this.useSourceGeneration = useSourceGeneration;
     }

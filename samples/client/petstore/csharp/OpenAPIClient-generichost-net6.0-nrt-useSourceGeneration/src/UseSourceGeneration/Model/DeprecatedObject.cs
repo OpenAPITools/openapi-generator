@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The DeprecatedObjectSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DeprecatedObject))]
-    public partial class DeprecatedObjectSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DeprecatedObjectSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DeprecatedObjectSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DeprecatedObjectDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(DeprecatedObject))]
-    public partial class DeprecatedObjectDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DeprecatedObjectDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DeprecatedObjectDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class DeprecatedObjectSerializationContext : JsonSerializerContext { }
 }

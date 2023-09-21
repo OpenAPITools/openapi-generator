@@ -354,32 +354,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The OrderSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Order))]
-    public partial class OrderSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The OrderSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OrderSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// OrderDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Order))]
-    public partial class OrderDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// OrderDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public OrderDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class OrderSerializationContext : JsonSerializerContext { }
 }

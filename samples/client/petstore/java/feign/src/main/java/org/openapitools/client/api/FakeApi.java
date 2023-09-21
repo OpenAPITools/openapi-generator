@@ -5,6 +5,7 @@ import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -836,6 +837,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   ApiResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
+
+
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testNullable(ChildWithNullable childWithNullable);
+
+  /**
+   * test nullable parent property
+   * Similar to <code>testNullable</code> but it also returns the http response headers .
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable);
 
 
 

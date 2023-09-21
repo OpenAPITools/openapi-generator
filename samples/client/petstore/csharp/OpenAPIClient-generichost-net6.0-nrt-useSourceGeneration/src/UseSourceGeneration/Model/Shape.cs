@@ -249,32 +249,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ShapeSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Shape))]
-    public partial class ShapeSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ShapeSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ShapeDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Shape))]
-    public partial class ShapeDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ShapeDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ShapeDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ShapeSerializationContext : JsonSerializerContext { }
 }
