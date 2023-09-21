@@ -172,18 +172,39 @@ public class {{classname}} {
         }
 
         {{/queryParams}}
+        {{#constantParams}}
+        {{#isQueryParam}}
+        // Set client side default value of Query Param "{{baseName}}".
+        localVarCollectionQueryParams.add(new Pair("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}}));
+
+        {{/isQueryParam}}
+        {{/constantParams}}
         {{#headerParams}}
         if ({{paramName}} != null) {
             localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
         }
 
         {{/headerParams}}
+        {{#constantParams}}
+        {{#isHeaderParam}}
+        // Set client side default value of Header Param "{{baseName}}".
+        localVarHeaderParams.put("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}});
+
+        {{/isHeaderParam}}
+        {{/constantParams}}
         {{#cookieParams}}
         if ({{paramName}} != null) {
             localVarCookieParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
         }
 
         {{/cookieParams}}
+        {{#constantParams}}
+        {{#isCookieParam}}
+        // Set client side default value of Cookie Param "{{baseName}}".
+        localVarCookieParams.put("{{baseName}}", {{#_enum}}"{{{.}}}"{{/_enum}});
+
+        {{/isCookieParam}}
+        {{/constantParams}}
         {{/dynamicOperations}}
         {{#dynamicOperations}}
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);

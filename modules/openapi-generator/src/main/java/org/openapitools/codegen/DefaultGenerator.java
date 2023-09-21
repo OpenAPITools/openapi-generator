@@ -1334,8 +1334,10 @@ public class DefaultGenerator implements Generator {
         for (Map.Entry<String, Schema> definitionsEntry : definitions.entrySet()) {
             String key = definitionsEntry.getKey();
             Schema schema = definitionsEntry.getValue();
-            if (schema == null)
-                throw new RuntimeException("schema cannot be null in processModels");
+            if (schema == null) {
+                LOGGER.warn("Schema {} cannot be null in processModels", key);
+                continue;
+            }
             CodegenModel cm = config.fromModel(key, schema);
             ModelMap mo = new ModelMap();
             mo.setModel(cm);
