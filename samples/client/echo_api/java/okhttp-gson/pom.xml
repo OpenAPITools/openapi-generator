@@ -341,7 +341,7 @@
         <commons-lang3-version>3.12.0</commons-lang3-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-        <junit-version>5.9.1</junit-version>
+        <junit-version>5.10.0</junit-version>
         <junit-platform-runner.version>1.9.1</junit-platform-runner.version>
         <mockito-core-version>3.12.4</mockito-core-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
