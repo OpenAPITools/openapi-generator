@@ -226,7 +226,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
         # and __fields_set__ contains the field
-        if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
+        if self.{{name}} is None and "{{{name}}}" in self.{{#usePydanticV2}}model_fields_set{{/usePydanticV2}}{{^usePydanticV2}}__fields_set__{{/usePydanticV2}}:
             _dict['{{{baseName}}}'] = None
 
         {{/isNullable}}
