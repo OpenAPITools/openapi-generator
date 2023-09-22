@@ -19,7 +19,7 @@ jobs:
           - "3.8"
           - "3.9"
           - "3.10"
-          #- "3.11"
+          - "3.11"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
           - samples/openapi3/client/petstore/python
