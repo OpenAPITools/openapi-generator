@@ -130,6 +130,7 @@ public class PostmanCollectionCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("postman-collection")
                 .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, true)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -165,6 +166,7 @@ public class PostmanCollectionCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("postman-collection")
                 .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, true)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -197,6 +199,7 @@ public class PostmanCollectionCodegenTest {
                 .setGeneratorName("postman-collection")
                 .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_VARIABLES, false)
                 .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, true)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -224,7 +227,6 @@ public class PostmanCollectionCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("postman-collection")
-                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, false)
                 .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
@@ -277,6 +279,7 @@ public class PostmanCollectionCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("postman-collection")
                 .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, true)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();

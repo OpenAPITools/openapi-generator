@@ -291,7 +291,7 @@ class PetApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['pet_id']:
+        if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
@@ -299,7 +299,7 @@ class PetApi:
         _query_params = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['api_key']:
+        if _params['api_key'] is not None:
             _header_params['api_key'] = _params['api_key']
 
         # process the form parameters
@@ -714,7 +714,7 @@ class PetApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['pet_id']:
+        if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
@@ -1007,7 +1007,7 @@ class PetApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['pet_id']:
+        if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
@@ -1018,10 +1018,10 @@ class PetApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['name']:
+        if _params['name'] is not None:
             _form_params.append(('name', _params['name']))
 
-        if _params['status']:
+        if _params['status'] is not None:
             _form_params.append(('status', _params['status']))
 
         # process the body parameter
@@ -1164,7 +1164,7 @@ class PetApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['pet_id']:
+        if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
@@ -1175,10 +1175,10 @@ class PetApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['additional_metadata']:
+        if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
-        if _params['file']:
+        if _params['file'] is not None:
             _files['file'] = _params['file']
 
         # process the body parameter
@@ -1327,7 +1327,7 @@ class PetApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['pet_id']:
+        if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
@@ -1338,10 +1338,10 @@ class PetApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['additional_metadata']:
+        if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
-        if _params['required_file']:
+        if _params['required_file'] is not None:
             _files['requiredFile'] = _params['required_file']
 
         # process the body parameter

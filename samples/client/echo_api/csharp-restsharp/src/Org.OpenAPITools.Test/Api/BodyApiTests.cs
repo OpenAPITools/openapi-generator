@@ -19,6 +19,7 @@ using Xunit;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Model;
 // uncomment below to import models
 //using Org.OpenAPITools.Model;
 
@@ -96,10 +97,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void TestEchoBodyPetTest()
         {
-            // TODO uncomment below to test the method and replace null with proper value
-            //Pet? pet = null;
-            //var response = instance.TestEchoBodyPet(pet);
-            //Assert.IsType<Pet>(response);
+            Pet? pet = new Pet(123, "cat", new Category() { Id = 12, Name = "Test" }, new List<string>(){"http://google.com"},null, null);
+            var response = instance.TestEchoBodyPet(pet);
+            Assert.IsType<Pet>(response);
         }
 
         /// <summary>

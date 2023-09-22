@@ -24,7 +24,7 @@ import json
 
 import urllib3
 
-HOST = 'http://petstore.swagger.io/v2'
+HOST = 'http://localhost/v2'
 
 
 class TimeoutWithEqual(urllib3.Timeout):
