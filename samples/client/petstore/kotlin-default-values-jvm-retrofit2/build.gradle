@@ -9,7 +9,7 @@ wrapper {
 buildscript {
     ext.kotlin_version = '1.8.10'
     ext.retrofitVersion = '2.9.0'
-    ext.spotless_version = "6.21.0"
+    ext.spotless_version = "6.13.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }

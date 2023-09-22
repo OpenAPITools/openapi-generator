@@ -10,7 +10,7 @@ buildscript {
     ext.kotlin_version = '1.8.10'
     ext.spring_boot_version = "2.7.12"
     ext.reactor_version = "3.5.6"
-    ext.spotless_version = "6.21.0"
+    ext.spotless_version = "6.13.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
