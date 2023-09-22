@@ -40,6 +40,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
+    
     ResponseEntity<Pet> addPet(
          @Valid @RequestBody Pet pet
     );
@@ -57,6 +58,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
+    
     ResponseEntity<Void> deletePet(
          @PathVariable("petId") Long petId,
          @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
@@ -76,6 +78,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = "application/json"
     )
+    
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
@@ -96,6 +99,7 @@ public interface PetApi {
         value = "/pet/findByTags",
         produces = "application/json"
     )
+    
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
     );
@@ -115,6 +119,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
+    
     ResponseEntity<Pet> getPetById(
          @PathVariable("petId") Long petId
     );
@@ -138,6 +143,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
+    
     ResponseEntity<Pet> updatePet(
          @Valid @RequestBody Pet pet
     );
@@ -157,6 +163,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
+    
     ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) String name,
@@ -179,6 +186,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
+    
     ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,

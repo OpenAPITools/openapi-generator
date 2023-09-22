@@ -146,10 +146,10 @@ class PathApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['path_string']:
+        if _params['path_string'] is not None:
             _path_params['path_string'] = _params['path_string']
 
-        if _params['path_integer']:
+        if _params['path_integer'] is not None:
             _path_params['path_integer'] = _params['path_integer']
 
 

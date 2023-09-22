@@ -158,13 +158,13 @@ class HeaderApi:
         _query_params = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['integer_header']:
+        if _params['integer_header'] is not None:
             _header_params['integer_header'] = _params['integer_header']
 
-        if _params['boolean_header']:
+        if _params['boolean_header'] is not None:
             _header_params['boolean_header'] = _params['boolean_header']
 
-        if _params['string_header']:
+        if _params['string_header'] is not None:
             _header_params['string_header'] = _params['string_header']
 
         # process the form parameters
