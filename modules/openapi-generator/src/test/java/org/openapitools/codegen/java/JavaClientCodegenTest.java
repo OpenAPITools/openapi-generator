@@ -1570,11 +1570,6 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testExtraAnnotationsJersey1() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.JERSEY1);
-    }
-
-    @Test
     public void testExtraAnnotationsJersey2() throws IOException {
         testExtraAnnotations(JavaClientCodegen.JERSEY2);
     }
