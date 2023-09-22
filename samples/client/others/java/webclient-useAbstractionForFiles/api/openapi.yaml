@@ -1,0 +1,25 @@
+openapi: 3.0.1
+info:
+  title: Response file abstraction test
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /resource:
+    get:
+      description: Response file abstraction
+      operationId: resourceInResponse
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: Successful operation
+      tags:
+      - resource
+      x-accepts: application/octet-stream
+components:
+  schemas: {}
+
