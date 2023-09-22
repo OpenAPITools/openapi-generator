@@ -127,7 +127,19 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                     {{paramName}};
                 {{/isDate}}
                 {{^isDate}}
+                {{#isExplode}}
+                {{#isPrimitiveType}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+                for (let param of Object.keys({{baseName}})) {
+                    localVarQueryParameter[param] = {{baseName}}?.[param];
+                }
+                {{/isPrimitiveType}}
+                {{/isExplode}}
+                {{^isExplode}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
+                {{/isExplode}}
                 {{/isDate}}
                 {{/isDateTime}}
             }
