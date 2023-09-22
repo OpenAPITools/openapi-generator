@@ -100,9 +100,13 @@ func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {
 	varMapOfFileTest := _MapOfFileTest{}
 
-	if err = json.Unmarshal(bytes, &varMapOfFileTest); err == nil {
-		*o = MapOfFileTest(varMapOfFileTest)
+	err = json.Unmarshal(bytes, &varMapOfFileTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = MapOfFileTest(varMapOfFileTest)
 
 	additionalProperties := make(map[string]interface{})
 

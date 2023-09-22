@@ -438,6 +438,10 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isObjectSchema(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         return (schema instanceof ObjectSchema) ||
                 // must not be a map
                 (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) ||
@@ -549,6 +553,10 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         // additionalProperties explicitly set to false
         if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
             return false;
@@ -1858,6 +1866,10 @@ public class ModelUtils {
      * @return true if the schema contains oneOf but no properties/allOf/anyOf defined.
      */
     public static boolean isOneOf(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         if (hasOneOf(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
                 (schema.getAllOf() == null || schema.getAllOf().isEmpty()) &&
                 (schema.getAnyOf() == null || schema.getAnyOf().isEmpty())) {
@@ -1875,7 +1887,7 @@ public class ModelUtils {
      * @return true if allOf is not empty
      */
     public static boolean hasOneOf(Schema schema) {
-        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+        if (schema != null && schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
             return true;
         }
 
@@ -1890,6 +1902,10 @@ public class ModelUtils {
      * @return true if the schema contains oneOf but no properties/allOf/anyOf defined.
      */
     public static boolean isAnyOf(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
         if (hasAnyOf(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
                 (schema.getAllOf() == null || schema.getAllOf().isEmpty()) &&
                 (schema.getOneOf() == null || schema.getOneOf().isEmpty())) {
@@ -1907,7 +1923,7 @@ public class ModelUtils {
      * @return true if anyOf is not empty
      */
     public static boolean hasAnyOf(Schema schema) {
-        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+        if (schema != null && schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
             return true;
         }
 

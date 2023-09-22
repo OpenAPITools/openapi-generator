@@ -92,7 +92,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-        private ModelClientDeserializationContext _modelClientDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -139,7 +138,6 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeClassnameTags123ApiEvents fakeClassnameTags123ApiEvents,
-            ModelClientDeserializationContext modelClientDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -147,7 +145,6 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            _modelClientDeserializationContext = modelClientDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeClassnameTags123ApiEvents;
@@ -302,7 +299,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar, _modelClientDeserializationContext.ModelClient);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestClassnameDefaultImplementation(apiResponseLocalVar, modelClient);
 

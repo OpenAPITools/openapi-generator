@@ -207,32 +207,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ArrayTestSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ArrayTest))]
-    public partial class ArrayTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ArrayTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ArrayTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ArrayTest))]
-    public partial class ArrayTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ArrayTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ArrayTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ArrayTestSerializationContext : JsonSerializerContext { }
 }

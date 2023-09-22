@@ -834,32 +834,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The EnumTestSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The EnumTestSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumTestSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// EnumTestDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// EnumTestDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public EnumTestDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class EnumTestSerializationContext : JsonSerializerContext { }
 }

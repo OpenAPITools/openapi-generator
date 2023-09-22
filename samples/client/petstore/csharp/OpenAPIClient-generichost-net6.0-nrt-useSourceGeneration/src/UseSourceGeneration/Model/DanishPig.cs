@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The DanishPigSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(DanishPig))]
-    public partial class DanishPigSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DanishPigSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DanishPigSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DanishPigDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(DanishPig))]
-    public partial class DanishPigDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DanishPigDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DanishPigDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class DanishPigSerializationContext : JsonSerializerContext { }
 }

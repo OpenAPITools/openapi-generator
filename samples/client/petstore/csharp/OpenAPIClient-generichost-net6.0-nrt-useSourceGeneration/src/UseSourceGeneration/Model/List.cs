@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ListSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(List))]
-    public partial class ListSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ListSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ListSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ListDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(List))]
-    public partial class ListDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ListDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ListDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ListSerializationContext : JsonSerializerContext { }
 }

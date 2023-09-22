@@ -177,32 +177,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The IsoscelesTriangleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(IsoscelesTriangle))]
-    public partial class IsoscelesTriangleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The IsoscelesTriangleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public IsoscelesTriangleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// IsoscelesTriangleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(IsoscelesTriangle))]
-    public partial class IsoscelesTriangleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// IsoscelesTriangleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public IsoscelesTriangleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class IsoscelesTriangleSerializationContext : JsonSerializerContext { }
 }

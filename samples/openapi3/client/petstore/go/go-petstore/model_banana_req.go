@@ -125,9 +125,13 @@ func (o BananaReq) ToMap() (map[string]interface{}, error) {
 func (o *BananaReq) UnmarshalJSON(bytes []byte) (err error) {
 	varBananaReq := _BananaReq{}
 
-	if err = json.Unmarshal(bytes, &varBananaReq); err == nil {
-		*o = BananaReq(varBananaReq)
+	err = json.Unmarshal(bytes, &varBananaReq)
+
+	if err != nil {
+		return err
 	}
+
+	*o = BananaReq(varBananaReq)
 
 	additionalProperties := make(map[string]interface{})
 

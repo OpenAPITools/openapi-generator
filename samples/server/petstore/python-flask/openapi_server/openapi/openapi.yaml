@@ -780,6 +780,14 @@ components:
           type: string
       title: An uploaded response
       type: object
+    EnumModel:
+      enum:
+      - available>
+      - pending<
+      - sold
+      - "1"
+      - "2"
+      type: string
     updatePetWithForm_request:
       properties:
         name:

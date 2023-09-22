@@ -98,9 +98,13 @@ func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {
 	varFooGetDefaultResponse := _FooGetDefaultResponse{}
 
-	if err = json.Unmarshal(bytes, &varFooGetDefaultResponse); err == nil {
-		*o = FooGetDefaultResponse(varFooGetDefaultResponse)
+	err = json.Unmarshal(bytes, &varFooGetDefaultResponse)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FooGetDefaultResponse(varFooGetDefaultResponse)
 
 	additionalProperties := make(map[string]interface{})
 

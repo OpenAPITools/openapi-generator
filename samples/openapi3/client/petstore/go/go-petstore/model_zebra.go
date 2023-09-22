@@ -125,9 +125,13 @@ func (o Zebra) ToMap() (map[string]interface{}, error) {
 func (o *Zebra) UnmarshalJSON(bytes []byte) (err error) {
 	varZebra := _Zebra{}
 
-	if err = json.Unmarshal(bytes, &varZebra); err == nil {
-		*o = Zebra(varZebra)
+	err = json.Unmarshal(bytes, &varZebra)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Zebra(varZebra)
 
 	additionalProperties := make(map[string]interface{})
 

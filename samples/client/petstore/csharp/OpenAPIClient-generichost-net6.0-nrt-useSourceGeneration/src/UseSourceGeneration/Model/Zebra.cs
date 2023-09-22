@@ -283,32 +283,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ZebraSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Zebra))]
-    public partial class ZebraSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ZebraSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZebraSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ZebraDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Zebra))]
-    public partial class ZebraDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ZebraDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ZebraDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ZebraSerializationContext : JsonSerializerContext { }
 }

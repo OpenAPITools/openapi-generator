@@ -135,7 +135,7 @@
     <version.framework>0.1.1</version.framework>
     <version.jackson>2.14.1</version.jackson>
     <version.httpasyncclient>4.1.2</version.httpasyncclient>
-    <version.undertow>2.2.24.Final</version.undertow>
+    <version.undertow>2.3.5.Final</version.undertow>
     <version.slf4j>1.7.21</version.slf4j>
     <version.jackson.databind>2.14.1</version.jackson.databind>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

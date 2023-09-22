@@ -231,32 +231,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The DrawingSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Drawing))]
-    public partial class DrawingSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The DrawingSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DrawingSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// DrawingDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Drawing))]
-    public partial class DrawingDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// DrawingDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public DrawingDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class DrawingSerializationContext : JsonSerializerContext { }
 }

@@ -221,32 +221,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The HasOnlyReadOnlySerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HasOnlyReadOnly))]
-    public partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The HasOnlyReadOnlySerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HasOnlyReadOnlySerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// HasOnlyReadOnlyDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(HasOnlyReadOnly))]
-    public partial class HasOnlyReadOnlyDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// HasOnlyReadOnlyDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HasOnlyReadOnlyDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class HasOnlyReadOnlySerializationContext : JsonSerializerContext { }
 }

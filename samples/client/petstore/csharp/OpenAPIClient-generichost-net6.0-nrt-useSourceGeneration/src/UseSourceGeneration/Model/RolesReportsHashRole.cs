@@ -167,32 +167,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The RolesReportsHashRoleSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(RolesReportsHashRole))]
-    public partial class RolesReportsHashRoleSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The RolesReportsHashRoleSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public RolesReportsHashRoleSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// RolesReportsHashRoleDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(RolesReportsHashRole))]
-    public partial class RolesReportsHashRoleDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// RolesReportsHashRoleDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public RolesReportsHashRoleDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class RolesReportsHashRoleSerializationContext : JsonSerializerContext { }
 }

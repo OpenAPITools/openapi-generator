@@ -186,32 +186,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ActivityOutputElementRepresentationSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    public partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ActivityOutputElementRepresentationSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivityOutputElementRepresentationSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ActivityOutputElementRepresentationDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ActivityOutputElementRepresentation))]
-    public partial class ActivityOutputElementRepresentationDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ActivityOutputElementRepresentationDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ActivityOutputElementRepresentationDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ActivityOutputElementRepresentationSerializationContext : JsonSerializerContext { }
 }

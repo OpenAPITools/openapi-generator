@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -962,6 +963,54 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+    /**
+    * test nullable parent property
+    * 
+        * @param childWithNullable request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, Handler<AsyncResult<Void>> resultHandler) {
+        testNullable(childWithNullable, null, resultHandler);
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = childWithNullable;
+        
+        // verify the required parameter 'childWithNullable' is set
+        if (childWithNullable == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'childWithNullable' when calling testNullable"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/nullable";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
     * 

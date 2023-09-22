@@ -219,7 +219,6 @@ namespace UseSourceGeneration.Api
     public sealed partial class StoreApi : IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-        private OrderDeserializationContext _orderDeserializationContext;
 
         /// <summary>
         /// The logger
@@ -266,7 +265,6 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <returns></returns>
         public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, StoreApiEvents storeApiEvents,
-            OrderDeserializationContext orderDeserializationContext,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -274,7 +272,6 @@ namespace UseSourceGeneration.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            _orderDeserializationContext = orderDeserializationContext;
             Logger = logger;
             HttpClient = httpClient;
             Events = storeApiEvents;
@@ -651,7 +648,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _orderDeserializationContext.Order);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
 
@@ -803,7 +800,7 @@ namespace UseSourceGeneration.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _orderDeserializationContext.Order);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
 

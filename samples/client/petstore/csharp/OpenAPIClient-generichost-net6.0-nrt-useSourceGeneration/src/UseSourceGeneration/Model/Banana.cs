@@ -168,32 +168,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The BananaSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(Banana))]
-    public partial class BananaSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The BananaSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// BananaDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(Banana))]
-    public partial class BananaDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// BananaDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public BananaDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class BananaSerializationContext : JsonSerializerContext { }
 }

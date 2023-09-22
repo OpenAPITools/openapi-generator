@@ -164,32 +164,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The HealthCheckResultSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(HealthCheckResult))]
-    public partial class HealthCheckResultSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The HealthCheckResultSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HealthCheckResultSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// HealthCheckResultDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(HealthCheckResult))]
-    public partial class HealthCheckResultDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// HealthCheckResultDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public HealthCheckResultDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class HealthCheckResultSerializationContext : JsonSerializerContext { }
 }

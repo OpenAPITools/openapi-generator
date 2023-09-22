@@ -226,32 +226,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// The ObjectWithDeprecatedFieldsSerializationContext
     /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Serialization)]
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
-    public partial class ObjectWithDeprecatedFieldsSerializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// The ObjectWithDeprecatedFieldsSerializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ObjectWithDeprecatedFieldsSerializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
-
-    /// <summary>
-    /// ObjectWithDeprecatedFieldsDeserializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
-    [JsonSerializable(typeof(ObjectWithDeprecatedFields))]
-    public partial class ObjectWithDeprecatedFieldsDeserializationContext : JsonSerializerContext
-    {
-        /// <summary>
-        /// ObjectWithDeprecatedFieldsDeserializationContext
-        /// </summary>
-        /// <param name="optionsProvider"></param>
-        public ObjectWithDeprecatedFieldsDeserializationContext(JsonSerializerOptionsProvider optionsProvider): base(new(optionsProvider.Options))
-        {
-        }
-    }
+    public partial class ObjectWithDeprecatedFieldsSerializationContext : JsonSerializerContext { }
 }
