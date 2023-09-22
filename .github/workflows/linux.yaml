@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.9.0
+        uses: s4u/setup-maven-action@v1.10.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -87,7 +87,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.9.0
+        uses: s4u/setup-maven-action@v1.10.0
         with:
           java-version: 11
           maven-version: 3.8.8
