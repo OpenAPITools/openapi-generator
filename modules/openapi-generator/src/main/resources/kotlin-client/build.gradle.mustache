@@ -37,7 +37,7 @@ buildscript {
     {{/useSpringBoot3}}
     ext.reactor_version = "3.5.6"
     {{/jvm-spring-webclient}}
-    ext.spotless = "6.21.0"
+    ext.spotless_version = "6.21.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -47,6 +47,7 @@ buildscript {
         {{#kotlinx_serialization}}
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         {{/kotlinx_serialization}}
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
     }
 }
 
@@ -88,14 +89,8 @@ spotless {
         indentWithSpaces() // Takes an integer argument if you don't like 4
         endWithNewline()
     }
-    java {
-        // don't need to set target, it is inferred from java
-
-        // apply a specific flavor of google-java-format
-        googleJavaFormat('1.8').aosp().reflowLongStrings()
-
-        removeUnusedImports()
-        importOrder()
+    kotlin {
+        ktfmt()
     }
 }
 

@@ -9,7 +9,7 @@ wrapper {
 buildscript {
     ext.kotlin_version = '1.8.10'
     ext.retrofitVersion = '2.9.0'
-    ext.spotless = "6.21.0"
+    ext.spotless_version = "6.21.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -17,6 +17,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
     }
 }
 
@@ -45,14 +46,8 @@ spotless {
         indentWithSpaces() // Takes an integer argument if you don't like 4
         endWithNewline()
     }
-    java {
-        // don't need to set target, it is inferred from java
-
-        // apply a specific flavor of google-java-format
-        googleJavaFormat('1.8').aosp().reflowLongStrings()
-
-        removeUnusedImports()
-        importOrder()
+    kotlin {
+        ktfmt()
     }
 }
 
