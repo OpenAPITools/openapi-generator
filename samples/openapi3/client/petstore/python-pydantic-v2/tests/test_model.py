@@ -291,13 +291,14 @@ class ModelTests(unittest.TestCase):
             p2 = petstore_api.AnyOfPig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
+            self.maxDiff = None
             error_message = (
                 "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
                 "DanishPig. Details: 1 validation error for BasquePig\n"
-                "__root__\n"
-                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
-                "__root__\n"
-                "  DanishPig expected dict not int (type=type_error)")
+                "  Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value=1, input_type=int]\n"
+                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type, 1 validation error for DanishPig\n"
+                "  Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value=1, input_type=int]\n"
+                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type")
             self.assertEqual(str(e), error_message)
 
         # test to_json
