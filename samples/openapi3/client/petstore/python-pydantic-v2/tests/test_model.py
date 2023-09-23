@@ -93,12 +93,12 @@ class ModelTests(unittest.TestCase):
         try:
             new_color.oneof_schema_1_validator = array_of_integers
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for Color" in str(e))
 
         try:
             new_color.actual_instance = array_of_integers
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for Color" in str(e))
 
         # test from_josn
         json_str = '[12,34,56]'
@@ -108,7 +108,7 @@ class ModelTests(unittest.TestCase):
         try:
             p = petstore_api.Color.from_json('[2342112,0,0,0]')
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for Color" in str(e))
 
         # test to_json, to_dict method
         json_str = '[12,34,56]'
@@ -170,12 +170,12 @@ class ModelTests(unittest.TestCase):
         try:
             new_color.anyof_schema_1_validator = array_of_integers
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for AnyOfColor" in str(e))
 
         try:
             new_color.actual_instance = array_of_integers
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for AnyOfColor" in str(e))
 
         # test from_josn
         json_str = '[12,34,56]'
@@ -185,7 +185,7 @@ class ModelTests(unittest.TestCase):
         try:
             p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
         except ValueError as e:
-            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+            self.assertTrue("1 validation error for AnyOfColor" in str(e))
 
     def test_oneOf(self):
         # test new Pig
@@ -321,9 +321,10 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             #error_message = (
             #    "1 validation error for List\n"
-            #    "123-list\n"
-            #    "  str type expected (type=type_error.str)\n")
-            self.assertTrue("str type expected" in str(e))
+            #    "var_123_list\n"
+            #    "  Input should be a valid string [type=string_type, input_value=123, input_type=int]\n"
+            #    "    For further information visit https://errors.pydantic.dev/2.3/v/string_type
+            self.assertTrue("Input should be a valid string" in str(e))
 
         l = petstore_api.List(var_123_list="bulldog")
         self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
@@ -348,9 +349,9 @@ class ModelTests(unittest.TestCase):
         d4 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=None)
         self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
         d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d5.__fields_set__, {'value'})
+        self.assertEqual(d5.model_fields_set, {'value'})
         d5.str_value = None # set None explicitly
-        self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
+        self.assertEqual(d5.model_fields_set, {'value', 'str_value'})
         self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):
@@ -482,7 +483,7 @@ class ModelTests(unittest.TestCase):
         try:
             a = petstore_api.IntOrString(1)
         except ValueError as e:
-            self.assertTrue("ensure this value is greater than or equal to 10" in str(e))
+            self.assertTrue("1 validation error for IntOrString" in str(e))
 
     def test_map_of_array_of_model(self):
         a = petstore_api.MapOfArrayOfModel()
