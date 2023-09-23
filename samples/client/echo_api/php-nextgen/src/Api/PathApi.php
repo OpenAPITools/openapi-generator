@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -35,6 +36,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -53,22 +55,22 @@ class PathApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -77,17 +79,17 @@ class PathApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -100,7 +102,7 @@ class PathApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -110,7 +112,7 @@ class PathApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -118,7 +120,7 @@ class PathApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -132,11 +134,15 @@ class PathApi
      * @param  int $path_integer path_integer (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testsPathStringPathStringIntegerPathInteger($path_string, $path_integer, string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0])
+    public function testsPathStringPathStringIntegerPathInteger(
+        string $path_string,
+        int $path_integer,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+    ): string
     {
         list($response) = $this->testsPathStringPathStringIntegerPathIntegerWithHttpInfo($path_string, $path_integer, $contentType);
         return $response;
@@ -151,11 +157,15 @@ class PathApi
      * @param  int $path_integer (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testsPathStringPathStringIntegerPathIntegerWithHttpInfo($path_string, $path_integer, string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0])
+    public function testsPathStringPathStringIntegerPathIntegerWithHttpInfo(
+        string $path_string,
+        int $path_integer,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+    ): array
     {
         $request = $this->testsPathStringPathStringIntegerPathIntegerRequest($path_string, $path_integer, $contentType);
 
@@ -252,10 +262,14 @@ class PathApi
      * @param  int $path_integer (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testsPathStringPathStringIntegerPathIntegerAsync($path_string, $path_integer, string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0])
+    public function testsPathStringPathStringIntegerPathIntegerAsync(
+        string $path_string,
+        int $path_integer,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+    ): PromiseInterface
     {
         return $this->testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo($path_string, $path_integer, $contentType)
             ->then(
@@ -274,10 +288,14 @@ class PathApi
      * @param  int $path_integer (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo($path_string, $path_integer, string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0])
+    public function testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo(
+        $path_string,
+        $path_integer,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testsPathStringPathStringIntegerPathIntegerRequest($path_string, $path_integer, $contentType);
@@ -325,22 +343,26 @@ class PathApi
      * @param  int $path_integer (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testsPathStringPathStringIntegerPathIntegerRequest($path_string, $path_integer, string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0])
+    public function testsPathStringPathStringIntegerPathIntegerRequest(
+        $path_string,
+        $path_integer,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+    ): Request
     {
 
         // verify the required parameter 'path_string' is set
         if ($path_string === null || (is_array($path_string) && count($path_string) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $path_string when calling testsPathStringPathStringIntegerPathInteger'
             );
         }
 
         // verify the required parameter 'path_integer' is set
         if ($path_integer === null || (is_array($path_integer) && count($path_integer) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $path_integer when calling testsPathStringPathStringIntegerPathInteger'
             );
         }
@@ -432,7 +454,7 @@ class PathApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

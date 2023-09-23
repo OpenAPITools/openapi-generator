@@ -4923,11 +4923,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request, string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0])
+    public function testInlineFreeformAdditionalProperties(
+        \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
+        string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
+    ): void
     {
         $this->testInlineFreeformAdditionalPropertiesWithHttpInfo($test_inline_freeform_additional_properties_request, $contentType);
     }
@@ -4940,11 +4943,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testInlineFreeformAdditionalPropertiesWithHttpInfo($test_inline_freeform_additional_properties_request, string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0])
+    public function testInlineFreeformAdditionalPropertiesWithHttpInfo(
+        \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
+        string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
+    ): array
     {
         $request = $this->testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request, $contentType);
 
@@ -5000,10 +5006,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testInlineFreeformAdditionalPropertiesAsync($test_inline_freeform_additional_properties_request, string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0])
+    public function testInlineFreeformAdditionalPropertiesAsync(
+        \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
+        string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
+    ): PromiseInterface
     {
         return $this->testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo($test_inline_freeform_additional_properties_request, $contentType)
             ->then(
@@ -5021,10 +5030,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo($test_inline_freeform_additional_properties_request, string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0])
+    public function testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo(
+        $test_inline_freeform_additional_properties_request,
+        string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request, $contentType);
@@ -5058,15 +5070,18 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testInlineFreeformAdditionalPropertiesRequest($test_inline_freeform_additional_properties_request, string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0])
+    public function testInlineFreeformAdditionalPropertiesRequest(
+        $test_inline_freeform_additional_properties_request,
+        string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
+    ): Request
     {
 
         // verify the required parameter 'test_inline_freeform_additional_properties_request' is set
         if ($test_inline_freeform_additional_properties_request === null || (is_array($test_inline_freeform_additional_properties_request) && count($test_inline_freeform_additional_properties_request) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $test_inline_freeform_additional_properties_request when calling testInlineFreeformAdditionalProperties'
             );
         }
@@ -5412,11 +5427,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testNullable($child_with_nullable, string $contentType = self::contentTypes['testNullable'][0])
+    public function testNullable(
+        \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
+        string $contentType = self::contentTypes['testNullable'][0]
+    ): void
     {
         $this->testNullableWithHttpInfo($child_with_nullable, $contentType);
     }
@@ -5429,11 +5447,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testNullableWithHttpInfo($child_with_nullable, string $contentType = self::contentTypes['testNullable'][0])
+    public function testNullableWithHttpInfo(
+        \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
+        string $contentType = self::contentTypes['testNullable'][0]
+    ): array
     {
         $request = $this->testNullableRequest($child_with_nullable, $contentType);
 
@@ -5489,10 +5510,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testNullableAsync($child_with_nullable, string $contentType = self::contentTypes['testNullable'][0])
+    public function testNullableAsync(
+        \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
+        string $contentType = self::contentTypes['testNullable'][0]
+    ): PromiseInterface
     {
         return $this->testNullableAsyncWithHttpInfo($child_with_nullable, $contentType)
             ->then(
@@ -5510,10 +5534,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testNullableAsyncWithHttpInfo($child_with_nullable, string $contentType = self::contentTypes['testNullable'][0])
+    public function testNullableAsyncWithHttpInfo(
+        $child_with_nullable,
+        string $contentType = self::contentTypes['testNullable'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testNullableRequest($child_with_nullable, $contentType);
@@ -5547,15 +5574,18 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testNullableRequest($child_with_nullable, string $contentType = self::contentTypes['testNullable'][0])
+    public function testNullableRequest(
+        $child_with_nullable,
+        string $contentType = self::contentTypes['testNullable'][0]
+    ): Request
     {
 
         // verify the required parameter 'child_with_nullable' is set
         if ($child_with_nullable === null || (is_array($child_with_nullable) && count($child_with_nullable) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $child_with_nullable when calling testNullable'
             );
         }
