@@ -91,6 +91,7 @@ docs/models/SpecialModelName.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
+docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -217,6 +218,7 @@ src/UseSourceGeneration/Model/SpecialModelName.cs
 src/UseSourceGeneration/Model/Tag.cs
 src/UseSourceGeneration/Model/TestCollectionEndingWithWordList.cs
 src/UseSourceGeneration/Model/TestCollectionEndingWithWordListObject.cs
+src/UseSourceGeneration/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
 src/UseSourceGeneration/Model/Triangle.cs
 src/UseSourceGeneration/Model/TriangleInterface.cs
 src/UseSourceGeneration/Model/User.cs

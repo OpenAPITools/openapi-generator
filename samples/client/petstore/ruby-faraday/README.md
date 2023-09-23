@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 *Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*Petstore::FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *Petstore::FakeApi* | [**test_nullable**](docs/FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 *Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
@@ -170,6 +171,7 @@ Class | Method | HTTP request | Description
  - [Petstore::SingleRefType](docs/SingleRefType.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
+ - [Petstore::TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Petstore::User](docs/User.md)
 
 

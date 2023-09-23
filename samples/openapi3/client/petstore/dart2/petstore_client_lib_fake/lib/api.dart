@@ -84,6 +84,7 @@ part 'model/read_only_first.dart';
 part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
+part 'model/test_inline_freeform_additional_properties_request.dart';
 part 'model/user.dart';
 
 

@@ -46,6 +46,7 @@ Model/Return.sql
 Model/SingleRefType.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
+Model/TestInlineFreeformAdditionalPropertiesRequest.sql
 Model/User.sql
 README.md
 mysql_schema.sql

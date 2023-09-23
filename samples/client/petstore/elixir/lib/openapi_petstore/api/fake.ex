@@ -586,6 +586,37 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  test inline free-form additionalProperties
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `test_inline_freeform_additional_properties_request` (TestInlineFreeformAdditionalPropertiesRequest): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_inline_freeform_additional_properties(Tesla.Env.client, OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_inline_freeform_additional_properties(connection, test_inline_freeform_additional_properties_request, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/inline-freeform-additionalProperties")
+      |> add_param(:body, :body, test_inline_freeform_additional_properties_request)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
+    ])
+  end
+
+  @doc """
   test json serialization of form data
   
 

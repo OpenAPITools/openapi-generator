@@ -65,6 +65,7 @@ src/main/java/org/openapitools/server/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/server/model/SingleRefType.java
 src/main/java/org/openapitools/server/model/SpecialModelName.java
 src/main/java/org/openapitools/server/model/Tag.java
+src/main/java/org/openapitools/server/model/TestInlineFreeformAdditionalPropertiesRequest.java
 src/main/java/org/openapitools/server/model/User.java
 src/main/java/org/openapitools/server/package-info.java
 src/main/resources/META-INF/beans.xml

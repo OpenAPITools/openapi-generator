@@ -15,6 +15,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -106,6 +107,11 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testInlineAdditionalProperties(Map<String, String> requestBody, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

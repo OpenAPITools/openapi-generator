@@ -398,6 +398,30 @@ class FakeController extends Controller
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
     }
     /**
+     * Operation testInlineFreeformAdditionalProperties
+     *
+     * test inline free-form additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testInlineFreeformAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['testInlineFreeformAdditionalPropertiesRequest'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $testInlineFreeformAdditionalPropertiesRequest when calling testInlineFreeformAdditionalProperties');
+        }
+        $testInlineFreeformAdditionalPropertiesRequest = $input['testInlineFreeformAdditionalPropertiesRequest'];
+
+
+        return response('How about implementing testInlineFreeformAdditionalProperties as a post method ?');
+    }
+    /**
      * Operation testJsonFormData
      *
      * test json serialization of form data.
