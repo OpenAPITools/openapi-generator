@@ -369,5 +369,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-{{classname}}.{{#usePydanticV2}}model_rebuild{{/usePydanticV2}}{{^usePydanticV2}}update_forward_refs{{/usePydanticV2}}()
+try:
+    {{classname}}.{{#usePydanticV2}}model_rebuild{{/usePydanticV2}}{{^usePydanticV2}}update_forward_refs{{/usePydanticV2}}()
+except Exception:
+    pass
 {{/vendorExtensions.x-py-postponed-model-imports.size}}
