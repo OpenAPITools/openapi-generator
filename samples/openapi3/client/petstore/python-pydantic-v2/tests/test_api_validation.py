@@ -51,23 +51,25 @@ class ApiExceptionTests(unittest.TestCase):
         try:
             self.pet_api.get_pet_by_id()
         except ValidationError as e:
-            self.assertEqual(str(e), "1 validation error for GetPetById\n"
+            self.assertEqual(str(e), "1 validation error for get_pet_by_id\n"
                                      "pet_id\n"
-                                     "  field required (type=value_error.missing)")
+                                     "  Missing required argument [type=missing_argument, input_value=ArgsKwargs(()), input_type=ArgsKwargs]\n"
+                                     "    For further information visit https://errors.pydantic.dev/2.3/v/missing_argument")
 
     def test_integer_validation(self):
         try:
             self.pet_api.get_pet_by_id("123")
         except ValidationError as e:
-            self.assertEqual(str(e), "1 validation error for GetPetById\n"
-                                     "pet_id\n"
-                                     "  value is not a valid integer (type=type_error.integer)")
+            self.assertEqual(str(e), "1 validation error for get_pet_by_id\n"
+                                     "0\n"
+                                     "  Input should be a valid integer [type=int_type, input_value='123', input_type=str]\n"+
+                                     "    For further information visit https://errors.pydantic.dev/2.3/v/int_type")
 
     def test_string_enum_validation(self):
         try:
             self.pet_api.find_pets_by_status(["Cat"])
         except ValidationError as e:
-            self.assertEqual(str(e), "1 validation error for FindPetsByStatus\n"
+            self.assertEqual(str(e), "1 validation error for find_pets_by_status\n"
                                      "status -> 0\n"
                                      "  unexpected value; permitted: 'available', 'pending', 'sold' ("
                                      "type=value_error.const; given=Cat; permitted=('available', 'pending', 'sold'))")
