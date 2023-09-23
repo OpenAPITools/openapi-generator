@@ -20,7 +20,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
@@ -260,7 +259,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in [{{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}}]:
                 raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + obj)
 
         {{/isAdditionalPropertiesTrue}}
@@ -364,7 +363,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isAdditionalPropertiesTrue}}
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in [{{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}}]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         {{/isAdditionalPropertiesTrue}}
