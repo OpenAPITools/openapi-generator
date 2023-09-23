@@ -50,14 +50,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     class Config:
         validate_assignment = True
     {{/usePydanticV2}}
-{{#discriminator}}
-
-    discriminator_value_class_map: dict[str, str] = {
-{{#children}}
-        '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
-{{/children}}
-    }
-{{/discriminator}}
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -67,7 +59,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
         else:
-            super().__init__(**kwargs)
+            super().__init__(**kwargs, actual_instance=None)
     {{#usePydanticV2}}
     @field_validator('actual_instance')
     {{/usePydanticV2}}

@@ -98,27 +98,19 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name = '{{discriminator.propertyBaseName}}'
-
-    {{#mappedModels}}
-    {{#-first}}
-    # discriminator mappings
-    __discriminator_value_class_map: dict[str, str] = {
-    {{/-first}}
-        '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
-    {{#-last}}
-    }
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj['{{discriminator.propertyBaseName}}']
+        discriminator_value_class_map = {
+            {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
+        }
+
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return discriminator_value_class_map.get(discriminator_value)
         else:
             return None
-    {{/-last}}
-    {{/mappedModels}}
 
 {{/discriminator}}
 {{/hasChildren}}
@@ -239,13 +231,16 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
+        discriminator_value_class_map = {
+            {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
+        }
         if object_type:
             klass = globals()[object_type]
             return klass.from_dict(obj)
         else:
             raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             json.dumps(obj) + ". Discriminator property name: " + '{{discriminator.propertyBaseName}}' +
+                             ", mapping: " + json.dumps(discriminator_value_class_map))
         {{/discriminator}}
         {{/hasChildren}}
         {{^hasChildren}}
