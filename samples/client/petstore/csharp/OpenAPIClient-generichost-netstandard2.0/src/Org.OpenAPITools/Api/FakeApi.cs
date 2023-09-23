@@ -390,8 +390,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestInlineFreeformAdditionalPropertiesAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestInlineFreeformAdditionalPropertiesApiResponse"/>&gt;</returns>
+        Task<ITestInlineFreeformAdditionalPropertiesApiResponse> TestInlineFreeformAdditionalPropertiesAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test inline free-form additionalProperties
@@ -401,8 +401,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestInlineFreeformAdditionalPropertiesOrDefaultAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestInlineFreeformAdditionalPropertiesApiResponse"/>&gt;</returns>
+        Task<ITestInlineFreeformAdditionalPropertiesApiResponse> TestInlineFreeformAdditionalPropertiesOrDefaultAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test json serialization of form data
@@ -629,6 +629,18 @@ namespace Org.OpenAPITools.Api
     /// The <see cref="ITestInlineAdditionalPropertiesApiResponse"/>
     /// </summary>
     public interface ITestInlineAdditionalPropertiesApiResponse : Org.OpenAPITools.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="ITestInlineFreeformAdditionalPropertiesApiResponse"/>
+    /// </summary>
+    public interface ITestInlineFreeformAdditionalPropertiesApiResponse : Org.OpenAPITools.Client.IApiResponse
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -929,16 +941,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<object>> OnTestInlineFreeformAdditionalProperties;
+        public event EventHandler<ApiResponseEventArgs> OnTestInlineFreeformAdditionalProperties;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorTestInlineFreeformAdditionalProperties;
 
-        internal void ExecuteOnTestInlineFreeformAdditionalProperties(ApiResponse<object> apiResponse)
+        internal void ExecuteOnTestInlineFreeformAdditionalProperties(FakeApi.TestInlineFreeformAdditionalPropertiesApiResponse apiResponse)
         {
-            OnTestInlineFreeformAdditionalProperties?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnTestInlineFreeformAdditionalProperties?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorTestInlineFreeformAdditionalProperties(Exception exception)
@@ -949,7 +961,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<object>> OnTestJsonFormData;
+        public event EventHandler<ApiResponseEventArgs> OnTestJsonFormData;
 
         /// <summary>
         /// The event raised after an error querying the server
@@ -3977,6 +3989,51 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        /// <summary>
+        /// The <see cref="TestInlineAdditionalPropertiesApiResponse"/>
+        /// </summary>
+        public partial class TestInlineAdditionalPropertiesApiResponse : Org.OpenAPITools.Client.ApiResponse, ITestInlineAdditionalPropertiesApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TestInlineAdditionalPropertiesApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="TestInlineAdditionalPropertiesApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public TestInlineAdditionalPropertiesApiResponse(ILogger<TestInlineAdditionalPropertiesApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
         partial void FormatTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
         /// <summary>
@@ -3995,7 +4052,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        private void AfterTestInlineFreeformAdditionalPropertiesDefaultImplementation(ApiResponse<object> apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest)
+        private void AfterTestInlineFreeformAdditionalPropertiesDefaultImplementation(ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest)
         {
             bool suppressDefaultLog = false;
             AfterTestInlineFreeformAdditionalProperties(ref suppressDefaultLog, apiResponseLocalVar, testInlineFreeformAdditionalPropertiesRequest);
@@ -4009,7 +4066,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
-        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+        partial void AfterTestInlineFreeformAdditionalProperties(ref bool suppressDefaultLog, ITestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4041,8 +4098,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestInlineFreeformAdditionalPropertiesOrDefaultAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestInlineFreeformAdditionalPropertiesApiResponse"/>&gt;</returns>
+        public async Task<ITestInlineFreeformAdditionalPropertiesApiResponse> TestInlineFreeformAdditionalPropertiesOrDefaultAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -4060,8 +4117,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestInlineFreeformAdditionalPropertiesAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestInlineFreeformAdditionalPropertiesApiResponse"/>&gt;</returns>
+        public async Task<ITestInlineFreeformAdditionalPropertiesApiResponse> TestInlineFreeformAdditionalPropertiesAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -4101,7 +4158,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-freeform-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<TestInlineFreeformAdditionalPropertiesApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<TestInlineFreeformAdditionalPropertiesApiResponse>();
+
+                        TestInlineFreeformAdditionalPropertiesApiResponse apiResponseLocalVar = new TestInlineFreeformAdditionalPropertiesApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-freeform-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestInlineFreeformAdditionalPropertiesDefaultImplementation(apiResponseLocalVar, testInlineFreeformAdditionalPropertiesRequest);
 
@@ -4117,6 +4176,51 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorTestInlineFreeformAdditionalProperties(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestInlineFreeformAdditionalPropertiesApiResponse"/>
+        /// </summary>
+        public partial class TestInlineFreeformAdditionalPropertiesApiResponse : Org.OpenAPITools.Client.ApiResponse, ITestInlineFreeformAdditionalPropertiesApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TestInlineFreeformAdditionalPropertiesApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="TestInlineFreeformAdditionalPropertiesApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public TestInlineFreeformAdditionalPropertiesApiResponse(ILogger<TestInlineFreeformAdditionalPropertiesApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
         partial void FormatTestJsonFormData(ref string param, ref string param2);
