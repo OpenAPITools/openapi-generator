@@ -290,6 +290,7 @@ use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest;
 use WWW::OpenAPIClient::Object::User;
 
 ````
@@ -359,6 +360,7 @@ use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest;
 use WWW::OpenAPIClient::Object::User;
 
 # for displaying the API response data
@@ -404,6 +406,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_nullable**](docs/FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
@@ -480,6 +483,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
+ - [WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 
 

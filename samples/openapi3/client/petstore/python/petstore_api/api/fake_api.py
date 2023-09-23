@@ -33,6 +33,7 @@ from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
+from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
@@ -571,7 +572,7 @@ class FakeApi:
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['header_1']:
+        if _params['header_1'] is not None:
             _header_params['header_1'] = _params['header_1']
 
         # process the form parameters
@@ -2509,49 +2510,49 @@ class FakeApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['integer']:
+        if _params['integer'] is not None:
             _form_params.append(('integer', _params['integer']))
 
-        if _params['int32']:
+        if _params['int32'] is not None:
             _form_params.append(('int32', _params['int32']))
 
-        if _params['int64']:
+        if _params['int64'] is not None:
             _form_params.append(('int64', _params['int64']))
 
-        if _params['number']:
+        if _params['number'] is not None:
             _form_params.append(('number', _params['number']))
 
-        if _params['float']:
+        if _params['float'] is not None:
             _form_params.append(('float', _params['float']))
 
-        if _params['double']:
+        if _params['double'] is not None:
             _form_params.append(('double', _params['double']))
 
-        if _params['string']:
+        if _params['string'] is not None:
             _form_params.append(('string', _params['string']))
 
-        if _params['pattern_without_delimiter']:
+        if _params['pattern_without_delimiter'] is not None:
             _form_params.append(('pattern_without_delimiter', _params['pattern_without_delimiter']))
 
-        if _params['byte']:
+        if _params['byte'] is not None:
             _form_params.append(('byte', _params['byte']))
 
-        if _params['binary']:
+        if _params['binary'] is not None:
             _files['binary'] = _params['binary']
 
-        if _params['byte_with_max_length']:
+        if _params['byte_with_max_length'] is not None:
             _form_params.append(('byte_with_max_length', _params['byte_with_max_length']))
 
-        if _params['var_date']:
+        if _params['var_date'] is not None:
             _form_params.append(('date', _params['var_date']))
 
-        if _params['date_time']:
+        if _params['date_time'] is not None:
             _form_params.append(('dateTime', _params['date_time']))
 
-        if _params['password']:
+        if _params['password'] is not None:
             _form_params.append(('password', _params['password']))
 
-        if _params['param_callback']:
+        if _params['param_callback'] is not None:
             _form_params.append(('callback', _params['param_callback']))
 
         # process the body parameter
@@ -2726,10 +2727,10 @@ class FakeApi:
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-        if _params['required_boolean_group']:
+        if _params['required_boolean_group'] is not None:
             _header_params['required_boolean_group'] = _params['required_boolean_group']
 
-        if _params['boolean_group']:
+        if _params['boolean_group'] is not None:
             _header_params['boolean_group'] = _params['boolean_group']
 
         # process the form parameters
@@ -2901,6 +2902,147 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
+    def test_inline_freeform_additional_properties(self, test_inline_freeform_additional_properties_request : Annotated[TestInlineFreeformAdditionalPropertiesRequest, Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+        """test inline free-form additionalProperties  # noqa: E501
+
+          # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request, async_req=True)
+        >>> result = thread.get()
+
+        :param test_inline_freeform_additional_properties_request: request body (required)
+        :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_inline_freeform_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def test_inline_freeform_additional_properties_with_http_info(self, test_inline_freeform_additional_properties_request : Annotated[TestInlineFreeformAdditionalPropertiesRequest, Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
+        """test inline free-form additionalProperties  # noqa: E501
+
+          # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request, async_req=True)
+        >>> result = thread.get()
+
+        :param test_inline_freeform_additional_properties_request: request body (required)
+        :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'test_inline_freeform_additional_properties_request'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_inline_freeform_additional_properties" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        if _params['test_inline_freeform_additional_properties_request'] is not None:
+            _body_params = _params['test_inline_freeform_additional_properties_request']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {}
+
+        return self.api_client.call_api(
+            '/fake/inline-freeform-additionalProperties', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
     def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs) -> None:  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
@@ -3012,10 +3154,10 @@ class FakeApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['param']:
+        if _params['param'] is not None:
             _form_params.append(('param', _params['param']))
 
-        if _params['param2']:
+        if _params['param2'] is not None:
             _form_params.append(('param2', _params['param2']))
 
         # process the body parameter

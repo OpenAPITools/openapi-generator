@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**Test-PSEnumParameters**](PSFakeApi.md#Test-PSEnumParameters) | **GET** /fake | To test enum parameters
 [**Test-PSGroupParameters**](PSFakeApi.md#Test-PSGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**Test-PSInlineAdditionalProperties**](PSFakeApi.md#Test-PSInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**Test-PSInlineFreeformAdditionalProperties**](PSFakeApi.md#Test-PSInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**Test-PSJsonFormData**](PSFakeApi.md#Test-PSJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 [**Test-PSQueryParameterCollectionFormat**](PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
@@ -630,6 +631,49 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **RequestBody** | [**System.Collections.Hashtable**](String.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-PSInlineFreeformAdditionalProperties"></a>
+# **Test-PSInlineFreeformAdditionalProperties**
+> void Test-PSInlineFreeformAdditionalProperties<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TestInlineFreeformAdditionalPropertiesRequest] <PSCustomObject><br>
+
+test inline free-form additionalProperties
+
+
+
+### Example
+```powershell
+$TestInlineFreeformAdditionalPropertiesRequest = Initialize-TestInlineFreeformAdditionalPropertiesRequest -SomeProperty "MySomeProperty" # TestInlineFreeformAdditionalPropertiesRequest | request body
+
+# test inline free-form additionalProperties
+try {
+    $Result = Test-PSInlineFreeformAdditionalProperties -TestInlineFreeformAdditionalPropertiesRequest $TestInlineFreeformAdditionalPropertiesRequest
+} catch {
+    Write-Host ("Exception occurred when calling Test-PSInlineFreeformAdditionalProperties: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **TestInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
 
 ### Return type
 

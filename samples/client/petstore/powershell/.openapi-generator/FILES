@@ -76,6 +76,7 @@ docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -157,6 +158,7 @@ src/PSPetstore/Model/ShapeOrNull.ps1
 src/PSPetstore/Model/SimpleQuadrilateral.ps1
 src/PSPetstore/Model/SpecialModelName.ps1
 src/PSPetstore/Model/Tag.ps1
+src/PSPetstore/Model/TestInlineFreeformAdditionalPropertiesRequest.ps1
 src/PSPetstore/Model/Triangle.ps1
 src/PSPetstore/Model/TriangleInterface.ps1
 src/PSPetstore/Model/User.ps1

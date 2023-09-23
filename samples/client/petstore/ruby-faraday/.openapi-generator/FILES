@@ -60,6 +60,7 @@ docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -122,6 +123,7 @@ lib/petstore/models/read_only_first.rb
 lib/petstore/models/single_ref_type.rb
 lib/petstore/models/special_model_name.rb
 lib/petstore/models/tag.rb
+lib/petstore/models/test_inline_freeform_additional_properties_request.rb
 lib/petstore/models/user.rb
 lib/petstore/version.rb
 petstore.gemspec

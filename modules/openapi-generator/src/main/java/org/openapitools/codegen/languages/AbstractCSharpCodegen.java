@@ -527,7 +527,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
             // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
             model.setHasDiscriminatorWithNonEmptyMapping(
-                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null && model.oneOf.size() > 0)) &&
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.oneOf != null && model.oneOf.size() > 0)) &&
                             model.discriminator != null &&
                             model.discriminator.getMappedModels() != null &&
                             model.discriminator.getMappedModels().size() > 0);
