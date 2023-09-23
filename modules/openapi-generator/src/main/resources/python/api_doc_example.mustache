@@ -34,5 +34,8 @@ from pprint import pprint
 {{#vendorExtensions.x-py-postponed-example-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-example-imports}}
-{{classname}}.{{#usePydanticV2}}model_rebuild{{/usePydanticV2}}{{^usePydanticV2}}update_forward_refs{{/usePydanticV2}}()
+try:
+    {{classname}}.{{#usePydanticV2}}model_rebuild{{/usePydanticV2}}{{^usePydanticV2}}update_forward_refs{{/usePydanticV2}}()
+except Exception:
+    pass
 {{/vendorExtensions.x-py-postponed-example-imports.size}}
