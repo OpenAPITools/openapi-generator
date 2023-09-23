@@ -28,7 +28,6 @@ class FileSchemaTestClass(BaseModel):
     """
     file: Optional[File] = None
     files: Optional[conlist(File)] = None
-    __properties = ["file", "files"]
 
     """Pydantic configuration"""
     class Config:

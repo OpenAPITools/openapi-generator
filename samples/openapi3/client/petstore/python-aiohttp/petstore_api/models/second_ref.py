@@ -27,7 +27,6 @@ class SecondRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
-    __properties = ["category", "circular_ref"]
 
     """Pydantic configuration"""
     class Config:
@@ -74,5 +73,8 @@ class SecondRef(BaseModel):
         return _obj
 
 from petstore_api.models.circular_reference_model import CircularReferenceModel
-SecondRef.update_forward_refs()
+try:
+    SecondRef.update_forward_refs()
+except Exception:
+    pass
 

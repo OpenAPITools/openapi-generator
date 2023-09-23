@@ -29,7 +29,6 @@ class Name(BaseModel):
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(None, alias="property")
     var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
-    __properties = ["name", "snake_case", "property", "123Number"]
 
     """Pydantic configuration"""
     class Config:

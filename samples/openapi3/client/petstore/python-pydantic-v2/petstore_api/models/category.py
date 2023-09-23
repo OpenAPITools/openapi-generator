@@ -28,7 +28,6 @@ class Category(BaseModel):
     id: Optional[StrictInt] = None
     name: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "name"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class Category(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class Category(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,15 +69,15 @@ class Category(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Category.parse_obj(obj)
+            return Category.model_validate(obj)
 
-        _obj = Category.parse_obj({
+        _obj = Category.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name") if obj.get("name") is not None else 'default-name'
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "name"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

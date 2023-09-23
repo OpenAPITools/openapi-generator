@@ -30,7 +30,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["uuid", "dateTime", "map"]
 
     """Pydantic configuration"""
     class Config:
@@ -92,7 +91,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["uuid", "dateTime", "map"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

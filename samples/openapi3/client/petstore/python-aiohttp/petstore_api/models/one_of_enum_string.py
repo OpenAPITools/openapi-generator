@@ -37,7 +37,7 @@ class OneOfEnumString(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[EnumString1, EnumString2]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     one_of_schemas: List[str] = Field(ONEOFENUMSTRING_ONE_OF_SCHEMAS, const=True)
 
@@ -52,8 +52,10 @@ class OneOfEnumString(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
@@ -61,17 +63,21 @@ class OneOfEnumString(BaseModel):
         error_messages = []
         match = 0
         # validate data type: EnumString1
-        if not isinstance(v, EnumString1):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString1`")
-        else:
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         # validate data type: EnumString2
-        if not isinstance(v, EnumString2):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString2`")
-        else:
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -105,6 +111,8 @@ class OneOfEnumString(BaseModel):
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, field_validator
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
 
@@ -34,9 +34,8 @@ class Pet(BaseModel):
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
 
-    @validator('status')
+    @field_validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -54,7 +53,7 @@ class Pet(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -67,7 +66,7 @@ class Pet(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -96,9 +95,9 @@ class Pet(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Pet.parse_obj(obj)
+            return Pet.model_validate(obj)
 
-        _obj = Pet.parse_obj({
+        _obj = Pet.model_validate({
             "id": obj.get("id"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
             "name": obj.get("name"),
@@ -108,7 +107,7 @@ class Pet(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "category", "name", "photoUrls", "tags", "status"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

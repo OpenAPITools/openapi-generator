@@ -28,7 +28,6 @@ class CircularReferenceModel(BaseModel):
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested"]
 
     """Pydantic configuration"""
     class Config:
@@ -80,11 +79,14 @@ class CircularReferenceModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["size", "nested"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.first_ref import FirstRef
-CircularReferenceModel.update_forward_refs()
+try:
+    CircularReferenceModel.update_forward_refs()
+except Exception:
+    pass
 

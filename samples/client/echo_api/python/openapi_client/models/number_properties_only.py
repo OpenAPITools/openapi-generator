@@ -29,7 +29,6 @@ class NumberPropertiesOnly(BaseModel):
     number: Optional[Union[StrictFloat, StrictInt]] = None
     float: Optional[Union[StrictFloat, StrictInt]] = None
     double: Optional[Union[confloat(le=50.2, ge=0.8, strict=True), conint(le=50, ge=1, strict=True)]] = None
-    __properties = ["number", "float", "double"]
 
     """Pydantic configuration"""
     class Config:

@@ -28,7 +28,6 @@ class MapOfArrayOfModel(BaseModel):
     """
     shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(None, alias="shopIdToOrgOnlineLipMap")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["shopIdToOrgOnlineLipMap"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -79,9 +78,9 @@ class MapOfArrayOfModel(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return MapOfArrayOfModel.parse_obj(obj)
+            return MapOfArrayOfModel.model_validate(obj)
 
-        _obj = MapOfArrayOfModel.parse_obj({
+        _obj = MapOfArrayOfModel.model_validate({
             "shop_id_to_org_online_lip_map": dict(
                 (_k,
                         [Tag.from_dict(_item) for _item in _v]
@@ -93,7 +92,7 @@ class MapOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["shopIdToOrgOnlineLipMap"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

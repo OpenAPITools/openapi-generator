@@ -28,7 +28,6 @@ class Query(BaseModel):
     """
     id: Optional[StrictInt] = Field(None, description="Query")
     outcomes: Optional[conlist(StrictStr)] = None
-    __properties = ["id", "outcomes"]
 
     @validator('outcomes')
     def outcomes_validate_enum(cls, value):

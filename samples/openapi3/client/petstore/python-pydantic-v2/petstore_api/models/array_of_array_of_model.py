@@ -28,7 +28,6 @@ class ArrayOfArrayOfModel(BaseModel):
     """
     another_property: Optional[conlist(conlist(Tag))] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["another_property"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class ArrayOfArrayOfModel(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class ArrayOfArrayOfModel(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -79,9 +78,9 @@ class ArrayOfArrayOfModel(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfModel.parse_obj(obj)
+            return ArrayOfArrayOfModel.model_validate(obj)
 
-        _obj = ArrayOfArrayOfModel.parse_obj({
+        _obj = ArrayOfArrayOfModel.model_validate({
             "another_property": [
                     [Tag.from_dict(_inner_item) for _inner_item in _item]
                     for _item in obj.get("another_property")
@@ -89,7 +88,7 @@ class ArrayOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["another_property"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

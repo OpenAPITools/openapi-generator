@@ -26,7 +26,6 @@ class CreatureInfo(BaseModel):
     CreatureInfo
     """
     name: StrictStr = Field(...)
-    __properties = ["name"]
 
     """Pydantic configuration"""
     class Config:

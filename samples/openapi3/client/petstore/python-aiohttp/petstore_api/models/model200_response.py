@@ -27,7 +27,6 @@ class Model200Response(BaseModel):
     """
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(None, alias="class")
-    __properties = ["name", "class"]
 
     """Pydantic configuration"""
     class Config:

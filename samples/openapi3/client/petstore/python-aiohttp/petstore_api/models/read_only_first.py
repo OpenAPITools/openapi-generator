@@ -27,7 +27,6 @@ class ReadOnlyFirst(BaseModel):
     """
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
-    __properties = ["bar", "baz"]
 
     """Pydantic configuration"""
     class Config:

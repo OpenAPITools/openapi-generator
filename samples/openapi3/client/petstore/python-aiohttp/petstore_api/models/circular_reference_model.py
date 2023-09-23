@@ -27,7 +27,6 @@ class CircularReferenceModel(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
-    __properties = ["size", "nested"]
 
     """Pydantic configuration"""
     class Config:
@@ -74,5 +73,8 @@ class CircularReferenceModel(BaseModel):
         return _obj
 
 from petstore_api.models.first_ref import FirstRef
-CircularReferenceModel.update_forward_refs()
+try:
+    CircularReferenceModel.update_forward_refs()
+except Exception:
+    pass
 

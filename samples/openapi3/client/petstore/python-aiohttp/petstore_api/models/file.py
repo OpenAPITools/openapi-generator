@@ -26,7 +26,6 @@ class File(BaseModel):
     Must be named `File` for test.  # noqa: E501
     """
     source_uri: Optional[StrictStr] = Field(None, alias="sourceURI", description="Test capitalization")
-    __properties = ["sourceURI"]
 
     """Pydantic configuration"""
     class Config:

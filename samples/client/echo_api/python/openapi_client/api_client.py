@@ -224,6 +224,7 @@ class ApiClient:
         self.last_response = response_data
 
         return_data = None # assuming deserialization is not needed
+        return_headers = None
         # data needs deserialization or returns HTTP data (deserialized) only
         if _preload_content or _return_http_data_only:
           response_type = response_types_map.get(str(response_data.status), None)
@@ -244,17 +245,20 @@ class ApiClient:
           # deserialize response data
           if response_type == "bytearray":
               return_data = response_data.data
+              return_headers = response_data.headers
           elif response_type:
               return_data = self.deserialize(response_data, response_type)
+              return_headers = response_data.getheaders()
           else:
               return_data = None
+              return_headers = response_data.getheaders()
 
         if _return_http_data_only:
             return return_data
         else:
             return ApiResponse(status_code = response_data.status,
                            data = return_data,
-                           headers = response_data.getheaders(),
+                           headers = return_headers,
                            raw_data = response_data.data)
 
     def sanitize_for_serialization(self, obj):

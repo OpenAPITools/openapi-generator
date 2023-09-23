@@ -27,7 +27,6 @@ class DummyModel(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
-    __properties = ["category", "self_ref"]
 
     """Pydantic configuration"""
     class Config:
@@ -74,5 +73,8 @@ class DummyModel(BaseModel):
         return _obj
 
 from petstore_api.models.self_reference_model import SelfReferenceModel
-DummyModel.update_forward_refs()
+try:
+    DummyModel.update_forward_refs()
+except Exception:
+    pass
 

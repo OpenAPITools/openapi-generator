@@ -28,7 +28,6 @@ class Category(BaseModel):
     id: Optional[StrictInt] = None
     name: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "name"]
 
     """Pydantic configuration"""
     class Config:
@@ -77,7 +76,7 @@ class Category(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "name"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

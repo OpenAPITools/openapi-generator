@@ -28,7 +28,6 @@ class ApiResponse(BaseModel):
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
-    __properties = ["code", "type", "message"]
 
     """Pydantic configuration"""
     class Config:

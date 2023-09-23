@@ -29,7 +29,6 @@ class PropertyNameCollision(BaseModel):
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(None, alias="type_")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["_type", "type", "type_"]
 
     """Pydantic configuration"""
     model_config = {
@@ -39,7 +38,7 @@ class PropertyNameCollision(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,7 +51,7 @@ class PropertyNameCollision(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -71,16 +70,16 @@ class PropertyNameCollision(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return PropertyNameCollision.parse_obj(obj)
+            return PropertyNameCollision.model_validate(obj)
 
-        _obj = PropertyNameCollision.parse_obj({
+        _obj = PropertyNameCollision.model_validate({
             "underscore_type": obj.get("_type"),
             "type": obj.get("type"),
             "type_with_underscore": obj.get("type_")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["_type", "type", "type_"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

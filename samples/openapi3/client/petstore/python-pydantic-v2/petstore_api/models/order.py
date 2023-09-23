@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, field_validator
 
 class Order(BaseModel):
     """
@@ -32,9 +32,8 @@ class Order(BaseModel):
     status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
-    @validator('status')
+    @field_validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -52,7 +51,7 @@ class Order(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -65,7 +64,7 @@ class Order(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -84,9 +83,9 @@ class Order(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Order.parse_obj(obj)
+            return Order.model_validate(obj)
 
-        _obj = Order.parse_obj({
+        _obj = Order.model_validate({
             "id": obj.get("id"),
             "pet_id": obj.get("petId"),
             "quantity": obj.get("quantity"),
@@ -96,7 +95,7 @@ class Order(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "petId", "quantity", "shipDate", "status", "complete"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

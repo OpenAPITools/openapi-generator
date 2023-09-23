@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, constr, validator
+from pydantic import BaseModel, Field, StrictInt, constr, field_validator
 
 class NullableProperty(BaseModel):
     """
@@ -28,9 +28,8 @@ class NullableProperty(BaseModel):
     id: StrictInt = Field(...)
     name: Optional[constr(strict=True)] = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "name"]
 
-    @validator('name')
+    @field_validator('name')
     def name_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -48,7 +47,7 @@ class NullableProperty(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -61,7 +60,7 @@ class NullableProperty(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,7 +72,7 @@ class NullableProperty(BaseModel):
 
         # set to None if name (nullable) is None
         # and __fields_set__ contains the field
-        if self.name is None and "name" in self.__fields_set__:
+        if self.name is None and "name" in self.model_fields_set:
             _dict['name'] = None
 
         return _dict
@@ -85,15 +84,15 @@ class NullableProperty(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return NullableProperty.parse_obj(obj)
+            return NullableProperty.model_validate(obj)
 
-        _obj = NullableProperty.parse_obj({
+        _obj = NullableProperty.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "name"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

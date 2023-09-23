@@ -26,7 +26,6 @@ class Foo(BaseModel):
     Foo
     """
     bar: Optional[StrictStr] = 'bar'
-    __properties = ["bar"]
 
     """Pydantic configuration"""
     class Config:

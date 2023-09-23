@@ -26,7 +26,6 @@ class Client(BaseModel):
     Client
     """
     client: Optional[StrictStr] = None
-    __properties = ["client"]
 
     """Pydantic configuration"""
     class Config:

@@ -30,7 +30,6 @@ class ArrayTest(BaseModel):
     array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
     array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
     """Pydantic configuration"""
     class Config:
@@ -92,7 +91,7 @@ class ArrayTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["array_of_string", "array_array_of_integer", "array_array_of_model"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

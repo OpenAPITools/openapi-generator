@@ -28,7 +28,6 @@ class FooGetDefaultResponse(BaseModel):
     """
     string: Optional[Foo] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["string"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class FooGetDefaultResponse(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class FooGetDefaultResponse(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,14 +72,14 @@ class FooGetDefaultResponse(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FooGetDefaultResponse.parse_obj(obj)
+            return FooGetDefaultResponse.model_validate(obj)
 
-        _obj = FooGetDefaultResponse.parse_obj({
+        _obj = FooGetDefaultResponse.model_validate({
             "string": Foo.from_dict(obj.get("string")) if obj.get("string") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["string"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

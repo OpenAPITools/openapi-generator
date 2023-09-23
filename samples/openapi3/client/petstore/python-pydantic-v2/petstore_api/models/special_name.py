@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictInt, StrictStr, field_validator
 from petstore_api.models.category import Category
 
 class SpecialName(BaseModel):
@@ -30,9 +30,8 @@ class SpecialName(BaseModel):
     var_async: Optional[Category] = Field(None, alias="async")
     var_schema: Optional[StrictStr] = Field(None, alias="schema", description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["property", "async", "schema"]
 
-    @validator('var_schema')
+    @field_validator('var_schema')
     def var_schema_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -50,7 +49,7 @@ class SpecialName(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -63,7 +62,7 @@ class SpecialName(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -85,16 +84,16 @@ class SpecialName(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return SpecialName.parse_obj(obj)
+            return SpecialName.model_validate(obj)
 
-        _obj = SpecialName.parse_obj({
+        _obj = SpecialName.model_validate({
             "var_property": obj.get("property"),
             "var_async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
             "var_schema": obj.get("schema")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["property", "async", "schema"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

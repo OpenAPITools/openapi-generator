@@ -29,7 +29,6 @@ class OuterComposite(BaseModel):
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["my_number", "my_string", "my_boolean"]
 
     """Pydantic configuration"""
     class Config:
@@ -79,7 +78,7 @@ class OuterComposite(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["my_number", "my_string", "my_boolean"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

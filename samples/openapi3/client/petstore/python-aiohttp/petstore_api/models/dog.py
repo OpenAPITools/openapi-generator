@@ -27,7 +27,6 @@ class Dog(Animal):
     Dog
     """
     breed: Optional[StrictStr] = None
-    __properties = ["className", "color", "breed"]
 
     """Pydantic configuration"""
     class Config:

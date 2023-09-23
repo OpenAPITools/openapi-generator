@@ -30,7 +30,6 @@ class ObjectWithDeprecatedFields(BaseModel):
     id: Optional[float] = None
     deprecated_ref: Optional[DeprecatedObject] = Field(None, alias="deprecatedRef")
     bars: Optional[conlist(StrictStr)] = None
-    __properties = ["uuid", "id", "deprecatedRef", "bars"]
 
     """Pydantic configuration"""
     class Config:

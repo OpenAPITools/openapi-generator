@@ -28,7 +28,6 @@ class ArrayOfArrayOfModel(BaseModel):
     """
     another_property: Optional[conlist(conlist(Tag))] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["another_property"]
 
     """Pydantic configuration"""
     class Config:
@@ -88,7 +87,7 @@ class ArrayOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["another_property"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

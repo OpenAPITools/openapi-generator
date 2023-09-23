@@ -27,7 +27,6 @@ class ModelReturn(BaseModel):
     """
     var_return: Optional[StrictInt] = Field(None, alias="return")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["return"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class ModelReturn(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["return"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

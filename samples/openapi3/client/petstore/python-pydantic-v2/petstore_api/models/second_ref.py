@@ -28,7 +28,6 @@ class SecondRef(BaseModel):
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["category", "circular_ref"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class SecondRef(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class SecondRef(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,19 +72,22 @@ class SecondRef(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return SecondRef.parse_obj(obj)
+            return SecondRef.model_validate(obj)
 
-        _obj = SecondRef.parse_obj({
+        _obj = SecondRef.model_validate({
             "category": obj.get("category"),
             "circular_ref": CircularReferenceModel.from_dict(obj.get("circular_ref")) if obj.get("circular_ref") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["category", "circular_ref"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.circular_reference_model import CircularReferenceModel
-SecondRef.update_forward_refs()
+try:
+    SecondRef.model_rebuild()
+except Exception:
+    pass
 

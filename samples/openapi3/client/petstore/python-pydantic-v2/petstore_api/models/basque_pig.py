@@ -28,7 +28,6 @@ class BasquePig(BaseModel):
     class_name: StrictStr = Field(..., alias="className")
     color: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class BasquePig(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class BasquePig(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,15 +69,15 @@ class BasquePig(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return BasquePig.parse_obj(obj)
+            return BasquePig.model_validate(obj)
 
-        _obj = BasquePig.parse_obj({
+        _obj = BasquePig.model_validate({
             "class_name": obj.get("className"),
             "color": obj.get("color")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["className", "color"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

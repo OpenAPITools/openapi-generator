@@ -27,7 +27,6 @@ class Tiger(BaseModel):
     """
     skill: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["skill"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class Tiger(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["skill"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

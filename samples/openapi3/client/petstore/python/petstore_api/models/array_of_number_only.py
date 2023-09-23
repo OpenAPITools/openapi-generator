@@ -27,7 +27,6 @@ class ArrayOfNumberOnly(BaseModel):
     """
     array_number: Optional[conlist(StrictFloat)] = Field(None, alias="ArrayNumber")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["ArrayNumber"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class ArrayOfNumberOnly(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["ArrayNumber"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -28,7 +28,6 @@ class NullableProperty(BaseModel):
     id: StrictInt = Field(...)
     name: Optional[constr(strict=True)] = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "name"]
 
     @validator('name')
     def name_validate_regular_expression(cls, value):
@@ -92,7 +91,7 @@ class NullableProperty(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "name"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

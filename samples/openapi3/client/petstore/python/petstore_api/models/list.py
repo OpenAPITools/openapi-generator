@@ -27,7 +27,6 @@ class List(BaseModel):
     """
     var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["123-list"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class List(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["123-list"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

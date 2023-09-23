@@ -28,7 +28,6 @@ class CircularReferenceModel(BaseModel):
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class CircularReferenceModel(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class CircularReferenceModel(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,19 +72,22 @@ class CircularReferenceModel(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return CircularReferenceModel.parse_obj(obj)
+            return CircularReferenceModel.model_validate(obj)
 
-        _obj = CircularReferenceModel.parse_obj({
+        _obj = CircularReferenceModel.model_validate({
             "size": obj.get("size"),
             "nested": FirstRef.from_dict(obj.get("nested")) if obj.get("nested") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["size", "nested"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.first_ref import FirstRef
-CircularReferenceModel.update_forward_refs()
+try:
+    CircularReferenceModel.model_rebuild()
+except Exception:
+    pass
 

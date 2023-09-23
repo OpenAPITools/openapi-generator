@@ -27,7 +27,6 @@ class List(BaseModel):
     """
     var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["123-list"]
 
     """Pydantic configuration"""
     model_config = {
@@ -37,7 +36,7 @@ class List(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -50,7 +49,7 @@ class List(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -69,14 +68,14 @@ class List(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return List.parse_obj(obj)
+            return List.model_validate(obj)
 
-        _obj = List.parse_obj({
+        _obj = List.model_validate({
             "var_123_list": obj.get("123-list")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["123-list"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

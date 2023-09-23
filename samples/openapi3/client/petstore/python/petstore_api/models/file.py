@@ -27,7 +27,6 @@ class File(BaseModel):
     """
     source_uri: Optional[StrictStr] = Field(None, alias="sourceURI", description="Test capitalization")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["sourceURI"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class File(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["sourceURI"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

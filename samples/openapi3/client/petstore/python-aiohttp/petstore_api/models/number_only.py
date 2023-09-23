@@ -26,7 +26,6 @@ class NumberOnly(BaseModel):
     NumberOnly
     """
     just_number: Optional[float] = Field(None, alias="JustNumber")
-    __properties = ["JustNumber"]
 
     """Pydantic configuration"""
     class Config:

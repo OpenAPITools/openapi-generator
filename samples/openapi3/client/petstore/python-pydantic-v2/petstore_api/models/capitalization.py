@@ -32,7 +32,6 @@ class Capitalization(BaseModel):
     sca_eth_flow_points: Optional[StrictStr] = Field(None, alias="SCA_ETH_Flow_Points")
     att_name: Optional[StrictStr] = Field(None, alias="ATT_NAME", description="Name of the pet ")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
     """Pydantic configuration"""
     model_config = {
@@ -42,7 +41,7 @@ class Capitalization(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -55,7 +54,7 @@ class Capitalization(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -74,9 +73,9 @@ class Capitalization(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Capitalization.parse_obj(obj)
+            return Capitalization.model_validate(obj)
 
-        _obj = Capitalization.parse_obj({
+        _obj = Capitalization.model_validate({
             "small_camel": obj.get("smallCamel"),
             "capital_camel": obj.get("CapitalCamel"),
             "small_snake": obj.get("small_Snake"),
@@ -86,7 +85,7 @@ class Capitalization(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

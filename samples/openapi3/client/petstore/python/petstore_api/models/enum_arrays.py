@@ -28,7 +28,6 @@ class EnumArrays(BaseModel):
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[conlist(StrictStr)] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["just_symbol", "array_enum"]
 
     @validator('just_symbol')
     def just_symbol_validate_enum(cls, value):
@@ -98,7 +97,7 @@ class EnumArrays(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["just_symbol", "array_enum"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

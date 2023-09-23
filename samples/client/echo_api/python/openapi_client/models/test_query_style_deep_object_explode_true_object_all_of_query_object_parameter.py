@@ -30,7 +30,6 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties = ["size", "color", "id", "name"]
 
     """Pydantic configuration"""
     class Config:

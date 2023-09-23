@@ -145,7 +145,7 @@ class StoreApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['order_id']:
+        if _params['order_id'] is not None:
             _path_params['order_id'] = _params['order_id']
 
 
@@ -411,7 +411,7 @@ class StoreApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['order_id']:
+        if _params['order_id'] is not None:
             _path_params['order_id'] = _params['order_id']
 
 

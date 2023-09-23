@@ -28,7 +28,6 @@ class Parent(BaseModel):
     """
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(None, alias="optionalDict")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["optionalDict"]
 
     """Pydantic configuration"""
     class Config:
@@ -88,7 +87,7 @@ class Parent(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["optionalDict"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

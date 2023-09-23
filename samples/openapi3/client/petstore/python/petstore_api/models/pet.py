@@ -34,7 +34,6 @@ class Pet(BaseModel):
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -107,7 +106,7 @@ class Pet(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "category", "name", "photoUrls", "tags", "status"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

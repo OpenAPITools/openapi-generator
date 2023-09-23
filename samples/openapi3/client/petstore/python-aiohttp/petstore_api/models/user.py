@@ -33,7 +33,6 @@ class User(BaseModel):
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(None, alias="userStatus", description="User Status")
-    __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     """Pydantic configuration"""
     class Config:

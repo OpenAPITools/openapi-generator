@@ -27,7 +27,6 @@ class NumberOnly(BaseModel):
     """
     just_number: Optional[StrictFloat] = Field(None, alias="JustNumber")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["JustNumber"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class NumberOnly(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["JustNumber"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

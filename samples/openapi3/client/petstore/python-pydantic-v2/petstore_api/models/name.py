@@ -30,7 +30,6 @@ class Name(BaseModel):
     var_property: Optional[StrictStr] = Field(None, alias="property")
     var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["name", "snake_case", "property", "123Number"]
 
     """Pydantic configuration"""
     model_config = {
@@ -40,7 +39,7 @@ class Name(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -53,7 +52,7 @@ class Name(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "snake_case",
                             "var_123_number",
@@ -74,9 +73,9 @@ class Name(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Name.parse_obj(obj)
+            return Name.model_validate(obj)
 
-        _obj = Name.parse_obj({
+        _obj = Name.model_validate({
             "name": obj.get("name"),
             "snake_case": obj.get("snake_case"),
             "var_property": obj.get("property"),
@@ -84,7 +83,7 @@ class Name(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["name", "snake_case", "property", "123Number"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -28,7 +28,6 @@ class AdditionalPropertiesClass(BaseModel):
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["map_property", "map_of_map_property"]
 
     """Pydantic configuration"""
     class Config:
@@ -77,7 +76,7 @@ class AdditionalPropertiesClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["map_property", "map_of_map_property"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

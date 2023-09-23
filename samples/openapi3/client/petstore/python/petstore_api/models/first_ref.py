@@ -28,7 +28,6 @@ class FirstRef(BaseModel):
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["category", "self_ref"]
 
     """Pydantic configuration"""
     class Config:
@@ -80,11 +79,14 @@ class FirstRef(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["category", "self_ref"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-FirstRef.update_forward_refs()
+try:
+    FirstRef.update_forward_refs()
+except Exception:
+    pass
 

@@ -27,7 +27,6 @@ class Tag(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties = ["id", "name"]
 
     """Pydantic configuration"""
     class Config:

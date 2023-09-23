@@ -31,7 +31,6 @@ class WithNestedOneOf(BaseModel):
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     """Pydantic configuration"""
     class Config:
@@ -87,7 +86,7 @@ class WithNestedOneOf(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["size", "nested_pig", "nested_oneof_enum_string"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

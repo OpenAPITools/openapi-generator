@@ -27,7 +27,6 @@ class ArrayOfArrayOfModel(BaseModel):
     ArrayOfArrayOfModel
     """
     another_property: Optional[conlist(conlist(Tag))] = None
-    __properties = ["another_property"]
 
     """Pydantic configuration"""
     class Config:

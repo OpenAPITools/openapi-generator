@@ -28,7 +28,6 @@ class DanishPig(BaseModel):
     class_name: StrictStr = Field(..., alias="className")
     size: StrictInt = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "size"]
 
     """Pydantic configuration"""
     class Config:
@@ -77,7 +76,7 @@ class DanishPig(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["className", "size"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

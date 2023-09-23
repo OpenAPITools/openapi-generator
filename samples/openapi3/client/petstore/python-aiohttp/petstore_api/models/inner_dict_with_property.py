@@ -26,7 +26,6 @@ class InnerDictWithProperty(BaseModel):
     InnerDictWithProperty
     """
     a_property: Optional[Dict[str, Any]] = Field(None, alias="aProperty")
-    __properties = ["aProperty"]
 
     """Pydantic configuration"""
     class Config:

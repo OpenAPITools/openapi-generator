@@ -19,7 +19,7 @@ import json
 
 from datetime import date, datetime
 from typing import Any, Dict, Optional, Union
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
+from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, field_validator
 
 class FormatTest(BaseModel):
     """
@@ -43,9 +43,8 @@ class FormatTest(BaseModel):
     pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
-    @validator('string')
+    @field_validator('string')
     def string_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -55,7 +54,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
-    @validator('string_with_double_quote_pattern')
+    @field_validator('string_with_double_quote_pattern')
     def string_with_double_quote_pattern_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -65,7 +64,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
-    @validator('pattern_with_digits')
+    @field_validator('pattern_with_digits')
     def pattern_with_digits_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -75,7 +74,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
-    @validator('pattern_with_digits_and_delimiter')
+    @field_validator('pattern_with_digits_and_delimiter')
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -93,7 +92,7 @@ class FormatTest(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -106,7 +105,7 @@ class FormatTest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -125,9 +124,9 @@ class FormatTest(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FormatTest.parse_obj(obj)
+            return FormatTest.model_validate(obj)
 
-        _obj = FormatTest.parse_obj({
+        _obj = FormatTest.model_validate({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),
@@ -148,7 +147,7 @@ class FormatTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

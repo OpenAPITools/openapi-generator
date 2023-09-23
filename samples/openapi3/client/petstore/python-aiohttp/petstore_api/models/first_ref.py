@@ -27,7 +27,6 @@ class FirstRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
-    __properties = ["category", "self_ref"]
 
     """Pydantic configuration"""
     class Config:
@@ -74,5 +73,8 @@ class FirstRef(BaseModel):
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-FirstRef.update_forward_refs()
+try:
+    FirstRef.update_forward_refs()
+except Exception:
+    pass
 

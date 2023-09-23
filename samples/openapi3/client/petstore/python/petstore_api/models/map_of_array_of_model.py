@@ -28,7 +28,6 @@ class MapOfArrayOfModel(BaseModel):
     """
     shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(None, alias="shopIdToOrgOnlineLipMap")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["shopIdToOrgOnlineLipMap"]
 
     """Pydantic configuration"""
     class Config:
@@ -92,7 +91,7 @@ class MapOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["shopIdToOrgOnlineLipMap"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

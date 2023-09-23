@@ -32,7 +32,6 @@ class Capitalization(BaseModel):
     sca_eth_flow_points: Optional[StrictStr] = Field(None, alias="SCA_ETH_Flow_Points")
     att_name: Optional[StrictStr] = Field(None, alias="ATT_NAME", description="Name of the pet ")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
     """Pydantic configuration"""
     class Config:
@@ -85,7 +84,7 @@ class Capitalization(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -30,7 +30,6 @@ class MapTest(BaseModel):
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @validator('map_of_enum_string')
     def map_of_enum_string_validate_enum(cls, value):
@@ -91,7 +90,7 @@ class MapTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

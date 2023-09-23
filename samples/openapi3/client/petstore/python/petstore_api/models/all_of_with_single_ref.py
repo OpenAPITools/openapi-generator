@@ -29,7 +29,6 @@ class AllOfWithSingleRef(BaseModel):
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["username", "SingleRefType"]
 
     """Pydantic configuration"""
     class Config:
@@ -78,7 +77,7 @@ class AllOfWithSingleRef(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["username", "SingleRefType"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

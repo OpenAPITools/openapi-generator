@@ -30,7 +30,6 @@ class ArrayTest(BaseModel):
     array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
     array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
     """Pydantic configuration"""
     model_config = {
@@ -40,7 +39,7 @@ class ArrayTest(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -53,7 +52,7 @@ class ArrayTest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -81,9 +80,9 @@ class ArrayTest(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ArrayTest.parse_obj(obj)
+            return ArrayTest.model_validate(obj)
 
-        _obj = ArrayTest.parse_obj({
+        _obj = ArrayTest.model_validate({
             "array_of_string": obj.get("array_of_string"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
@@ -93,7 +92,7 @@ class ArrayTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["array_of_string", "array_array_of_integer", "array_array_of_model"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
