@@ -29,9 +29,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
 {{/composedSchemas.oneOf}}
     if TYPE_CHECKING:
-        actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]
+        actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}{{#isNullable}}, None{{/isNullable}}]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     {{#usePydanticV2}}
     one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
@@ -58,8 +58,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
+
     {{#usePydanticV2}}
     @field_validator('actual_instance')
     {{/usePydanticV2}}
@@ -85,23 +88,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             error_messages.append(str(e))
         {{/isContainer}}
         {{^isContainer}}
-        {{#isPrimitiveType}}
         try:
             instance.{{vendorExtensions.x-py-name}} = v
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        if not isinstance(v, {{{dataType}}}):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
-        else:
-            match += 1
-        {{/isPrimitiveType}}
         {{/isContainer}}
         {{/composedSchemas.oneOf}}
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -180,6 +177,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
