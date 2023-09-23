@@ -29,6 +29,7 @@ curl -X POST http://petstore.swagger.io:80/v2
 curl -X GET http://petstore.swagger.io:80/v2
 curl -X DELETE http://petstore.swagger.io:80/v2
 curl -X POST http://petstore.swagger.io:80/v2/inline-additionalProperties
+curl -X POST http://petstore.swagger.io:80/v2/inline-freeform-additionalProperties
 curl -X GET http://petstore.swagger.io:80/v2/jsonFormData
 curl -X POST http://petstore.swagger.io:80/v2/nullable
 curl -X PUT http://petstore.swagger.io:80/v2/test-query-parameters

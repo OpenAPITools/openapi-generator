@@ -40,6 +40,7 @@ import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
@@ -162,6 +163,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'TestInlineFreeformAdditionalPropertiesRequest':
+          return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
           return User.fromJson(value as Map<String, dynamic>) as ReturnType;
         default:

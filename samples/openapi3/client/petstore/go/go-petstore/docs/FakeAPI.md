@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**TestEnumParameters**](FakeAPI.md#TestEnumParameters) | **Get** /fake | To test enum parameters
 [**TestGroupParameters**](FakeAPI.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeAPI.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
+[**TestInlineFreeformAdditionalProperties**](FakeAPI.md#TestInlineFreeformAdditionalProperties) | **Post** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**TestJsonFormData**](FakeAPI.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 [**TestQueryDeepObject**](FakeAPI.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
 [**TestQueryParameterCollectionFormat**](FakeAPI.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
@@ -897,6 +898,70 @@ Other parameters are passed through a pointer to a apiTestInlineAdditionalProper
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **requestBody** | **map[string]string** | request body | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestInlineFreeformAdditionalProperties
+
+> TestInlineFreeformAdditionalProperties(ctx).TestInlineFreeformAdditionalPropertiesRequest(testInlineFreeformAdditionalPropertiesRequest).Execute()
+
+test inline free-form additionalProperties
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+    testInlineFreeformAdditionalPropertiesRequest := *openapiclient.NewTestInlineFreeformAdditionalPropertiesRequest() // TestInlineFreeformAdditionalPropertiesRequest | request body
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.FakeAPI.TestInlineFreeformAdditionalProperties(context.Background()).TestInlineFreeformAdditionalPropertiesRequest(testInlineFreeformAdditionalPropertiesRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestInlineFreeformAdditionalProperties``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestInlineFreeformAdditionalPropertiesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md) | request body | 
 
 ### Return type
 

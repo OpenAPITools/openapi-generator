@@ -70,6 +70,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Test-PSEnumParameters**](docs/PSFakeApi.md#Test-PSEnumParameters) | **GET** /fake | To test enum parameters
 *PSFakeApi* | [**Test-PSGroupParameters**](docs/PSFakeApi.md#Test-PSGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *PSFakeApi* | [**Test-PSInlineAdditionalProperties**](docs/PSFakeApi.md#Test-PSInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*PSFakeApi* | [**Test-PSInlineFreeformAdditionalProperties**](docs/PSFakeApi.md#Test-PSInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *PSFakeApi* | [**Test-PSJsonFormData**](docs/PSFakeApi.md#Test-PSJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *PSFakeApi* | [**Test-PSQueryParameterCollectionFormat**](docs/PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *PSFakeClassnameTags123Api* | [**Test-PSClassname**](docs/PSFakeClassnameTags123Api.md#Test-PSClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -166,6 +167,7 @@ Class | Method | HTTP request | Description
  - [PSPetstore\Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [PSPetstore\Model.SpecialModelName](docs/SpecialModelName.md)
  - [PSPetstore\Model.Tag](docs/Tag.md)
+ - [PSPetstore\Model.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [PSPetstore\Model.Triangle](docs/Triangle.md)
  - [PSPetstore\Model.TriangleInterface](docs/TriangleInterface.md)
  - [PSPetstore\Model.User](docs/User.md)

@@ -40,6 +40,7 @@
 #include "OuterComposite.h"
 #include "OuterObjectWithEnumProperty.h"
 #include "Pet.h"
+#include "TestInlineFreeformAdditionalProperties_request.h"
 #include "User.h"
 #include <map>
 #include <string>
@@ -900,6 +901,68 @@ private:
 };
 
 /// <summary>
+/// test inline free-form additionalProperties
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+class  FakeInline_freeform_additionalPropertiesResource: public restbed::Resource
+{
+public:
+    FakeInline_freeform_additionalPropertiesResource(const std::string& context = "/v2");
+    virtual ~FakeInline_freeform_additionalPropertiesResource() = default;
+
+    FakeInline_freeform_additionalPropertiesResource(
+        const FakeInline_freeform_additionalPropertiesResource& other) = default; // copy constructor
+    FakeInline_freeform_additionalPropertiesResource(FakeInline_freeform_additionalPropertiesResource&& other) noexcept = default; // move constructor
+
+    FakeInline_freeform_additionalPropertiesResource& operator=(const FakeInline_freeform_additionalPropertiesResource& other) = default; // copy assignment
+    FakeInline_freeform_additionalPropertiesResource& operator=(FakeInline_freeform_additionalPropertiesResource&& other) noexcept = default; // move assignment
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        TestInlineFreeformAdditionalProperties_request & testInlineFreeformAdditionalPropertiesRequest)> handler_POST_func =
+            [](TestInlineFreeformAdditionalProperties_request &) -> int
+                { throw FakeApiException(501, "Not implemented"); };
+
+
+protected:
+    //////////////////////////////////////////////////////////
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
+    //////////////////////////////////////////////////////////
+
+    virtual int handler_POST(
+        TestInlineFreeformAdditionalProperties_request & testInlineFreeformAdditionalPropertiesRequest);
+
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
+
+    virtual std::pair<int, std::string> handleFakeApiException(const FakeApiException& e);
+    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
+    virtual std::pair<int, std::string> handleUnspecifiedException();
+
+    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
+        const std::string& header);
+
+    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
+    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result);
+
+private:
+    void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
+};
+
+/// <summary>
 /// test json serialization of form data
 /// </summary>
 /// <remarks>
@@ -1100,6 +1163,7 @@ using FakeApiFakeBody_with_file_schemaResource [[deprecated]] = FakeApiResources
 using FakeApiFakeBody_with_query_paramsResource [[deprecated]] = FakeApiResources::FakeBody_with_query_paramsResource;
 using FakeApiFakeResource [[deprecated]] = FakeApiResources::FakeResource;
 using FakeApiFakeInline_additionalPropertiesResource [[deprecated]] = FakeApiResources::FakeInline_additionalPropertiesResource;
+using FakeApiFakeInline_freeform_additionalPropertiesResource [[deprecated]] = FakeApiResources::FakeInline_freeform_additionalPropertiesResource;
 using FakeApiFakeJsonFormDataResource [[deprecated]] = FakeApiResources::FakeJsonFormDataResource;
 using FakeApiFakeNullableResource [[deprecated]] = FakeApiResources::FakeNullableResource;
 using FakeApiFakeTest_query_parametersResource [[deprecated]] = FakeApiResources::FakeTest_query_parametersResource;
@@ -1126,6 +1190,7 @@ public:
     std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> getFakeBody_with_query_paramsResource();
     std::shared_ptr<FakeApiResources::FakeResource> getFakeResource();
     std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> getFakeInline_additionalPropertiesResource();
+    std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> getFakeInline_freeform_additionalPropertiesResource();
     std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> getFakeJsonFormDataResource();
     std::shared_ptr<FakeApiResources::FakeNullableResource> getFakeNullableResource();
     std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> getFakeTest_query_parametersResource();
@@ -1143,6 +1208,7 @@ public:
     void setResource(std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> resource);
+    void setResource(std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeNullableResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> resource);
@@ -1173,6 +1239,8 @@ public:
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeInline_additionalPropertiesResource(std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> spFakeApiFakeInline_additionalPropertiesResource);
     [[deprecated("use setResource()")]]
+    virtual void setFakeApiFakeInline_freeform_additionalPropertiesResource(std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> spFakeApiFakeInline_freeform_additionalPropertiesResource);
+    [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeJsonFormDataResource(std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> spFakeApiFakeJsonFormDataResource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeNullableResource(std::shared_ptr<FakeApiResources::FakeNullableResource> spFakeApiFakeNullableResource);
@@ -1197,6 +1265,7 @@ protected:
 	std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> m_spFakeBody_with_query_paramsResource;
 	std::shared_ptr<FakeApiResources::FakeResource> m_spFakeResource;
 	std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> m_spFakeInline_additionalPropertiesResource;
+	std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> m_spFakeInline_freeform_additionalPropertiesResource;
 	std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> m_spFakeJsonFormDataResource;
 	std::shared_ptr<FakeApiResources::FakeNullableResource> m_spFakeNullableResource;
 	std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> m_spFakeTest_query_parametersResource;
