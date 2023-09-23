@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,6 +141,15 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
 
+            for (CodegenProperty prop : model.vars) {
+                if (prop.isArray || prop.isMap) {
+                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", "array");
+                }
+                else {
+                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", prop.dataType);
+                }
+            }
+
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
@@ -153,5 +161,42 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
         }
         return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap operations = objs.getOperations();
+        for (CodegenOperation operation : operations.getOperation()) {
+            if (operation.returnType == null) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
+            }
+            else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+            }
+
+            for (CodegenParameter param : operation.allParams) {
+                if (param.isArray || param.isMap) {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
+                }
+                else {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        if (codegenProperty.isArray) {
+            if (schema.getDefault() != null) {
+                return "[" + schema.getDefault().toString() + "]";
+            } else {
+                return null;
+            }
+        }
+        return super.toDefaultValue(codegenProperty, schema);
     }
 }

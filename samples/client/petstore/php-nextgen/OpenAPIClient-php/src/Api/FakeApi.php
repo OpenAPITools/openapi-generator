@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -52,22 +54,22 @@ class FakeApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -134,17 +136,17 @@ class FakeApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -157,7 +159,7 @@ class FakeApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -167,7 +169,7 @@ class FakeApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -175,7 +177,7 @@ class FakeApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -185,11 +187,13 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\FakeBigDecimalMap200Response
      */
-    public function fakeBigDecimalMap(string $contentType = self::contentTypes['fakeBigDecimalMap'][0])
+    public function fakeBigDecimalMap(
+        string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
+    ): \OpenAPI\Client\Model\FakeBigDecimalMap200Response
     {
         list($response) = $this->fakeBigDecimalMapWithHttpInfo($contentType);
         return $response;
@@ -200,11 +204,13 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\FakeBigDecimalMap200Response, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeBigDecimalMapWithHttpInfo(string $contentType = self::contentTypes['fakeBigDecimalMap'][0])
+    public function fakeBigDecimalMapWithHttpInfo(
+        string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
+    ): array
     {
         $request = $this->fakeBigDecimalMapRequest($contentType);
 
@@ -297,10 +303,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeBigDecimalMapAsync(string $contentType = self::contentTypes['fakeBigDecimalMap'][0])
+    public function fakeBigDecimalMapAsync(
+        string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
+    ): PromiseInterface
     {
         return $this->fakeBigDecimalMapAsyncWithHttpInfo($contentType)
             ->then(
@@ -315,10 +323,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeBigDecimalMapAsyncWithHttpInfo(string $contentType = self::contentTypes['fakeBigDecimalMap'][0])
+    public function fakeBigDecimalMapAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\FakeBigDecimalMap200Response';
         $request = $this->fakeBigDecimalMapRequest($contentType);
@@ -364,10 +374,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeBigDecimalMapRequest(string $contentType = self::contentTypes['fakeBigDecimalMap'][0])
+    public function fakeBigDecimalMapRequest(
+        string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
+    ): Request
     {
 
 
@@ -442,11 +454,13 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\HealthCheckResult
      */
-    public function fakeHealthGet(string $contentType = self::contentTypes['fakeHealthGet'][0])
+    public function fakeHealthGet(
+        string $contentType = self::contentTypes['fakeHealthGet'][0]
+    ): \OpenAPI\Client\Model\HealthCheckResult
     {
         list($response) = $this->fakeHealthGetWithHttpInfo($contentType);
         return $response;
@@ -459,11 +473,13 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\HealthCheckResult, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeHealthGetWithHttpInfo(string $contentType = self::contentTypes['fakeHealthGet'][0])
+    public function fakeHealthGetWithHttpInfo(
+        string $contentType = self::contentTypes['fakeHealthGet'][0]
+    ): array
     {
         $request = $this->fakeHealthGetRequest($contentType);
 
@@ -558,10 +574,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeHealthGetAsync(string $contentType = self::contentTypes['fakeHealthGet'][0])
+    public function fakeHealthGetAsync(
+        string $contentType = self::contentTypes['fakeHealthGet'][0]
+    ): PromiseInterface
     {
         return $this->fakeHealthGetAsyncWithHttpInfo($contentType)
             ->then(
@@ -578,10 +596,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeHealthGetAsyncWithHttpInfo(string $contentType = self::contentTypes['fakeHealthGet'][0])
+    public function fakeHealthGetAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['fakeHealthGet'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
         $request = $this->fakeHealthGetRequest($contentType);
@@ -627,10 +647,12 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeHealthGetRequest(string $contentType = self::contentTypes['fakeHealthGet'][0])
+    public function fakeHealthGetRequest(
+        string $contentType = self::contentTypes['fakeHealthGet'][0]
+    ): Request
     {
 
 
@@ -704,15 +726,20 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string|null $query_1 query parameter (optional)
+     * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function fakeHttpSignatureTest($pet, $query_1 = null, $header_1 = null, string $contentType = self::contentTypes['fakeHttpSignatureTest'][0])
+    public function fakeHttpSignatureTest(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?string $query_1 = null,
+        ?string $header_1 = null,
+        string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
+    ): void
     {
         $this->fakeHttpSignatureTestWithHttpInfo($pet, $query_1, $header_1, $contentType);
     }
@@ -723,15 +750,20 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string|null $query_1 query parameter (optional)
+     * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeHttpSignatureTestWithHttpInfo($pet, $query_1 = null, $header_1 = null, string $contentType = self::contentTypes['fakeHttpSignatureTest'][0])
+    public function fakeHttpSignatureTestWithHttpInfo(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?string $query_1 = null,
+        ?string $header_1 = null,
+        string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
+    ): array
     {
         $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1, $contentType);
 
@@ -785,14 +817,19 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string|null $query_1 query parameter (optional)
+     * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeHttpSignatureTestAsync($pet, $query_1 = null, $header_1 = null, string $contentType = self::contentTypes['fakeHttpSignatureTest'][0])
+    public function fakeHttpSignatureTestAsync(
+        \OpenAPI\Client\Model\Pet $pet,
+        ?string $query_1 = null,
+        ?string $header_1 = null,
+        string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
+    ): PromiseInterface
     {
         return $this->fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1, $header_1, $contentType)
             ->then(
@@ -808,14 +845,19 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string|null $query_1 query parameter (optional)
+     * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1 = null, $header_1 = null, string $contentType = self::contentTypes['fakeHttpSignatureTest'][0])
+    public function fakeHttpSignatureTestAsyncWithHttpInfo(
+        $pet,
+        $query_1 = null,
+        $header_1 = null,
+        string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1, $contentType);
@@ -847,19 +889,24 @@ class FakeApi
      * Create request for operation 'fakeHttpSignatureTest'
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string|null $query_1 query parameter (optional)
+     * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null, string $contentType = self::contentTypes['fakeHttpSignatureTest'][0])
+    public function fakeHttpSignatureTestRequest(
+        $pet,
+        $query_1 = null,
+        $header_1 = null,
+        string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
+    ): Request
     {
 
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $pet when calling fakeHttpSignatureTest'
             );
         }
@@ -954,14 +1001,17 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerialize
      *
-     * @param  bool $body Input boolean as post body (optional)
+     * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return bool
      */
-    public function fakeOuterBooleanSerialize($body = null, string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0])
+    public function fakeOuterBooleanSerialize(
+        ?bool $body = null,
+        string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
+    ): bool
     {
         list($response) = $this->fakeOuterBooleanSerializeWithHttpInfo($body, $contentType);
         return $response;
@@ -970,14 +1020,17 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerializeWithHttpInfo
      *
-     * @param  bool $body Input boolean as post body (optional)
+     * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of bool, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterBooleanSerializeWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0])
+    public function fakeOuterBooleanSerializeWithHttpInfo(
+        ?bool $body = null,
+        string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
+    ): array
     {
         $request = $this->fakeOuterBooleanSerializeRequest($body, $contentType);
 
@@ -1068,13 +1121,16 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerializeAsync
      *
-     * @param  bool $body Input boolean as post body (optional)
+     * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterBooleanSerializeAsync($body = null, string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0])
+    public function fakeOuterBooleanSerializeAsync(
+        ?bool $body = null,
+        string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
+    ): PromiseInterface
     {
         return $this->fakeOuterBooleanSerializeAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -1087,13 +1143,16 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerializeAsyncWithHttpInfo
      *
-     * @param  bool $body Input boolean as post body (optional)
+     * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterBooleanSerializeAsyncWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0])
+    public function fakeOuterBooleanSerializeAsyncWithHttpInfo(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
+    ): PromiseInterface
     {
         $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($body, $contentType);
@@ -1137,13 +1196,16 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterBooleanSerialize'
      *
-     * @param  bool $body Input boolean as post body (optional)
+     * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeOuterBooleanSerializeRequest($body = null, string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0])
+    public function fakeOuterBooleanSerializeRequest(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
+    ): Request
     {
 
 
@@ -1222,14 +1284,17 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterComposite
      */
-    public function fakeOuterCompositeSerialize($outer_composite = null, string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0])
+    public function fakeOuterCompositeSerialize(
+        ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
+        string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
+    ): \OpenAPI\Client\Model\OuterComposite
     {
         list($response) = $this->fakeOuterCompositeSerializeWithHttpInfo($outer_composite, $contentType);
         return $response;
@@ -1238,14 +1303,17 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterCompositeSerializeWithHttpInfo($outer_composite = null, string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0])
+    public function fakeOuterCompositeSerializeWithHttpInfo(
+        ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
+        string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
+    ): array
     {
         $request = $this->fakeOuterCompositeSerializeRequest($outer_composite, $contentType);
 
@@ -1336,13 +1404,16 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeAsync
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterCompositeSerializeAsync($outer_composite = null, string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0])
+    public function fakeOuterCompositeSerializeAsync(
+        ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
+        string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
+    ): PromiseInterface
     {
         return $this->fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite, $contentType)
             ->then(
@@ -1355,13 +1426,16 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeAsyncWithHttpInfo
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite = null, string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0])
+    public function fakeOuterCompositeSerializeAsyncWithHttpInfo(
+        $outer_composite = null,
+        string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\OuterComposite';
         $request = $this->fakeOuterCompositeSerializeRequest($outer_composite, $contentType);
@@ -1405,13 +1479,16 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterCompositeSerialize'
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeOuterCompositeSerializeRequest($outer_composite = null, string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0])
+    public function fakeOuterCompositeSerializeRequest(
+        $outer_composite = null,
+        string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
+    ): Request
     {
 
 
@@ -1490,14 +1567,17 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerialize
      *
-     * @param  float $body Input number as post body (optional)
+     * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return float
      */
-    public function fakeOuterNumberSerialize($body = null, string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0])
+    public function fakeOuterNumberSerialize(
+        ?float $body = null,
+        string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
+    ): float
     {
         list($response) = $this->fakeOuterNumberSerializeWithHttpInfo($body, $contentType);
         return $response;
@@ -1506,14 +1586,17 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerializeWithHttpInfo
      *
-     * @param  float $body Input number as post body (optional)
+     * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of float, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterNumberSerializeWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0])
+    public function fakeOuterNumberSerializeWithHttpInfo(
+        ?float $body = null,
+        string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
+    ): array
     {
         $request = $this->fakeOuterNumberSerializeRequest($body, $contentType);
 
@@ -1604,13 +1687,16 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerializeAsync
      *
-     * @param  float $body Input number as post body (optional)
+     * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterNumberSerializeAsync($body = null, string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0])
+    public function fakeOuterNumberSerializeAsync(
+        ?float $body = null,
+        string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
+    ): PromiseInterface
     {
         return $this->fakeOuterNumberSerializeAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -1623,13 +1709,16 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerializeAsyncWithHttpInfo
      *
-     * @param  float $body Input number as post body (optional)
+     * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0])
+    public function fakeOuterNumberSerializeAsyncWithHttpInfo(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
+    ): PromiseInterface
     {
         $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body, $contentType);
@@ -1673,13 +1762,16 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterNumberSerialize'
      *
-     * @param  float $body Input number as post body (optional)
+     * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeOuterNumberSerializeRequest($body = null, string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0])
+    public function fakeOuterNumberSerializeRequest(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
+    ): Request
     {
 
 
@@ -1758,14 +1850,17 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function fakeOuterStringSerialize($body = null, string $contentType = self::contentTypes['fakeOuterStringSerialize'][0])
+    public function fakeOuterStringSerialize(
+        ?string $body = null,
+        string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
+    ): string
     {
         list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body, $contentType);
         return $response;
@@ -1774,14 +1869,17 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterStringSerializeWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterStringSerialize'][0])
+    public function fakeOuterStringSerializeWithHttpInfo(
+        ?string $body = null,
+        string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
+    ): array
     {
         $request = $this->fakeOuterStringSerializeRequest($body, $contentType);
 
@@ -1872,13 +1970,16 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsync
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterStringSerializeAsync($body = null, string $contentType = self::contentTypes['fakeOuterStringSerialize'][0])
+    public function fakeOuterStringSerializeAsync(
+        ?string $body = null,
+        string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
+    ): PromiseInterface
     {
         return $this->fakeOuterStringSerializeAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -1891,13 +1992,16 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsyncWithHttpInfo
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null, string $contentType = self::contentTypes['fakeOuterStringSerialize'][0])
+    public function fakeOuterStringSerializeAsyncWithHttpInfo(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body, $contentType);
@@ -1941,13 +2045,16 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterStringSerialize'
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeOuterStringSerializeRequest($body = null, string $contentType = self::contentTypes['fakeOuterStringSerialize'][0])
+    public function fakeOuterStringSerializeRequest(
+        $body = null,
+        string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
+    ): Request
     {
 
 
@@ -2029,11 +2136,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterObjectWithEnumProperty
      */
-    public function fakePropertyEnumIntegerSerialize($outer_object_with_enum_property, string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0])
+    public function fakePropertyEnumIntegerSerialize(
+        \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
+        string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
+    ): \OpenAPI\Client\Model\OuterObjectWithEnumProperty
     {
         list($response) = $this->fakePropertyEnumIntegerSerializeWithHttpInfo($outer_object_with_enum_property, $contentType);
         return $response;
@@ -2045,11 +2155,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterObjectWithEnumProperty, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakePropertyEnumIntegerSerializeWithHttpInfo($outer_object_with_enum_property, string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0])
+    public function fakePropertyEnumIntegerSerializeWithHttpInfo(
+        \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
+        string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
+    ): array
     {
         $request = $this->fakePropertyEnumIntegerSerializeRequest($outer_object_with_enum_property, $contentType);
 
@@ -2143,10 +2256,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakePropertyEnumIntegerSerializeAsync($outer_object_with_enum_property, string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0])
+    public function fakePropertyEnumIntegerSerializeAsync(
+        \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
+        string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
+    ): PromiseInterface
     {
         return $this->fakePropertyEnumIntegerSerializeAsyncWithHttpInfo($outer_object_with_enum_property, $contentType)
             ->then(
@@ -2162,10 +2278,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fakePropertyEnumIntegerSerializeAsyncWithHttpInfo($outer_object_with_enum_property, string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0])
+    public function fakePropertyEnumIntegerSerializeAsyncWithHttpInfo(
+        $outer_object_with_enum_property,
+        string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\OuterObjectWithEnumProperty';
         $request = $this->fakePropertyEnumIntegerSerializeRequest($outer_object_with_enum_property, $contentType);
@@ -2212,15 +2331,18 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakePropertyEnumIntegerSerializeRequest($outer_object_with_enum_property, string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0])
+    public function fakePropertyEnumIntegerSerializeRequest(
+        $outer_object_with_enum_property,
+        string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
+    ): Request
     {
 
         // verify the required parameter 'outer_object_with_enum_property' is set
         if ($outer_object_with_enum_property === null || (is_array($outer_object_with_enum_property) && count($outer_object_with_enum_property) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $outer_object_with_enum_property when calling fakePropertyEnumIntegerSerialize'
             );
         }
@@ -2303,11 +2425,14 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testBodyWithBinary($body, string $contentType = self::contentTypes['testBodyWithBinary'][0])
+    public function testBodyWithBinary(
+        \SplFileObject $body,
+        string $contentType = self::contentTypes['testBodyWithBinary'][0]
+    ): void
     {
         $this->testBodyWithBinaryWithHttpInfo($body, $contentType);
     }
@@ -2318,11 +2443,14 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithBinaryWithHttpInfo($body, string $contentType = self::contentTypes['testBodyWithBinary'][0])
+    public function testBodyWithBinaryWithHttpInfo(
+        \SplFileObject $body,
+        string $contentType = self::contentTypes['testBodyWithBinary'][0]
+    ): array
     {
         $request = $this->testBodyWithBinaryRequest($body, $contentType);
 
@@ -2376,10 +2504,13 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithBinaryAsync($body, string $contentType = self::contentTypes['testBodyWithBinary'][0])
+    public function testBodyWithBinaryAsync(
+        \SplFileObject $body,
+        string $contentType = self::contentTypes['testBodyWithBinary'][0]
+    ): PromiseInterface
     {
         return $this->testBodyWithBinaryAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -2395,10 +2526,13 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithBinaryAsyncWithHttpInfo($body, string $contentType = self::contentTypes['testBodyWithBinary'][0])
+    public function testBodyWithBinaryAsyncWithHttpInfo(
+        $body,
+        string $contentType = self::contentTypes['testBodyWithBinary'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testBodyWithBinaryRequest($body, $contentType);
@@ -2432,15 +2566,18 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyWithBinaryRequest($body, string $contentType = self::contentTypes['testBodyWithBinary'][0])
+    public function testBodyWithBinaryRequest(
+        $body,
+        string $contentType = self::contentTypes['testBodyWithBinary'][0]
+    ): Request
     {
 
         // verify the required parameter 'body' is set
         if ($body === null || (is_array($body) && count($body) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $body when calling testBodyWithBinary'
             );
         }
@@ -2523,11 +2660,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testBodyWithFileSchema($file_schema_test_class, string $contentType = self::contentTypes['testBodyWithFileSchema'][0])
+    public function testBodyWithFileSchema(
+        \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
+        string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
+    ): void
     {
         $this->testBodyWithFileSchemaWithHttpInfo($file_schema_test_class, $contentType);
     }
@@ -2538,11 +2678,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithFileSchemaWithHttpInfo($file_schema_test_class, string $contentType = self::contentTypes['testBodyWithFileSchema'][0])
+    public function testBodyWithFileSchemaWithHttpInfo(
+        \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
+        string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
+    ): array
     {
         $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class, $contentType);
 
@@ -2596,10 +2739,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithFileSchemaAsync($file_schema_test_class, string $contentType = self::contentTypes['testBodyWithFileSchema'][0])
+    public function testBodyWithFileSchemaAsync(
+        \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
+        string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
+    ): PromiseInterface
     {
         return $this->testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class, $contentType)
             ->then(
@@ -2615,10 +2761,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class, string $contentType = self::contentTypes['testBodyWithFileSchema'][0])
+    public function testBodyWithFileSchemaAsyncWithHttpInfo(
+        $file_schema_test_class,
+        string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class, $contentType);
@@ -2652,15 +2801,18 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyWithFileSchemaRequest($file_schema_test_class, string $contentType = self::contentTypes['testBodyWithFileSchema'][0])
+    public function testBodyWithFileSchemaRequest(
+        $file_schema_test_class,
+        string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
+    ): Request
     {
 
         // verify the required parameter 'file_schema_test_class' is set
         if ($file_schema_test_class === null || (is_array($file_schema_test_class) && count($file_schema_test_class) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $file_schema_test_class when calling testBodyWithFileSchema'
             );
         }
@@ -2744,11 +2896,15 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testBodyWithQueryParams($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParams(
+        string $query,
+        \OpenAPI\Client\Model\User $user,
+        string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
+    ): void
     {
         $this->testBodyWithQueryParamsWithHttpInfo($query, $user, $contentType);
     }
@@ -2760,11 +2916,15 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithQueryParamsWithHttpInfo($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsWithHttpInfo(
+        string $query,
+        \OpenAPI\Client\Model\User $user,
+        string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
+    ): array
     {
         $request = $this->testBodyWithQueryParamsRequest($query, $user, $contentType);
 
@@ -2819,10 +2979,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithQueryParamsAsync($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsAsync(
+        string $query,
+        \OpenAPI\Client\Model\User $user,
+        string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
+    ): PromiseInterface
     {
         return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $user, $contentType)
             ->then(
@@ -2839,10 +3003,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsAsyncWithHttpInfo(
+        $query,
+        $user,
+        string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testBodyWithQueryParamsRequest($query, $user, $contentType);
@@ -2877,22 +3045,26 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyWithQueryParamsRequest($query, $user, string $contentType = self::contentTypes['testBodyWithQueryParams'][0])
+    public function testBodyWithQueryParamsRequest(
+        $query,
+        $user,
+        string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
+    ): Request
     {
 
         // verify the required parameter 'query' is set
         if ($query === null || (is_array($query) && count($query) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $query when calling testBodyWithQueryParams'
             );
         }
 
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling testBodyWithQueryParams'
             );
         }
@@ -2986,11 +3158,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testClientModel($client, string $contentType = self::contentTypes['testClientModel'][0])
+    public function testClientModel(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClientModel'][0]
+    ): \OpenAPI\Client\Model\Client
     {
         list($response) = $this->testClientModelWithHttpInfo($client, $contentType);
         return $response;
@@ -3004,11 +3179,14 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testClientModelWithHttpInfo($client, string $contentType = self::contentTypes['testClientModel'][0])
+    public function testClientModelWithHttpInfo(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClientModel'][0]
+    ): array
     {
         $request = $this->testClientModelRequest($client, $contentType);
 
@@ -3104,10 +3282,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testClientModelAsync($client, string $contentType = self::contentTypes['testClientModel'][0])
+    public function testClientModelAsync(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClientModel'][0]
+    ): PromiseInterface
     {
         return $this->testClientModelAsyncWithHttpInfo($client, $contentType)
             ->then(
@@ -3125,10 +3306,13 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testClientModelAsyncWithHttpInfo($client, string $contentType = self::contentTypes['testClientModel'][0])
+    public function testClientModelAsyncWithHttpInfo(
+        $client,
+        string $contentType = self::contentTypes['testClientModel'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClientModelRequest($client, $contentType);
@@ -3175,15 +3359,18 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testClientModelRequest($client, string $contentType = self::contentTypes['testClientModel'][0])
+    public function testClientModelRequest(
+        $client,
+        string $contentType = self::contentTypes['testClientModel'][0]
+    ): Request
     {
 
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $client when calling testClientModel'
             );
         }
@@ -3269,23 +3456,39 @@ class FakeApi
      * @param  float $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
-     * @param  \SplFileObject $binary None (optional)
-     * @param  \DateTime $date None (optional)
-     * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  int|null $integer None (optional)
+     * @param  int|null $int32 None (optional)
+     * @param  int|null $int64 None (optional)
+     * @param  float|null $float None (optional)
+     * @param  string|null $string None (optional)
+     * @param  \SplFileObject|null $binary None (optional)
+     * @param  \DateTime|null $date None (optional)
+     * @param  \DateTime|null $date_time None (optional)
+     * @param  string|null $password None (optional)
+     * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null, string $contentType = self::contentTypes['testEndpointParameters'][0])
+    public function testEndpointParameters(
+        float $number,
+        float $double,
+        string $pattern_without_delimiter,
+        string $byte,
+        ?int $integer = null,
+        ?int $int32 = null,
+        ?int $int64 = null,
+        ?float $float = null,
+        ?string $string = null,
+        ?\SplFileObject $binary = null,
+        ?\DateTime $date = null,
+        ?\DateTime $date_time = null,
+        ?string $password = null,
+        ?string $callback = null,
+        string $contentType = self::contentTypes['testEndpointParameters'][0]
+    ): void
     {
         $this->testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback, $contentType);
     }
@@ -3299,23 +3502,39 @@ class FakeApi
      * @param  float $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
-     * @param  \SplFileObject $binary None (optional)
-     * @param  \DateTime $date None (optional)
-     * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  int|null $integer None (optional)
+     * @param  int|null $int32 None (optional)
+     * @param  int|null $int64 None (optional)
+     * @param  float|null $float None (optional)
+     * @param  string|null $string None (optional)
+     * @param  \SplFileObject|null $binary None (optional)
+     * @param  \DateTime|null $date None (optional)
+     * @param  \DateTime|null $date_time None (optional)
+     * @param  string|null $password None (optional)
+     * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null, string $contentType = self::contentTypes['testEndpointParameters'][0])
+    public function testEndpointParametersWithHttpInfo(
+        float $number,
+        float $double,
+        string $pattern_without_delimiter,
+        string $byte,
+        ?int $integer = null,
+        ?int $int32 = null,
+        ?int $int64 = null,
+        ?float $float = null,
+        ?string $string = null,
+        ?\SplFileObject $binary = null,
+        ?\DateTime $date = null,
+        ?\DateTime $date_time = null,
+        ?string $password = null,
+        ?string $callback = null,
+        string $contentType = self::contentTypes['testEndpointParameters'][0]
+    ): array
     {
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback, $contentType);
 
@@ -3372,22 +3591,38 @@ class FakeApi
      * @param  float $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
-     * @param  \SplFileObject $binary None (optional)
-     * @param  \DateTime $date None (optional)
-     * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  int|null $integer None (optional)
+     * @param  int|null $int32 None (optional)
+     * @param  int|null $int64 None (optional)
+     * @param  float|null $float None (optional)
+     * @param  string|null $string None (optional)
+     * @param  \SplFileObject|null $binary None (optional)
+     * @param  \DateTime|null $date None (optional)
+     * @param  \DateTime|null $date_time None (optional)
+     * @param  string|null $password None (optional)
+     * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null, string $contentType = self::contentTypes['testEndpointParameters'][0])
+    public function testEndpointParametersAsync(
+        float $number,
+        float $double,
+        string $pattern_without_delimiter,
+        string $byte,
+        ?int $integer = null,
+        ?int $int32 = null,
+        ?int $int64 = null,
+        ?float $float = null,
+        ?string $string = null,
+        ?\SplFileObject $binary = null,
+        ?\DateTime $date = null,
+        ?\DateTime $date_time = null,
+        ?string $password = null,
+        ?string $callback = null,
+        string $contentType = self::contentTypes['testEndpointParameters'][0]
+    ): PromiseInterface
     {
         return $this->testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback, $contentType)
             ->then(
@@ -3406,22 +3641,38 @@ class FakeApi
      * @param  float $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
-     * @param  \SplFileObject $binary None (optional)
-     * @param  \DateTime $date None (optional)
-     * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  int|null $integer None (optional)
+     * @param  int|null $int32 None (optional)
+     * @param  int|null $int64 None (optional)
+     * @param  float|null $float None (optional)
+     * @param  string|null $string None (optional)
+     * @param  \SplFileObject|null $binary None (optional)
+     * @param  \DateTime|null $date None (optional)
+     * @param  \DateTime|null $date_time None (optional)
+     * @param  string|null $password None (optional)
+     * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null, string $contentType = self::contentTypes['testEndpointParameters'][0])
+    public function testEndpointParametersAsyncWithHttpInfo(
+        $number,
+        $double,
+        $pattern_without_delimiter,
+        $byte,
+        $integer = null,
+        $int32 = null,
+        $int64 = null,
+        $float = null,
+        $string = null,
+        $binary = null,
+        $date = null,
+        $date_time = null,
+        $password = null,
+        $callback = null,
+        string $contentType = self::contentTypes['testEndpointParameters'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback, $contentType);
@@ -3456,98 +3707,114 @@ class FakeApi
      * @param  float $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
-     * @param  \SplFileObject $binary None (optional)
-     * @param  \DateTime $date None (optional)
-     * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  int|null $integer None (optional)
+     * @param  int|null $int32 None (optional)
+     * @param  int|null $int64 None (optional)
+     * @param  float|null $float None (optional)
+     * @param  string|null $string None (optional)
+     * @param  \SplFileObject|null $binary None (optional)
+     * @param  \DateTime|null $date None (optional)
+     * @param  \DateTime|null $date_time None (optional)
+     * @param  string|null $password None (optional)
+     * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null, string $contentType = self::contentTypes['testEndpointParameters'][0])
+    public function testEndpointParametersRequest(
+        $number,
+        $double,
+        $pattern_without_delimiter,
+        $byte,
+        $integer = null,
+        $int32 = null,
+        $int64 = null,
+        $float = null,
+        $string = null,
+        $binary = null,
+        $date = null,
+        $date_time = null,
+        $password = null,
+        $callback = null,
+        string $contentType = self::contentTypes['testEndpointParameters'][0]
+    ): Request
     {
 
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $number when calling testEndpointParameters'
             );
         }
         if ($number > 543.2) {
-            throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 543.2.');
+            throw new InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 543.2.');
         }
         if ($number < 32.1) {
-            throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
+            throw new InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
         
         // verify the required parameter 'double' is set
         if ($double === null || (is_array($double) && count($double) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $double when calling testEndpointParameters'
             );
         }
         if ($double > 123.4) {
-            throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 123.4.');
+            throw new InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 123.4.');
         }
         if ($double < 67.8) {
-            throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
+            throw new InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
         
         // verify the required parameter 'pattern_without_delimiter' is set
         if ($pattern_without_delimiter === null || (is_array($pattern_without_delimiter) && count($pattern_without_delimiter) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters'
             );
         }
         if (!preg_match("/^[A-Z].*/", $pattern_without_delimiter)) {
-            throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
+            throw new InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
         }
         
         // verify the required parameter 'byte' is set
         if ($byte === null || (is_array($byte) && count($byte) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $byte when calling testEndpointParameters'
             );
         }
 
         if ($integer !== null && $integer > 100) {
-            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
+            throw new InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
         }
         if ($integer !== null && $integer < 10) {
-            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
+            throw new InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
         
         if ($int32 !== null && $int32 > 200) {
-            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
+            throw new InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
         }
         if ($int32 !== null && $int32 < 20) {
-            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
+            throw new InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
         
 
         if ($float !== null && $float > 987.6) {
-            throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
+            throw new InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
         }
         
         if ($string !== null && !preg_match("/[a-z]/i", $string)) {
-            throw new \InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
+            throw new InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
         
 
 
 
         if ($password !== null && strlen($password) > 64) {
-            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
+            throw new InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
         }
         if ($password !== null && strlen($password) < 10) {
-            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
+            throw new InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
         
 
@@ -3689,22 +3956,33 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  float $enum_query_double Query parameter enum test (double) (optional)
-     * @param  \OpenAPI\Client\Model\EnumClass[] $enum_query_model_array enum_query_model_array (optional)
-     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
-     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
+     * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array enum_query_model_array (optional)
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg', string $contentType = self::contentTypes['testEnumParameters'][0])
+    public function testEnumParameters(
+        ?array $enum_header_string_array = null,
+        ?string $enum_header_string = '-efg',
+        ?array $enum_query_string_array = null,
+        ?string $enum_query_string = '-efg',
+        ?int $enum_query_integer = null,
+        ?float $enum_query_double = null,
+        ?array $enum_query_model_array = null,
+        ?array $enum_form_string_array = '$',
+        ?string $enum_form_string = '-efg',
+        string $contentType = self::contentTypes['testEnumParameters'][0]
+    ): void
     {
         $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string, $contentType);
     }
@@ -3714,22 +3992,33 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  float $enum_query_double Query parameter enum test (double) (optional)
-     * @param  \OpenAPI\Client\Model\EnumClass[] $enum_query_model_array (optional)
-     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
-     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
+     * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg', string $contentType = self::contentTypes['testEnumParameters'][0])
+    public function testEnumParametersWithHttpInfo(
+        ?array $enum_header_string_array = null,
+        ?string $enum_header_string = '-efg',
+        ?array $enum_query_string_array = null,
+        ?string $enum_query_string = '-efg',
+        ?int $enum_query_integer = null,
+        ?float $enum_query_double = null,
+        ?array $enum_query_model_array = null,
+        ?array $enum_form_string_array = '$',
+        ?string $enum_form_string = '-efg',
+        string $contentType = self::contentTypes['testEnumParameters'][0]
+    ): array
     {
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string, $contentType);
 
@@ -3782,21 +4071,32 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  float $enum_query_double Query parameter enum test (double) (optional)
-     * @param  \OpenAPI\Client\Model\EnumClass[] $enum_query_model_array (optional)
-     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
-     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
+     * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg', string $contentType = self::contentTypes['testEnumParameters'][0])
+    public function testEnumParametersAsync(
+        ?array $enum_header_string_array = null,
+        ?string $enum_header_string = '-efg',
+        ?array $enum_query_string_array = null,
+        ?string $enum_query_string = '-efg',
+        ?int $enum_query_integer = null,
+        ?float $enum_query_double = null,
+        ?array $enum_query_model_array = null,
+        ?array $enum_form_string_array = '$',
+        ?string $enum_form_string = '-efg',
+        string $contentType = self::contentTypes['testEnumParameters'][0]
+    ): PromiseInterface
     {
         return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string, $contentType)
             ->then(
@@ -3811,21 +4111,32 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  float $enum_query_double Query parameter enum test (double) (optional)
-     * @param  \OpenAPI\Client\Model\EnumClass[] $enum_query_model_array (optional)
-     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
-     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
+     * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg', string $contentType = self::contentTypes['testEnumParameters'][0])
+    public function testEnumParametersAsyncWithHttpInfo(
+        $enum_header_string_array = null,
+        $enum_header_string = '-efg',
+        $enum_query_string_array = null,
+        $enum_query_string = '-efg',
+        $enum_query_integer = null,
+        $enum_query_double = null,
+        $enum_query_model_array = null,
+        $enum_form_string_array = '$',
+        $enum_form_string = '-efg',
+        string $contentType = self::contentTypes['testEnumParameters'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string, $contentType);
@@ -3856,21 +4167,32 @@ class FakeApi
     /**
      * Create request for operation 'testEnumParameters'
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  float $enum_query_double Query parameter enum test (double) (optional)
-     * @param  \OpenAPI\Client\Model\EnumClass[] $enum_query_model_array (optional)
-     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
-     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
+     * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg', string $contentType = self::contentTypes['testEnumParameters'][0])
+    public function testEnumParametersRequest(
+        $enum_header_string_array = null,
+        $enum_header_string = '-efg',
+        $enum_query_string_array = null,
+        $enum_query_string = '-efg',
+        $enum_query_integer = null,
+        $enum_query_double = null,
+        $enum_query_model_array = null,
+        $enum_form_string_array = '$',
+        $enum_form_string = '-efg',
+        string $contentType = self::contentTypes['testEnumParameters'][0]
+    ): Request
     {
 
 
@@ -4021,16 +4343,18 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int|null $string_group String in group parameters (optional)
+     * @param  bool|null $boolean_group Boolean in group parameters (optional)
+     * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testGroupParameters($associative_array)
+    public function testGroupParameters(
+        array $associative_array
+    ): void
     {
         $this->testGroupParametersWithHttpInfo($associative_array);
     }
@@ -4045,16 +4369,18 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int|null $string_group String in group parameters (optional)
+     * @param  bool|null $boolean_group Boolean in group parameters (optional)
+     * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testGroupParametersWithHttpInfo($associative_array)
+    public function testGroupParametersWithHttpInfo(
+        array $associative_array
+    ): array
     {
         $request = $this->testGroupParametersRequest($associative_array);
 
@@ -4112,15 +4438,17 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int|null $string_group String in group parameters (optional)
+     * @param  bool|null $boolean_group Boolean in group parameters (optional)
+     * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testGroupParametersAsync($associative_array)
+    public function testGroupParametersAsync(
+        array $associative_array
+    ): PromiseInterface
     {
         return $this->testGroupParametersAsyncWithHttpInfo($associative_array)
             ->then(
@@ -4140,15 +4468,17 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int|null $string_group String in group parameters (optional)
+     * @param  bool|null $boolean_group Boolean in group parameters (optional)
+     * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testGroupParametersAsyncWithHttpInfo($associative_array)
+    public function testGroupParametersAsyncWithHttpInfo(
+        array $associative_array
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testGroupParametersRequest($associative_array);
@@ -4184,15 +4514,17 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int|null $string_group String in group parameters (optional)
+     * @param  bool|null $boolean_group Boolean in group parameters (optional)
+     * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testGroupParametersRequest($associative_array)
+    public function testGroupParametersRequest(
+        array $associative_array
+    ): Request
     {
         // unbox the parameters from the associative array
         $required_string_group = array_key_exists('required_string_group', $associative_array) ? $associative_array['required_string_group'] : null;
@@ -4205,21 +4537,21 @@ class FakeApi
         
         // verify the required parameter 'required_string_group' is set
         if ($required_string_group === null || (is_array($required_string_group) && count($required_string_group) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $required_string_group when calling testGroupParameters'
             );
         }
 
         // verify the required parameter 'required_boolean_group' is set
         if ($required_boolean_group === null || (is_array($required_boolean_group) && count($required_boolean_group) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $required_boolean_group when calling testGroupParameters'
             );
         }
 
         // verify the required parameter 'required_int64_group' is set
         if ($required_int64_group === null || (is_array($required_int64_group) && count($required_int64_group) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $required_int64_group when calling testGroupParameters'
             );
         }
@@ -4348,11 +4680,14 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testInlineAdditionalProperties($request_body, string $contentType = self::contentTypes['testInlineAdditionalProperties'][0])
+    public function testInlineAdditionalProperties(
+        array $request_body,
+        string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
+    ): void
     {
         $this->testInlineAdditionalPropertiesWithHttpInfo($request_body, $contentType);
     }
@@ -4365,11 +4700,14 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testInlineAdditionalPropertiesWithHttpInfo($request_body, string $contentType = self::contentTypes['testInlineAdditionalProperties'][0])
+    public function testInlineAdditionalPropertiesWithHttpInfo(
+        array $request_body,
+        string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
+    ): array
     {
         $request = $this->testInlineAdditionalPropertiesRequest($request_body, $contentType);
 
@@ -4425,10 +4763,13 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsync($request_body, string $contentType = self::contentTypes['testInlineAdditionalProperties'][0])
+    public function testInlineAdditionalPropertiesAsync(
+        array $request_body,
+        string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
+    ): PromiseInterface
     {
         return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body, $contentType)
             ->then(
@@ -4446,10 +4787,13 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body, string $contentType = self::contentTypes['testInlineAdditionalProperties'][0])
+    public function testInlineAdditionalPropertiesAsyncWithHttpInfo(
+        $request_body,
+        string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testInlineAdditionalPropertiesRequest($request_body, $contentType);
@@ -4483,15 +4827,18 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testInlineAdditionalPropertiesRequest($request_body, string $contentType = self::contentTypes['testInlineAdditionalProperties'][0])
+    public function testInlineAdditionalPropertiesRequest(
+        $request_body,
+        string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
+    ): Request
     {
 
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $request_body when calling testInlineAdditionalProperties'
             );
         }
@@ -4805,11 +5152,15 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testJsonFormData($param, $param2, string $contentType = self::contentTypes['testJsonFormData'][0])
+    public function testJsonFormData(
+        string $param,
+        string $param2,
+        string $contentType = self::contentTypes['testJsonFormData'][0]
+    ): void
     {
         $this->testJsonFormDataWithHttpInfo($param, $param2, $contentType);
     }
@@ -4823,11 +5174,15 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testJsonFormDataWithHttpInfo($param, $param2, string $contentType = self::contentTypes['testJsonFormData'][0])
+    public function testJsonFormDataWithHttpInfo(
+        string $param,
+        string $param2,
+        string $contentType = self::contentTypes['testJsonFormData'][0]
+    ): array
     {
         $request = $this->testJsonFormDataRequest($param, $param2, $contentType);
 
@@ -4884,10 +5239,14 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testJsonFormDataAsync($param, $param2, string $contentType = self::contentTypes['testJsonFormData'][0])
+    public function testJsonFormDataAsync(
+        string $param,
+        string $param2,
+        string $contentType = self::contentTypes['testJsonFormData'][0]
+    ): PromiseInterface
     {
         return $this->testJsonFormDataAsyncWithHttpInfo($param, $param2, $contentType)
             ->then(
@@ -4906,10 +5265,14 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testJsonFormDataAsyncWithHttpInfo($param, $param2, string $contentType = self::contentTypes['testJsonFormData'][0])
+    public function testJsonFormDataAsyncWithHttpInfo(
+        $param,
+        $param2,
+        string $contentType = self::contentTypes['testJsonFormData'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testJsonFormDataRequest($param, $param2, $contentType);
@@ -4944,22 +5307,26 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testJsonFormDataRequest($param, $param2, string $contentType = self::contentTypes['testJsonFormData'][0])
+    public function testJsonFormDataRequest(
+        $param,
+        $param2,
+        string $contentType = self::contentTypes['testJsonFormData'][0]
+    ): Request
     {
 
         // verify the required parameter 'param' is set
         if ($param === null || (is_array($param) && count($param) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $param when calling testJsonFormData'
             );
         }
 
         // verify the required parameter 'param2' is set
         if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $param2 when calling testJsonFormData'
             );
         }
@@ -5274,14 +5641,23 @@ class FakeApi
      * @param  string[] $url url (required)
      * @param  string[] $context context (required)
      * @param  string $allow_empty allow_empty (required)
-     * @param  array<string,string> $language language (optional)
+     * @param  array<string,string>|null $language language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null, string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0])
+    public function testQueryParameterCollectionFormat(
+        array $pipe,
+        array $ioutil,
+        array $http,
+        array $url,
+        array $context,
+        string $allow_empty,
+        ?array $language = null,
+        string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
+    ): void
     {
         $this->testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $contentType);
     }
@@ -5295,14 +5671,23 @@ class FakeApi
      * @param  string[] $url (required)
      * @param  string[] $context (required)
      * @param  string $allow_empty (required)
-     * @param  array<string,string> $language (optional)
+     * @param  array<string,string>|null $language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null, string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0])
+    public function testQueryParameterCollectionFormatWithHttpInfo(
+        array $pipe,
+        array $ioutil,
+        array $http,
+        array $url,
+        array $context,
+        string $allow_empty,
+        ?array $language = null,
+        string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
+    ): array
     {
         $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $contentType);
 
@@ -5359,13 +5744,22 @@ class FakeApi
      * @param  string[] $url (required)
      * @param  string[] $context (required)
      * @param  string $allow_empty (required)
-     * @param  array<string,string> $language (optional)
+     * @param  array<string,string>|null $language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryParameterCollectionFormatAsync($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null, string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0])
+    public function testQueryParameterCollectionFormatAsync(
+        array $pipe,
+        array $ioutil,
+        array $http,
+        array $url,
+        array $context,
+        string $allow_empty,
+        ?array $language = null,
+        string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
+    ): PromiseInterface
     {
         return $this->testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $contentType)
             ->then(
@@ -5384,13 +5778,22 @@ class FakeApi
      * @param  string[] $url (required)
      * @param  string[] $context (required)
      * @param  string $allow_empty (required)
-     * @param  array<string,string> $language (optional)
+     * @param  array<string,string>|null $language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null, string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0])
+    public function testQueryParameterCollectionFormatAsyncWithHttpInfo(
+        $pipe,
+        $ioutil,
+        $http,
+        $url,
+        $context,
+        $allow_empty,
+        $language = null,
+        string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $contentType);
@@ -5427,53 +5830,62 @@ class FakeApi
      * @param  string[] $url (required)
      * @param  string[] $context (required)
      * @param  string $allow_empty (required)
-     * @param  array<string,string> $language (optional)
+     * @param  array<string,string>|null $language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null, string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0])
+    public function testQueryParameterCollectionFormatRequest(
+        $pipe,
+        $ioutil,
+        $http,
+        $url,
+        $context,
+        $allow_empty,
+        $language = null,
+        string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
+    ): Request
     {
 
         // verify the required parameter 'pipe' is set
         if ($pipe === null || (is_array($pipe) && count($pipe) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $pipe when calling testQueryParameterCollectionFormat'
             );
         }
 
         // verify the required parameter 'ioutil' is set
         if ($ioutil === null || (is_array($ioutil) && count($ioutil) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $ioutil when calling testQueryParameterCollectionFormat'
             );
         }
 
         // verify the required parameter 'http' is set
         if ($http === null || (is_array($http) && count($http) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $http when calling testQueryParameterCollectionFormat'
             );
         }
 
         // verify the required parameter 'url' is set
         if ($url === null || (is_array($url) && count($url) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $url when calling testQueryParameterCollectionFormat'
             );
         }
 
         // verify the required parameter 'context' is set
         if ($context === null || (is_array($context) && count($context) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $context when calling testQueryParameterCollectionFormat'
             );
         }
 
         // verify the required parameter 'allow_empty' is set
         if ($allow_empty === null || (is_array($allow_empty) && count($allow_empty) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat'
             );
         }
@@ -5613,7 +6025,7 @@ class FakeApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {
