@@ -22,7 +22,7 @@ from typing_extensions import Annotated
 from typing_extensions import Annotated
 from datetime import date, datetime
 
-from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, conbytes, confloat, conint, conlist, constr, validator
+from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, conbytes, confloat, conint, conlist, constr, field_validator
 
 from typing import Any, Dict, List, Optional, Union
 

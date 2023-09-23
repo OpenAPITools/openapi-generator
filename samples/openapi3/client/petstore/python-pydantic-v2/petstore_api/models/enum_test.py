@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, field_validator
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
@@ -39,9 +39,8 @@ class EnumTest(BaseModel):
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
-    @validator('enum_string')
+    @field_validator('enum_string')
     def enum_string_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -51,14 +50,14 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
-    @validator('enum_string_required')
+    @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('UPPER', 'lower', ''):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
-    @validator('enum_integer_default')
+    @field_validator('enum_integer_default')
     def enum_integer_default_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -68,7 +67,7 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1, 5, 14)")
         return value
 
-    @validator('enum_integer')
+    @field_validator('enum_integer')
     def enum_integer_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -78,7 +77,7 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1, -1)")
         return value
 
-    @validator('enum_number')
+    @field_validator('enum_number')
     def enum_number_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -96,7 +95,7 @@ class EnumTest(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -109,7 +108,7 @@ class EnumTest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -121,7 +120,7 @@ class EnumTest(BaseModel):
 
         # set to None if outer_enum (nullable) is None
         # and __fields_set__ contains the field
-        if self.outer_enum is None and "outer_enum" in self.__fields_set__:
+        if self.outer_enum is None and "outer_enum" in self.model_fields_set:
             _dict['outerEnum'] = None
 
         return _dict
@@ -133,9 +132,9 @@ class EnumTest(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return EnumTest.parse_obj(obj)
+            return EnumTest.model_validate(obj)
 
-        _obj = EnumTest.parse_obj({
+        _obj = EnumTest.model_validate({
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
@@ -148,7 +147,7 @@ class EnumTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

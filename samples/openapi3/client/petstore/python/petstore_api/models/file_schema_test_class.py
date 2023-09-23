@@ -29,7 +29,6 @@ class FileSchemaTestClass(BaseModel):
     file: Optional[File] = None
     files: Optional[conlist(File)] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["file", "files"]
 
     """Pydantic configuration"""
     class Config:
@@ -88,7 +87,7 @@ class FileSchemaTestClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["file", "files"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

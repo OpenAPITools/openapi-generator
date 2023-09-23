@@ -28,7 +28,6 @@ class PropertyNameCollision(BaseModel):
     type: Optional[StrictStr] = Field(None, alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None
-    __properties = ["_type", "type", "type_"]
 
     """Pydantic configuration"""
     class Config:

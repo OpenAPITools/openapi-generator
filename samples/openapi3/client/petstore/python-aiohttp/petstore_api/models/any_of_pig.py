@@ -38,7 +38,7 @@ class AnyOfPig(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[BasquePig, DanishPig]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
     any_of_schemas: List[str] = Field(ANYOFPIG_ANY_OF_SCHEMAS, const=True)
 
     """Pydantic configuration"""
@@ -52,25 +52,27 @@ class AnyOfPig(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
         instance = AnyOfPig.construct()
         error_messages = []
         # validate data type: BasquePig
-        if not isinstance(v, BasquePig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
-        else:
+        try:
+            instance.anyof_schema_1_validator = v
             return v
-
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         # validate data type: DanishPig
-        if not isinstance(v, DanishPig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
-        else:
+        try:
+            instance.anyof_schema_2_validator = v
             return v
-
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if error_messages:
             # no match
             raise ValueError("No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))

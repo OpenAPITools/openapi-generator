@@ -27,7 +27,6 @@ class HealthCheckResult(BaseModel):
     """
     nullable_message: Optional[StrictStr] = Field(None, alias="NullableMessage")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["NullableMessage"]
 
     """Pydantic configuration"""
     class Config:
@@ -80,7 +79,7 @@ class HealthCheckResult(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["NullableMessage"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

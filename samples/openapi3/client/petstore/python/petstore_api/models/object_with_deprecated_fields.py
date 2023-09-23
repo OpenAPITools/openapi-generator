@@ -31,7 +31,6 @@ class ObjectWithDeprecatedFields(BaseModel):
     deprecated_ref: Optional[DeprecatedObject] = Field(None, alias="deprecatedRef")
     bars: Optional[conlist(StrictStr)] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["uuid", "id", "deprecatedRef", "bars"]
 
     """Pydantic configuration"""
     class Config:
@@ -85,7 +84,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["uuid", "id", "deprecatedRef", "bars"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

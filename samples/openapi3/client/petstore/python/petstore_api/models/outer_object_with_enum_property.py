@@ -30,7 +30,6 @@ class OuterObjectWithEnumProperty(BaseModel):
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["str_value", "value"]
 
     """Pydantic configuration"""
     class Config:
@@ -84,7 +83,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["str_value", "value"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

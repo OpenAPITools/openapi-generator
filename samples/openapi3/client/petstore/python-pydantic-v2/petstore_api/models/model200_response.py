@@ -28,7 +28,6 @@ class Model200Response(BaseModel):
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(None, alias="class")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["name", "class"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class Model200Response(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class Model200Response(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,15 +69,15 @@ class Model200Response(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Model200Response.parse_obj(obj)
+            return Model200Response.model_validate(obj)
 
-        _obj = Model200Response.parse_obj({
+        _obj = Model200Response.model_validate({
             "name": obj.get("name"),
             "var_class": obj.get("class")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["name", "class"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

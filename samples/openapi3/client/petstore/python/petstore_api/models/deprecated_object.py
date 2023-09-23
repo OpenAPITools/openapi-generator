@@ -27,7 +27,6 @@ class DeprecatedObject(BaseModel):
     """
     name: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["name"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class DeprecatedObject(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["name"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

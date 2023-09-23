@@ -30,7 +30,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["uuid", "dateTime", "map"]
 
     """Pydantic configuration"""
     model_config = {
@@ -40,7 +39,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -53,7 +52,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -79,9 +78,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return MixedPropertiesAndAdditionalPropertiesClass.parse_obj(obj)
+            return MixedPropertiesAndAdditionalPropertiesClass.model_validate(obj)
 
-        _obj = MixedPropertiesAndAdditionalPropertiesClass.parse_obj({
+        _obj = MixedPropertiesAndAdditionalPropertiesClass.model_validate({
             "uuid": obj.get("uuid"),
             "date_time": obj.get("dateTime"),
             "map": dict(
@@ -93,7 +92,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["uuid", "dateTime", "map"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

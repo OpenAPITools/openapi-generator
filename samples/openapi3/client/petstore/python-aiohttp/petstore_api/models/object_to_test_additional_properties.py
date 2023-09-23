@@ -26,7 +26,6 @@ class ObjectToTestAdditionalProperties(BaseModel):
     Minimal object  # noqa: E501
     """
     var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
-    __properties = ["property"]
 
     """Pydantic configuration"""
     class Config:

@@ -29,7 +29,6 @@ class Creature(BaseModel):
     info: CreatureInfo = Field(...)
     type: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["info", "type"]
 
     """Pydantic configuration"""
     class Config:
@@ -81,7 +80,7 @@ class Creature(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["info", "type"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

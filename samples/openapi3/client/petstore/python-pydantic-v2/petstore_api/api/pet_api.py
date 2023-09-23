@@ -20,7 +20,7 @@ from pydantic import validate_call, ValidationError
 from typing_extensions import Annotated
 
 from typing_extensions import Annotated
-from pydantic import Field, StrictBytes, StrictInt, StrictStr, conlist, validator
+from pydantic import Field, StrictBytes, StrictInt, StrictStr, conlist, field_validator
 
 from typing import List, Optional, Union
 

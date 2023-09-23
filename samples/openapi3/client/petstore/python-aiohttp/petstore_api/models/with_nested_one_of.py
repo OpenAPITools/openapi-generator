@@ -30,7 +30,6 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     """Pydantic configuration"""
     class Config:

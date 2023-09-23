@@ -38,7 +38,7 @@ class AnyOfColor(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[List[int], str]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
     any_of_schemas: List[str] = Field(ANYOFCOLOR_ANY_OF_SCHEMAS, const=True)
 
     """Pydantic configuration"""
@@ -52,8 +52,10 @@ class AnyOfColor(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):

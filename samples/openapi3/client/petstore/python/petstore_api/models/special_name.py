@@ -30,7 +30,6 @@ class SpecialName(BaseModel):
     var_async: Optional[Category] = Field(None, alias="async")
     var_schema: Optional[StrictStr] = Field(None, alias="schema", description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["property", "async", "schema"]
 
     @validator('var_schema')
     def var_schema_validate_enum(cls, value):
@@ -93,7 +92,7 @@ class SpecialName(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["property", "async", "schema"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

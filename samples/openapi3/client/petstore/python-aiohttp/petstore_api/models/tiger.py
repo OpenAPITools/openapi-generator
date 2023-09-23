@@ -26,7 +26,6 @@ class Tiger(BaseModel):
     Tiger
     """
     skill: Optional[StrictStr] = None
-    __properties = ["skill"]
 
     """Pydantic configuration"""
     class Config:

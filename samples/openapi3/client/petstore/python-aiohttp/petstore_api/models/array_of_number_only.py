@@ -26,7 +26,6 @@ class ArrayOfNumberOnly(BaseModel):
     ArrayOfNumberOnly
     """
     array_number: Optional[conlist(float)] = Field(None, alias="ArrayNumber")
-    __properties = ["ArrayNumber"]
 
     """Pydantic configuration"""
     class Config:

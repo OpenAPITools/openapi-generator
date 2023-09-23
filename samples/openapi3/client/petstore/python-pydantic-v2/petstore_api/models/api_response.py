@@ -29,7 +29,6 @@ class ApiResponse(BaseModel):
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["code", "type", "message"]
 
     """Pydantic configuration"""
     model_config = {
@@ -39,7 +38,7 @@ class ApiResponse(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,7 +51,7 @@ class ApiResponse(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -71,16 +70,16 @@ class ApiResponse(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ApiResponse.parse_obj(obj)
+            return ApiResponse.model_validate(obj)
 
-        _obj = ApiResponse.parse_obj({
+        _obj = ApiResponse.model_validate({
             "code": obj.get("code"),
             "type": obj.get("type"),
             "message": obj.get("message")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["code", "type", "message"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

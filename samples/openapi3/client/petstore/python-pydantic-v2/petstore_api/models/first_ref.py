@@ -28,7 +28,6 @@ class FirstRef(BaseModel):
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["category", "self_ref"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class FirstRef(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class FirstRef(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,19 +72,22 @@ class FirstRef(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FirstRef.parse_obj(obj)
+            return FirstRef.model_validate(obj)
 
-        _obj = FirstRef.parse_obj({
+        _obj = FirstRef.model_validate({
             "category": obj.get("category"),
             "self_ref": SecondRef.from_dict(obj.get("self_ref")) if obj.get("self_ref") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["category", "self_ref"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-FirstRef.update_forward_refs()
+try:
+    FirstRef.model_rebuild()
+except Exception:
+    pass
 

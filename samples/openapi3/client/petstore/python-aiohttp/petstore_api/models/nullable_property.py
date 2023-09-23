@@ -27,7 +27,6 @@ class NullableProperty(BaseModel):
     """
     id: StrictInt = Field(...)
     name: Optional[constr(strict=True)] = Field(...)
-    __properties = ["id", "name"]
 
     @validator('name')
     def name_validate_regular_expression(cls, value):

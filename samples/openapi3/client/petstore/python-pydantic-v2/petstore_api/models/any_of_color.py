@@ -19,7 +19,7 @@ import pprint
 import re  # noqa: F401
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, field_validator
 from typing import Union, Any, List, TYPE_CHECKING
 try:
     from typing import Literal
@@ -43,7 +43,7 @@ class AnyOfColor(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[List[int], str]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
     any_of_schemas: List[str] = Literal["List[int]", "str"]
 
     """Pydantic configuration"""
@@ -58,12 +58,14 @@ class AnyOfColor(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = AnyOfColor.construct()
+        instance = AnyOfColor.model_construct()
         error_messages = []
         # validate data type: List[int]
         try:
@@ -96,7 +98,7 @@ class AnyOfColor(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfColor:
         """Returns the object represented by the json string"""
-        instance = AnyOfColor.construct()
+        instance = AnyOfColor.model_construct()
         error_messages = []
         # deserialize data into List[int]
         try:
@@ -156,6 +158,6 @@ class AnyOfColor(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

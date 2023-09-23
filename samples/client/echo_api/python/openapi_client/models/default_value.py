@@ -35,7 +35,6 @@ class DefaultValue(BaseModel):
     array_string_nullable: Optional[conlist(StrictStr)] = None
     array_string_extension_nullable: Optional[conlist(StrictStr)] = None
     string_nullable: Optional[StrictStr] = None
-    __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
     @validator('array_string_enum_default')
     def array_string_enum_default_validate_enum(cls, value):

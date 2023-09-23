@@ -28,7 +28,6 @@ class SecondRef(BaseModel):
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["category", "circular_ref"]
 
     """Pydantic configuration"""
     class Config:
@@ -80,11 +79,14 @@ class SecondRef(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["category", "circular_ref"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
 
 from petstore_api.models.circular_reference_model import CircularReferenceModel
-SecondRef.update_forward_refs()
+try:
+    SecondRef.update_forward_refs()
+except Exception:
+    pass
 

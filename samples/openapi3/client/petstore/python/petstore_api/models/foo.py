@@ -27,7 +27,6 @@ class Foo(BaseModel):
     """
     bar: Optional[StrictStr] = 'bar'
     additional_properties: Dict[str, Any] = {}
-    __properties = ["bar"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class Foo(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["bar"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

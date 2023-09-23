@@ -27,7 +27,6 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     """
     array_array_number: Optional[conlist(conlist(StrictFloat))] = Field(None, alias="ArrayArrayNumber")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["ArrayArrayNumber"]
 
     """Pydantic configuration"""
     model_config = {
@@ -37,7 +36,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -50,7 +49,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -69,14 +68,14 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfNumberOnly.parse_obj(obj)
+            return ArrayOfArrayOfNumberOnly.model_validate(obj)
 
-        _obj = ArrayOfArrayOfNumberOnly.parse_obj({
+        _obj = ArrayOfArrayOfNumberOnly.model_validate({
             "array_array_number": obj.get("ArrayArrayNumber")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["ArrayArrayNumber"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

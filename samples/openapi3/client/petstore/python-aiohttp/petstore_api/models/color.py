@@ -35,9 +35,9 @@ class Color(BaseModel):
     # data type: str
     oneof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(None, description="Hex color string, such as #00FF00.")
     if TYPE_CHECKING:
-        actual_instance: Union[List[int], str]
+        actual_instance: Union[List[int], str, None]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     one_of_schemas: List[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
 
@@ -52,8 +52,10 @@ class Color(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
@@ -83,6 +85,8 @@ class Color(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -134,6 +138,8 @@ class Color(BaseModel):
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match

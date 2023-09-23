@@ -28,7 +28,6 @@ class AllOfWithSingleRef(BaseModel):
     """
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
-    __properties = ["username", "SingleRefType"]
 
     """Pydantic configuration"""
     class Config:

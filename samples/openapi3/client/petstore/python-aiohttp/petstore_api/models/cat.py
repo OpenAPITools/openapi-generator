@@ -27,7 +27,6 @@ class Cat(Animal):
     Cat
     """
     declawed: Optional[StrictBool] = None
-    __properties = ["className", "color", "declawed"]
 
     """Pydantic configuration"""
     class Config:

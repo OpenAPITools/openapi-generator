@@ -26,7 +26,6 @@ class ClassModel(BaseModel):
     Model for testing model with \"_class\" property  # noqa: E501
     """
     var_class: Optional[StrictStr] = Field(None, alias="_class")
-    __properties = ["_class"]
 
     """Pydantic configuration"""
     class Config:

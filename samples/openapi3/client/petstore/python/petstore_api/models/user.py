@@ -34,7 +34,6 @@ class User(BaseModel):
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(None, alias="userStatus", description="User Status")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     """Pydantic configuration"""
     class Config:
@@ -89,7 +88,7 @@ class User(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

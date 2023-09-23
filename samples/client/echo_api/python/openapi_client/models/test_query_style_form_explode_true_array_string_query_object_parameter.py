@@ -27,7 +27,6 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """
     values: Optional[conlist(StrictStr)] = None
-    __properties = ["values"]
 
     """Pydantic configuration"""
     class Config:

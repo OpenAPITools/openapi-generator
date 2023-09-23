@@ -28,7 +28,6 @@ class HasOnlyReadOnly(BaseModel):
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["bar", "foo"]
 
     """Pydantic configuration"""
     class Config:
@@ -79,7 +78,7 @@ class HasOnlyReadOnly(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["bar", "foo"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

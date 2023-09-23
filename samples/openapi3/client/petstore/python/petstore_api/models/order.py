@@ -32,7 +32,6 @@ class Order(BaseModel):
     status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -95,7 +94,7 @@ class Order(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["id", "petId", "quantity", "shipDate", "status", "complete"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

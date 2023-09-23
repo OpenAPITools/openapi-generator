@@ -30,7 +30,6 @@ class DataQuery(Query):
     suffix: Optional[StrictStr] = Field(None, description="test suffix")
     text: Optional[StrictStr] = Field(None, description="Some text containing white spaces")
     var_date: Optional[datetime] = Field(None, alias="date", description="A date")
-    __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     """Pydantic configuration"""
     class Config:

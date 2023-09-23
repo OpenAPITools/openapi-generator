@@ -27,7 +27,6 @@ class ObjectToTestAdditionalProperties(BaseModel):
     """
     var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["property"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["property"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

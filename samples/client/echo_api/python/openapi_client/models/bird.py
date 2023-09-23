@@ -28,7 +28,6 @@ class Bird(BaseModel):
     """
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
-    __properties = ["size", "color"]
 
     """Pydantic configuration"""
     class Config:

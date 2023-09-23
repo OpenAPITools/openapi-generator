@@ -28,7 +28,6 @@ class Cat(Animal):
     """
     declawed: Optional[StrictBool] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color", "declawed"]
 
     """Pydantic configuration"""
     class Config:
@@ -78,7 +77,7 @@ class Cat(Animal):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["className", "color", "declawed"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

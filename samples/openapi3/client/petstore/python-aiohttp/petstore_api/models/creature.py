@@ -28,7 +28,6 @@ class Creature(BaseModel):
     """
     info: CreatureInfo = Field(...)
     type: StrictStr = Field(...)
-    __properties = ["info", "type"]
 
     """Pydantic configuration"""
     class Config:

@@ -31,7 +31,6 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(None, alias="shipDate")
     status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @validator('status')
     def status_validate_enum(cls, value):

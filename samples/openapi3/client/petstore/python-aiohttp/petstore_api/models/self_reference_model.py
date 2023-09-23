@@ -27,7 +27,6 @@ class SelfReferenceModel(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
-    __properties = ["size", "nested"]
 
     """Pydantic configuration"""
     class Config:
@@ -74,5 +73,8 @@ class SelfReferenceModel(BaseModel):
         return _obj
 
 from petstore_api.models.dummy_model import DummyModel
-SelfReferenceModel.update_forward_refs()
+try:
+    SelfReferenceModel.update_forward_refs()
+except Exception:
+    pass
 

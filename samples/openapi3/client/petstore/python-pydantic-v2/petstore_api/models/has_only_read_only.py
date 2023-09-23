@@ -28,7 +28,6 @@ class HasOnlyReadOnly(BaseModel):
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["bar", "foo"]
 
     """Pydantic configuration"""
     model_config = {
@@ -38,7 +37,7 @@ class HasOnlyReadOnly(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +50,7 @@ class HasOnlyReadOnly(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "bar",
                             "foo",
@@ -72,15 +71,15 @@ class HasOnlyReadOnly(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return HasOnlyReadOnly.parse_obj(obj)
+            return HasOnlyReadOnly.model_validate(obj)
 
-        _obj = HasOnlyReadOnly.parse_obj({
+        _obj = HasOnlyReadOnly.model_validate({
             "bar": obj.get("bar"),
             "foo": obj.get("foo")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["bar", "foo"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -27,7 +27,6 @@ class EnumArrays(BaseModel):
     """
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[conlist(StrictStr)] = None
-    __properties = ["just_symbol", "array_enum"]
 
     @validator('just_symbol')
     def just_symbol_validate_enum(cls, value):

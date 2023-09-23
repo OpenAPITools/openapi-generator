@@ -27,7 +27,6 @@ class BasquePig(BaseModel):
     """
     class_name: StrictStr = Field(..., alias="className")
     color: StrictStr = Field(...)
-    __properties = ["className", "color"]
 
     """Pydantic configuration"""
     class Config:

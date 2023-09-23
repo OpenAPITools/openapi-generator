@@ -29,7 +29,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
-    __properties = ["uuid", "dateTime", "map"]
 
     """Pydantic configuration"""
     class Config:

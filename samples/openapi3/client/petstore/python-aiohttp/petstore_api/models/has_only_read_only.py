@@ -27,7 +27,6 @@ class HasOnlyReadOnly(BaseModel):
     """
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
-    __properties = ["bar", "foo"]
 
     """Pydantic configuration"""
     class Config:

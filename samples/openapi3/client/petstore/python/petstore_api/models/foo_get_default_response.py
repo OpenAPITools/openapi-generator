@@ -28,7 +28,6 @@ class FooGetDefaultResponse(BaseModel):
     """
     string: Optional[Foo] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["string"]
 
     """Pydantic configuration"""
     class Config:
@@ -79,7 +78,7 @@ class FooGetDefaultResponse(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["string"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

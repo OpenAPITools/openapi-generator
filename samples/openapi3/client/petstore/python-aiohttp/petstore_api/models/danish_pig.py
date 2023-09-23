@@ -27,7 +27,6 @@ class DanishPig(BaseModel):
     """
     class_name: StrictStr = Field(..., alias="className")
     size: StrictInt = Field(...)
-    __properties = ["className", "size"]
 
     """Pydantic configuration"""
     class Config:

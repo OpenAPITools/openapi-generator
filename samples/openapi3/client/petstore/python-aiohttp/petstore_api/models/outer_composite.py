@@ -28,7 +28,6 @@ class OuterComposite(BaseModel):
     my_number: Optional[float] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
-    __properties = ["my_number", "my_string", "my_boolean"]
 
     """Pydantic configuration"""
     class Config:

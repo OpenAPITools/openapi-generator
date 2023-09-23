@@ -34,7 +34,6 @@ class Pet(BaseModel):
     photo_urls: conlist(StrictStr) = Field(..., alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")
-    __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
 
     @validator('status')
     def status_validate_enum(cls, value):

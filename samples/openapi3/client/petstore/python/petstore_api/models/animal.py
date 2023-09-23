@@ -28,7 +28,6 @@ class Animal(BaseModel):
     class_name: StrictStr = Field(..., alias="className")
     color: Optional[StrictStr] = 'red'
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color"]
 
     """Pydantic configuration"""
     class Config:
@@ -36,20 +35,17 @@ class Animal(BaseModel):
         validate_assignment = True
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'className'
-
-    # discriminator mappings
-    __discriminator_value_class_map = {
-        'Cat': 'Cat',
-        'Dog': 'Dog'
-    }
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj['className']
+        discriminator_value_class_map = {
+            'Cat': 'Cat','Dog': 'Dog'
+        }
+
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return discriminator_value_class_map.get(discriminator_value)
         else:
             return None
 
@@ -85,15 +81,21 @@ class Animal(BaseModel):
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
+        discriminator_value_class_map = {
+            'Cat': 'Cat','Dog': 'Dog'
+        }
         if object_type:
             klass = globals()[object_type]
             return klass.from_dict(obj)
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             json.dumps(obj) + ". Discriminator property name: " + 'className' +
+                             ", mapping: " + json.dumps(discriminator_value_class_map))
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-Animal.update_forward_refs()
+try:
+    Animal.update_forward_refs()
+except Exception:
+    pass
 

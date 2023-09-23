@@ -19,7 +19,7 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from typing import Union, Any, List, TYPE_CHECKING
@@ -42,7 +42,7 @@ class OneOfEnumString(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[EnumString1, EnumString2]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     one_of_schemas: List[str] = Literal["EnumString1", "EnumString2"]
 
@@ -58,26 +58,32 @@ class OneOfEnumString(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = OneOfEnumString.construct()
+        instance = OneOfEnumString.model_construct()
         error_messages = []
         match = 0
         # validate data type: EnumString1
-        if not isinstance(v, EnumString1):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString1`")
-        else:
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         # validate data type: EnumString2
-        if not isinstance(v, EnumString2):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString2`")
-        else:
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -92,7 +98,7 @@ class OneOfEnumString(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> OneOfEnumString:
         """Returns the object represented by the json string"""
-        instance = OneOfEnumString.construct()
+        instance = OneOfEnumString.model_construct()
         error_messages = []
         match = 0
 
@@ -111,6 +117,8 @@ class OneOfEnumString(BaseModel):
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -143,6 +151,6 @@ class OneOfEnumString(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

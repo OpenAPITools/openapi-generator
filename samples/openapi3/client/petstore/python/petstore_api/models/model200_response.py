@@ -28,7 +28,6 @@ class Model200Response(BaseModel):
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(None, alias="class")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["name", "class"]
 
     """Pydantic configuration"""
     class Config:
@@ -77,7 +76,7 @@ class Model200Response(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["name", "class"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

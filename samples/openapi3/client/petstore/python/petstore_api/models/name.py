@@ -30,7 +30,6 @@ class Name(BaseModel):
     var_property: Optional[StrictStr] = Field(None, alias="property")
     var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["name", "snake_case", "property", "123Number"]
 
     """Pydantic configuration"""
     class Config:
@@ -83,7 +82,7 @@ class Name(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["name", "snake_case", "property", "123Number"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

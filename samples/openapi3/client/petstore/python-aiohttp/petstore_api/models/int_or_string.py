@@ -35,7 +35,7 @@ class IntOrString(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[int, str]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
 
@@ -50,8 +50,10 @@ class IntOrString(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
@@ -72,6 +74,8 @@ class IntOrString(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -111,6 +115,8 @@ class IntOrString(BaseModel):
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match

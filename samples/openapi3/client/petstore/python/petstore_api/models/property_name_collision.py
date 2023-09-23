@@ -29,7 +29,6 @@ class PropertyNameCollision(BaseModel):
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(None, alias="type_")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["_type", "type", "type_"]
 
     """Pydantic configuration"""
     class Config:
@@ -79,7 +78,7 @@ class PropertyNameCollision(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["_type", "type", "type_"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

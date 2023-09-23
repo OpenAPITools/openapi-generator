@@ -26,7 +26,6 @@ class List(BaseModel):
     List
     """
     var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
-    __properties = ["123-list"]
 
     """Pydantic configuration"""
     class Config:

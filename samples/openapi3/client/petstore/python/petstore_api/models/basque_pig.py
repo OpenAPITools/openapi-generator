@@ -28,7 +28,6 @@ class BasquePig(BaseModel):
     class_name: StrictStr = Field(..., alias="className")
     color: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color"]
 
     """Pydantic configuration"""
     class Config:
@@ -77,7 +76,7 @@ class BasquePig(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["className", "color"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

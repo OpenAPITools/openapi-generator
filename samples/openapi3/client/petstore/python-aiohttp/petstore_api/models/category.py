@@ -27,7 +27,6 @@ class Category(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: StrictStr = Field(...)
-    __properties = ["id", "name"]
 
     """Pydantic configuration"""
     class Config:

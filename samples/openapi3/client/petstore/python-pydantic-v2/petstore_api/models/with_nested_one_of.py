@@ -31,7 +31,6 @@ class WithNestedOneOf(BaseModel):
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     """Pydantic configuration"""
     model_config = {
@@ -41,7 +40,7 @@ class WithNestedOneOf(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -54,7 +53,7 @@ class WithNestedOneOf(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -79,16 +78,16 @@ class WithNestedOneOf(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return WithNestedOneOf.parse_obj(obj)
+            return WithNestedOneOf.model_validate(obj)
 
-        _obj = WithNestedOneOf.parse_obj({
+        _obj = WithNestedOneOf.model_validate({
             "size": obj.get("size"),
             "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None,
             "nested_oneof_enum_string": OneOfEnumString.from_dict(obj.get("nested_oneof_enum_string")) if obj.get("nested_oneof_enum_string") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["size", "nested_pig", "nested_oneof_enum_string"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

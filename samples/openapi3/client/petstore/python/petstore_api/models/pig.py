@@ -37,16 +37,13 @@ class Pig(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[BasquePig, DanishPig]
     else:
-        actual_instance: Any
+        actual_instance: Any = None
 
     one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
 
     """Pydantic configuration"""
     class Config:
         validate_assignment = True
-
-    discriminator_value_class_map = {
-    }
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -55,8 +52,10 @@ class Pig(BaseModel):
             if kwargs:
                 raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
-        else:
+        elif kwargs:
             super().__init__(**kwargs)
+        else:
+            super().__init__(actual_instance=None)
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
@@ -64,17 +63,21 @@ class Pig(BaseModel):
         error_messages = []
         match = 0
         # validate data type: BasquePig
-        if not isinstance(v, BasquePig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
-        else:
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         # validate data type: DanishPig
-        if not isinstance(v, DanishPig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
-        else:
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
@@ -123,6 +126,8 @@ class Pig(BaseModel):
 
         if match > 1:
             # more than 1 match
+            if v is None:
+                return v
             raise ValueError("Multiple matches found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match

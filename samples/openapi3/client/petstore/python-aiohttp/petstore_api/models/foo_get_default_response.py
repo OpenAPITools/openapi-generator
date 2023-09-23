@@ -27,7 +27,6 @@ class FooGetDefaultResponse(BaseModel):
     FooGetDefaultResponse
     """
     string: Optional[Foo] = None
-    __properties = ["string"]
 
     """Pydantic configuration"""
     class Config:

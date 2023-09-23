@@ -29,7 +29,6 @@ class OuterObjectWithEnumProperty(BaseModel):
     """
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger = Field(...)
-    __properties = ["str_value", "value"]
 
     """Pydantic configuration"""
     class Config:

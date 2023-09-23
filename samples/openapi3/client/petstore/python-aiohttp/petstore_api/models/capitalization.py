@@ -31,7 +31,6 @@ class Capitalization(BaseModel):
     capital_snake: Optional[StrictStr] = Field(None, alias="Capital_Snake")
     sca_eth_flow_points: Optional[StrictStr] = Field(None, alias="SCA_ETH_Flow_Points")
     att_name: Optional[StrictStr] = Field(None, alias="ATT_NAME", description="Name of the pet ")
-    __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
     """Pydantic configuration"""
     class Config:

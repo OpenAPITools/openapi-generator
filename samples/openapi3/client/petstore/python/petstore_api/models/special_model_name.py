@@ -27,7 +27,6 @@ class SpecialModelName(BaseModel):
     """
     special_property_name: Optional[StrictInt] = Field(None, alias="$special[property.name]")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["$special[property.name]"]
 
     """Pydantic configuration"""
     class Config:
@@ -75,7 +74,7 @@ class SpecialModelName(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in ["$special[property.name]"]:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -26,7 +26,6 @@ class DeprecatedObject(BaseModel):
     DeprecatedObject
     """
     name: Optional[StrictStr] = None
-    __properties = ["name"]
 
     """Pydantic configuration"""
     class Config:
