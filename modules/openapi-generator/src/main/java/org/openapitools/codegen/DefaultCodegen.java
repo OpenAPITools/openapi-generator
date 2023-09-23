@@ -7083,7 +7083,8 @@ public class DefaultCodegen implements CodegenConfig {
             // hoist items data into the array property
             // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
-            codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            // no need to set default value here as it was set earlier
+            //codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
             if (codegenParameter.items.isFile) {
                 codegenParameter.isFile = true;
                 codegenParameter.dataFormat = codegenParameter.items.dataFormat;
