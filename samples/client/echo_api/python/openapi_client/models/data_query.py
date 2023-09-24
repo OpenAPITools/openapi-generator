@@ -30,7 +30,7 @@ class DataQuery(Query):
     """
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
-    var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
+    var_date: Optional[datetime] = Field(default=None, serialization_alias="date", description="A date")
     __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     class Config:
@@ -44,7 +44,7 @@ class DataQuery(Query):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> DataQuery:

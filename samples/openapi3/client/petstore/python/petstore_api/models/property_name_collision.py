@@ -26,9 +26,9 @@ class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
+    underscore_type: Optional[StrictStr] = Field(default=None, serialization_alias="_type")
     type: Optional[StrictStr] = None
-    type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
+    type_with_underscore: Optional[StrictStr] = Field(default=None, serialization_alias="type_")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_type", "type", "type_"]
 
@@ -43,7 +43,7 @@ class PropertyNameCollision(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> PropertyNameCollision:
@@ -80,7 +80,7 @@ class PropertyNameCollision(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -425,7 +425,7 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(unique_items=True, description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
+    async def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -448,7 +448,7 @@ class PetApi:
         return await self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_arguments
-    async def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(unique_items=True, description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501

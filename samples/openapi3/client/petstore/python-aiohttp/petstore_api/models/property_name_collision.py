@@ -26,7 +26,7 @@ class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    type: Optional[StrictStr] = Field(default=None, alias="_type")
+    type: Optional[StrictStr] = Field(default=None, serialization_alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None
     __properties = ["_type", "type", "type_"]
@@ -42,7 +42,7 @@ class PropertyNameCollision(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> PropertyNameCollision:

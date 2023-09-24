@@ -27,9 +27,9 @@ class SpecialName(BaseModel):
     """
     SpecialName
     """
-    var_property: Optional[StrictInt] = Field(default=None, alias="property")
-    var_async: Optional[Category] = Field(default=None, alias="async")
-    var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
+    var_property: Optional[StrictInt] = Field(default=None, serialization_alias="property")
+    var_async: Optional[Category] = Field(default=None, serialization_alias="async")
+    var_schema: Optional[StrictStr] = Field(default=None, serialization_alias="schema", description="pet status in the store")
     __properties = ["property", "async", "schema"]
 
     @validator('var_schema')
@@ -53,7 +53,7 @@ class SpecialName(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> SpecialName:

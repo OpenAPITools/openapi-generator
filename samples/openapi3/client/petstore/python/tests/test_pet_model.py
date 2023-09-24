@@ -81,8 +81,8 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet.category.id, 1)
         # test to_json
         self.assertEqual(pet.to_json(),
-                         '{"id": 1, "category": {"id": 1, "name": "dog"}, "name": "test name", "photoUrls": ['
-                         '"string"], "tags": [{"id": 1, "name": "None"}], "status": "available"}')
+                         '{"id":1,"category":{"id":1,"name":"dog"},"name":"test name","photoUrls":['
+                         '"string"],"tags":[{"id":1,"name":"None"}],"status":"available"}')
 
         # test to_dict
         self.assertEqual(pet.to_dict(),
@@ -99,16 +99,16 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet2.category.id, 1)
 
     def test_unpack_operator(self):
-        d = {"name": "required name", "id": 123, "photoUrls": ["https://a.com", "https://b.com"]}
+        d = {"name": "required name", "id": 123, "photo_urls": ["https://a.com", "https://b.com"]}
         pet = petstore_api.Pet(**d)
-        self.assertEqual(pet.to_json(), '{"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
+        self.assertEqual(pet.to_json(), '{"id":123,"name":"required name","photoUrls":["https://a.com","https://b.com"]}')
         self.assertEqual(pet.to_dict(), {"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
 
     def test_optional_fields(self):
         _pet = petstore_api.Pet(name="required name",
-                               photoUrls=["https://a.com",
+                               photo_urls=["https://a.com",
                                           "https://b.com"])
-        self.assertEqual(_pet.to_json(), '{"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
+        self.assertEqual(_pet.to_json(),'{"name":"required name","photoUrls":["https://a.com","https://b.com"]}')
         self.assertEqual(_pet.to_dict(), {"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
 
 

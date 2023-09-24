@@ -28,7 +28,7 @@ class AllOfWithSingleRef(BaseModel):
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(default=None, serialization_alias="SingleRefType")
     additional_properties: Dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 
@@ -43,7 +43,7 @@ class AllOfWithSingleRef(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> AllOfWithSingleRef:
@@ -79,7 +79,7 @@ class AllOfWithSingleRef(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -26,7 +26,7 @@ class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
+    special_property_name: Optional[StrictInt] = Field(default=None, serialization_alias="$special[property.name]")
     __properties = ["$special[property.name]"]
 
     class Config:
@@ -40,7 +40,7 @@ class SpecialModelName(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> SpecialModelName:

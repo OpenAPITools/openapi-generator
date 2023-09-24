@@ -28,7 +28,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     MixedPropertiesAndAdditionalPropertiesClass
     """
     uuid: Optional[StrictStr] = None
-    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
+    date_time: Optional[datetime] = Field(default=None, serialization_alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     __properties = ["uuid", "dateTime", "map"]
 
@@ -43,7 +43,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> MixedPropertiesAndAdditionalPropertiesClass:

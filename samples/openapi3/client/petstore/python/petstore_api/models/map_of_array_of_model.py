@@ -27,7 +27,7 @@ class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
+    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, serialization_alias="shopIdToOrgOnlineLipMap")
     additional_properties: Dict[str, Any] = {}
     __properties = ["shopIdToOrgOnlineLipMap"]
 
@@ -42,7 +42,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> MapOfArrayOfModel:
@@ -93,7 +93,7 @@ class MapOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

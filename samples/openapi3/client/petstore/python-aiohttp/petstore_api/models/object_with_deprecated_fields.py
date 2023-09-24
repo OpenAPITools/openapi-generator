@@ -29,7 +29,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     """
     uuid: Optional[StrictStr] = None
     id: Optional[float] = None
-    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
+    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, serialization_alias="deprecatedRef")
     bars: Optional[List[StrictStr]] = None
     __properties = ["uuid", "id", "deprecatedRef", "bars"]
 
@@ -44,7 +44,7 @@ class ObjectWithDeprecatedFields(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> ObjectWithDeprecatedFields:

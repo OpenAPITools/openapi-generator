@@ -26,7 +26,7 @@ class DanishPig(BaseModel):
     """
     DanishPig
     """
-    class_name: StrictStr = Field(alias="className")
+    class_name: StrictStr = Field(serialization_alias="className")
     size: StrictInt
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "size"]
@@ -42,7 +42,7 @@ class DanishPig(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> DanishPig:
@@ -78,7 +78,7 @@ class DanishPig(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

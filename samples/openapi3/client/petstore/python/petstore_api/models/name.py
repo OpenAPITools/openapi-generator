@@ -28,8 +28,8 @@ class Name(BaseModel):
     """
     name: StrictInt
     snake_case: Optional[StrictInt] = None
-    var_property: Optional[StrictStr] = Field(default=None, alias="property")
-    var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
+    var_property: Optional[StrictStr] = Field(default=None, serialization_alias="property")
+    var_123_number: Optional[StrictInt] = Field(default=None, serialization_alias="123Number")
     additional_properties: Dict[str, Any] = {}
     __properties = ["name", "snake_case", "property", "123Number"]
 
@@ -44,7 +44,7 @@ class Name(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Name:
@@ -84,7 +84,7 @@ class Name(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

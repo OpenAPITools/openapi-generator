@@ -27,7 +27,7 @@ class ParentWithOptionalDict(BaseModel):
     """
     ParentWithOptionalDict
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, serialization_alias="optionalDict")
     __properties = ["optionalDict"]
 
     class Config:
@@ -41,7 +41,7 @@ class ParentWithOptionalDict(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> ParentWithOptionalDict:

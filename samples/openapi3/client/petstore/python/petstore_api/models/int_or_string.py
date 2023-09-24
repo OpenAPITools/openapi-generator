@@ -22,7 +22,7 @@ from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, List, TYPE_CHECKING, Literal, Optional, Dict
 from pydantic import StrictStr, Field
 
 INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
@@ -35,11 +35,8 @@ class IntOrString(BaseModel):
     oneof_schema_1_validator: Optional[Annotated[int, Field(strict=True, ge=10)]] = None
     # data type: str
     oneof_schema_2_validator: Optional[StrictStr] = None
-    if TYPE_CHECKING:
-        actual_instance: Union[int, str]
-    else:
-        actual_instance: Any
-    one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
+    actual_instance: Optional[Union[int, str]] = None
+    one_of_schemas: List[str] = Literal[INTORSTRING_ONE_OF_SCHEMAS]
 
     class Config:
         validate_assignment = True

@@ -26,7 +26,7 @@ class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """
-    a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
+    a_property: Optional[Union[str, Any]] = Field(default=None, serialization_alias="aProperty")
     __properties = ["aProperty"]
 
     class Config:
@@ -40,7 +40,7 @@ class InnerDictWithProperty(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> InnerDictWithProperty:

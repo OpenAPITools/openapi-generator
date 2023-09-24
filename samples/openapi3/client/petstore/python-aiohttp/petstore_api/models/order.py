@@ -27,9 +27,9 @@ class Order(BaseModel):
     Order
     """
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
+    pet_id: Optional[StrictInt] = Field(default=None, serialization_alias="petId")
     quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    ship_date: Optional[datetime] = Field(default=None, serialization_alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
@@ -55,7 +55,7 @@ class Order(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Order:

@@ -1457,11 +1457,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         public PythonType(String type) {
-            this.type = type;
+            this.setType(type);
             this.defaultValue = null;
             this.typeParams = new ArrayList<>();
             this.annotations = new HashMap<>();
             this.constraints = new HashMap<>();
+        }
+
+        public PythonType setType(String type) {
+            this.type = type;
+            return this;
         }
 
         public PythonType setDefaultValue(boolean value) {
@@ -1757,8 +1762,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType arrayType(IJsonSchemaValidationProperties cp) {
-            typingImports.add("List"); // for return type
-            PythonType pt = new PythonType("List");
+            PythonType pt = new PythonType();
             if (cp.getMaxItems() != null) {
                 pt.constrain("max_items", cp.getMaxItems());
             }
@@ -1766,7 +1770,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.constrain("min_items", cp.getMinItems());
             }
             if (cp.getUniqueItems()) {
-                pt.constrain("unique_items", true);
+                // A unique "array" is a set
+                // TODO: pydantic v2: having a Set instead of List in the
+                // generated code fails in many ways: random JSON serialization
+                // order, unable to serialize JSON, etc.
+                //pt.setType("Set");
+                //typingImports.add("Set");
+                pt.setType("List");
+                typingImports.add("List");
+            } else {
+                pt.setType("List");
+                typingImports.add("List");
             }
             pt.addTypeParam(getType(cp.getItems()));
             return pt;
@@ -2127,7 +2141,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // field
             if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                pt.annotate("alias", cp.baseName);
+                pt.annotate("serialization_alias", cp.baseName);
             }
 
             /* TODO review as example may break the build

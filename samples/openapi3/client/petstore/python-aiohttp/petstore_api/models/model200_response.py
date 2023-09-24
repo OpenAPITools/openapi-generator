@@ -27,7 +27,7 @@ class Model200Response(BaseModel):
     Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
-    var_class: Optional[StrictStr] = Field(default=None, alias="class")
+    var_class: Optional[StrictStr] = Field(default=None, serialization_alias="class")
     __properties = ["name", "class"]
 
     class Config:
@@ -41,7 +41,7 @@ class Model200Response(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Model200Response:

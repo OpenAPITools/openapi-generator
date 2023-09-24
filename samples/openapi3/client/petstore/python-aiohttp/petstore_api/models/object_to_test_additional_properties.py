@@ -26,7 +26,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501
     """
-    var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
+    var_property: Optional[StrictBool] = Field(default=False, serialization_alias="property", description="Property")
     __properties = ["property"]
 
     class Config:
@@ -40,7 +40,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> ObjectToTestAdditionalProperties:

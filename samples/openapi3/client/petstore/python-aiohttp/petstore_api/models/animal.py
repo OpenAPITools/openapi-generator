@@ -26,7 +26,7 @@ class Animal(BaseModel):
     """
     Animal
     """
-    class_name: StrictStr = Field(alias="className")
+    class_name: StrictStr = Field(serialization_alias="className")
     color: Optional[StrictStr] = 'red'
     __properties = ["className", "color"]
 
@@ -59,7 +59,7 @@ class Animal(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Union(Cat, Dog):
@@ -87,7 +87,11 @@ class Animal(BaseModel):
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-Animal.update_forward_refs()
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from petstore_api.models.cat import Cat
+    # TODO: pydantic v2
+    from petstore_api.models.dog import Dog
+    # TODO: pydantic v2
+    # Animal.model_rebuild()
 

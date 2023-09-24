@@ -26,7 +26,7 @@ class HealthCheckResult(BaseModel):
     """
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
     """
-    nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
+    nullable_message: Optional[StrictStr] = Field(default=None, serialization_alias="NullableMessage")
     __properties = ["NullableMessage"]
 
     class Config:
@@ -40,7 +40,7 @@ class HealthCheckResult(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> HealthCheckResult:

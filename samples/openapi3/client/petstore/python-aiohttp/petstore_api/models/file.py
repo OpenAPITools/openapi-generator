@@ -26,7 +26,7 @@ class File(BaseModel):
     """
     Must be named `File` for test.  # noqa: E501
     """
-    source_uri: Optional[StrictStr] = Field(default=None, description="Test capitalization", alias="sourceURI")
+    source_uri: Optional[StrictStr] = Field(default=None, serialization_alias="sourceURI", description="Test capitalization")
     __properties = ["sourceURI"]
 
     class Config:
@@ -40,7 +40,7 @@ class File(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> File:

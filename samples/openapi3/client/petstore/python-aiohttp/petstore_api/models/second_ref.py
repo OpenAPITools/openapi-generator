@@ -40,7 +40,7 @@ class SecondRef(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> SecondRef:
@@ -73,6 +73,9 @@ class SecondRef(BaseModel):
         })
         return _obj
 
-from petstore_api.models.circular_reference_model import CircularReferenceModel
-SecondRef.update_forward_refs()
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from petstore_api.models.circular_reference_model import CircularReferenceModel
+    # TODO: pydantic v2
+    # SecondRef.model_rebuild()
 

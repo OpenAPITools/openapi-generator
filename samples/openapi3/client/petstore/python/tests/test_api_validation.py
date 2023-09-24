@@ -50,10 +50,8 @@ class ApiExceptionTests(unittest.TestCase):
     def test_required_param_validation(self):
         try:
             self.pet_api.get_pet_by_id()
-        except ValidationError as e:
-            self.assertEqual(str(e), "1 validation error for GetPetById\n"
-                                     "pet_id\n"
-                                     "  field required (type=value_error.missing)")
+        except TypeError as e:
+            self.assertIn("missing 1 required positional argument: 'pet_id'", str(e))
 
     def test_integer_validation(self):
         try:
@@ -61,7 +59,8 @@ class ApiExceptionTests(unittest.TestCase):
         except ValidationError as e:
             self.assertEqual(str(e), "1 validation error for GetPetById\n"
                                      "pet_id\n"
-                                     "  value is not a valid integer (type=type_error.integer)")
+                                     "  Input should be a valid integer [type=int_type, input_value='123', input_type=str]\n"
+                                     "    For further information visit https://errors.pydantic.dev/2.3/v/int_type")
 
     def test_string_enum_validation(self):
         try:

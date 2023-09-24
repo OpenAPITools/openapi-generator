@@ -40,7 +40,7 @@ class SelfReferenceModel(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> SelfReferenceModel:
@@ -73,6 +73,9 @@ class SelfReferenceModel(BaseModel):
         })
         return _obj
 
-from petstore_api.models.dummy_model import DummyModel
-SelfReferenceModel.update_forward_refs()
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from petstore_api.models.dummy_model import DummyModel
+    # TODO: pydantic v2
+    # SelfReferenceModel.model_rebuild()
 

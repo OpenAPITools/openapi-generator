@@ -28,12 +28,12 @@ class User(BaseModel):
     """
     id: Optional[StrictInt] = None
     username: Optional[StrictStr] = None
-    first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
-    last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
+    first_name: Optional[StrictStr] = Field(default=None, serialization_alias="firstName")
+    last_name: Optional[StrictStr] = Field(default=None, serialization_alias="lastName")
     email: Optional[StrictStr] = None
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
-    user_status: Optional[StrictInt] = Field(default=None, description="User Status", alias="userStatus")
+    user_status: Optional[StrictInt] = Field(default=None, serialization_alias="userStatus", description="User Status")
     __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     class Config:
@@ -47,7 +47,7 @@ class User(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> User:

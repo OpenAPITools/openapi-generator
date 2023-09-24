@@ -32,7 +32,7 @@ class Pet(BaseModel):
     id: Optional[StrictInt] = None
     name: StrictStr
     category: Optional[Category] = None
-    photo_urls: List[StrictStr] = Field(alias="photoUrls")
+    photo_urls: List[StrictStr] = Field(serialization_alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
@@ -58,7 +58,7 @@ class Pet(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return json.dumps(self.to_dict())
+        return self.model_dump_json(by_alias=True, exclude_unset=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Pet:
