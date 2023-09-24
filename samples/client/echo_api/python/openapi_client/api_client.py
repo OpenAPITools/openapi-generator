@@ -245,7 +245,7 @@ class ApiClient:
           # deserialize response data
           if response_type == "bytearray":
               return_data = response_data.data
-              return_headers = response_data.headers
+              return_headers = response_data.getheaders()
           elif response_type:
               return_data = self.deserialize(response_data, response_type)
               return_headers = response_data.getheaders()
