@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * ObjectWithDeprecatedFields Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSerializable
+class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,14 +52,14 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
       *
       * @var string
       */
-    protected static $openAPIModelName = 'ObjectWithDeprecatedFields';
+    protected static string $openAPIModelName = 'ObjectWithDeprecatedFields';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'uuid' => 'string',
         'id' => 'float',
         'deprecated_ref' => '\OpenAPI\Client\Model\DeprecatedObject',
@@ -66,11 +69,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'uuid' => null,
         'id' => null,
         'deprecated_ref' => null,
@@ -80,7 +81,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'uuid' => false,
@@ -92,16 +93,16 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -109,9 +110,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -119,7 +120,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -129,7 +130,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -139,7 +140,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -172,9 +173,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'uuid' => 'uuid',
         'id' => 'id',
         'deprecated_ref' => 'deprecatedRef',
@@ -184,9 +185,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'uuid' => 'setUuid',
         'id' => 'setId',
         'deprecated_ref' => 'setDeprecatedRef',
@@ -196,9 +197,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'uuid' => 'getUuid',
         'id' => 'getId',
         'deprecated_ref' => 'getDeprecatedRef',
@@ -209,9 +210,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -219,9 +220,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -229,9 +230,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -241,7 +242,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -250,15 +251,14 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -277,7 +277,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -289,9 +289,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -304,7 +304,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -315,7 +315,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return string|null
      */
-    public function getUuid()
+    public function getUuid(): ?string
     {
         return $this->container['uuid'];
     }
@@ -325,12 +325,12 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @param string|null $uuid uuid
      *
-     * @return self
+     * @return $this
      */
-    public function setUuid($uuid)
+    public function setUuid(?string $uuid): static
     {
         if (is_null($uuid)) {
-            throw new \InvalidArgumentException('non-nullable uuid cannot be null');
+            throw new InvalidArgumentException('non-nullable uuid cannot be null');
         }
         $this->container['uuid'] = $uuid;
 
@@ -343,7 +343,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @return float|null
      * @deprecated
      */
-    public function getId()
+    public function getId(): ?float
     {
         return $this->container['id'];
     }
@@ -353,13 +353,13 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @param float|null $id id
      *
-     * @return self
+     * @return $this
      * @deprecated
      */
-    public function setId($id)
+    public function setId(?float $id): static
     {
         if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+            throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
 
@@ -372,7 +372,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @return \OpenAPI\Client\Model\DeprecatedObject|null
      * @deprecated
      */
-    public function getDeprecatedRef()
+    public function getDeprecatedRef(): ?\OpenAPI\Client\Model\DeprecatedObject
     {
         return $this->container['deprecated_ref'];
     }
@@ -382,13 +382,13 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @param \OpenAPI\Client\Model\DeprecatedObject|null $deprecated_ref deprecated_ref
      *
-     * @return self
+     * @return $this
      * @deprecated
      */
-    public function setDeprecatedRef($deprecated_ref)
+    public function setDeprecatedRef(?\OpenAPI\Client\Model\DeprecatedObject $deprecated_ref): static
     {
         if (is_null($deprecated_ref)) {
-            throw new \InvalidArgumentException('non-nullable deprecated_ref cannot be null');
+            throw new InvalidArgumentException('non-nullable deprecated_ref cannot be null');
         }
         $this->container['deprecated_ref'] = $deprecated_ref;
 
@@ -401,7 +401,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @return string[]|null
      * @deprecated
      */
-    public function getBars()
+    public function getBars(): ?array
     {
         return $this->container['bars'];
     }
@@ -411,13 +411,13 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @param string[]|null $bars bars
      *
-     * @return self
+     * @return $this
      * @deprecated
      */
-    public function setBars($bars)
+    public function setBars(?array $bars): static
     {
         if (is_null($bars)) {
-            throw new \InvalidArgumentException('non-nullable bars cannot be null');
+            throw new InvalidArgumentException('non-nullable bars cannot be null');
         }
         $this->container['bars'] = $bars;
 
@@ -430,7 +430,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -442,8 +442,8 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -456,7 +456,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -472,7 +472,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -484,8 +484,8 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -495,7 +495,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -508,7 +508,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

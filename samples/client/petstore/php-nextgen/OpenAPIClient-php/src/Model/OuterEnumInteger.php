@@ -27,7 +27,6 @@
  */
 
 namespace OpenAPI\Client\Model;
-use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * OuterEnumInteger Class Doc Comment

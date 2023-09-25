@@ -101,6 +101,7 @@ org.openapitools.codegen.languages.PostmanCollectionCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
+org.openapitools.codegen.languages.PythonPydanticV1ClientCodegen
 org.openapitools.codegen.languages.PythonFastAPIServerCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen

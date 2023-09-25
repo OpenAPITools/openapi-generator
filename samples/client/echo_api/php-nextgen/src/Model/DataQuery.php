@@ -28,7 +28,6 @@
  */
 
 namespace OpenAPI\Client\Model;
-use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * DataQuery Class Doc Comment
@@ -37,7 +36,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
 class DataQuery extends Query
 {
@@ -48,14 +47,14 @@ class DataQuery extends Query
       *
       * @var string
       */
-    protected static $openAPIModelName = 'DataQuery';
+    protected static string $openAPIModelName = 'DataQuery';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'suffix' => 'string',
         'text' => 'string',
         'date' => '\DateTime'
@@ -64,11 +63,9 @@ class DataQuery extends Query
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'suffix' => null,
         'text' => null,
         'date' => 'date-time'
@@ -77,7 +74,7 @@ class DataQuery extends Query
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'suffix' => false,
@@ -88,16 +85,16 @@ class DataQuery extends Query
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes + parent::openAPITypes();
     }
@@ -105,9 +102,9 @@ class DataQuery extends Query
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats + parent::openAPIFormats();
     }
@@ -115,7 +112,7 @@ class DataQuery extends Query
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -125,7 +122,7 @@ class DataQuery extends Query
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -135,7 +132,7 @@ class DataQuery extends Query
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -168,9 +165,9 @@ class DataQuery extends Query
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'suffix' => 'suffix',
         'text' => 'text',
         'date' => 'date'
@@ -179,9 +176,9 @@ class DataQuery extends Query
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'suffix' => 'setSuffix',
         'text' => 'setText',
         'date' => 'setDate'
@@ -190,9 +187,9 @@ class DataQuery extends Query
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'suffix' => 'getSuffix',
         'text' => 'getText',
         'date' => 'getDate'
@@ -202,9 +199,9 @@ class DataQuery extends Query
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return parent::attributeMap() + self::$attributeMap;
     }
@@ -212,9 +209,9 @@ class DataQuery extends Query
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return parent::setters() + self::$setters;
     }
@@ -222,9 +219,9 @@ class DataQuery extends Query
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return parent::getters() + self::$getters;
     }
@@ -234,7 +231,7 @@ class DataQuery extends Query
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -244,8 +241,7 @@ class DataQuery extends Query
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -265,7 +261,7 @@ class DataQuery extends Query
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -277,9 +273,9 @@ class DataQuery extends Query
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = parent::listInvalidProperties();
 
@@ -292,7 +288,7 @@ class DataQuery extends Query
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -303,7 +299,7 @@ class DataQuery extends Query
      *
      * @return string|null
      */
-    public function getSuffix()
+    public function getSuffix(): ?string
     {
         return $this->container['suffix'];
     }
@@ -313,12 +309,12 @@ class DataQuery extends Query
      *
      * @param string|null $suffix test suffix
      *
-     * @return self
+     * @return $this
      */
-    public function setSuffix($suffix)
+    public function setSuffix(?string $suffix): static
     {
         if (is_null($suffix)) {
-            throw new \InvalidArgumentException('non-nullable suffix cannot be null');
+            throw new InvalidArgumentException('non-nullable suffix cannot be null');
         }
         $this->container['suffix'] = $suffix;
 
@@ -330,7 +326,7 @@ class DataQuery extends Query
      *
      * @return string|null
      */
-    public function getText()
+    public function getText(): ?string
     {
         return $this->container['text'];
     }
@@ -340,12 +336,12 @@ class DataQuery extends Query
      *
      * @param string|null $text Some text containing white spaces
      *
-     * @return self
+     * @return $this
      */
-    public function setText($text)
+    public function setText(?string $text): static
     {
         if (is_null($text)) {
-            throw new \InvalidArgumentException('non-nullable text cannot be null');
+            throw new InvalidArgumentException('non-nullable text cannot be null');
         }
         $this->container['text'] = $text;
 
@@ -357,7 +353,7 @@ class DataQuery extends Query
      *
      * @return \DateTime|null
      */
-    public function getDate()
+    public function getDate(): ?\DateTime
     {
         return $this->container['date'];
     }
@@ -367,12 +363,12 @@ class DataQuery extends Query
      *
      * @param \DateTime|null $date A date
      *
-     * @return self
+     * @return $this
      */
-    public function setDate($date)
+    public function setDate(?\DateTime $date): static
     {
         if (is_null($date)) {
-            throw new \InvalidArgumentException('non-nullable date cannot be null');
+            throw new InvalidArgumentException('non-nullable date cannot be null');
         }
         $this->container['date'] = $date;
 
@@ -385,7 +381,7 @@ class DataQuery extends Query
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -397,8 +393,8 @@ class DataQuery extends Query
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -411,7 +407,7 @@ class DataQuery extends Query
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -427,7 +423,7 @@ class DataQuery extends Query
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -439,8 +435,8 @@ class DataQuery extends Query
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -450,7 +446,7 @@ class DataQuery extends Query
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -463,7 +459,7 @@ class DataQuery extends Query
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
