@@ -572,17 +572,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         return sub;
     }
 
-    private boolean isParentRecursive(CodegenModel codegenModel, CodegenModel parentModel, boolean acceptAllParentsNull) {
+    private boolean isParentRecursive(CodegenModel codegenModel, CodegenModel parentModel, boolean allowParentIsModel) {
         final String classname = parentModel.getClassname();
         final String childClassName = codegenModel.getClassname();
 
-        if (classname == childClassName
+        if ((allowParentIsModel && classname == childClassName)
                 || (codegenModel.parent == classname)
                 || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname))
                 || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname))
                 || parentModel.anyOf.contains(childClassName)
                 || parentModel.oneOf.contains(childClassName)
-                || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, parentModel, false))) {
+                || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, parentModel, true))) {
             return true;
         }
 
@@ -595,7 +595,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final Set<MappedModel> notSortedModels = new HashSet<MappedModel>();
         for (MappedModel mappedModel : unSortedModels) {
             final CodegenModel mappedCodegenModel = mappedModel.getModel();
-            if (unSortedModels.stream().anyMatch(m -> m != mappedModel && isParentRecursive(mappedCodegenModel, m.getModel(), false))) {
+            if (unSortedModels.stream().anyMatch(m -> m != mappedModel && isParentRecursive(mappedCodegenModel, m.getModel(), true))) {
                 notSortedModels.add(mappedModel);
             } else {
                 sortedModels.add(mappedModel);
@@ -622,7 +622,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             for (MappedModel mappedModel : discriminator.getMappedModels()) {
                 final CodegenModel mappedCodegenModel = mappedModel.getModel();
                 //  filter out all the models, which are not submodels of this model
-                if (isParentRecursive(mappedCodegenModel, cm, true)) {
+                if (isParentRecursive(mappedCodegenModel, cm, false)) {
                     filteredModels.add(mappedModel);
                 } else {
                     LOGGER.info("Removing model {} from discriminator of model {} because it is not a submodel", mappedCodegenModel.getClassname(), classname);
