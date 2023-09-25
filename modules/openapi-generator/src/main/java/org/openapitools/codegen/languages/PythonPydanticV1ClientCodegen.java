@@ -41,8 +41,8 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class PythonClientPydanticV1Codegen extends AbstractPythonCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonPydanticV1ClientCodegen.class);
 
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
@@ -60,7 +60,7 @@ public class PythonClientPydanticV1Codegen extends AbstractPythonCodegen impleme
 
     private String testFolder;
 
-    public PythonClientPydanticV1Codegen() {
+    public PythonPydanticV1ClientCodegen() {
         super();
 
         // force sortParamsByRequiredFlag to true to make the api method signature less complicated
