@@ -125,7 +125,7 @@ class ModelTests(unittest.TestCase):
         # test to_json, to_dict method
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
-        self.assertEqual(p.to_json(), "[12,34,56]")
+        self.assertEqual(p.to_json(), "[12, 34, 56]")
         self.assertEqual(p.to_dict(), [12, 34, 56])
 
         # test nullable
@@ -140,10 +140,10 @@ class ModelTests(unittest.TestCase):
         oneof_enum = petstore_api.OneOfEnumString.from_dict("a")
         nested = petstore_api.WithNestedOneOf(size = 1, nested_oneof_enum_string = oneof_enum)
         # test to_json
-        self.assertEqual(nested.to_json(), '{"size":1,"nested_oneof_enum_string":"a"}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "a"}')
         # test from_json
         nested = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "c"}')
-        self.assertEqual(nested.to_json(), '{"size":1,"nested_oneof_enum_string":"c"}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "c"}')
         # test from_dict
         nested = petstore_api.WithNestedOneOf.from_dict({"size": 1, "nested_oneof_enum_string": "c"})
         # test to_dict
@@ -206,9 +206,9 @@ class ModelTests(unittest.TestCase):
         self.assertEqual("null", new_pig.to_json())
         self.assertEqual(None, new_pig.actual_instance)
         new_pig2 = petstore_api.Pig(actual_instance=bp)
-        self.assertEqual('{"className":"BasquePig","color":"red"}', new_pig2.to_json())
+        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig2.to_json())
         new_pig3 = petstore_api.Pig(bp)
-        self.assertEqual('{"className":"BasquePig","color":"red"}', new_pig3.to_json())
+        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig3.to_json())
         try:
             new_pig4 = petstore_api.Pig(bp, actual_instance=bp)
         except ValueError as e:
@@ -266,11 +266,11 @@ class ModelTests(unittest.TestCase):
         #    self.assertEqual(str(e), error_message)
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className":"BasquePig","color":"red"}')
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
         # test nested property
         nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
-        self.assertEqual(nested.to_json(), '{"size":1,"nested_pig":{"className":"BasquePig","color":"red"}}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
 
         nested_json = nested.to_json()
         nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
@@ -313,11 +313,11 @@ class ModelTests(unittest.TestCase):
             self.assertIn("No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig", str(e))
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className":"BasquePig","color":"red"}')
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
     def test_inheritance(self):
         dog = petstore_api.Dog(breed="bulldog", class_name="dog", color="white")
-        self.assertEqual(dog.to_json(), '{"className":"dog","color":"white","breed":"bulldog"}')
+        self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
@@ -337,7 +337,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue("Input should be a valid string" in str(e))
 
         l = petstore_api.List(var_123_list="bulldog")
-        self.assertEqual(l.to_json(), '{"123-list":"bulldog"}')
+        self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
         l2 = petstore_api.List.from_json(l.to_json())
         self.assertEqual(l2.var_123_list, 'bulldog')
@@ -348,21 +348,21 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value":1}')
+        self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
-        self.assertEqual(d2.to_json(), '{"str_value":"delivered","value":1}')
+        self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
         d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d3.to_json(), '{"str_value":"delivered","value":1}')
+        self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
         d4 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=None)
-        self.assertEqual(d4.to_json(), '{"str_value":null,"value":1}')
+        self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
         d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d5.__fields_set__, {'value'})
         d5.str_value = None # set None explicitly
         self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
-        self.assertEqual(d5.to_json(), '{"str_value":null,"value":1}')
+        self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):
         # test regular expression
@@ -470,10 +470,10 @@ class ModelTests(unittest.TestCase):
 
     def test_nullable(self):
         h = petstore_api.HealthCheckResult(nullable_message="Not none")
-        self.assertEqual(h.to_json(), '{"NullableMessage":"Not none"}')
+        self.assertEqual(h.to_json(), '{"NullableMessage": "Not none"}')
 
         h.nullable_message = None
-        self.assertEqual(h.to_json(), '{"NullableMessage":null}')
+        self.assertEqual(h.to_json(), '{"NullableMessage": null}')
 
         #import json
         #dictionary ={ 
@@ -533,7 +533,7 @@ class ModelTests(unittest.TestCase):
         t = petstore_api.Tag(id=123, name="tag name")
         a.shop_id_to_org_online_lip_map = {"somekey": [t]}
         self.assertEqual(a.to_dict(), {'shopIdToOrgOnlineLipMap': {'somekey': [{'id': 123, 'name': 'tag name'}]}})
-        self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap":{"somekey":[{"id":123,"name":"tag name"}]}}')
+        self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap": {"somekey": [{"id": 123, "name": "tag name"}]}}')
         a2 = petstore_api.MapOfArrayOfModel.from_dict(a.to_dict())
         self.assertEqual(a.to_dict(), a2.to_dict())
 
@@ -542,7 +542,7 @@ class ModelTests(unittest.TestCase):
         t = petstore_api.Tag(id=123, name="tag name")
         a.another_property = [[t]]
         self.assertEqual(a.to_dict(), {'another_property': [[ {'id': 123, 'name': 'tag name'} ]]})
-        self.assertEqual(a.to_json(), '{"another_property":[[{"id":123,"name":"tag name"}]]}')
+        self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
         a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
         self.assertEqual(a.to_dict(), a2.to_dict())
 
@@ -561,20 +561,20 @@ class ModelTests(unittest.TestCase):
         # for issue 16104
         model = petstore_api.Tiger.from_json('{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
         # shouldn't throw NameError
-        self.assertEqual(model.to_json(), '{"skill":"none","type":"tiger","info":{"name":"creature info"}}')
+        self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
     def test_additional_properties(self):
         a1 = petstore_api.AdditionalPropertiesAnyType()
         a1.additional_properties = { "abc": 123 }
         self.assertEqual(a1.to_dict(), {"abc": 123})
-        self.assertEqual(a1.to_json(), '{"abc":123}')
+        self.assertEqual(a1.to_json(), '{"abc": 123}')
 
         a2 = petstore_api.AdditionalPropertiesObject()
         a2.additional_properties = { "efg": 45.6 }
         self.assertEqual(a2.to_dict(), {"efg": 45.6})
-        self.assertEqual(a2.to_json(), '{"efg":45.6}')
+        self.assertEqual(a2.to_json(), '{"efg": 45.6}')
 
         a3 = petstore_api.AdditionalPropertiesWithDescriptionOnly()
         a3.additional_properties = { "xyz": 45.6 }
         self.assertEqual(a3.to_dict(), {"xyz": 45.6})
-        self.assertEqual(a3.to_json(), '{"xyz":45.6}')
+        self.assertEqual(a3.to_json(), '{"xyz": 45.6}')

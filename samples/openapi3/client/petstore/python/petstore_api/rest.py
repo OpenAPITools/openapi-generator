@@ -156,10 +156,7 @@ class RESTClientObject:
                 if not headers.get('Content-Type') or re.search('json', headers['Content-Type'], re.IGNORECASE):
                     request_body = None
                     if body is not None:
-                        request_body = json.dumps(
-                            body,
-                            separators=(',', ':') # match Pydantic v2 compact serialization
-                        )
+                        request_body = json.dumps(body)
                     r = self.pool_manager.request(
                         method, url,
                         body=request_body,

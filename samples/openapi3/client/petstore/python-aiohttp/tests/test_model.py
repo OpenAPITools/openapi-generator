@@ -112,11 +112,11 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(str(e), error_message)
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className":"BasquePig","color":"red"}')
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
         # test nested property
         nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
-        self.assertEqual(nested.to_json(), '{"size":1,"nested_pig":{"className":"BasquePig","color":"red"}}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
 
         nested_json = nested.to_json()
         nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
@@ -163,11 +163,11 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(str(e), error_message)
 
         # test to_json
-        self.assertEqual(p.to_json(), '{"className":"BasquePig","color":"red"}')
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
     def test_inheritance(self):
         dog = petstore_api.Dog(breed="bulldog", class_name="dog", color="white")
-        self.assertEqual(dog.to_json(), '{"className":"dog","color":"white","breed":"bulldog"}')
+        self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
@@ -200,14 +200,14 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value":1}')
+        self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
-        self.assertEqual(d2.to_json(), '{"str_value":"delivered","value":1}')
+        self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
         d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d3.to_json(), '{"str_value":"delivered","value":1}')
+        self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
 
     @unittest.skip("TODO pydantic v2: 'float' field alias the 'float' type used by 'number'")
     def test_float_strict_type(self):
