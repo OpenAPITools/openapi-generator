@@ -29,10 +29,8 @@ class NumberPropertiesOnly(BaseModel):
     NumberPropertiesOnly
     """
     number: Optional[Union[StrictFloat, StrictInt]] = None
-    # TODO: pydantic v2: this field name override the default `float` type
-    # float: Optional[Union[StrictFloat, StrictInt]] = None
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
-    __properties = ["number", "float", "double"]
+    __properties = ["number", "double"]
 
     class Config:
         """Pydantic configuration"""
@@ -72,7 +70,6 @@ class NumberPropertiesOnly(BaseModel):
 
         _obj = NumberPropertiesOnly.parse_obj({
             "number": obj.get("number"),
-            "float": obj.get("float"),
             "double": obj.get("double")
         })
         return _obj

@@ -29,7 +29,6 @@ class FormatTest(BaseModel):
     int32: Optional[conint(strict=True, le=200, ge=20)] = None
     int64: Optional[StrictInt] = None
     number: confloat(le=543.2, ge=32.1) = Field(...)
-    float: Optional[confloat(le=987.6, ge=54.3)] = None
     double: Optional[confloat(le=123.4, ge=67.8)] = None
     decimal: Optional[condecimal()] = None
     string: Optional[constr(strict=True)] = None
@@ -42,7 +41,7 @@ class FormatTest(BaseModel):
     password: constr(strict=True, max_length=64, min_length=10) = Field(...)
     pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-    __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
+    __properties = ["integer", "int32", "int64", "number", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
     @validator('string')
     def string_validate_regular_expression(cls, value):
@@ -124,7 +123,6 @@ class FormatTest(BaseModel):
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),
             "number": obj.get("number"),
-            "float": obj.get("float"),
             "double": obj.get("double"),
             "decimal": obj.get("decimal"),
             "string": obj.get("string"),
