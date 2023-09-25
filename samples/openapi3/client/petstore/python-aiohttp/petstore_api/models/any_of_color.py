@@ -22,7 +22,8 @@ from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Union, Any, List, TYPE_CHECKING, Literal, Optional, Dict
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]

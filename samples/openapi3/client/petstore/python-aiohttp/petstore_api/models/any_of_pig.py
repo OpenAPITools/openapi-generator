@@ -22,7 +22,8 @@ from typing import Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING, Literal, Optional, Dict
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
