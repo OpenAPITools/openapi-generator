@@ -83,27 +83,27 @@ public class Foo extends Entity implements FooRefOrValue {
 
 
   public Foo href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public Foo id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public Foo atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public Foo atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public Foo atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
   @Override

@@ -3,6 +3,7 @@ Org.OpenAPITools.sln
 README.md
 api/openapi.yaml
 appveyor.yml
+docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
@@ -21,6 +22,7 @@ docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
+src/Org.OpenAPITools/Api/AuthApi.cs
 src/Org.OpenAPITools/Api/BodyApi.cs
 src/Org.OpenAPITools/Api/FormApi.cs
 src/Org.OpenAPITools/Api/HeaderApi.cs

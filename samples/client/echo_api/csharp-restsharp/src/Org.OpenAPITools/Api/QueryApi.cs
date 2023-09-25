@@ -1157,7 +1157,30 @@ namespace Org.OpenAPITools.Api
 
             if (queryObject != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                if (queryObject.Id != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Id));
+                }
+                if (queryObject.Name != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Name));
+                }
+                if (queryObject.Category != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Category));
+                }
+                if (queryObject.PhotoUrls != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.PhotoUrls));
+                }
+                if (queryObject.Tags != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Tags));
+                }
+                if (queryObject.Status != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Status));
+                }
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleDeepObjectExplodeTrueObject";
@@ -1294,7 +1317,6 @@ namespace Org.OpenAPITools.Api
 
             if (queryObject != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleDeepObjectExplodeTrueObjectAllOf";

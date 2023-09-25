@@ -1,0 +1,4 @@
+generatorName: php-nextgen
+outputDir: samples/client/petstore/php-nextgen/OpenAPIClient-php
+inputSpec: modules/openapi-generator/src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-nextgen

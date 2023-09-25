@@ -31,6 +31,7 @@ return CompletableFuture.supplyAsync(()-> {
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
+{{^vendorExtensions.x-sse}}
 Mono<Void> result = Mono.empty();
     {{#examples}}
         {{#-first}}
@@ -50,4 +51,9 @@ Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
 {{/examples}}
         return result{{#allParams}}{{#isBodyParam}}{{^isArray}}{{#paramName}}.then({{.}}){{/paramName}}{{/isArray}}{{#isArray}}{{#paramName}}.thenMany({{.}}){{/paramName}}{{/isArray}}{{/isBodyParam}}{{/allParams}}.then(Mono.empty());
+{{/vendorExtensions.x-sse}}
+{{#vendorExtensions.x-sse}}
+exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+        return Flux.empty();
+{{/vendorExtensions.x-sse}}
 {{/reactive}}

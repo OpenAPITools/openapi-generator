@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**TestEnumParameters**](docs/FakeAPI.md#testenumparameters) | **Get** /fake | To test enum parameters
 *FakeAPI* | [**TestGroupParameters**](docs/FakeAPI.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FakeAPI* | [**TestInlineAdditionalProperties**](docs/FakeAPI.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeAPI* | [**TestInlineFreeformAdditionalProperties**](docs/FakeAPI.md#testinlinefreeformadditionalproperties) | **Post** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeAPI* | [**TestJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeAPI* | [**TestQueryDeepObject**](docs/FakeAPI.md#testquerydeepobject) | **Get** /fake/deep_object_test | 
 *FakeAPI* | [**TestQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
@@ -182,6 +183,7 @@ Class | Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [User](docs/User.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)

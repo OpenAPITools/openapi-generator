@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;

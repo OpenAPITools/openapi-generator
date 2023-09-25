@@ -13,7 +13,7 @@
 	            "name": "default",
 	            "item": [
 	                        {
-    "name": "/users/{{userId}} (DEPRECATED)",
+    "name": "/users/{userId} (DEPRECATED)",
                 "description": "Update the information of an existing user.",
                  "item": [
                             {
@@ -52,13 +52,13 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/users/{{userId}}",
+                                        "raw": "{{baseUrl}}/users/{userId}",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "users",
-                                            "{{userId}}"
+                                            "{userId}"
                                         ],
                                         "variable": [
                                             {
@@ -81,7 +81,7 @@
 	            "name": "advanced",
 	            "item": [
 	                        {
-    "name": "/groups/{{groupId}}",
+    "name": "/groups/{groupId}",
                 "description": "Get group of users",
                  "item": [
                             {
@@ -105,13 +105,13 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/groups/{{groupId}}",
+                                        "raw": "{{baseUrl}}/groups/{groupId}",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "groups",
-                                            "{{groupId}}"
+                                            "{groupId}"
                                         ],
                                         "variable": [
                                             {
@@ -129,7 +129,7 @@
                             ]
                         },
 	                        {
-    "name": "/users/{{userId}}",
+    "name": "/users/{userId}",
                 "description": "Retrieve the information of the user with the matching user ID.",
                  "item": [
                             {
@@ -163,13 +163,13 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/users/{{userId}}",
+                                        "raw": "{{baseUrl}}/users/{userId}",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "users",
-                                            "{{userId}}"
+                                            "{userId}"
                                         ],
                                         "variable": [
                                             {
@@ -329,19 +329,9 @@
 			"type": "string"
 		},
 		{
-			"key": "groupId",
-			"value": "1",
-			"type": "number"
-		},
-		{
 			"key": "port",
 			"value": "5000",
 			"type": "string"
-		},
-		{
-			"key": "userId",
-			"value": "",
-			"type": "number"
 		}
 	]
 }

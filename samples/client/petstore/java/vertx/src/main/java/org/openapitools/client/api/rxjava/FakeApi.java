@@ -2,6 +2,7 @@ package org.openapitools.client.api.rxjava;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -12,6 +13,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import org.openapitools.client.ApiClient;
 
@@ -863,6 +865,51 @@ public class FakeApi {
         ));
     }
     /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, resultHandler);
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, authInfo, resultHandler);
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, fut)
+        ));
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, authInfo, fut)
+        ));
+    }
+    /**
     * test json serialization of form data
     * 
     * @param param field1 (required)
@@ -909,6 +956,51 @@ public class FakeApi {
     public Single<Void> rxTestJsonFormData(String param, String param2, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testJsonFormData(param, param2, authInfo, fut)
+        ));
+    }
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testNullable(childWithNullable, resultHandler);
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testNullable(childWithNullable, authInfo, resultHandler);
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestNullable(ChildWithNullable childWithNullable) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testNullable(childWithNullable, fut)
+        ));
+    }
+
+    /**
+    * test nullable parent property
+    * 
+    * @param childWithNullable request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testNullable(childWithNullable, authInfo, fut)
         ));
     }
     /**

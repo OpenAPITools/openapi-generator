@@ -943,6 +943,23 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
+      tags:
+      - fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1589,6 +1606,19 @@ components:
       - -efg
       - (xyz)
       type: string
+    Outer_Enum_Test:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      type: string
     Enum_Test:
       properties:
         enum_string:
@@ -1596,12 +1626,26 @@ components:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_string_required:
           enum:
           - UPPER
           - lower
           - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
           type: string
         enum_integer:
           enum:
@@ -2460,6 +2504,12 @@ components:
       required:
       - param
       - param2
+      type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
       type: object
     uploadFileWithRequiredFile_request:
       properties:

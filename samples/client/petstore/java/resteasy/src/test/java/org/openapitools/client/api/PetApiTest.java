@@ -14,20 +14,21 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * API tests for PetApi
@@ -170,17 +171,19 @@ public class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    public void uploadFileTest() throws ApiException {
-        //
-        //Long petId = null;
-        //
-        //String additionalMetadata = null;
-        //
-        //File _file = null;
-        //
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
-
-        // TODO: test validations
+    public void uploadFileTest() throws Exception {
+        Long petId = 1L;
+        String additionalMetadata = "additoinal data";
+        File file = new File("test.txt");
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        FileWriter fw = new FileWriter(file);
+        fw.write("testing only");
+        fw.close();
+        file.deleteOnExit();
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        Assert.assertEquals((long)response.getCode(), 200);
     }
     /**
      * uploads an image (required)

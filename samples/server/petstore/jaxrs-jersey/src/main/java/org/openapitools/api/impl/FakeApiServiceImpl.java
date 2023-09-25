@@ -2,6 +2,7 @@ package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
@@ -14,6 +15,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -109,7 +111,17 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
+    public Response testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
     public Response testJsonFormData(String param, String param2, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testNullable(ChildWithNullable childWithNullable, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

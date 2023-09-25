@@ -27,9 +27,13 @@ setup(
     url="{{packageUrl}}",
     keywords=["OpenAPI", "{{appName}}"],
     install_requires=REQUIRES,
-    packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
-    package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
-    package_data={'': ['{{#pythonSrcRoot}}{{{.}}}/{{/pythonSrcRoot}}openapi/openapi.yaml']},
+    packages=find_packages({{#lambda.forwardslash}}{{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}){{/lambda.forwardslash}},
+    {{#lambda.forwardslash}}
+    {{#pythonSrcRoot}}
+    package_dir={"": "{{{.}}}"},
+    {{/pythonSrcRoot}}
+    {{/lambda.forwardslash}}
+    package_data={'': ['{{#lambda.forwardslash}}{{#pythonSrcRoot}}{{{.}}}/{{/pythonSrcRoot}}{{/lambda.forwardslash}}openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},

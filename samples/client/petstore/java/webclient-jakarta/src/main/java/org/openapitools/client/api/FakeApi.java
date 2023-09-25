@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -14,6 +15,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.util.HashMap;
@@ -1368,6 +1370,75 @@ public class FakeApi {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
     /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        Object postBody = testInlineFreeformAdditionalPropertiesRequest;
+        // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+        if (testInlineFreeformAdditionalPropertiesRequest == null) {
+            throw new WebClientResponseException("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/inline-freeform-additionalProperties", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param testInlineFreeformAdditionalPropertiesRequest request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+        return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
+    }
+    /**
      * test json serialization of form data
      * 
      * <p><b>200</b> - successful operation
@@ -1448,6 +1519,75 @@ public class FakeApi {
      */
     public ResponseSpec testJsonFormDataWithResponseSpec(String param, String param2) throws WebClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
+    }
+    /**
+     * test nullable parent property
+     * 
+     * <p><b>200</b> - successful operation
+     * @param childWithNullable request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testNullableRequestCreation(ChildWithNullable childWithNullable) throws WebClientResponseException {
+        Object postBody = childWithNullable;
+        // verify the required parameter 'childWithNullable' is set
+        if (childWithNullable == null) {
+            throw new WebClientResponseException("Missing the required parameter 'childWithNullable' when calling testNullable", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/nullable", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test nullable parent property
+     * 
+     * <p><b>200</b> - successful operation
+     * @param childWithNullable request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testNullable(ChildWithNullable childWithNullable) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testNullableRequestCreation(childWithNullable).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test nullable parent property
+     * 
+     * <p><b>200</b> - successful operation
+     * @param childWithNullable request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testNullableWithHttpInfo(ChildWithNullable childWithNullable) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testNullableRequestCreation(childWithNullable).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test nullable parent property
+     * 
+     * <p><b>200</b> - successful operation
+     * @param childWithNullable request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testNullableWithResponseSpec(ChildWithNullable childWithNullable) throws WebClientResponseException {
+        return testNullableRequestCreation(childWithNullable);
     }
     /**
      * 

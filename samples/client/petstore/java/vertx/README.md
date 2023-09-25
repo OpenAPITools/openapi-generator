@@ -131,7 +131,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testNullable**](docs/FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
@@ -168,6 +170,7 @@ Class | Method | HTTP request | Description
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
+ - [ChildWithNullable](docs/ChildWithNullable.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
@@ -200,11 +203,13 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [ParentWithNullable](docs/ParentWithNullable.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SingleRefType](docs/SingleRefType.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [User](docs/User.md)
 
 

@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -13,6 +14,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -86,9 +88,17 @@ public interface FakeApi {
 
     void testInlineAdditionalProperties(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
+    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Handler<AsyncResult<Void>> handler);
+
+    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);
 
     void testJsonFormData(String param, String param2, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+
+    void testNullable(ChildWithNullable childWithNullable, Handler<AsyncResult<Void>> handler);
+
+    void testNullable(ChildWithNullable childWithNullable, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
     void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Handler<AsyncResult<Void>> handler);
 

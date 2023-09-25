@@ -10,6 +10,8 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
+      - samples/client/others/java/resttemplate-useAbstractionForFiles/**
+      - samples/client/others/java/webclient-useAbstractionForFiles/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -19,6 +21,8 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
+      - samples/client/others/java/resttemplate-useAbstractionForFiles/**
+      - samples/client/others/java/webclient-useAbstractionForFiles/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -43,7 +47,6 @@ jobs:
           - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/resteasy
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
@@ -62,8 +65,10 @@ jobs:
           - samples/client/petstore/java/okhttp-gson-swagger2/
           - samples/client/petstore/java/resttemplate-swagger2/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
+          - samples/client/others/java/resttemplate-useAbstractionForFiles/
+          - samples/client/others/java/webclient-useAbstractionForFiles/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'

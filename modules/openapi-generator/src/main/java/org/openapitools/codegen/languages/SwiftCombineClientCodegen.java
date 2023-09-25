@@ -396,9 +396,9 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
                 if (ModelUtils.isStringSchema(p)) {
-                    return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
+                    return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
                 } else {
-                    return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
+                    return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
                 }
             }
         }
@@ -412,9 +412,9 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
             } else if (ModelUtils.isUUIDSchema(p)) {
-                return "\"" + escapeText(p.getDefault().toString()) + "\"";
+                return "\"" + escapeText(String.valueOf(p.getDefault())) + "\"";
             } else if (ModelUtils.isStringSchema(p)) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+                return "\"" + escapeText(String.valueOf(p.getDefault())) + "\"";
             }
             // TODO: Handle more cases from `ModelUtils`, such as Date
         }

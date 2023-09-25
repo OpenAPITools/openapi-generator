@@ -1236,7 +1236,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
+                defaultValue = "\"" + String.valueOf(p.getDefault()) + "\".to_string()";
             }
         }
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))
@@ -1245,7 +1245,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema composedSchema) {
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         List<String> types = new ArrayList<>();
@@ -1256,7 +1256,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema composedSchema) {
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         List<String> types = new ArrayList<>();

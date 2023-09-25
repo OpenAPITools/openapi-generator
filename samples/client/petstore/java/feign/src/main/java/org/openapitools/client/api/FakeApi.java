@@ -5,6 +5,7 @@ import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -16,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -811,6 +813,33 @@ public interface FakeApi extends ApiClient.Api {
 
 
   /**
+   * test inline free-form additionalProperties
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+  /**
+   * test inline free-form additionalProperties
+   * Similar to <code>testInlineFreeformAdditionalProperties</code> but it also returns the http response headers .
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+
+
+  /**
    * test json serialization of form data
    * 
    * @param param field1 (required)
@@ -836,6 +865,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   ApiResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
+
+
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testNullable(ChildWithNullable childWithNullable);
+
+  /**
+   * test nullable parent property
+   * Similar to <code>testNullable</code> but it also returns the http response headers .
+   * 
+   * @param childWithNullable request body (required)
+   */
+  @RequestLine("POST /fake/nullable")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable);
 
 
 

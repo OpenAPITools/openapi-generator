@@ -30,6 +30,7 @@ src/gen/java/org/openapitools/model/ArrayTest.java
 src/gen/java/org/openapitools/model/Capitalization.java
 src/gen/java/org/openapitools/model/Cat.java
 src/gen/java/org/openapitools/model/Category.java
+src/gen/java/org/openapitools/model/ChildWithNullable.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
 src/gen/java/org/openapitools/model/DeprecatedObject.java
@@ -62,11 +63,13 @@ src/gen/java/org/openapitools/model/OuterEnumDefaultValue.java
 src/gen/java/org/openapitools/model/OuterEnumInteger.java
 src/gen/java/org/openapitools/model/OuterEnumIntegerDefaultValue.java
 src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
+src/gen/java/org/openapitools/model/ParentWithNullable.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SingleRefType.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
+src/gen/java/org/openapitools/model/TestInlineFreeformAdditionalPropertiesRequest.java
 src/gen/java/org/openapitools/model/User.java
 src/main/java/org/openapitools/api/Bootstrap.java
 src/main/java/org/openapitools/api/factories/AnotherFakeApiServiceFactory.java

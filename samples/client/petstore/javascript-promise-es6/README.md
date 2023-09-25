@@ -135,6 +135,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*OpenApiPetstore.FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -213,6 +214,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 

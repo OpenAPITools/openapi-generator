@@ -20,11 +20,13 @@ typedef struct MappedModel_t MappedModel_t;
 
 typedef struct MappedModel_t {
     int another_property; //numeric
+    char *uuid_property; // string
 
 } MappedModel_t;
 
 MappedModel_t *MappedModel_create(
-    int another_property
+    int another_property,
+    char *uuid_property
 );
 
 void MappedModel_free(MappedModel_t *MappedModel);

@@ -15,6 +15,7 @@ docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
+docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
@@ -50,6 +51,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/ParentWithNullable.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -57,6 +59,7 @@ docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -99,6 +102,7 @@ src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Capitalization.java
 src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/ChildWithNullable.java
 src/main/java/org/openapitools/client/model/ClassModel.java
 src/main/java/org/openapitools/client/model/Client.java
 src/main/java/org/openapitools/client/model/DeprecatedObject.java
@@ -131,9 +135,11 @@ src/main/java/org/openapitools/client/model/OuterEnumDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterObjectWithEnumProperty.java
+src/main/java/org/openapitools/client/model/ParentWithNullable.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestInlineFreeformAdditionalPropertiesRequest.java
 src/main/java/org/openapitools/client/model/User.java

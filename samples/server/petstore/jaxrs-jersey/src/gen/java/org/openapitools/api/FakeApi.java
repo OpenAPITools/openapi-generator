@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
@@ -19,6 +20,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -268,6 +270,18 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
     }
+    @javax.ws.rs.POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testInlineFreeformAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, securityContext);
+    }
     @javax.ws.rs.GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -279,6 +293,18 @@ public class FakeApi  {
     public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
+    }
+    @javax.ws.rs.POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test nullable parent property", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testNullable(@ApiParam(value = "request body", required = true) @NotNull @Valid  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testNullable(childWithNullable, securityContext);
     }
     @javax.ws.rs.PUT
     @Path("/test-query-parameters")

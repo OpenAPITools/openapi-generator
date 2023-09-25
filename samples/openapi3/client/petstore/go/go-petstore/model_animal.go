@@ -129,9 +129,13 @@ func (o Animal) ToMap() (map[string]interface{}, error) {
 func (o *Animal) UnmarshalJSON(bytes []byte) (err error) {
 	varAnimal := _Animal{}
 
-	if err = json.Unmarshal(bytes, &varAnimal); err == nil {
-		*o = Animal(varAnimal)
+	err = json.Unmarshal(bytes, &varAnimal)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Animal(varAnimal)
 
 	additionalProperties := make(map[string]interface{})
 

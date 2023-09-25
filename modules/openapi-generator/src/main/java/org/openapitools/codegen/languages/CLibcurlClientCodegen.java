@@ -426,7 +426,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + escapeText((String) p.getDefault()) + "'";
+                return "'" + escapeText(String.valueOf(p.getDefault())) + "'";
             }
         }
 
@@ -444,7 +444,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
         // correct "&#39;"s into "'"s after toString()
         if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
-            example = (String) schema.getDefault();
+            example = String.valueOf(schema.getDefault());
         }
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
             if (ModelUtils.isStringSchema(schema)) {
@@ -939,5 +939,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C;
+    }
 }

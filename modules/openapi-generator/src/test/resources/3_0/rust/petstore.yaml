@@ -922,3 +922,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ObjectRefItem'
+    NullableArray:
+      type: object
+      properties:
+        array_nullable:
+          type: array
+          nullable: true
+          items:
+            type: string
+        just_array:
+          type: array
+          items:
+            type: string
+        nullable_string:
+          type: string
+          nullable: true
+        just_string:
+          type: string

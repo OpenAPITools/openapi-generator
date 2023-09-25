@@ -54,7 +54,7 @@ public class AdditionalPropertiesClass {
 
   private Object anytype1;
 
-  private JsonNullable<Object> anytype2 = JsonNullable.undefined();
+  private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   private Object anytype3;
 

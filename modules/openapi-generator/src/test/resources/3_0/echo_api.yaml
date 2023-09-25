@@ -83,6 +83,40 @@ paths:
             text/plain:
               schema:
                 type: string
+  # form parameter tests for oneOf schema
+  /form/oneof:
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for oneOf schema
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              oneOf:
+                - type: object
+                  properties:
+                    form1:
+                      type: string
+                    form2:
+                      type: integer
+                - type: object
+                  properties:
+                    form3:
+                      type: string
+                    form4:
+                      type: boolean
+                - $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # header parameter tests
   /header/integer/boolean/string:
     get:
@@ -451,8 +485,28 @@ paths:
             text/plain:
               schema:
                 type: string
-
+  # To test http basic auth
+  /auth/http/basic:
+    post:
+      tags:
+        - auth
+      security:
+        - http_auth: []
+      summary: To test HTTP basic authentication
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
+  securitySchemes:
+    http_auth:
+      type: http
+      scheme: basic
   requestBodies:
     Pet:
       content:

@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.0.1-SNAPSHOT</version>
+    <version>7.1.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -52,11 +52,6 @@
             <id>etherealjoy</id>
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
-        </developer>
-        <developer>
-            <id>spacether</id>
-            <name>Justin Black</name>
-            <email>justin.a.black@gmail.com</email>
         </developer>
     </developers>
     <issueManagement>
@@ -1222,7 +1217,9 @@
             <modules>
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-pydantic-v1</module>
                 <module>samples/openapi3/client/petstore/python-aiohttp</module>
+                <module>samples/openapi3/client/petstore/python-pydantic-v1-aiohttp</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1291,8 +1288,12 @@
                 <module>samples/client/petstore/java/jersey3</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java/okhttp-gson-3.1</module>
+                <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
+                <!-- server -->
+                <module>samples/server/petstore/java-undertow</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1473,7 +1474,7 @@
         <groovy.version>3.0.9</groovy.version>
         <guava.version>31.1-jre</guava.version>
         <handlebars-java.version>4.3.1</handlebars-java.version>
-        <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
+        <jackson-threetenbp.version>2.14.3</jackson-threetenbp.version>
         <jackson-databind.version>2.14.0</jackson-databind.version>
         <jackson.version>2.14.0</jackson.version>
         <jacoco.version>0.8.10</jacoco.version>

@@ -85,17 +85,21 @@ namespace Example
 
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
-            var apiInstance = new BodyApi(config);
+            // Configure HTTP basic authorization: http_auth
+            config.Username = "YOUR_USERNAME";
+            config.Password = "YOUR_PASSWORD";
+
+            var apiInstance = new AuthApi(config);
 
             try
             {
-                // Test binary (gif) response body
-                System.IO.Stream result = apiInstance.TestBinaryGif();
+                // To test HTTP basic authentication
+                string result = apiInstance.TestAuthHttpBasic();
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
             {
-                Debug.Print("Exception when calling BodyApi.TestBinaryGif: " + e.Message );
+                Debug.Print("Exception when calling AuthApi.TestAuthHttpBasic: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -112,6 +116,7 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthApi* | [**TestAuthHttpBasic**](docs/AuthApi.md#testauthhttpbasic) | **POST** /auth/http/basic | To test HTTP basic authentication
 *BodyApi* | [**TestBinaryGif**](docs/BodyApi.md#testbinarygif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
@@ -120,6 +125,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**TestEchoBodyPetResponseString**](docs/BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**TestEchoBodyTagResponseString**](docs/BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**TestFormIntegerBooleanString**](docs/FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*FormApi* | [**TestFormOneof**](docs/FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**TestHeaderIntegerBooleanString**](docs/HeaderApi.md#testheaderintegerbooleanstring) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *PathApi* | [**TestsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testspathstringpathstringintegerpathinteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**TestEnumRefString**](docs/QueryApi.md#testenumrefstring) | **GET** /query/enum_ref_string | Test query parameter(s)
@@ -151,5 +157,10 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="http_auth"></a>
+### http_auth
+
+- **Type**: HTTP basic authentication
 

@@ -34,6 +34,7 @@ src/main/java/org/openapitools/virtualan/model/BigCat.java
 src/main/java/org/openapitools/virtualan/model/Capitalization.java
 src/main/java/org/openapitools/virtualan/model/Cat.java
 src/main/java/org/openapitools/virtualan/model/Category.java
+src/main/java/org/openapitools/virtualan/model/ChildWithNullable.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
 src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
@@ -52,10 +53,12 @@ src/main/java/org/openapitools/virtualan/model/ModelApiResponse.java
 src/main/java/org/openapitools/virtualan/model/ModelList.java
 src/main/java/org/openapitools/virtualan/model/ModelReturn.java
 src/main/java/org/openapitools/virtualan/model/Name.java
+src/main/java/org/openapitools/virtualan/model/NullableMapProperty.java
 src/main/java/org/openapitools/virtualan/model/NumberOnly.java
 src/main/java/org/openapitools/virtualan/model/Order.java
 src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
+src/main/java/org/openapitools/virtualan/model/ParentWithNullable.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java

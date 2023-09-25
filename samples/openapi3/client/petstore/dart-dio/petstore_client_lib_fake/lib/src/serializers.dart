@@ -24,6 +24,7 @@ import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
 import 'package:openapi/src/model/category.dart';
+import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
@@ -55,11 +56,13 @@ import 'package:openapi/src/model/outer_enum_default_value.dart';
 import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
 
 part 'serializers.g.dart';
@@ -75,6 +78,7 @@ part 'serializers.g.dart';
   Capitalization,
   Cat,
   Category,
+  ChildWithNullable,
   ClassModel,
   DeprecatedObject,
   Dog,
@@ -106,11 +110,13 @@ part 'serializers.g.dart';
   OuterEnumInteger,
   OuterEnumIntegerDefaultValue,
   OuterObjectWithEnumProperty,
+  ParentWithNullable,$ParentWithNullable,
   Pet,
   ReadOnlyFirst,
   SingleRefType,
   SpecialModelName,
   Tag,
+  TestInlineFreeformAdditionalPropertiesRequest,
   User,
 ])
 Serializers serializers = (_$serializers.toBuilder()
@@ -147,6 +153,7 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<String>(),
       )
       ..add(Animal.serializer)
+      ..add(ParentWithNullable.serializer)
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
