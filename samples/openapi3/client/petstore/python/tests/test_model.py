@@ -81,7 +81,7 @@ class ModelTests(unittest.TestCase):
 
         try:
             new_color.oneof_schema_2_validator = array_of_integers
-            self.fail(f"Should have failed: {new_color.oneof_schema_2_validator=}")
+            self.fail(f"Should have failed: {new_color.oneof_schema_2_validator}")
         except ValueError as e:
             self.assertTrue("List should have at least 4 items after validation, not 3" in str(e))
 
