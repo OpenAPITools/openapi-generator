@@ -267,7 +267,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -300,7 +300,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <feign-version>10.12</feign-version>
+        <feign-version>12.5</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         <gson-version>2.10.1</gson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
@@ -308,6 +308,6 @@
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>5.10.0</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <scribejava-version>8.0.0</scribejava-version>
+        <scribejava-version>8.3.3</scribejava-version>
     </properties>
 </project>
