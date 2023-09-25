@@ -175,7 +175,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
 
-    @unittest.skip("TODO pydantic v2: Optional[StrictStr] is not strict like StrictStr")
+    @unittest.skip("TODO: pydantic v2: Optional[StrictStr] is not strict like StrictStr")
     def test_list(self):
         # should throw exception as var_123_list should be string
         try:
@@ -209,7 +209,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
 
-    @unittest.skip("TODO pydantic v2: 'float' field alias the 'float' type used by 'number'")
+    @unittest.skip("TODO: pydantic v2: 'float' field alias the 'float' type used by 'number'")
     def test_float_strict_type(self):
         # assigning 123 to float shouldn't throw an exception
         a = petstore_api.FormatTest(number=39.8, float=123, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
