@@ -165,6 +165,14 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
 
+        supportedLibraries.put("urllib3", "urllib3-based client");
+        supportedLibraries.put("asyncio", "asyncio-based client");
+        supportedLibraries.put("tornado", "tornado-based client (deprecated)");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
+        libraryOption.setDefault(DEFAULT_LIBRARY);
+        cliOptions.add(libraryOption);
+        setLibrary(DEFAULT_LIBRARY);
+
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -327,7 +335,16 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
 
         supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
-        supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+
+        if ("asyncio".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+            additionalProperties.put("asyncio", "true");
+        } else if ("tornado".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
+            additionalProperties.put("tornado", "true");
+        } else {
+            supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+        }
 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
