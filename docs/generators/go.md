@@ -22,15 +22,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumClassPrefix|Prefix enum with class name| |false|
 |generateInterfaces|Generate interfaces for api classes| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|isGoSubmodule|Whether the generated Go module is a submodule| |false|
+|isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|structPrefix|Whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
+|structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
-|withAWSV4Signature|Whether to include AWS v4 signature support| |false|
-|withCustomMiddlewareFunction|Whether to include hooks for custom middlewares before the request is sent and after the response is received.| |false|
-|withXml|Whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|withAWSV4Signature|whether to include AWS v4 signature support| |false|
+|withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
 
