@@ -302,8 +302,13 @@ class ModelTests(unittest.TestCase):
             pig3 = petstore_api.AnyOfPig(actual_instance="123")
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            self.assertIn("or instance of BasquePig", str(e))
-            self.assertIn("or instance of DanishPig", str(e))
+            #   pydantic_core._pydantic_core.ValidationError: 1 validation error for AnyOfPig
+            #   actual_instance
+            #     Value error, No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: Error! Input type `<class 'str'>` is not `BasquePig`, Error! Input type `<class 'str'>` is not `DanishPig` [type=value_error, input_value='123', input_type=str]
+            #       For further information visit https://errors.pydantic.dev/2.4/v/value_error
+            self.assertIn("No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig.", str(e))
+            self.assertIn("Input type `<class 'str'>` is not `BasquePig`", str(e))
+            self.assertIn("Input type `<class 'str'>` is not `DanishPig`", str(e))
 
         # failure
         try:

@@ -37,8 +37,11 @@ class AnyOfPig(BaseModel):
     anyof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
     anyof_schema_2_validator: Optional[DanishPig] = None
-    actual_instance: Optional[Union[BasquePig, DanishPig]] = None
-    one_of_schemas: List[str] = Literal[ANYOFPIG_ANY_OF_SCHEMAS]
+    if TYPE_CHECKING:
+        actual_instance: Optional[Union[BasquePig, DanishPig]] = None
+    else:
+        actual_instance: Any = None
+    any_of_schemas: List[str] = Literal[ANYOFPIG_ANY_OF_SCHEMAS]
 
     class Config:
         validate_assignment = True

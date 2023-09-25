@@ -39,8 +39,11 @@ class AnyOfColor(BaseModel):
     anyof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=4, max_items=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
     anyof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
-    actual_instance: Optional[Union[List[int], str]] = None
-    one_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]
+    if TYPE_CHECKING:
+        actual_instance: Optional[Union[List[int], str]] = None
+    else:
+        actual_instance: Any = None
+    any_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]
 
     class Config:
         validate_assignment = True
