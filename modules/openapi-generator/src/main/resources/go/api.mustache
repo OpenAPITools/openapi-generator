@@ -351,8 +351,8 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
-{{#withCustomMiddlewareFunction}}
 
+{{#withCustomMiddlewareFunction}}
 	if a.client.cfg.ResponseMiddleware != nil {
 		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
 		if err != nil {
