@@ -70,12 +70,17 @@ class TestPetApiTests(unittest.TestCase):
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)
 
-        calls = [self.pet_api.get_pet_by_id(self.pet.id),
-                 self.pet_api.get_pet_by_id(self.pet.id)]
+        tasks = [
+            asyncio.create_task(coro)
+            for coro in [
+                self.pet_api.get_pet_by_id(self.pet.id),
+                self.pet_api.get_pet_by_id(self.pet.id),
+            ]
+        ]
 
-        responses, _ = await asyncio.wait(calls)
+        responses = await asyncio.gather(*tasks)
         for response in responses:
-            self.assertEqual(response.result().id, self.pet.id)
+            self.assertEqual(response.id, self.pet.id)
         self.assertEqual(len(responses), 2)
 
     @async_test

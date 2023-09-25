@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * Capitalization Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
+class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,14 +52,14 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'Capitalization';
+    protected static string $openAPIModelName = 'Capitalization';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'small_camel' => 'string',
         'capital_camel' => 'string',
         'small_snake' => 'string',
@@ -68,11 +71,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'small_camel' => null,
         'capital_camel' => null,
         'small_snake' => null,
@@ -84,7 +85,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'small_camel' => false,
@@ -98,16 +99,16 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -115,9 +116,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -125,7 +126,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -135,7 +136,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -145,7 +146,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -178,9 +179,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'small_camel' => 'smallCamel',
         'capital_camel' => 'CapitalCamel',
         'small_snake' => 'small_Snake',
@@ -192,9 +193,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'small_camel' => 'setSmallCamel',
         'capital_camel' => 'setCapitalCamel',
         'small_snake' => 'setSmallSnake',
@@ -206,9 +207,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'small_camel' => 'getSmallCamel',
         'capital_camel' => 'getCapitalCamel',
         'small_snake' => 'getSmallSnake',
@@ -221,9 +222,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -231,9 +232,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -241,9 +242,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -253,7 +254,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -262,15 +263,14 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -291,7 +291,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -303,9 +303,9 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -318,7 +318,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -329,7 +329,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getSmallCamel()
+    public function getSmallCamel(): ?string
     {
         return $this->container['small_camel'];
     }
@@ -339,12 +339,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $small_camel small_camel
      *
-     * @return self
+     * @return $this
      */
-    public function setSmallCamel($small_camel)
+    public function setSmallCamel(?string $small_camel): static
     {
         if (is_null($small_camel)) {
-            throw new \InvalidArgumentException('non-nullable small_camel cannot be null');
+            throw new InvalidArgumentException('non-nullable small_camel cannot be null');
         }
         $this->container['small_camel'] = $small_camel;
 
@@ -356,7 +356,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getCapitalCamel()
+    public function getCapitalCamel(): ?string
     {
         return $this->container['capital_camel'];
     }
@@ -366,12 +366,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $capital_camel capital_camel
      *
-     * @return self
+     * @return $this
      */
-    public function setCapitalCamel($capital_camel)
+    public function setCapitalCamel(?string $capital_camel): static
     {
         if (is_null($capital_camel)) {
-            throw new \InvalidArgumentException('non-nullable capital_camel cannot be null');
+            throw new InvalidArgumentException('non-nullable capital_camel cannot be null');
         }
         $this->container['capital_camel'] = $capital_camel;
 
@@ -383,7 +383,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getSmallSnake()
+    public function getSmallSnake(): ?string
     {
         return $this->container['small_snake'];
     }
@@ -393,12 +393,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $small_snake small_snake
      *
-     * @return self
+     * @return $this
      */
-    public function setSmallSnake($small_snake)
+    public function setSmallSnake(?string $small_snake): static
     {
         if (is_null($small_snake)) {
-            throw new \InvalidArgumentException('non-nullable small_snake cannot be null');
+            throw new InvalidArgumentException('non-nullable small_snake cannot be null');
         }
         $this->container['small_snake'] = $small_snake;
 
@@ -410,7 +410,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getCapitalSnake()
+    public function getCapitalSnake(): ?string
     {
         return $this->container['capital_snake'];
     }
@@ -420,12 +420,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $capital_snake capital_snake
      *
-     * @return self
+     * @return $this
      */
-    public function setCapitalSnake($capital_snake)
+    public function setCapitalSnake(?string $capital_snake): static
     {
         if (is_null($capital_snake)) {
-            throw new \InvalidArgumentException('non-nullable capital_snake cannot be null');
+            throw new InvalidArgumentException('non-nullable capital_snake cannot be null');
         }
         $this->container['capital_snake'] = $capital_snake;
 
@@ -437,7 +437,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getScaEthFlowPoints()
+    public function getScaEthFlowPoints(): ?string
     {
         return $this->container['sca_eth_flow_points'];
     }
@@ -447,12 +447,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $sca_eth_flow_points sca_eth_flow_points
      *
-     * @return self
+     * @return $this
      */
-    public function setScaEthFlowPoints($sca_eth_flow_points)
+    public function setScaEthFlowPoints(?string $sca_eth_flow_points): static
     {
         if (is_null($sca_eth_flow_points)) {
-            throw new \InvalidArgumentException('non-nullable sca_eth_flow_points cannot be null');
+            throw new InvalidArgumentException('non-nullable sca_eth_flow_points cannot be null');
         }
         $this->container['sca_eth_flow_points'] = $sca_eth_flow_points;
 
@@ -464,7 +464,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getAttName()
+    public function getAttName(): ?string
     {
         return $this->container['att_name'];
     }
@@ -474,12 +474,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $att_name Name of the pet
      *
-     * @return self
+     * @return $this
      */
-    public function setAttName($att_name)
+    public function setAttName(?string $att_name): static
     {
         if (is_null($att_name)) {
-            throw new \InvalidArgumentException('non-nullable att_name cannot be null');
+            throw new InvalidArgumentException('non-nullable att_name cannot be null');
         }
         $this->container['att_name'] = $att_name;
 
@@ -492,7 +492,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -504,8 +504,8 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -518,7 +518,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -534,7 +534,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -546,8 +546,8 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -557,7 +557,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -570,7 +570,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

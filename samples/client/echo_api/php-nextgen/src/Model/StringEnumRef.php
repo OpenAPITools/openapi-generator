@@ -28,7 +28,6 @@
  */
 
 namespace OpenAPI\Client\Model;
-use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * StringEnumRef Class Doc Comment

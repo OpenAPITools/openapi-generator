@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -52,22 +54,22 @@ class DefaultApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -76,17 +78,17 @@ class DefaultApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -99,7 +101,7 @@ class DefaultApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -109,7 +111,7 @@ class DefaultApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -117,7 +119,7 @@ class DefaultApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -127,11 +129,13 @@ class DefaultApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\FooGetDefaultResponse
      */
-    public function fooGet(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGet(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): \OpenAPI\Client\Model\FooGetDefaultResponse
     {
         list($response) = $this->fooGetWithHttpInfo($contentType);
         return $response;
@@ -142,11 +146,13 @@ class DefaultApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\FooGetDefaultResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fooGetWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetWithHttpInfo(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): array
     {
         $request = $this->fooGetRequest($contentType);
 
@@ -239,10 +245,12 @@ class DefaultApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fooGetAsync(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetAsync(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): PromiseInterface
     {
         return $this->fooGetAsyncWithHttpInfo($contentType)
             ->then(
@@ -257,10 +265,12 @@ class DefaultApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function fooGetAsyncWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\FooGetDefaultResponse';
         $request = $this->fooGetRequest($contentType);
@@ -306,10 +316,12 @@ class DefaultApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fooGetRequest(string $contentType = self::contentTypes['fooGet'][0])
+    public function fooGetRequest(
+        string $contentType = self::contentTypes['fooGet'][0]
+    ): Request
     {
 
 
@@ -383,7 +395,7 @@ class DefaultApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

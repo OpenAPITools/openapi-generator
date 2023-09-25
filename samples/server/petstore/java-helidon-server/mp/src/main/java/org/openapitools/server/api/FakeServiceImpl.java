@@ -27,6 +27,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -153,6 +154,12 @@ public class FakeServiceImpl implements FakeService {
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     public void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+    }
+
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    public void testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
     }
 
     @GET

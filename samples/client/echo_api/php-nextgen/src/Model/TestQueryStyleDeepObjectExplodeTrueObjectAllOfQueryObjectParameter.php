@@ -29,8 +29,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter Class Doc Comment
@@ -39,9 +42,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter implements ModelInterface, ArrayAccess, \JsonSerializable
+class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,14 +53,14 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
       *
       * @var string
       */
-    protected static $openAPIModelName = 'test_query_style_deepObject_explode_true_object_allOf_query_object_parameter';
+    protected static string $openAPIModelName = 'test_query_style_deepObject_explode_true_object_allOf_query_object_parameter';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'size' => 'string',
         'color' => 'string',
         'id' => 'int',
@@ -67,11 +70,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'size' => null,
         'color' => null,
         'id' => 'int64',
@@ -81,7 +82,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'size' => false,
@@ -93,16 +94,16 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -110,9 +111,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -120,7 +121,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -130,7 +131,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -140,7 +141,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -173,9 +174,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'size' => 'size',
         'color' => 'color',
         'id' => 'id',
@@ -185,9 +186,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'size' => 'setSize',
         'color' => 'setColor',
         'id' => 'setId',
@@ -197,9 +198,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'size' => 'getSize',
         'color' => 'getColor',
         'id' => 'getId',
@@ -210,9 +211,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -220,9 +221,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -230,9 +231,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -242,7 +243,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -251,15 +252,14 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -278,7 +278,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -290,9 +290,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -305,7 +305,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -316,7 +316,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string|null
      */
-    public function getSize()
+    public function getSize(): ?string
     {
         return $this->container['size'];
     }
@@ -326,12 +326,12 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @param string|null $size size
      *
-     * @return self
+     * @return $this
      */
-    public function setSize($size)
+    public function setSize(?string $size): static
     {
         if (is_null($size)) {
-            throw new \InvalidArgumentException('non-nullable size cannot be null');
+            throw new InvalidArgumentException('non-nullable size cannot be null');
         }
         $this->container['size'] = $size;
 
@@ -343,7 +343,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string|null
      */
-    public function getColor()
+    public function getColor(): ?string
     {
         return $this->container['color'];
     }
@@ -353,12 +353,12 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @param string|null $color color
      *
-     * @return self
+     * @return $this
      */
-    public function setColor($color)
+    public function setColor(?string $color): static
     {
         if (is_null($color)) {
-            throw new \InvalidArgumentException('non-nullable color cannot be null');
+            throw new InvalidArgumentException('non-nullable color cannot be null');
         }
         $this->container['color'] = $color;
 
@@ -370,7 +370,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->container['id'];
     }
@@ -380,12 +380,12 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @param int|null $id id
      *
-     * @return self
+     * @return $this
      */
-    public function setId($id)
+    public function setId(?int $id): static
     {
         if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+            throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
 
@@ -397,7 +397,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->container['name'];
     }
@@ -407,12 +407,12 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @param string|null $name name
      *
-     * @return self
+     * @return $this
      */
-    public function setName($name)
+    public function setName(?string $name): static
     {
         if (is_null($name)) {
-            throw new \InvalidArgumentException('non-nullable name cannot be null');
+            throw new InvalidArgumentException('non-nullable name cannot be null');
         }
         $this->container['name'] = $name;
 
@@ -425,7 +425,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -437,8 +437,8 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -451,7 +451,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -467,7 +467,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -479,8 +479,8 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -490,7 +490,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -503,7 +503,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

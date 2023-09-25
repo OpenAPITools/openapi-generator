@@ -104,6 +104,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String authFolder;
 
+    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
+    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public enum DateLibrary {
         STRING("string"),
@@ -250,6 +253,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+
+        CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
+        cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
     }
 
     public CodegenType getTag() {
@@ -319,6 +325,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setOmitGradleWrapper(boolean omitGradleWrapper) {
         this.omitGradleWrapper = omitGradleWrapper;
+    }
+
+    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
+        return this.serializationLibrary;
+    }
+
+    /**
+     * Sets the serialization engine for Kotlin
+     *
+     * @param enumSerializationLibrary The string representation of the serialization library as defined by
+     *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
+     */
+    public void setSerializationLibrary(final String enumSerializationLibrary) {
+        try {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_TYPE.valueOf(enumSerializationLibrary);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumSerializationLibrary + " is an invalid enum property naming option. Please choose from:");
+            for (SERIALIZATION_LIBRARY_TYPE t : SERIALIZATION_LIBRARY_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
     }
 
     @Override
@@ -401,6 +429,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
             setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+            additionalProperties.put(this.serializationLibrary.name(), true);
+        } else {
+            additionalProperties.put(this.serializationLibrary.name(), true);
         }
 
         commonSupportingFiles();
@@ -826,9 +861,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
+        boolean isResponseFile = false;
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
+                isResponseFile = isResponseFile || operation.isResponseFile;
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
@@ -905,6 +942,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
+        objs.put("isResponseFile", isResponseFile);
         return objs;
     }
 

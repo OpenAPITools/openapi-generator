@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -35,6 +36,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -53,22 +55,22 @@ class QueryApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -98,17 +100,17 @@ class QueryApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -121,7 +123,7 @@ class QueryApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -131,7 +133,7 @@ class QueryApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -139,7 +141,7 @@ class QueryApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -149,14 +151,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  StringEnumRef $enum_ref_string_query enum_ref_string_query (optional)
+     * @param  StringEnumRef|null $enum_ref_string_query enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testEnumRefString($enum_ref_string_query = null, string $contentType = self::contentTypes['testEnumRefString'][0])
+    public function testEnumRefString(
+        ?StringEnumRef $enum_ref_string_query = null,
+        string $contentType = self::contentTypes['testEnumRefString'][0]
+    ): string
     {
         list($response) = $this->testEnumRefStringWithHttpInfo($enum_ref_string_query, $contentType);
         return $response;
@@ -167,14 +172,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  StringEnumRef $enum_ref_string_query (optional)
+     * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumRefStringWithHttpInfo($enum_ref_string_query = null, string $contentType = self::contentTypes['testEnumRefString'][0])
+    public function testEnumRefStringWithHttpInfo(
+        ?StringEnumRef $enum_ref_string_query = null,
+        string $contentType = self::contentTypes['testEnumRefString'][0]
+    ): array
     {
         $request = $this->testEnumRefStringRequest($enum_ref_string_query, $contentType);
 
@@ -267,13 +275,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  StringEnumRef $enum_ref_string_query (optional)
+     * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEnumRefStringAsync($enum_ref_string_query = null, string $contentType = self::contentTypes['testEnumRefString'][0])
+    public function testEnumRefStringAsync(
+        ?StringEnumRef $enum_ref_string_query = null,
+        string $contentType = self::contentTypes['testEnumRefString'][0]
+    ): PromiseInterface
     {
         return $this->testEnumRefStringAsyncWithHttpInfo($enum_ref_string_query, $contentType)
             ->then(
@@ -288,13 +299,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  StringEnumRef $enum_ref_string_query (optional)
+     * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEnumRefStringAsyncWithHttpInfo($enum_ref_string_query = null, string $contentType = self::contentTypes['testEnumRefString'][0])
+    public function testEnumRefStringAsyncWithHttpInfo(
+        $enum_ref_string_query = null,
+        string $contentType = self::contentTypes['testEnumRefString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testEnumRefStringRequest($enum_ref_string_query, $contentType);
@@ -338,13 +352,16 @@ class QueryApi
     /**
      * Create request for operation 'testEnumRefString'
      *
-     * @param  StringEnumRef $enum_ref_string_query (optional)
+     * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEnumRefStringRequest($enum_ref_string_query = null, string $contentType = self::contentTypes['testEnumRefString'][0])
+    public function testEnumRefStringRequest(
+        $enum_ref_string_query = null,
+        string $contentType = self::contentTypes['testEnumRefString'][0]
+    ): Request
     {
 
 
@@ -427,16 +444,21 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  \DateTime $datetime_query datetime_query (optional)
-     * @param  \DateTime $date_query date_query (optional)
-     * @param  string $string_query string_query (optional)
+     * @param  \DateTime|null $datetime_query datetime_query (optional)
+     * @param  \DateTime|null $date_query date_query (optional)
+     * @param  string|null $string_query string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryDatetimeDateString($datetime_query = null, $date_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryDatetimeDateString'][0])
+    public function testQueryDatetimeDateString(
+        ?\DateTime $datetime_query = null,
+        ?\DateTime $date_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
+    ): string
     {
         list($response) = $this->testQueryDatetimeDateStringWithHttpInfo($datetime_query, $date_query, $string_query, $contentType);
         return $response;
@@ -447,16 +469,21 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  \DateTime $datetime_query (optional)
-     * @param  \DateTime $date_query (optional)
-     * @param  string $string_query (optional)
+     * @param  \DateTime|null $datetime_query (optional)
+     * @param  \DateTime|null $date_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryDatetimeDateStringWithHttpInfo($datetime_query = null, $date_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryDatetimeDateString'][0])
+    public function testQueryDatetimeDateStringWithHttpInfo(
+        ?\DateTime $datetime_query = null,
+        ?\DateTime $date_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
+    ): array
     {
         $request = $this->testQueryDatetimeDateStringRequest($datetime_query, $date_query, $string_query, $contentType);
 
@@ -549,15 +576,20 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  \DateTime $datetime_query (optional)
-     * @param  \DateTime $date_query (optional)
-     * @param  string $string_query (optional)
+     * @param  \DateTime|null $datetime_query (optional)
+     * @param  \DateTime|null $date_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryDatetimeDateStringAsync($datetime_query = null, $date_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryDatetimeDateString'][0])
+    public function testQueryDatetimeDateStringAsync(
+        ?\DateTime $datetime_query = null,
+        ?\DateTime $date_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
+    ): PromiseInterface
     {
         return $this->testQueryDatetimeDateStringAsyncWithHttpInfo($datetime_query, $date_query, $string_query, $contentType)
             ->then(
@@ -572,15 +604,20 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  \DateTime $datetime_query (optional)
-     * @param  \DateTime $date_query (optional)
-     * @param  string $string_query (optional)
+     * @param  \DateTime|null $datetime_query (optional)
+     * @param  \DateTime|null $date_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryDatetimeDateStringAsyncWithHttpInfo($datetime_query = null, $date_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryDatetimeDateString'][0])
+    public function testQueryDatetimeDateStringAsyncWithHttpInfo(
+        $datetime_query = null,
+        $date_query = null,
+        $string_query = null,
+        string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryDatetimeDateStringRequest($datetime_query, $date_query, $string_query, $contentType);
@@ -624,15 +661,20 @@ class QueryApi
     /**
      * Create request for operation 'testQueryDatetimeDateString'
      *
-     * @param  \DateTime $datetime_query (optional)
-     * @param  \DateTime $date_query (optional)
-     * @param  string $string_query (optional)
+     * @param  \DateTime|null $datetime_query (optional)
+     * @param  \DateTime|null $date_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryDatetimeDateStringRequest($datetime_query = null, $date_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryDatetimeDateString'][0])
+    public function testQueryDatetimeDateStringRequest(
+        $datetime_query = null,
+        $date_query = null,
+        $string_query = null,
+        string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
+    ): Request
     {
 
 
@@ -735,16 +777,21 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  int $integer_query integer_query (optional)
-     * @param  bool $boolean_query boolean_query (optional)
-     * @param  string $string_query string_query (optional)
+     * @param  int|null $integer_query integer_query (optional)
+     * @param  bool|null $boolean_query boolean_query (optional)
+     * @param  string|null $string_query string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryIntegerBooleanString($integer_query = null, $boolean_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0])
+    public function testQueryIntegerBooleanString(
+        ?int $integer_query = null,
+        ?bool $boolean_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
+    ): string
     {
         list($response) = $this->testQueryIntegerBooleanStringWithHttpInfo($integer_query, $boolean_query, $string_query, $contentType);
         return $response;
@@ -755,16 +802,21 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  int $integer_query (optional)
-     * @param  bool $boolean_query (optional)
-     * @param  string $string_query (optional)
+     * @param  int|null $integer_query (optional)
+     * @param  bool|null $boolean_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryIntegerBooleanStringWithHttpInfo($integer_query = null, $boolean_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0])
+    public function testQueryIntegerBooleanStringWithHttpInfo(
+        ?int $integer_query = null,
+        ?bool $boolean_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
+    ): array
     {
         $request = $this->testQueryIntegerBooleanStringRequest($integer_query, $boolean_query, $string_query, $contentType);
 
@@ -857,15 +909,20 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  int $integer_query (optional)
-     * @param  bool $boolean_query (optional)
-     * @param  string $string_query (optional)
+     * @param  int|null $integer_query (optional)
+     * @param  bool|null $boolean_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryIntegerBooleanStringAsync($integer_query = null, $boolean_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0])
+    public function testQueryIntegerBooleanStringAsync(
+        ?int $integer_query = null,
+        ?bool $boolean_query = null,
+        ?string $string_query = null,
+        string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         return $this->testQueryIntegerBooleanStringAsyncWithHttpInfo($integer_query, $boolean_query, $string_query, $contentType)
             ->then(
@@ -880,15 +937,20 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  int $integer_query (optional)
-     * @param  bool $boolean_query (optional)
-     * @param  string $string_query (optional)
+     * @param  int|null $integer_query (optional)
+     * @param  bool|null $boolean_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryIntegerBooleanStringAsyncWithHttpInfo($integer_query = null, $boolean_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0])
+    public function testQueryIntegerBooleanStringAsyncWithHttpInfo(
+        $integer_query = null,
+        $boolean_query = null,
+        $string_query = null,
+        string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryIntegerBooleanStringRequest($integer_query, $boolean_query, $string_query, $contentType);
@@ -932,15 +994,20 @@ class QueryApi
     /**
      * Create request for operation 'testQueryIntegerBooleanString'
      *
-     * @param  int $integer_query (optional)
-     * @param  bool $boolean_query (optional)
-     * @param  string $string_query (optional)
+     * @param  int|null $integer_query (optional)
+     * @param  bool|null $boolean_query (optional)
+     * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryIntegerBooleanStringRequest($integer_query = null, $boolean_query = null, $string_query = null, string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0])
+    public function testQueryIntegerBooleanStringRequest(
+        $integer_query = null,
+        $boolean_query = null,
+        $string_query = null,
+        string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
+    ): Request
     {
 
 
@@ -1043,14 +1110,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object query_object (optional)
+     * @param  Pet|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryStyleDeepObjectExplodeTrueObject($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObject(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
+    ): string
     {
         list($response) = $this->testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo($query_object, $contentType);
         return $response;
@@ -1061,14 +1131,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
+    ): array
     {
         $request = $this->testQueryStyleDeepObjectExplodeTrueObjectRequest($query_object, $contentType);
 
@@ -1161,13 +1234,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAsync($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAsync(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
+    ): PromiseInterface
     {
         return $this->testQueryStyleDeepObjectExplodeTrueObjectAsyncWithHttpInfo($query_object, $contentType)
             ->then(
@@ -1182,13 +1258,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAsyncWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAsyncWithHttpInfo(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryStyleDeepObjectExplodeTrueObjectRequest($query_object, $contentType);
@@ -1232,13 +1311,16 @@ class QueryApi
     /**
      * Create request for operation 'testQueryStyleDeepObjectExplodeTrueObject'
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectRequest($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectRequest(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
+    ): Request
     {
 
 
@@ -1321,14 +1403,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object query_object (optional)
+     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAllOf($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAllOf(
+        ?TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
+    ): string
     {
         list($response) = $this->testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo($query_object, $contentType);
         return $response;
@@ -1339,14 +1424,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(
+        ?TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
+    ): array
     {
         $request = $this->testQueryStyleDeepObjectExplodeTrueObjectAllOfRequest($query_object, $contentType);
 
@@ -1439,13 +1527,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(
+        ?TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
+    ): PromiseInterface
     {
         return $this->testQueryStyleDeepObjectExplodeTrueObjectAllOfAsyncWithHttpInfo($query_object, $contentType)
             ->then(
@@ -1460,13 +1551,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfAsyncWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfAsyncWithHttpInfo(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryStyleDeepObjectExplodeTrueObjectAllOfRequest($query_object, $contentType);
@@ -1510,13 +1604,16 @@ class QueryApi
     /**
      * Create request for operation 'testQueryStyleDeepObjectExplodeTrueObjectAllOf'
      *
-     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfRequest($query_object = null, string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleDeepObjectExplodeTrueObjectAllOfRequest(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
+    ): Request
     {
 
 
@@ -1599,14 +1696,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object query_object (optional)
+     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryStyleFormExplodeTrueArrayString($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0])
+    public function testQueryStyleFormExplodeTrueArrayString(
+        ?TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
+    ): string
     {
         list($response) = $this->testQueryStyleFormExplodeTrueArrayStringWithHttpInfo($query_object, $contentType);
         return $response;
@@ -1617,14 +1717,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryStyleFormExplodeTrueArrayStringWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0])
+    public function testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(
+        ?TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
+    ): array
     {
         $request = $this->testQueryStyleFormExplodeTrueArrayStringRequest($query_object, $contentType);
 
@@ -1717,13 +1820,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueArrayStringAsync($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0])
+    public function testQueryStyleFormExplodeTrueArrayStringAsync(
+        ?TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
+    ): PromiseInterface
     {
         return $this->testQueryStyleFormExplodeTrueArrayStringAsyncWithHttpInfo($query_object, $contentType)
             ->then(
@@ -1738,13 +1844,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueArrayStringAsyncWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0])
+    public function testQueryStyleFormExplodeTrueArrayStringAsyncWithHttpInfo(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryStyleFormExplodeTrueArrayStringRequest($query_object, $contentType);
@@ -1788,13 +1897,16 @@ class QueryApi
     /**
      * Create request for operation 'testQueryStyleFormExplodeTrueArrayString'
      *
-     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object (optional)
+     * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryStyleFormExplodeTrueArrayStringRequest($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0])
+    public function testQueryStyleFormExplodeTrueArrayStringRequest(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
+    ): Request
     {
 
 
@@ -1877,14 +1989,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object query_object (optional)
+     * @param  Pet|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryStyleFormExplodeTrueObject($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0])
+    public function testQueryStyleFormExplodeTrueObject(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
+    ): string
     {
         list($response) = $this->testQueryStyleFormExplodeTrueObjectWithHttpInfo($query_object, $contentType);
         return $response;
@@ -1895,14 +2010,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryStyleFormExplodeTrueObjectWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0])
+    public function testQueryStyleFormExplodeTrueObjectWithHttpInfo(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
+    ): array
     {
         $request = $this->testQueryStyleFormExplodeTrueObjectRequest($query_object, $contentType);
 
@@ -1995,13 +2113,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueObjectAsync($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0])
+    public function testQueryStyleFormExplodeTrueObjectAsync(
+        ?Pet $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
+    ): PromiseInterface
     {
         return $this->testQueryStyleFormExplodeTrueObjectAsyncWithHttpInfo($query_object, $contentType)
             ->then(
@@ -2016,13 +2137,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueObjectAsyncWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0])
+    public function testQueryStyleFormExplodeTrueObjectAsyncWithHttpInfo(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryStyleFormExplodeTrueObjectRequest($query_object, $contentType);
@@ -2066,13 +2190,16 @@ class QueryApi
     /**
      * Create request for operation 'testQueryStyleFormExplodeTrueObject'
      *
-     * @param  Pet $query_object (optional)
+     * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryStyleFormExplodeTrueObjectRequest($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0])
+    public function testQueryStyleFormExplodeTrueObjectRequest(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
+    ): Request
     {
 
 
@@ -2155,14 +2282,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  DataQuery $query_object query_object (optional)
+     * @param  DataQuery|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testQueryStyleFormExplodeTrueObjectAllOf($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleFormExplodeTrueObjectAllOf(
+        ?DataQuery $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
+    ): string
     {
         list($response) = $this->testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo($query_object, $contentType);
         return $response;
@@ -2173,14 +2303,17 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  DataQuery $query_object (optional)
+     * @param  DataQuery|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(
+        ?DataQuery $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
+    ): array
     {
         $request = $this->testQueryStyleFormExplodeTrueObjectAllOfRequest($query_object, $contentType);
 
@@ -2273,13 +2406,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  DataQuery $query_object (optional)
+     * @param  DataQuery|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueObjectAllOfAsync($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleFormExplodeTrueObjectAllOfAsync(
+        ?DataQuery $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
+    ): PromiseInterface
     {
         return $this->testQueryStyleFormExplodeTrueObjectAllOfAsyncWithHttpInfo($query_object, $contentType)
             ->then(
@@ -2294,13 +2430,16 @@ class QueryApi
      *
      * Test query parameter(s)
      *
-     * @param  DataQuery $query_object (optional)
+     * @param  DataQuery|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testQueryStyleFormExplodeTrueObjectAllOfAsyncWithHttpInfo($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleFormExplodeTrueObjectAllOfAsyncWithHttpInfo(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testQueryStyleFormExplodeTrueObjectAllOfRequest($query_object, $contentType);
@@ -2344,13 +2483,16 @@ class QueryApi
     /**
      * Create request for operation 'testQueryStyleFormExplodeTrueObjectAllOf'
      *
-     * @param  DataQuery $query_object (optional)
+     * @param  DataQuery|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryStyleFormExplodeTrueObjectAllOfRequest($query_object = null, string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0])
+    public function testQueryStyleFormExplodeTrueObjectAllOfRequest(
+        $query_object = null,
+        string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
+    ): Request
     {
 
 
@@ -2434,7 +2576,7 @@ class QueryApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

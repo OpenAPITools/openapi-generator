@@ -37,6 +37,7 @@ buildscript {
     {{/useSpringBoot3}}
     ext.reactor_version = "3.5.6"
     {{/jvm-spring-webclient}}
+    ext.spotless_version = "6.13.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -46,6 +47,7 @@ buildscript {
         {{#kotlinx_serialization}}
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         {{/kotlinx_serialization}}
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
     }
 }
 
@@ -63,12 +65,34 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'idea'
 {{/idea}}
 apply plugin: 'maven-publish'
+apply plugin: 'com.diffplug.spotless'
 {{^useSettingsGradle}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
 }
 {{/useSettingsGradle}}
+
+// Use spotless plugin to automatically format code, remove unused import, etc
+// To apply changes directly to the file, run `gradlew spotlessApply`
+// Ref: https://github.com/diffplug/spotless/tree/main/plugin-gradle
+spotless {
+    // comment out below to run spotless as part of the `check` task
+    enforceCheck false
+
+    format 'misc', {
+        // define the files (e.g. '*.gradle', '*.md') to apply `misc` to
+        target '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces() // Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    kotlin {
+        ktfmt()
+    }
+}
 
 test {
     useJUnitPlatform()

@@ -586,12 +586,35 @@ namespace {{packageName}}.{{apiPackage}}
             {{/pathParams}}
             {{#queryParams}}
             {{#required}}
+            {{#isDeepObject}}
+            {{#items.vars}}
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+            {{/items.vars}}
+            {{^items}}
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
+            {{/items}}
+            {{/isDeepObject}}
+            {{^isDeepObject}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+            {{/isDeepObject}}
             {{/required}}
             {{^required}}
             if ({{paramName}} != null)
             {
+                {{#isDeepObject}}
+                {{#items.vars}}
+                if ({{paramName}}.{{name}} != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{paramName}}[{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}]", {{paramName}}.{{name}}));
+                }
+                {{/items.vars}}
+                {{^items}}
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
+                {{/items}}
+                {{/isDeepObject}}
+                {{^isDeepObject}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+                {{/isDeepObject}}
             }
             {{/required}}
             {{/queryParams}}

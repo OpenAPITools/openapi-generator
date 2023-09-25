@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -35,6 +36,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -53,22 +55,22 @@ class HeaderApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -77,17 +79,17 @@ class HeaderApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -100,7 +102,7 @@ class HeaderApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -110,7 +112,7 @@ class HeaderApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -118,7 +120,7 @@ class HeaderApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -128,16 +130,21 @@ class HeaderApi
      *
      * Test header parameter(s)
      *
-     * @param  int $integer_header integer_header (optional)
-     * @param  bool $boolean_header boolean_header (optional)
-     * @param  string $string_header string_header (optional)
+     * @param  int|null $integer_header integer_header (optional)
+     * @param  bool|null $boolean_header boolean_header (optional)
+     * @param  string|null $string_header string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testHeaderIntegerBooleanString($integer_header = null, $boolean_header = null, $string_header = null, string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0])
+    public function testHeaderIntegerBooleanString(
+        ?int $integer_header = null,
+        ?bool $boolean_header = null,
+        ?string $string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+    ): string
     {
         list($response) = $this->testHeaderIntegerBooleanStringWithHttpInfo($integer_header, $boolean_header, $string_header, $contentType);
         return $response;
@@ -148,16 +155,21 @@ class HeaderApi
      *
      * Test header parameter(s)
      *
-     * @param  int $integer_header (optional)
-     * @param  bool $boolean_header (optional)
-     * @param  string $string_header (optional)
+     * @param  int|null $integer_header (optional)
+     * @param  bool|null $boolean_header (optional)
+     * @param  string|null $string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testHeaderIntegerBooleanStringWithHttpInfo($integer_header = null, $boolean_header = null, $string_header = null, string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0])
+    public function testHeaderIntegerBooleanStringWithHttpInfo(
+        ?int $integer_header = null,
+        ?bool $boolean_header = null,
+        ?string $string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+    ): array
     {
         $request = $this->testHeaderIntegerBooleanStringRequest($integer_header, $boolean_header, $string_header, $contentType);
 
@@ -250,15 +262,20 @@ class HeaderApi
      *
      * Test header parameter(s)
      *
-     * @param  int $integer_header (optional)
-     * @param  bool $boolean_header (optional)
-     * @param  string $string_header (optional)
+     * @param  int|null $integer_header (optional)
+     * @param  bool|null $boolean_header (optional)
+     * @param  string|null $string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testHeaderIntegerBooleanStringAsync($integer_header = null, $boolean_header = null, $string_header = null, string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0])
+    public function testHeaderIntegerBooleanStringAsync(
+        ?int $integer_header = null,
+        ?bool $boolean_header = null,
+        ?string $string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         return $this->testHeaderIntegerBooleanStringAsyncWithHttpInfo($integer_header, $boolean_header, $string_header, $contentType)
             ->then(
@@ -273,15 +290,20 @@ class HeaderApi
      *
      * Test header parameter(s)
      *
-     * @param  int $integer_header (optional)
-     * @param  bool $boolean_header (optional)
-     * @param  string $string_header (optional)
+     * @param  int|null $integer_header (optional)
+     * @param  bool|null $boolean_header (optional)
+     * @param  string|null $string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testHeaderIntegerBooleanStringAsyncWithHttpInfo($integer_header = null, $boolean_header = null, $string_header = null, string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0])
+    public function testHeaderIntegerBooleanStringAsyncWithHttpInfo(
+        $integer_header = null,
+        $boolean_header = null,
+        $string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testHeaderIntegerBooleanStringRequest($integer_header, $boolean_header, $string_header, $contentType);
@@ -325,15 +347,20 @@ class HeaderApi
     /**
      * Create request for operation 'testHeaderIntegerBooleanString'
      *
-     * @param  int $integer_header (optional)
-     * @param  bool $boolean_header (optional)
-     * @param  string $string_header (optional)
+     * @param  int|null $integer_header (optional)
+     * @param  bool|null $boolean_header (optional)
+     * @param  string|null $string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testHeaderIntegerBooleanStringRequest($integer_header = null, $boolean_header = null, $string_header = null, string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0])
+    public function testHeaderIntegerBooleanStringRequest(
+        $integer_header = null,
+        $boolean_header = null,
+        $string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+    ): Request
     {
 
 
@@ -422,7 +449,7 @@ class HeaderApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

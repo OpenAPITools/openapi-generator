@@ -28,6 +28,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 /**
@@ -135,6 +136,14 @@ public interface FakeApi {
   * @return {@code ApiResponse<Void>}
   */
   ApiResponse<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
+
+ /**
+  * test inline free-form additionalProperties
+  * 
+  * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
  /**
   * test json serialization of form data

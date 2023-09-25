@@ -60,6 +60,7 @@ public interface FakeApi {
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
+    
     default ResponseEntity<Void> createXmlItem(
         @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) {
@@ -90,6 +91,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
     ) {
@@ -120,6 +122,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
     ) {
@@ -150,6 +153,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
     ) {
@@ -180,6 +184,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<String> fakeOuterStringSerialize(
         @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body
     ) {
@@ -208,6 +213,7 @@ public interface FakeApi {
         value = "/fake/{petId}/response-object-different-names",
         produces = { "application/json" }
     )
+    
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
@@ -236,6 +242,7 @@ public interface FakeApi {
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Void> testBodyWithFileSchema(
         @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
@@ -264,6 +271,7 @@ public interface FakeApi {
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
         @ApiParam(value = "", required = true) @Valid @RequestBody User user
@@ -295,6 +303,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Client> testClientModel(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
@@ -341,6 +350,7 @@ public interface FakeApi {
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
+    
     default ResponseEntity<Void> testEndpointParameters(
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
@@ -391,6 +401,7 @@ public interface FakeApi {
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
+    
     default ResponseEntity<Void> testEnumParameters(
         @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
         @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
@@ -430,6 +441,7 @@ public interface FakeApi {
         method = RequestMethod.DELETE,
         value = "/fake"
     )
+    
     default ResponseEntity<Void> testGroupParameters(
         @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @ApiParam(value = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
@@ -463,6 +475,7 @@ public interface FakeApi {
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
@@ -492,6 +505,7 @@ public interface FakeApi {
         value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" }
     )
+    
     default ResponseEntity<Void> testJsonFormData(
         @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
@@ -521,6 +535,7 @@ public interface FakeApi {
         value = "/fake/nullable",
         consumes = { "application/json" }
     )
+    
     default ResponseEntity<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) {
@@ -551,6 +566,7 @@ public interface FakeApi {
         method = RequestMethod.PUT,
         value = "/fake/test-query-parameters"
     )
+    
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
@@ -582,6 +598,7 @@ public interface FakeApi {
         value = "/fake/response-with-example",
         produces = { "application/json" }
     )
+    
     default ResponseEntity<Integer> testWithResultExample(
         
     ) {
@@ -620,6 +637,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
+    
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,

@@ -60,6 +60,7 @@ lib/openapi_petstore/model/read_only_first.ex
 lib/openapi_petstore/model/return.ex
 lib/openapi_petstore/model/single_ref_type.ex
 lib/openapi_petstore/model/tag.ex
+lib/openapi_petstore/model/test_inline_freeform_additional_properties_request.ex
 lib/openapi_petstore/model/user.ex
 lib/openapi_petstore/request_builder.ex
 mix.exs

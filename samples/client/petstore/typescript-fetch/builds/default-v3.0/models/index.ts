@@ -48,4 +48,5 @@ export * from './Return';
 export * from './SingleRefType';
 export * from './SpecialModelName';
 export * from './Tag';
+export * from './TestInlineFreeformAdditionalPropertiesRequest';
 export * from './User';

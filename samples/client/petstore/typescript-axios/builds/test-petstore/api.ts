@@ -1528,6 +1528,21 @@ export interface Tag {
     'name'?: string;
 }
 /**
+ * 
+ * @export
+ * @interface TestInlineFreeformAdditionalPropertiesRequest
+ */
+export interface TestInlineFreeformAdditionalPropertiesRequest {
+    [key: string]: any;
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TestInlineFreeformAdditionalPropertiesRequest
+     */
+    'someProperty'?: string;
+}
+/**
  * @type Triangle
  * @export
  */
@@ -2498,6 +2513,42 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary test inline free-form additionalProperties
+         * @param {TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testInlineFreeformAdditionalProperties: async (testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'testInlineFreeformAdditionalPropertiesRequest' is not null or undefined
+            assertParamExists('testInlineFreeformAdditionalProperties', 'testInlineFreeformAdditionalPropertiesRequest', testInlineFreeformAdditionalPropertiesRequest)
+            const localVarPath = `/fake/inline-freeform-additionalProperties`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(testInlineFreeformAdditionalPropertiesRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary test json serialization of form data
          * @param {string} param field1
          * @param {string} param2 field2
@@ -2781,6 +2832,17 @@ export const FakeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary test inline free-form additionalProperties
+         * @param {TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary test json serialization of form data
          * @param {string} param field1
          * @param {string} param2 field2
@@ -2962,6 +3024,16 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          */
         testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: any): AxiosPromise<void> {
             return localVarFp.testInlineAdditionalProperties(requestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary test inline free-form additionalProperties
+         * @param {TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3169,6 +3241,18 @@ export class FakeApi extends BaseAPI {
      */
     public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testInlineAdditionalProperties(requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary test inline free-form additionalProperties
+     * @param {TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest, options?: AxiosRequestConfig) {
+        return FakeApiFp(this.configuration).testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
