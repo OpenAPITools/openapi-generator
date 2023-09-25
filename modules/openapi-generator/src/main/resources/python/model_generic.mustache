@@ -95,9 +95,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj[cls.__discriminator_property_name.default]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return cls.__discriminator_value_class_map.default.get(discriminator_value)
         else:
             return None
     {{/-last}}
@@ -228,8 +228,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return klass.from_dict(obj)
         else:
             raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name.default +
+                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map.default))
         {{/discriminator}}
         {{/hasChildren}}
         {{^hasChildren}}
@@ -355,11 +355,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/hasChildren}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
+{{#vendorExtensions.x-py-postponed-model-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-postponed-model-imports}}
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-{{#vendorExtensions.x-py-postponed-model-imports}}
-    {{{.}}}
     # TODO: pydantic v2
-{{/vendorExtensions.x-py-postponed-model-imports}}
     # {{classname}}.model_rebuild()
+    pass
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

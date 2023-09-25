@@ -48,9 +48,9 @@ class Animal(BaseModel):
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj[cls.__discriminator_property_name.default]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return cls.__discriminator_value_class_map.default.get(discriminator_value)
         else:
             return None
 
@@ -92,14 +92,14 @@ class Animal(BaseModel):
             return klass.from_dict(obj)
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name.default +
+                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map.default))
 
+from petstore_api.models.cat import Cat
+from petstore_api.models.dog import Dog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.cat import Cat
-    # TODO: pydantic v2
-    from petstore_api.models.dog import Dog
     # TODO: pydantic v2
     # Animal.model_rebuild()
+    pass
 

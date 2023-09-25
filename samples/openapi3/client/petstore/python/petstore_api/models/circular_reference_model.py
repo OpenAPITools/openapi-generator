@@ -86,9 +86,10 @@ class CircularReferenceModel(BaseModel):
 
         return _obj
 
+from petstore_api.models.first_ref import FirstRef
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.first_ref import FirstRef
     # TODO: pydantic v2
     # CircularReferenceModel.model_rebuild()
+    pass
 

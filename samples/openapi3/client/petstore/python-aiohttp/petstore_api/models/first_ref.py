@@ -74,9 +74,10 @@ class FirstRef(BaseModel):
         })
         return _obj
 
+from petstore_api.models.second_ref import SecondRef
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.second_ref import SecondRef
     # TODO: pydantic v2
     # FirstRef.model_rebuild()
+    pass
 

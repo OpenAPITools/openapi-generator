@@ -86,9 +86,10 @@ class SelfReferenceModel(BaseModel):
 
         return _obj
 
+from petstore_api.models.dummy_model import DummyModel
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.dummy_model import DummyModel
     # TODO: pydantic v2
     # SelfReferenceModel.model_rebuild()
+    pass
 
