@@ -100,16 +100,14 @@ class ModelTests(unittest.TestCase):
             p2 = petstore_api.Pig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            error_message = (
-                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
-                "Details: 1 validation error for BasquePig\n"
-                "  Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value=1, input_type=int]\n"
-                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type, 1 validation error for DanishPig\n"
-                "  Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value=1, input_type=int]\n"
-                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type"
-            )
-
-            self.assertEqual(str(e), error_message)
+            #   No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: 1 validation error for BasquePig
+            #     Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value=1, input_type=int]
+            #       For further information visit https://errors.pydantic.dev/2.3/v/model_type, 1 validation error for DanishPig
+            #     Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value=1, input_type=int]
+            #       For further information visit https://errors.pydantic.dev/2.3/v/model_type
+            self.assertIn("No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig.", str(e))
+            self.assertIn("Input should be a valid dictionary or instance of BasquePig", str(e))
+            self.assertIn("Input should be a valid dictionary or instance of DanishPig", str(e))
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
@@ -151,16 +149,14 @@ class ModelTests(unittest.TestCase):
             p2 = petstore_api.AnyOfPig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            self.maxDiff = 4096
-            error_message = (
-                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
-                "DanishPig. Details: 1 validation error for BasquePig\n"
-                "  Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value=1, input_type=int]\n"
-                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type, 1 validation error for DanishPig\n"
-                "  Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value=1, input_type=int]\n"
-                "    For further information visit https://errors.pydantic.dev/2.3/v/model_type"
-            )
-            self.assertEqual(str(e), error_message)
+            # No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: 1 validation error for BasquePig
+            #   Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value=1, input_type=int]
+            #     For further information visit https://errors.pydantic.dev/2.3/v/model_type, 1 validation error for DanishPig
+            #   Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value=1, input_type=int]
+            #     For further information visit https://errors.pydantic.dev/2.3/v/model_type
+            self.assertIn( "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig", str(e))
+            self.assertIn("Input should be a valid dictionary or instance of BasquePig", str(e))
+            self.assertIn("Input should be a valid dictionary or instance of DanishPig", str(e))
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')

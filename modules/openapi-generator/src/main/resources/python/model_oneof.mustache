@@ -9,7 +9,8 @@ import re  # noqa: F401
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union, Any, List, TYPE_CHECKING, Literal, Optional, Dict
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
