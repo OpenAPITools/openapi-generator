@@ -1,17 +1,17 @@
 ---
-title: Documentation for the java Generator
+title: Documentation for the microprofile Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | java | pass this to the generate command after -g |
+| generator name | microprofile | pass this to the generate command after -g |
 | generator stability | STABLE | |
-| generator type | CLIENT | |
+| generator type | SERVER | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x) and more. | |
+| helpTxt | Generates a microprofile server. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
