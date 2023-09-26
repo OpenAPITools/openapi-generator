@@ -1276,7 +1276,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setRestTemplateLoggingLevel(String restTemplateLoggingLevel) {
-        String loggingLevel = restTemplateLoggingLevel.toLowerCase();
+        String loggingLevel = restTemplateLoggingLevel.toLowerCase(Locale.ROOT);
         if (allowedLoggingLevels.contains(loggingLevel)) {
             this.restTemplateLoggingLevel = restTemplateLoggingLevel;
         } else {
