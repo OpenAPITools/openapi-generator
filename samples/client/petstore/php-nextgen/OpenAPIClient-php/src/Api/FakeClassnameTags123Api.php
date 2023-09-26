@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -52,22 +54,22 @@ class FakeClassnameTags123Api
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -76,17 +78,17 @@ class FakeClassnameTags123Api
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -99,7 +101,7 @@ class FakeClassnameTags123Api
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -109,7 +111,7 @@ class FakeClassnameTags123Api
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -117,7 +119,7 @@ class FakeClassnameTags123Api
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -130,11 +132,14 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testClassname($client, string $contentType = self::contentTypes['testClassname'][0])
+    public function testClassname(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClassname'][0]
+    ): \OpenAPI\Client\Model\Client
     {
         list($response) = $this->testClassnameWithHttpInfo($client, $contentType);
         return $response;
@@ -148,11 +153,14 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testClassnameWithHttpInfo($client, string $contentType = self::contentTypes['testClassname'][0])
+    public function testClassnameWithHttpInfo(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClassname'][0]
+    ): array
     {
         $request = $this->testClassnameRequest($client, $contentType);
 
@@ -248,10 +256,13 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testClassnameAsync($client, string $contentType = self::contentTypes['testClassname'][0])
+    public function testClassnameAsync(
+        \OpenAPI\Client\Model\Client $client,
+        string $contentType = self::contentTypes['testClassname'][0]
+    ): PromiseInterface
     {
         return $this->testClassnameAsyncWithHttpInfo($client, $contentType)
             ->then(
@@ -269,10 +280,13 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testClassnameAsyncWithHttpInfo($client, string $contentType = self::contentTypes['testClassname'][0])
+    public function testClassnameAsyncWithHttpInfo(
+        $client,
+        string $contentType = self::contentTypes['testClassname'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClassnameRequest($client, $contentType);
@@ -319,15 +333,18 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testClassnameRequest($client, string $contentType = self::contentTypes['testClassname'][0])
+    public function testClassnameRequest(
+        $client,
+        string $contentType = self::contentTypes['testClassname'][0]
+    ): Request
     {
 
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $client when calling testClassname'
             );
         }
@@ -415,7 +432,7 @@ class FakeClassnameTags123Api
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

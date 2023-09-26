@@ -20,6 +20,7 @@ import HealthCheckStatus from '../model/HealthCheckStatus';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -723,6 +724,47 @@ export default class FakeApi {
       let returnType = null;
       return this.apiClient.callApi(
         '/fake/inline-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the testInlineFreeformAdditionalProperties operation.
+     * @callback module:api/FakeApi~testInlineFreeformAdditionalPropertiesCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @param {module:api/FakeApi~testInlineFreeformAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, callback) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

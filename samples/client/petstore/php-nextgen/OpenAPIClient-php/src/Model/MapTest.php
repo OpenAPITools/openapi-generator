@@ -28,8 +28,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * MapTest Class Doc Comment
@@ -38,9 +41,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
+class MapTest implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,14 +52,14 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'MapTest';
+    protected static string $openAPIModelName = 'MapTest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'map_map_of_string' => 'array<string,array<string,string>>',
         'map_of_enum_string' => 'array<string,string>',
         'direct_map' => 'array<string,bool>',
@@ -66,11 +69,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'map_map_of_string' => null,
         'map_of_enum_string' => null,
         'direct_map' => null,
@@ -80,7 +81,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'map_map_of_string' => false,
@@ -92,16 +93,16 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -109,9 +110,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -119,7 +120,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -129,7 +130,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -139,7 +140,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -172,9 +173,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'map_map_of_string' => 'map_map_of_string',
         'map_of_enum_string' => 'map_of_enum_string',
         'direct_map' => 'direct_map',
@@ -184,9 +185,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'map_map_of_string' => 'setMapMapOfString',
         'map_of_enum_string' => 'setMapOfEnumString',
         'direct_map' => 'setDirectMap',
@@ -196,9 +197,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'map_map_of_string' => 'getMapMapOfString',
         'map_of_enum_string' => 'getMapOfEnumString',
         'direct_map' => 'getDirectMap',
@@ -209,9 +210,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -219,9 +220,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -229,9 +230,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -241,7 +242,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -265,15 +266,14 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -292,7 +292,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -304,9 +304,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -319,7 +319,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -330,7 +330,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,array<string,string>>|null
      */
-    public function getMapMapOfString()
+    public function getMapMapOfString(): ?array
     {
         return $this->container['map_map_of_string'];
     }
@@ -340,12 +340,12 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,array<string,string>>|null $map_map_of_string map_map_of_string
      *
-     * @return self
+     * @return $this
      */
-    public function setMapMapOfString($map_map_of_string)
+    public function setMapMapOfString(?array $map_map_of_string): static
     {
         if (is_null($map_map_of_string)) {
-            throw new \InvalidArgumentException('non-nullable map_map_of_string cannot be null');
+            throw new InvalidArgumentException('non-nullable map_map_of_string cannot be null');
         }
         $this->container['map_map_of_string'] = $map_map_of_string;
 
@@ -357,7 +357,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,string>|null
      */
-    public function getMapOfEnumString()
+    public function getMapOfEnumString(): ?array
     {
         return $this->container['map_of_enum_string'];
     }
@@ -367,16 +367,16 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,string>|null $map_of_enum_string map_of_enum_string
      *
-     * @return self
+     * @return $this
      */
-    public function setMapOfEnumString($map_of_enum_string)
+    public function setMapOfEnumString(?array $map_of_enum_string): static
     {
         if (is_null($map_of_enum_string)) {
-            throw new \InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
+            throw new InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
         }
         $allowedValues = $this->getMapOfEnumStringAllowableValues();
         if (array_diff($map_of_enum_string, $allowedValues)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'map_of_enum_string', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -393,7 +393,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,bool>|null
      */
-    public function getDirectMap()
+    public function getDirectMap(): ?array
     {
         return $this->container['direct_map'];
     }
@@ -403,12 +403,12 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,bool>|null $direct_map direct_map
      *
-     * @return self
+     * @return $this
      */
-    public function setDirectMap($direct_map)
+    public function setDirectMap(?array $direct_map): static
     {
         if (is_null($direct_map)) {
-            throw new \InvalidArgumentException('non-nullable direct_map cannot be null');
+            throw new InvalidArgumentException('non-nullable direct_map cannot be null');
         }
         $this->container['direct_map'] = $direct_map;
 
@@ -420,7 +420,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return array<string,bool>|null
      */
-    public function getIndirectMap()
+    public function getIndirectMap(): ?array
     {
         return $this->container['indirect_map'];
     }
@@ -430,12 +430,12 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param array<string,bool>|null $indirect_map indirect_map
      *
-     * @return self
+     * @return $this
      */
-    public function setIndirectMap($indirect_map)
+    public function setIndirectMap(?array $indirect_map): static
     {
         if (is_null($indirect_map)) {
-            throw new \InvalidArgumentException('non-nullable indirect_map cannot be null');
+            throw new InvalidArgumentException('non-nullable indirect_map cannot be null');
         }
         $this->container['indirect_map'] = $indirect_map;
 
@@ -448,7 +448,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -460,8 +460,8 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -474,7 +474,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -490,7 +490,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -502,8 +502,8 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -513,7 +513,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -526,7 +526,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

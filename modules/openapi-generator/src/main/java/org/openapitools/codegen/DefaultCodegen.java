@@ -50,6 +50,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -7083,7 +7084,12 @@ public class DefaultCodegen implements CodegenConfig {
             // hoist items data into the array property
             // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
-            codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            // TODO we need to fix array of item (with default value) generator by generator
+            // https://github.com/OpenAPITools/openapi-generator/pull/16654/ is a good reference
+            if (!(this instanceof PhpNextgenClientCodegen)) {
+                // no need to set default value here as it was set earlier
+                codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            }
             if (codegenParameter.items.isFile) {
                 codegenParameter.isFile = true;
                 codegenParameter.dataFormat = codegenParameter.items.dataFormat;
@@ -7234,7 +7240,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

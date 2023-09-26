@@ -56,6 +56,7 @@ docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -114,6 +115,7 @@ lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
 lib/WWW/OpenAPIClient/Object/SingleRefType.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm
 lib/WWW/OpenAPIClient/Object/Tag.pm
+lib/WWW/OpenAPIClient/Object/TestInlineFreeformAdditionalPropertiesRequest.pm
 lib/WWW/OpenAPIClient/Object/User.pm
 lib/WWW/OpenAPIClient/PetApi.pm
 lib/WWW/OpenAPIClient/Role.pm

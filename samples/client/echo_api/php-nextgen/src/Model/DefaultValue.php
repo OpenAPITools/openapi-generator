@@ -29,8 +29,11 @@
 
 namespace OpenAPI\Client\Model;
 
-use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * DefaultValue Class Doc Comment
@@ -40,9 +43,9 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
+class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -51,14 +54,14 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'DefaultValue';
+    protected static string $openAPIModelName = 'DefaultValue';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
-      * @var string[]
+      * @var array<string, string>
       */
-    protected static $openAPITypes = [
+    protected static array $openAPITypes = [
         'array_string_enum_ref_default' => '\OpenAPI\Client\Model\StringEnumRef[]',
         'array_string_enum_default' => 'string[]',
         'array_string_default' => 'string[]',
@@ -72,11 +75,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of property to format mappings. Used for (de)serialization
       *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
+      * @var array<string, string|null>
       */
-    protected static $openAPIFormats = [
+    protected static array $openAPIFormats = [
         'array_string_enum_ref_default' => null,
         'array_string_enum_default' => null,
         'array_string_default' => null,
@@ -90,7 +91,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * Array of nullable properties. Used for (de)serialization
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected static array $openAPINullables = [
         'array_string_enum_ref_default' => false,
@@ -106,16 +107,16 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
       * If a nullable field gets set to null, insert it here
       *
-      * @var boolean[]
+      * @var array<string, bool>
       */
     protected array $openAPINullablesSetToNull = [];
 
     /**
      * Array of property to type mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPITypes()
+    public static function openAPITypes(): array
     {
         return self::$openAPITypes;
     }
@@ -123,9 +124,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of property to format mappings. Used for (de)serialization
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function openAPIFormats()
+    public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
     }
@@ -133,7 +134,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable properties
      *
-     * @return array
+     * @return array<string, bool>
      */
     protected static function openAPINullables(): array
     {
@@ -143,7 +144,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of nullable field names deliberately set to null
      *
-     * @return boolean[]
+     * @return array<string, bool>
      */
     private function getOpenAPINullablesSetToNull(): array
     {
@@ -153,7 +154,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Setter - Array of nullable field names deliberately set to null
      *
-     * @param boolean[] $openAPINullablesSetToNull
+     * @param array<string, bool> $openAPINullablesSetToNull
      */
     private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
     {
@@ -186,9 +187,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $attributeMap = [
+    protected static array $attributeMap = [
         'array_string_enum_ref_default' => 'array_string_enum_ref_default',
         'array_string_enum_default' => 'array_string_enum_default',
         'array_string_default' => 'array_string_default',
@@ -202,9 +203,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $setters = [
+    protected static array $setters = [
         'array_string_enum_ref_default' => 'setArrayStringEnumRefDefault',
         'array_string_enum_default' => 'setArrayStringEnumDefault',
         'array_string_default' => 'setArrayStringDefault',
@@ -218,9 +219,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @var string[]
+     * @var array<string, string>
      */
-    protected static $getters = [
+    protected static array $getters = [
         'array_string_enum_ref_default' => 'getArrayStringEnumRefDefault',
         'array_string_enum_default' => 'getArrayStringEnumDefault',
         'array_string_default' => 'getArrayStringDefault',
@@ -235,9 +236,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      * Array of attributes where the key is the local name,
      * and the value is the original name
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function attributeMap()
+    public static function attributeMap(): array
     {
         return self::$attributeMap;
     }
@@ -245,9 +246,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function setters()
+    public static function setters(): array
     {
         return self::$setters;
     }
@@ -255,9 +256,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Array of attributes to getter functions (for serialization of requests)
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function getters()
+    public static function getters(): array
     {
         return self::$getters;
     }
@@ -267,7 +268,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function getModelName()
+    public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
@@ -293,22 +294,21 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Associative array for storing property values
      *
-     * @var mixed[]
+     * @var array
      */
-    protected $container = [];
+    protected array $container = [];
 
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param array $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('array_string_enum_ref_default', $data ?? [], null);
-        $this->setIfExists('array_string_enum_default', $data ?? [], null);
-        $this->setIfExists('array_string_default', $data ?? [], null);
-        $this->setIfExists('array_integer_default', $data ?? [], null);
+        $this->setIfExists('array_string_enum_ref_default', $data ?? [], [["success","failure"]]);
+        $this->setIfExists('array_string_enum_default', $data ?? [], [["success","failure"]]);
+        $this->setIfExists('array_string_default', $data ?? [], [["failure","skipped"]]);
+        $this->setIfExists('array_integer_default', $data ?? [], [[1,3]]);
         $this->setIfExists('array_string', $data ?? [], null);
         $this->setIfExists('array_string_nullable', $data ?? [], null);
         $this->setIfExists('array_string_extension_nullable', $data ?? [], null);
@@ -324,7 +324,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     * @param array  $fields
     * @param mixed  $defaultValue
     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
             $this->openAPINullablesSetToNull[] = $variableName;
@@ -336,9 +336,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Show all the invalid properties with reasons.
      *
-     * @return array invalid properties with reasons
+     * @return string[] invalid properties with reasons
      */
-    public function listInvalidProperties()
+    public function listInvalidProperties(): array
     {
         $invalidProperties = [];
 
@@ -351,7 +351,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return bool True if all properties are valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return count($this->listInvalidProperties()) === 0;
     }
@@ -362,7 +362,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return \OpenAPI\Client\Model\StringEnumRef[]|null
      */
-    public function getArrayStringEnumRefDefault()
+    public function getArrayStringEnumRefDefault(): ?array
     {
         return $this->container['array_string_enum_ref_default'];
     }
@@ -372,12 +372,12 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param \OpenAPI\Client\Model\StringEnumRef[]|null $array_string_enum_ref_default array_string_enum_ref_default
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayStringEnumRefDefault($array_string_enum_ref_default)
+    public function setArrayStringEnumRefDefault(?array $array_string_enum_ref_default): static
     {
         if (is_null($array_string_enum_ref_default)) {
-            throw new \InvalidArgumentException('non-nullable array_string_enum_ref_default cannot be null');
+            throw new InvalidArgumentException('non-nullable array_string_enum_ref_default cannot be null');
         }
         $this->container['array_string_enum_ref_default'] = $array_string_enum_ref_default;
 
@@ -389,7 +389,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayStringEnumDefault()
+    public function getArrayStringEnumDefault(): ?array
     {
         return $this->container['array_string_enum_default'];
     }
@@ -399,16 +399,16 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_string_enum_default array_string_enum_default
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayStringEnumDefault($array_string_enum_default)
+    public function setArrayStringEnumDefault(?array $array_string_enum_default): static
     {
         if (is_null($array_string_enum_default)) {
-            throw new \InvalidArgumentException('non-nullable array_string_enum_default cannot be null');
+            throw new InvalidArgumentException('non-nullable array_string_enum_default cannot be null');
         }
         $allowedValues = $this->getArrayStringEnumDefaultAllowableValues();
         if (array_diff($array_string_enum_default, $allowedValues)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'array_string_enum_default', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -425,7 +425,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayStringDefault()
+    public function getArrayStringDefault(): ?array
     {
         return $this->container['array_string_default'];
     }
@@ -435,12 +435,12 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_string_default array_string_default
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayStringDefault($array_string_default)
+    public function setArrayStringDefault(?array $array_string_default): static
     {
         if (is_null($array_string_default)) {
-            throw new \InvalidArgumentException('non-nullable array_string_default cannot be null');
+            throw new InvalidArgumentException('non-nullable array_string_default cannot be null');
         }
         $this->container['array_string_default'] = $array_string_default;
 
@@ -452,7 +452,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return int[]|null
      */
-    public function getArrayIntegerDefault()
+    public function getArrayIntegerDefault(): ?array
     {
         return $this->container['array_integer_default'];
     }
@@ -462,12 +462,12 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param int[]|null $array_integer_default array_integer_default
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayIntegerDefault($array_integer_default)
+    public function setArrayIntegerDefault(?array $array_integer_default): static
     {
         if (is_null($array_integer_default)) {
-            throw new \InvalidArgumentException('non-nullable array_integer_default cannot be null');
+            throw new InvalidArgumentException('non-nullable array_integer_default cannot be null');
         }
         $this->container['array_integer_default'] = $array_integer_default;
 
@@ -479,7 +479,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayString()
+    public function getArrayString(): ?array
     {
         return $this->container['array_string'];
     }
@@ -489,12 +489,12 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_string array_string
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayString($array_string)
+    public function setArrayString(?array $array_string): static
     {
         if (is_null($array_string)) {
-            throw new \InvalidArgumentException('non-nullable array_string cannot be null');
+            throw new InvalidArgumentException('non-nullable array_string cannot be null');
         }
         $this->container['array_string'] = $array_string;
 
@@ -506,7 +506,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayStringNullable()
+    public function getArrayStringNullable(): ?array
     {
         return $this->container['array_string_nullable'];
     }
@@ -516,9 +516,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_string_nullable array_string_nullable
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayStringNullable($array_string_nullable)
+    public function setArrayStringNullable(?array $array_string_nullable): static
     {
         if (is_null($array_string_nullable)) {
             array_push($this->openAPINullablesSetToNull, 'array_string_nullable');
@@ -540,7 +540,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string[]|null
      */
-    public function getArrayStringExtensionNullable()
+    public function getArrayStringExtensionNullable(): ?array
     {
         return $this->container['array_string_extension_nullable'];
     }
@@ -550,9 +550,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string[]|null $array_string_extension_nullable array_string_extension_nullable
      *
-     * @return self
+     * @return $this
      */
-    public function setArrayStringExtensionNullable($array_string_extension_nullable)
+    public function setArrayStringExtensionNullable(?array $array_string_extension_nullable): static
     {
         if (is_null($array_string_extension_nullable)) {
             array_push($this->openAPINullablesSetToNull, 'array_string_extension_nullable');
@@ -574,7 +574,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string|null
      */
-    public function getStringNullable()
+    public function getStringNullable(): ?string
     {
         return $this->container['string_nullable'];
     }
@@ -584,9 +584,9 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @param string|null $string_nullable string_nullable
      *
-     * @return self
+     * @return $this
      */
-    public function setStringNullable($string_nullable)
+    public function setStringNullable(?string $string_nullable): static
     {
         if (is_null($string_nullable)) {
             array_push($this->openAPINullablesSetToNull, 'string_nullable');
@@ -609,7 +609,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -621,8 +621,8 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->container[$offset] ?? null;
     }
@@ -635,7 +635,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -651,7 +651,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -663,8 +663,8 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      * @return mixed Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    #[ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
        return ObjectSerializer::sanitizeForSerialization($this);
     }
@@ -674,7 +674,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
@@ -687,7 +687,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function toHeaderValue()
+    public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }

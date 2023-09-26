@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 import java.util.logging.Logger;
 
@@ -91,6 +92,10 @@ public class FakeServiceImpl implements FakeService {
     }
 
     public void testInlineAdditionalProperties(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

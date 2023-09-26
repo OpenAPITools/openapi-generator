@@ -128,6 +128,7 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
@@ -221,6 +222,7 @@ namespace UseSourceGeneration.Client
                 new TagSerializationContext(),
                 new TestCollectionEndingWithWordListSerializationContext(),
                 new TestCollectionEndingWithWordListObjectSerializationContext(),
+                new TestInlineFreeformAdditionalPropertiesRequestSerializationContext(),
                 new TriangleSerializationContext(),
                 new TriangleInterfaceSerializationContext(),
                 new UserSerializationContext(),

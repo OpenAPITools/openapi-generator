@@ -65,6 +65,7 @@ Petstore.autoload :ReadOnlyFirst, 'petstore/models/read_only_first'
 Petstore.autoload :SingleRefType, 'petstore/models/single_ref_type'
 Petstore.autoload :SpecialModelName, 'petstore/models/special_model_name'
 Petstore.autoload :Tag, 'petstore/models/tag'
+Petstore.autoload :TestInlineFreeformAdditionalPropertiesRequest, 'petstore/models/test_inline_freeform_additional_properties_request'
 Petstore.autoload :User, 'petstore/models/user'
 
 # APIs

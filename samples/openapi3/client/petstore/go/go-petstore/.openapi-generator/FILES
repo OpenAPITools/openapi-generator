@@ -76,6 +76,7 @@ docs/Return.md
 docs/SpecialModelName.md
 docs/StoreAPI.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserAPI.md
 docs/Whale.md
@@ -142,6 +143,7 @@ model_read_only_first.go
 model_read_only_with_default.go
 model_return.go
 model_tag.go
+model_test_inline_freeform_additional_properties_request.go
 model_user.go
 model_whale.go
 model_zebra.go

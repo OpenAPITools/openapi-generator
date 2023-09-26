@@ -454,25 +454,25 @@ namespace {{packageName}}.Client
                 RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
+            {{#hasOAuthMethods}}
+            if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientId) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
+                configuration.OAuthFlow != null)
+            {
+                clientOptions.Authenticator = new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration);
+            }
+
+            {{/hasOAuthMethods}}
             using (RestClient client = new RestClient(clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
-                {{#hasOAuthMethods}}
-                if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientId) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
-                    configuration.OAuthFlow != null)
-                {
-                    client.UseAuthenticator(new OAuthAuthenticator(
-                        configuration.OAuthTokenUrl,
-                        configuration.OAuthClientId,
-                        configuration.OAuthClientSecret,
-                        configuration.OAuthFlow,
-                        SerializerSettings,
-                        configuration));
-                }
-
-                {{/hasOAuthMethods}}
                 InterceptRequest(request);
 
                 RestResponse<T> response;
@@ -567,25 +567,25 @@ namespace {{packageName}}.Client
                 UseDefaultCredentials = configuration.UseDefaultCredentials
             };
 
+            {{#hasOAuthMethods}}
+            if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientId) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
+                configuration.OAuthFlow != null)
+            {
+                clientOptions.Authenticator = new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration);
+            }
+
+            {{/hasOAuthMethods}}
             using (RestClient client = new RestClient(clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
-                {{#hasOAuthMethods}}
-                if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientId) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
-                    configuration.OAuthFlow != null)
-                {
-                    client.UseAuthenticator(new OAuthAuthenticator(
-                        configuration.OAuthTokenUrl,
-                        configuration.OAuthClientId,
-                        configuration.OAuthClientSecret,
-                        configuration.OAuthFlow,
-                        SerializerSettings,
-                        configuration));
-                }
-
-                {{/hasOAuthMethods}}
                 InterceptRequest(request);
 
                 RestResponse<T> response;

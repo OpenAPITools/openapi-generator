@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -35,6 +36,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -53,22 +55,22 @@ class BodyApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -95,17 +97,17 @@ class BodyApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -118,7 +120,7 @@ class BodyApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -128,7 +130,7 @@ class BodyApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -136,7 +138,7 @@ class BodyApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -148,11 +150,13 @@ class BodyApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBinaryGif'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \SplFileObject
      */
-    public function testBinaryGif(string $contentType = self::contentTypes['testBinaryGif'][0])
+    public function testBinaryGif(
+        string $contentType = self::contentTypes['testBinaryGif'][0]
+    ): \SplFileObject
     {
         list($response) = $this->testBinaryGifWithHttpInfo($contentType);
         return $response;
@@ -165,11 +169,13 @@ class BodyApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBinaryGif'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \SplFileObject, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBinaryGifWithHttpInfo(string $contentType = self::contentTypes['testBinaryGif'][0])
+    public function testBinaryGifWithHttpInfo(
+        string $contentType = self::contentTypes['testBinaryGif'][0]
+    ): array
     {
         $request = $this->testBinaryGifRequest($contentType);
 
@@ -264,10 +270,12 @@ class BodyApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBinaryGif'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBinaryGifAsync(string $contentType = self::contentTypes['testBinaryGif'][0])
+    public function testBinaryGifAsync(
+        string $contentType = self::contentTypes['testBinaryGif'][0]
+    ): PromiseInterface
     {
         return $this->testBinaryGifAsyncWithHttpInfo($contentType)
             ->then(
@@ -284,10 +292,12 @@ class BodyApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBinaryGif'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBinaryGifAsyncWithHttpInfo(string $contentType = self::contentTypes['testBinaryGif'][0])
+    public function testBinaryGifAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['testBinaryGif'][0]
+    ): PromiseInterface
     {
         $returnType = '\SplFileObject';
         $request = $this->testBinaryGifRequest($contentType);
@@ -333,10 +343,12 @@ class BodyApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBinaryGif'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBinaryGifRequest(string $contentType = self::contentTypes['testBinaryGif'][0])
+    public function testBinaryGifRequest(
+        string $contentType = self::contentTypes['testBinaryGif'][0]
+    ): Request
     {
 
 
@@ -409,14 +421,17 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \SplFileObject $body body (optional)
+     * @param  \SplFileObject|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testBodyApplicationOctetstreamBinary($body = null, string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0])
+    public function testBodyApplicationOctetstreamBinary(
+        ?\SplFileObject $body = null,
+        string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
+    ): string
     {
         list($response) = $this->testBodyApplicationOctetstreamBinaryWithHttpInfo($body, $contentType);
         return $response;
@@ -427,14 +442,17 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \SplFileObject $body (optional)
+     * @param  \SplFileObject|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyApplicationOctetstreamBinaryWithHttpInfo($body = null, string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0])
+    public function testBodyApplicationOctetstreamBinaryWithHttpInfo(
+        ?\SplFileObject $body = null,
+        string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
+    ): array
     {
         $request = $this->testBodyApplicationOctetstreamBinaryRequest($body, $contentType);
 
@@ -527,13 +545,16 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \SplFileObject $body (optional)
+     * @param  \SplFileObject|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyApplicationOctetstreamBinaryAsync($body = null, string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0])
+    public function testBodyApplicationOctetstreamBinaryAsync(
+        ?\SplFileObject $body = null,
+        string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
+    ): PromiseInterface
     {
         return $this->testBodyApplicationOctetstreamBinaryAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -548,13 +569,16 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \SplFileObject $body (optional)
+     * @param  \SplFileObject|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyApplicationOctetstreamBinaryAsyncWithHttpInfo($body = null, string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0])
+    public function testBodyApplicationOctetstreamBinaryAsyncWithHttpInfo(
+        $body = null,
+        string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testBodyApplicationOctetstreamBinaryRequest($body, $contentType);
@@ -598,13 +622,16 @@ class BodyApi
     /**
      * Create request for operation 'testBodyApplicationOctetstreamBinary'
      *
-     * @param  \SplFileObject $body (optional)
+     * @param  \SplFileObject|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyApplicationOctetstreamBinaryRequest($body = null, string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0])
+    public function testBodyApplicationOctetstreamBinaryRequest(
+        $body = null,
+        string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
+    ): Request
     {
 
 
@@ -688,11 +715,14 @@ class BodyApi
      * @param  \SplFileObject[] $files files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testBodyMultipartFormdataArrayOfBinary($files, string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0])
+    public function testBodyMultipartFormdataArrayOfBinary(
+        array $files,
+        string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
+    ): string
     {
         list($response) = $this->testBodyMultipartFormdataArrayOfBinaryWithHttpInfo($files, $contentType);
         return $response;
@@ -706,11 +736,14 @@ class BodyApi
      * @param  \SplFileObject[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyMultipartFormdataArrayOfBinaryWithHttpInfo($files, string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0])
+    public function testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(
+        array $files,
+        string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
+    ): array
     {
         $request = $this->testBodyMultipartFormdataArrayOfBinaryRequest($files, $contentType);
 
@@ -806,10 +839,13 @@ class BodyApi
      * @param  \SplFileObject[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyMultipartFormdataArrayOfBinaryAsync($files, string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0])
+    public function testBodyMultipartFormdataArrayOfBinaryAsync(
+        array $files,
+        string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
+    ): PromiseInterface
     {
         return $this->testBodyMultipartFormdataArrayOfBinaryAsyncWithHttpInfo($files, $contentType)
             ->then(
@@ -827,10 +863,13 @@ class BodyApi
      * @param  \SplFileObject[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testBodyMultipartFormdataArrayOfBinaryAsyncWithHttpInfo($files, string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0])
+    public function testBodyMultipartFormdataArrayOfBinaryAsyncWithHttpInfo(
+        $files,
+        string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testBodyMultipartFormdataArrayOfBinaryRequest($files, $contentType);
@@ -877,15 +916,18 @@ class BodyApi
      * @param  \SplFileObject[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testBodyMultipartFormdataArrayOfBinaryRequest($files, string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0])
+    public function testBodyMultipartFormdataArrayOfBinaryRequest(
+        $files,
+        string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
+    ): Request
     {
 
         // verify the required parameter 'files' is set
         if ($files === null || (is_array($files) && count($files) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $files when calling testBodyMultipartFormdataArrayOfBinary'
             );
         }
@@ -972,14 +1014,17 @@ class BodyApi
      *
      * Test free form object
      *
-     * @param  object $body Free form object (optional)
+     * @param  object|null $body Free form object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyFreeFormObjectResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testEchoBodyFreeFormObjectResponseString($body = null, string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0])
+    public function testEchoBodyFreeFormObjectResponseString(
+        ?array $body = null,
+        string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
+    ): string
     {
         list($response) = $this->testEchoBodyFreeFormObjectResponseStringWithHttpInfo($body, $contentType);
         return $response;
@@ -990,14 +1035,17 @@ class BodyApi
      *
      * Test free form object
      *
-     * @param  object $body Free form object (optional)
+     * @param  object|null $body Free form object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyFreeFormObjectResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEchoBodyFreeFormObjectResponseStringWithHttpInfo($body = null, string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0])
+    public function testEchoBodyFreeFormObjectResponseStringWithHttpInfo(
+        ?array $body = null,
+        string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
+    ): array
     {
         $request = $this->testEchoBodyFreeFormObjectResponseStringRequest($body, $contentType);
 
@@ -1090,13 +1138,16 @@ class BodyApi
      *
      * Test free form object
      *
-     * @param  object $body Free form object (optional)
+     * @param  object|null $body Free form object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyFreeFormObjectResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyFreeFormObjectResponseStringAsync($body = null, string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0])
+    public function testEchoBodyFreeFormObjectResponseStringAsync(
+        ?array $body = null,
+        string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
+    ): PromiseInterface
     {
         return $this->testEchoBodyFreeFormObjectResponseStringAsyncWithHttpInfo($body, $contentType)
             ->then(
@@ -1111,13 +1162,16 @@ class BodyApi
      *
      * Test free form object
      *
-     * @param  object $body Free form object (optional)
+     * @param  object|null $body Free form object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyFreeFormObjectResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyFreeFormObjectResponseStringAsyncWithHttpInfo($body = null, string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0])
+    public function testEchoBodyFreeFormObjectResponseStringAsyncWithHttpInfo(
+        $body = null,
+        string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testEchoBodyFreeFormObjectResponseStringRequest($body, $contentType);
@@ -1161,13 +1215,16 @@ class BodyApi
     /**
      * Create request for operation 'testEchoBodyFreeFormObjectResponseString'
      *
-     * @param  object $body Free form object (optional)
+     * @param  object|null $body Free form object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyFreeFormObjectResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEchoBodyFreeFormObjectResponseStringRequest($body = null, string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0])
+    public function testEchoBodyFreeFormObjectResponseStringRequest(
+        $body = null,
+        string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
+    ): Request
     {
 
 
@@ -1248,14 +1305,17 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet
      */
-    public function testEchoBodyPet($pet = null, string $contentType = self::contentTypes['testEchoBodyPet'][0])
+    public function testEchoBodyPet(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPet'][0]
+    ): \OpenAPI\Client\Model\Pet
     {
         list($response) = $this->testEchoBodyPetWithHttpInfo($pet, $contentType);
         return $response;
@@ -1266,14 +1326,17 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEchoBodyPetWithHttpInfo($pet = null, string $contentType = self::contentTypes['testEchoBodyPet'][0])
+    public function testEchoBodyPetWithHttpInfo(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPet'][0]
+    ): array
     {
         $request = $this->testEchoBodyPetRequest($pet, $contentType);
 
@@ -1366,13 +1429,16 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyPetAsync($pet = null, string $contentType = self::contentTypes['testEchoBodyPet'][0])
+    public function testEchoBodyPetAsync(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPet'][0]
+    ): PromiseInterface
     {
         return $this->testEchoBodyPetAsyncWithHttpInfo($pet, $contentType)
             ->then(
@@ -1387,13 +1453,16 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyPetAsyncWithHttpInfo($pet = null, string $contentType = self::contentTypes['testEchoBodyPet'][0])
+    public function testEchoBodyPetAsyncWithHttpInfo(
+        $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPet'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Pet';
         $request = $this->testEchoBodyPetRequest($pet, $contentType);
@@ -1437,13 +1506,16 @@ class BodyApi
     /**
      * Create request for operation 'testEchoBodyPet'
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPet'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEchoBodyPetRequest($pet = null, string $contentType = self::contentTypes['testEchoBodyPet'][0])
+    public function testEchoBodyPetRequest(
+        $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPet'][0]
+    ): Request
     {
 
 
@@ -1524,14 +1596,17 @@ class BodyApi
      *
      * Test empty response body
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPetResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testEchoBodyPetResponseString($pet = null, string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0])
+    public function testEchoBodyPetResponseString(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
+    ): string
     {
         list($response) = $this->testEchoBodyPetResponseStringWithHttpInfo($pet, $contentType);
         return $response;
@@ -1542,14 +1617,17 @@ class BodyApi
      *
      * Test empty response body
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPetResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEchoBodyPetResponseStringWithHttpInfo($pet = null, string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0])
+    public function testEchoBodyPetResponseStringWithHttpInfo(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
+    ): array
     {
         $request = $this->testEchoBodyPetResponseStringRequest($pet, $contentType);
 
@@ -1642,13 +1720,16 @@ class BodyApi
      *
      * Test empty response body
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPetResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyPetResponseStringAsync($pet = null, string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0])
+    public function testEchoBodyPetResponseStringAsync(
+        ?\OpenAPI\Client\Model\Pet $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
+    ): PromiseInterface
     {
         return $this->testEchoBodyPetResponseStringAsyncWithHttpInfo($pet, $contentType)
             ->then(
@@ -1663,13 +1744,16 @@ class BodyApi
      *
      * Test empty response body
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPetResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyPetResponseStringAsyncWithHttpInfo($pet = null, string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0])
+    public function testEchoBodyPetResponseStringAsyncWithHttpInfo(
+        $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testEchoBodyPetResponseStringRequest($pet, $contentType);
@@ -1713,13 +1797,16 @@ class BodyApi
     /**
      * Create request for operation 'testEchoBodyPetResponseString'
      *
-     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (optional)
+     * @param  \OpenAPI\Client\Model\Pet|null $pet Pet object that needs to be added to the store (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyPetResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEchoBodyPetResponseStringRequest($pet = null, string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0])
+    public function testEchoBodyPetResponseStringRequest(
+        $pet = null,
+        string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
+    ): Request
     {
 
 
@@ -1800,14 +1887,17 @@ class BodyApi
      *
      * Test empty json (request body)
      *
-     * @param  \OpenAPI\Client\Model\Tag $tag Tag object (optional)
+     * @param  \OpenAPI\Client\Model\Tag|null $tag Tag object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyTagResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testEchoBodyTagResponseString($tag = null, string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0])
+    public function testEchoBodyTagResponseString(
+        ?\OpenAPI\Client\Model\Tag $tag = null,
+        string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
+    ): string
     {
         list($response) = $this->testEchoBodyTagResponseStringWithHttpInfo($tag, $contentType);
         return $response;
@@ -1818,14 +1908,17 @@ class BodyApi
      *
      * Test empty json (request body)
      *
-     * @param  \OpenAPI\Client\Model\Tag $tag Tag object (optional)
+     * @param  \OpenAPI\Client\Model\Tag|null $tag Tag object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyTagResponseString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEchoBodyTagResponseStringWithHttpInfo($tag = null, string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0])
+    public function testEchoBodyTagResponseStringWithHttpInfo(
+        ?\OpenAPI\Client\Model\Tag $tag = null,
+        string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
+    ): array
     {
         $request = $this->testEchoBodyTagResponseStringRequest($tag, $contentType);
 
@@ -1918,13 +2011,16 @@ class BodyApi
      *
      * Test empty json (request body)
      *
-     * @param  \OpenAPI\Client\Model\Tag $tag Tag object (optional)
+     * @param  \OpenAPI\Client\Model\Tag|null $tag Tag object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyTagResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyTagResponseStringAsync($tag = null, string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0])
+    public function testEchoBodyTagResponseStringAsync(
+        ?\OpenAPI\Client\Model\Tag $tag = null,
+        string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
+    ): PromiseInterface
     {
         return $this->testEchoBodyTagResponseStringAsyncWithHttpInfo($tag, $contentType)
             ->then(
@@ -1939,13 +2035,16 @@ class BodyApi
      *
      * Test empty json (request body)
      *
-     * @param  \OpenAPI\Client\Model\Tag $tag Tag object (optional)
+     * @param  \OpenAPI\Client\Model\Tag|null $tag Tag object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyTagResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testEchoBodyTagResponseStringAsyncWithHttpInfo($tag = null, string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0])
+    public function testEchoBodyTagResponseStringAsyncWithHttpInfo(
+        $tag = null,
+        string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testEchoBodyTagResponseStringRequest($tag, $contentType);
@@ -1989,13 +2088,16 @@ class BodyApi
     /**
      * Create request for operation 'testEchoBodyTagResponseString'
      *
-     * @param  \OpenAPI\Client\Model\Tag $tag Tag object (optional)
+     * @param  \OpenAPI\Client\Model\Tag|null $tag Tag object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyTagResponseString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEchoBodyTagResponseStringRequest($tag = null, string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0])
+    public function testEchoBodyTagResponseStringRequest(
+        $tag = null,
+        string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
+    ): Request
     {
 
 
@@ -2077,7 +2179,7 @@ class BodyApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

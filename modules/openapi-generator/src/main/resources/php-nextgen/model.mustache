@@ -23,10 +23,13 @@ namespace {{modelPackage}};
 {{^isEnum}}
 {{^parentSchema}}
 
-use \ArrayAccess;
+use ArrayAccess;
+use JsonSerializable;
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use {{invokerPackage}}\ObjectSerializer;
 {{/parentSchema}}
 {{/isEnum}}
-use \{{invokerPackage}}\ObjectSerializer;
 
 /**
  * {{classname}} Class Doc Comment
@@ -39,7 +42,7 @@ use \{{invokerPackage}}\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
 {{^isEnum}}
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
 {{/isEnum}}
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}

@@ -318,7 +318,6 @@ CONFIG OPTIONS
 ...... (results omitted)
 	library
 	    library template (sub-template) to use:
-	    jersey1 - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
 	    feign - HTTP client: Netflix Feign 8.1.1.  JSON processing: Jackson 2.6.3
 	    okhttp-gson (default) - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1

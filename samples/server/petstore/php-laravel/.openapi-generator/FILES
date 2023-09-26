@@ -70,6 +70,7 @@ lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SingleRefType.php
 lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
+lib/app/Models/TestInlineFreeformAdditionalPropertiesRequest.php
 lib/app/Models/User.php
 lib/app/Providers/AppServiceProvider.php
 lib/app/Providers/AuthServiceProvider.php

@@ -107,6 +107,8 @@ model/SingleRefType.cpp
 model/SingleRefType.h
 model/Tag.cpp
 model/Tag.h
+model/TestInlineFreeformAdditionalProperties_request.cpp
+model/TestInlineFreeformAdditionalProperties_request.h
 model/User.cpp
 model/User.h
 model/_foo_get_default_response.cpp
