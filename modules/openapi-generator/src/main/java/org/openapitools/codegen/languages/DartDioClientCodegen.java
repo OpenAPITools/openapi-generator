@@ -400,6 +400,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
     private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
     private final String kParentDiscriminator = "x-parent-discriminator";
+    private final String kDiscriminatorSelfMappedModel = "x-discriminator-self-mapped-model";
 
     // adapts codegen models and property to dart rules of inheritance
     private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
@@ -625,7 +626,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 if (isParentRecursive(mappedCodegenModel, cm, false)) {
                     filteredModels.add(mappedModel);
                 } else {
-                    LOGGER.info("Removing model {} from discriminator of model {} because it is not a submodel", mappedCodegenModel.getClassname(), classname);
+//                    set the default for the model, which is the same as the model itself
+                    final String mappedCodegenModelClassname = mappedCodegenModel.getClassname();
+                    if(classname == mappedCodegenModelClassname) {
+                        LOGGER.info("Removing model {} from discriminator of model {} because it is the model itself", mappedCodegenModel.getClassname(), classname);
+                        discriminator.getVendorExtensions().put(kDiscriminatorSelfMappedModel, mappedModel);
+                    } else {
+                        LOGGER.info("Removing model {} from discriminator of model {} because it is not a submodel", mappedCodegenModel.getClassname(), classname);
+                    }
                     removedModels.add(mappedModel);
                 }
             }
