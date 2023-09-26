@@ -832,17 +832,17 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
 
         private void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
-            log.info("URI: " + request.getURI());
-            log.info("HTTP Method: " + request.getMethod());
-            log.info("HTTP Headers: " + headersToString(request.getHeaders()));
-            log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
+            log.{{restTemplateLoggingLevel}}("URI: " + request.getURI());
+            log.{{restTemplateLoggingLevel}}("HTTP Method: " + request.getMethod());
+            log.{{restTemplateLoggingLevel}}("HTTP Headers: " + headersToString(request.getHeaders()));
+            log.{{restTemplateLoggingLevel}}("Request Body: " + new String(body, StandardCharsets.UTF_8));
         }
 
         private void logResponse(ClientHttpResponse response) throws IOException {
-            log.info("HTTP Status Code: " + response.getRawStatusCode());
-            log.info("Status Text: " + response.getStatusText());
-            log.info("HTTP Headers: " + headersToString(response.getHeaders()));
-            log.info("Response Body: " + bodyToString(response.getBody()));
+            log.{{restTemplateLoggingLevel}}("HTTP Status Code: " + response.getRawStatusCode());
+            log.{{restTemplateLoggingLevel}}("Status Text: " + response.getStatusText());
+            log.{{restTemplateLoggingLevel}}("HTTP Headers: " + headersToString(response.getHeaders()));
+            log.{{restTemplateLoggingLevel}}("Response Body: " + bodyToString(response.getBody()));
         }
 
         private String headersToString(HttpHeaders headers) {
