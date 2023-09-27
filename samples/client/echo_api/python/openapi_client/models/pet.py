@@ -21,9 +21,9 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
-from pydantic import Field
 
 class Pet(BaseModel):
     """

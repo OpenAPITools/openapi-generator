@@ -20,11 +20,11 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from pydantic import Field
 
 class EnumTest(BaseModel):
     """

@@ -20,8 +20,8 @@ import json
 from datetime import datetime
 from typing import Dict, Optional
 from pydantic import BaseModel, StrictStr
-from petstore_api.models.animal import Animal
 from pydantic import Field
+from petstore_api.models.animal import Animal
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """

@@ -20,8 +20,8 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, StrictStr
-from petstore_api.models.deprecated_object import DeprecatedObject
 from pydantic import Field
+from petstore_api.models.deprecated_object import DeprecatedObject
 
 class ObjectWithDeprecatedFields(BaseModel):
     """

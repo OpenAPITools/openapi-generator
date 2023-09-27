@@ -20,8 +20,8 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, validator
-from petstore_api.models.category import Category
 from pydantic import Field
+from petstore_api.models.category import Category
 
 class SpecialName(BaseModel):
     """

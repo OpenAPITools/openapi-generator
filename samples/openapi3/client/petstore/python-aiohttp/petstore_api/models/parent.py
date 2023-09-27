@@ -20,8 +20,8 @@ import json
 
 from typing import Dict, Optional
 from pydantic import BaseModel
-from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from pydantic import Field
+from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
 class Parent(BaseModel):
     """

@@ -20,10 +20,10 @@ import json
 
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, validator
-from petstore_api.models.category import Category
-from petstore_api.models.tag import Tag
 from pydantic import Field
 from typing_extensions import Annotated
+from petstore_api.models.category import Category
+from petstore_api.models.tag import Tag
 
 class Pet(BaseModel):
     """

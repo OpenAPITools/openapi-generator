@@ -21,8 +21,8 @@ import json
 from datetime import datetime
 from typing import Optional
 from pydantic import StrictStr
-from openapi_client.models.query import Query
 from pydantic import Field
+from openapi_client.models.query import Query
 
 class DataQuery(Query):
     """

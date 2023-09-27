@@ -997,7 +997,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
             // import models one by one
-            {
+            if (!modelImports.isEmpty()) {
                 Set<String> modelsToImport = new TreeSet<>();
                 for (String modelImport : modelImports) {
                     if (modelImport.equals(model.classname)) {
@@ -1008,13 +1008,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
                 }
 
-                for (String importLine : otherImports.exports()) {
-                    modelsToImport.add(importLine);
-                }
-
                 if (!modelsToImport.isEmpty()) {
                     model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
                 }
+            }
+
+            if (!otherImports.isEmpty()) {
+                model.getVendorExtensions().putIfAbsent("x-py-other-imports", otherImports.exports());
             }
 
 
@@ -1714,8 +1714,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
          *      from $from import $what
          *
          */
-        public List<String> exports() {
-            List<String> results = new ArrayList<>();
+        public Set<String> exports() {
+            Set<String> results = new TreeSet<>();
 
             for (Map.Entry<String, Set<String>> entry : imports.entrySet()) {
                 String importLine = String.format(
@@ -1725,6 +1725,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             return results;
+        }
+
+        public boolean isEmpty() {
+            return imports.isEmpty();
         }
     }
 

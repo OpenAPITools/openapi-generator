@@ -20,8 +20,8 @@ import json
 
 from typing import Dict, List, Optional
 from pydantic import BaseModel
-from petstore_api.models.tag import Tag
 from pydantic import Field
+from petstore_api.models.tag import Tag
 
 class MapOfArrayOfModel(BaseModel):
     """
