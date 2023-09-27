@@ -10,7 +10,6 @@ $ pytest
 """
 
 import os
-import six
 import sys
 import unittest
 
