@@ -30,7 +30,8 @@ import java.util.*;
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-
+    protected static final String LIBRARY_JERSEY3 = "jersey3";
+    
     /**
      * Default library template to use. (Default: jersey2)
      */
@@ -58,6 +59,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_JERSEY_LIBRARY);
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
+        supportedLibraries.put(LIBRARY_JERSEY3, "Jersey core 3.x");
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
     }
@@ -79,7 +81,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // --- Add imports for Jackson ----------
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -87,6 +89,12 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 model.imports.add("JsonValue");
             }
         }
+        
+        // --- Imports for Swagger2 ------------- 
+        if (this.isLibrary(LIBRARY_JERSEY3)) {
+            model.imports.add("Schema");
+        }
+        
     }
 
     @Override
@@ -95,9 +103,18 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary(DEFAULT_JERSEY_LIBRARY);
+            this.setLibrary(DEFAULT_JERSEY_LIBRARY);
+            
+        } else if (this.isLibrary(LIBRARY_JERSEY3)) {
+            // --- Ensure to use Jakarta for jersey3 ----
+            this.setUseJakartaEe(true);
+            additionalProperties.put(USE_JAKARTA_EE, true);
+            this.applyJakartaPackage();
+            // --- Set Swagger2 annotations ---------------   
+            annotationLibrary = AnnotationLibrary.SWAGGER2;
+            
         }
-
+        
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
