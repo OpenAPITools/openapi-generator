@@ -49,7 +49,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getName(), "jaxrs-jersey");
         Assert.assertEquals(codegen.getTemplatingEngine().getClass(), MustacheEngineAdapter.class);
         Assert.assertEquals(codegen.getDateLibrary(), "legacy");
-        Assert.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey1", "jersey2", "jersey3"));
+        Assert.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey2", "jersey3"));
         Assert.assertNull(codegen.getInputSpec());
 
         codegen.processOpts();
