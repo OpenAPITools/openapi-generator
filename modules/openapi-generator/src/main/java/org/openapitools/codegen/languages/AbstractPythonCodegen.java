@@ -1775,9 +1775,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
             if (cp.getUniqueItems()) {
                 // A unique "array" is a set
-                // TODO: pydantic v2: having a Set instead of List in the
-                // generated code fails in many ways: random JSON serialization
-                // order, unable to serialize JSON, etc.
+                // TODO: pydantic v2: Pydantic suggest to convert this to a set, but this has some implications:
+                // https://github.com/pydantic/pydantic-core/issues/296
+                // Also, having a set instead of list creates complications:
+                // random JSON serialization order, unable to easily serialize
+                // to JSON, etc.
                 //pt.setType("Set");
                 //typingImports.add("Set");
                 pt.setType("List");

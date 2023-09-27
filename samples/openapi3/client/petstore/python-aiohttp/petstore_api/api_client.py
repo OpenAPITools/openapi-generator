@@ -258,9 +258,6 @@ class ApiClient:
         elif isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj)
                     for sub_obj in obj]
-        elif isinstance(obj, set):
-            return {self.sanitize_for_serialization(sub_obj)
-                    for sub_obj in obj}
         elif isinstance(obj, tuple):
             return tuple(self.sanitize_for_serialization(sub_obj)
                          for sub_obj in obj)
