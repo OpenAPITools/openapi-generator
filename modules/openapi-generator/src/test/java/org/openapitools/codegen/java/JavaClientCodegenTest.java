@@ -1914,6 +1914,9 @@ public class JavaClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         validateJavaSourceFiles(files);
+    TestUtils.assertFileContains(
+        Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+        "log.info(\"URI: \" + request.getURI());");
     }
 
     public void testExtraAnnotations(String library) throws IOException {
