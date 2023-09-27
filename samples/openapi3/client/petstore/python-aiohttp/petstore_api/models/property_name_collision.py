@@ -26,7 +26,7 @@ class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    type: Optional[StrictStr] = Field(default=None, serialization_alias="_type")
+    type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None
     __properties = ["_type", "type", "type_"]
@@ -68,7 +68,7 @@ class PropertyNameCollision(BaseModel):
             return PropertyNameCollision.parse_obj(obj)
 
         _obj = PropertyNameCollision.parse_obj({
-            "type": obj.get("_type"),
+            "_type": obj.get("_type"),
             "type": obj.get("type"),
             "type_": obj.get("type_")
         })

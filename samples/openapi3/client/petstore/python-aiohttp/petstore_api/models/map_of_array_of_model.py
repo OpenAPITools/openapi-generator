@@ -27,7 +27,7 @@ class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, serialization_alias="shopIdToOrgOnlineLipMap")
+    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties = ["shopIdToOrgOnlineLipMap"]
 
     class Config:
@@ -76,7 +76,7 @@ class MapOfArrayOfModel(BaseModel):
             return MapOfArrayOfModel.parse_obj(obj)
 
         _obj = MapOfArrayOfModel.parse_obj({
-            "shop_id_to_org_online_lip_map": dict(
+            "shopIdToOrgOnlineLipMap": dict(
                 (_k,
                         [Tag.from_dict(_item) for _item in _v]
                         if _v is not None

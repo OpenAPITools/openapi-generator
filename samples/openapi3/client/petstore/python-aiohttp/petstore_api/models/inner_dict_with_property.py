@@ -26,7 +26,7 @@ class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """
-    a_property: Optional[Union[str, Any]] = Field(default=None, serialization_alias="aProperty")
+    a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
     __properties = ["aProperty"]
 
     class Config:
@@ -66,7 +66,7 @@ class InnerDictWithProperty(BaseModel):
             return InnerDictWithProperty.parse_obj(obj)
 
         _obj = InnerDictWithProperty.parse_obj({
-            "a_property": obj.get("aProperty")
+            "aProperty": obj.get("aProperty")
         })
         return _obj
 

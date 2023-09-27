@@ -26,7 +26,7 @@ class Animal(BaseModel):
     """
     Animal
     """
-    class_name: StrictStr = Field(serialization_alias="className")
+    class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
     __properties = ["className", "color"]
 

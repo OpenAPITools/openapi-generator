@@ -27,7 +27,7 @@ class ParentWithOptionalDict(BaseModel):
     """
     ParentWithOptionalDict
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, serialization_alias="optionalDict")
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     additional_properties: Dict[str, Any] = {}
     __properties = ["optionalDict"]
 
@@ -81,7 +81,7 @@ class ParentWithOptionalDict(BaseModel):
             return ParentWithOptionalDict.parse_obj(obj)
 
         _obj = ParentWithOptionalDict.parse_obj({
-            "optional_dict": dict(
+            "optionalDict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
                 for _k, _v in obj.get("optionalDict").items()
             )

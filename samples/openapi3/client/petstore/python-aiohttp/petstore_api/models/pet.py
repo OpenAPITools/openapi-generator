@@ -32,7 +32,7 @@ class Pet(BaseModel):
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
     name: StrictStr
-    photo_urls: Annotated[List[StrictStr], Field(min_items=0)] = Field(serialization_alias="photoUrls")
+    photo_urls: Annotated[List[StrictStr], Field(min_items=0)] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
@@ -97,7 +97,7 @@ class Pet(BaseModel):
             "id": obj.get("id"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
             "name": obj.get("name"),
-            "photo_urls": obj.get("photoUrls"),
+            "photoUrls": obj.get("photoUrls"),
             "tags": [Tag.from_dict(_item) for _item in obj.get("tags")] if obj.get("tags") is not None else None,
             "status": obj.get("status")
         })

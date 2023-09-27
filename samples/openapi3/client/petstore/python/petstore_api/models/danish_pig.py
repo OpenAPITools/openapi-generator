@@ -26,7 +26,7 @@ class DanishPig(BaseModel):
     """
     DanishPig
     """
-    class_name: StrictStr = Field(serialization_alias="className")
+    class_name: StrictStr = Field(alias="className")
     size: StrictInt
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "size"]
@@ -74,7 +74,7 @@ class DanishPig(BaseModel):
             return DanishPig.parse_obj(obj)
 
         _obj = DanishPig.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "size": obj.get("size")
         })
         # store additional fields in additional_properties

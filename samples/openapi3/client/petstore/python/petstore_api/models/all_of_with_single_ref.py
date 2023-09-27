@@ -28,7 +28,7 @@ class AllOfWithSingleRef(BaseModel):
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[SingleRefType] = Field(default=None, serialization_alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     additional_properties: Dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 
@@ -76,7 +76,7 @@ class AllOfWithSingleRef(BaseModel):
 
         _obj = AllOfWithSingleRef.parse_obj({
             "username": obj.get("username"),
-            "single_ref_type": obj.get("SingleRefType")
+            "SingleRefType": obj.get("SingleRefType")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

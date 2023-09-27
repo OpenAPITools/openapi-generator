@@ -26,7 +26,7 @@ class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(default=None, serialization_alias="$special[property.name]")
+    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
     __properties = ["$special[property.name]"]
 
     class Config:
@@ -66,7 +66,7 @@ class SpecialModelName(BaseModel):
             return SpecialModelName.parse_obj(obj)
 
         _obj = SpecialModelName.parse_obj({
-            "special_property_name": obj.get("$special[property.name]")
+            "$special[property.name]": obj.get("$special[property.name]")
         })
         return _obj
 

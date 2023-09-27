@@ -26,7 +26,7 @@ class File(BaseModel):
     """
     Must be named `File` for test.  # noqa: E501
     """
-    source_uri: Optional[StrictStr] = Field(default=None, serialization_alias="sourceURI", description="Test capitalization")
+    source_uri: Optional[StrictStr] = Field(default=None, description="Test capitalization", alias="sourceURI")
     __properties = ["sourceURI"]
 
     class Config:
@@ -66,7 +66,7 @@ class File(BaseModel):
             return File.parse_obj(obj)
 
         _obj = File.parse_obj({
-            "source_uri": obj.get("sourceURI")
+            "sourceURI": obj.get("sourceURI")
         })
         return _obj
 

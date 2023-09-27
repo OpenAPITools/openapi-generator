@@ -15,7 +15,7 @@ import petstore_api
 class ModelTests(unittest.TestCase):
 
     def setUp(self):
-        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         self.pet.status = "available"
         cate = petstore_api.Category(name="dog")
@@ -27,7 +27,7 @@ class ModelTests(unittest.TestCase):
         self.pet.tags = [tag]
 
     def test_cat(self):
-        self.cat = petstore_api.Cat(class_name="cat")
+        self.cat = petstore_api.Cat(className="cat")
         self.assertEqual("cat", self.cat.class_name)
         self.assertEqual("red", self.cat.color)
         cat_str = "{'className': 'cat', 'color': 'red', 'declawed': None}"
@@ -43,7 +43,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(data, self.pet.to_str())
 
     def test_equal(self):
-        self.pet1 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet1 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet1.id = 1
         self.pet1.status = "available"
         cate1 = petstore_api.Category(name="dog")
@@ -54,7 +54,7 @@ class ModelTests(unittest.TestCase):
         tag1.id = 1
         self.pet1.tags = [tag1]
 
-        self.pet2 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet2 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet2.id = 1
         self.pet2.status = "available"
         cate2 = petstore_api.Category(name="dog")
@@ -167,7 +167,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
     def test_inheritance(self):
-        dog = petstore_api.Dog(breed="bulldog", class_name="dog", color="white")
+        dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
         self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
@@ -223,7 +223,7 @@ class ModelTests(unittest.TestCase):
 
     def test_valdiator(self):
         # test regular expression
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), var_date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
         try:
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute
@@ -236,7 +236,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
     def test_inline_enum_validator(self):
-        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         try:
             self.pet.status = "error"

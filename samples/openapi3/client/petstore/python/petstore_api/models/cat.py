@@ -73,7 +73,7 @@ class Cat(Animal):
             return Cat.parse_obj(obj)
 
         _obj = Cat.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "color": obj.get("color") if obj.get("color") is not None else 'red',
             "declawed": obj.get("declawed")
         })

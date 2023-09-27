@@ -26,7 +26,7 @@ class NumberOnly(BaseModel):
     """
     NumberOnly
     """
-    just_number: Optional[float] = Field(default=None, serialization_alias="JustNumber")
+    just_number: Optional[float] = Field(default=None, alias="JustNumber")
     __properties = ["JustNumber"]
 
     class Config:
@@ -66,7 +66,7 @@ class NumberOnly(BaseModel):
             return NumberOnly.parse_obj(obj)
 
         _obj = NumberOnly.parse_obj({
-            "just_number": obj.get("JustNumber")
+            "JustNumber": obj.get("JustNumber")
         })
         return _obj
 

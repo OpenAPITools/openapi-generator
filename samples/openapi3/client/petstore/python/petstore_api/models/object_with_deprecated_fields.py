@@ -29,7 +29,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     """
     uuid: Optional[StrictStr] = None
     id: Optional[StrictFloat] = None
-    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, serialization_alias="deprecatedRef")
+    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
     bars: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["uuid", "id", "deprecatedRef", "bars"]
@@ -82,7 +82,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         _obj = ObjectWithDeprecatedFields.parse_obj({
             "uuid": obj.get("uuid"),
             "id": obj.get("id"),
-            "deprecated_ref": DeprecatedObject.from_dict(obj.get("deprecatedRef")) if obj.get("deprecatedRef") is not None else None,
+            "deprecatedRef": DeprecatedObject.from_dict(obj.get("deprecatedRef")) if obj.get("deprecatedRef") is not None else None,
             "bars": obj.get("bars")
         })
         # store additional fields in additional_properties

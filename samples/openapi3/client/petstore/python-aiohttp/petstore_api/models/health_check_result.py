@@ -26,7 +26,7 @@ class HealthCheckResult(BaseModel):
     """
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
     """
-    nullable_message: Optional[StrictStr] = Field(default=None, serialization_alias="NullableMessage")
+    nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
     __properties = ["NullableMessage"]
 
     class Config:
@@ -71,7 +71,7 @@ class HealthCheckResult(BaseModel):
             return HealthCheckResult.parse_obj(obj)
 
         _obj = HealthCheckResult.parse_obj({
-            "nullable_message": obj.get("NullableMessage")
+            "NullableMessage": obj.get("NullableMessage")
         })
         return _obj
 

@@ -26,7 +26,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501
     """
-    var_property: Optional[StrictBool] = Field(default=False, serialization_alias="property", description="Property")
+    var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
     additional_properties: Dict[str, Any] = {}
     __properties = ["property"]
 
@@ -73,7 +73,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
             return ObjectToTestAdditionalProperties.parse_obj(obj)
 
         _obj = ObjectToTestAdditionalProperties.parse_obj({
-            "var_property": obj.get("property") if obj.get("property") is not None else False
+            "property": obj.get("property") if obj.get("property") is not None else False
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

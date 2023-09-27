@@ -26,7 +26,7 @@ class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(serialization_alias="className")
+    class_name: StrictStr = Field(alias="className")
     color: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color"]
@@ -74,7 +74,7 @@ class BasquePig(BaseModel):
             return BasquePig.parse_obj(obj)
 
         _obj = BasquePig.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "color": obj.get("color")
         })
         # store additional fields in additional_properties

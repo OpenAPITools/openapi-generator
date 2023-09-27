@@ -28,12 +28,12 @@ class User(BaseModel):
     """
     id: Optional[StrictInt] = None
     username: Optional[StrictStr] = None
-    first_name: Optional[StrictStr] = Field(default=None, serialization_alias="firstName")
-    last_name: Optional[StrictStr] = Field(default=None, serialization_alias="lastName")
+    first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
+    last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     email: Optional[StrictStr] = None
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
-    user_status: Optional[StrictInt] = Field(default=None, serialization_alias="userStatus", description="User Status")
+    user_status: Optional[StrictInt] = Field(default=None, description="User Status", alias="userStatus")
     __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     class Config:
@@ -75,12 +75,12 @@ class User(BaseModel):
         _obj = User.parse_obj({
             "id": obj.get("id"),
             "username": obj.get("username"),
-            "first_name": obj.get("firstName"),
-            "last_name": obj.get("lastName"),
+            "firstName": obj.get("firstName"),
+            "lastName": obj.get("lastName"),
             "email": obj.get("email"),
             "password": obj.get("password"),
             "phone": obj.get("phone"),
-            "user_status": obj.get("userStatus")
+            "userStatus": obj.get("userStatus")
         })
         return _obj
 

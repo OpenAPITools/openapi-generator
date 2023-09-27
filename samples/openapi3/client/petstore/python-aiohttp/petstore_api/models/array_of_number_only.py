@@ -26,7 +26,7 @@ class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
     """
-    array_number: Optional[List[float]] = Field(default=None, serialization_alias="ArrayNumber")
+    array_number: Optional[List[float]] = Field(default=None, alias="ArrayNumber")
     __properties = ["ArrayNumber"]
 
     class Config:
@@ -66,7 +66,7 @@ class ArrayOfNumberOnly(BaseModel):
             return ArrayOfNumberOnly.parse_obj(obj)
 
         _obj = ArrayOfNumberOnly.parse_obj({
-            "array_number": obj.get("ArrayNumber")
+            "ArrayNumber": obj.get("ArrayNumber")
         })
         return _obj
 

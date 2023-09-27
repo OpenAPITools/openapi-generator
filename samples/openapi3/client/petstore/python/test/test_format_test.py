@@ -57,7 +57,7 @@ class TestFormatTest(unittest.TestCase):
             return FormatTest(
                 number = 122.1,
                 byte = bytes("someting", 'utf-8'),
-                var_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
                 password = '0123456789',
         )
 

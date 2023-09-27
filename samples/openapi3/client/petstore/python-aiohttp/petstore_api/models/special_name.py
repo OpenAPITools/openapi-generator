@@ -27,9 +27,9 @@ class SpecialName(BaseModel):
     """
     SpecialName
     """
-    var_property: Optional[StrictInt] = Field(default=None, serialization_alias="property")
-    var_async: Optional[Category] = Field(default=None, serialization_alias="async")
-    var_schema: Optional[StrictStr] = Field(default=None, serialization_alias="schema", description="pet status in the store")
+    var_property: Optional[StrictInt] = Field(default=None, alias="property")
+    var_async: Optional[Category] = Field(default=None, alias="async")
+    var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
     __properties = ["property", "async", "schema"]
 
     @validator('var_schema')
@@ -82,9 +82,9 @@ class SpecialName(BaseModel):
             return SpecialName.parse_obj(obj)
 
         _obj = SpecialName.parse_obj({
-            "var_property": obj.get("property"),
-            "var_async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
-            "var_schema": obj.get("schema")
+            "property": obj.get("property"),
+            "async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
+            "schema": obj.get("schema")
         })
         return _obj
 

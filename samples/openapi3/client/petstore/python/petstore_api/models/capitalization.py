@@ -26,12 +26,12 @@ class Capitalization(BaseModel):
     """
     Capitalization
     """
-    small_camel: Optional[StrictStr] = Field(default=None, serialization_alias="smallCamel")
-    capital_camel: Optional[StrictStr] = Field(default=None, serialization_alias="CapitalCamel")
-    small_snake: Optional[StrictStr] = Field(default=None, serialization_alias="small_Snake")
-    capital_snake: Optional[StrictStr] = Field(default=None, serialization_alias="Capital_Snake")
-    sca_eth_flow_points: Optional[StrictStr] = Field(default=None, serialization_alias="SCA_ETH_Flow_Points")
-    att_name: Optional[StrictStr] = Field(default=None, serialization_alias="ATT_NAME", description="Name of the pet ")
+    small_camel: Optional[StrictStr] = Field(default=None, alias="smallCamel")
+    capital_camel: Optional[StrictStr] = Field(default=None, alias="CapitalCamel")
+    small_snake: Optional[StrictStr] = Field(default=None, alias="small_Snake")
+    capital_snake: Optional[StrictStr] = Field(default=None, alias="Capital_Snake")
+    sca_eth_flow_points: Optional[StrictStr] = Field(default=None, alias="SCA_ETH_Flow_Points")
+    att_name: Optional[StrictStr] = Field(default=None, description="Name of the pet ", alias="ATT_NAME")
     additional_properties: Dict[str, Any] = {}
     __properties = ["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"]
 
@@ -78,12 +78,12 @@ class Capitalization(BaseModel):
             return Capitalization.parse_obj(obj)
 
         _obj = Capitalization.parse_obj({
-            "small_camel": obj.get("smallCamel"),
-            "capital_camel": obj.get("CapitalCamel"),
-            "small_snake": obj.get("small_Snake"),
-            "capital_snake": obj.get("Capital_Snake"),
-            "sca_eth_flow_points": obj.get("SCA_ETH_Flow_Points"),
-            "att_name": obj.get("ATT_NAME")
+            "smallCamel": obj.get("smallCamel"),
+            "CapitalCamel": obj.get("CapitalCamel"),
+            "small_Snake": obj.get("small_Snake"),
+            "Capital_Snake": obj.get("Capital_Snake"),
+            "SCA_ETH_Flow_Points": obj.get("SCA_ETH_Flow_Points"),
+            "ATT_NAME": obj.get("ATT_NAME")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

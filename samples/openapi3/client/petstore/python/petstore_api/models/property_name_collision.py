@@ -26,9 +26,9 @@ class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    underscore_type: Optional[StrictStr] = Field(default=None, serialization_alias="_type")
+    underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
-    type_with_underscore: Optional[StrictStr] = Field(default=None, serialization_alias="type_")
+    type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_type", "type", "type_"]
 
@@ -75,9 +75,9 @@ class PropertyNameCollision(BaseModel):
             return PropertyNameCollision.parse_obj(obj)
 
         _obj = PropertyNameCollision.parse_obj({
-            "underscore_type": obj.get("_type"),
+            "_type": obj.get("_type"),
             "type": obj.get("type"),
-            "type_with_underscore": obj.get("type_")
+            "type_": obj.get("type_")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

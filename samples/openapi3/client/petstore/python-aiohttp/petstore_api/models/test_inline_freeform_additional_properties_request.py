@@ -26,7 +26,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     TestInlineFreeformAdditionalPropertiesRequest
     """
-    some_property: Optional[StrictStr] = Field(default=None, serialization_alias="someProperty")
+    some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
     additional_properties: Dict[str, Any] = {}
     __properties = ["someProperty"]
 
@@ -73,7 +73,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
             return TestInlineFreeformAdditionalPropertiesRequest.parse_obj(obj)
 
         _obj = TestInlineFreeformAdditionalPropertiesRequest.parse_obj({
-            "some_property": obj.get("someProperty")
+            "someProperty": obj.get("someProperty")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

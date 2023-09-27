@@ -30,7 +30,7 @@ class DataQuery(Query):
     """
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
-    var_date: Optional[datetime] = Field(default=None, serialization_alias="date", description="A date")
+    var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
     __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     class Config:
@@ -74,7 +74,7 @@ class DataQuery(Query):
             "outcomes": obj.get("outcomes"),
             "suffix": obj.get("suffix"),
             "text": obj.get("text"),
-            "var_date": obj.get("date")
+            "date": obj.get("date")
         })
         return _obj
 

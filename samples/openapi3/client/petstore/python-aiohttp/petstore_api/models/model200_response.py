@@ -27,7 +27,7 @@ class Model200Response(BaseModel):
     Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
-    var_class: Optional[StrictStr] = Field(default=None, serialization_alias="class")
+    var_class: Optional[StrictStr] = Field(default=None, alias="class")
     __properties = ["name", "class"]
 
     class Config:
@@ -68,7 +68,7 @@ class Model200Response(BaseModel):
 
         _obj = Model200Response.parse_obj({
             "name": obj.get("name"),
-            "var_class": obj.get("class")
+            "class": obj.get("class")
         })
         return _obj
 

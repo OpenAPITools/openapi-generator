@@ -26,7 +26,7 @@ class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
     """
-    array_number: Optional[List[StrictFloat]] = Field(default=None, serialization_alias="ArrayNumber")
+    array_number: Optional[List[StrictFloat]] = Field(default=None, alias="ArrayNumber")
     additional_properties: Dict[str, Any] = {}
     __properties = ["ArrayNumber"]
 
@@ -73,7 +73,7 @@ class ArrayOfNumberOnly(BaseModel):
             return ArrayOfNumberOnly.parse_obj(obj)
 
         _obj = ArrayOfNumberOnly.parse_obj({
-            "array_number": obj.get("ArrayNumber")
+            "ArrayNumber": obj.get("ArrayNumber")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

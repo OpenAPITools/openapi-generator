@@ -26,7 +26,7 @@ class List(BaseModel):
     """
     List
     """
-    var_123_list: Optional[StrictStr] = Field(default=None, serialization_alias="123-list")
+    var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
     __properties = ["123-list"]
 
     class Config:
@@ -66,7 +66,7 @@ class List(BaseModel):
             return List.parse_obj(obj)
 
         _obj = List.parse_obj({
-            "var_123_list": obj.get("123-list")
+            "123-list": obj.get("123-list")
         })
         return _obj
 

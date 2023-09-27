@@ -2147,7 +2147,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // field
             if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                pt.annotate("serialization_alias", cp.baseName);
+                pt.annotate("alias", cp.baseName);
             }
 
             /* TODO review as example may break the build

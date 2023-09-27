@@ -66,7 +66,7 @@ class Dog(Animal):
             return Dog.parse_obj(obj)
 
         _obj = Dog.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "color": obj.get("color") if obj.get("color") is not None else 'red',
             "breed": obj.get("breed")
         })

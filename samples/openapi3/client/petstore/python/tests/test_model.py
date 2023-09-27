@@ -15,7 +15,7 @@ import petstore_api
 class ModelTests(unittest.TestCase):
 
     def setUp(self):
-        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         self.pet.status = "available"
         cate = petstore_api.Category(name="dog")
@@ -27,7 +27,7 @@ class ModelTests(unittest.TestCase):
         self.pet.tags = [tag]
 
     def test_cat(self):
-        self.cat = petstore_api.Cat(class_name="cat")
+        self.cat = petstore_api.Cat(className="cat")
         self.assertEqual("cat", self.cat.class_name)
         self.assertEqual("red", self.cat.color)
         cat_str = ("{'additional_properties': {},\n"
@@ -47,7 +47,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(data, self.pet.to_str())
 
     def test_equal(self):
-        self.pet1 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet1 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet1.id = 1
         self.pet1.status = "available"
         cate1 = petstore_api.Category(name="dog")
@@ -58,7 +58,7 @@ class ModelTests(unittest.TestCase):
         tag1.id = 1
         self.pet1.tags = [tag1]
 
-        self.pet2 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet2 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet2.id = 1
         self.pet2.status = "available"
         cate2 = petstore_api.Category(name="dog")
@@ -321,7 +321,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
     def test_inheritance(self):
-        dog = petstore_api.Dog(breed="bulldog", class_name="dog", color="white")
+        dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
         self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
@@ -332,16 +332,19 @@ class ModelTests(unittest.TestCase):
 
     def test_list(self):
         # should throw exception as var_123_list should be string
+        kw = {"123-list": 123}
         try:
-            l3 = petstore_api.List(var_123_list=123)
+            l3 = petstore_api.List(**kw)
             self.assertTrue(False)  # this line shouldn't execute
+            breakpoint()
         except ValueError as e:
             #   var_123_list
             #     Input should be a valid string [type=string_type, input_value=123, input_type=int]
             #       For further information visit https://errors.pydantic.dev/2.3/v/string_type
             self.assertTrue("Input should be a valid string" in str(e))
 
-        l = petstore_api.List(var_123_list="bulldog")
+        kw = {"123-list": "bulldog"}
+        l = petstore_api.List(**kw)
         self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
         l2 = petstore_api.List.from_json(l.to_json())
@@ -371,7 +374,7 @@ class ModelTests(unittest.TestCase):
 
     def test_valdiator(self):
         # test regular expression
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), var_date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
         try:
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute
@@ -379,7 +382,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
         # test None with optional string (with regualr expression)
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), var_date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
         a.string = None # shouldn't throw an exception
 
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
@@ -388,7 +391,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
     def test_inline_enum_validator(self):
-        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         try:
             self.pet.status = "error"
@@ -430,8 +433,8 @@ class ModelTests(unittest.TestCase):
             self.assertIn("String should have at most 7 characters", str(e))
 
     def test_object_id(self):
-        pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
-        pet_ap2 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        pet_ap = petstore_api.Pet(name="test name", photoUrls=["string"])
+        pet_ap2 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.assertNotEqual(id(pet_ap), id(pet_ap2))
 
         pet_ap3 = petstore_api.Pet.from_dict(pet_ap.to_dict())
@@ -440,11 +443,11 @@ class ModelTests(unittest.TestCase):
 
 
     def test_additional_properties(self):
-        pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
+        pet_ap = petstore_api.Pet(name="test name", photoUrls=["string"])
         pet_ap.id = 1
         pet_ap.status = "available"
 
-        pet_ap2 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        pet_ap2 = petstore_api.Pet(name="test name", photoUrls=["string"])
         pet_ap2.id = 1
         pet_ap2.status = "available"
 
@@ -474,7 +477,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(pet_ap2.additional_properties["dict"], {"key999": "value999"})
 
     def test_nullable(self):
-        h = petstore_api.HealthCheckResult(nullable_message="Not none")
+        h = petstore_api.HealthCheckResult(NullableMessage="Not none")
         self.assertEqual(h.to_json(), '{"NullableMessage": "Not none"}')
 
         h.nullable_message = None
