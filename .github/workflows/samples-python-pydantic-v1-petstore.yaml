@@ -23,7 +23,7 @@ jobs:
         sample:
           - samples/openapi3/client/petstore/python-pydantic-v1-aiohttp
           - samples/openapi3/client/petstore/python-pydantic-v1
-      services:
+    services:
       petstore-api:
         image: swaggerapi/petstore
         ports:
