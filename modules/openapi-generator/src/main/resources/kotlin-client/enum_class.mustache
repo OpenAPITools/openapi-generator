@@ -40,20 +40,20 @@ import kotlinx.serialization.*
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
     {{#moshi}}
-    @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/moshi}}
     {{#gson}}
-    @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    @SerializedName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/gson}}
     {{#jackson}}
-    @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    @JsonProperty(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/jackson}}
     {{#kotlinx_serialization}}
-    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
-    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}

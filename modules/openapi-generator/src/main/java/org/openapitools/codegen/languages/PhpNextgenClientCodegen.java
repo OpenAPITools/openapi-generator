@@ -144,8 +144,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             for (CodegenProperty prop : model.vars) {
                 if (prop.isArray || prop.isMap) {
                     prop.vendorExtensions.putIfAbsent("x-php-prop-type", "array");
-                }
-                else {
+                } else {
                     prop.vendorExtensions.putIfAbsent("x-php-prop-type", prop.dataType);
                 }
             }
@@ -170,16 +169,14 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (CodegenOperation operation : operations.getOperation()) {
             if (operation.returnType == null) {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
-            }
-            else {
+            } else {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
             }
 
             for (CodegenParameter param : operation.allParams) {
                 if (param.isArray || param.isMap) {
                     param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
-                }
-                else {
+                } else {
                     param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
                 }
             }
@@ -191,12 +188,28 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @Override
     public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
         if (codegenProperty.isArray) {
-            if (schema.getDefault() != null) {
+            if (schema.getDefault() != null) { // array schema has default value
                 return "[" + schema.getDefault().toString() + "]";
+            } else if (schema.getItems().getDefault() != null) { // array item schema has default value
+                return "[" + toDefaultValue(schema.getItems()) + "]";
             } else {
                 return null;
             }
         }
         return super.toDefaultValue(codegenProperty, schema);
+    }
+
+    @Override
+    public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
+        return toDefaultValue(codegenProperty, schema);
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        if (p.isArray && p.items.defaultValue != null) {
+            p.example = p.defaultValue;
+        } else {
+            super.setParameterExampleValue(p);
+        }
     }
 }

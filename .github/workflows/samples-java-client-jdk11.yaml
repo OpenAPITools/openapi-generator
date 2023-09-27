@@ -56,7 +56,6 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
-          - samples/client/petstore/java/jersey1
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/native
           - samples/client/petstore/java/okhttp-gson-swagger1/
