@@ -3492,7 +3492,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
                     if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                         String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), true);
                         descendentSchemas.add(mm);
                     }
                 }
@@ -3550,7 +3550,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .map(ve -> ve.get("x-discriminator-value"))
                     .map(discriminatorValue -> (String) discriminatorValue)
                     .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), mappingName != currentSchemaName);
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3604,7 +3604,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     name = e.getValue();
                 }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name)));
+                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), true));
             }
         }
 
