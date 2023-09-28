@@ -15,7 +15,7 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/echo_api/python
+          - samples/client/echo_api/python-pydantic-v1/
         python-version:
           - "3.7"
           - "3.8"

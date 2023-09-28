@@ -18,26 +18,26 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
+from typing import Any, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr
 
 class NullableClass(BaseModel):
     """
     NullableClass
     """
-    required_integer_prop: Optional[StrictInt] = Field(...)
+    required_integer_prop: Optional[StrictInt]
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[StrictFloat] = None
     boolean_prop: Optional[StrictBool] = None
     string_prop: Optional[StrictStr] = None
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
-    array_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_and_items_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_items_nullable: Optional[conlist(Dict[str, Any])] = None
-    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
+    array_nullable_prop: Optional[List[Union[str, Any]]] = None
+    array_and_items_nullable_prop: Optional[List[Union[str, Any]]] = None
+    array_items_nullable: Optional[List[Union[str, Any]]] = None
+    object_nullable_prop: Optional[Dict[str, Union[str, Any]]] = None
+    object_and_items_nullable_prop: Optional[Dict[str, Union[str, Any]]] = None
+    object_items_nullable: Optional[Dict[str, Union[str, Any]]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
@@ -52,6 +52,7 @@ class NullableClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -154,7 +155,7 @@ class NullableClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

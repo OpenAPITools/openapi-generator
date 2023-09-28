@@ -19,16 +19,17 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class Name(BaseModel):
     """
     Model for testing model name same as property name  # noqa: E501
     """
-    name: StrictInt = Field(...)
+    name: StrictInt
     snake_case: Optional[StrictInt] = None
-    var_property: Optional[StrictStr] = Field(None, alias="property")
-    var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
+    var_property: Optional[StrictStr] = Field(default=None, alias="property")
+    var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
     additional_properties: Dict[str, Any] = {}
     __properties = ["name", "snake_case", "property", "123Number"]
 
@@ -43,6 +44,7 @@ class Name(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -78,12 +80,12 @@ class Name(BaseModel):
         _obj = Name.parse_obj({
             "name": obj.get("name"),
             "snake_case": obj.get("snake_case"),
-            "var_property": obj.get("property"),
-            "var_123_number": obj.get("123Number")
+            "property": obj.get("property"),
+            "123Number": obj.get("123Number")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

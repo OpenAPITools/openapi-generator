@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
@@ -30,14 +31,14 @@ class EnumTest(BaseModel):
     EnumTest
     """
     enum_string: Optional[StrictStr] = None
-    enum_string_required: StrictStr = Field(...)
+    enum_string_required: StrictStr
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[float] = None
-    outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
-    outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
+    outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
+    outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
     __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @validator('enum_string')
@@ -98,6 +99,7 @@ class EnumTest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -133,10 +135,10 @@ class EnumTest(BaseModel):
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
             "enum_integer": obj.get("enum_integer"),
             "enum_number": obj.get("enum_number"),
-            "outer_enum": obj.get("outerEnum"),
-            "outer_enum_integer": obj.get("outerEnumInteger"),
-            "outer_enum_default_value": obj.get("outerEnumDefaultValue"),
-            "outer_enum_integer_default_value": obj.get("outerEnumIntegerDefaultValue")
+            "outerEnum": obj.get("outerEnum"),
+            "outerEnumInteger": obj.get("outerEnumInteger"),
+            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue"),
+            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue")
         })
         return _obj
 

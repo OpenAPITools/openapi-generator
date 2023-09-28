@@ -20,20 +20,20 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
 from openapi_client.models.string_enum_ref import StringEnumRef
 
 class DefaultValue(BaseModel):
     """
     to test the default value of properties  # noqa: E501
     """
-    array_string_enum_ref_default: Optional[conlist(StringEnumRef)] = None
-    array_string_enum_default: Optional[conlist(StrictStr)] = None
-    array_string_default: Optional[conlist(StrictStr)] = None
-    array_integer_default: Optional[conlist(StrictInt)] = None
-    array_string: Optional[conlist(StrictStr)] = None
-    array_string_nullable: Optional[conlist(StrictStr)] = None
-    array_string_extension_nullable: Optional[conlist(StrictStr)] = None
+    array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
+    array_string_enum_default: Optional[List[StrictStr]] = None
+    array_string_default: Optional[List[StrictStr]] = None
+    array_integer_default: Optional[List[StrictInt]] = None
+    array_string: Optional[List[StrictStr]] = None
+    array_string_nullable: Optional[List[StrictStr]] = None
+    array_string_extension_nullable: Optional[List[StrictStr]] = None
     string_nullable: Optional[StrictStr] = None
     __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
@@ -59,6 +59,7 @@ class DefaultValue(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

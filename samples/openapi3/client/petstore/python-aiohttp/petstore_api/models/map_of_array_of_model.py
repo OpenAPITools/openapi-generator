@@ -19,14 +19,15 @@ import json
 
 
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel
+from pydantic import Field
 from petstore_api.models.tag import Tag
 
 class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(None, alias="shopIdToOrgOnlineLipMap")
+    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties = ["shopIdToOrgOnlineLipMap"]
 
     class Config:
@@ -40,6 +41,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -74,7 +76,7 @@ class MapOfArrayOfModel(BaseModel):
             return MapOfArrayOfModel.parse_obj(obj)
 
         _obj = MapOfArrayOfModel.parse_obj({
-            "shop_id_to_org_online_lip_map": dict(
+            "shopIdToOrgOnlineLipMap": dict(
                 (_k,
                         [Tag.from_dict(_item) for _item in _v]
                         if _v is not None

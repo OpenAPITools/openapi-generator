@@ -21,8 +21,8 @@ jobs:
           - "3.10"
           - "3.11"
         sample:
-          - samples/openapi3/client/petstore/python-aiohttp
-          - samples/openapi3/client/petstore/python
+          - samples/openapi3/client/petstore/python-pydantic-v1-aiohttp
+          - samples/openapi3/client/petstore/python-pydantic-v1
     services:
       petstore-api:
         image: swaggerapi/petstore

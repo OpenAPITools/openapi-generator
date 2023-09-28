@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt
+from pydantic import BaseModel, StrictInt
+from pydantic import Field
 
 class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(None, alias="$special[property.name]")
+    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
     __properties = ["$special[property.name]"]
 
     class Config:
@@ -39,6 +40,7 @@ class SpecialModelName(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -64,7 +66,7 @@ class SpecialModelName(BaseModel):
             return SpecialModelName.parse_obj(obj)
 
         _obj = SpecialModelName.parse_obj({
-            "special_property_name": obj.get("$special[property.name]")
+            "$special[property.name]": obj.get("$special[property.name]")
         })
         return _obj
 

@@ -1649,11 +1649,12 @@ components:
           maximum: 543.2
           minimum: 32.1
           type: number
-        float:
-          type: number
-          format: float
-          maximum: 987.6
-          minimum: 54.3
+        # TODO: pydantic v2: this field name override the default `float` type
+        #float:
+          #type: number
+          #format: float
+          #maximum: 987.6
+          #minimum: 54.3
         double:
           type: number
           format: double

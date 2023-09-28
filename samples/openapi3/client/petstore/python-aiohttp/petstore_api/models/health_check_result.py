@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class HealthCheckResult(BaseModel):
     """
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
     """
-    nullable_message: Optional[StrictStr] = Field(None, alias="NullableMessage")
+    nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
     __properties = ["NullableMessage"]
 
     class Config:
@@ -39,6 +40,7 @@ class HealthCheckResult(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -69,7 +71,7 @@ class HealthCheckResult(BaseModel):
             return HealthCheckResult.parse_obj(obj)
 
         _obj = HealthCheckResult.parse_obj({
-            "nullable_message": obj.get("NullableMessage")
+            "NullableMessage": obj.get("NullableMessage")
         })
         return _obj
 

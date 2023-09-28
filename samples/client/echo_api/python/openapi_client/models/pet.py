@@ -20,7 +20,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
 
@@ -29,11 +30,11 @@ class Pet(BaseModel):
     Pet
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = Field(...)
+    name: StrictStr
     category: Optional[Category] = None
-    photo_urls: conlist(StrictStr) = Field(..., alias="photoUrls")
-    tags: Optional[conlist(Tag)] = None
-    status: Optional[StrictStr] = Field(None, description="pet status in the store")
+    photo_urls: List[StrictStr] = Field(alias="photoUrls")
+    tags: Optional[List[Tag]] = None
+    status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
 
     @validator('status')
@@ -57,6 +58,7 @@ class Pet(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -95,7 +97,7 @@ class Pet(BaseModel):
             "id": obj.get("id"),
             "name": obj.get("name"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
-            "photo_urls": obj.get("photoUrls"),
+            "photoUrls": obj.get("photoUrls"),
             "tags": [Tag.from_dict(_item) for _item in obj.get("tags")] if obj.get("tags") is not None else None,
             "status": obj.get("status")
         })

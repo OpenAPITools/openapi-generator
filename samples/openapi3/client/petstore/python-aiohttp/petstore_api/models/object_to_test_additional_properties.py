@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool
+from pydantic import BaseModel, StrictBool
+from pydantic import Field
 
 class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501
     """
-    var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
+    var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
     __properties = ["property"]
 
     class Config:
@@ -39,6 +40,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -64,7 +66,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
             return ObjectToTestAdditionalProperties.parse_obj(obj)
 
         _obj = ObjectToTestAdditionalProperties.parse_obj({
-            "var_property": obj.get("property") if obj.get("property") is not None else False
+            "property": obj.get("property") if obj.get("property") is not None else False
         })
         return _obj
 

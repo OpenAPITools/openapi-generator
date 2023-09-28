@@ -19,16 +19,17 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 from petstore_api.models.category import Category
 
 class SpecialName(BaseModel):
     """
     SpecialName
     """
-    var_property: Optional[StrictInt] = Field(None, alias="property")
-    var_async: Optional[Category] = Field(None, alias="async")
-    var_schema: Optional[StrictStr] = Field(None, alias="schema", description="pet status in the store")
+    var_property: Optional[StrictInt] = Field(default=None, alias="property")
+    var_async: Optional[Category] = Field(default=None, alias="async")
+    var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
     additional_properties: Dict[str, Any] = {}
     __properties = ["property", "async", "schema"]
 
@@ -53,6 +54,7 @@ class SpecialName(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -87,13 +89,13 @@ class SpecialName(BaseModel):
             return SpecialName.parse_obj(obj)
 
         _obj = SpecialName.parse_obj({
-            "var_property": obj.get("property"),
-            "var_async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
-            "var_schema": obj.get("schema")
+            "property": obj.get("property"),
+            "async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
+            "schema": obj.get("schema")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

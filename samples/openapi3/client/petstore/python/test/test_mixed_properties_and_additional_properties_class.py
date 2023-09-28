@@ -40,7 +40,7 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
                 date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                 map = {
                     'key' : petstore_api.models.animal.Animal(
-                        class_name = '', 
+                        className = '', 
                         color = 'red', )
                     }
             )

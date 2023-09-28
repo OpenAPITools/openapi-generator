@@ -19,17 +19,18 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, validator
+from pydantic import Field
 
 class Order(BaseModel):
     """
     Order
     """
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(None, alias="petId")
+    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(None, alias="shipDate")
-    status: Optional[StrictStr] = Field(None, description="Order Status")
+    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
@@ -54,6 +55,7 @@ class Order(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -80,9 +82,9 @@ class Order(BaseModel):
 
         _obj = Order.parse_obj({
             "id": obj.get("id"),
-            "pet_id": obj.get("petId"),
+            "petId": obj.get("petId"),
             "quantity": obj.get("quantity"),
-            "ship_date": obj.get("shipDate"),
+            "shipDate": obj.get("shipDate"),
             "status": obj.get("status"),
             "complete": obj.get("complete") if obj.get("complete") is not None else False
         })

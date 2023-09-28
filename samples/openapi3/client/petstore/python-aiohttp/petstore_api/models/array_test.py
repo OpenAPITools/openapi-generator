@@ -19,16 +19,18 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, conlist
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
+from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
 
 class ArrayTest(BaseModel):
     """
     ArrayTest
     """
-    array_of_string: Optional[conlist(StrictStr, max_items=3, min_items=0)] = None
-    array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
-    array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
+    array_of_string: Optional[Annotated[List[StrictStr], Field(min_items=0, max_items=3)]] = None
+    array_array_of_integer: Optional[List[List[StrictInt]]] = None
+    array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
     __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
     class Config:
@@ -42,6 +44,7 @@ class ArrayTest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

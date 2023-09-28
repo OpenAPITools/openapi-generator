@@ -19,7 +19,8 @@ import json
 
 from datetime import datetime
 from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 from petstore_api.models.animal import Animal
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
@@ -27,7 +28,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     MixedPropertiesAndAdditionalPropertiesClass
     """
     uuid: Optional[StrictStr] = None
-    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
     __properties = ["uuid", "dateTime", "map"]
 
@@ -42,6 +43,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -75,7 +77,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
         _obj = MixedPropertiesAndAdditionalPropertiesClass.parse_obj({
             "uuid": obj.get("uuid"),
-            "date_time": obj.get("dateTime"),
+            "dateTime": obj.get("dateTime"),
             "map": dict(
                 (_k, Animal.from_dict(_v))
                 for _k, _v in obj.get("map").items()

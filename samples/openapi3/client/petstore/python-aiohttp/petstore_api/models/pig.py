@@ -22,7 +22,8 @@ from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
@@ -35,16 +36,13 @@ class Pig(BaseModel):
     oneof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
     oneof_schema_2_validator: Optional[DanishPig] = None
-    if TYPE_CHECKING:
-        actual_instance: Union[BasquePig, DanishPig]
-    else:
-        actual_instance: Any
-    one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
+    actual_instance: Optional[Union[BasquePig, DanishPig]] = None
+    one_of_schemas: List[str] = Literal[PIG_ONE_OF_SCHEMAS]
 
     class Config:
         validate_assignment = True
 
-    discriminator_value_class_map = {
+    discriminator_value_class_map: Dict[str, str] = {
     }
 
     def __init__(self, *args, **kwargs) -> None:

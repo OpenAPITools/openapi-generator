@@ -19,14 +19,14 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictStr, validator
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """
     just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[conlist(StrictStr)] = None
+    array_enum: Optional[List[StrictStr]] = None
     __properties = ["just_symbol", "array_enum"]
 
     @validator('just_symbol')
@@ -61,6 +61,7 @@ class EnumArrays(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

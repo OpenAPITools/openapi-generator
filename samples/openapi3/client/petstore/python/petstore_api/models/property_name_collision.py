@@ -19,15 +19,16 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    underscore_type: Optional[StrictStr] = Field(None, alias="_type")
+    underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
-    type_with_underscore: Optional[StrictStr] = Field(None, alias="type_")
+    type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_type", "type", "type_"]
 
@@ -42,6 +43,7 @@ class PropertyNameCollision(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -73,13 +75,13 @@ class PropertyNameCollision(BaseModel):
             return PropertyNameCollision.parse_obj(obj)
 
         _obj = PropertyNameCollision.parse_obj({
-            "underscore_type": obj.get("_type"),
+            "_type": obj.get("_type"),
             "type": obj.get("type"),
-            "type_with_underscore": obj.get("type_")
+            "type_": obj.get("type_")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

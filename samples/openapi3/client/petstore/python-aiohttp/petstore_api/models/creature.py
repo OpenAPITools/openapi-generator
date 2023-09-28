@@ -19,15 +19,15 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 from petstore_api.models.creature_info import CreatureInfo
 
 class Creature(BaseModel):
     """
     Creature
     """
-    info: CreatureInfo = Field(...)
-    type: StrictStr = Field(...)
+    info: CreatureInfo
+    type: StrictStr
     __properties = ["info", "type"]
 
     class Config:
@@ -41,6 +41,7 @@ class Creature(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from petstore_api.models.file import File
 
 class FileSchemaTestClass(BaseModel):
@@ -27,7 +27,7 @@ class FileSchemaTestClass(BaseModel):
     FileSchemaTestClass
     """
     file: Optional[File] = None
-    files: Optional[conlist(File)] = None
+    files: Optional[List[File]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["file", "files"]
 
@@ -42,6 +42,7 @@ class FileSchemaTestClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -88,7 +89,7 @@ class FileSchemaTestClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

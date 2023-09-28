@@ -19,14 +19,15 @@ import json
 
 
 from typing import Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
 class Parent(BaseModel):
     """
     Parent
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(None, alias="optionalDict")
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     __properties = ["optionalDict"]
 
     class Config:
@@ -40,6 +41,7 @@ class Parent(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -72,7 +74,7 @@ class Parent(BaseModel):
             return Parent.parse_obj(obj)
 
         _obj = Parent.parse_obj({
-            "optional_dict": dict(
+            "optionalDict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
                 for _k, _v in obj.get("optionalDict").items()
             )

@@ -19,10 +19,11 @@ import warnings
 
 from pydantic import validate_arguments, ValidationError
 
+from pydantic import Field
 from typing_extensions import Annotated
-from pydantic import Field, StrictBytes, StrictStr, conlist
+from pydantic import StrictBytes, StrictStr
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
@@ -332,7 +333,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_multipart_formdata_array_of_binary(self, files : conlist(Union[StrictBytes, StrictStr]), **kwargs) -> str:  # noqa: E501
+    def test_body_multipart_formdata_array_of_binary(self, files : List[Union[StrictBytes, StrictStr]], **kwargs) -> str:  # noqa: E501
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501
@@ -362,7 +363,7 @@ class BodyApi:
         return self.test_body_multipart_formdata_array_of_binary_with_http_info(files, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_multipart_formdata_array_of_binary_with_http_info(self, files : conlist(Union[StrictBytes, StrictStr]), **kwargs) -> ApiResponse:  # noqa: E501
+    def test_body_multipart_formdata_array_of_binary_with_http_info(self, files : List[Union[StrictBytes, StrictStr]], **kwargs) -> ApiResponse:  # noqa: E501
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501

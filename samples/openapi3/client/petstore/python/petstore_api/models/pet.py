@@ -19,7 +19,9 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
+from typing_extensions import Annotated
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
 
@@ -29,10 +31,10 @@ class Pet(BaseModel):
     """
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
-    name: StrictStr = Field(...)
-    photo_urls: conlist(StrictStr, min_items=0, unique_items=True) = Field(..., alias="photoUrls")
-    tags: Optional[conlist(Tag)] = None
-    status: Optional[StrictStr] = Field(None, description="pet status in the store")
+    name: StrictStr
+    photo_urls: Annotated[List[StrictStr], Field(min_items=0)] = Field(alias="photoUrls")
+    tags: Optional[List[Tag]] = None
+    status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
 
@@ -57,6 +59,7 @@ class Pet(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -101,13 +104,13 @@ class Pet(BaseModel):
             "id": obj.get("id"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
             "name": obj.get("name"),
-            "photo_urls": obj.get("photoUrls"),
+            "photoUrls": obj.get("photoUrls"),
             "tags": [Tag.from_dict(_item) for _item in obj.get("tags")] if obj.get("tags") is not None else None,
             "status": obj.get("status")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

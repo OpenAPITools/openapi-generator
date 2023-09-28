@@ -18,14 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field
+from typing import Any, Dict, Optional, Union
+from pydantic import BaseModel
+from pydantic import Field
 
 class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """
-    a_property: Optional[Dict[str, Any]] = Field(None, alias="aProperty")
+    a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
     __properties = ["aProperty"]
 
     class Config:
@@ -39,6 +40,7 @@ class InnerDictWithProperty(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -64,7 +66,7 @@ class InnerDictWithProperty(BaseModel):
             return InnerDictWithProperty.parse_obj(obj)
 
         _obj = InnerDictWithProperty.parse_obj({
-            "a_property": obj.get("aProperty")
+            "aProperty": obj.get("aProperty")
         })
         return _obj
 

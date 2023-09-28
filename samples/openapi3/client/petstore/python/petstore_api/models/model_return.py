@@ -19,13 +19,14 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt
+from pydantic import BaseModel, StrictInt
+from pydantic import Field
 
 class ModelReturn(BaseModel):
     """
     Model for testing reserved words  # noqa: E501
     """
-    var_return: Optional[StrictInt] = Field(None, alias="return")
+    var_return: Optional[StrictInt] = Field(default=None, alias="return")
     additional_properties: Dict[str, Any] = {}
     __properties = ["return"]
 
@@ -40,6 +41,7 @@ class ModelReturn(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -71,11 +73,11 @@ class ModelReturn(BaseModel):
             return ModelReturn.parse_obj(obj)
 
         _obj = ModelReturn.parse_obj({
-            "var_return": obj.get("return")
+            "return": obj.get("return")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -19,8 +19,11 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
-from typing import Union, Any, List, TYPE_CHECKING
+from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import Field
+from typing_extensions import Annotated
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
@@ -30,16 +33,13 @@ class Color(BaseModel):
     RGB array, RGBA array, or hex string.
     """
     # data type: List[int]
-    oneof_schema_1_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=3, min_items=3)] = Field(None, description="RGB three element array with values 0-255.")
+    oneof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=3, max_items=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
     # data type: List[int]
-    oneof_schema_2_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=4, min_items=4)] = Field(None, description="RGBA four element array with values 0-255.")
+    oneof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=4, max_items=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
-    oneof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(None, description="Hex color string, such as #00FF00.")
-    if TYPE_CHECKING:
-        actual_instance: Union[List[int], str]
-    else:
-        actual_instance: Any
-    one_of_schemas: List[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
+    oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
+    actual_instance: Optional[Union[List[int], str]] = None
+    one_of_schemas: List[str] = Literal[COLOR_ONE_OF_SCHEMAS]
 
     class Config:
         validate_assignment = True

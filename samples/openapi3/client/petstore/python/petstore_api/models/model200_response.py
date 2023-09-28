@@ -19,14 +19,15 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class Model200Response(BaseModel):
     """
     Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
-    var_class: Optional[StrictStr] = Field(None, alias="class")
+    var_class: Optional[StrictStr] = Field(default=None, alias="class")
     additional_properties: Dict[str, Any] = {}
     __properties = ["name", "class"]
 
@@ -41,6 +42,7 @@ class Model200Response(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -73,11 +75,11 @@ class Model200Response(BaseModel):
 
         _obj = Model200Response.parse_obj({
             "name": obj.get("name"),
-            "var_class": obj.get("class")
+            "class": obj.get("class")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

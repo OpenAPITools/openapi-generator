@@ -19,14 +19,15 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 
 class DanishPig(BaseModel):
     """
     DanishPig
     """
-    class_name: StrictStr = Field(..., alias="className")
-    size: StrictInt = Field(...)
+    class_name: StrictStr = Field(alias="className")
+    size: StrictInt
     __properties = ["className", "size"]
 
     class Config:
@@ -40,6 +41,7 @@ class DanishPig(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -65,7 +67,7 @@ class DanishPig(BaseModel):
             return DanishPig.parse_obj(obj)
 
         _obj = DanishPig.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "size": obj.get("size")
         })
         return _obj

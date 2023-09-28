@@ -19,13 +19,14 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictFloat
+from pydantic import BaseModel, StrictFloat
+from pydantic import Field
 
 class NumberOnly(BaseModel):
     """
     NumberOnly
     """
-    just_number: Optional[StrictFloat] = Field(None, alias="JustNumber")
+    just_number: Optional[StrictFloat] = Field(default=None, alias="JustNumber")
     additional_properties: Dict[str, Any] = {}
     __properties = ["JustNumber"]
 
@@ -40,6 +41,7 @@ class NumberOnly(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -71,11 +73,11 @@ class NumberOnly(BaseModel):
             return NumberOnly.parse_obj(obj)
 
         _obj = NumberOnly.parse_obj({
-            "just_number": obj.get("JustNumber")
+            "JustNumber": obj.get("JustNumber")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

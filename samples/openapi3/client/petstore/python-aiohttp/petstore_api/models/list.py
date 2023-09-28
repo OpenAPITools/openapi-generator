@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class List(BaseModel):
     """
     List
     """
-    var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
+    var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
     __properties = ["123-list"]
 
     class Config:
@@ -39,6 +40,7 @@ class List(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -64,7 +66,7 @@ class List(BaseModel):
             return List.parse_obj(obj)
 
         _obj = List.parse_obj({
-            "var_123_list": obj.get("123-list")
+            "123-list": obj.get("123-list")
         })
         return _obj
 

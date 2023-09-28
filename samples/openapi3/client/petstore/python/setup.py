@@ -28,8 +28,9 @@ REQUIRES = [
     "python-dateutil",
     "pem>=19.3.0",
     "pycryptodome>=3.9.0",
-    "pydantic >= 1.10.5, < 2",
-    "aenum"
+    "pydantic >= 2",
+    "aenum",
+    "typing-extensions >= 4.7.1",
 ]
 
 setup(

@@ -19,14 +19,15 @@ import json
 
 
 from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(..., alias="className")
-    color: StrictStr = Field(...)
+    class_name: StrictStr = Field(alias="className")
+    color: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color"]
 
@@ -41,6 +42,7 @@ class BasquePig(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -72,12 +74,12 @@ class BasquePig(BaseModel):
             return BasquePig.parse_obj(obj)
 
         _obj = BasquePig.parse_obj({
-            "class_name": obj.get("className"),
+            "className": obj.get("className"),
             "color": obj.get("color")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

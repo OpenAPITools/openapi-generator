@@ -20,13 +20,13 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, conlist
+from pydantic import BaseModel, StrictStr
 
 class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     """
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """
-    values: Optional[conlist(StrictStr)] = None
+    values: Optional[List[StrictStr]] = None
     __properties = ["values"]
 
     class Config:
@@ -40,6 +40,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

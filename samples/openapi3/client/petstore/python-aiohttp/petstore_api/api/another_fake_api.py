@@ -17,11 +17,9 @@ import io
 import warnings
 
 from pydantic import validate_arguments, ValidationError
-from typing import overload, Optional, Union, Awaitable
 
-from typing_extensions import Annotated
 from pydantic import Field
-
+from typing_extensions import Annotated
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
@@ -45,7 +43,7 @@ class AnotherFakeApi:
         self.api_client = api_client
 
     @validate_arguments
-    async def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
+    async def call_123_test_special_tags(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -68,7 +66,7 @@ class AnotherFakeApi:
         return await self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    async def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501

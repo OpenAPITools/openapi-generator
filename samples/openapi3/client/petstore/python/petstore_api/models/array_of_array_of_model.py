@@ -19,14 +19,14 @@ import json
 
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from petstore_api.models.tag import Tag
 
 class ArrayOfArrayOfModel(BaseModel):
     """
     ArrayOfArrayOfModel
     """
-    another_property: Optional[conlist(conlist(Tag))] = None
+    another_property: Optional[List[List[Tag]]] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["another_property"]
 
@@ -41,6 +41,7 @@ class ArrayOfArrayOfModel(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -88,7 +89,7 @@ class ArrayOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

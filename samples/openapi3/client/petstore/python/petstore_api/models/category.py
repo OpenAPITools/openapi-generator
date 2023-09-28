@@ -19,14 +19,14 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
 
 class Category(BaseModel):
     """
     Category
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = Field(...)
+    name: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "name"]
 
@@ -41,6 +41,7 @@ class Category(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -77,7 +78,7 @@ class Category(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

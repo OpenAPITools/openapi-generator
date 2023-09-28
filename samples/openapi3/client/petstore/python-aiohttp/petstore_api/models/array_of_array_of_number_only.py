@@ -19,13 +19,14 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel
+from pydantic import Field
 
 class ArrayOfArrayOfNumberOnly(BaseModel):
     """
     ArrayOfArrayOfNumberOnly
     """
-    array_array_number: Optional[conlist(conlist(float))] = Field(None, alias="ArrayArrayNumber")
+    array_array_number: Optional[List[List[float]]] = Field(default=None, alias="ArrayArrayNumber")
     __properties = ["ArrayArrayNumber"]
 
     class Config:
@@ -39,6 +40,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -64,7 +66,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
             return ArrayOfArrayOfNumberOnly.parse_obj(obj)
 
         _obj = ArrayOfArrayOfNumberOnly.parse_obj({
-            "array_array_number": obj.get("ArrayArrayNumber")
+            "ArrayArrayNumber": obj.get("ArrayArrayNumber")
         })
         return _obj
 

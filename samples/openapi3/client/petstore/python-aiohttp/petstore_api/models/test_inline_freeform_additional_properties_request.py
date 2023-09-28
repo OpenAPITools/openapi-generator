@@ -19,13 +19,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 
 class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     TestInlineFreeformAdditionalPropertiesRequest
     """
-    some_property: Optional[StrictStr] = Field(None, alias="someProperty")
+    some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
     additional_properties: Dict[str, Any] = {}
     __properties = ["someProperty"]
 
@@ -40,6 +41,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -71,11 +73,11 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
             return TestInlineFreeformAdditionalPropertiesRequest.parse_obj(obj)
 
         _obj = TestInlineFreeformAdditionalPropertiesRequest.parse_obj({
-            "some_property": obj.get("someProperty")
+            "someProperty": obj.get("someProperty")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties:
+            if _key not in cls.__properties.default:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -20,14 +20,15 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import Field
 
 class Query(BaseModel):
     """
     Query
     """
-    id: Optional[StrictInt] = Field(None, description="Query")
-    outcomes: Optional[conlist(StrictStr)] = None
+    id: Optional[StrictInt] = Field(default=None, description="Query")
+    outcomes: Optional[List[StrictStr]] = None
     __properties = ["id", "outcomes"]
 
     @validator('outcomes')
@@ -52,6 +53,7 @@ class Query(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod

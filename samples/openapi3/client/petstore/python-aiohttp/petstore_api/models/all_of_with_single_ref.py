@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 from petstore_api.models.single_ref_type import SingleRefType
 
 class AllOfWithSingleRef(BaseModel):
@@ -27,7 +28,7 @@ class AllOfWithSingleRef(BaseModel):
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     __properties = ["username", "SingleRefType"]
 
     class Config:
@@ -41,6 +42,7 @@ class AllOfWithSingleRef(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
@@ -67,7 +69,7 @@ class AllOfWithSingleRef(BaseModel):
 
         _obj = AllOfWithSingleRef.parse_obj({
             "username": obj.get("username"),
-            "single_ref_type": obj.get("SingleRefType")
+            "SingleRefType": obj.get("SingleRefType")
         })
         return _obj
 
