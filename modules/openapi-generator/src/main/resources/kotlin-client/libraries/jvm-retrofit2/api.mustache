@@ -145,9 +145,7 @@ interface {{classname}} {
     {{^formParams}}
     {{#prioritizedContentTypes}}
     {{#-first}}
-    @Headers({
-        "Content-Type:{{{mediaType}}}"
-    })
+    @Headers("Content-Type:{{{mediaType}}}")
     {{/-first}}
     {{/prioritizedContentTypes}}
     {{/formParams}}
