@@ -16,7 +16,6 @@ jobs:
       matrix:
         sample:
           # servers
-          - samples/server/petstore/jaxrs/jersey3
           - samples/server/petstore/jaxrs/jersey2
           - samples/server/petstore/jaxrs/jersey2-useTags
           - samples/server/petstore/jaxrs-jersey
