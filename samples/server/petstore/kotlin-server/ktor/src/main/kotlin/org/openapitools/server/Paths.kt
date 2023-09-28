@@ -21,7 +21,7 @@ object Paths {
      * 
      * @param body Pet object that needs to be added to the store 
      */
-    @Serializable @Resource("/pet") class addPet(val body: Pet)
+    @Serializable @Resource("/pet") class addPet(@Contextual val body: Pet)
 
     /**
      * Deletes a pet
@@ -36,14 +36,14 @@ object Paths {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
      */
-    @Serializable @Resource("/pet/findByStatus") class findPetsByStatus(val status: kotlin.collections.List<kotlin.String>)
+    @Serializable @Resource("/pet/findByStatus") class findPetsByStatus(@Contextual val status: kotlin.collections.List<@Contextual() kotlin.String>)
 
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
      */
-    @Serializable @Resource("/pet/findByTags") class findPetsByTags(val tags: kotlin.collections.List<kotlin.String>)
+    @Serializable @Resource("/pet/findByTags") class findPetsByTags(@Contextual val tags: kotlin.collections.List<@Contextual() kotlin.String>)
 
     /**
      * Find pet by ID
@@ -57,7 +57,7 @@ object Paths {
      * 
      * @param body Pet object that needs to be added to the store 
      */
-    @Serializable @Resource("/pet") class updatePet(val body: Pet)
+    @Serializable @Resource("/pet") class updatePet(@Contextual val body: Pet)
 
     /**
      * Updates a pet in the store with form data
@@ -75,7 +75,7 @@ object Paths {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
      */
-    @Serializable @Resource("/pet/{petId}/uploadImage") class uploadFile(val petId: kotlin.Long, val additionalMetadata: kotlin.String? = null, val file: java.io.File? = null)
+    @Serializable @Resource("/pet/{petId}/uploadImage") class uploadFile(val petId: kotlin.Long, val additionalMetadata: kotlin.String? = null, @Contextual() val file: java.io.File? = null)
 
     /**
      * Delete purchase order by ID
@@ -102,28 +102,28 @@ object Paths {
      * 
      * @param body order placed for purchasing the pet 
      */
-    @Serializable @Resource("/store/order") class placeOrder(val body: Order)
+    @Serializable @Resource("/store/order") class placeOrder(@Contextual val body: Order)
 
     /**
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object 
      */
-    @Serializable @Resource("/user") class createUser(val body: User)
+    @Serializable @Resource("/user") class createUser(@Contextual val body: User)
 
     /**
      * Creates list of users with given input array
      * 
      * @param body List of user object 
      */
-    @Serializable @Resource("/user/createWithArray") class createUsersWithArrayInput(val body: kotlin.collections.List<User>)
+    @Serializable @Resource("/user/createWithArray") class createUsersWithArrayInput(@Contextual val body: kotlin.collections.List<@Contextual() User>)
 
     /**
      * Creates list of users with given input array
      * 
      * @param body List of user object 
      */
-    @Serializable @Resource("/user/createWithList") class createUsersWithListInput(val body: kotlin.collections.List<User>)
+    @Serializable @Resource("/user/createWithList") class createUsersWithListInput(@Contextual val body: kotlin.collections.List<@Contextual() User>)
 
     /**
      * Delete user
@@ -159,6 +159,6 @@ object Paths {
      * @param username name that need to be deleted 
      * @param body Updated user object 
      */
-    @Serializable @Resource("/user/{username}") class updateUser(val username: kotlin.String, val body: User)
+    @Serializable @Resource("/user/{username}") class updateUser(val username: kotlin.String, @Contextual val body: User)
 
 }
