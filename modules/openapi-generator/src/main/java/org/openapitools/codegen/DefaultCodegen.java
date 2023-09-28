@@ -3579,6 +3579,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
                 .map(Schema::get$ref)
                 .map(ModelUtils::getSimpleRef)
+                .map(this::toModelName)
                 .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
