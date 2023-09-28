@@ -78,7 +78,7 @@ Suppose you want to apply snake case naming to mysql schema outputs. Your config
 **CLI**
 
 ```
-openapi-generator -g mysql-schema -o out -i spec.yaml --additional-properties=identifierNamingConvention=snake_case
+openapi-generator -g mysql-schema -o out -i spec.yaml --additional-properties=identifierNamingConvention=snake_case,useSingleRequestParameter=true,withInterfaces=true
 ```
 
 It may seem like a typo but there are two `=` signs in the above example.
