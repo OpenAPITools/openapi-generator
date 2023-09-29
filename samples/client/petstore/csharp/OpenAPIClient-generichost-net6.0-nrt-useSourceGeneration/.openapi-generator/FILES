@@ -54,7 +54,12 @@ docs/models/List.md
 docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
+docs/models/MixedAnyOf.md
+docs/models/MixedAnyOfContent.md
+docs/models/MixedOneOf.md
+docs/models/MixedOneOfContent.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
+docs/models/MixedSubId.md
 docs/models/Model200Response.md
 docs/models/ModelClient.md
 docs/models/Name.md
@@ -181,7 +186,12 @@ src/UseSourceGeneration/Model/List.cs
 src/UseSourceGeneration/Model/LiteralStringClass.cs
 src/UseSourceGeneration/Model/Mammal.cs
 src/UseSourceGeneration/Model/MapTest.cs
+src/UseSourceGeneration/Model/MixedAnyOf.cs
+src/UseSourceGeneration/Model/MixedAnyOfContent.cs
+src/UseSourceGeneration/Model/MixedOneOf.cs
+src/UseSourceGeneration/Model/MixedOneOfContent.cs
 src/UseSourceGeneration/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
+src/UseSourceGeneration/Model/MixedSubId.cs
 src/UseSourceGeneration/Model/Model200Response.cs
 src/UseSourceGeneration/Model/ModelClient.cs
 src/UseSourceGeneration/Model/Name.cs

@@ -101,6 +101,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**GetArrayOfEnums**](FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**GetMixedAnyOf**](FakeApi.md#getmixedanyof) | **GET** /fake/mixed/anyOf | Test mixed type anyOf deserialization
+*FakeApi* | [**GetMixedOneOf**](FakeApi.md#getmixedoneof) | **GET** /fake/mixed/oneOf | Test mixed type oneOf deserialization
 *FakeApi* | [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -182,7 +184,12 @@ Class | Method | HTTP request | Description
  - [Model.LiteralStringClass](LiteralStringClass.md)
  - [Model.Mammal](Mammal.md)
  - [Model.MapTest](MapTest.md)
+ - [Model.MixedAnyOf](MixedAnyOf.md)
+ - [Model.MixedAnyOfContent](MixedAnyOfContent.md)
+ - [Model.MixedOneOf](MixedOneOf.md)
+ - [Model.MixedOneOfContent](MixedOneOfContent.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](MixedPropertiesAndAdditionalPropertiesClass.md)
+ - [Model.MixedSubId](MixedSubId.md)
  - [Model.Model200Response](Model200Response.md)
  - [Model.ModelClient](ModelClient.md)
  - [Model.Name](Name.md)
