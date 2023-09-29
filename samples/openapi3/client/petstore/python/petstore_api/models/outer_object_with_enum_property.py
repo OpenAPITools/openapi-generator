@@ -32,14 +32,15 @@ class OuterObjectWithEnumProperty(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["str_value", "value"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -53,7 +54,7 @@ class OuterObjectWithEnumProperty(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -64,8 +65,8 @@ class OuterObjectWithEnumProperty(BaseModel):
                 _dict[_key] = _value
 
         # set to None if str_value (nullable) is None
-        # and __fields_set__ contains the field
-        if self.str_value is None and "str_value" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.str_value is None and "str_value" in self.model_fields_set:
             _dict['str_value'] = None
 
         return _dict
@@ -77,9 +78,9 @@ class OuterObjectWithEnumProperty(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return OuterObjectWithEnumProperty.parse_obj(obj)
+            return OuterObjectWithEnumProperty.model_validate(obj)
 
-        _obj = OuterObjectWithEnumProperty.parse_obj({
+        _obj = OuterObjectWithEnumProperty.model_validate({
             "str_value": obj.get("str_value"),
             "value": obj.get("value")
         })

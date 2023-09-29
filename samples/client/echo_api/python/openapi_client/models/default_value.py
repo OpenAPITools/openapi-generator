@@ -20,7 +20,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from openapi_client.models.string_enum_ref import StringEnumRef
 
 class DefaultValue(BaseModel):
@@ -37,7 +37,7 @@ class DefaultValue(BaseModel):
     string_nullable: Optional[StrictStr] = None
     __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
-    @validator('array_string_enum_default')
+    @field_validator('array_string_enum_default')
     def array_string_enum_default_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -48,14 +48,15 @@ class DefaultValue(BaseModel):
                 raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -69,23 +70,23 @@ class DefaultValue(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         # set to None if array_string_nullable (nullable) is None
-        # and __fields_set__ contains the field
-        if self.array_string_nullable is None and "array_string_nullable" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.array_string_nullable is None and "array_string_nullable" in self.model_fields_set:
             _dict['array_string_nullable'] = None
 
         # set to None if array_string_extension_nullable (nullable) is None
-        # and __fields_set__ contains the field
-        if self.array_string_extension_nullable is None and "array_string_extension_nullable" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.array_string_extension_nullable is None and "array_string_extension_nullable" in self.model_fields_set:
             _dict['array_string_extension_nullable'] = None
 
         # set to None if string_nullable (nullable) is None
-        # and __fields_set__ contains the field
-        if self.string_nullable is None and "string_nullable" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.string_nullable is None and "string_nullable" in self.model_fields_set:
             _dict['string_nullable'] = None
 
         return _dict
@@ -97,9 +98,9 @@ class DefaultValue(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return DefaultValue.parse_obj(obj)
+            return DefaultValue.model_validate(obj)
 
-        _obj = DefaultValue.parse_obj({
+        _obj = DefaultValue.model_validate({
             "array_string_enum_ref_default": obj.get("array_string_enum_ref_default"),
             "array_string_enum_default": obj.get("array_string_enum_default"),
             "array_string_default": obj.get("array_string_default"),

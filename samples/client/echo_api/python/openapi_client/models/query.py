@@ -20,7 +20,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 
 class Query(BaseModel):
@@ -31,7 +31,7 @@ class Query(BaseModel):
     outcomes: Optional[List[StrictStr]] = None
     __properties = ["id", "outcomes"]
 
-    @validator('outcomes')
+    @field_validator('outcomes')
     def outcomes_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -42,14 +42,15 @@ class Query(BaseModel):
                 raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -63,7 +64,7 @@ class Query(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)

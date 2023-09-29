@@ -17,7 +17,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 
 from pydantic import StrictBool, StrictInt, StrictStr
 
@@ -44,7 +44,7 @@ class FormApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def test_form_integer_boolean_string(self, integer_form : Optional[StrictInt] = None, boolean_form : Optional[StrictBool] = None, string_form : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test form parameter(s)  # noqa: E501
 
@@ -78,7 +78,7 @@ class FormApi:
             raise ValueError(message)
         return self.test_form_integer_boolean_string_with_http_info(integer_form, boolean_form, string_form, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_form_integer_boolean_string_with_http_info(self, integer_form : Optional[StrictInt] = None, boolean_form : Optional[StrictBool] = None, string_form : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test form parameter(s)  # noqa: E501
 
@@ -207,7 +207,7 @@ class FormApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     def test_form_oneof(self, form1 : Optional[StrictStr] = None, form2 : Optional[StrictInt] = None, form3 : Optional[StrictStr] = None, form4 : Optional[StrictBool] = None, id : Optional[StrictInt] = None, name : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
         """Test form parameter(s) for oneOf schema  # noqa: E501
 
@@ -247,7 +247,7 @@ class FormApi:
             raise ValueError(message)
         return self.test_form_oneof_with_http_info(form1, form2, form3, form4, id, name, **kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_form_oneof_with_http_info(self, form1 : Optional[StrictStr] = None, form2 : Optional[StrictInt] = None, form3 : Optional[StrictStr] = None, form4 : Optional[StrictBool] = None, id : Optional[StrictInt] = None, name : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test form parameter(s) for oneOf schema  # noqa: E501
 

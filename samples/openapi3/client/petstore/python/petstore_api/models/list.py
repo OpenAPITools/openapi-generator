@@ -30,14 +30,15 @@ class List(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["123-list"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +52,7 @@ class List(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,9 +71,9 @@ class List(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return List.parse_obj(obj)
+            return List.model_validate(obj)
 
-        _obj = List.parse_obj({
+        _obj = List.model_validate({
             "123-list": obj.get("123-list")
         })
         # store additional fields in additional_properties

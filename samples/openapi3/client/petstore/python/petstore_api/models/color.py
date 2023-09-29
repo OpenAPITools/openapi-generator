@@ -19,7 +19,7 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
@@ -33,16 +33,18 @@ class Color(BaseModel):
     RGB array, RGBA array, or hex string.
     """
     # data type: List[int]
-    oneof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=3, max_items=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
+    oneof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=3, max_length=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
     # data type: List[int]
-    oneof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_items=4, max_items=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
+    oneof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=4, max_length=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
     oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     actual_instance: Optional[Union[List[int], str]] = None
-    one_of_schemas: List[str] = Literal[COLOR_ONE_OF_SCHEMAS]
+    one_of_schemas: List[str] = Literal["List[int]", "str"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
+
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -54,12 +56,12 @@ class Color(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
         if v is None:
             return v
 
-        instance = Color.construct()
+        instance = Color.model_construct()
         error_messages = []
         match = 0
         # validate data type: List[int]
@@ -96,7 +98,7 @@ class Color(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> Color:
         """Returns the object represented by the json string"""
-        instance = Color.construct()
+        instance = Color.model_construct()
         if json_str is None:
             return instance
 
@@ -165,6 +167,6 @@ class Color(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

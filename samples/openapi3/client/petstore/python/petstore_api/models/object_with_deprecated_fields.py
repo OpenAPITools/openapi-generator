@@ -34,14 +34,15 @@ class ObjectWithDeprecatedFields(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["uuid", "id", "deprecatedRef", "bars"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -55,7 +56,7 @@ class ObjectWithDeprecatedFields(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -77,9 +78,9 @@ class ObjectWithDeprecatedFields(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ObjectWithDeprecatedFields.parse_obj(obj)
+            return ObjectWithDeprecatedFields.model_validate(obj)
 
-        _obj = ObjectWithDeprecatedFields.parse_obj({
+        _obj = ObjectWithDeprecatedFields.model_validate({
             "uuid": obj.get("uuid"),
             "id": obj.get("id"),
             "deprecatedRef": DeprecatedObject.from_dict(obj.get("deprecatedRef")) if obj.get("deprecatedRef") is not None else None,

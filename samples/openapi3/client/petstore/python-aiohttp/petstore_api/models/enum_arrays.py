@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, validator
+from pydantic import BaseModel, StrictStr, field_validator
 
 class EnumArrays(BaseModel):
     """
@@ -29,7 +29,7 @@ class EnumArrays(BaseModel):
     array_enum: Optional[List[StrictStr]] = None
     __properties = ["just_symbol", "array_enum"]
 
-    @validator('just_symbol')
+    @field_validator('just_symbol')
     def just_symbol_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -39,7 +39,7 @@ class EnumArrays(BaseModel):
             raise ValueError("must be one of enum values ('>=', '$')")
         return value
 
-    @validator('array_enum')
+    @field_validator('array_enum')
     def array_enum_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -50,14 +50,15 @@ class EnumArrays(BaseModel):
                 raise ValueError("each list item must be one of ('fish', 'crab')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -71,7 +72,7 @@ class EnumArrays(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -84,9 +85,9 @@ class EnumArrays(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return EnumArrays.parse_obj(obj)
+            return EnumArrays.model_validate(obj)
 
-        _obj = EnumArrays.parse_obj({
+        _obj = EnumArrays.model_validate({
             "just_symbol": obj.get("just_symbol"),
             "array_enum": obj.get("array_enum")
         })

@@ -29,14 +29,15 @@ class ReadOnlyFirst(BaseModel):
     baz: Optional[StrictStr] = None
     __properties = ["bar", "baz"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -50,7 +51,7 @@ class ReadOnlyFirst(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "bar",
                           },
@@ -64,9 +65,9 @@ class ReadOnlyFirst(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ReadOnlyFirst.parse_obj(obj)
+            return ReadOnlyFirst.model_validate(obj)
 
-        _obj = ReadOnlyFirst.parse_obj({
+        _obj = ReadOnlyFirst.model_validate({
             "bar": obj.get("bar"),
             "baz": obj.get("baz")
         })

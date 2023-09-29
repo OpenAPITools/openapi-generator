@@ -31,14 +31,15 @@ class AllOfWithSingleRef(BaseModel):
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     __properties = ["username", "SingleRefType"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,7 +53,7 @@ class AllOfWithSingleRef(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -65,9 +66,9 @@ class AllOfWithSingleRef(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return AllOfWithSingleRef.parse_obj(obj)
+            return AllOfWithSingleRef.model_validate(obj)
 
-        _obj = AllOfWithSingleRef.parse_obj({
+        _obj = AllOfWithSingleRef.model_validate({
             "username": obj.get("username"),
             "SingleRefType": obj.get("SingleRefType")
         })
