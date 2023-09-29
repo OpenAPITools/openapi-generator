@@ -6,7 +6,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 
 {{#imports}}
 {{import}}
@@ -34,7 +34,7 @@ class {{classname}}:
         self.api_client = api_client
 {{#operation}}
 
-    @validate_arguments
+    @validate_call
 {{#asyncio}}
     async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
 {{/asyncio}}
@@ -77,7 +77,7 @@ class {{classname}}:
             raise ValueError(message)
         return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
 {{#asyncio}}
     async def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
 {{/asyncio}}
