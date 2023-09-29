@@ -240,7 +240,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return None
 
         if not isinstance(obj, dict):
-            return {{{classname}}}.parse_obj(obj)
+            return {{{classname}}}.model_validate(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
@@ -251,7 +251,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
-        _obj = {{{classname}}}.parse_obj({
+        _obj = {{{classname}}}.model_validate({
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}
