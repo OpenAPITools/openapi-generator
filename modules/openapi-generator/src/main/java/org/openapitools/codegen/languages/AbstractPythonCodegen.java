@@ -1768,10 +1768,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         private PythonType arrayType(IJsonSchemaValidationProperties cp) {
             PythonType pt = new PythonType();
             if (cp.getMaxItems() != null) {
-                pt.constrain("max_items", cp.getMaxItems());
+                pt.constrain("max_length", cp.getMaxItems());
             }
             if (cp.getMinItems()!= null) {
-                pt.constrain("min_items", cp.getMinItems());
+                pt.constrain("min_length", cp.getMinItems());
             }
             if (cp.getUniqueItems()) {
                 // A unique "array" is a set
