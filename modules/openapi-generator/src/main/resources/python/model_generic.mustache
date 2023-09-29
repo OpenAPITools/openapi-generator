@@ -27,7 +27,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         {{^required}}
@@ -48,7 +48,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_enum(cls, value):
         """Validates the enum"""
         {{^required}}
