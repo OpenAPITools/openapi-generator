@@ -211,8 +211,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#allVars}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
-        # and __fields_set__ contains the field
-        if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.{{name}} is None and "{{{name}}}" in self.model_fields_set:
             _dict['{{{baseName}}}'] = None
 
         {{/isNullable}}
