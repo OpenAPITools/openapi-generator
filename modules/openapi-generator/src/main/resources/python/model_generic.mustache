@@ -247,8 +247,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + obj)
+            if _key not in cls.__properties.default:
+                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + _key)
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
