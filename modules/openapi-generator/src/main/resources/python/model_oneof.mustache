@@ -27,10 +27,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
 {{/composedSchemas.oneOf}}
     actual_instance: Optional[Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]] = None
-    one_of_schemas: List[str] = Literal[{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS]
+    one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
+
 {{#discriminator}}
 
     discriminator_value_class_map: Dict[str, str] = {
@@ -50,14 +52,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
         {{#isNullable}}
         if v is None:
             return v
 
         {{/isNullable}}
-        instance = {{{classname}}}.construct()
+        instance = {{{classname}}}.model_construct()
         error_messages = []
         match = 0
         {{#composedSchemas.oneOf}}
@@ -101,7 +103,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the object represented by the json string"""
-        instance = {{{classname}}}.construct()
+        instance = {{{classname}}}.model_construct()
         {{#isNullable}}
         if json_str is None:
             return instance
@@ -197,7 +199,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}

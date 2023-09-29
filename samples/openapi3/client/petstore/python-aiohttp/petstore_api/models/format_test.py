@@ -19,7 +19,7 @@ import json
 
 from datetime import date, datetime
 from typing import Optional, Union
-from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validator
 from decimal import Decimal
 from pydantic import Field
 from typing_extensions import Annotated
@@ -46,7 +46,7 @@ class FormatTest(BaseModel):
     pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
     __properties = ["integer", "int32", "int64", "number", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
-    @validator('string')
+    @field_validator('string')
     def string_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -56,7 +56,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
-    @validator('string_with_double_quote_pattern')
+    @field_validator('string_with_double_quote_pattern')
     def string_with_double_quote_pattern_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -66,7 +66,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
-    @validator('pattern_with_digits')
+    @field_validator('pattern_with_digits')
     def pattern_with_digits_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -76,7 +76,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
-    @validator('pattern_with_digits_and_delimiter')
+    @field_validator('pattern_with_digits_and_delimiter')
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -86,14 +86,15 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -107,7 +108,7 @@ class FormatTest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -120,9 +121,9 @@ class FormatTest(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FormatTest.parse_obj(obj)
+            return FormatTest.model_validate(obj)
 
-        _obj = FormatTest.parse_obj({
+        _obj = FormatTest.model_validate({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),

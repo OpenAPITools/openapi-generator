@@ -27,7 +27,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         {{^required}}
@@ -48,7 +48,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_enum(cls, value):
         """Validates the enum"""
         {{^required}}
@@ -76,10 +76,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/isEnum}}
 {{/vars}}
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
 {{#hasChildren}}
 {{#discriminator}}
@@ -110,7 +111,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/hasChildren}}
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -124,7 +125,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             {{#vendorExtensions.x-py-readonly}}
                             "{{{.}}}",
@@ -211,8 +212,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#allVars}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
-        # and __fields_set__ contains the field
-        if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.{{name}} is None and "{{{name}}}" in self.model_fields_set:
             _dict['{{{baseName}}}'] = None
 
         {{/isNullable}}
@@ -240,7 +241,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return None
 
         if not isinstance(obj, dict):
-            return {{{classname}}}.parse_obj(obj)
+            return {{{classname}}}.model_validate(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
@@ -251,7 +252,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
-        _obj = {{{classname}}}.parse_obj({
+        _obj = {{{classname}}}.model_validate({
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}

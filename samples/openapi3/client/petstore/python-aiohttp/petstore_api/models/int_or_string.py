@@ -19,7 +19,7 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
@@ -37,10 +37,12 @@ class IntOrString(BaseModel):
     # data type: str
     oneof_schema_2_validator: Optional[StrictStr] = None
     actual_instance: Optional[Union[int, str]] = None
-    one_of_schemas: List[str] = Literal[INTORSTRING_ONE_OF_SCHEMAS]
+    one_of_schemas: List[str] = Literal["int", "str"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
+
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -52,9 +54,9 @@ class IntOrString(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = IntOrString.construct()
+        instance = IntOrString.model_construct()
         error_messages = []
         match = 0
         # validate data type: int
@@ -85,7 +87,7 @@ class IntOrString(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> IntOrString:
         """Returns the object represented by the json string"""
-        instance = IntOrString.construct()
+        instance = IntOrString.model_construct()
         error_messages = []
         match = 0
 
@@ -142,6 +144,6 @@ class IntOrString(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

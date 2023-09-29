@@ -17,7 +17,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 
 
 from openapi_client.api_client import ApiClient
@@ -40,7 +40,7 @@ class AuthApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def test_auth_http_basic(self, **kwargs) -> str:  # noqa: E501
         """To test HTTP basic authentication  # noqa: E501
 
@@ -68,7 +68,7 @@ class AuthApi:
             raise ValueError(message)
         return self.test_auth_http_basic_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def test_auth_http_basic_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """To test HTTP basic authentication  # noqa: E501
 

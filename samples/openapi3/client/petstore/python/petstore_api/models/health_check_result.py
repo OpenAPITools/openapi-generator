@@ -30,14 +30,15 @@ class HealthCheckResult(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["NullableMessage"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +52,7 @@ class HealthCheckResult(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -62,8 +63,8 @@ class HealthCheckResult(BaseModel):
                 _dict[_key] = _value
 
         # set to None if nullable_message (nullable) is None
-        # and __fields_set__ contains the field
-        if self.nullable_message is None and "nullable_message" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.nullable_message is None and "nullable_message" in self.model_fields_set:
             _dict['NullableMessage'] = None
 
         return _dict
@@ -75,9 +76,9 @@ class HealthCheckResult(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return HealthCheckResult.parse_obj(obj)
+            return HealthCheckResult.model_validate(obj)
 
-        _obj = HealthCheckResult.parse_obj({
+        _obj = HealthCheckResult.model_validate({
             "NullableMessage": obj.get("NullableMessage")
         })
         # store additional fields in additional_properties

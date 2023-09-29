@@ -30,14 +30,15 @@ class Dog(Animal):
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color", "breed"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +52,7 @@ class Dog(Animal):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,9 +71,9 @@ class Dog(Animal):
             return None
 
         if not isinstance(obj, dict):
-            return Dog.parse_obj(obj)
+            return Dog.model_validate(obj)
 
-        _obj = Dog.parse_obj({
+        _obj = Dog.model_validate({
             "className": obj.get("className"),
             "color": obj.get("color") if obj.get("color") is not None else 'red',
             "breed": obj.get("breed")

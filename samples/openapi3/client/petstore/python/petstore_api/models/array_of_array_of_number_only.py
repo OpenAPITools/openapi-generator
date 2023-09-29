@@ -30,14 +30,15 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["ArrayArrayNumber"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +52,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,9 +71,9 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfNumberOnly.parse_obj(obj)
+            return ArrayOfArrayOfNumberOnly.model_validate(obj)
 
-        _obj = ArrayOfArrayOfNumberOnly.parse_obj({
+        _obj = ArrayOfArrayOfNumberOnly.model_validate({
             "ArrayArrayNumber": obj.get("ArrayArrayNumber")
         })
         # store additional fields in additional_properties

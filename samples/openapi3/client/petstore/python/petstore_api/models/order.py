@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, field_validator
 from pydantic import Field
 
 class Order(BaseModel):
@@ -35,7 +35,7 @@ class Order(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
-    @validator('status')
+    @field_validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -45,14 +45,15 @@ class Order(BaseModel):
             raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -66,7 +67,7 @@ class Order(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -85,9 +86,9 @@ class Order(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Order.parse_obj(obj)
+            return Order.model_validate(obj)
 
-        _obj = Order.parse_obj({
+        _obj = Order.model_validate({
             "id": obj.get("id"),
             "petId": obj.get("petId"),
             "quantity": obj.get("quantity"),

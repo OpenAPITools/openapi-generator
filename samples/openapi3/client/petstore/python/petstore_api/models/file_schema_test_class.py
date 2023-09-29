@@ -31,14 +31,15 @@ class FileSchemaTestClass(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["file", "files"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,7 +53,7 @@ class FileSchemaTestClass(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -81,9 +82,9 @@ class FileSchemaTestClass(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FileSchemaTestClass.parse_obj(obj)
+            return FileSchemaTestClass.model_validate(obj)
 
-        _obj = FileSchemaTestClass.parse_obj({
+        _obj = FileSchemaTestClass.model_validate({
             "file": File.from_dict(obj.get("file")) if obj.get("file") is not None else None,
             "files": [File.from_dict(_item) for _item in obj.get("files")] if obj.get("files") is not None else None
         })

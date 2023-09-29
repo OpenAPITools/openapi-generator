@@ -29,14 +29,15 @@ class ArrayOfNumberOnly(BaseModel):
     array_number: Optional[List[float]] = Field(default=None, alias="ArrayNumber")
     __properties = ["ArrayNumber"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -50,7 +51,7 @@ class ArrayOfNumberOnly(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -63,9 +64,9 @@ class ArrayOfNumberOnly(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfNumberOnly.parse_obj(obj)
+            return ArrayOfNumberOnly.model_validate(obj)
 
-        _obj = ArrayOfNumberOnly.parse_obj({
+        _obj = ArrayOfNumberOnly.model_validate({
             "ArrayNumber": obj.get("ArrayNumber")
         })
         return _obj

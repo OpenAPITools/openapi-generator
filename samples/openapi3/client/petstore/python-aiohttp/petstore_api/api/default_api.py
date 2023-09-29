@@ -16,7 +16,7 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
@@ -40,7 +40,7 @@ class DefaultApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -60,7 +60,7 @@ class DefaultApi:
             raise ValueError(message)
         return await self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     async def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 

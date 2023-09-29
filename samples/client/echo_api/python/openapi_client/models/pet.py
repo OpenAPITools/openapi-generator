@@ -20,7 +20,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
@@ -37,7 +37,7 @@ class Pet(BaseModel):
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
 
-    @validator('status')
+    @field_validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -47,14 +47,15 @@ class Pet(BaseModel):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -68,7 +69,7 @@ class Pet(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -91,9 +92,9 @@ class Pet(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return Pet.parse_obj(obj)
+            return Pet.model_validate(obj)
 
-        _obj = Pet.parse_obj({
+        _obj = Pet.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,

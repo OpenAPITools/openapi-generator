@@ -911,13 +911,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add("field_validator");
             } else if (!model.anyOf.isEmpty()) { // anyOF
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add("field_validator");
             } else { // typical model
                 codegenProperties = model.vars;
 
@@ -1768,10 +1768,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         private PythonType arrayType(IJsonSchemaValidationProperties cp) {
             PythonType pt = new PythonType();
             if (cp.getMaxItems() != null) {
-                pt.constrain("max_items", cp.getMaxItems());
+                pt.constrain("max_length", cp.getMaxItems());
             }
             if (cp.getMinItems()!= null) {
-                pt.constrain("min_items", cp.getMinItems());
+                pt.constrain("min_length", cp.getMinItems());
             }
             if (cp.getUniqueItems()) {
                 // A unique "array" is a set
@@ -1807,7 +1807,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add("field_validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
@@ -1938,7 +1938,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     strt.constrain("min_length", cp.getMinLength());
                 }
                 if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
+                    pydanticImports.add("field_validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
                     //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
@@ -2042,7 +2042,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             if (cp.getIsEnum()) {
-                pydanticImports.add("validator");
+                pydanticImports.add("field_validator");
             }
 
             if (cp.getIsArray()) {

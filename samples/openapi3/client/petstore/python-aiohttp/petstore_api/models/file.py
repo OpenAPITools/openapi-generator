@@ -29,14 +29,15 @@ class File(BaseModel):
     source_uri: Optional[StrictStr] = Field(default=None, description="Test capitalization", alias="sourceURI")
     __properties = ["sourceURI"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -50,7 +51,7 @@ class File(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -63,9 +64,9 @@ class File(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return File.parse_obj(obj)
+            return File.model_validate(obj)
 
-        _obj = File.parse_obj({
+        _obj = File.model_validate({
             "sourceURI": obj.get("sourceURI")
         })
         return _obj

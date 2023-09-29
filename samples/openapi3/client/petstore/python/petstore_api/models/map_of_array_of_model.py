@@ -31,14 +31,15 @@ class MapOfArrayOfModel(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["shopIdToOrgOnlineLipMap"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,7 +53,7 @@ class MapOfArrayOfModel(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -80,9 +81,9 @@ class MapOfArrayOfModel(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return MapOfArrayOfModel.parse_obj(obj)
+            return MapOfArrayOfModel.model_validate(obj)
 
-        _obj = MapOfArrayOfModel.parse_obj({
+        _obj = MapOfArrayOfModel.model_validate({
             "shopIdToOrgOnlineLipMap": dict(
                 (_k,
                         [Tag.from_dict(_item) for _item in _v]

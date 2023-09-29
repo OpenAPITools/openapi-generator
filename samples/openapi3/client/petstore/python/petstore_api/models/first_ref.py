@@ -30,14 +30,15 @@ class FirstRef(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["category", "self_ref"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +52,7 @@ class FirstRef(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -73,9 +74,9 @@ class FirstRef(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return FirstRef.parse_obj(obj)
+            return FirstRef.model_validate(obj)
 
-        _obj = FirstRef.parse_obj({
+        _obj = FirstRef.model_validate({
             "category": obj.get("category"),
             "self_ref": SecondRef.from_dict(obj.get("self_ref")) if obj.get("self_ref") is not None else None
         })

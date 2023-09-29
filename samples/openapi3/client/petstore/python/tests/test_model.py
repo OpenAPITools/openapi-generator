@@ -367,9 +367,9 @@ class ModelTests(unittest.TestCase):
         d4 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=None)
         self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
         d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d5.__fields_set__, {'value'})
+        self.assertEqual(d5.model_fields_set, {'value'})
         d5.str_value = None # set None explicitly
-        self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
+        self.assertEqual(d5.model_fields_set, {'value', 'str_value'})
         self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, StrictBool, StrictStr, validator
+from pydantic import BaseModel, StrictBool, StrictStr, field_validator
 
 class MapTest(BaseModel):
     """
@@ -32,7 +32,7 @@ class MapTest(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
-    @validator('map_of_enum_string')
+    @field_validator('map_of_enum_string')
     def map_of_enum_string_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -42,14 +42,15 @@ class MapTest(BaseModel):
             raise ValueError("must be one of enum values ('UPPER', 'lower')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -63,7 +64,7 @@ class MapTest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -82,9 +83,9 @@ class MapTest(BaseModel):
             return None
 
         if not isinstance(obj, dict):
-            return MapTest.parse_obj(obj)
+            return MapTest.model_validate(obj)
 
-        _obj = MapTest.parse_obj({
+        _obj = MapTest.model_validate({
             "map_map_of_string": obj.get("map_map_of_string"),
             "map_of_enum_string": obj.get("map_of_enum_string"),
             "direct_map": obj.get("direct_map"),
