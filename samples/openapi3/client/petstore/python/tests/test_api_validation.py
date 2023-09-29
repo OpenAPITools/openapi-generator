@@ -49,7 +49,7 @@ class ApiExceptionTests(unittest.TestCase):
     def test_required_param_validation(self):
         try:
             self.pet_api.get_pet_by_id()
-        except TypeError as e:
+        except ValidationError as e:
             self.assertIn("1 validation error for get_pet_by_id", str(e))
             self.assertIn("Missing required argument", str(e))
 
