@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -135,18 +136,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['body'] is not None:
@@ -160,9 +161,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/any_type_body', 'POST',
@@ -258,27 +259,27 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('enum_ref') is not None:  # noqa: E501
             _query_params.append(('enum_ref', _params['enum_ref'].value))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/enum_ref_query_parameter', 'GET',
@@ -369,18 +370,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -388,9 +389,9 @@ class FakeApi:
             ['application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
         }
 
@@ -498,13 +499,13 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('query_1') is not None:  # noqa: E501
             _query_params.append(('query_1', _params['query_1']))
 
@@ -514,8 +515,8 @@ class FakeApi:
             _header_params['header_1'] = _params['header_1']
 
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['pet'] is not None:
@@ -529,9 +530,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['http_signature_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/http-signature-test', 'GET',
@@ -629,18 +630,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['body'] is not None:
@@ -658,9 +659,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "bool",
         }
 
@@ -760,18 +761,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['outer_composite'] is not None:
@@ -789,9 +790,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterComposite",
         }
 
@@ -891,18 +892,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['body'] is not None:
@@ -920,9 +921,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "float",
         }
 
@@ -1022,18 +1023,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['body'] is not None:
@@ -1051,9 +1052,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
         }
 
@@ -1153,18 +1154,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['outer_object_with_enum_property'] is not None:
@@ -1182,9 +1183,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
         }
 
@@ -1277,18 +1278,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -1296,9 +1297,9 @@ class FakeApi:
             ['application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[List[Tag]]",
         }
 
@@ -1396,27 +1397,27 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('uuid_example') is not None:  # noqa: E501
             _query_params.append(('uuid_example', _params['uuid_example']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/uuid_example', 'GET',
@@ -1514,18 +1515,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['body'] is not None:
@@ -1544,9 +1545,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/body-with-binary', 'PUT',
@@ -1644,18 +1645,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['file_schema_test_class'] is not None:
@@ -1669,9 +1670,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/body-with-file-schema', 'PUT',
@@ -1772,21 +1773,21 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('query') is not None:  # noqa: E501
             _query_params.append(('query', _params['query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['user'] is not None:
@@ -1800,9 +1801,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/body-with-query-params', 'PUT',
@@ -1900,18 +1901,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['client'] is not None:
@@ -1929,9 +1930,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Client",
         }
 
@@ -2034,13 +2035,13 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('date_time_query') is not None:  # noqa: E501
             if isinstance(_params['date_time_query'], datetime):
                 _query_params.append(('date_time_query', _params['date_time_query'].strftime(self.api_client.configuration.datetime_format)))
@@ -2053,14 +2054,14 @@ class FakeApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/date-time-query-params', 'PUT',
@@ -2228,18 +2229,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['integer'] is not None:
             _form_params.append(('integer', _params['integer']))
 
@@ -2295,9 +2296,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['http_basic_test']  # noqa: E501
+        _auth_settings: List[str] = ['http_basic_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake', 'POST',
@@ -2420,13 +2421,13 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('required_string_group') is not None:  # noqa: E501
             _query_params.append(('required_string_group', _params['required_string_group']))
 
@@ -2448,14 +2449,14 @@ class FakeApi:
             _header_params['boolean_group'] = _params['boolean_group']
 
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = ['bearer_test']  # noqa: E501
+        _auth_settings: List[str] = ['bearer_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake', 'DELETE',
@@ -2553,18 +2554,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['request_body'] is not None:
@@ -2578,9 +2579,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/inline-additionalProperties', 'POST',
@@ -2678,18 +2679,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['test_inline_freeform_additional_properties_request'] is not None:
@@ -2703,9 +2704,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/inline-freeform-additionalProperties', 'POST',
@@ -2808,18 +2809,18 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['param'] is not None:
             _form_params.append(('param', _params['param']))
 
@@ -2836,9 +2837,9 @@ class FakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/jsonFormData', 'GET',
@@ -2966,13 +2967,13 @@ class FakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('pipe') is not None:  # noqa: E501
             _query_params.append(('pipe', _params['pipe']))
             _collection_formats['pipe'] = 'pipes'
@@ -3002,14 +3003,14 @@ class FakeApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/fake/test-query-parameters', 'PUT',
