@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from typing import Any, Dict, Optional
+from typing import Callable, TypeVar, Generic
 from pydantic import Field, StrictInt, StrictStr
 
 class ApiResponse:
@@ -23,3 +24,26 @@ class ApiResponse:
         self.headers = headers
         self.data = data
         self.raw_data = raw_data
+
+class AsyncApiResponse:
+    def __init__(self, thread) -> None:
+        self._t = thread
+
+    def get(self) -> ApiResponse:
+        response = self._t.get()
+        return response
+
+
+T = TypeVar("T")
+
+class AsyncResponse(Generic[T]):
+    def __init__(self,
+        response: AsyncApiResponse,
+        deserializer: Callable[[ApiResponse], T],
+    ) -> None:
+        self._r = response
+        self._d = deserializer
+
+    def get(self) -> T:
+        response = self._r.get()
+        return self._d(response)

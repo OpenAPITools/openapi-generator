@@ -26,10 +26,13 @@ import tempfile
 from urllib.parse import quote
 
 from openapi_client.configuration import Configuration
-from openapi_client.api_response import ApiResponse
+from openapi_client.api_response import ApiResponse, AsyncApiResponse
 import openapi_client.models
 from openapi_client import rest
 from openapi_client.exceptions import ApiValueError, ApiException
+
+
+PRIMITIVE_TYPES = (float, bool, bytes, str, int)
 
 
 class ApiClient:
@@ -50,17 +53,6 @@ class ApiClient:
         to the API. More threads means more concurrent API requests.
     """
 
-    PRIMITIVE_TYPES = (float, bool, bytes, str, int)
-    NATIVE_TYPES_MAPPING = {
-        'int': int,
-        'long': int, # TODO remove as only py3 is supported?
-        'float': float,
-        'str': str,
-        'bool': bool,
-        'date': datetime.date,
-        'datetime': datetime.datetime,
-        'object': object,
-    }
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
@@ -146,8 +138,8 @@ class ApiClient:
     def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_types_map=None, auth_settings=None,
-            _return_http_data_only=None, collection_formats=None,
+            files=None, auth_settings=None,
+            collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None,
             _request_auth=None):
 
@@ -225,34 +217,15 @@ class ApiClient:
 
         return_data = None # assuming deserialization is not needed
         # data needs deserialization or returns HTTP data (deserialized) only
-        if _preload_content or _return_http_data_only:
-          response_type = response_types_map.get(str(response_data.status), None)
-          if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
-              # if not found, look for '1XX', '2XX', etc.
-              response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
+        if _preload_content:
+            match = None
+            content_type = response_data.getheader('content-type')
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            return_data = response_data.data.decode(encoding)
 
-          if response_type == "bytearray":
-              response_data.data = response_data.data
-          else:
-              match = None
-              content_type = response_data.getheader('content-type')
-              if content_type is not None:
-                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-              encoding = match.group(1) if match else "utf-8"
-              response_data.data = response_data.data.decode(encoding)
-
-          # deserialize response data
-          if response_type == "bytearray":
-              return_data = response_data.data
-          elif response_type:
-              return_data = self.deserialize(response_data, response_type)
-          else:
-              return_data = None
-
-        if _return_http_data_only:
-            return return_data
-        else:
-            return ApiResponse(status_code = response_data.status,
+        return ApiResponse(status_code = response_data.status,
                            data = return_data,
                            headers = response_data.getheaders(),
                            raw_data = response_data.data)
@@ -273,7 +246,7 @@ class ApiClient:
         """
         if obj is None:
             return None
-        elif isinstance(obj, self.PRIMITIVE_TYPES):
+        elif isinstance(obj, PRIMITIVE_TYPES):
             return obj
         elif isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj)
@@ -297,77 +270,43 @@ class ApiClient:
         return {key: self.sanitize_for_serialization(val)
                 for key, val in obj_dict.items()}
 
-    def deserialize(self, response, response_type):
-        """Deserializes response into an object.
-
-        :param response: RESTResponse object to be deserialized.
-        :param response_type: class literal for
-            deserialized object, or string of class name.
-
-        :return: deserialized object.
+    def call_api_async(self, resource_path, method,
+                 path_params=None, query_params=None, header_params=None,
+                 body=None, post_params=None, files=None,
+                 auth_settings=None,
+                 collection_formats=None, _preload_content=True,
+                 _request_timeout=None, _host=None, _request_auth=None) -> AsyncApiResponse:
         """
-        # handle file downloading
-        # save response body into a tmp file and return the instance
-        if response_type == "file":
-            return self.__deserialize_file(response)
-
-        # fetch data from response object
-        try:
-            data = json.loads(response.data)
-        except ValueError:
-            data = response.data
-
-        return self.__deserialize(data, response_type)
-
-    def __deserialize(self, data, klass):
-        """Deserializes dict, list, str into an object.
-
-        :param data: dict, list or str.
-        :param klass: class literal, or string of class name.
-
-        :return: object.
+        The request will be called asynchronously.
+        The method will return the request thread.
         """
-        if data is None:
-            return None
 
-        if isinstance(klass, str):
-            if klass.startswith('List['):
-                sub_kls = re.match(r'List\[(.*)]', klass).group(1)
-                return [self.__deserialize(sub_data, sub_kls)
-                        for sub_data in data]
+        args = (
+            resource_path,
+            method,
+            path_params,
+            query_params,
+            header_params,
+            body,
+            post_params,
+            files,
+            auth_settings,
+            collection_formats,
+            _preload_content,
+            _request_timeout,
+            _host,
+            _request_auth,
+        )
 
-            if klass.startswith('Dict['):
-                sub_kls = re.match(r'Dict\[([^,]*), (.*)]', klass).group(2)
-                return {k: self.__deserialize(v, sub_kls)
-                        for k, v in data.items()}
-
-            # convert str to class
-            if klass in self.NATIVE_TYPES_MAPPING:
-                klass = self.NATIVE_TYPES_MAPPING[klass]
-            else:
-                klass = getattr(openapi_client.models, klass)
-
-        if klass in self.PRIMITIVE_TYPES:
-            return self.__deserialize_primitive(data, klass)
-        elif klass == object:
-            return self.__deserialize_object(data)
-        elif klass == datetime.date:
-            return self.__deserialize_date(data)
-        elif klass == datetime.datetime:
-            return self.__deserialize_datetime(data)
-        else:
-            return self.__deserialize_model(data, klass)
+        return self.pool.apply_async(self.__call_api, args)
 
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_types_map=None, auth_settings=None,
-                 async_req=None, _return_http_data_only=None,
+                 auth_settings=None,
                  collection_formats=None, _preload_content=True,
                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
-
-        To make an async_req request, set the async_req parameter.
 
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
@@ -382,9 +321,6 @@ class ApiClient:
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
-        :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -400,11 +336,6 @@ class ApiClient:
                               in the spec for a single request.
         :type _request_token: dict, optional
         :return:
-            If async_req parameter is True,
-            the request will be called asynchronously.
-            The method will return the request thread.
-            If parameter async_req is False or missing,
-            then the method will return the response directly.
         """
         args = (
             resource_path,
@@ -415,19 +346,14 @@ class ApiClient:
             body,
             post_params,
             files,
-            response_types_map,
             auth_settings,
-            _return_http_data_only,
             collection_formats,
             _preload_content,
             _request_timeout,
             _host,
             _request_auth,
         )
-        if not async_req:
-            return self.__call_api(*args)
-
-        return self.pool.apply_async(self.__call_api, args)
+        return self.__call_api(*args)
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -665,6 +591,108 @@ class ApiClient:
             raise ApiValueError(
                 'Authentication token must be in `query` or `header`'
             )
+
+
+class Deserializer:
+    NATIVE_TYPES_MAPPING = {
+        'int': int,
+        'long': int, # TODO remove as only py3 is supported?
+        'float': float,
+        'str': str,
+        'bool': bool,
+        'date': datetime.date,
+        'datetime': datetime.datetime,
+        'object': object,
+    }
+
+    def deserialize(self, response, response_type):
+        """Deserializes response into an object.
+
+        :param response: RESTResponse object to be deserialized.
+        :param response_type: class literal for
+            deserialized object, or string of class name.
+
+        :return: deserialized object.
+        """
+
+        if response_type == ApiResponse:
+            return response
+
+        # handle file downloading
+        # save response body into a tmp file and return the instance
+        if response_type == "file":
+            return self.__deserialize_file(response)
+
+        # fetch data from response object
+        try:
+            data = json.loads(response.data)
+        except ValueError:
+            data = response.data
+
+        return self.__deserialize(data, response_type)
+
+    def __deserialize(self, data, klass):
+        """Deserializes dict, list, str into an object.
+
+        :param data: dict, list or str.
+        :param klass: class literal, or string of class name.
+
+        :return: object.
+        """
+        if data is None:
+            return None
+
+        if isinstance(klass, str):
+            if klass.startswith('List['):
+                sub_kls = re.match(r'List\[(.*)]', klass).group(1)
+                return [self.__deserialize(sub_data, sub_kls)
+                        for sub_data in data]
+
+            if klass.startswith('Dict['):
+                sub_kls = re.match(r'Dict\[([^,]*), (.*)]', klass).group(2)
+                return {k: self.__deserialize(v, sub_kls)
+                        for k, v in data.items()}
+
+            # convert str to class
+            if klass in self.NATIVE_TYPES_MAPPING:
+                klass = self.NATIVE_TYPES_MAPPING[klass]
+            else:
+                klass = getattr(openapi_client.models, klass)
+
+        if klass in PRIMITIVE_TYPES:
+            return self.__deserialize_primitive(data, klass)
+        elif klass == object:
+            return self.__deserialize_object(data)
+        elif klass == datetime.date:
+            return self.__deserialize_date(data)
+        elif klass == datetime.datetime:
+            return self.__deserialize_datetime(data)
+        else:
+            return self.__deserialize_model(data, klass)
+
+        #if hasattr(klass, "_name"):
+        #    if klass._name == "List":
+        #        sub_kls = klass.__args__[0]
+        #        return [self.__deserialize(sub_data, sub_kls)
+        #                for sub_data in data]                                                                                                                                                                                                                                 
+        #    elif klass._name == "Dict":
+        #        sub_kls = klass.__args__[1]
+        #        return {k: self.__deserialize(v, sub_kls)
+        #                for k, v in data.items()}
+
+        #    raise TypeError(f"Unsupported datatype: {klass}")
+
+        #if klass in PRIMITIVE_TYPES:
+        #    return self.__deserialize_primitive(data, klass)
+        #elif klass == object:
+        #    return self.__deserialize_object(data)
+        #elif klass == datetime.date:
+        #    return self.__deserialize_date(data)
+        #elif klass == datetime.datetime:
+        #    return self.__deserialize_datetime(data)
+        #else:
+        #    return self.__deserialize_model(data, klass)
+
 
     def __deserialize_file(self, response):
         """Deserializes body to file

@@ -27,8 +27,8 @@ from typing import Dict
 
 from petstore_api.models.order import Order
 
-from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_client import ApiClient, Deserializer
+from petstore_api.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -68,15 +68,28 @@ class StoreApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.delete_order_with_http_info.raw_function(
+        response = await self.delete_order_with_http_info.raw_function(
             order_id,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
 
     @validate_call
     async def delete_order_with_http_info(
@@ -95,9 +108,6 @@ class StoreApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -110,7 +120,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -120,7 +130,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -159,8 +168,6 @@ class StoreApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return await self.api_client.call_api(
             '/store/order/{order_id}', 'DELETE',
             _path_params,
@@ -169,13 +176,12 @@ class StoreApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     async def get_inventory(
@@ -195,14 +201,29 @@ class StoreApi:
                  returns the request thread.
         :rtype: Dict[str, int]
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_inventory_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.get_inventory_with_http_info.raw_function(
+        response = await self.get_inventory_with_http_info.raw_function(
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'Dict[str, int]',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
 
     @validate_call
     async def get_inventory_with_http_info(
@@ -218,9 +239,6 @@ class StoreApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -233,7 +251,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Dict[str, int], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -242,7 +260,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -282,10 +299,6 @@ class StoreApi:
         # authentication setting
         _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]",
-        }
-
         return await self.api_client.call_api(
             '/store/inventory', 'GET',
             _path_params,
@@ -294,13 +307,12 @@ class StoreApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     async def get_order_by_id(
@@ -323,15 +335,32 @@ class StoreApi:
                  returns the request thread.
         :rtype: Order
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_order_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.get_order_by_id_with_http_info.raw_function(
+        response = await self.get_order_by_id_with_http_info.raw_function(
             order_id,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'Order',
+            '400': None,
+            '404': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
 
     @validate_call
     async def get_order_by_id_with_http_info(
@@ -350,9 +379,6 @@ class StoreApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -365,7 +391,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -375,7 +401,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -418,12 +443,6 @@ class StoreApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Order",
-            '400': None,
-            '404': None,
-        }
-
         return await self.api_client.call_api(
             '/store/order/{order_id}', 'GET',
             _path_params,
@@ -432,13 +451,12 @@ class StoreApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     async def place_order(
@@ -461,15 +479,31 @@ class StoreApi:
                  returns the request thread.
         :rtype: Order
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the place_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.place_order_with_http_info.raw_function(
+        response = await self.place_order_with_http_info.raw_function(
             order,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'Order',
+            '400': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
 
     @validate_call
     async def place_order_with_http_info(
@@ -488,9 +522,6 @@ class StoreApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -503,7 +534,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -513,7 +544,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -563,11 +593,6 @@ class StoreApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Order",
-            '400': None,
-        }
-
         return await self.api_client.call_api(
             '/store/order', 'POST',
             _path_params,
@@ -576,10 +601,9 @@ class StoreApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+

@@ -29,8 +29,8 @@ from typing import Any, Dict, List, Optional, Union
 from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
 
-from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse
+from openapi_client.api_client import ApiClient, Deserializer
+from openapi_client.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -74,14 +74,75 @@ class BodyApi:
                  returns the request thread.
         :rtype: bytearray
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_binary_gif_with_http_info.raw_function(
+        response = self.test_binary_gif_with_http_info.raw_function(
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'bytearray',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_binary_gif_async(
+        self,
+        **kwargs,
+    ) -> AsyncResponse[bytearray]:
+        """Test binary (gif) response body  # noqa: E501
+
+        Test binary (gif) response body  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_binary_gif()
+        >>> result = thread.get()
+
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: bytearray
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_binary_gif_with_http_info_async(
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'bytearray',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_binary_gif_with_http_info(
@@ -104,9 +165,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -119,7 +177,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(bytearray, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -129,7 +187,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -169,10 +226,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
-        }
-
         return self.api_client.call_api(
             '/binary/gif', 'POST',
             _path_params,
@@ -181,14 +234,101 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_binary_gif_with_http_info_async(self, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test binary (gif) response body  # noqa: E501
+
+        Test binary (gif) response body  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_binary_gif_with_http_info_async()
+        >>> result = thread.get()
+
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_binary_gif" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['image/gif'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/binary/gif', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_body_application_octetstream_binary(
@@ -218,15 +358,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_body_application_octetstream_binary_with_http_info.raw_function(
+        response = self.test_body_application_octetstream_binary_with_http_info.raw_function(
             body,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_body_application_octetstream_binary_async(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test body parameter(s)  # noqa: E501
+
+        Test body parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_body_application_octetstream_binary(body, )
+        >>> result = thread.get()
+
+        :param body:
+        :type body: bytearray
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_body_application_octetstream_binary_with_http_info_async(
+            body,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_body_application_octetstream_binary_with_http_info(
@@ -252,9 +457,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -267,7 +469,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -278,7 +480,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -333,10 +534,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/body/application/octetstream/binary', 'POST',
             _path_params,
@@ -345,14 +542,119 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_body_application_octetstream_binary_with_http_info_async(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test body parameter(s)  # noqa: E501
+
+        Test body parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_body_application_octetstream_binary_with_http_info_async(body, )
+        >>> result = thread.get()
+
+        :param body:
+        :type body: bytearray
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'body'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_body_application_octetstream_binary" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['body'] is not None:
+            _body_params = _params['body']
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/octet-stream']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/body/application/octetstream/binary', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary(
@@ -382,15 +684,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_multipart_formdata_array_of_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
+        response = self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
             files,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_body_multipart_formdata_array_of_binary_async(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test array of binary in multipart mime  # noqa: E501
+
+        Test array of binary in multipart mime  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_body_multipart_formdata_array_of_binary(files, )
+        >>> result = thread.get()
+
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_body_multipart_formdata_array_of_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_body_multipart_formdata_array_of_binary_with_http_info_async(
+            files,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary_with_http_info(
@@ -416,9 +783,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -431,7 +795,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -442,7 +806,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -493,10 +856,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/body/application/octetstream/array_of_binary', 'POST',
             _path_params,
@@ -505,14 +864,115 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_body_multipart_formdata_array_of_binary_with_http_info_async(self, files : List[Union[StrictBytes, StrictStr]], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test array of binary in multipart mime  # noqa: E501
+
+        Test array of binary in multipart mime  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_body_multipart_formdata_array_of_binary_with_http_info_async(files, )
+        >>> result = thread.get()
+
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'files'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_body_multipart_formdata_array_of_binary" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        if _params['files'] is not None:
+            _files['files'] = _params['files']
+            _collection_formats['files'] = 'csv'
+
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/body/application/octetstream/array_of_binary', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_echo_body_free_form_object_response_string(
@@ -542,15 +1002,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
+        response = self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
             body,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_echo_body_free_form_object_response_string_async(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test free form object  # noqa: E501
+
+        Test free form object  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_echo_body_free_form_object_response_string(body, )
+        >>> result = thread.get()
+
+        :param body: Free form object
+        :type body: object
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_echo_body_free_form_object_response_string_with_http_info_async(
+            body,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_echo_body_free_form_object_response_string_with_http_info(
@@ -576,9 +1101,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -591,7 +1113,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -602,7 +1124,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -652,10 +1173,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/echo/body/FreeFormObject/response_string', 'POST',
             _path_params,
@@ -664,14 +1181,114 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_echo_body_free_form_object_response_string_with_http_info_async(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test free form object  # noqa: E501
+
+        Test free form object  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_echo_body_free_form_object_response_string_with_http_info_async(body, )
+        >>> result = thread.get()
+
+        :param body: Free form object
+        :type body: object
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'body'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_echo_body_free_form_object_response_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['body'] is not None:
+            _body_params = _params['body']
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/echo/body/FreeFormObject/response_string', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_echo_body_pet(
@@ -701,15 +1318,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: Pet
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_pet_with_http_info.raw_function(
+        response = self.test_echo_body_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'Pet',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_echo_body_pet_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> AsyncResponse[Pet]:
+        """Test body parameter(s)  # noqa: E501
+
+        Test body parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_echo_body_pet(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: Pet
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_echo_body_pet_with_http_info_async(
+            pet,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'Pet',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_echo_body_pet_with_http_info(
@@ -735,9 +1417,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -750,7 +1429,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -761,7 +1440,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -811,10 +1489,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet",
-        }
-
         return self.api_client.call_api(
             '/echo/body/Pet', 'POST',
             _path_params,
@@ -823,14 +1497,114 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_echo_body_pet_with_http_info_async(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test body parameter(s)  # noqa: E501
+
+        Test body parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_echo_body_pet_with_http_info_async(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_echo_body_pet" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['pet'] is not None:
+            _body_params = _params['pet']
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/echo/body/Pet', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_echo_body_pet_response_string(
@@ -860,15 +1634,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_pet_response_string_with_http_info.raw_function(
+        response = self.test_echo_body_pet_response_string_with_http_info.raw_function(
             pet,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_echo_body_pet_response_string_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test empty response body  # noqa: E501
+
+        Test empty response body  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_echo_body_pet_response_string(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_echo_body_pet_response_string_with_http_info_async(
+            pet,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_echo_body_pet_response_string_with_http_info(
@@ -894,9 +1733,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -909,7 +1745,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -920,7 +1756,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -970,10 +1805,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/echo/body/Pet/response_string', 'POST',
             _path_params,
@@ -982,14 +1813,114 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_echo_body_pet_response_string_with_http_info_async(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test empty response body  # noqa: E501
+
+        Test empty response body  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_echo_body_pet_response_string_with_http_info_async(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_echo_body_pet_response_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['pet'] is not None:
+            _body_params = _params['pet']
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/echo/body/Pet/response_string', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_echo_body_tag_response_string(
@@ -1019,15 +1950,80 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_tag_response_string_with_http_info.raw_function(
+        response = self.test_echo_body_tag_response_string_with_http_info.raw_function(
             tag,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_echo_body_tag_response_string_async(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test empty json (request body)  # noqa: E501
+
+        Test empty json (request body)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_echo_body_tag_response_string(tag, )
+        >>> result = thread.get()
+
+        :param tag: Tag object
+        :type tag: Tag
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_echo_body_tag_response_string_with_http_info_async(
+            tag,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_echo_body_tag_response_string_with_http_info(
@@ -1053,9 +2049,6 @@ class BodyApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1068,7 +2061,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1079,7 +2072,6 @@ class BodyApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1129,10 +2121,6 @@ class BodyApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/echo/body/Tag/response_string', 'POST',
             _path_params,
@@ -1141,11 +2129,111 @@ class BodyApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_echo_body_tag_response_string_with_http_info_async(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test empty json (request body)  # noqa: E501
+
+        Test empty json (request body)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_echo_body_tag_response_string_with_http_info_async(tag, )
+        >>> result = thread.get()
+
+        :param tag: Tag object
+        :type tag: Tag
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'tag'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_echo_body_tag_response_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['tag'] is not None:
+            _body_params = _params['tag']
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/echo/body/Tag/response_string', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+

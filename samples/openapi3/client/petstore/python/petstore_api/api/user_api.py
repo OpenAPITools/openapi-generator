@@ -27,8 +27,8 @@ from typing import List
 
 from petstore_api.models.user import User
 
-from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_client import ApiClient, Deserializer
+from petstore_api.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -75,15 +75,76 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_user_with_http_info.raw_function(
+        response = self.create_user_with_http_info.raw_function(
             user,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def create_user_async(
+        self,
+        user: Annotated[User, Field(description="Created user object")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Create user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.create_user(user, )
+        >>> result = thread.get()
+
+        :param user: Created user object (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.create_user_with_http_info_async(
+            user,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def create_user_with_http_info(
@@ -109,9 +170,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -124,7 +182,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _hosts = [
@@ -149,7 +207,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -195,8 +252,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user', 'POST',
             _path_params,
@@ -205,15 +260,126 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             _host=_host,
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def create_user_with_http_info_async(self, user : Annotated[User, Field(description="Created user object")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Create user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.create_user_with_http_info_async(user, )
+        >>> result = thread.get()
+
+        :param user: Created user object (required)
+        :type user: User
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _hosts = [
+            'http://petstore.swagger.io/v2',
+            'http://path-server-test.petstore.local/v2',
+            'http://{server}.swagger.io:{port}/v2'
+        ]
+        _host = _hosts[0]
+        if kwargs.get('_host_index'):
+            _host_index = int(kwargs.get('_host_index'))
+            if _host_index < 0 or _host_index >= len(_hosts):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s"
+                    % len(_host)
+                )
+            _host = _hosts[_host_index]
+        _params = locals()
+
+        _all_params = [
+            'user'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params and _key != "_host_index":
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_user" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['user'] is not None:
+            _body_params = _params['user']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            _host=_host,
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def create_users_with_array_input(
@@ -243,15 +409,76 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_users_with_array_input_with_http_info.raw_function(
+        response = self.create_users_with_array_input_with_http_info.raw_function(
             user,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def create_users_with_array_input_async(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Creates list of users with given input array  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.create_users_with_array_input(user, )
+        >>> result = thread.get()
+
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.create_users_with_array_input_with_http_info_async(
+            user,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def create_users_with_array_input_with_http_info(
@@ -277,9 +504,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -292,7 +516,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -303,7 +527,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -349,8 +572,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user/createWithArray', 'POST',
             _path_params,
@@ -359,14 +580,110 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def create_users_with_array_input_with_http_info_async(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Creates list of users with given input array  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.create_users_with_array_input_with_http_info_async(user, )
+        >>> result = thread.get()
+
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'user'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_users_with_array_input" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['user'] is not None:
+            _body_params = _params['user']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/createWithArray', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def create_users_with_list_input(
@@ -396,15 +713,76 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_users_with_list_input_with_http_info.raw_function(
+        response = self.create_users_with_list_input_with_http_info.raw_function(
             user,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def create_users_with_list_input_async(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Creates list of users with given input array  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.create_users_with_list_input(user, )
+        >>> result = thread.get()
+
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.create_users_with_list_input_with_http_info_async(
+            user,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def create_users_with_list_input_with_http_info(
@@ -430,9 +808,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -445,7 +820,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -456,7 +831,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -502,8 +876,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user/createWithList', 'POST',
             _path_params,
@@ -512,14 +884,110 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def create_users_with_list_input_with_http_info_async(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Creates list of users with given input array  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.create_users_with_list_input_with_http_info_async(user, )
+        >>> result = thread.get()
+
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'user'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_users_with_list_input" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['user'] is not None:
+            _body_params = _params['user']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/createWithList', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def delete_user(
@@ -549,15 +1017,76 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.delete_user_with_http_info.raw_function(
+        response = self.delete_user_with_http_info.raw_function(
             username,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def delete_user_async(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Delete user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.delete_user(username, )
+        >>> result = thread.get()
+
+        :param username: The name that needs to be deleted (required)
+        :type username: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.delete_user_with_http_info_async(
+            username,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def delete_user_with_http_info(
@@ -583,9 +1112,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -598,7 +1124,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -609,7 +1135,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -648,8 +1173,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user/{username}', 'DELETE',
             _path_params,
@@ -658,14 +1181,103 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def delete_user_with_http_info_async(self, username : Annotated[StrictStr, Field(description="The name that needs to be deleted")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Delete user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.delete_user_with_http_info_async(username, )
+        >>> result = thread.get()
+
+        :param username: The name that needs to be deleted (required)
+        :type username: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'username'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_user" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['username'] is not None:
+            _path_params['username'] = _params['username']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/{username}', 'DELETE',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def get_user_by_name(
@@ -695,15 +1307,84 @@ class UserApi:
                  returns the request thread.
         :rtype: User
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_user_by_name_with_http_info.raw_function(
+        response = self.get_user_by_name_with_http_info.raw_function(
             username,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'User',
+            '400': None,
+            '404': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def get_user_by_name_async(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+        **kwargs,
+    ) -> AsyncResponse[User]:
+        """Get user by user name  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.get_user_by_name(username, )
+        >>> result = thread.get()
+
+        :param username: The name that needs to be fetched. Use user1 for testing. (required)
+        :type username: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: User
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.get_user_by_name_with_http_info_async(
+            username,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'User',
+                '400': None,
+                '404': None,
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def get_user_by_name_with_http_info(
@@ -729,9 +1410,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -744,7 +1422,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(User, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -755,7 +1433,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -798,12 +1475,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "User",
-            '400': None,
-            '404': None,
-        }
-
         return self.api_client.call_api(
             '/user/{username}', 'GET',
             _path_params,
@@ -812,14 +1483,107 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def get_user_by_name_with_http_info_async(self, username : Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Get user by user name  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.get_user_by_name_with_http_info_async(username, )
+        >>> result = thread.get()
+
+        :param username: The name that needs to be fetched. Use user1 for testing. (required)
+        :type username: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'username'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_user_by_name" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['username'] is not None:
+            _path_params['username'] = _params['username']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/{username}', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def login_user(
@@ -852,16 +1616,87 @@ class UserApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.login_user_with_http_info.raw_function(
+        response = self.login_user_with_http_info.raw_function(
             username,
             password,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+            '400': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def login_user_async(
+        self,
+        username: Annotated[StrictStr, Field(description="The user name for login")],
+        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Logs user into the system  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.login_user(username, password, )
+        >>> result = thread.get()
+
+        :param username: The user name for login (required)
+        :type username: str
+        :param password: The password for login in clear text (required)
+        :type password: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.login_user_with_http_info_async(
+            username,
+            password,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+                '400': None,
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def login_user_with_http_info(
@@ -890,9 +1725,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -905,7 +1737,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -917,7 +1749,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -963,11 +1794,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-            '400': None,
-        }
-
         return self.api_client.call_api(
             '/user/login', 'GET',
             _path_params,
@@ -976,14 +1802,113 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def login_user_with_http_info_async(self, username : Annotated[StrictStr, Field(description="The user name for login")], password : Annotated[StrictStr, Field(description="The password for login in clear text")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Logs user into the system  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.login_user_with_http_info_async(username, password, )
+        >>> result = thread.get()
+
+        :param username: The user name for login (required)
+        :type username: str
+        :param password: The password for login in clear text (required)
+        :type password: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'username',
+            'password'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method login_user" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('username') is not None:  # noqa: E501
+            _query_params.append(('username', _params['username']))
+
+        if _params.get('password') is not None:  # noqa: E501
+            _query_params.append(('password', _params['password']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/login', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def logout_user(
@@ -1010,14 +1935,71 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.logout_user_with_http_info.raw_function(
+        response = self.logout_user_with_http_info.raw_function(
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def logout_user_async(
+        self,
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Logs out current logged in user session  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.logout_user()
+        >>> result = thread.get()
+
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.logout_user_with_http_info_async(
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def logout_user_with_http_info(
@@ -1040,9 +2022,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1055,7 +2034,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1065,7 +2044,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1101,8 +2079,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user/logout', 'GET',
             _path_params,
@@ -1111,14 +2087,97 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def logout_user_with_http_info_async(self, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Logs out current logged in user session  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.logout_user_with_http_info_async()
+        >>> result = thread.get()
+
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method logout_user" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/logout', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def update_user(
@@ -1151,16 +2210,81 @@ class UserApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_user_with_http_info.raw_function(
+        response = self.update_user_with_http_info.raw_function(
             username,
             user,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def update_user_async(
+        self,
+        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
+        user: Annotated[User, Field(description="Updated user object")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Updated user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.update_user(username, user, )
+        >>> result = thread.get()
+
+        :param username: name that need to be deleted (required)
+        :type username: str
+        :param user: Updated user object (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.update_user_with_http_info_async(
+            username,
+            user,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def update_user_with_http_info(
@@ -1189,9 +2313,6 @@ class UserApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1204,7 +2325,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1216,7 +2337,6 @@ class UserApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1265,8 +2385,6 @@ class UserApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/user/{username}', 'PUT',
             _path_params,
@@ -1275,11 +2393,113 @@ class UserApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def update_user_with_http_info_async(self, username : Annotated[StrictStr, Field(description="name that need to be deleted")], user : Annotated[User, Field(description="Updated user object")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Updated user  # noqa: E501
+
+        This can only be done by the logged in user.  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.update_user_with_http_info_async(username, user, )
+        >>> result = thread.get()
+
+        :param username: name that need to be deleted (required)
+        :type username: str
+        :param user: Updated user object (required)
+        :type user: User
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'username',
+            'user'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_user" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['username'] is not None:
+            _path_params['username'] = _params['username']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['user'] is not None:
+            _body_params = _params['user']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/user/{username}', 'PUT',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+

@@ -1261,6 +1261,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 // Not interested in the result, only in the update of the imports
                 getPydanticType(operation.returnProperty, typingImports,
                         new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
+
+                operation.vendorExtensions.put("x-py-return-type", operation.returnType);
+            } else {
+                operation.vendorExtensions.put("x-py-return-type", "None");
             }
 
             // add import for code samples

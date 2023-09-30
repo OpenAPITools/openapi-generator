@@ -28,8 +28,8 @@ from typing import List, Optional, Union
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
 
-from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_client import ApiClient, Deserializer
+from petstore_api.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -76,15 +76,76 @@ class PetApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.add_pet_with_http_info.raw_function(
+        response = self.add_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def add_pet_async(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Add a new pet to the store  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.add_pet(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.add_pet_with_http_info_async(
+            pet,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def add_pet_with_http_info(
@@ -110,9 +171,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -125,7 +183,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -136,7 +194,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -182,8 +239,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/pet', 'POST',
             _path_params,
@@ -192,14 +247,110 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def add_pet_with_http_info_async(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Add a new pet to the store  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.add_pet_with_http_info_async(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method add_pet" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['pet'] is not None:
+            _body_params = _params['pet']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def delete_pet(
@@ -232,16 +383,81 @@ class PetApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.delete_pet_with_http_info.raw_function(
+        response = self.delete_pet_with_http_info.raw_function(
             pet_id,
             api_key,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def delete_pet_async(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Deletes a pet  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.delete_pet(pet_id, api_key, )
+        >>> result = thread.get()
+
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the delete_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.delete_pet_with_http_info_async(
+            pet_id,
+            api_key,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def delete_pet_with_http_info(
@@ -270,9 +486,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -285,7 +498,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -297,7 +510,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -339,8 +551,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
             _path_params,
@@ -349,14 +559,109 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def delete_pet_with_http_info_async(self, pet_id : Annotated[StrictInt, Field(description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Deletes a pet  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.delete_pet_with_http_info_async(pet_id, api_key, )
+        >>> result = thread.get()
+
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet_id',
+            'api_key'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_pet" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['pet_id'] is not None:
+            _path_params['petId'] = _params['pet_id']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['api_key'] is not None:
+            _header_params['api_key'] = _params['api_key']
+
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/{petId}', 'DELETE',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def find_pets_by_status(
@@ -386,15 +691,82 @@ class PetApi:
                  returns the request thread.
         :rtype: List[Pet]
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the find_pets_by_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.find_pets_by_status_with_http_info.raw_function(
+        response = self.find_pets_by_status_with_http_info.raw_function(
             status,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'List[Pet]',
+            '400': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def find_pets_by_status_async(
+        self,
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        **kwargs,
+    ) -> AsyncResponse[List[Pet]]:
+        """Finds Pets by status  # noqa: E501
+
+        Multiple status values can be provided with comma separated strings  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.find_pets_by_status(status, )
+        >>> result = thread.get()
+
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[Pet]
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the find_pets_by_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.find_pets_by_status_with_http_info_async(
+            status,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'List[Pet]',
+                '400': None,
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def find_pets_by_status_with_http_info(
@@ -420,9 +792,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -435,7 +804,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -446,7 +815,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -490,11 +858,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Pet]",
-            '400': None,
-        }
-
         return self.api_client.call_api(
             '/pet/findByStatus', 'GET',
             _path_params,
@@ -503,14 +866,108 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def find_pets_by_status_with_http_info_async(self, status : Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Finds Pets by status  # noqa: E501
+
+        Multiple status values can be provided with comma separated strings  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.find_pets_by_status_with_http_info_async(status, )
+        >>> result = thread.get()
+
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'status'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_pets_by_status" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('status') is not None:  # noqa: E501
+            _query_params.append(('status', _params['status']))
+            _collection_formats['status'] = 'csv'
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/findByStatus', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def find_pets_by_tags(
@@ -540,15 +997,82 @@ class PetApi:
                  returns the request thread.
         :rtype: List[Pet]
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the find_pets_by_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.find_pets_by_tags_with_http_info.raw_function(
+        response = self.find_pets_by_tags_with_http_info.raw_function(
             tags,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'List[Pet]',
+            '400': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def find_pets_by_tags_async(
+        self,
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        **kwargs,
+    ) -> AsyncResponse[List[Pet]]:
+        """(Deprecated) Finds Pets by tags  # noqa: E501
+
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.find_pets_by_tags(tags, )
+        >>> result = thread.get()
+
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[Pet]
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the find_pets_by_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.find_pets_by_tags_with_http_info_async(
+            tags,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'List[Pet]',
+                '400': None,
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def find_pets_by_tags_with_http_info(
@@ -574,9 +1098,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -589,7 +1110,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
@@ -602,7 +1123,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -646,11 +1166,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Pet]",
-            '400': None,
-        }
-
         return self.api_client.call_api(
             '/pet/findByTags', 'GET',
             _path_params,
@@ -659,14 +1174,110 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def find_pets_by_tags_with_http_info_async(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """(Deprecated) Finds Pets by tags  # noqa: E501
+
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.find_pets_by_tags_with_http_info_async(tags, )
+        >>> result = thread.get()
+
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        _params = locals()
+
+        _all_params = [
+            'tags'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_pets_by_tags" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('tags') is not None:  # noqa: E501
+            _query_params.append(('tags', _params['tags']))
+            _collection_formats['tags'] = 'csv'
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/findByTags', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def get_pet_by_id(
@@ -696,15 +1307,84 @@ class PetApi:
                  returns the request thread.
         :rtype: Pet
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_pet_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_pet_by_id_with_http_info.raw_function(
+        response = self.get_pet_by_id_with_http_info.raw_function(
             pet_id,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'Pet',
+            '400': None,
+            '404': None,
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def get_pet_by_id_async(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
+        **kwargs,
+    ) -> AsyncResponse[Pet]:
+        """Find pet by ID  # noqa: E501
+
+        Returns a single pet  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.get_pet_by_id(pet_id, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: Pet
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_pet_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.get_pet_by_id_with_http_info_async(
+            pet_id,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'Pet',
+                '400': None,
+                '404': None,
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def get_pet_by_id_with_http_info(
@@ -730,9 +1410,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -745,7 +1422,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -756,7 +1433,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -799,12 +1475,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet",
-            '400': None,
-            '404': None,
-        }
-
         return self.api_client.call_api(
             '/pet/{petId}', 'GET',
             _path_params,
@@ -813,14 +1483,107 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def get_pet_by_id_with_http_info_async(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to return")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Find pet by ID  # noqa: E501
+
+        Returns a single pet  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.get_pet_by_id_with_http_info_async(pet_id, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet_id'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_pet_by_id" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['pet_id'] is not None:
+            _path_params['petId'] = _params['pet_id']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = ['api_key']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/{petId}', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def update_pet(
@@ -850,15 +1613,76 @@ class PetApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_pet_with_http_info.raw_function(
+        response = self.update_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def update_pet_async(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Update an existing pet  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.update_pet(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the update_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.update_pet_with_http_info_async(
+            pet,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def update_pet_with_http_info(
@@ -884,9 +1708,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -899,7 +1720,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -910,7 +1731,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -956,8 +1776,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/pet', 'PUT',
             _path_params,
@@ -966,14 +1784,110 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def update_pet_with_http_info_async(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Update an existing pet  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.update_pet_with_http_info_async(pet, )
+        >>> result = thread.get()
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_pet" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        if _params['pet'] is not None:
+            _body_params = _params['pet']
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet', 'PUT',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def update_pet_with_form(
@@ -1009,17 +1923,86 @@ class PetApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_pet_with_form_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_pet_with_form_with_http_info.raw_function(
+        response = self.update_pet_with_form_with_http_info.raw_function(
             pet_id,
             name,
             status,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def update_pet_with_form_async(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
+        **kwargs,
+    ) -> AsyncResponse[None]:
+        """Updates a pet in the store with form data  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.update_pet_with_form(pet_id, name, status, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the update_pet_with_form_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.update_pet_with_form_with_http_info_async(
+            pet_id,
+            name,
+            status,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def update_pet_with_form_with_http_info(
@@ -1051,9 +2034,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1066,7 +2046,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1079,7 +2059,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1131,8 +2110,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
             _path_params,
@@ -1141,14 +2118,122 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def update_pet_with_form_with_http_info_async(self, pet_id : Annotated[StrictInt, Field(description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Updates a pet in the store with form data  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.update_pet_with_form_with_http_info_async(pet_id, name, status, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet_id',
+            'name',
+            'status'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_pet_with_form" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['pet_id'] is not None:
+            _path_params['petId'] = _params['pet_id']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        if _params['name'] is not None:
+            _form_params.append(('name', _params['name']))
+
+        if _params['status'] is not None:
+            _form_params.append(('status', _params['status']))
+
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/{petId}', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def upload_file(
@@ -1184,17 +2269,90 @@ class PetApi:
                  returns the request thread.
         :rtype: ApiResponse
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.upload_file_with_http_info.raw_function(
+        response = self.upload_file_with_http_info.raw_function(
             pet_id,
             additional_metadata,
             file,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'ApiResponse',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def upload_file_async(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
+        **kwargs,
+    ) -> AsyncResponse[ApiResponse]:
+        """uploads an image  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.upload_file(pet_id, additional_metadata, file, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytearray
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.upload_file_with_http_info_async(
+            pet_id,
+            additional_metadata,
+            file,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'ApiResponse',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def upload_file_with_http_info(
@@ -1226,9 +2384,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1241,7 +2396,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1254,7 +2409,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1310,10 +2464,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
-        }
-
         return self.api_client.call_api(
             '/pet/{petId}/uploadImage', 'POST',
             _path_params,
@@ -1322,14 +2472,126 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def upload_file_with_http_info_async(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """uploads an image  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.upload_file_with_http_info_async(pet_id, additional_metadata, file, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytearray
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet_id',
+            'additional_metadata',
+            'file'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method upload_file" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['pet_id'] is not None:
+            _path_params['petId'] = _params['pet_id']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        if _params['additional_metadata'] is not None:
+            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+
+        if _params['file'] is not None:
+            _files['file'] = _params['file']
+
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/pet/{petId}/uploadImage', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def upload_file_with_required_file(
@@ -1365,17 +2627,90 @@ class PetApi:
                  returns the request thread.
         :rtype: ApiResponse
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the upload_file_with_required_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.upload_file_with_required_file_with_http_info.raw_function(
+        response = self.upload_file_with_required_file_with_http_info.raw_function(
             pet_id,
             required_file,
             additional_metadata,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'ApiResponse',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def upload_file_with_required_file_async(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        **kwargs,
+    ) -> AsyncResponse[ApiResponse]:
+        """uploads an image (required)  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.upload_file_with_required_file(pet_id, required_file, additional_metadata, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytearray
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the upload_file_with_required_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.upload_file_with_required_file_with_http_info_async(
+            pet_id,
+            required_file,
+            additional_metadata,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'ApiResponse',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def upload_file_with_required_file_with_http_info(
@@ -1407,9 +2742,6 @@ class PetApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1422,7 +2754,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1435,7 +2767,6 @@ class PetApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1491,10 +2822,6 @@ class PetApi:
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
-        }
-
         return self.api_client.call_api(
             '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
             _path_params,
@@ -1503,11 +2830,123 @@ class PetApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def upload_file_with_required_file_with_http_info_async(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """uploads an image (required)  # noqa: E501
+
+          # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.upload_file_with_required_file_with_http_info_async(pet_id, required_file, additional_metadata, )
+        >>> result = thread.get()
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytearray
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'pet_id',
+            'required_file',
+            'additional_metadata'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method upload_file_with_required_file" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+        if _params['pet_id'] is not None:
+            _path_params['petId'] = _params['pet_id']
+
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        if _params['additional_metadata'] is not None:
+            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+
+        if _params['required_file'] is not None:
+            _files['requiredFile'] = _params['required_file']
+
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+

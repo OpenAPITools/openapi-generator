@@ -116,19 +116,19 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
     def test_async_request(self):
-        thread = self.pet_api.add_pet(self.pet, async_req=True)
+        thread = self.pet_api.add_pet_async(self.pet)
         response = thread.get()
         self.assertIsNone(response)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_async(self.pet.id)
         result = thread.get()
         self.assertIsInstance(result, petstore_api.Pet)
 
     def test_async_with_result(self):
-        self.pet_api.add_pet(self.pet, async_req=False)
+        self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
-        thread2 = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_async(self.pet.id)
+        thread2 = self.pet_api.get_pet_by_id_async(self.pet.id)
 
         response = thread.get()
         response2 = thread2.get()
@@ -139,19 +139,18 @@ class PetApiTests(unittest.TestCase):
     def test_async_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_with_http_info_async(self.pet.id)
         api_response_object = thread.get()
 
-        self.assertIsInstance(api_response_object.data, petstore_api.Pet)
         self.assertEqual(api_response_object.status_code, 200)
         self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
-        self.assertIsInstance(api_response_object.raw_data, str) # it's a str, not Pet
-        self.assertTrue(api_response_object.raw_data.startswith('{"id":'))
+        self.assertIsInstance(api_response_object.raw_data, bytes) # it's a str, not Pet
+        self.assertTrue(api_response_object.raw_data.startswith(b'{"id":'))
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id(9999999999999, async_req=True)
+        thread = self.pet_api.get_pet_by_id_async(9999999999999)
 
         exception = None
         try:
@@ -180,6 +179,7 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet)
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
                                                             _preload_content=False)
+
         self.assertIsNone(fetched.data)
         self.assertIsInstance(fetched.raw_data, bytes) # it's a str, not Pet
         self.assertTrue(fetched.raw_data.decode("utf-8").startswith('{"id":'))
@@ -190,9 +190,10 @@ class PetApiTests(unittest.TestCase):
         # fetched is an ApiResponse object
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
         self.assertIsNotNone(fetched.data)
-        self.assertEqual(self.pet.id, fetched.data.id)
-        self.assertIsNotNone(fetched.data.category)
-        self.assertEqual(self.pet.category.name, fetched.data.category.name)
+        pet = petstore_api.Pet.model_validate_json(fetched.data)
+        self.assertEqual(self.pet.id, pet.id)
+        self.assertIsNotNone(pet.category)
+        self.assertEqual(self.pet.category.name, pet.category.name)
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"

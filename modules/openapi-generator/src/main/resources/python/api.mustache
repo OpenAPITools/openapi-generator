@@ -13,8 +13,8 @@ from typing import Dict, List, Optional, Tuple
 {{import}}
 {{/imports}}
 
-from {{packageName}}.api_client import ApiClient
-from {{packageName}}.api_response import ApiResponse
+from {{packageName}}.api_client import ApiClient, Deserializer
+from {{packageName}}.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from {{packageName}}.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -43,7 +43,7 @@ class {{classname}}:
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
-    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+    ) -> {{{vendorExtensions.x-py-return-type}}}:
 {{/asyncio}}
 {{^asyncio}}
     def {{operationId}}(
@@ -52,7 +52,7 @@ class {{classname}}:
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
-    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+    ) -> {{{vendorExtensions.x-py-return-type}}}:
 {{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
@@ -82,19 +82,120 @@ class {{classname}}:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{{vendorExtensions.x-py-return-type}}}
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the {{operationId}}_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
+        response = {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
             {{#allParams}}
             {{paramName}},
             {{/allParams}}
             **kwargs,
         )
+
+        {{#returnType}}
+        {{#responses}}
+        {{#-first}}
+        response_types_map: Dict[str, Optional[str]] = {
+        {{/-first}}
+            {{^isWildcard}}
+            '{{code}}': {{#dataType}}'{{.}}'{{/dataType}}{{^dataType}}None{{/dataType}},
+            {{/isWildcard}}
+        {{#-last}}
+        }
+        {{/-last}}
+        {{/responses}}
+        {{/returnType}}
+        {{^returnType}}
+        response_types_map: Dict[str, Optional[str]] = {}
+        {{/returnType}}
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+{{^asyncio}}
+    def {{operationId}}_async(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> AsyncResponse[{{{vendorExtensions.x-py-return-type}}}]:
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+
+{{#notes}}
+        {{{.}}}  # noqa: E501
+{{/notes}}
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}})
+        >>> result = thread.get()
+
+{{#allParams}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
+{{/allParams}}
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: {{{vendorExtensions.x-py-return-type}}}
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the {{operationId}}_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.{{operationId}}_with_http_info_async(
+            {{#allParams}}
+            {{paramName}},
+            {{/allParams}}
+            **kwargs,
+        )
+
+        def d(response):
+            {{#returnType}}
+            {{#responses}}
+            {{#-first}}
+            response_types_map = {
+            {{/-first}}
+                {{^isWildcard}}
+                '{{code}}': {{#dataType}}'{{.}}'{{/dataType}}{{^dataType}}None{{/dataType}},
+                {{/isWildcard}}
+            {{#-last}}
+            }
+            {{/-last}}
+            {{/responses}}
+            {{/returnType}}
+            {{^returnType}}
+            response_types_map = {}
+            {{/returnType}}
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
+{{/asyncio}}
 
     @validate_call
 {{#asyncio}}
@@ -141,9 +242,6 @@ class {{classname}}:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -156,7 +254,7 @@ class {{classname}}:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: ApiResponse
         """
 
         {{#isDeprecated}}
@@ -191,7 +289,6 @@ class {{classname}}:
 {{^asyncio}}
                 'async_req',
 {{/asyncio}}
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -307,23 +404,6 @@ class {{classname}}:
         # authentication setting
         _auth_settings: List[str] = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
 
-        {{#returnType}}
-        {{#responses}}
-        {{#-first}}
-        _response_types_map: Dict[str, Optional[str]] = {
-        {{/-first}}
-            {{^isWildcard}}
-            '{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
-            {{/isWildcard}}
-        {{#-last}}
-        }
-        {{/-last}}
-        {{/responses}}
-        {{/returnType}}
-        {{^returnType}}
-        _response_types_map: Dict[str, Optional[str]] = {}
-        {{/returnType}}
-
         return {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             '{{{path}}}', '{{httpMethod}}',
             _path_params,
@@ -332,12 +412,7 @@ class {{classname}}:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-{{^asyncio}}
-            async_req=_params.get('async_req'),
-{{/asyncio}}
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             {{#servers.0}}
@@ -345,5 +420,205 @@ class {{classname}}:
             {{/servers.0}}
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+{{^asyncio}}
+
+    @validate_call
+    def {{operationId}}_with_http_info_async(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> AsyncApiResponse:  # noqa: E501
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+
+{{#notes}}
+        {{{.}}}  # noqa: E501
+{{/notes}}
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.{{operationId}}_with_http_info_async({{#allParams}}{{paramName}}, {{/allParams}})
+        >>> result = thread.get()
+
+{{#allParams}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
+{{/allParams}}
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        {{#isDeprecated}}
+        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+
+        {{/isDeprecated}}
+        {{#servers.0}}
+        _hosts = [
+{{#servers}}
+            '{{{url}}}'{{^-last}},{{/-last}}
+{{/servers}}
+        ]
+        _host = _hosts[0]
+        if kwargs.get('_host_index'):
+            _host_index = int(kwargs.get('_host_index'))
+            if _host_index < 0 or _host_index >= len(_hosts):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s"
+                    % len(_host)
+                )
+            _host = _hosts[_host_index]
+        {{/servers.0}}
+        _params = locals()
+
+        _all_params = [
+{{#allParams}}
+            '{{paramName}}'{{^-last}},{{/-last}}
+{{/allParams}}
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params{{#servers.0}} and _key != "_host_index"{{/servers.0}}:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method {{operationId}}" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+{{#pathParams}}
+        if _params['{{paramName}}'] is not None:
+            _path_params['{{baseName}}'] = _params['{{paramName}}']
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
+
+{{/pathParams}}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+{{#queryParams}}
+        if _params.get('{{paramName}}') is not None:  # noqa: E501
+            {{#isDateTime}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            if isinstance(_params['{{paramName}}'], date):
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{^isDate}}
+            _query_params.append(('{{baseName}}', _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isDate}}
+            {{/isDateTime}}
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
+
+{{/queryParams}}
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+{{#headerParams}}
+        if _params['{{paramName}}'] is not None:
+            _header_params['{{baseName}}'] = _params['{{paramName}}']
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
+
+{{/headerParams}}
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+{{#formParams}}
+        if _params['{{paramName}}'] is not None:
+            {{^isFile}}
+            _form_params.append(('{{{baseName}}}', _params['{{paramName}}']))
+            {{/isFile}}
+            {{#isFile}}
+            _files['{{{baseName}}}'] = _params['{{paramName}}']
+            {{/isFile}}
+            {{#isArray}}
+            _collection_formats['{{{baseName}}}'] = '{{collectionFormat}}'
+            {{/isArray}}
+
+{{/formParams}}
+        # process the body parameter
+        _body_params = None
+{{#bodyParam}}
+        if _params['{{paramName}}'] is not None:
+            _body_params = _params['{{paramName}}']
+            {{#isBinary}}
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
+            {{/isBinary}}
+
+{{/bodyParam}}
+        {{#hasProduces}}
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])  # noqa: E501
+
+        {{/hasProduces}}
+        {{#hasConsumes}}
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}]))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        {{/hasConsumes}}
+        # authentication setting
+        _auth_settings: List[str] = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '{{{path}}}', '{{httpMethod}}',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            {{#servers.0}}
+            _host=_host,
+            {{/servers.0}}
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+{{/asyncio}}
+
 {{/operation}}
 {{/operations}}

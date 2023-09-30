@@ -14,13 +14,18 @@ import time
 import unittest
 
 import petstore_api
+from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
+HOST = 'http://localhost/v2'
 
 class StoreApiTests(unittest.TestCase):
 
     def setUp(self):
-        self.store_api = petstore_api.StoreApi()
+        config = Configuration()
+        config.host = HOST
+        api_client = petstore_api.ApiClient(config)
+        self.store_api = petstore_api.StoreApi(api_client)
 
     def tearDown(self):
         # sleep 1 sec between two every 2 tests

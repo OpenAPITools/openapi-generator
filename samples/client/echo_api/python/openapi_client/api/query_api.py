@@ -30,8 +30,8 @@ from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse
+from openapi_client.api_client import ApiClient, Deserializer
+from openapi_client.api_response import ApiResponse, AsyncApiResponse, AsyncResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -81,16 +81,85 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_enum_ref_string_with_http_info.raw_function(
+        response = self.test_enum_ref_string_with_http_info.raw_function(
             enum_nonref_string_query,
             enum_ref_string_query,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_enum_ref_string_async(
+        self,
+        enum_nonref_string_query: Optional[StrictStr] = None,
+        enum_ref_string_query: Optional[StringEnumRef] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_enum_ref_string(enum_nonref_string_query, enum_ref_string_query, )
+        >>> result = thread.get()
+
+        :param enum_nonref_string_query:
+        :type enum_nonref_string_query: str
+        :param enum_ref_string_query:
+        :type enum_ref_string_query: StringEnumRef
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_enum_ref_string_with_http_info_async(
+            enum_nonref_string_query,
+            enum_ref_string_query,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_enum_ref_string_with_http_info(
@@ -119,9 +188,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -134,7 +200,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -146,7 +212,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -192,10 +257,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/enum_ref_string', 'GET',
             _path_params,
@@ -204,14 +265,113 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_enum_ref_string_with_http_info_async(self, enum_nonref_string_query : Optional[StrictStr] = None, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_enum_ref_string_with_http_info_async(enum_nonref_string_query, enum_ref_string_query, )
+        >>> result = thread.get()
+
+        :param enum_nonref_string_query:
+        :type enum_nonref_string_query: str
+        :param enum_ref_string_query:
+        :type enum_ref_string_query: StringEnumRef
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'enum_nonref_string_query',
+            'enum_ref_string_query'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_enum_ref_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('enum_nonref_string_query') is not None:  # noqa: E501
+            _query_params.append(('enum_nonref_string_query', _params['enum_nonref_string_query']))
+
+        if _params.get('enum_ref_string_query') is not None:  # noqa: E501
+            _query_params.append(('enum_ref_string_query', _params['enum_ref_string_query'].value))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/enum_ref_string', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_datetime_date_string(
@@ -247,17 +407,90 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_datetime_date_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_datetime_date_string_with_http_info.raw_function(
+        response = self.test_query_datetime_date_string_with_http_info.raw_function(
             datetime_query,
             date_query,
             string_query,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_datetime_date_string_async(
+        self,
+        datetime_query: Optional[datetime] = None,
+        date_query: Optional[date] = None,
+        string_query: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_datetime_date_string(datetime_query, date_query, string_query, )
+        >>> result = thread.get()
+
+        :param datetime_query:
+        :type datetime_query: datetime
+        :param date_query:
+        :type date_query: date
+        :param string_query:
+        :type string_query: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_datetime_date_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_datetime_date_string_with_http_info_async(
+            datetime_query,
+            date_query,
+            string_query,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_datetime_date_string_with_http_info(
@@ -289,9 +522,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -304,7 +534,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -317,7 +547,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -372,10 +601,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/datetime/date/string', 'GET',
             _path_params,
@@ -384,14 +609,125 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_datetime_date_string_with_http_info_async(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_datetime_date_string_with_http_info_async(datetime_query, date_query, string_query, )
+        >>> result = thread.get()
+
+        :param datetime_query:
+        :type datetime_query: datetime
+        :param date_query:
+        :type date_query: date
+        :param string_query:
+        :type string_query: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'datetime_query',
+            'date_query',
+            'string_query'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_datetime_date_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('datetime_query') is not None:  # noqa: E501
+            if isinstance(_params['datetime_query'], datetime):
+                _query_params.append(('datetime_query', _params['datetime_query'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('datetime_query', _params['datetime_query']))
+
+        if _params.get('date_query') is not None:  # noqa: E501
+            if isinstance(_params['date_query'], date):
+                _query_params.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('date_query', _params['date_query']))
+
+        if _params.get('string_query') is not None:  # noqa: E501
+            _query_params.append(('string_query', _params['string_query']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/datetime/date/string', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_integer_boolean_string(
@@ -427,17 +763,90 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_integer_boolean_string_with_http_info.raw_function(
+        response = self.test_query_integer_boolean_string_with_http_info.raw_function(
             integer_query,
             boolean_query,
             string_query,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_integer_boolean_string_async(
+        self,
+        integer_query: Optional[StrictInt] = None,
+        boolean_query: Optional[StrictBool] = None,
+        string_query: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_integer_boolean_string(integer_query, boolean_query, string_query, )
+        >>> result = thread.get()
+
+        :param integer_query:
+        :type integer_query: int
+        :param boolean_query:
+        :type boolean_query: bool
+        :param string_query:
+        :type string_query: str
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_integer_boolean_string_with_http_info_async(
+            integer_query,
+            boolean_query,
+            string_query,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_integer_boolean_string_with_http_info(
@@ -469,9 +878,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -484,7 +890,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -497,7 +903,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -546,10 +951,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/integer/boolean/string', 'GET',
             _path_params,
@@ -558,14 +959,119 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_integer_boolean_string_with_http_info_async(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_integer_boolean_string_with_http_info_async(integer_query, boolean_query, string_query, )
+        >>> result = thread.get()
+
+        :param integer_query:
+        :type integer_query: int
+        :param boolean_query:
+        :type boolean_query: bool
+        :param string_query:
+        :type string_query: str
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'integer_query',
+            'boolean_query',
+            'string_query'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_integer_boolean_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('integer_query') is not None:  # noqa: E501
+            _query_params.append(('integer_query', _params['integer_query']))
+
+        if _params.get('boolean_query') is not None:  # noqa: E501
+            _query_params.append(('boolean_query', _params['boolean_query']))
+
+        if _params.get('string_query') is not None:  # noqa: E501
+            _query_params.append(('string_query', _params['string_query']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/integer/boolean/string', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_style_deep_object_explode_true_object(
@@ -595,15 +1101,80 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_style_deep_object_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_style_deep_object_explode_true_object_with_http_info.raw_function(
+        response = self.test_query_style_deep_object_explode_true_object_with_http_info.raw_function(
             query_object,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_style_deep_object_explode_true_object_async(
+        self,
+        query_object: Optional[Pet] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_style_deep_object_explode_true_object(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_style_deep_object_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_style_deep_object_explode_true_object_with_http_info_async(
+            query_object,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_with_http_info(
@@ -629,9 +1200,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -644,7 +1212,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -655,7 +1223,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -698,10 +1265,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/style_deepObject/explode_true/object', 'GET',
             _path_params,
@@ -710,14 +1273,107 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_style_deep_object_explode_true_object_with_http_info_async(self, query_object : Optional[Pet] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_style_deep_object_explode_true_object_with_http_info_async(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'query_object'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_style_deep_object_explode_true_object" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('query_object') is not None:  # noqa: E501
+            _query_params.append(('query_object', _params['query_object']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/style_deepObject/explode_true/object', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_all_of(
@@ -747,15 +1403,80 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_style_deep_object_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info.raw_function(
+        response = self.test_query_style_deep_object_explode_true_object_all_of_with_http_info.raw_function(
             query_object,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_style_deep_object_explode_true_object_all_of_async(
+        self,
+        query_object: Optional[Any] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_style_deep_object_explode_true_object_all_of(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_style_deep_object_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_style_deep_object_explode_true_object_all_of_with_http_info_async(
+            query_object,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info(
@@ -781,9 +1502,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -796,7 +1514,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -807,7 +1525,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -850,10 +1567,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/style_deepObject/explode_true/object/allOf', 'GET',
             _path_params,
@@ -862,14 +1575,107 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_style_deep_object_explode_true_object_all_of_with_http_info_async(self, query_object : Optional[Any] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_style_deep_object_explode_true_object_all_of_with_http_info_async(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'query_object'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_style_deep_object_explode_true_object_all_of" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('query_object') is not None:  # noqa: E501
+            _query_params.append(('query_object', _params['query_object']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/style_deepObject/explode_true/object/allOf', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_style_form_explode_true_array_string(
@@ -899,15 +1705,80 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_style_form_explode_true_array_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_style_form_explode_true_array_string_with_http_info.raw_function(
+        response = self.test_query_style_form_explode_true_array_string_with_http_info.raw_function(
             query_object,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_style_form_explode_true_array_string_async(
+        self,
+        query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_style_form_explode_true_array_string(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_style_form_explode_true_array_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_style_form_explode_true_array_string_with_http_info_async(
+            query_object,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_style_form_explode_true_array_string_with_http_info(
@@ -933,9 +1804,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -948,7 +1816,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -959,7 +1827,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1002,10 +1869,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/style_form/explode_true/array_string', 'GET',
             _path_params,
@@ -1014,14 +1877,107 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_style_form_explode_true_array_string_with_http_info_async(self, query_object : Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_style_form_explode_true_array_string_with_http_info_async(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'query_object'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_style_form_explode_true_array_string" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('query_object') is not None:  # noqa: E501
+            _query_params.append(('query_object', _params['query_object']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/style_form/explode_true/array_string', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_style_form_explode_true_object(
@@ -1051,15 +2007,80 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_style_form_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_style_form_explode_true_object_with_http_info.raw_function(
+        response = self.test_query_style_form_explode_true_object_with_http_info.raw_function(
             query_object,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_style_form_explode_true_object_async(
+        self,
+        query_object: Optional[Pet] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_style_form_explode_true_object(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: Pet
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_style_form_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_style_form_explode_true_object_with_http_info_async(
+            query_object,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_style_form_explode_true_object_with_http_info(
@@ -1085,9 +2106,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1100,7 +2118,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1111,7 +2129,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1154,10 +2171,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/style_form/explode_true/object', 'GET',
             _path_params,
@@ -1166,14 +2179,107 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_style_form_explode_true_object_with_http_info_async(self, query_object : Optional[Pet] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_style_form_explode_true_object_with_http_info_async(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: Pet
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'query_object'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_style_form_explode_true_object" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('query_object') is not None:  # noqa: E501
+            _query_params.append(('query_object', _params['query_object']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/style_form/explode_true/object', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
 
     @validate_call
     def test_query_style_form_explode_true_object_all_of(
@@ -1203,15 +2309,80 @@ class QueryApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_style_form_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_query_style_form_explode_true_object_all_of_with_http_info.raw_function(
+        response = self.test_query_style_form_explode_true_object_all_of_with_http_info.raw_function(
             query_object,
             **kwargs,
         )
+
+        response_types_map: Dict[str, Optional[str]] = {
+            '200': 'str',
+        }
+
+        response_type = response_types_map.get(str(response.status_code))
+        if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+        d = Deserializer()
+        if response_type is not None:
+            return d.deserialize(response, response_type)
+        else:
+            return None
+
+    def test_query_style_form_explode_true_object_all_of_async(
+        self,
+        query_object: Optional[Any] = None,
+        **kwargs,
+    ) -> AsyncResponse[str]:
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request.
+
+        >>> thread = api.test_query_style_form_explode_true_object_all_of(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: DataQuery
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: str
+        """
+
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the test_query_style_form_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        response = self.test_query_style_form_explode_true_object_all_of_with_http_info_async(
+            query_object,
+            **kwargs,
+        )
+
+        def d(response):
+            response_types_map = {
+                '200': 'str',
+            }
+
+            response_type = response_types_map.get(str(response.status_code))
+            if not response_type and isinstance(response.status_code, int) and 100 <= response.status_code <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response.status_code)[0] + "XX")
+
+            d = Deserializer()
+            if response_type is not None:
+                return d.deserialize(response, response_type)
+            else:
+                return None
+
+        return AsyncResponse(response, d)
 
     @validate_call
     def test_query_style_form_explode_true_object_all_of_with_http_info(
@@ -1237,9 +2408,6 @@ class QueryApi:
                                  HTTP response body without reading/decoding.
                                  Default is True.
         :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1252,7 +2420,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse
         """
 
         _params = locals()
@@ -1263,7 +2431,6 @@ class QueryApi:
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1306,10 +2473,6 @@ class QueryApi:
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
         return self.api_client.call_api(
             '/query/style_form/explode_true/object/allOf', 'GET',
             _path_params,
@@ -1318,11 +2481,104 @@ class QueryApi:
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
+
+    @validate_call
+    def test_query_style_form_explode_true_object_all_of_with_http_info_async(self, query_object : Optional[Any] = None, **kwargs) -> AsyncApiResponse:  # noqa: E501
+        """Test query parameter(s)  # noqa: E501
+
+        Test query parameter(s)  # noqa: E501
+        This method makes a asynchronous HTTP request:
+
+        >>> thread = api.test_query_style_form_explode_true_object_all_of_with_http_info_async(query_object, )
+        >>> result = thread.get()
+
+        :param query_object:
+        :type query_object: DataQuery
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'query_object'
+        ]
+        _all_params.extend(
+            [
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_style_form_explode_true_object_all_of" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats: Dict[str, str] = {}
+
+        # process the path parameters
+        _path_params: Dict[str, str] = {}
+
+        # process the query parameters
+        _query_params: List[Tuple[str, str]] = []
+        if _params.get('query_object') is not None:  # noqa: E501
+            _query_params.append(('query_object', _params['query_object']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/plain'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.call_api_async(
+            '/query/style_form/explode_true/object/allOf', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+

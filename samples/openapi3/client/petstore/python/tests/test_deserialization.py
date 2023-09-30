@@ -25,8 +25,8 @@ MockResponse = namedtuple('MockResponse', 'data')
 class DeserializationTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.deserialize = self.api_client.deserialize
+        deserializer = petstore_api.api_client.Deserializer()
+        self.deserialize = deserializer.deserialize
 
     def test_enum_test(self):
        """ deserialize Dict[str, EnumTest] """
