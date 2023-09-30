@@ -687,12 +687,9 @@ components:
       properties:
         number:
           type: number
-        # TODO: pydantic v2: this field name override the default `float` type
-        # If this property is uncommented, consider removing this file
-        # completely in favor of the parent echo_api.yaml file
-        #float:
-          #type: number
-          #format: float
+        float:
+          type: number
+          format: float
         double:
           type: number
           format: double

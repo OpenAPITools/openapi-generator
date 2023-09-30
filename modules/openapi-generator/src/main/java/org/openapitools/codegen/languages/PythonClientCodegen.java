@@ -130,21 +130,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // pydantic keyword
-                        "schema", "base64", "json",
-                        "date",
-                        // @property
-                        "property",
-                        // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
-
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("openapi_client"));
