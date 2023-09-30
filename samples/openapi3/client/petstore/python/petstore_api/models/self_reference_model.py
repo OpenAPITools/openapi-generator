@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
 
 class SelfReferenceModel(BaseModel):
@@ -28,7 +28,7 @@ class SelfReferenceModel(BaseModel):
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested"]
+    __properties: ClassVar[List[str]] = ["size", "nested"]
 
     model_config = {
         "populate_by_name": True,
@@ -82,7 +82,7 @@ class SelfReferenceModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

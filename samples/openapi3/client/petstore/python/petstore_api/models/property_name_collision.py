@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 
@@ -30,7 +30,7 @@ class PropertyNameCollision(BaseModel):
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["_type", "type", "type_"]
+    __properties: ClassVar[List[str]] = ["_type", "type", "type_"]
 
     model_config = {
         "populate_by_name": True,
@@ -82,7 +82,7 @@ class PropertyNameCollision(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -28,7 +28,7 @@ class DanishPig(BaseModel):
     """
     class_name: StrictStr = Field(alias="className")
     size: StrictInt
-    __properties = ["className", "size"]
+    __properties: ClassVar[List[str]] = ["className", "size"]
 
     model_config = {
         "populate_by_name": True,

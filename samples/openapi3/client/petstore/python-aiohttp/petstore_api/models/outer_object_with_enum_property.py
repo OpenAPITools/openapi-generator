@@ -29,7 +29,7 @@ class OuterObjectWithEnumProperty(BaseModel):
     """
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger
-    __properties = ["str_value", "value"]
+    __properties: ClassVar[List[str]] = ["str_value", "value"]
 
     model_config = {
         "populate_by_name": True,

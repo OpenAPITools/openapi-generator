@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 
 class AdditionalPropertiesClass(BaseModel):
@@ -28,7 +28,7 @@ class AdditionalPropertiesClass(BaseModel):
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["map_property", "map_of_map_property"]
+    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property"]
 
     model_config = {
         "populate_by_name": True,
@@ -79,7 +79,7 @@ class AdditionalPropertiesClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

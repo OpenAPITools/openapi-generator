@@ -39,7 +39,7 @@ class NullableClass(BaseModel):
     object_and_items_nullable_prop: Optional[Dict[str, Union[str, Any]]] = None
     object_items_nullable: Optional[Dict[str, Union[str, Any]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
+    __properties: ClassVar[List[str]] = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
     model_config = {
         "populate_by_name": True,
@@ -156,7 +156,7 @@ class NullableClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

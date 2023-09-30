@@ -27,7 +27,7 @@ class Category(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: StrictStr
-    __properties = ["id", "name"]
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     model_config = {
         "populate_by_name": True,

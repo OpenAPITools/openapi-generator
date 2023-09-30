@@ -28,7 +28,7 @@ class Creature(BaseModel):
     """
     info: CreatureInfo
     type: StrictStr
-    __properties = ["info", "type"]
+    __properties: ClassVar[List[str]] = ["info", "type"]
 
     model_config = {
         "populate_by_name": True,

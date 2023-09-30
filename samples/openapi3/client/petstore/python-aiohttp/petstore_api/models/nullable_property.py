@@ -29,7 +29,7 @@ class NullableProperty(BaseModel):
     """
     id: StrictInt
     name: Optional[Annotated[str, Field(strict=True)]]
-    __properties = ["id", "name"]
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     @field_validator('name')
     def name_validate_regular_expression(cls, value):

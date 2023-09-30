@@ -31,7 +31,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     id: Optional[float] = None
     deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
     bars: Optional[List[StrictStr]] = None
-    __properties = ["uuid", "id", "deprecatedRef", "bars"]
+    __properties: ClassVar[List[str]] = ["uuid", "id", "deprecatedRef", "bars"]
 
     model_config = {
         "populate_by_name": True,

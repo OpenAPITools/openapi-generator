@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from petstore_api.models.file import File
 
@@ -29,7 +29,7 @@ class FileSchemaTestClass(BaseModel):
     file: Optional[File] = None
     files: Optional[List[File]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["file", "files"]
+    __properties: ClassVar[List[str]] = ["file", "files"]
 
     model_config = {
         "populate_by_name": True,
@@ -90,7 +90,7 @@ class FileSchemaTestClass(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

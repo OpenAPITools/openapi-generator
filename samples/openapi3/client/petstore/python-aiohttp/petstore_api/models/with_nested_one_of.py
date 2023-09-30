@@ -30,7 +30,7 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
+    __properties: ClassVar[List[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     model_config = {
         "populate_by_name": True,
