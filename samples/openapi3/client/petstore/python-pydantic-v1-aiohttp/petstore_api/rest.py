@@ -12,41 +12,60 @@
 """  # noqa: E501
 
 
-import io
 import json
 import logging
 import re
 import ssl
+from typing import Any, Dict, List, Optional, Union, Tuple
 
 import aiohttp
-from urllib.parse import urlencode, quote_plus
+from aiohttp import ClientResponse
+from urllib.parse import urlencode
 
+from petstore_api.configuration import Configuration
 from petstore_api.exceptions import ApiException, ApiValueError
 
 logger = logging.getLogger(__name__)
 
 
-class RESTResponse(io.IOBase):
+class RESTResponse:
+    """An HTTP response."""
+    # This provides a generic object to store HTTP responses.
+    # It proxies the original HTTP response from the underlying HTTP library
+    # (aiohttp, urllib3, etc.) so that clients of RESTClientObject can work
+    # without knowing too much about each library specifics.
 
-    def __init__(self, resp, data) -> None:
-        self.aiohttp_response = resp
+    def __init__(self, resp: ClientResponse, data: bytes) -> None:
+        self._aiohttp_response = resp
         self.status = resp.status
         self.reason = resp.reason
         self.data = data
 
-    def getheaders(self):
-        """Returns a CIMultiDictProxy of the response headers."""
-        return self.aiohttp_response.headers
+    def getheaders(self) -> Dict[str, str]:
+        """Returns a dictionary of the response headers."""
+        # Note: this can lose the CIMultiDictProxy duplicated headers.
+        return dict(self._aiohttp_response.headers)
 
-    def getheader(self, name, default=None):
+    def getheader(self, name: str, default: Optional[str]=None) -> Optional[str]:
         """Returns a given response header."""
-        return self.aiohttp_response.headers.get(name, default)
+        return self._aiohttp_response.headers.get(name, default)
+
+
+PostParam = Tuple[
+    str, # The key of the parameter
+    Union[
+        str, # The value of the parameter
+        Tuple[ # or a file: (inspired by https://urllib3.readthedocs.io/en/v2.0.5/user-guide.html#files-binary-data)
+            str, # filename
+            bytes, # file data
+            str, # mime-type
+        ],
+    ]
+]
 
 
 class RESTClientObject:
-
-    def __init__(self, configuration, pools_size=4, maxsize=None) -> None:
-
+    def __init__(self, configuration: Configuration, pools_size: int=4, maxsize: Optional[int]=None) -> None:
         # maxsize is number of requests to host that are allowed in parallel
         if maxsize is None:
             maxsize = configuration.connection_pool_maxsize
@@ -75,12 +94,19 @@ class RESTClientObject:
             trust_env=True
         )
 
-    async def close(self):
+    async def close(self) -> None:
         await self.pool_manager.close()
 
-    async def request(self, method, url, query_params=None, headers=None,
-                      body=None, post_params=None, _preload_content=True,
-                      _request_timeout=None):
+    async def request(self,
+        method: str,
+        url: str,
+        query_params: Optional[Dict[str, str]]=None,
+        headers: Optional[Dict[str, str]]=None,
+        body: Any=None,
+        post_params: Optional[List[PostParam]]=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         """Execute request
 
         :param method: http request method
@@ -107,7 +133,7 @@ class RESTClientObject:
                 "body parameter cannot be used with post_params parameter."
             )
 
-        post_params = post_params or {}
+        post_params = post_params or []
         headers = headers or {}
         # url already contains the URL query string
         # so reset query_params to empty dict
@@ -118,8 +144,6 @@ class RESTClientObject:
             headers['Content-Type'] = 'application/json'
 
         args = {
-            "method": method,
-            "url": url,
             "timeout": timeout,
             "headers": headers
         }
@@ -130,7 +154,8 @@ class RESTClientObject:
             args["proxy_headers"] = self.proxy_headers
 
         if query_params:
-            args["url"] += '?' + urlencode(query_params)
+            url += '?' + urlencode(query_params)
+
 
         # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
         if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
@@ -168,12 +193,12 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        r = await self.pool_manager.request(**args)
+        _r = await self.pool_manager.request(method, url, **args)
+
+        response_data = await _r.read()
+        r = RESTResponse(_r, response_data)
+
         if _preload_content:
-
-            data = await r.read()
-            r = RESTResponse(r, data)
-
             # log response body
             logger.debug("response body: %s", r.data)
 
@@ -182,25 +207,44 @@ class RESTClientObject:
 
         return r
 
-    async def get_request(self, url, headers=None, query_params=None,
-                  _preload_content=True, _request_timeout=None):
+    async def get_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("GET", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
-    async def head_request(self, url, headers=None, query_params=None,
-                   _preload_content=True, _request_timeout=None):
+    async def head_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("HEAD", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
-    async def options_request(self, url, headers=None, query_params=None,
-                      post_params=None, body=None, _preload_content=True,
-                      _request_timeout=None):
+    async def options_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("OPTIONS", url,
                                    headers=headers,
                                    query_params=query_params,
@@ -209,8 +253,15 @@ class RESTClientObject:
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def delete_request(self, url, headers=None, query_params=None, body=None,
-                     _preload_content=True, _request_timeout=None):
+    async def delete_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("DELETE", url,
                                    headers=headers,
                                    query_params=query_params,
@@ -218,9 +269,16 @@ class RESTClientObject:
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def post_request(self, url, headers=None, query_params=None,
-                   post_params=None, body=None, _preload_content=True,
-                   _request_timeout=None):
+    async def post_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("POST", url,
                                    headers=headers,
                                    query_params=query_params,
@@ -229,8 +287,16 @@ class RESTClientObject:
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def put_request(self, url, headers=None, query_params=None, post_params=None,
-                  body=None, _preload_content=True, _request_timeout=None):
+    async def put_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("PUT", url,
                                    headers=headers,
                                    query_params=query_params,
@@ -239,9 +305,16 @@ class RESTClientObject:
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def patch_request(self, url, headers=None, query_params=None,
-                    post_params=None, body=None, _preload_content=True,
-                    _request_timeout=None):
+    async def patch_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: Optional[int]=None,
+    ) -> RESTResponse:
         return (await self.request("PATCH", url,
                                    headers=headers,
                                    query_params=query_params,

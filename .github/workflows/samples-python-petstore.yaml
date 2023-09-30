@@ -57,3 +57,16 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: poetry run pytest -v
+
+      # These modules should pass mypy without errors
+      - name: mypy (WIP)
+        working-directory: ${{ matrix.sample }}
+        run: |
+          poetry run mypy */rest.py
+
+      # This runs mypy on all the modules, but full typing is not yet fully implemented, this can fail.
+      - name: mypy
+        working-directory: ${{ matrix.sample }}
+        continue-on-error: true
+        run: |
+          poetry run mypy

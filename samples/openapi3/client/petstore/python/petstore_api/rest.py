@@ -12,41 +12,67 @@
 """  # noqa: E501
 
 
-import io
 import json
 import logging
 import re
 import ssl
+from typing import Any, Dict, List, Optional, Union, Tuple
 
-from urllib.parse import urlencode, quote_plus
 import urllib3
+from urllib3 import BaseHTTPResponse
+from urllib3.util.timeout import _TYPE_TIMEOUT
 
-from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError, BadRequestException
+from petstore_api.configuration import Configuration
+from petstore_api.exceptions import ApiException
+from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import BadRequestException
+from petstore_api.exceptions import ForbiddenException
+from petstore_api.exceptions import NotFoundException
+from petstore_api.exceptions import ServiceException
+from petstore_api.exceptions import UnauthorizedException
 
 
 logger = logging.getLogger(__name__)
 
 
-class RESTResponse(io.IOBase):
+class RESTResponse:
+    """An HTTP response."""
+    # This provides a generic object to store HTTP responses.
+    # It proxies the original HTTP response from the underlying HTTP library
+    # (aiohttp, urllib3, etc.) so that clients of RESTClientObject can work
+    # without knowing too much about each library specifics.
 
-    def __init__(self, resp) -> None:
-        self.urllib3_response = resp
+    def __init__(self, resp: BaseHTTPResponse) -> None:
+        self._urllib3_response = resp
         self.status = resp.status
         self.reason = resp.reason
         self.data = resp.data
 
-    def getheaders(self):
+    def getheaders(self) -> Dict[str, str]:
         """Returns a dictionary of the response headers."""
-        return self.urllib3_response.headers
+        # Note: this can lose the urllib3.HTTPHeaderDict duplicated headers.
+        return dict(self._urllib3_response.headers)
 
-    def getheader(self, name, default=None):
+    def getheader(self, name: str, default: Optional[str]=None) -> Optional[str]:
         """Returns a given response header."""
-        return self.urllib3_response.headers.get(name, default)
+        return self._urllib3_response.headers.get(name, default)
+
+
+PostParam = Tuple[
+    str, # The key of the parameter
+    Union[
+        str, # The value of the parameter
+        Tuple[ # or a file: (inspired by https://urllib3.readthedocs.io/en/v2.0.5/user-guide.html#files-binary-data)
+            str, # filename
+            bytes, # file data  
+            str, # mime-type
+        ],
+    ]
+]
 
 
 class RESTClientObject:
-
-    def __init__(self, configuration, pools_size=4, maxsize=None) -> None:
+    def __init__(self, configuration: Configuration, pools_size: int=4, maxsize: Optional[int]=None) -> None:
         # urllib3.PoolManager will pass all kw parameters to connectionpool
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/poolmanager.py#L75  # noqa: E501
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680  # noqa: E501
@@ -59,7 +85,7 @@ class RESTClientObject:
         else:
             cert_reqs = ssl.CERT_NONE
 
-        addition_pool_args = {}
+        addition_pool_args: Dict[str, Any] = {}
         if configuration.assert_hostname is not None:
             addition_pool_args['assert_hostname'] = configuration.assert_hostname  # noqa: E501
 
@@ -78,6 +104,8 @@ class RESTClientObject:
                 maxsize = configuration.connection_pool_maxsize
             else:
                 maxsize = 4
+
+        self.pool_manager: urllib3.PoolManager
 
         # https pool manager
         if configuration.proxy:
@@ -103,9 +131,16 @@ class RESTClientObject:
                 **addition_pool_args
             )
 
-    def request(self, method, url, query_params=None, headers=None,
-                body=None, post_params=None, _preload_content=True,
-                _request_timeout=None):
+    def request(self,
+        method: str,
+        url: str,
+        query_params: Optional[Dict[str, str]]=None,
+        headers: Optional[Dict[str, str]]=None,
+        body: Any=None,
+        post_params: Optional[List[PostParam]]=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         """Perform requests.
 
         :param method: http request method
@@ -133,7 +168,7 @@ class RESTClientObject:
                 "body parameter cannot be used with post_params parameter."
             )
 
-        post_params = post_params or {}
+        post_params = post_params or []
         headers = headers or {}
         # url already contains the URL query string
         # so reset query_params to empty dict
@@ -157,14 +192,14 @@ class RESTClientObject:
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
-                    r = self.pool_manager.request(
+                    _r = self.pool_manager.request(
                         method, url,
                         body=request_body,
                         preload_content=_preload_content,
                         timeout=timeout,
                         headers=headers)
                 elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
-                    r = self.pool_manager.request(
+                    _r = self.pool_manager.request(
                         method, url,
                         fields=post_params,
                         encode_multipart=False,
@@ -176,7 +211,7 @@ class RESTClientObject:
                     # Content-Type which generated by urllib3 will be
                     # overwritten.
                     del headers['Content-Type']
-                    r = self.pool_manager.request(
+                    _r = self.pool_manager.request(
                         method, url,
                         fields=post_params,
                         encode_multipart=True,
@@ -187,10 +222,9 @@ class RESTClientObject:
                 # other content types than Json when `body` argument is
                 # provided in serialized form
                 elif isinstance(body, str) or isinstance(body, bytes):
-                    request_body = body
-                    r = self.pool_manager.request(
+                    _r = self.pool_manager.request(
                         method, url,
-                        body=request_body,
+                        body=body,
                         preload_content=_preload_content,
                         timeout=timeout,
                         headers=headers)
@@ -202,7 +236,7 @@ class RESTClientObject:
                     raise ApiException(status=0, reason=msg)
             # For `GET`, `HEAD`
             else:
-                r = self.pool_manager.request(method, url,
+                _r = self.pool_manager.request(method, url,
                                               fields={},
                                               preload_content=_preload_content,
                                               timeout=timeout,
@@ -211,11 +245,12 @@ class RESTClientObject:
             msg = "{0}\n{1}".format(type(e).__name__, str(e))
             raise ApiException(status=0, reason=msg)
 
-        if _preload_content:
-            r = RESTResponse(r)
+        r = RESTResponse(_r)
 
+        if _preload_content:
             # log response body
             logger.debug("response body: %s", r.data)
+
 
         if not 200 <= r.status <= 299:
             if r.status == 400:
@@ -237,24 +272,44 @@ class RESTClientObject:
 
         return r
 
-    def get_request(self, url, headers=None, query_params=None, _preload_content=True,
-            _request_timeout=None):
+    def get_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("GET", url,
                             headers=headers,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
                             query_params=query_params)
 
-    def head_request(self, url, headers=None, query_params=None, _preload_content=True,
-             _request_timeout=None):
+    def head_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("HEAD", url,
                             headers=headers,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
                             query_params=query_params)
 
-    def options_request(self, url, headers=None, query_params=None, post_params=None,
-                body=None, _preload_content=True, _request_timeout=None):
+    def options_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("OPTIONS", url,
                             headers=headers,
                             query_params=query_params,
@@ -263,8 +318,15 @@ class RESTClientObject:
                             _request_timeout=_request_timeout,
                             body=body)
 
-    def delete_request(self, url, headers=None, query_params=None, body=None,
-               _preload_content=True, _request_timeout=None):
+    def delete_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("DELETE", url,
                             headers=headers,
                             query_params=query_params,
@@ -272,8 +334,16 @@ class RESTClientObject:
                             _request_timeout=_request_timeout,
                             body=body)
 
-    def post_request(self, url, headers=None, query_params=None, post_params=None,
-             body=None, _preload_content=True, _request_timeout=None):
+    def post_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("POST", url,
                             headers=headers,
                             query_params=query_params,
@@ -282,8 +352,16 @@ class RESTClientObject:
                             _request_timeout=_request_timeout,
                             body=body)
 
-    def put_request(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _preload_content=True, _request_timeout=None):
+    def put_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("PUT", url,
                             headers=headers,
                             query_params=query_params,
@@ -292,8 +370,16 @@ class RESTClientObject:
                             _request_timeout=_request_timeout,
                             body=body)
 
-    def patch_request(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _preload_content=True, _request_timeout=None):
+    def patch_request(
+        self,
+        url: str,
+        headers: Optional[Dict[str, str]]=None,
+        query_params: Optional[Dict[str, str]]=None,
+        post_params: Optional[List[PostParam]]=None,
+        body: Any=None,
+        _preload_content: bool=True,
+        _request_timeout: _TYPE_TIMEOUT=None,
+    ) -> RESTResponse:
         return self.request("PATCH", url,
                             headers=headers,
                             query_params=query_params,
