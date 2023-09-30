@@ -20,6 +20,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class SecondRef(BaseModel):
     """
@@ -45,7 +50,7 @@ class SecondRef(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SecondRef:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SecondRef from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -61,15 +66,15 @@ class SecondRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SecondRef:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of SecondRef from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SecondRef.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = SecondRef.model_validate({
+        _obj = cls.model_validate({
             "category": obj.get("category"),
             "circular_ref": CircularReferenceModel.from_dict(obj.get("circular_ref")) if obj.get("circular_ref") is not None else None
         })

@@ -21,6 +21,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Category(BaseModel):
     """
@@ -46,7 +51,7 @@ class Category(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Category:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Category from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -59,15 +64,15 @@ class Category(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Category:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Category from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Category.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = Category.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name")
         })

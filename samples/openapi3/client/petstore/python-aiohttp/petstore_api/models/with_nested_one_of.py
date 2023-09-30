@@ -22,6 +22,11 @@ from typing import Optional
 from pydantic import BaseModel, StrictInt
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class WithNestedOneOf(BaseModel):
     """
@@ -48,7 +53,7 @@ class WithNestedOneOf(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> WithNestedOneOf:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of WithNestedOneOf from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,15 +72,15 @@ class WithNestedOneOf(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> WithNestedOneOf:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of WithNestedOneOf from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return WithNestedOneOf.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = WithNestedOneOf.model_validate({
+        _obj = cls.model_validate({
             "size": obj.get("size"),
             "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None,
             "nested_oneof_enum_string": OneOfEnumString.from_dict(obj.get("nested_oneof_enum_string")) if obj.get("nested_oneof_enum_string") is not None else None

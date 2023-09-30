@@ -19,6 +19,10 @@ from aenum import Enum, no_arg
 
 
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class OuterEnumDefaultValue(str, Enum):
@@ -34,8 +38,8 @@ class OuterEnumDefaultValue(str, Enum):
     DELIVERED = 'delivered'
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterEnumDefaultValue:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterEnumDefaultValue from a JSON string"""
-        return OuterEnumDefaultValue(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

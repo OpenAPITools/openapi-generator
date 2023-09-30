@@ -21,6 +21,11 @@ import json
 from typing import Optional
 from pydantic import BaseModel
 from petstore_api.models.foo import Foo
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FooGetDefaultResponse(BaseModel):
     """
@@ -45,7 +50,7 @@ class FooGetDefaultResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FooGetDefaultResponse:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FooGetDefaultResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -61,15 +66,15 @@ class FooGetDefaultResponse(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FooGetDefaultResponse:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of FooGetDefaultResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FooGetDefaultResponse.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = FooGetDefaultResponse.model_validate({
+        _obj = cls.model_validate({
             "string": Foo.from_dict(obj.get("string")) if obj.get("string") is not None else None
         })
         return _obj

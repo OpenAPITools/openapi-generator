@@ -19,6 +19,10 @@ from aenum import Enum, no_arg
 
 
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class SingleRefType(str, Enum):
@@ -33,8 +37,8 @@ class SingleRefType(str, Enum):
     USER = 'user'
 
     @classmethod
-    def from_json(cls, json_str: str) -> SingleRefType:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SingleRefType from a JSON string"""
-        return SingleRefType(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

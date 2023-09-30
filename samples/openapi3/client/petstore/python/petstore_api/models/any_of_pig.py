@@ -25,6 +25,10 @@ from petstore_api.models.danish_pig import DanishPig
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -80,13 +84,13 @@ class AnyOfPig(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AnyOfPig:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> AnyOfPig:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = AnyOfPig.model_construct()
+        instance = cls.model_construct()
         error_messages = []
         # anyof_schema_1_validator: Optional[BasquePig] = None
         try:

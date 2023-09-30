@@ -21,6 +21,11 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayOfArrayOfNumberOnly(BaseModel):
     """
@@ -45,7 +50,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayOfArrayOfNumberOnly:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -58,15 +63,15 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayOfArrayOfNumberOnly:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfNumberOnly.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayOfArrayOfNumberOnly.model_validate({
+        _obj = cls.model_validate({
             "ArrayArrayNumber": obj.get("ArrayArrayNumber")
         })
         return _obj

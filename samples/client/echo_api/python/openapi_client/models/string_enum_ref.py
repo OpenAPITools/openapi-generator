@@ -20,6 +20,10 @@ from aenum import Enum, no_arg
 
 
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class StringEnumRef(str, Enum):
@@ -35,8 +39,8 @@ class StringEnumRef(str, Enum):
     UNCLASSIFIED = 'unclassified'
 
     @classmethod
-    def from_json(cls, json_str: str) -> StringEnumRef:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of StringEnumRef from a JSON string"""
-        return StringEnumRef(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

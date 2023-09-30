@@ -20,6 +20,11 @@ import json
 
 from typing import Dict, Optional
 from pydantic import BaseModel, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class AdditionalPropertiesClass(BaseModel):
     """
@@ -45,7 +50,7 @@ class AdditionalPropertiesClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AdditionalPropertiesClass:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of AdditionalPropertiesClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -58,15 +63,15 @@ class AdditionalPropertiesClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AdditionalPropertiesClass:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of AdditionalPropertiesClass from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AdditionalPropertiesClass.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = AdditionalPropertiesClass.model_validate({
+        _obj = cls.model_validate({
             "map_property": obj.get("map_property"),
             "map_of_map_property": obj.get("map_of_map_property")
         })

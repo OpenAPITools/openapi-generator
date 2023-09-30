@@ -20,6 +20,11 @@ import json
 
 
 from pydantic import BaseModel, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class CreatureInfo(BaseModel):
     """
@@ -44,7 +49,7 @@ class CreatureInfo(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CreatureInfo:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of CreatureInfo from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -57,15 +62,15 @@ class CreatureInfo(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CreatureInfo:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of CreatureInfo from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CreatureInfo.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = CreatureInfo.model_validate({
+        _obj = cls.model_validate({
             "name": obj.get("name")
         })
         return _obj

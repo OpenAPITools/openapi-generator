@@ -21,6 +21,11 @@ import json
 from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Animal(BaseModel):
     """
@@ -65,7 +70,7 @@ class Animal(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union(Cat, Dog):
+    def from_json(cls, json_str: str) -> Union[Self, Self]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -84,7 +89,7 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union(Cat, Dog):
+    def from_dict(cls, obj: dict) -> Union[Self, Self]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
