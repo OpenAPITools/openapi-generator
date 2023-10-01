@@ -110,7 +110,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
                         // @property
                         "property",
-                        // pydantic keyword
+                        // typing keywords
                         "schema", "base64", "json",
                         "date", "float",
                         // python reserved words
