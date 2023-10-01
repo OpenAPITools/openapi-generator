@@ -29,8 +29,9 @@ class NumberPropertiesOnly(BaseModel):
     NumberPropertiesOnly
     """
     number: Optional[Union[StrictFloat, StrictInt]] = None
+    var_float: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="float")
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
-    __properties: ClassVar[List[str]] = ["number", "double"]
+    __properties: ClassVar[List[str]] = ["number", "float", "double"]
 
     model_config = {
         "populate_by_name": True,
@@ -71,6 +72,7 @@ class NumberPropertiesOnly(BaseModel):
 
         _obj = NumberPropertiesOnly.model_validate({
             "number": obj.get("number"),
+            "float": obj.get("float"),
             "double": obj.get("double")
         })
         return _obj

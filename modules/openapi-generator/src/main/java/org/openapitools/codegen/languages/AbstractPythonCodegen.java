@@ -110,6 +110,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
                         // @property
                         "property",
+                        // typing keywords
+                        "schema", "base64", "json",
+                        "date", "float",
                         // python reserved words
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",

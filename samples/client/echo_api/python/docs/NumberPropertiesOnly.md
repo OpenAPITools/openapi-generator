@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **number** | **float** |  | [optional] 
+**var_float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 
 ## Example
