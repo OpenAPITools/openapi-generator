@@ -32,7 +32,7 @@ class Cat(Animal):
     Cat
     """
     declawed: Optional[StrictBool] = None
-    __properties = ["className", "color", "declawed"]
+    __properties: ClassVar[List[str]] = ["className", "color", "declawed"]
 
     model_config = {
         "populate_by_name": True,

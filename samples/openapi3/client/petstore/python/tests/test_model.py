@@ -334,7 +334,7 @@ class ModelTests(unittest.TestCase):
         # should throw exception as var_123_list should be string
         kw = {"123-list": 123}
         try:
-            l3 = petstore_api.List(**kw)
+            l3 = petstore_api.ListClass(**kw)
             self.assertTrue(False)  # this line shouldn't execute
             breakpoint()
         except ValueError as e:
@@ -344,13 +344,13 @@ class ModelTests(unittest.TestCase):
             self.assertTrue("Input should be a valid string" in str(e))
 
         kw = {"123-list": "bulldog"}
-        l = petstore_api.List(**kw)
+        l = petstore_api.ListClass(**kw)
         self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
-        l2 = petstore_api.List.from_json(l.to_json())
+        l2 = petstore_api.ListClass.from_json(l.to_json())
         self.assertEqual(l2.var_123_list, 'bulldog')
 
-        self.assertTrue(isinstance(l2, petstore_api.List))
+        self.assertTrue(isinstance(l2, petstore_api.ListClass))
 
     def test_enum_ref_property(self):
         # test enum ref property

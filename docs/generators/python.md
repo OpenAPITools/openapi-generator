@@ -68,12 +68,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>
+<li>auth_settings</li>
 <li>await</li>
 <li>base64</li>
+<li>body_params</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
@@ -86,23 +89,30 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>exec</li>
 <li>false</li>
 <li>finally</li>
+<li>float</li>
 <li>for</li>
+<li>form_params</li>
 <li>from</li>
 <li>global</li>
+<li>header_params</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>
 <li>is</li>
 <li>json</li>
 <li>lambda</li>
+<li>local_var_files</li>
 <li>none</li>
 <li>nonlocal</li>
 <li>not</li>
 <li>or</li>
 <li>pass</li>
+<li>path_params</li>
 <li>print</li>
 <li>property</li>
+<li>query_params</li>
 <li>raise</li>
+<li>resource_path</li>
 <li>return</li>
 <li>schema</li>
 <li>self</li>

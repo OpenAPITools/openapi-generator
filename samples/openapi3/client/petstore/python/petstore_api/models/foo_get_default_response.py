@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from petstore_api.models.foo import Foo
 from typing import Dict, Any
@@ -33,7 +33,7 @@ class FooGetDefaultResponse(BaseModel):
     """
     string: Optional[Foo] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["string"]
+    __properties: ClassVar[List[str]] = ["string"]
 
     model_config = {
         "populate_by_name": True,
@@ -86,7 +86,7 @@ class FooGetDefaultResponse(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

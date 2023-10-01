@@ -98,4 +98,4 @@
     {{/minItems}}
 {{/hasValidation}}
      */
-    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = null;
+    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};

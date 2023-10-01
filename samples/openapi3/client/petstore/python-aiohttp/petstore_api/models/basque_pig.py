@@ -33,7 +33,7 @@ class BasquePig(BaseModel):
     """
     class_name: StrictStr = Field(alias="className")
     color: StrictStr
-    __properties = ["className", "color"]
+    __properties: ClassVar[List[str]] = ["className", "color"]
 
     model_config = {
         "populate_by_name": True,

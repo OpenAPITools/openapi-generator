@@ -483,7 +483,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             return dataType;
         }
 
-        return  "\\" + dataType;
+        return "\\" + dataType;
     }
 
     /**
