@@ -28,7 +28,7 @@ class Category(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties = ["id", "name"]
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     model_config = {
         "populate_by_name": True,
@@ -70,7 +70,7 @@ class Category(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Category) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in Category) in the input: " + _key)
 
         _obj = Category.model_validate({
             "id": obj.get("id"),

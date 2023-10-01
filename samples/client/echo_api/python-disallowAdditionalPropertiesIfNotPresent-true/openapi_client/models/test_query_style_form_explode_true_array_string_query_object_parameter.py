@@ -27,7 +27,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """
     values: Optional[List[StrictStr]] = None
-    __properties = ["values"]
+    __properties: ClassVar[List[str]] = ["values"]
 
     model_config = {
         "populate_by_name": True,
@@ -69,7 +69,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter) in the input: " + _key)
 
         _obj = TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.model_validate({
             "values": obj.get("values")

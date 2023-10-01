@@ -35,7 +35,7 @@ class Pet(BaseModel):
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
-    __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
+    __properties: ClassVar[List[str]] = ["id", "name", "category", "photoUrls", "tags", "status"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -97,7 +97,7 @@ class Pet(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Pet) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in Pet) in the input: " + _key)
 
         _obj = Pet.model_validate({
             "id": obj.get("id"),

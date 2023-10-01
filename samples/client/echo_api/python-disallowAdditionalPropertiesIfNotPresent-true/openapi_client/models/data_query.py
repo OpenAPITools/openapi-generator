@@ -31,7 +31,7 @@ class DataQuery(Query):
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
     var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
-    __properties = ["id", "outcomes", "suffix", "text", "date"]
+    __properties: ClassVar[List[str]] = ["id", "outcomes", "suffix", "text", "date"]
 
     model_config = {
         "populate_by_name": True,
@@ -73,7 +73,7 @@ class DataQuery(Query):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in DataQuery) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in DataQuery) in the input: " + _key)
 
         _obj = DataQuery.model_validate({
             "id": obj.get("id"),

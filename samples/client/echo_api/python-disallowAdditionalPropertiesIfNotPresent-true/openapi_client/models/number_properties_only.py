@@ -30,7 +30,7 @@ class NumberPropertiesOnly(BaseModel):
     """
     number: Optional[Union[StrictFloat, StrictInt]] = None
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
-    __properties = ["number", "double"]
+    __properties: ClassVar[List[str]] = ["number", "double"]
 
     model_config = {
         "populate_by_name": True,
@@ -72,7 +72,7 @@ class NumberPropertiesOnly(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in NumberPropertiesOnly) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in NumberPropertiesOnly) in the input: " + _key)
 
         _obj = NumberPropertiesOnly.model_validate({
             "number": obj.get("number"),

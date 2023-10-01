@@ -28,7 +28,7 @@ class Bird(BaseModel):
     """
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
-    __properties = ["size", "color"]
+    __properties: ClassVar[List[str]] = ["size", "color"]
 
     model_config = {
         "populate_by_name": True,
@@ -70,7 +70,7 @@ class Bird(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Bird) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in Bird) in the input: " + _key)
 
         _obj = Bird.model_validate({
             "size": obj.get("size"),

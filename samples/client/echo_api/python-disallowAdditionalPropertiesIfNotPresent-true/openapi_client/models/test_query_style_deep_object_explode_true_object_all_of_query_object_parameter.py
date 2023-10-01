@@ -30,7 +30,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties = ["size", "color", "id", "name"]
+    __properties: ClassVar[List[str]] = ["size", "color", "id", "name"]
 
     model_config = {
         "populate_by_name": True,
@@ -72,7 +72,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter) in the input: " + _key)
 
         _obj = TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.model_validate({
             "size": obj.get("size"),
