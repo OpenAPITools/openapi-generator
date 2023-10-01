@@ -22,6 +22,11 @@ from typing import Optional
 from pydantic import BaseModel
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class OuterObjectWithEnumProperty(BaseModel):
     """
@@ -47,7 +52,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterObjectWithEnumProperty:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,15 +70,15 @@ class OuterObjectWithEnumProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> OuterObjectWithEnumProperty:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return OuterObjectWithEnumProperty.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = OuterObjectWithEnumProperty.model_validate({
+        _obj = cls.model_validate({
             "str_value": obj.get("str_value"),
             "value": obj.get("value")
         })

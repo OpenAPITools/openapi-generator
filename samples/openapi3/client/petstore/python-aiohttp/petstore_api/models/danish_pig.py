@@ -21,6 +21,11 @@ import json
 
 from pydantic import BaseModel, StrictInt, StrictStr
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class DanishPig(BaseModel):
     """
@@ -46,7 +51,7 @@ class DanishPig(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DanishPig:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of DanishPig from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -59,15 +64,15 @@ class DanishPig(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DanishPig:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of DanishPig from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DanishPig.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = DanishPig.model_validate({
+        _obj = cls.model_validate({
             "className": obj.get("className"),
             "size": obj.get("size")
         })

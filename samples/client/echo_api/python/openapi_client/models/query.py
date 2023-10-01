@@ -22,6 +22,11 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Query(BaseModel):
     """
@@ -58,7 +63,7 @@ class Query(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Query:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Query from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,7 +76,7 @@ class Query(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Query:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Query from a dict"""
 
 

@@ -21,6 +21,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Tag(BaseModel):
     """
@@ -46,7 +51,7 @@ class Tag(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Tag:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Tag from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -59,15 +64,15 @@ class Tag(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Tag:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Tag from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Tag.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = Tag.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name")
         })

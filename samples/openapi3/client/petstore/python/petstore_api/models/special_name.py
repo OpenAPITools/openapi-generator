@@ -22,6 +22,11 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from petstore_api.models.category import Category
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class SpecialName(BaseModel):
     """
@@ -59,7 +64,7 @@ class SpecialName(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SpecialName:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SpecialName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -81,15 +86,15 @@ class SpecialName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SpecialName:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of SpecialName from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SpecialName.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = SpecialName.model_validate({
+        _obj = cls.model_validate({
             "property": obj.get("property"),
             "async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
             "schema": obj.get("schema")

@@ -23,6 +23,11 @@ from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validat
 from decimal import Decimal
 from pydantic import Field
 from typing_extensions import Annotated
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FormatTest(BaseModel):
     """
@@ -103,7 +108,7 @@ class FormatTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FormatTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FormatTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -116,15 +121,15 @@ class FormatTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FormatTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FormatTest.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = FormatTest.model_validate({
+        _obj = cls.model_validate({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),

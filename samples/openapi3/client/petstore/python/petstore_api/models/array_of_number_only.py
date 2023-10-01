@@ -21,6 +21,11 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictFloat
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayOfNumberOnly(BaseModel):
     """
@@ -46,7 +51,7 @@ class ArrayOfNumberOnly(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayOfNumberOnly:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayOfNumberOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,15 +70,15 @@ class ArrayOfNumberOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayOfNumberOnly:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayOfNumberOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfNumberOnly.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayOfNumberOnly.model_validate({
+        _obj = cls.model_validate({
             "ArrayNumber": obj.get("ArrayNumber")
         })
         # store additional fields in additional_properties

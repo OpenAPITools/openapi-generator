@@ -20,6 +20,10 @@ from enum import Enum
 
 
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class OuterEnum(str, Enum):
@@ -35,8 +39,8 @@ class OuterEnum(str, Enum):
     DELIVERED = 'delivered'
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterEnum:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterEnum from a JSON string"""
-        return OuterEnum(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

@@ -23,6 +23,11 @@ from pydantic import BaseModel, StrictInt, StrictStr
 from pydantic import Field
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayTest(BaseModel):
     """
@@ -49,7 +54,7 @@ class ArrayTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,15 +76,15 @@ class ArrayTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayTest.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayTest.model_validate({
+        _obj = cls.model_validate({
             "array_of_string": obj.get("array_of_string"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [

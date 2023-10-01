@@ -12,6 +12,11 @@ import json
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
@@ -113,7 +118,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_json(cls, json_str: str) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -215,7 +220,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#hasChildren}}
         {{#discriminator}}
@@ -235,7 +240,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return None
 
         if not isinstance(obj, dict):
-            return {{{classname}}}.model_validate(obj)
+            return cls.model_validate(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
@@ -246,7 +251,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
-        _obj = {{{classname}}}.model_validate({
+        _obj = cls.model_validate({
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}

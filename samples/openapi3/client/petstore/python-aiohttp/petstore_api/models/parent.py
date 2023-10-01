@@ -22,6 +22,11 @@ from typing import Dict, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Parent(BaseModel):
     """
@@ -46,7 +51,7 @@ class Parent(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Parent:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Parent from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,15 +71,15 @@ class Parent(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Parent:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Parent from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Parent.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = Parent.model_validate({
+        _obj = cls.model_validate({
             "optionalDict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
                 for _k, _v in obj.get("optionalDict").items()

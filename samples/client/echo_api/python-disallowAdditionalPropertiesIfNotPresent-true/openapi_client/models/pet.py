@@ -24,6 +24,11 @@ from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Pet(BaseModel):
     """
@@ -63,7 +68,7 @@ class Pet(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Pet:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Pet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -86,20 +91,20 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Pet:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Pet.model_validate(obj)
+            return cls.model_validate(obj)
 
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in Pet) in the input: " + _key)
 
-        _obj = Pet.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,

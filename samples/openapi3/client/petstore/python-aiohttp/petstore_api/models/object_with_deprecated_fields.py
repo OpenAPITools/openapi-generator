@@ -22,6 +22,11 @@ from typing import List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ObjectWithDeprecatedFields(BaseModel):
     """
@@ -49,7 +54,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ObjectWithDeprecatedFields:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ObjectWithDeprecatedFields from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,15 +70,15 @@ class ObjectWithDeprecatedFields(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ObjectWithDeprecatedFields:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ObjectWithDeprecatedFields from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ObjectWithDeprecatedFields.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ObjectWithDeprecatedFields.model_validate({
+        _obj = cls.model_validate({
             "uuid": obj.get("uuid"),
             "id": obj.get("id"),
             "deprecatedRef": DeprecatedObject.from_dict(obj.get("deprecatedRef")) if obj.get("deprecatedRef") is not None else None,

@@ -21,6 +21,11 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel
 from petstore_api.models.tag import Tag
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayOfArrayOfModel(BaseModel):
     """
@@ -45,7 +50,7 @@ class ArrayOfArrayOfModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayOfArrayOfModel:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayOfArrayOfModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,15 +72,15 @@ class ArrayOfArrayOfModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayOfArrayOfModel:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayOfArrayOfModel from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfModel.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayOfArrayOfModel.model_validate({
+        _obj = cls.model_validate({
             "another_property": [
                     [Tag.from_dict(_inner_item) for _inner_item in _item]
                     for _item in obj.get("another_property")

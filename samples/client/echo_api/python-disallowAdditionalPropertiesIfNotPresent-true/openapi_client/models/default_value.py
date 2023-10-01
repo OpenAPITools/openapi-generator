@@ -22,6 +22,11 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from openapi_client.models.string_enum_ref import StringEnumRef
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class DefaultValue(BaseModel):
     """
@@ -64,7 +69,7 @@ class DefaultValue(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DefaultValue:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of DefaultValue from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -92,20 +97,20 @@ class DefaultValue(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DefaultValue:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of DefaultValue from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DefaultValue.model_validate(obj)
+            return cls.model_validate(obj)
 
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in DefaultValue) in the input: " + _key)
 
-        _obj = DefaultValue.model_validate({
+        _obj = cls.model_validate({
             "array_string_enum_ref_default": obj.get("array_string_enum_ref_default"),
             "array_string_enum_default": obj.get("array_string_enum_default"),
             "array_string_default": obj.get("array_string_default"),

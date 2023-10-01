@@ -23,6 +23,11 @@ from typing import Optional
 from pydantic import StrictStr
 from pydantic import Field
 from openapi_client.models.query import Query
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class DataQuery(Query):
     """
@@ -49,7 +54,7 @@ class DataQuery(Query):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DataQuery:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of DataQuery from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -62,20 +67,20 @@ class DataQuery(Query):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DataQuery:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of DataQuery from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DataQuery.model_validate(obj)
+            return cls.model_validate(obj)
 
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in DataQuery) in the input: " + _key)
 
-        _obj = DataQuery.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "outcomes": obj.get("outcomes"),
             "suffix": obj.get("suffix"),

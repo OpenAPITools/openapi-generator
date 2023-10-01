@@ -24,6 +24,11 @@ from pydantic import Field
 from typing_extensions import Annotated
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Pet(BaseModel):
     """
@@ -64,7 +69,7 @@ class Pet(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Pet:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Pet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -93,15 +98,15 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Pet:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Pet.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = Pet.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
             "name": obj.get("name"),

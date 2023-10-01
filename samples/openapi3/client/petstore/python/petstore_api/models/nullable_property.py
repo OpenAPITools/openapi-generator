@@ -22,6 +22,11 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class NullableProperty(BaseModel):
     """
@@ -58,7 +63,7 @@ class NullableProperty(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NullableProperty:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of NullableProperty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -82,15 +87,15 @@ class NullableProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NullableProperty:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of NullableProperty from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NullableProperty.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = NullableProperty.model_validate({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name")
         })

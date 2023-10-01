@@ -21,6 +21,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseModel):
     """
@@ -48,7 +53,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -61,15 +66,15 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.model_validate({
+        _obj = cls.model_validate({
             "size": obj.get("size"),
             "color": obj.get("color"),
             "id": obj.get("id"),

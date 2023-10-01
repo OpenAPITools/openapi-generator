@@ -21,6 +21,11 @@ import json
 from typing import Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class HealthCheckResult(BaseModel):
     """
@@ -45,7 +50,7 @@ class HealthCheckResult(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> HealthCheckResult:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of HealthCheckResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -63,15 +68,15 @@ class HealthCheckResult(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> HealthCheckResult:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of HealthCheckResult from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return HealthCheckResult.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = HealthCheckResult.model_validate({
+        _obj = cls.model_validate({
             "NullableMessage": obj.get("NullableMessage")
         })
         return _obj

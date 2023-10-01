@@ -20,6 +20,11 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ReadOnlyFirst(BaseModel):
     """
@@ -46,7 +51,7 @@ class ReadOnlyFirst(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ReadOnlyFirst:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ReadOnlyFirst from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,15 +71,15 @@ class ReadOnlyFirst(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ReadOnlyFirst:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ReadOnlyFirst from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ReadOnlyFirst.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ReadOnlyFirst.model_validate({
+        _obj = cls.model_validate({
             "bar": obj.get("bar"),
             "baz": obj.get("baz")
         })

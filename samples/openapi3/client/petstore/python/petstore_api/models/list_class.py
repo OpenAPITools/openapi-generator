@@ -21,6 +21,11 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ListClass(BaseModel):
     """
@@ -46,7 +51,7 @@ class ListClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ListClass:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ListClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,15 +70,15 @@ class ListClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ListClass:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ListClass from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ListClass.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = ListClass.model_validate({
+        _obj = cls.model_validate({
             "123-list": obj.get("123-list")
         })
         # store additional fields in additional_properties

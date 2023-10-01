@@ -21,6 +21,11 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
 from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class SpecialModelName(BaseModel):
     """
@@ -46,7 +51,7 @@ class SpecialModelName(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SpecialModelName:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SpecialModelName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,15 +70,15 @@ class SpecialModelName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SpecialModelName:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of SpecialModelName from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SpecialModelName.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = SpecialModelName.model_validate({
+        _obj = cls.model_validate({
             "$special[property.name]": obj.get("$special[property.name]")
         })
         # store additional fields in additional_properties

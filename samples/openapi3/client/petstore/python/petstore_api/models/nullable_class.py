@@ -20,6 +20,11 @@ import json
 from datetime import date, datetime
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class NullableClass(BaseModel):
     """
@@ -57,7 +62,7 @@ class NullableClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NullableClass:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of NullableClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -131,15 +136,15 @@ class NullableClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NullableClass:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of NullableClass from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NullableClass.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = NullableClass.model_validate({
+        _obj = cls.model_validate({
             "required_integer_prop": obj.get("required_integer_prop"),
             "integer_prop": obj.get("integer_prop"),
             "number_prop": obj.get("number_prop"),

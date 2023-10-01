@@ -25,6 +25,10 @@ from typing_extensions import Annotated
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
 
@@ -81,13 +85,13 @@ class IntOrString(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> IntOrString:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> IntOrString:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = IntOrString.model_construct()
+        instance = cls.model_construct()
         error_messages = []
         match = 0
 

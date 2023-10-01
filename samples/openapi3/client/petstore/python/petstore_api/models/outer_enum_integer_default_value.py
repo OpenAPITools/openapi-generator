@@ -20,6 +20,10 @@ from enum import Enum
 
 
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class OuterEnumIntegerDefaultValue(int, Enum):
@@ -36,8 +40,8 @@ class OuterEnumIntegerDefaultValue(int, Enum):
     NUMBER_2 = 2
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterEnumIntegerDefaultValue:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterEnumIntegerDefaultValue from a JSON string"""
-        return OuterEnumIntegerDefaultValue(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

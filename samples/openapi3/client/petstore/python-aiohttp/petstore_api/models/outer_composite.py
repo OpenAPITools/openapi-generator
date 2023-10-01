@@ -20,6 +20,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictBool, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class OuterComposite(BaseModel):
     """
@@ -46,7 +51,7 @@ class OuterComposite(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterComposite:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterComposite from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -59,15 +64,15 @@ class OuterComposite(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> OuterComposite:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of OuterComposite from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return OuterComposite.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = OuterComposite.model_validate({
+        _obj = cls.model_validate({
             "my_number": obj.get("my_number"),
             "my_string": obj.get("my_string"),
             "my_boolean": obj.get("my_boolean")

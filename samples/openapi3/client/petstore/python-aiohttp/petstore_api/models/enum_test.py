@@ -25,6 +25,11 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class EnumTest(BaseModel):
     """
@@ -104,7 +109,7 @@ class EnumTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> EnumTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -122,15 +127,15 @@ class EnumTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> EnumTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of EnumTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return EnumTest.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = EnumTest.model_validate({
+        _obj = cls.model_validate({
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,

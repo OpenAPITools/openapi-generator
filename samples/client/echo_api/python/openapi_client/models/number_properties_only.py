@@ -23,6 +23,11 @@ from typing import Optional, Union
 from pydantic import BaseModel, StrictFloat, StrictInt
 from pydantic import Field
 from typing_extensions import Annotated
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class NumberPropertiesOnly(BaseModel):
     """
@@ -49,7 +54,7 @@ class NumberPropertiesOnly(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NumberPropertiesOnly:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of NumberPropertiesOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -62,15 +67,15 @@ class NumberPropertiesOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NumberPropertiesOnly:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of NumberPropertiesOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NumberPropertiesOnly.model_validate(obj)
+            return cls.model_validate(obj)
 
-        _obj = NumberPropertiesOnly.model_validate({
+        _obj = cls.model_validate({
             "number": obj.get("number"),
             "float": obj.get("float"),
             "double": obj.get("double")
