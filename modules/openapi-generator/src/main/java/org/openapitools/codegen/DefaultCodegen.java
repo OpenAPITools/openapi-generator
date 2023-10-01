@@ -452,9 +452,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
                 .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " ", false))
-                .put("indented_12", new IndentedLambda(12, " ", false))
-                .put("indented_16", new IndentedLambda(16, " ", false));
+                .put("indented_8", new IndentedLambda(8, " ", false, false))
+                .put("indented_12", new IndentedLambda(12, " ", false, false))
+                .put("indented_16", new IndentedLambda(16, " ", false, false));
 
     }
 
@@ -4851,6 +4851,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenProperty cp = fromProperty("response", responseSchema, false);
         r.dataType = getTypeDeclaration(responseSchema);
+        r.returnProperty = cp;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
             if (cp.complexType != null) {

@@ -224,7 +224,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("indented_4", new IndentedLambda(4, " ", false));
+                .put("indented_4", new IndentedLambda(4, " ", false, false));
     }
 
     @Override

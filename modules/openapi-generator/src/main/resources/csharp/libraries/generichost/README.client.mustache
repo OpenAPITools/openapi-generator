@@ -66,8 +66,8 @@ namespace YourProject
             {{#-first}}
             {{#operation}}
             {{#-first}}
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> response = await api.{{operationId}}Async("todo");
-            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = response.AsModel();
+            {{operationId}}ApiResponse apiResponse = await api.{{operationId}}Async("todo");
+            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = apiResponse.Ok();
             {{/-first}}
             {{/operation}}
             {{/-first}}
