@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from petstore_api.models.category import Category
@@ -31,7 +31,7 @@ class SpecialName(BaseModel):
     var_async: Optional[Category] = Field(default=None, alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["property", "async", "schema"]
+    __properties: ClassVar[List[str]] = ["property", "async", "schema"]
 
     @field_validator('var_schema')
     def var_schema_validate_enum(cls, value):
@@ -96,7 +96,7 @@ class SpecialName(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

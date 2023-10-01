@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import StrictBool
 from petstore_api.models.animal import Animal
 
@@ -28,7 +28,7 @@ class Cat(Animal):
     """
     declawed: Optional[StrictBool] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color", "declawed"]
+    __properties: ClassVar[List[str]] = ["className", "color", "declawed"]
 
     model_config = {
         "populate_by_name": True,
@@ -80,7 +80,7 @@ class Cat(Animal):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -28,7 +28,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["someProperty"]
+    __properties: ClassVar[List[str]] = ["someProperty"]
 
     model_config = {
         "populate_by_name": True,
@@ -78,7 +78,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

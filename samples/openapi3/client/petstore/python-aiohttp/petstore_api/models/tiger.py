@@ -26,7 +26,7 @@ class Tiger(BaseModel):
     Tiger
     """
     skill: Optional[StrictStr] = None
-    __properties = ["skill"]
+    __properties: ClassVar[List[str]] = ["skill"]
 
     model_config = {
         "populate_by_name": True,

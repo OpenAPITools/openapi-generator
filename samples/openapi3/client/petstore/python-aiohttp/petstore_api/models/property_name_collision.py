@@ -29,7 +29,7 @@ class PropertyNameCollision(BaseModel):
     type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None
-    __properties = ["_type", "type", "type_"]
+    __properties: ClassVar[List[str]] = ["_type", "type", "type_"]
 
     model_config = {
         "populate_by_name": True,

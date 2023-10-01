@@ -32,7 +32,7 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
+    __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):

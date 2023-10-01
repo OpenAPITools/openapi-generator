@@ -28,7 +28,7 @@ class FileSchemaTestClass(BaseModel):
     """
     file: Optional[File] = None
     files: Optional[List[File]] = None
-    __properties = ["file", "files"]
+    __properties: ClassVar[List[str]] = ["file", "files"]
 
     model_config = {
         "populate_by_name": True,

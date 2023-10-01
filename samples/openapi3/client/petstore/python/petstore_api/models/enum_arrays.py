@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr, field_validator
 
 class EnumArrays(BaseModel):
@@ -28,7 +28,7 @@ class EnumArrays(BaseModel):
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["just_symbol", "array_enum"]
+    __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 
     @field_validator('just_symbol')
     def just_symbol_validate_enum(cls, value):
@@ -100,7 +100,7 @@ class EnumArrays(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

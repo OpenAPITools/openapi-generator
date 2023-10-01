@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.tag import Tag
@@ -29,7 +29,7 @@ class MapOfArrayOfModel(BaseModel):
     """
     shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["shopIdToOrgOnlineLipMap"]
+    __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 
     model_config = {
         "populate_by_name": True,
@@ -95,7 +95,7 @@ class MapOfArrayOfModel(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

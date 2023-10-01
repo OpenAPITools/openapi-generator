@@ -27,7 +27,7 @@ class NumberOnly(BaseModel):
     NumberOnly
     """
     just_number: Optional[float] = Field(default=None, alias="JustNumber")
-    __properties = ["JustNumber"]
+    __properties: ClassVar[List[str]] = ["JustNumber"]
 
     model_config = {
         "populate_by_name": True,

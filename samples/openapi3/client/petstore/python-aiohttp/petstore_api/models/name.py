@@ -30,7 +30,7 @@ class Name(BaseModel):
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(default=None, alias="property")
     var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
-    __properties = ["name", "snake_case", "property", "123Number"]
+    __properties: ClassVar[List[str]] = ["name", "snake_case", "property", "123Number"]
 
     model_config = {
         "populate_by_name": True,

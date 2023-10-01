@@ -30,7 +30,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
-    __properties = ["uuid", "dateTime", "map"]
+    __properties: ClassVar[List[str]] = ["uuid", "dateTime", "map"]
 
     model_config = {
         "populate_by_name": True,

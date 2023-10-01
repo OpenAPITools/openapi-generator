@@ -948,7 +948,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     && !model.isEnum
                     && !this.disallowAdditionalPropertiesIfNotPresent) {
                 typingImports.add("Dict");
+                typingImports.add("List");
                 typingImports.add("Any");
+                typingImports.add("ClassVar");
             }
 
             //loop through properties/schemas to set up typing, pydantic

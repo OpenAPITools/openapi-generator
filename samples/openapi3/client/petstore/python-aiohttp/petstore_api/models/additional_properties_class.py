@@ -27,7 +27,7 @@ class AdditionalPropertiesClass(BaseModel):
     """
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    __properties = ["map_property", "map_of_map_property"]
+    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property"]
 
     model_config = {
         "populate_by_name": True,

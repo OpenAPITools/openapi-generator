@@ -27,7 +27,7 @@ class EnumArrays(BaseModel):
     """
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[List[StrictStr]] = None
-    __properties = ["just_symbol", "array_enum"]
+    __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 
     @field_validator('just_symbol')
     def just_symbol_validate_enum(cls, value):

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictStr, field_validator
 
 class MapTest(BaseModel):
@@ -30,7 +30,7 @@ class MapTest(BaseModel):
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
+    __properties: ClassVar[List[str]] = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @field_validator('map_of_enum_string')
     def map_of_enum_string_validate_enum(cls, value):
@@ -93,7 +93,7 @@ class MapTest(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

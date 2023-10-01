@@ -27,7 +27,7 @@ class ReadOnlyFirst(BaseModel):
     """
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
-    __properties = ["bar", "baz"]
+    __properties: ClassVar[List[str]] = ["bar", "baz"]
 
     model_config = {
         "populate_by_name": True,

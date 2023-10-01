@@ -35,7 +35,7 @@ class Pet(BaseModel):
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
-    __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
+    __properties: ClassVar[List[str]] = ["id", "name", "category", "photoUrls", "tags", "status"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
