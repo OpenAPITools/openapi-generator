@@ -27,7 +27,7 @@ class FirstRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
-    __properties = ["category", "self_ref"]
+    __properties: ClassVar[List[str]] = ["category", "self_ref"]
 
     model_config = {
         "populate_by_name": True,

@@ -27,7 +27,7 @@ class SecondRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
-    __properties = ["category", "circular_ref"]
+    __properties: ClassVar[List[str]] = ["category", "circular_ref"]
 
     model_config = {
         "populate_by_name": True,

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictStr
 
 class OuterComposite(BaseModel):
@@ -29,7 +29,7 @@ class OuterComposite(BaseModel):
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["my_number", "my_string", "my_boolean"]
+    __properties: ClassVar[List[str]] = ["my_number", "my_string", "my_boolean"]
 
     model_config = {
         "populate_by_name": True,
@@ -81,7 +81,7 @@ class OuterComposite(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

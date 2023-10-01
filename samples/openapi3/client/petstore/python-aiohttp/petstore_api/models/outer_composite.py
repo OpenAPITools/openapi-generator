@@ -28,7 +28,7 @@ class OuterComposite(BaseModel):
     my_number: Optional[float] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
-    __properties = ["my_number", "my_string", "my_boolean"]
+    __properties: ClassVar[List[str]] = ["my_number", "my_string", "my_boolean"]
 
     model_config = {
         "populate_by_name": True,

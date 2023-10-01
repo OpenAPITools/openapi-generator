@@ -30,7 +30,7 @@ class SpecialName(BaseModel):
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
-    __properties = ["property", "async", "schema"]
+    __properties: ClassVar[List[str]] = ["property", "async", "schema"]
 
     @field_validator('var_schema')
     def var_schema_validate_enum(cls, value):

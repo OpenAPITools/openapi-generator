@@ -26,7 +26,7 @@ class Foo(BaseModel):
     Foo
     """
     bar: Optional[StrictStr] = 'bar'
-    __properties = ["bar"]
+    __properties: ClassVar[List[str]] = ["bar"]
 
     model_config = {
         "populate_by_name": True,

@@ -27,7 +27,7 @@ class HealthCheckResult(BaseModel):
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
     """
     nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
-    __properties = ["NullableMessage"]
+    __properties: ClassVar[List[str]] = ["NullableMessage"]
 
     model_config = {
         "populate_by_name": True,

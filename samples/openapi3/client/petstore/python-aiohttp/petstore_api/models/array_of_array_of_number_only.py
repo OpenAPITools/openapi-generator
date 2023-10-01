@@ -27,7 +27,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     ArrayOfArrayOfNumberOnly
     """
     array_array_number: Optional[List[List[float]]] = Field(default=None, alias="ArrayArrayNumber")
-    __properties = ["ArrayArrayNumber"]
+    __properties: ClassVar[List[str]] = ["ArrayArrayNumber"]
 
     model_config = {
         "populate_by_name": True,

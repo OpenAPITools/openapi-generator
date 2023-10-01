@@ -27,7 +27,7 @@ class ArrayOfArrayOfModel(BaseModel):
     ArrayOfArrayOfModel
     """
     another_property: Optional[List[List[Tag]]] = None
-    __properties = ["another_property"]
+    __properties: ClassVar[List[str]] = ["another_property"]
 
     model_config = {
         "populate_by_name": True,

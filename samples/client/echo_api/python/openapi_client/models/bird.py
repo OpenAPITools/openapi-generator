@@ -28,7 +28,7 @@ class Bird(BaseModel):
     """
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
-    __properties = ["size", "color"]
+    __properties: ClassVar[List[str]] = ["size", "color"]
 
     model_config = {
         "populate_by_name": True,

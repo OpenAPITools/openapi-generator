@@ -31,7 +31,7 @@ class ArrayTest(BaseModel):
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
-    __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
+    __properties: ClassVar[List[str]] = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
     model_config = {
         "populate_by_name": True,

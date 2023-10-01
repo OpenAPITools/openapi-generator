@@ -29,7 +29,7 @@ class AllOfWithSingleRef(BaseModel):
     """
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
-    __properties = ["username", "SingleRefType"]
+    __properties: ClassVar[List[str]] = ["username", "SingleRefType"]
 
     model_config = {
         "populate_by_name": True,

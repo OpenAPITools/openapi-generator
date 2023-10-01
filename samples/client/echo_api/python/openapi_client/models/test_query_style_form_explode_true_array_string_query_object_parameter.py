@@ -27,7 +27,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """
     values: Optional[List[StrictStr]] = None
-    __properties = ["values"]
+    __properties: ClassVar[List[str]] = ["values"]
 
     model_config = {
         "populate_by_name": True,

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, field_validator
 from pydantic import Field
 
@@ -33,7 +33,7 @@ class Order(BaseModel):
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
+    __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -98,7 +98,7 @@ class Order(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

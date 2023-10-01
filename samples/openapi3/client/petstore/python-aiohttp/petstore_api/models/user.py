@@ -34,7 +34,7 @@ class User(BaseModel):
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(default=None, description="User Status", alias="userStatus")
-    __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
+    __properties: ClassVar[List[str]] = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     model_config = {
         "populate_by_name": True,

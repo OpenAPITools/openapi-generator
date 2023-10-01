@@ -28,7 +28,7 @@ class Model200Response(BaseModel):
     """
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(default=None, alias="class")
-    __properties = ["name", "class"]
+    __properties: ClassVar[List[str]] = ["name", "class"]
 
     model_config = {
         "populate_by_name": True,

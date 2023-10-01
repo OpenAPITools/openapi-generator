@@ -39,7 +39,7 @@ class EnumTest(BaseModel):
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
-    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @field_validator('enum_string')
     def enum_string_validate_enum(cls, value):

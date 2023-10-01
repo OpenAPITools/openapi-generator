@@ -26,7 +26,7 @@ class DeprecatedObject(BaseModel):
     DeprecatedObject
     """
     name: Optional[StrictStr] = None
-    __properties = ["name"]
+    __properties: ClassVar[List[str]] = ["name"]
 
     model_config = {
         "populate_by_name": True,

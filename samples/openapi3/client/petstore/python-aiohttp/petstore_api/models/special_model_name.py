@@ -27,7 +27,7 @@ class SpecialModelName(BaseModel):
     SpecialModelName
     """
     special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
-    __properties = ["$special[property.name]"]
+    __properties: ClassVar[List[str]] = ["$special[property.name]"]
 
     model_config = {
         "populate_by_name": True,
