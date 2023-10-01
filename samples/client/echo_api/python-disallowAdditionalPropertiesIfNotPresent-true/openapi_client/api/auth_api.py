@@ -18,6 +18,7 @@ import io
 import warnings
 
 from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
 
 from openapi_client.api_client import ApiClient
@@ -130,18 +131,18 @@ class AuthApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -149,9 +150,9 @@ class AuthApi:
             ['text/plain'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['http_auth']  # noqa: E501
+        _auth_settings: List[str] = ['http_auth']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
         }
 

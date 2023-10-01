@@ -21,6 +21,11 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Bird(BaseModel):
     """
@@ -46,7 +51,7 @@ class Bird(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Bird:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Bird from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -59,20 +64,20 @@ class Bird(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Bird:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Bird from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Bird.model_validate(obj)
+            return cls.model_validate(obj)
 
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in Bird) in the input: " + _key)
 
-        _obj = Bird.model_validate({
+        _obj = cls.model_validate({
             "size": obj.get("size"),
             "color": obj.get("color")
         })
