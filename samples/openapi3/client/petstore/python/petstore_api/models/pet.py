@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
@@ -36,7 +36,7 @@ class Pet(BaseModel):
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
+    __properties: ClassVar[List[str]] = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -111,7 +111,7 @@ class Pet(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

@@ -26,7 +26,7 @@ class Client(BaseModel):
     Client
     """
     client: Optional[StrictStr] = None
-    __properties = ["client"]
+    __properties: ClassVar[List[str]] = ["client"]
 
     model_config = {
         "populate_by_name": True,

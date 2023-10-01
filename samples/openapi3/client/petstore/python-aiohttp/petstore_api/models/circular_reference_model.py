@@ -27,7 +27,7 @@ class CircularReferenceModel(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
-    __properties = ["size", "nested"]
+    __properties: ClassVar[List[str]] = ["size", "nested"]
 
     model_config = {
         "populate_by_name": True,

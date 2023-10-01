@@ -28,7 +28,7 @@ class Parent(BaseModel):
     Parent
     """
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
-    __properties = ["optionalDict"]
+    __properties: ClassVar[List[str]] = ["optionalDict"]
 
     model_config = {
         "populate_by_name": True,

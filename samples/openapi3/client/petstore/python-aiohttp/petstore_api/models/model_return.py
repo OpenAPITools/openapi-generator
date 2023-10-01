@@ -27,7 +27,7 @@ class ModelReturn(BaseModel):
     Model for testing reserved words  # noqa: E501
     """
     var_return: Optional[StrictInt] = Field(default=None, alias="return")
-    __properties = ["return"]
+    __properties: ClassVar[List[str]] = ["return"]
 
     model_config = {
         "populate_by_name": True,

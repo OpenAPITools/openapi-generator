@@ -28,7 +28,7 @@ class MapOfArrayOfModel(BaseModel):
     MapOfArrayOfModel
     """
     shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
-    __properties = ["shopIdToOrgOnlineLipMap"]
+    __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 
     model_config = {
         "populate_by_name": True,

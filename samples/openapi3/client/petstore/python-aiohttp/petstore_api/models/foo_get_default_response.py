@@ -27,7 +27,7 @@ class FooGetDefaultResponse(BaseModel):
     FooGetDefaultResponse
     """
     string: Optional[Foo] = None
-    __properties = ["string"]
+    __properties: ClassVar[List[str]] = ["string"]
 
     model_config = {
         "populate_by_name": True,

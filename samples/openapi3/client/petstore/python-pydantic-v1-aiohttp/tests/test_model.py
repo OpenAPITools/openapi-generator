@@ -173,7 +173,7 @@ class ModelTests(unittest.TestCase):
     def test_list(self):
         # should throw exception as var_123_list should be string
         try:
-            l3 = petstore_api.List(var_123_list=123)
+            l3 = petstore_api.ListClass(var_123_list=123)
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             #error_message = (
@@ -182,13 +182,13 @@ class ModelTests(unittest.TestCase):
             #    "  str type expected (type=type_error.str)\n")
             self.assertTrue("str type expected" in str(e))
 
-        l = petstore_api.List(var_123_list="bulldog")
+        l = petstore_api.ListClass(var_123_list="bulldog")
         self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
-        l2 = petstore_api.List.from_json(l.to_json())
+        l2 = petstore_api.ListClass.from_json(l.to_json())
         self.assertEqual(l2.var_123_list, 'bulldog')
 
-        self.assertTrue(isinstance(l2, petstore_api.List))
+        self.assertTrue(isinstance(l2, petstore_api.ListClass))
 
     def test_enum_ref_property(self):
         # test enum ref property

@@ -30,7 +30,7 @@ class NumberPropertiesOnly(BaseModel):
     """
     number: Optional[Union[StrictFloat, StrictInt]] = None
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
-    __properties = ["number", "double"]
+    __properties: ClassVar[List[str]] = ["number", "double"]
 
     model_config = {
         "populate_by_name": True,

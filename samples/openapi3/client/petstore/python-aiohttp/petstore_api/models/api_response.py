@@ -28,7 +28,7 @@ class ApiResponse(BaseModel):
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
-    __properties = ["code", "type", "message"]
+    __properties: ClassVar[List[str]] = ["code", "type", "message"]
 
     model_config = {
         "populate_by_name": True,

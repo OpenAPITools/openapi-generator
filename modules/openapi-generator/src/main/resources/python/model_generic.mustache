@@ -23,7 +23,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
+    __properties: ClassVar[List[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
@@ -85,27 +85,21 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name: ClassVar[List[str]] = '{{discriminator.propertyBaseName}}'
 
-    {{#mappedModels}}
-    {{#-first}}
     # discriminator mappings
-    __discriminator_value_class_map = {
-    {{/-first}}
-        '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
-    {{#-last}}
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
     }
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name.default]
+        discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.default.get(discriminator_value)
+            return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
             return None
-    {{/-last}}
-    {{/mappedModels}}
 
 {{/discriminator}}
 {{/hasChildren}}
@@ -232,8 +226,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return klass.from_dict(obj)
         else:
             raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name.default +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map.default))
+                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
         {{/discriminator}}
         {{/hasChildren}}
         {{^hasChildren}}
@@ -248,7 +242,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + _key)
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
@@ -351,7 +345,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isAdditionalPropertiesTrue}}
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         {{/isAdditionalPropertiesTrue}}

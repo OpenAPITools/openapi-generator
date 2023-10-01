@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictFloat, StrictStr
 from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
@@ -32,7 +32,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
     bars: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["uuid", "id", "deprecatedRef", "bars"]
+    __properties: ClassVar[List[str]] = ["uuid", "id", "deprecatedRef", "bars"]
 
     model_config = {
         "populate_by_name": True,
@@ -88,7 +88,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

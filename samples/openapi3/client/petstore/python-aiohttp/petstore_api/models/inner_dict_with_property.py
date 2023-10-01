@@ -27,7 +27,7 @@ class InnerDictWithProperty(BaseModel):
     InnerDictWithProperty
     """
     a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
-    __properties = ["aProperty"]
+    __properties: ClassVar[List[str]] = ["aProperty"]
 
     model_config = {
         "populate_by_name": True,

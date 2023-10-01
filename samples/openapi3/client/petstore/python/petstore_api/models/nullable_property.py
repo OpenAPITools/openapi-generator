@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
@@ -30,7 +30,7 @@ class NullableProperty(BaseModel):
     id: StrictInt
     name: Optional[Annotated[str, Field(strict=True)]]
     additional_properties: Dict[str, Any] = {}
-    __properties = ["id", "name"]
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     @field_validator('name')
     def name_validate_regular_expression(cls, value):
@@ -96,7 +96,7 @@ class NullableProperty(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj

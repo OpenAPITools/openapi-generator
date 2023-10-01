@@ -28,7 +28,7 @@ class Animal(BaseModel):
     """
     class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
-    __properties = ["className", "color"]
+    __properties: ClassVar[List[str]] = ["className", "color"]
 
     model_config = {
         "populate_by_name": True,
@@ -37,20 +37,19 @@ class Animal(BaseModel):
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'className'
+    __discriminator_property_name: ClassVar[List[str]] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map = {
-        'Cat': 'Cat',
-        'Dog': 'Dog'
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        'Cat': 'Cat','Dog': 'Dog'
     }
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name.default]
+        discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.default.get(discriminator_value)
+            return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
             return None
 
@@ -86,8 +85,8 @@ class Animal(BaseModel):
             return klass.from_dict(obj)
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name.default +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map.default))
+                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog

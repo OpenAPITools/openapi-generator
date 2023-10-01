@@ -27,7 +27,7 @@ class Dog(Animal):
     Dog
     """
     breed: Optional[StrictStr] = None
-    __properties = ["className", "color", "breed"]
+    __properties: ClassVar[List[str]] = ["className", "color", "breed"]
 
     model_config = {
         "populate_by_name": True,

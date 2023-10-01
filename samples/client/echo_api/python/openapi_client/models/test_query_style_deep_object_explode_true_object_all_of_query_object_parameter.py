@@ -30,7 +30,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties = ["size", "color", "id", "name"]
+    __properties: ClassVar[List[str]] = ["size", "color", "id", "name"]
 
     model_config = {
         "populate_by_name": True,

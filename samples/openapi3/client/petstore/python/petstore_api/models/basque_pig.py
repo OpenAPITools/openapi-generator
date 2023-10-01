@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any, ClassVar, Dict, List
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 
@@ -29,7 +29,7 @@ class BasquePig(BaseModel):
     class_name: StrictStr = Field(alias="className")
     color: StrictStr
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color"]
+    __properties: ClassVar[List[str]] = ["className", "color"]
 
     model_config = {
         "populate_by_name": True,
@@ -80,7 +80,7 @@ class BasquePig(BaseModel):
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
-            if _key not in cls.__properties.default:
+            if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
