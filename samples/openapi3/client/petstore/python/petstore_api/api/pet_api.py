@@ -17,6 +17,7 @@ import io
 import warnings
 
 from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -142,18 +143,18 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['pet'] is not None:
@@ -167,9 +168,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return self.api_client.call_api(
             '/pet', 'POST',
@@ -288,30 +289,30 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['api_key'] is not None:
             _header_params['api_key'] = _params['api_key']
 
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
@@ -425,13 +426,13 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('status') is not None:  # noqa: E501
             _query_params.append(('status', _params['status']))
             _collection_formats['status'] = 'csv'
@@ -439,8 +440,8 @@ class PetApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -448,9 +449,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[Pet]",
             '400': None,
         }
@@ -569,13 +570,13 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('tags') is not None:  # noqa: E501
             _query_params.append(('tags', _params['tags']))
             _collection_formats['tags'] = 'csv'
@@ -583,8 +584,8 @@ class PetApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -592,9 +593,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[Pet]",
             '400': None,
         }
@@ -711,21 +712,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -733,9 +734,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['api_key']  # noqa: E501
+        _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Pet",
             '400': None,
             '404': None,
@@ -853,18 +854,18 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['pet'] is not None:
@@ -878,9 +879,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return self.api_client.call_api(
             '/pet', 'PUT',
@@ -1004,21 +1005,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['name'] is not None:
             _form_params.append(('name', _params['name']))
 
@@ -1035,9 +1036,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
@@ -1161,21 +1162,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
@@ -1196,9 +1197,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiResponse",
         }
 
@@ -1324,21 +1325,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
@@ -1359,9 +1360,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiResponse",
         }
 
