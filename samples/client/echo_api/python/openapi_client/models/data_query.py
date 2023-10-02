@@ -20,59 +20,67 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import Field, StrictStr
+from pydantic import StrictStr
+from pydantic import Field
 from openapi_client.models.query import Query
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class DataQuery(Query):
     """
     DataQuery
     """
-    suffix: Optional[StrictStr] = Field(None, description="test suffix")
-    text: Optional[StrictStr] = Field(None, description="Some text containing white spaces")
-    var_date: Optional[datetime] = Field(None, alias="date", description="A date")
-    __properties = ["id", "outcomes", "suffix", "text", "date"]
+    suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
+    text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
+    var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
+    __properties: ClassVar[List[str]] = ["id", "outcomes", "suffix", "text", "date"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DataQuery:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of DataQuery from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DataQuery:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of DataQuery from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DataQuery.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = DataQuery.parse_obj({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
             "outcomes": obj.get("outcomes"),
             "suffix": obj.get("suffix"),
             "text": obj.get("text"),
-            "var_date": obj.get("date")
+            "date": obj.get("date")
         })
         return _obj
 

@@ -18,39 +18,47 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel
+from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ParentWithOptionalDict(BaseModel):
     """
     ParentWithOptionalDict
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(None, alias="optionalDict")
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["optionalDict"]
+    __properties: ClassVar[List[str]] = ["optionalDict"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ParentWithOptionalDict:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ParentWithOptionalDict from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -70,16 +78,16 @@ class ParentWithOptionalDict(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ParentWithOptionalDict:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ParentWithOptionalDict from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ParentWithOptionalDict.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = ParentWithOptionalDict.parse_obj({
-            "optional_dict": dict(
+        _obj = cls.model_validate({
+            "optionalDict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
                 for _k, _v in obj.get("optionalDict").items()
             )

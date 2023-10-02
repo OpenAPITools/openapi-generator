@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -41,8 +40,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IFooGetApiResponse"/>&gt;</returns>
+        Task<IFooGetApiResponse> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -51,8 +50,8 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IFooGetApiResponse"/>&gt;</returns>
+        Task<IFooGetApiResponse> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -63,8 +62,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetCountryApiResponse"/>&gt;</returns>
+        Task<IGetCountryApiResponse> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -74,8 +73,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetCountryApiResponse"/>&gt;</returns>
+        Task<IGetCountryApiResponse> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -85,8 +84,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;List&lt;Guid&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IHelloApiResponse"/>&gt;</returns>
+        Task<IHelloApiResponse> HelloAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -95,8 +94,8 @@ namespace Org.OpenAPITools.Api
         /// Hello
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IHelloApiResponse"/>&gt;</returns>
+        Task<IHelloApiResponse> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -106,8 +105,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;List&lt;List&lt;RolesReportsHash&gt;&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRolesReportGetApiResponse"/>&gt;</returns>
+        Task<IRolesReportGetApiResponse> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -116,8 +115,8 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;List&lt;List&lt;RolesReportsHash&gt;&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRolesReportGetApiResponse"/>&gt;</returns>
+        Task<IRolesReportGetApiResponse> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -127,8 +126,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;NotificationtestGetElementsV1ResponseMPayload&gt;&gt;</returns>
-        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestApiResponse"/>&gt;</returns>
+        Task<ITestApiResponse> TestAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -137,29 +136,88 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&gt;NotificationtestGetElementsV1ResponseMPayload&gt;&gt;</returns>
-        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestApiResponse"/>&gt;</returns>
+        Task<ITestApiResponse> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// The <see cref="IFooGetApiResponse"/>
+    /// </summary>
+    public interface IFooGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IDefault<Org.OpenAPITools.Model.FooGetDefaultResponse>
+    {
+        /// <summary>
+        /// Returns true if the response is the default response type
+        /// </summary>
+        /// <returns></returns>
+        bool IsDefault { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IGetCountryApiResponse"/>
+    /// </summary>
+    public interface IGetCountryApiResponse : Org.OpenAPITools.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IHelloApiResponse"/>
+    /// </summary>
+    public interface IHelloApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<Guid>>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IRolesReportGetApiResponse"/>
+    /// </summary>
+    public interface IRolesReportGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<List>>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="ITestApiResponse"/>
+    /// </summary>
+    public interface ITestApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
-    /// This class is registered as transient.
     /// </summary>
     public class DefaultApiEvents
     {
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<FooGetDefaultResponse>> OnFooGet;
+        public event EventHandler<ApiResponseEventArgs> OnFooGet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFooGet;
 
-        internal void ExecuteOnFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
+        internal void ExecuteOnFooGet(DefaultApi.FooGetApiResponse apiResponse)
         {
-            OnFooGet?.Invoke(this, new ApiResponseEventArgs<FooGetDefaultResponse>(apiResponse));
+            OnFooGet?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorFooGet(Exception exception)
@@ -170,16 +228,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<object>> OnGetCountry;
+        public event EventHandler<ApiResponseEventArgs> OnGetCountry;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorGetCountry;
 
-        internal void ExecuteOnGetCountry(ApiResponse<object> apiResponse)
+        internal void ExecuteOnGetCountry(DefaultApi.GetCountryApiResponse apiResponse)
         {
-            OnGetCountry?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+            OnGetCountry?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorGetCountry(Exception exception)
@@ -190,16 +248,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<List<Guid>>> OnHello;
+        public event EventHandler<ApiResponseEventArgs> OnHello;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorHello;
 
-        internal void ExecuteOnHello(ApiResponse<List<Guid>> apiResponse)
+        internal void ExecuteOnHello(DefaultApi.HelloApiResponse apiResponse)
         {
-            OnHello?.Invoke(this, new ApiResponseEventArgs<List<Guid>>(apiResponse));
+            OnHello?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorHello(Exception exception)
@@ -210,16 +268,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<List<List<RolesReportsHash>>>> OnRolesReportGet;
+        public event EventHandler<ApiResponseEventArgs> OnRolesReportGet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorRolesReportGet;
 
-        internal void ExecuteOnRolesReportGet(ApiResponse<List<List<RolesReportsHash>>> apiResponse)
+        internal void ExecuteOnRolesReportGet(DefaultApi.RolesReportGetApiResponse apiResponse)
         {
-            OnRolesReportGet?.Invoke(this, new ApiResponseEventArgs<List<List<RolesReportsHash>>>(apiResponse));
+            OnRolesReportGet?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorRolesReportGet(Exception exception)
@@ -230,16 +288,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<NotificationtestGetElementsV1ResponseMPayload>> OnTest;
+        public event EventHandler<ApiResponseEventArgs> OnTest;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorTest;
 
-        internal void ExecuteOnTest(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponse)
+        internal void ExecuteOnTest(DefaultApi.TestApiResponse apiResponse)
         {
-            OnTest?.Invoke(this, new ApiResponseEventArgs<NotificationtestGetElementsV1ResponseMPayload>(apiResponse));
+            OnTest?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
         internal void ExecuteOnErrorTest(Exception exception)
@@ -254,6 +312,11 @@ namespace Org.OpenAPITools.Api
     public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
+
+        /// <summary>
+        /// The logger factory
+        /// </summary>
+        public ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// The logger
@@ -299,7 +362,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
+        public DefaultApi(ILogger<DefaultApi> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -307,7 +370,8 @@ namespace Org.OpenAPITools.Api
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            Logger = logger;
+            LoggerFactory = loggerFactory;
+            Logger = LoggerFactory.CreateLogger<DefaultApi>();
             HttpClient = httpClient;
             Events = defaultApiEvents;
             ApiKeyProvider = apiKeyProvider;
@@ -321,7 +385,7 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterFooGetDefaultImplementation(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar)
+        private void AfterFooGetDefaultImplementation(IFooGetApiResponse apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
@@ -334,7 +398,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
+        partial void AfterFooGet(ref bool suppressDefaultLog, IFooGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -363,8 +427,8 @@ namespace Org.OpenAPITools.Api
         ///  
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IFooGetApiResponse"/>&gt;</returns>
+        public async Task<IFooGetApiResponse> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -381,8 +445,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IFooGetApiResponse"/>&gt;</returns>
+        public async Task<IFooGetApiResponse> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -413,7 +477,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<FooGetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<FooGetApiResponse>();
+
+                        FooGetApiResponse apiResponseLocalVar = new FooGetApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 
@@ -429,6 +495,83 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorFooGet(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="FooGetApiResponse"/>
+        /// </summary>
+        public partial class FooGetApiResponse : Org.OpenAPITools.Client.ApiResponse, IFooGetApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<FooGetApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="FooGetApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public FooGetApiResponse(ILogger<FooGetApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is the default response type
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDefault => true;
+
+            /// <summary>
+            /// Deserializes the response if the response is 0 Default
+            /// </summary>
+            /// <returns></returns>
+            public Org.OpenAPITools.Model.FooGetDefaultResponse Default()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsDefault
+                    ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.FooGetDefaultResponse>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 0 Default and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryDefault(out Org.OpenAPITools.Model.FooGetDefaultResponse result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Default();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)0);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
         partial void FormatGetCountry(ref string country);
@@ -449,7 +592,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        private void AfterGetCountryDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string country)
+        private void AfterGetCountryDefaultImplementation(IGetCountryApiResponse apiResponseLocalVar, string country)
         {
             bool suppressDefaultLog = false;
             AfterGetCountry(ref suppressDefaultLog, apiResponseLocalVar, country);
@@ -463,7 +606,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        partial void AfterGetCountry(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string country);
+        partial void AfterGetCountry(ref bool suppressDefaultLog, IGetCountryApiResponse apiResponseLocalVar, string country);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -495,8 +638,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetCountryApiResponse"/>&gt;</returns>
+        public async Task<IGetCountryApiResponse> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -514,8 +657,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetCountryApiResponse"/>&gt;</returns>
+        public async Task<IGetCountryApiResponse> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -561,7 +704,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<GetCountryApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetCountryApiResponse>();
+
+                        GetCountryApiResponse apiResponseLocalVar = new GetCountryApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetCountryDefaultImplementation(apiResponseLocalVar, country);
 
@@ -580,10 +725,55 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="GetCountryApiResponse"/>
+        /// </summary>
+        public partial class GetCountryApiResponse : Org.OpenAPITools.Client.ApiResponse, IGetCountryApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<GetCountryApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="GetCountryApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetCountryApiResponse(ILogger<GetCountryApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterHelloDefaultImplementation(ApiResponse<List<Guid>> apiResponseLocalVar)
+        private void AfterHelloDefaultImplementation(IHelloApiResponse apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterHello(ref suppressDefaultLog, apiResponseLocalVar);
@@ -596,7 +786,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterHello(ref bool suppressDefaultLog, ApiResponse<List<Guid>> apiResponseLocalVar);
+        partial void AfterHello(ref bool suppressDefaultLog, IHelloApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -625,8 +815,8 @@ namespace Org.OpenAPITools.Api
         /// Hello Hello
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IHelloApiResponse"/>&gt;</returns>
+        public async Task<IHelloApiResponse> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -643,8 +833,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IHelloApiResponse"/>&gt;</returns>
+        public async Task<IHelloApiResponse> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -675,7 +865,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<List<Guid>> apiResponseLocalVar = new ApiResponse<List<Guid>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<HelloApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<HelloApiResponse>();
+
+                        HelloApiResponse apiResponseLocalVar = new HelloApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterHelloDefaultImplementation(apiResponseLocalVar);
 
@@ -694,10 +886,87 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="HelloApiResponse"/>
+        /// </summary>
+        public partial class HelloApiResponse : Org.OpenAPITools.Client.ApiResponse, IHelloApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<HelloApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="HelloApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public HelloApiResponse(ILogger<HelloApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public List<Guid> Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk(out List<Guid> result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterRolesReportGetDefaultImplementation(ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar)
+        private void AfterRolesReportGetDefaultImplementation(IRolesReportGetApiResponse apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterRolesReportGet(ref suppressDefaultLog, apiResponseLocalVar);
@@ -710,7 +979,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRolesReportGet(ref bool suppressDefaultLog, ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar);
+        partial void AfterRolesReportGet(ref bool suppressDefaultLog, IRolesReportGetApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -739,8 +1008,8 @@ namespace Org.OpenAPITools.Api
         ///  
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRolesReportGetApiResponse"/>&gt;</returns>
+        public async Task<IRolesReportGetApiResponse> RolesReportGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -757,8 +1026,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRolesReportGetApiResponse"/>&gt;</returns>
+        public async Task<IRolesReportGetApiResponse> RolesReportGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -789,7 +1058,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<List<List<RolesReportsHash>>> apiResponseLocalVar = new ApiResponse<List<List<RolesReportsHash>>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<RolesReportGetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RolesReportGetApiResponse>();
+
+                        RolesReportGetApiResponse apiResponseLocalVar = new RolesReportGetApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/roles/report", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterRolesReportGetDefaultImplementation(apiResponseLocalVar);
 
@@ -808,10 +1079,87 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// The <see cref="RolesReportGetApiResponse"/>
+        /// </summary>
+        public partial class RolesReportGetApiResponse : Org.OpenAPITools.Client.ApiResponse, IRolesReportGetApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<RolesReportGetApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="RolesReportGetApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RolesReportGetApiResponse(ILogger<RolesReportGetApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public List<List> Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk(out List<List> result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterTestDefaultImplementation(ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar)
+        private void AfterTestDefaultImplementation(ITestApiResponse apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterTest(ref suppressDefaultLog, apiResponseLocalVar);
@@ -824,7 +1172,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterTest(ref bool suppressDefaultLog, ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar);
+        partial void AfterTest(ref bool suppressDefaultLog, ITestApiResponse apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -853,8 +1201,8 @@ namespace Org.OpenAPITools.Api
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
-        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestApiResponse"/>&gt;</returns>
+        public async Task<ITestApiResponse> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -871,8 +1219,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="NotificationtestGetElementsV1ResponseMPayload"/></returns>
-        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestAsync(System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestApiResponse"/>&gt;</returns>
+        public async Task<ITestApiResponse> TestAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -903,7 +1251,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> apiResponseLocalVar = new ApiResponse<NotificationtestGetElementsV1ResponseMPayload>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
+                        ILogger<TestApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<TestApiResponse>();
+
+                        TestApiResponse apiResponseLocalVar = new TestApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/test", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestDefaultImplementation(apiResponseLocalVar);
 
@@ -919,6 +1269,83 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorTest(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="TestApiResponse"/>
+        /// </summary>
+        public partial class TestApiResponse : Org.OpenAPITools.Client.ApiResponse, ITestApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TestApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="TestApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public TestApiResponse(ILogger<TestApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk(out Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
     }
 }

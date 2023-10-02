@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FooGetAsyncTest()
         {
             var response = await _instance.FooGetAsync();
-            var model = response.AsModel();
+            var model = response.Default();
             Assert.IsType<FooGetDefaultResponse>(model);
         }
 
@@ -78,8 +78,30 @@ namespace Org.OpenAPITools.Test.Api
         public async Task HelloAsyncTest()
         {
             var response = await _instance.HelloAsync();
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<List<Guid>>(model);
+        }
+
+        /// <summary>
+        /// Test RolesReportGet
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task RolesReportGetAsyncTest()
+        {
+            var response = await _instance.RolesReportGetAsync();
+            var model = response.Ok();
+            Assert.IsType<List<List<RolesReportsHash>>>(model);
+        }
+
+        /// <summary>
+        /// Test Test
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task TestAsyncTest()
+        {
+            var response = await _instance.TestAsync();
+            var model = response.Ok();
+            Assert.IsType<NotificationtestGetElementsV1ResponseMPayload>(model);
         }
     }
 }

@@ -18,21 +18,27 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr, field_validator
+from pydantic import Field
 from petstore_api.models.category import Category
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class SpecialName(BaseModel):
     """
     SpecialName
     """
-    var_property: Optional[StrictInt] = Field(None, alias="property")
-    var_async: Optional[Category] = Field(None, alias="async")
-    var_schema: Optional[StrictStr] = Field(None, alias="schema", description="pet status in the store")
+    var_property: Optional[StrictInt] = Field(default=None, alias="property")
+    var_async: Optional[Category] = Field(default=None, alias="async")
+    var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["property", "async", "schema"]
+    __properties: ClassVar[List[str]] = ["property", "async", "schema"]
 
-    @validator('var_schema')
+    @field_validator('var_schema')
     def var_schema_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -42,27 +48,29 @@ class SpecialName(BaseModel):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SpecialName:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SpecialName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -78,18 +86,18 @@ class SpecialName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SpecialName:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of SpecialName from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SpecialName.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = SpecialName.parse_obj({
-            "var_property": obj.get("property"),
-            "var_async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
-            "var_schema": obj.get("schema")
+        _obj = cls.model_validate({
+            "property": obj.get("property"),
+            "async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
+            "schema": obj.get("schema")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

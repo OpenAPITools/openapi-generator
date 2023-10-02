@@ -215,7 +215,7 @@ class PetApiTests(unittest.TestCase):
         cls.tag.name = "python-pet-tag"
         cls.pet = petstore_api.Pet(
             name="hello kity",
-            photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"]
+            photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"]
         )
         cls.pet.id = id_gen()
         cls.pet.status = "sold"

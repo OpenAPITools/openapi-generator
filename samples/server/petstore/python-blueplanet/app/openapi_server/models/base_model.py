@@ -1,6 +1,5 @@
 import pprint
 
-import six
 import typing
 
 from openapi_server import util
@@ -29,7 +28,7 @@ class Model(object):
         """
         result = {}
 
-        for attr, _ in six.iteritems(self.swagger_types):
+        for attr in self.swagger_types:
             value = getattr(self, attr)
             if isinstance(value, list):
                 result[attr] = list(map(

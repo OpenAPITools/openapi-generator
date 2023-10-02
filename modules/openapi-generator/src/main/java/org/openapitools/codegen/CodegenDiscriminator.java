@@ -123,9 +123,16 @@ public class CodegenDiscriminator {
 
         private CodegenModel model;
 
-        public MappedModel(String mappingName, String modelName) {
+        private final boolean explicitMapping;
+
+        public MappedModel(String mappingName, String modelName, boolean explicitMapping) {
             this.mappingName = mappingName;
             this.modelName = modelName;
+            this.explicitMapping = explicitMapping;
+        }
+
+        public MappedModel(String mappingName, String modelName) {
+            this(mappingName, modelName, false);
         }
 
         @Override
@@ -137,7 +144,14 @@ public class CodegenDiscriminator {
             } else if (other.getMappingName() == null) {
                 return -1;
             }
-            return getMappingName().compareTo(other.getMappingName());
+
+            // prioritize mappings based on mappings in the spec before any auto-generated
+            // so that during serialization the proper values are used in the json
+            if (explicitMapping != other.explicitMapping) {
+                return explicitMapping ? -1 : 1;
+            } else {
+                return getMappingName().compareTo(other.getMappingName());
+            }
         }
 
         public String getMappingName() {

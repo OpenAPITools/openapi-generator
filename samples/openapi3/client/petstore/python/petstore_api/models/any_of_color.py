@@ -19,9 +19,16 @@ import pprint
 import re  # noqa: F401
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
-from typing import Union, Any, List, TYPE_CHECKING
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
+from pydantic import Field
+from typing_extensions import Annotated
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]
 
@@ -31,19 +38,20 @@ class AnyOfColor(BaseModel):
     """
 
     # data type: List[int]
-    anyof_schema_1_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=3, min_items=3)] = Field(None, description="RGB three element array with values 0-255.")
+    anyof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=3, max_length=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
     # data type: List[int]
-    anyof_schema_2_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=4, min_items=4)] = Field(None, description="RGBA four element array with values 0-255.")
+    anyof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=4, max_length=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
-    anyof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(None, description="Hex color string, such as #00FF00.")
+    anyof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     if TYPE_CHECKING:
-        actual_instance: Union[List[int], str]
+        actual_instance: Optional[Union[List[int], str]] = None
     else:
-        actual_instance: Any
-    any_of_schemas: List[str] = Field(ANYOFCOLOR_ANY_OF_SCHEMAS, const=True)
+        actual_instance: Any = None
+    any_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -55,9 +63,9 @@ class AnyOfColor(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = AnyOfColor.construct()
+        instance = AnyOfColor.model_construct()
         error_messages = []
         # validate data type: List[int]
         try:
@@ -84,13 +92,13 @@ class AnyOfColor(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AnyOfColor:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> AnyOfColor:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = AnyOfColor.construct()
+        instance = cls.model_construct()
         error_messages = []
         # deserialize data into List[int]
         try:
@@ -150,6 +158,6 @@ class AnyOfColor(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

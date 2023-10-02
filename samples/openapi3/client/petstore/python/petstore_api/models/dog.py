@@ -18,9 +18,14 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import StrictStr
 from petstore_api.models.animal import Animal
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Dog(Animal):
     """
@@ -28,29 +33,31 @@ class Dog(Animal):
     """
     breed: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color", "breed"]
+    __properties: ClassVar[List[str]] = ["className", "color", "breed"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Dog:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Dog from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -63,16 +70,16 @@ class Dog(Animal):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Dog:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Dog from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Dog.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Dog.parse_obj({
-            "class_name": obj.get("className"),
+        _obj = cls.model_validate({
+            "className": obj.get("className"),
             "color": obj.get("color") if obj.get("color") is not None else 'red',
             "breed": obj.get("breed")
         })

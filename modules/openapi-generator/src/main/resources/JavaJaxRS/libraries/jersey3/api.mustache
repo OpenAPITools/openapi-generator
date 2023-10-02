@@ -1,0 +1,89 @@
+package {{package}};
+
+{{#models.0}}
+import {{modelPackage}}.*;
+{{/models.0}}
+import {{package}}.{{classname}}Service;
+import {{package}}.factories.{{classname}}ServiceFactory;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.Map;
+import java.util.List;
+import {{package}}.NotFoundException;
+
+import java.io.InputStream;
+
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+
+import {{javaxPackage}}.servlet.ServletConfig;
+import {{javaxPackage}}.ws.rs.core.Context;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import {{javaxPackage}}.ws.rs.*;
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
+@Path("{{commonPath}}")
+{{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
+{{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+@Tag(description = "the {{{baseName}}} API", name = "")
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}}  {
+
+   private final {{classname}}Service delegate;
+
+   public {{classname}}(@Context ServletConfig servletContext) {
+
+      {{classname}}Service delegate = null;
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("{{classname}}.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = ({{classname}}Service) Class.forName(implClass).getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         }
+      }
+
+      if (delegate == null) {
+         delegate = {{classname}}ServiceFactory.get{{classname}}();
+      }
+      this.delegate = delegate;
+   }
+
+{{#operation}}
+
+    @{{javaxPackage}}.ws.rs.{{httpMethod}}{{!
+    }}{{#subresourceOperation}}
+    @Path("{{{path}}}"){{/subresourceOperation}}{{!
+    }}{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{!
+    }}{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    @Operation(summary = "{{{summary}}}", description = "{{{description}}}", responses = {
+        {{#responses}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}", content = 
+                @Content(schema = @Schema(implementation = {{{baseType}}}.class))),
+        {{/responses}}
+            }, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} }) 
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.{{nickname}}({{#allParams}}{{#isFormParam}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{/isFormParam}}{{^isFile}}{{paramName}}{{/isFile}}{{^isFormParam}}{{#isFile}}{{paramName}}{{/isFile}}{{/isFormParam}}, {{/allParams}}securityContext);
+    }
+{{/operation}}
+}
+{{/operations}}

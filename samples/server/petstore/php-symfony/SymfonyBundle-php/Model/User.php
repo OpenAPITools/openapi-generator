@@ -116,14 +116,16 @@ class User
      */
     public function __construct(array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->username = $data['username'] ?? null;
-        $this->firstName = $data['firstName'] ?? null;
-        $this->lastName = $data['lastName'] ?? null;
-        $this->email = $data['email'] ?? null;
-        $this->password = $data['password'] ?? null;
-        $this->phone = $data['phone'] ?? null;
-        $this->userStatus = $data['userStatus'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->username = array_key_exists('username', $data) ? $data['username'] : $this->username;
+            $this->firstName = array_key_exists('firstName', $data) ? $data['firstName'] : $this->firstName;
+            $this->lastName = array_key_exists('lastName', $data) ? $data['lastName'] : $this->lastName;
+            $this->email = array_key_exists('email', $data) ? $data['email'] : $this->email;
+            $this->password = array_key_exists('password', $data) ? $data['password'] : $this->password;
+            $this->phone = array_key_exists('phone', $data) ? $data['phone'] : $this->phone;
+            $this->userStatus = array_key_exists('userStatus', $data) ? $data['userStatus'] : $this->userStatus;
+        }
     }
 
     /**

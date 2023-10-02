@@ -19,52 +19,60 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt
+from pydantic import BaseModel, StrictInt
+from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(None, alias="$special[property.name]")
-    __properties = ["$special[property.name]"]
+    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
+    __properties: ClassVar[List[str]] = ["$special[property.name]"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SpecialModelName:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of SpecialModelName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SpecialModelName:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of SpecialModelName from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SpecialModelName.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = SpecialModelName.parse_obj({
-            "special_property_name": obj.get("$special[property.name]")
+        _obj = cls.model_validate({
+            "$special[property.name]": obj.get("$special[property.name]")
         })
         return _obj
 

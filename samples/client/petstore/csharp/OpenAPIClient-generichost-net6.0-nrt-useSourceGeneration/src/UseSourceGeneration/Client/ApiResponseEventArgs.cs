@@ -5,18 +5,18 @@ namespace UseSourceGeneration.Client
     /// <summary>
     /// Useful for tracking server health
     /// </summary>
-    public class ApiResponseEventArgs<T> : EventArgs
+    public class ApiResponseEventArgs : EventArgs
     {
         /// <summary>
         /// The ApiResponse
         /// </summary>
-        public ApiResponse<T> ApiResponse { get; }
+        public ApiResponse ApiResponse { get; }
 
         /// <summary>
         /// The ApiResponseEventArgs
         /// </summary>
         /// <param name="apiResponse"></param>
-        public ApiResponseEventArgs(ApiResponse<T> apiResponse)
+        public ApiResponseEventArgs(ApiResponse apiResponse)
         {
             ApiResponse = apiResponse;
         }

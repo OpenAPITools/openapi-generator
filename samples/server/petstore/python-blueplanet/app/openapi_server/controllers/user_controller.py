@@ -1,5 +1,4 @@
 import connexion
-import six
 
 from app.openapi_server.models.user import User  # noqa: E501
 from openapi_server import util

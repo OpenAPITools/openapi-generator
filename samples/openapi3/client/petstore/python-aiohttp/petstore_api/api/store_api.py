@@ -16,11 +16,12 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
-from typing import overload, Optional, Union, Awaitable
+from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
+from pydantic import Field
 from typing_extensions import Annotated
-from pydantic import Field, StrictStr, conint
+from pydantic import StrictStr
 
 from typing import Dict
 
@@ -46,8 +47,8 @@ class StoreApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
-    async def delete_order(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], **kwargs) -> None:  # noqa: E501
+    @validate_call
+    async def delete_order(self, order_id : Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")], **kwargs) -> None:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -69,8 +70,8 @@ class StoreApi:
             raise ValueError(message)
         return await self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def delete_order_with_http_info(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def delete_order_with_http_info(self, order_id : Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -126,27 +127,27 @@ class StoreApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['order_id'] is not None:
             _path_params['order_id'] = _params['order_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/store/order/{order_id}', 'DELETE',
@@ -164,7 +165,7 @@ class StoreApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
+    @validate_call
     async def get_inventory(self, **kwargs) -> Dict[str, int]:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
@@ -185,7 +186,7 @@ class StoreApi:
             raise ValueError(message)
         return await self.get_inventory_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     async def get_inventory_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
@@ -239,18 +240,18 @@ class StoreApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -258,9 +259,9 @@ class StoreApi:
             ['application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['api_key']  # noqa: E501
+        _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, int]",
         }
 
@@ -280,8 +281,8 @@ class StoreApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def get_order_by_id(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> Order:  # noqa: E501
+    @validate_call
+    async def get_order_by_id(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")], **kwargs) -> Order:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -303,8 +304,8 @@ class StoreApi:
             raise ValueError(message)
         return await self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def get_order_by_id_with_http_info(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def get_order_by_id_with_http_info(self, order_id : Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")], **kwargs) -> ApiResponse:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -360,21 +361,21 @@ class StoreApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['order_id'] is not None:
             _path_params['order_id'] = _params['order_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -382,9 +383,9 @@ class StoreApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
             '404': None,
@@ -406,8 +407,8 @@ class StoreApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs) -> Order:  # noqa: E501
+    @validate_call
+    async def place_order(self, order : Annotated[Order, Field(description="order placed for purchasing the pet")], **kwargs) -> Order:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501
@@ -429,8 +430,8 @@ class StoreApi:
             raise ValueError(message)
         return await self.place_order_with_http_info(order, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def place_order_with_http_info(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def place_order_with_http_info(self, order : Annotated[Order, Field(description="order placed for purchasing the pet")], **kwargs) -> ApiResponse:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501
@@ -486,18 +487,18 @@ class StoreApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['order'] is not None:
@@ -515,9 +516,9 @@ class StoreApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
         }

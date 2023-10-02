@@ -74,9 +74,11 @@ class ApiResponse
      */
     public function __construct(array $data = null)
     {
-        $this->code = $data['code'] ?? null;
-        $this->type = $data['type'] ?? null;
-        $this->message = $data['message'] ?? null;
+        if (is_array($data)) {
+            $this->code = array_key_exists('code', $data) ? $data['code'] : $this->code;
+            $this->type = array_key_exists('type', $data) ? $data['type'] : $this->type;
+            $this->message = array_key_exists('message', $data) ? $data['message'] : $this->message;
+        }
     }
 
     /**

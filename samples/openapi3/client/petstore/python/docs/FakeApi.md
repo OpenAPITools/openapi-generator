@@ -1120,7 +1120,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
-> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
+> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, var_float=var_float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1164,7 +1164,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     integer = 56 # int | None (optional)
     int32 = 56 # int | None (optional)
     int64 = 56 # int | None (optional)
-    float = 3.4 # float | None (optional)
+    var_float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
     binary = None # bytearray | None (optional)
     byte_with_max_length = None # bytearray | None (optional)
@@ -1175,7 +1175,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
+        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, var_float=var_float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
     except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
@@ -1193,7 +1193,7 @@ Name | Type | Description  | Notes
  **integer** | **int**| None | [optional] 
  **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
- **float** | **float**| None | [optional] 
+ **var_float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
  **binary** | **bytearray**| None | [optional] 
  **byte_with_max_length** | **bytearray**| None | [optional] 

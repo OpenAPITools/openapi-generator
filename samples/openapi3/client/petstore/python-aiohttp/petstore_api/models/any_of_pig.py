@@ -19,11 +19,16 @@ import pprint
 import re  # noqa: F401
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -37,13 +42,14 @@ class AnyOfPig(BaseModel):
     # data type: DanishPig
     anyof_schema_2_validator: Optional[DanishPig] = None
     if TYPE_CHECKING:
-        actual_instance: Union[BasquePig, DanishPig]
+        actual_instance: Optional[Union[BasquePig, DanishPig]] = None
     else:
-        actual_instance: Any
-    any_of_schemas: List[str] = Field(ANYOFPIG_ANY_OF_SCHEMAS, const=True)
+        actual_instance: Any = None
+    any_of_schemas: List[str] = Literal[ANYOFPIG_ANY_OF_SCHEMAS]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -55,9 +61,9 @@ class AnyOfPig(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = AnyOfPig.construct()
+        instance = AnyOfPig.model_construct()
         error_messages = []
         # validate data type: BasquePig
         if not isinstance(v, BasquePig):
@@ -78,13 +84,13 @@ class AnyOfPig(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AnyOfPig:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> AnyOfPig:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = AnyOfPig.construct()
+        instance = cls.model_construct()
         error_messages = []
         # anyof_schema_1_validator: Optional[BasquePig] = None
         try:
@@ -129,6 +135,6 @@ class AnyOfPig(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

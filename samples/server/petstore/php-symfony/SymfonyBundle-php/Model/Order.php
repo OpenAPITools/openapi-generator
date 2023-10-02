@@ -93,7 +93,7 @@ class Order
      * @Assert\Type("bool")
      * @Type("bool")
      */
-    protected ?bool $complete = null;
+    protected ?bool $complete = false;
 
     /**
      * Constructor
@@ -101,12 +101,14 @@ class Order
      */
     public function __construct(array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->petId = $data['petId'] ?? null;
-        $this->quantity = $data['quantity'] ?? null;
-        $this->shipDate = $data['shipDate'] ?? null;
-        $this->status = $data['status'] ?? null;
-        $this->complete = $data['complete'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->petId = array_key_exists('petId', $data) ? $data['petId'] : $this->petId;
+            $this->quantity = array_key_exists('quantity', $data) ? $data['quantity'] : $this->quantity;
+            $this->shipDate = array_key_exists('shipDate', $data) ? $data['shipDate'] : $this->shipDate;
+            $this->status = array_key_exists('status', $data) ? $data['status'] : $this->status;
+            $this->complete = array_key_exists('complete', $data) ? $data['complete'] : $this->complete;
+        }
     }
 
     /**

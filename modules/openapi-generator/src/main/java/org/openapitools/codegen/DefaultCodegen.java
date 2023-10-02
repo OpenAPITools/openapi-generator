@@ -50,6 +50,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -451,9 +452,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
                 .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " ", false))
-                .put("indented_12", new IndentedLambda(12, " ", false))
-                .put("indented_16", new IndentedLambda(16, " ", false));
+                .put("indented_8", new IndentedLambda(8, " ", false, false))
+                .put("indented_12", new IndentedLambda(12, " ", false, false))
+                .put("indented_16", new IndentedLambda(16, " ", false, false));
 
     }
 
@@ -3491,7 +3492,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
                     if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                         String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), true);
                         descendentSchemas.add(mm);
                     }
                 }
@@ -3549,7 +3550,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .map(ve -> ve.get("x-discriminator-value"))
                     .map(discriminatorValue -> (String) discriminatorValue)
                     .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), mappingName != currentSchemaName);
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3603,7 +3604,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     name = e.getValue();
                 }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name)));
+                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), true));
             }
         }
 
@@ -4850,6 +4851,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenProperty cp = fromProperty("response", responseSchema, false);
         r.dataType = getTypeDeclaration(responseSchema);
+        r.returnProperty = cp;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
             if (cp.complexType != null) {
@@ -7083,7 +7085,12 @@ public class DefaultCodegen implements CodegenConfig {
             // hoist items data into the array property
             // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
-            codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            // TODO we need to fix array of item (with default value) generator by generator
+            // https://github.com/OpenAPITools/openapi-generator/pull/16654/ is a good reference
+            if (!(this instanceof PhpNextgenClientCodegen)) {
+                // no need to set default value here as it was set earlier
+                codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            }
             if (codegenParameter.items.isFile) {
                 codegenParameter.isFile = true;
                 codegenParameter.dataFormat = codegenParameter.items.dataFormat;

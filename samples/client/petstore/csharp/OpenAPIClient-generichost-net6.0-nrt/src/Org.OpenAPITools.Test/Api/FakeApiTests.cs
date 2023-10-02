@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FakeHealthGetAsyncTest()
         {
             var response = await _instance.FakeHealthGetAsync();
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<HealthCheckResult>(model);
         }
 
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             Client.Option<bool> body = default!;
             var response = await _instance.FakeOuterBooleanSerializeAsync(body);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<bool>(model);
         }
 
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             Client.Option<OuterComposite> outerComposite = default!;
             var response = await _instance.FakeOuterCompositeSerializeAsync(outerComposite);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<OuterComposite>(model);
         }
 
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             Client.Option<decimal> body = default!;
             var response = await _instance.FakeOuterNumberSerializeAsync(body);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<decimal>(model);
         }
 
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Test.Api
             Guid requiredStringUuid = default!;
             Client.Option<string> body = default!;
             var response = await _instance.FakeOuterStringSerializeAsync(requiredStringUuid, body);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<string>(model);
         }
 
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task GetArrayOfEnumsAsyncTest()
         {
             var response = await _instance.GetArrayOfEnumsAsync();
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<List<OuterEnum>>(model);
         }
 
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             ModelClient modelClient = default!;
             var response = await _instance.TestClientModelAsync(modelClient);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<ModelClient>(model);
         }
 

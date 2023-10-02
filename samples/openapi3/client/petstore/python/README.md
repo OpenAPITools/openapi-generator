@@ -177,7 +177,7 @@ Class | Method | HTTP request | Description
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [IntOrString](docs/IntOrString.md)
- - [List](docs/List.md)
+ - [ListClass](docs/ListClass.md)
  - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)

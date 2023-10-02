@@ -1775,7 +1775,7 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Animal'
-    List:
+    ListClass:
       type: object
       properties:
         123-list:

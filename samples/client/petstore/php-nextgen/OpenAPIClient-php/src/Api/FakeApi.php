@@ -3956,14 +3956,14 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
      * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
      * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
      * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array enum_query_model_array (optional)
-     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
@@ -3972,14 +3972,14 @@ class FakeApi
      * @return void
      */
     public function testEnumParameters(
-        ?array $enum_header_string_array = null,
+        ?array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = null,
+        ?array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
         ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = '$',
+        ?array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): void
@@ -3992,14 +3992,14 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
      * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
      * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
      * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
-     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
@@ -4008,14 +4008,14 @@ class FakeApi
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumParametersWithHttpInfo(
-        ?array $enum_header_string_array = null,
+        ?array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = null,
+        ?array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
         ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = '$',
+        ?array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): array
@@ -4071,14 +4071,14 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
      * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
      * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
      * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
-     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
@@ -4086,14 +4086,14 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testEnumParametersAsync(
-        ?array $enum_header_string_array = null,
+        ?array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = null,
+        ?array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
         ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = '$',
+        ?array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): PromiseInterface
@@ -4111,14 +4111,14 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
      * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
      * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
      * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
-     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
@@ -4126,14 +4126,14 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testEnumParametersAsyncWithHttpInfo(
-        $enum_header_string_array = null,
+        $enum_header_string_array = ['$'],
         $enum_header_string = '-efg',
-        $enum_query_string_array = null,
+        $enum_query_string_array = ['$'],
         $enum_query_string = '-efg',
         $enum_query_integer = null,
         $enum_query_double = null,
         $enum_query_model_array = null,
-        $enum_form_string_array = '$',
+        $enum_form_string_array = ['$'],
         $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): PromiseInterface
@@ -4167,14 +4167,14 @@ class FakeApi
     /**
      * Create request for operation 'testEnumParameters'
      *
-     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_header_string_array Header parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[]|null $enum_query_string_array Query parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
      * @param  int|null $enum_query_integer Query parameter enum test (double) (optional)
      * @param  float|null $enum_query_double Query parameter enum test (double) (optional)
      * @param  \OpenAPI\Client\Model\EnumClass[]|null $enum_query_model_array (optional)
-     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string[]|null $enum_form_string_array Form parameter enum test (string array) (optional, default to ['$'])
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
@@ -4182,14 +4182,14 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEnumParametersRequest(
-        $enum_header_string_array = null,
+        $enum_header_string_array = ['$'],
         $enum_header_string = '-efg',
-        $enum_query_string_array = null,
+        $enum_query_string_array = ['$'],
         $enum_query_string = '-efg',
         $enum_query_integer = null,
         $enum_query_double = null,
         $enum_query_model_array = null,
-        $enum_form_string_array = '$',
+        $enum_form_string_array = ['$'],
         $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): Request

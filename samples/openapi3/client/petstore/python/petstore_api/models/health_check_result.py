@@ -18,38 +18,46 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class HealthCheckResult(BaseModel):
     """
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
     """
-    nullable_message: Optional[StrictStr] = Field(None, alias="NullableMessage")
+    nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["NullableMessage"]
+    __properties: ClassVar[List[str]] = ["NullableMessage"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> HealthCheckResult:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of HealthCheckResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -60,23 +68,23 @@ class HealthCheckResult(BaseModel):
                 _dict[_key] = _value
 
         # set to None if nullable_message (nullable) is None
-        # and __fields_set__ contains the field
-        if self.nullable_message is None and "nullable_message" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.nullable_message is None and "nullable_message" in self.model_fields_set:
             _dict['NullableMessage'] = None
 
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> HealthCheckResult:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of HealthCheckResult from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return HealthCheckResult.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = HealthCheckResult.parse_obj({
-            "nullable_message": obj.get("NullableMessage")
+        _obj = cls.model_validate({
+            "NullableMessage": obj.get("NullableMessage")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

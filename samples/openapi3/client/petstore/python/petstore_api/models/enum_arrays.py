@@ -18,19 +18,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, StrictStr, conlist, validator
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictStr, field_validator
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """
     just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[conlist(StrictStr)] = None
+    array_enum: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["just_symbol", "array_enum"]
+    __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 
-    @validator('just_symbol')
+    @field_validator('just_symbol')
     def just_symbol_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -40,7 +45,7 @@ class EnumArrays(BaseModel):
             raise ValueError("must be one of enum values ('>=', '$')")
         return value
 
-    @validator('array_enum')
+    @field_validator('array_enum')
     def array_enum_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -51,27 +56,29 @@ class EnumArrays(BaseModel):
                 raise ValueError("each list item must be one of ('fish', 'crab')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> EnumArrays:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumArrays from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -84,15 +91,15 @@ class EnumArrays(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> EnumArrays:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of EnumArrays from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return EnumArrays.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = EnumArrays.parse_obj({
+        _obj = cls.model_validate({
             "just_symbol": obj.get("just_symbol"),
             "array_enum": obj.get("array_enum")
         })
