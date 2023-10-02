@@ -419,8 +419,15 @@ public class DefaultGenerator implements Generator {
 
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
-            String filename = config.modelFilename(templateName, modelName);
-            File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
+            File written;
+            if (config.templateOutputDirs().containsKey(templateName)) {
+                String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
+                String filename = config.modelFilename(templateName, modelName, outputDir);
+                written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS, outputDir);
+            } else {
+                String filename = config.modelFilename(templateName, modelName);
+                written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
+            }
             if (written != null) {
                 files.add(written);
                 if (config.isEnablePostProcessFile() && !dryRun) {
@@ -687,8 +694,15 @@ public class DefaultGenerator implements Generator {
                 addAuthenticationSwitches(operation);
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
-                    String filename = config.apiFilename(templateName, tag);
-                    File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    File written;
+                    if (config.templateOutputDirs().containsKey(templateName)) {
+                        String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
+                        String filename = config.apiFilename(templateName, tag, outputDir);
+                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                    } else {
+                        String filename = config.apiFilename(templateName, tag);
+                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    }
                     if (written != null) {
                         files.add(written);
                         if (config.isEnablePostProcessFile() && !dryRun) {
@@ -1061,7 +1075,10 @@ public class DefaultGenerator implements Generator {
                         } else {
                             templateExt = StringUtils.prependIfMissing(templateExt, ".");
                         }
-
+                        String templateOutputFolder = userDefinedTemplate.getFolder();
+                        if (!templateOutputFolder.isEmpty()) {
+                            config.templateOutputDirs().put(templateFile, templateOutputFolder);
+                        }
                         switch (userDefinedTemplate.getTemplateType()) {
                             case API:
                                 config.apiTemplateFiles().put(templateFile, templateExt);
