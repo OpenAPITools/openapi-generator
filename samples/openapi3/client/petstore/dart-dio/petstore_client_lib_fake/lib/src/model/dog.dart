@@ -51,6 +51,11 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
         specifiedType: const FullType(String),
       );
     }
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
     if (object.breed != null) {
       yield r'breed';
       yield serializers.serialize(
@@ -92,6 +97,13 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
             specifiedType: const FullType(String),
           ) as String;
           result.color = valueDes;
+          break;
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
           break;
         case r'breed':
           final valueDes = serializers.deserialize(

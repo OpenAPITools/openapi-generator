@@ -55,6 +55,8 @@ public interface CodegenConfig {
 
     Map<String, Object> vendorExtensions();
 
+    Map<String, String> templateOutputDirs();
+
     String testPackage();
 
     String apiPackage();
@@ -219,7 +221,11 @@ public interface CodegenConfig {
 
     String modelFilename(String templateName, String modelName);
 
+    String modelFilename(String templateName, String modelName, String outputDir);
+
     String apiFilename(String templateName, String tag);
+
+    String apiFilename(String templateName, String tag, String outputDir);
 
     String apiTestFilename(String templateName, String tag);
 

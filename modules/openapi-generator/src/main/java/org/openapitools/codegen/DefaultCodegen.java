@@ -196,6 +196,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
     protected Map<String, Object> vendorExtensions = new HashMap<>();
+    protected Map<String, String> templateOutputDirs = new HashMap<>();
     /*
     Supporting files are those which aren't models, APIs, or docs.
     These get a different map of data bound to the templates. Supporting files are written once.
@@ -730,9 +731,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         // for oneOf
         final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
-                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
-                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
-                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                        (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                                ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
 
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
@@ -1349,6 +1350,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> vendorExtensions() {
         return vendorExtensions;
+    }
+
+    @Override
+    public Map<String, String> templateOutputDirs() {
+        return templateOutputDirs;
     }
 
     @Override
@@ -4889,7 +4895,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isEmailSchema(responseSchema)) {
                 r.isEmail = true;
             } else if (ModelUtils.isPasswordSchema(responseSchema)) {
-               r.isPassword = true;
+                r.isPassword = true;
             } else if (ModelUtils.isUUIDSchema(responseSchema)) {
                 r.isUuid = true;
             } else if (ModelUtils.isByteArraySchema(responseSchema)) {
@@ -6030,9 +6036,21 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiFilename(String templateName, String tag, String outputDir) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return outputDir + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    @Override
     public String modelFilename(String templateName, String modelName) {
         String suffix = modelTemplateFiles().get(templateName);
         return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName, String outputDir) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return outputDir + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**
@@ -7348,7 +7366,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
             if (codegenProperty == null) {
-               throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+                throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
             }
 
             imports.add(codegenProperty.baseType);
