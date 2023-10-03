@@ -74,7 +74,7 @@
 		<!-- dependencies are needed for the client being generated -->
 
 		<dependency>
-			<groupId>io.swagger</groupId>
+			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
 			<version>${swagger-annotations-version}</version>
 		</dependency>
@@ -124,7 +124,7 @@
 	</dependencies>
 
 	<properties>
-		<swagger-annotations-version>1.5.8</swagger-annotations-version>
+		<swagger-annotations-version>2.2.16</swagger-annotations-version>
 		<springfox-version>2.8.0</springfox-version>
 	</properties>
 </project>
