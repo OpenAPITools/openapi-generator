@@ -6,4 +6,3 @@ templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   artifactId: springboot-spring-provide-args
   hideGenerationTimestamp: 'true'
-  implicitHeadersRegex: ^Version.*

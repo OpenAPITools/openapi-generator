@@ -90,7 +90,7 @@ paths:
         - '@RequestHeader final org.springframework.http.HttpHeaders headers'
         - 'java.security.Principal principal'
         - '@org.springframework.beans.factory.annotation.Qualifier("jacksonObjectMapper") com.fasterxml.jackson.databind.ObjectMapper  mapper'
-#        - '@org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient("okta") org.springframework.security.oauth2.client.OAuth2AuthorizedClient authorizedClient'
+
 
 securityDefinitions:
   api_key:
