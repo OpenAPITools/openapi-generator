@@ -28,4 +28,5 @@ public interface FakeClassnameTestApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     Client testClassname(@Valid @NotNull Client body);
+
 }
