@@ -19,6 +19,9 @@ lazy val root = (project in file(".")).
       {{#openApiNullable}}
       "org.openapitools" % "jackson-databind-nullable" % "0.2.6",
       {{/openApiNullable}}
+      {{#withAWSV4Signature}}
+      "software.amazon.awssdk" % "auth" % "2.20.157",
+      {{/withAWSV4Signature}}
       {{#hasOAuthMethods}}
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.2",
       {{/hasOAuthMethods}}
