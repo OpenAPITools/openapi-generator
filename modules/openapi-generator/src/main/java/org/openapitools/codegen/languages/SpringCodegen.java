@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1238,6 +1239,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
+        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
@@ -1253,6 +1256,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ParameterObject");
             }
+        }
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
         if (reactive) {
@@ -1306,6 +1312,44 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         return codegenOperation;
     }
+
+    private Set<String> reformatProvideArgsParams(Operation operation) {
+        Set<String> provideArgsClassSet = new HashSet<>();
+        Object argObj = operation.getExtensions().get("x-spring-provide-args");
+        if (argObj instanceof List) {
+            List<String> provideArgs = (List<String>) argObj;
+            if (!provideArgs.isEmpty()) {
+                List<String> formatedArgs = new ArrayList<>();
+                for (String oneArg : provideArgs) {
+                    if (StringUtils.isNotEmpty(oneArg)) {
+                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
+                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
+                        List<String> newArgs = new ArrayList<>();
+                        while (matcher.find()) {
+                            String className = matcher.group("ClassName");
+                            String classPath = matcher.group("ClassPath");
+                            String packageName = matcher.group("PackageName");
+                            String params = matcher.group("Params");
+                            String annoTag = matcher.group("AnnotationTag");
+                            String shortPhrase = StringUtils.join(annoTag, className, params);
+                            newArgs.add(shortPhrase);
+                            if (StringUtils.isNotEmpty(packageName)) {
+                                importMapping.put(className, classPath);
+                                provideArgsClassSet.add(className);
+                                LOGGER.trace("put import mapping {} {}", className, classPath);
+                            }
+                        }
+                        String newArg = String.join(" ", newArgs);
+                        LOGGER.trace("new arg {} {}", newArg);
+                        formatedArgs.add(newArg);
+                    }
+                }
+                operation.getExtensions().put("x-spring-provide-args", formatedArgs);
+            }
+        }
+        return provideArgsClassSet;
+    }
+
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
