@@ -3556,7 +3556,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .map(ve -> ve.get("x-discriminator-value"))
                     .map(discriminatorValue -> (String) discriminatorValue)
                     .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), mappingName != currentSchemaName);
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;

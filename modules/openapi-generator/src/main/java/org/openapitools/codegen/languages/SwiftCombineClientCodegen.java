@@ -395,11 +395,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
-                if (ModelUtils.isStringSchema(p)) {
-                    return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
-                } else {
-                    return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
-                }
+                return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
             }
         }
         if (p.getDefault() != null) {
