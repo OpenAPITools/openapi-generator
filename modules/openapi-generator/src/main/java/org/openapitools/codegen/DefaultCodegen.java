@@ -7247,7 +7247,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.description = codegenModelDescription;
                     imports.add(codegenParameter.baseType);
 
-                    if (codegenProperty.complexType != null) {
+                    if (codegenProperty.complexType != null && codegenProperty.getComposedSchemas() == null) {
                         imports.add(codegenProperty.complexType);
                     }
                 }
