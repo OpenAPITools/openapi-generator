@@ -168,6 +168,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}
+	{{#isDateTime}}
+	{{paramName}}Param, err := time.Parse(time.RFC3339, {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isDateTime}}
 	{{^isNumber}}
 	{{^isFloat}}
 	{{^isDouble}}
@@ -181,6 +188,26 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isNumber}}
 	{{/isPathParam}}
 	{{#isQueryParam}}
+	{{#isDateTime}}
+	{{#required}}
+	{{paramName}}Param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	{{/required}}
+	{{^required}}
+	var {{paramName}}Param *time.Time
+	if query.Has("{{baseName}}") {
+			param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
+			if err != nil {
+					c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+					return
+			}
+			{{paramName}}Param = &param
+	}
+	{{/required}}
+	{{/isDateTime}}
 	{{#isNumber}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
@@ -323,7 +350,18 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/items.isInteger}}
+	{{/items.isInteger}}       
+	{{#items.isDateTime}}
+	var {{paramName}}Param []time.Time
+	for t := range strings.Split(query.Get("{{baseName}}"), ",") {
+			parsedTime, err := time.Parse(time.RFC3339, t)
+			if err != nil {
+					c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+					return
+			}
+			{{paramName}}Param = append({{paramName}}Param, parsedTime)
+	}
+	{{/items.isDateTime}}
 	{{^items.isNumber}}
 	{{^items.isFloat}}
 	{{^items.isDouble}}
