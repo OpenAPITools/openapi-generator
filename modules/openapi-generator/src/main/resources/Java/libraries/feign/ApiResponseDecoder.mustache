@@ -29,7 +29,7 @@ public class ApiResponseDecoder extends JacksonDecoder {
             //The ApiResponse class has a single type parameter, the Dto class itself
             responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
             Object body = super.decode(response, responseBodyType);
-            return new ApiResponse(response.status(), responseHeaders, body);
+            return new ApiResponse<>(response.status(), responseHeaders, body);
         } else {
             //The response is not encapsulated in the ApiResponse, decode the Dto as normal
             return super.decode(response, type);
