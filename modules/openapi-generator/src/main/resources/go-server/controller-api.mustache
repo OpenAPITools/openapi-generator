@@ -192,19 +192,19 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#required}}
 	{{paramName}}Param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
 	if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
 	{{/required}}
 	{{^required}}
 	var {{paramName}}Param *time.Time
 	if query.Has("{{baseName}}") {
-			param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
-			if err != nil {
-					c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-					return
-			}
-			{{paramName}}Param = &param
+		param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
+		if err != nil {
+				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+				return
+		}
+		{{paramName}}Param = &param
 	}
 	{{/required}}
 	{{/isDateTime}}
@@ -354,12 +354,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#items.isDateTime}}
 	var {{paramName}}Param []time.Time
 	for t := range strings.Split(query.Get("{{baseName}}"), ",") {
-			parsedTime, err := time.Parse(time.RFC3339, t)
-			if err != nil {
-					c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-					return
-			}
-			{{paramName}}Param = append({{paramName}}Param, parsedTime)
+		parsedTime, err := time.Parse(time.RFC3339, t)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+		{{paramName}}Param = append({{paramName}}Param, parsedTime)
 	}
 	{{/items.isDateTime}}
 	{{^items.isNumber}}
