@@ -66,8 +66,8 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 		}
 	}
 
-    f, ok := i.(*os.File)
-    if ok {
+	f, ok := i.(*os.File)
+	if ok {
 		data, err := io.ReadAll(f)
 		if err != nil {
 			return err
@@ -81,7 +81,7 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 		}
 		_, err = w.Write(data)
 		return err
-    }
+	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
 
 	if status != nil {
