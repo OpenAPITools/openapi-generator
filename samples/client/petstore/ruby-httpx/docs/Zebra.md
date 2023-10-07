@@ -1,20 +1,20 @@
-# Petstore::ParentWithNullable
+# Petstore::Zebra
 
 ## Properties
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **type** | **String** |  | [optional] |
-| **nullable_property** | **String** |  | [optional] |
+| **classname** | **String** |  |  |
 
 ## Example
 
 ```ruby
 require 'petstore'
 
-instance = Petstore::ParentWithNullable.new(
+instance = Petstore::Zebra.new(
   type: null,
-  nullable_property: null
+  classname: null
 )
 ```
 
