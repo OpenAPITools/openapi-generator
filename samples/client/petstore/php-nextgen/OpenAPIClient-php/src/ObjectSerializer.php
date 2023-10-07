@@ -77,6 +77,10 @@ class ObjectSerializer
             return ($format === 'date') ? $data->format('Y-m-d') : $data->format(self::$dateTimeFormat);
         }
 
+        if ($data instanceof \BackedEnum) {
+            return $data->value;
+        }
+
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -93,10 +97,18 @@ class ObjectSerializer
                     $value = $data->$getter();
                     if ($value !== null && !in_array($openAPIType, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
                         if (is_subclass_of($openAPIType, '\BackedEnum')) {
-                            $data = $openAPIType::tryFrom($data);
-                            if ($data === null) {
-                                $imploded = implode("', '", array_map(fn($case) => $case->value, $openAPIType::cases()));
-                                throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
+                            if (is_scalar($value)) {
+                                $value = $openAPIType::tryFrom($value);
+                                if ($value === null) {
+                                    $imploded = implode("', '", array_map(fn($case) => $case->value, $openAPIType::cases()));
+                                    throw new \InvalidArgumentException(
+                                        sprintf(
+                                            "Invalid value for enum '%s', must be one of: '%s'",
+                                            $openAPIType::class,
+                                            $imploded
+                                        )
+                                    );
+                                }
                             }
                         }
                     }
@@ -453,7 +465,7 @@ class ObjectSerializer
             // determine file name
             if (
                 is_array($httpHeaders)
-                && array_key_exists('Content-Disposition', $httpHeaders) 
+                && array_key_exists('Content-Disposition', $httpHeaders)
                 && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)
             ) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . DIRECTORY_SEPARATOR . self::sanitizeFilename($match[1]);
