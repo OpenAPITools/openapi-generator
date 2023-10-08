@@ -525,7 +525,8 @@ public class PythonClientCodegenTest {
         Map<String, File> files = defaultGenerator.generate().stream()
                 .collect(Collectors.toMap(File::getPath, Function.identity()));
 
-        File apiFile = files.get(output.getAbsolutePath() + "/openapi_client/api/hello_example_api.py");
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
         assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
     }
