@@ -57,6 +57,8 @@ class RESTClientObject:
                 configuration.cert_file, keyfile=configuration.key_file
             )
 
+        self.server_hostname = configuration.tls_server_name
+
         if not configuration.verify_ssl:
             ssl_context.check_hostname = False
             ssl_context.verify_mode = ssl.CERT_NONE
@@ -131,6 +133,9 @@ class RESTClientObject:
 
         if query_params:
             args["url"] += '?' + urlencode(query_params)
+
+        if self.server_hostname:
+            args["server_hostname"] = self.server_hostname
 
         # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
         if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
