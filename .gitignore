@@ -193,6 +193,7 @@ samples/server/petstore/php-slim4/composer.lock
 samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
 samples/server/petstore/php-mezzio-ph/composer.lock
 samples/server/petstore/php-mezzio-ph-modern/composer.lock
+samples/client/petstore/php-nextgen/OpenAPIClient-php/.phplint.cache/
 
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
