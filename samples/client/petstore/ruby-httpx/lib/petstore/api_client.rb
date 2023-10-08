@@ -100,13 +100,11 @@ module Petstore
         if config.debugging
           config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
-      else
-        body_params = {}
       end
       req_opts = {
-        :headers => HTTPX::Headers.new(header_params),
-        **body_params
+        :headers => HTTPX::Headers.new(header_params)
       }
+      req_opts.merge!(body_params) if body_params
       req_opts[:params] = query_params if query_params && !query_params.empty?
       session.request(http_method, url, **req_opts)
     end
