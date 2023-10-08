@@ -20,10 +20,16 @@ class NullableTest extends TestCase
         $name->setName(1);
         $this->assertEquals(1, $name->getName(), 'Non-nullable property can be set and retains its value');
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('non-nullable name cannot be null');
+        // comment out below as strict type is now enabled
+        //$this->expectException(InvalidArgumentException::class);
+        //$this->expectExceptionMessage('non-nullable name cannot be null');
 
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('must be of type int, null given');
+
+        //Failed asserting that exception of type "TypeError" matches expected exception "InvalidArgumentException". Message was: "OpenAPI\Client\Model\Name::setName(): Argument #1 ($name) must be of type int, null given, called in /Users/williamcheng/Code/openapi-generator7/samples/client/petstore/php-nextgen/OpenAPIClient-php/test/NullableTest.php on line 26" at
         $name->setName(null);
+
     }
 
     public function testNullableobject(): void
