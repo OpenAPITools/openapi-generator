@@ -12,9 +12,9 @@ part 'model_enum_class.g.dart';
 class ModelEnumClass extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'_abc')
-  static const ModelEnumClass abc = _$abc;
+  static const ModelEnumClass abc_ = _$abc_;
   @BuiltValueEnumConst(wireName: r'-efg')
-  static const ModelEnumClass efg = _$efg;
+  static const ModelEnumClass efg_ = _$efg_;
   @BuiltValueEnumConst(wireName: r'(xyz)')
   static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)

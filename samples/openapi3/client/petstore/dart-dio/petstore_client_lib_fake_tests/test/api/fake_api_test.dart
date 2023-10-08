@@ -157,7 +157,7 @@ void main() {
                 <String>['a', 'b', 'c'],
               ).build(),
               enumQueryModelArray: ListBuilder<ModelEnumClass>(
-                <ModelEnumClass>[ModelEnumClass.abc, ModelEnumClass.efg],
+                <ModelEnumClass>[ModelEnumClass.abc_, ModelEnumClass.efg_],
               ).build(),
               enumQueryString: 'foo',
               enumQueryDouble: 1.23,

@@ -86,7 +86,7 @@ void main() {
             serializers,
             <ModelEnumClass>[
               ModelEnumClass.leftParenthesisXyzRightParenthesis,
-              ModelEnumClass.efg,
+              ModelEnumClass.efg_,
             ].build(),
             const FullType(BuiltList, [FullType(ModelEnumClass)]),
           );
