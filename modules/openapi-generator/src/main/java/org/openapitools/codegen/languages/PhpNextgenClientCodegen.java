@@ -170,7 +170,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             if (operation.returnType == null) {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
             } else {
-                if (operation.returnType.startsWith("array<") || operation.returnType.endsWith("[]")) { // array or map
+                if (operation.returnProperty.isContainer) { // array or map
                     operation.vendorExtensions.putIfAbsent("x-php-return-type", "array");
                 } else {
                     operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
