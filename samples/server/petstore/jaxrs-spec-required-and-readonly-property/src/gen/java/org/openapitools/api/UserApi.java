@@ -17,6 +17,7 @@ import javax.validation.Valid;
 @Api(description = "the user API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class UserApi {
+   public static final String PATH = "/user";
 
     @GET
     @Produces({ "application/json" })

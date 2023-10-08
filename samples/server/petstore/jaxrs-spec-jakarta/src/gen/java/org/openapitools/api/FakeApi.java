@@ -27,6 +27,7 @@ import jakarta.validation.Valid;
 @Api(description = "the fake API")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FakeApi {
+   public static final String PATH = "/fake";
 
     @POST
     @Path("/create_xml_item")
