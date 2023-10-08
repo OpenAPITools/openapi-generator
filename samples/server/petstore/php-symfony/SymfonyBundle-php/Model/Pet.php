@@ -107,12 +107,14 @@ class Pet
      */
     public function __construct(array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->category = $data['category'] ?? null;
-        $this->name = $data['name'] ?? null;
-        $this->photoUrls = $data['photoUrls'] ?? null;
-        $this->tags = $data['tags'] ?? null;
-        $this->status = $data['status'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->category = array_key_exists('category', $data) ? $data['category'] : $this->category;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+            $this->photoUrls = array_key_exists('photoUrls', $data) ? $data['photoUrls'] : $this->photoUrls;
+            $this->tags = array_key_exists('tags', $data) ? $data['tags'] : $this->tags;
+            $this->status = array_key_exists('status', $data) ? $data['status'] : $this->status;
+        }
     }
 
     /**

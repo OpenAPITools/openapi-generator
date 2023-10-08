@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -35,6 +36,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -53,22 +55,22 @@ class FormApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -80,17 +82,17 @@ class FormApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -103,7 +105,7 @@ class FormApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -113,7 +115,7 @@ class FormApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -121,7 +123,7 @@ class FormApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -131,16 +133,21 @@ class FormApi
      *
      * Test form parameter(s)
      *
-     * @param  int $integer_form integer_form (optional)
-     * @param  bool $boolean_form boolean_form (optional)
-     * @param  string $string_form string_form (optional)
+     * @param  int|null $integer_form integer_form (optional)
+     * @param  bool|null $boolean_form boolean_form (optional)
+     * @param  string|null $string_form string_form (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testFormIntegerBooleanString($integer_form = null, $boolean_form = null, $string_form = null, string $contentType = self::contentTypes['testFormIntegerBooleanString'][0])
+    public function testFormIntegerBooleanString(
+        ?int $integer_form = null,
+        ?bool $boolean_form = null,
+        ?string $string_form = null,
+        string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
+    ): string
     {
         list($response) = $this->testFormIntegerBooleanStringWithHttpInfo($integer_form, $boolean_form, $string_form, $contentType);
         return $response;
@@ -151,16 +158,21 @@ class FormApi
      *
      * Test form parameter(s)
      *
-     * @param  int $integer_form (optional)
-     * @param  bool $boolean_form (optional)
-     * @param  string $string_form (optional)
+     * @param  int|null $integer_form (optional)
+     * @param  bool|null $boolean_form (optional)
+     * @param  string|null $string_form (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testFormIntegerBooleanStringWithHttpInfo($integer_form = null, $boolean_form = null, $string_form = null, string $contentType = self::contentTypes['testFormIntegerBooleanString'][0])
+    public function testFormIntegerBooleanStringWithHttpInfo(
+        ?int $integer_form = null,
+        ?bool $boolean_form = null,
+        ?string $string_form = null,
+        string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
+    ): array
     {
         $request = $this->testFormIntegerBooleanStringRequest($integer_form, $boolean_form, $string_form, $contentType);
 
@@ -253,15 +265,20 @@ class FormApi
      *
      * Test form parameter(s)
      *
-     * @param  int $integer_form (optional)
-     * @param  bool $boolean_form (optional)
-     * @param  string $string_form (optional)
+     * @param  int|null $integer_form (optional)
+     * @param  bool|null $boolean_form (optional)
+     * @param  string|null $string_form (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testFormIntegerBooleanStringAsync($integer_form = null, $boolean_form = null, $string_form = null, string $contentType = self::contentTypes['testFormIntegerBooleanString'][0])
+    public function testFormIntegerBooleanStringAsync(
+        ?int $integer_form = null,
+        ?bool $boolean_form = null,
+        ?string $string_form = null,
+        string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         return $this->testFormIntegerBooleanStringAsyncWithHttpInfo($integer_form, $boolean_form, $string_form, $contentType)
             ->then(
@@ -276,15 +293,20 @@ class FormApi
      *
      * Test form parameter(s)
      *
-     * @param  int $integer_form (optional)
-     * @param  bool $boolean_form (optional)
-     * @param  string $string_form (optional)
+     * @param  int|null $integer_form (optional)
+     * @param  bool|null $boolean_form (optional)
+     * @param  string|null $string_form (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testFormIntegerBooleanStringAsyncWithHttpInfo($integer_form = null, $boolean_form = null, $string_form = null, string $contentType = self::contentTypes['testFormIntegerBooleanString'][0])
+    public function testFormIntegerBooleanStringAsyncWithHttpInfo(
+        $integer_form = null,
+        $boolean_form = null,
+        $string_form = null,
+        string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testFormIntegerBooleanStringRequest($integer_form, $boolean_form, $string_form, $contentType);
@@ -328,15 +350,20 @@ class FormApi
     /**
      * Create request for operation 'testFormIntegerBooleanString'
      *
-     * @param  int $integer_form (optional)
-     * @param  bool $boolean_form (optional)
-     * @param  string $string_form (optional)
+     * @param  int|null $integer_form (optional)
+     * @param  bool|null $boolean_form (optional)
+     * @param  string|null $string_form (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testFormIntegerBooleanStringRequest($integer_form = null, $boolean_form = null, $string_form = null, string $contentType = self::contentTypes['testFormIntegerBooleanString'][0])
+    public function testFormIntegerBooleanStringRequest(
+        $integer_form = null,
+        $boolean_form = null,
+        $string_form = null,
+        string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
+    ): Request
     {
 
 
@@ -424,19 +451,27 @@ class FormApi
      *
      * Test form parameter(s) for oneOf schema
      *
-     * @param  string $form1 form1 (optional)
-     * @param  int $form2 form2 (optional)
-     * @param  string $form3 form3 (optional)
-     * @param  bool $form4 form4 (optional)
-     * @param  int $id id (optional)
-     * @param  string $name name (optional)
+     * @param  string|null $form1 form1 (optional)
+     * @param  int|null $form2 form2 (optional)
+     * @param  string|null $form3 form3 (optional)
+     * @param  bool|null $form4 form4 (optional)
+     * @param  int|null $id id (optional)
+     * @param  string|null $name name (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormOneof'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return string
      */
-    public function testFormOneof($form1 = null, $form2 = null, $form3 = null, $form4 = null, $id = null, $name = null, string $contentType = self::contentTypes['testFormOneof'][0])
+    public function testFormOneof(
+        ?string $form1 = null,
+        ?int $form2 = null,
+        ?string $form3 = null,
+        ?bool $form4 = null,
+        ?int $id = null,
+        ?string $name = null,
+        string $contentType = self::contentTypes['testFormOneof'][0]
+    ): string
     {
         list($response) = $this->testFormOneofWithHttpInfo($form1, $form2, $form3, $form4, $id, $name, $contentType);
         return $response;
@@ -447,19 +482,27 @@ class FormApi
      *
      * Test form parameter(s) for oneOf schema
      *
-     * @param  string $form1 (optional)
-     * @param  int $form2 (optional)
-     * @param  string $form3 (optional)
-     * @param  bool $form4 (optional)
-     * @param  int $id (optional)
-     * @param  string $name (optional)
+     * @param  string|null $form1 (optional)
+     * @param  int|null $form2 (optional)
+     * @param  string|null $form3 (optional)
+     * @param  bool|null $form4 (optional)
+     * @param  int|null $id (optional)
+     * @param  string|null $name (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormOneof'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testFormOneofWithHttpInfo($form1 = null, $form2 = null, $form3 = null, $form4 = null, $id = null, $name = null, string $contentType = self::contentTypes['testFormOneof'][0])
+    public function testFormOneofWithHttpInfo(
+        ?string $form1 = null,
+        ?int $form2 = null,
+        ?string $form3 = null,
+        ?bool $form4 = null,
+        ?int $id = null,
+        ?string $name = null,
+        string $contentType = self::contentTypes['testFormOneof'][0]
+    ): array
     {
         $request = $this->testFormOneofRequest($form1, $form2, $form3, $form4, $id, $name, $contentType);
 
@@ -552,18 +595,26 @@ class FormApi
      *
      * Test form parameter(s) for oneOf schema
      *
-     * @param  string $form1 (optional)
-     * @param  int $form2 (optional)
-     * @param  string $form3 (optional)
-     * @param  bool $form4 (optional)
-     * @param  int $id (optional)
-     * @param  string $name (optional)
+     * @param  string|null $form1 (optional)
+     * @param  int|null $form2 (optional)
+     * @param  string|null $form3 (optional)
+     * @param  bool|null $form4 (optional)
+     * @param  int|null $id (optional)
+     * @param  string|null $name (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormOneof'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testFormOneofAsync($form1 = null, $form2 = null, $form3 = null, $form4 = null, $id = null, $name = null, string $contentType = self::contentTypes['testFormOneof'][0])
+    public function testFormOneofAsync(
+        ?string $form1 = null,
+        ?int $form2 = null,
+        ?string $form3 = null,
+        ?bool $form4 = null,
+        ?int $id = null,
+        ?string $name = null,
+        string $contentType = self::contentTypes['testFormOneof'][0]
+    ): PromiseInterface
     {
         return $this->testFormOneofAsyncWithHttpInfo($form1, $form2, $form3, $form4, $id, $name, $contentType)
             ->then(
@@ -578,18 +629,26 @@ class FormApi
      *
      * Test form parameter(s) for oneOf schema
      *
-     * @param  string $form1 (optional)
-     * @param  int $form2 (optional)
-     * @param  string $form3 (optional)
-     * @param  bool $form4 (optional)
-     * @param  int $id (optional)
-     * @param  string $name (optional)
+     * @param  string|null $form1 (optional)
+     * @param  int|null $form2 (optional)
+     * @param  string|null $form3 (optional)
+     * @param  bool|null $form4 (optional)
+     * @param  int|null $id (optional)
+     * @param  string|null $name (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormOneof'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function testFormOneofAsyncWithHttpInfo($form1 = null, $form2 = null, $form3 = null, $form4 = null, $id = null, $name = null, string $contentType = self::contentTypes['testFormOneof'][0])
+    public function testFormOneofAsyncWithHttpInfo(
+        $form1 = null,
+        $form2 = null,
+        $form3 = null,
+        $form4 = null,
+        $id = null,
+        $name = null,
+        string $contentType = self::contentTypes['testFormOneof'][0]
+    ): PromiseInterface
     {
         $returnType = 'string';
         $request = $this->testFormOneofRequest($form1, $form2, $form3, $form4, $id, $name, $contentType);
@@ -633,18 +692,26 @@ class FormApi
     /**
      * Create request for operation 'testFormOneof'
      *
-     * @param  string $form1 (optional)
-     * @param  int $form2 (optional)
-     * @param  string $form3 (optional)
-     * @param  bool $form4 (optional)
-     * @param  int $id (optional)
-     * @param  string $name (optional)
+     * @param  string|null $form1 (optional)
+     * @param  int|null $form2 (optional)
+     * @param  string|null $form3 (optional)
+     * @param  bool|null $form4 (optional)
+     * @param  int|null $id (optional)
+     * @param  string|null $name (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testFormOneof'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testFormOneofRequest($form1 = null, $form2 = null, $form3 = null, $form4 = null, $id = null, $name = null, string $contentType = self::contentTypes['testFormOneof'][0])
+    public function testFormOneofRequest(
+        $form1 = null,
+        $form2 = null,
+        $form3 = null,
+        $form4 = null,
+        $id = null,
+        $name = null,
+        string $contentType = self::contentTypes['testFormOneof'][0]
+    ): Request
     {
 
 
@@ -748,7 +815,7 @@ class FormApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

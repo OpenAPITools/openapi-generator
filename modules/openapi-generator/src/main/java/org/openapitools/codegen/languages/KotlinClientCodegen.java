@@ -861,9 +861,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
+        boolean isResponseFile = false;
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
+                isResponseFile = isResponseFile || operation.isResponseFile;
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
@@ -940,6 +942,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
+        objs.put("isResponseFile", isResponseFile);
         return objs;
     }
 

@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -808,6 +809,33 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody);
+
+
+
+  /**
+   * test inline free-form additionalProperties
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+  /**
+   * test inline free-form additionalProperties
+   * Similar to <code>testInlineFreeformAdditionalProperties</code> but it also returns the http response headers .
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   */
+  @RequestLine("POST /fake/inline-freeform-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
 
 

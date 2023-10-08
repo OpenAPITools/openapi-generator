@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 
 import io.helidon.webserver.Routing;
@@ -48,6 +49,7 @@ public interface FakeService extends Service {
         rules.get("/fake", this::testEnumParameters);
         rules.delete("/fake", this::testGroupParameters);
         rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
+        rules.post("/fake/inline-freeform-additionalProperties", Handler.create(TestInlineFreeformAdditionalPropertiesRequest.class, this::testInlineFreeformAdditionalProperties));
         rules.get("/fake/jsonFormData", this::testJsonFormData);
         rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable));
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
@@ -171,6 +173,14 @@ public interface FakeService extends Service {
      * @param response the server response
      */
     void testInlineAdditionalProperties(ServerRequest request, ServerResponse response);
+
+    /**
+     * POST /fake/inline-freeform-additionalProperties : test inline free-form additionalProperties.
+     * @param request the server request
+     * @param response the server response
+     * @param testInlineFreeformAdditionalPropertiesRequest request body 
+     */
+    void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data.

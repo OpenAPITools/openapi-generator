@@ -58,7 +58,7 @@ namespace UseSourceGeneration.Test.Api
         {
             ModelClient modelClient = default!;
             var response = await _instance.TestClassnameAsync(modelClient);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<ModelClient>(model);
         }
     }

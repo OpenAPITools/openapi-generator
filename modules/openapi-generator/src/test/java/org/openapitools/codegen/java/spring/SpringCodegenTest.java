@@ -17,15 +17,56 @@
 
 package org.openapitools.codegen.java.spring;
 
-import com.google.common.collect.ImmutableMap;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
+import static java.util.stream.Collectors.groupingBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
+import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
+import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
+import static org.openapitools.codegen.languages.SpringCodegen.IMPLICIT_HEADERS;
+import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.SpringCodegen.OPENAPI_NULLABLE;
+import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
+import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
+import static org.openapitools.codegen.languages.SpringCodegen.SKIP_DEFAULT_INTERFACE;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CONTROLLER;
+import static org.openapitools.codegen.languages.SpringCodegen.SSE;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_ENUM_CASE_INSENSITIVE;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_RESPONSE_ENTITY;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.assertj.core.api.MapAssert;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -40,26 +81,15 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.google.common.collect.ImmutableMap;
 
-import static java.util.stream.Collectors.groupingBy;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.*;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class SpringCodegenTest {
 
@@ -3083,5 +3113,126 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PingTagApi.java"))
                 .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+    }
+
+    @Test
+    public void testSSEOperationSupport() throws Exception {
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/sse.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SSE, "true");
+        codegen.additionalProperties().put(REACTIVE, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        MapAssert.assertThatMap(files).isNotEmpty();
+        File api = files.get("PathApi.java");
+        File delegate = files.get("PathApiDelegate.java");
+
+        JavaFileAssert.assertThat(api)
+                .assertMethod("sseVariant1", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<String>")
+                .toFileAssert()
+                .assertMethod("sseVariant2", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<EventType>")
+                .toFileAssert()
+                .assertMethod("nonSSE", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Mono<ResponseEntity<String>>");
+
+        JavaFileAssert.assertThat(delegate)
+                .assertMethod("sseVariant1", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<String>")
+                .bodyContainsLines("return Flux.empty();")
+                .toFileAssert()
+                .assertMethod("sseVariant2", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<EventType>")
+                .bodyContainsLines("return Flux.empty();")
+                .toFileAssert()
+                .assertMethod("nonSSE", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Mono<ResponseEntity<String>>")
+                .bodyContainsLines("return result.then(Mono.empty());")
+        ;
+
+    }
+
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/petstore-with-tags.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    @Test
+    public void givenMultipartForm_whenGenerateBlockedServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/petstore-with-tags.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
 }

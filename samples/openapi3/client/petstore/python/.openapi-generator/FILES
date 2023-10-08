@@ -49,7 +49,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InnerDictWithProperty.md
 docs/IntOrString.md
-docs/List.md
+docs/ListClass.md
 docs/MapOfArrayOfModel.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -84,6 +84,7 @@ docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Tiger.md
 docs/User.md
 docs/UserApi.md
@@ -145,7 +146,7 @@ petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
 petstore_api/models/inner_dict_with_property.py
 petstore_api/models/int_or_string.py
-petstore_api/models/list.py
+petstore_api/models/list_class.py
 petstore_api/models/map_of_array_of_model.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
@@ -178,6 +179,7 @@ petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py
+petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/tiger.py
 petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py

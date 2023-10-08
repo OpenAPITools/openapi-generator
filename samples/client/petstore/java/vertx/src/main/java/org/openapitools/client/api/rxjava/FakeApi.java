@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import org.openapitools.client.ApiClient;
 
@@ -861,6 +862,51 @@ public class FakeApi {
     public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> requestBody, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testInlineAdditionalProperties(requestBody, authInfo, fut)
+        ));
+    }
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, resultHandler);
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, authInfo, resultHandler);
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, fut)
+        ));
+    }
+
+    /**
+    * test inline free-form additionalProperties
+    * 
+    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, authInfo, fut)
         ));
     }
     /**

@@ -24,7 +24,7 @@ import json
 
 import urllib3
 
-HOST = 'http://petstore.swagger.io/v2'
+HOST = 'http://localhost/v2'
 
 
 class TimeoutWithEqual(urllib3.Timeout):
@@ -70,13 +70,13 @@ class PetApiTests(unittest.TestCase):
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
         self.pet.tags = [self.tag]
 
-        self.pet2 = petstore_api.Pet(name="superman 2", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet2 = petstore_api.Pet(name="superman 2", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet2.id = id_gen() + 1
         self.pet2.status = "available"
         self.pet2.category = self.category

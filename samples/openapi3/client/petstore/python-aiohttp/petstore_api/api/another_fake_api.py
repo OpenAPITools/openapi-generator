@@ -16,12 +16,11 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
-from typing import overload, Optional, Union, Awaitable
+from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
-from typing_extensions import Annotated
 from pydantic import Field
-
+from typing_extensions import Annotated
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
@@ -44,8 +43,8 @@ class AnotherFakeApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
-    async def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
+    @validate_call
+    async def call_123_test_special_tags(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -67,8 +66,8 @@ class AnotherFakeApi:
             raise ValueError(message)
         return await self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -124,18 +123,18 @@ class AnotherFakeApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['client'] is not None:
@@ -153,9 +152,9 @@ class AnotherFakeApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Client",
         }
 

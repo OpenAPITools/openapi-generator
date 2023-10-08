@@ -19,39 +19,47 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Name(BaseModel):
     """
     Model for testing model name same as property name  # noqa: E501
     """
-    name: StrictInt = Field(...)
+    name: StrictInt
     snake_case: Optional[StrictInt] = None
-    var_property: Optional[StrictStr] = Field(None, alias="property")
-    var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
-    __properties = ["name", "snake_case", "property", "123Number"]
+    var_property: Optional[StrictStr] = Field(default=None, alias="property")
+    var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
+    __properties: ClassVar[List[str]] = ["name", "snake_case", "property", "123Number"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Name:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Name from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "snake_case",
                             "var_123_number",
@@ -60,19 +68,19 @@ class Name(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Name:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Name from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Name.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Name.parse_obj({
+        _obj = cls.model_validate({
             "name": obj.get("name"),
             "snake_case": obj.get("snake_case"),
-            "var_property": obj.get("property"),
-            "var_123_number": obj.get("123Number")
+            "property": obj.get("property"),
+            "123Number": obj.get("123Number")
         })
         return _obj
 

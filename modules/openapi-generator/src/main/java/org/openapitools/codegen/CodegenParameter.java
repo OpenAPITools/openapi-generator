@@ -17,9 +17,14 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.examples.Example;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-import java.util.*;
+import io.swagger.v3.oas.models.examples.Example;
 
 /**
  * Describes a single operation parameter in the OAS specification.
@@ -996,6 +1001,106 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties) {
         this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
+    }
+
+    @Override
+    public String getDataType() {
+        return dataType;
+    }
+
+    @Override
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    @Override
+    public boolean getIsFloat() {
+        return isFloat;
+    }
+
+    @Override
+    public void setIsFloat(boolean isFloat) {
+        this.isFloat = isFloat;
+    }
+
+    @Override
+    public boolean getIsDouble() {
+        return isDouble;
+    }
+
+    @Override
+    public void setIsDouble(boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    @Override
+    public boolean getIsInteger() {
+        return isInteger;
+    }
+
+    @Override
+    public void setIsInteger(boolean isInteger) {
+        this.isInteger = isInteger;
+    }
+
+    @Override
+    public boolean getIsLong() {
+        return isLong;
+    }
+
+    @Override
+    public void setIsLong(boolean isLong) {
+        this.isLong = isLong;
+    }
+
+    @Override
+    public boolean getIsBinary() {
+        return isBinary;
+    }
+
+    @Override
+    public void setIsBinary(boolean isBinary) {
+        this.isBinary = isBinary;
+    }
+
+    @Override
+    public boolean getIsByteArray() {
+        return isByteArray;
+    }
+
+    @Override
+    public void setIsByteArray(boolean isByteArray) {
+        this.isByteArray = isByteArray;
+    }
+
+    @Override
+    public boolean getIsDecimal() {
+        return isDecimal;
+    }
+
+    @Override
+    public void setIsDecimal(boolean isDecimal) {
+        this.isDecimal = isDecimal;
+    }
+
+    @Override
+    public boolean getIsUuid() {
+        return isUuid;
+    }
+
+    @Override
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
+    }
+
+    @Override
+    public boolean getIsEnum() {
+        return isEnum;
+    }
+
+    @Override
+    public void setIsEnum(boolean isEnum) {
+        this.isEnum = isEnum;
     }
 }
 

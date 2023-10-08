@@ -45,7 +45,7 @@ class TestPetApiTests(unittest.TestCase):
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "openapi-generator-python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -70,12 +70,17 @@ class TestPetApiTests(unittest.TestCase):
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)
 
-        calls = [self.pet_api.get_pet_by_id(self.pet.id),
-                 self.pet_api.get_pet_by_id(self.pet.id)]
+        tasks = [
+            asyncio.create_task(coro)
+            for coro in [
+                self.pet_api.get_pet_by_id(self.pet.id),
+                self.pet_api.get_pet_by_id(self.pet.id),
+            ]
+        ]
 
-        responses, _ = await asyncio.wait(calls)
+        responses = await asyncio.gather(*tasks)
         for response in responses:
-            self.assertEqual(response.result().id, self.pet.id)
+            self.assertEqual(response.id, self.pet.id)
         self.assertEqual(len(responses), 2)
 
     @async_test

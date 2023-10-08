@@ -198,6 +198,19 @@ type FakeAPI interface {
 	TestInlineAdditionalPropertiesExecute(r ApiTestInlineAdditionalPropertiesRequest) (*http.Response, error)
 
 	/*
+	TestInlineFreeformAdditionalProperties test inline free-form additionalProperties
+
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestInlineFreeformAdditionalPropertiesRequest
+	*/
+	TestInlineFreeformAdditionalProperties(ctx context.Context) ApiTestInlineFreeformAdditionalPropertiesRequest
+
+	// TestInlineFreeformAdditionalPropertiesExecute executes the request
+	TestInlineFreeformAdditionalPropertiesExecute(r ApiTestInlineFreeformAdditionalPropertiesRequest) (*http.Response, error)
+
+	/*
 	TestJsonFormData test json serialization of form data
 
 	
@@ -1902,6 +1915,106 @@ func (a *FakeAPIService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 	}
 	// body params
 	localVarPostBody = r.requestBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiTestInlineFreeformAdditionalPropertiesRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	testInlineFreeformAdditionalPropertiesRequest *TestInlineFreeformAdditionalPropertiesRequest
+}
+
+// request body
+func (r ApiTestInlineFreeformAdditionalPropertiesRequest) TestInlineFreeformAdditionalPropertiesRequest(testInlineFreeformAdditionalPropertiesRequest TestInlineFreeformAdditionalPropertiesRequest) ApiTestInlineFreeformAdditionalPropertiesRequest {
+	r.testInlineFreeformAdditionalPropertiesRequest = &testInlineFreeformAdditionalPropertiesRequest
+	return r
+}
+
+func (r ApiTestInlineFreeformAdditionalPropertiesRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestInlineFreeformAdditionalPropertiesExecute(r)
+}
+
+/*
+TestInlineFreeformAdditionalProperties test inline free-form additionalProperties
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestInlineFreeformAdditionalPropertiesRequest
+*/
+func (a *FakeAPIService) TestInlineFreeformAdditionalProperties(ctx context.Context) ApiTestInlineFreeformAdditionalPropertiesRequest {
+	return ApiTestInlineFreeformAdditionalPropertiesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) TestInlineFreeformAdditionalPropertiesExecute(r ApiTestInlineFreeformAdditionalPropertiesRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.TestInlineFreeformAdditionalProperties")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/inline-freeform-additionalProperties"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.testInlineFreeformAdditionalPropertiesRequest == nil {
+		return nil, reportError("testInlineFreeformAdditionalPropertiesRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.testInlineFreeformAdditionalPropertiesRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

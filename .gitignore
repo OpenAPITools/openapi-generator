@@ -90,7 +90,6 @@ samples/client/petstore/cpp-restsdk/cmake_install.cmake
 samples/client/petstore/java/hello.txt
 samples/client/petstore/java/okhttp-gson/hello.txt
 samples/client/petstore/java/okhttp-gson-3.1/hello.txt
-samples/client/petstore/java/jersey1/hello.txt
 samples/client/petstore/java/jersey2-java8/hello.txt
 samples/client/petstore/java/jersey2/hello.txt
 samples/client/petstore/android/default/hello.txt
@@ -194,6 +193,7 @@ samples/server/petstore/php-slim4/composer.lock
 samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
 samples/server/petstore/php-mezzio-ph/composer.lock
 samples/server/petstore/php-mezzio-ph-modern/composer.lock
+samples/client/petstore/php-nextgen/OpenAPIClient-php/.phplint.cache/
 
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
@@ -272,6 +272,7 @@ samples/client/petstore/c/*.so
 # Ruby
 samples/openapi3/client/petstore/ruby/Gemfile.lock
 samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
+samples/openapi3/client/petstore/ruby-httpx/Gemfile.lock
 
 # Crystal
 samples/client/petstore/crystal/lib

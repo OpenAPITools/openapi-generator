@@ -19,11 +19,16 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -35,16 +40,15 @@ class Pig(BaseModel):
     oneof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
     oneof_schema_2_validator: Optional[DanishPig] = None
-    if TYPE_CHECKING:
-        actual_instance: Union[BasquePig, DanishPig]
-    else:
-        actual_instance: Any
-    one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
+    actual_instance: Optional[Union[BasquePig, DanishPig]] = None
+    one_of_schemas: List[str] = Literal["BasquePig", "DanishPig"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
 
-    discriminator_value_class_map = {
+
+    discriminator_value_class_map: Dict[str, str] = {
     }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -57,9 +61,9 @@ class Pig(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = Pig.construct()
+        instance = Pig.model_construct()
         error_messages = []
         match = 0
         # validate data type: BasquePig
@@ -82,13 +86,13 @@ class Pig(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Pig:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> Pig:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = Pig.construct()
+        instance = cls.model_construct()
         error_messages = []
         match = 0
 
@@ -154,6 +158,6 @@ class Pig(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

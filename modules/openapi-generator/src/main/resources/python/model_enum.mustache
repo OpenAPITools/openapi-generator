@@ -1,10 +1,15 @@
+from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from aenum import Enum, no_arg
+from enum import Enum
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
 {{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
 {{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 
 class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):
@@ -21,9 +26,9 @@ class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):
     {{/enumVars}}
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{{classname}}}:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of {{classname}} from a JSON string"""
-        return {{classname}}(json.loads(json_str))
+        return cls(json.loads(json_str))
 
     {{#defaultValue}}
 

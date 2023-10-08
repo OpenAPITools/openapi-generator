@@ -38,6 +38,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
+    
     ResponseEntity<Void> deleteOrder(
          @PathVariable("orderId") String orderId
     );
@@ -54,6 +55,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = "application/json"
     )
+    
     ResponseEntity<Map<String, Integer>> getInventory(
         
     );
@@ -73,6 +75,7 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
+    
     ResponseEntity<Order> getOrderById(
         @Min(1L) @Max(5L)  @PathVariable("orderId") Long orderId
     );
@@ -92,6 +95,7 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json"
     )
+    
     ResponseEntity<Order> placeOrder(
          @Valid @RequestBody Order order
     );

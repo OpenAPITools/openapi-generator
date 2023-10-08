@@ -25,6 +25,7 @@ Method | HTTP request | Description
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_nullable**](FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
@@ -797,6 +798,51 @@ if ($@) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_body** | [**HASH[string,string]**](string.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_inline_freeform_additional_properties**
+> test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request => $test_inline_freeform_additional_properties_request)
+
+test inline free-form additionalProperties
+
+
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $test_inline_freeform_additional_properties_request = WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest->new(); # TestInlineFreeformAdditionalPropertiesRequest | request body
+
+eval {
+    $api_instance->test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request => $test_inline_freeform_additional_properties_request);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_inline_freeform_additional_properties: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test_inline_freeform_additional_properties_request** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
 
 ### Return type
 

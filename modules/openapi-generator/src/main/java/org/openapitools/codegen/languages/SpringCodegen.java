@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -68,6 +69,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
@@ -96,6 +98,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
+    public static final String SSE = "serverSentEvents";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_BOOT = "spring-boot";
@@ -144,6 +147,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean singleContentTypes = false;
     protected boolean async = false;
     protected boolean reactive = false;
+    protected boolean sse = false;
     protected String responseWrapper = "";
     protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
@@ -448,6 +452,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
             }
             this.setReactive(Boolean.parseBoolean(additionalProperties.get(REACTIVE).toString()));
+            if (additionalProperties.containsKey(SSE)) {
+                this.setSse(Boolean.parseBoolean(additionalProperties.get(SSE).toString()));
+            }
         }
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
@@ -1069,6 +1076,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.reactive = reactive;
     }
 
+    public void setSse(boolean sse) {
+        this.sse = sse;
+    }
+
     public void setResponseWrapper(String responseWrapper) {
         this.responseWrapper = responseWrapper;
     }
@@ -1228,6 +1239,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
+        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
@@ -1244,14 +1257,99 @@ public class SpringCodegen extends AbstractJavaCodegen
                 codegenOperation.imports.add("ParameterObject");
             }
         }
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsClassSet);
+        }
 
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ApiIgnore");
             }
+            if (sse) {
+                var MEDIA_EVENT_STREAM = "text/event-stream";
+                // inspecting used streaming media types
+                /*
+                 expected definition:
+                 content:
+                    text/event-stream:
+                        schema:
+                        type: array
+                        format: event-stream
+                        items:
+                            type: <type> or
+                            $ref: <typeRef>
+                 */
+                Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
+                        .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
+                        .filter(p -> p.getRight().is2xx) // consider only success
+                        .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
+                        .map(MediaType::getSchema)
+                        .collect(Collectors.toList()).stream()
+                        .collect(Collectors.groupingBy(Schema::getType));
+                if(schemaTypes.containsKey("array")) {
+                    // we have a match with SSE pattern
+                    // double check potential conflicting, multiple specs
+                    if(schemaTypes.keySet().size() > 1) {
+                        throw new RuntimeException("only 1 response media type supported, when SSE is detected");
+                    }
+                    // double check schema format
+                    List<Schema> eventTypes = schemaTypes.get("array");
+                    if( eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
+                        throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
+                    }
+                    // double check item types
+                    Set<String> itemTypes = eventTypes.stream()
+                            .map(schema -> schema.getItems().getType() != null
+                                    ? schema.getItems().getType()
+                                    : schema.getItems().get$ref())
+                            .collect(Collectors.toSet());
+                    if(itemTypes.size() > 1) {
+                        throw new RuntimeException("only single item type is supported, when SSE is detected");
+                    }
+                    codegenOperation.vendorExtensions.put("x-sse", true);
+                } // Not an SSE compliant definition
+            }
         }
         return codegenOperation;
     }
+
+    private Set<String> reformatProvideArgsParams(Operation operation) {
+        Set<String> provideArgsClassSet = new HashSet<>();
+        Object argObj = operation.getExtensions().get("x-spring-provide-args");
+        if (argObj instanceof List) {
+            List<String> provideArgs = (List<String>) argObj;
+            if (!provideArgs.isEmpty()) {
+                List<String> formatedArgs = new ArrayList<>();
+                for (String oneArg : provideArgs) {
+                    if (StringUtils.isNotEmpty(oneArg)) {
+                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
+                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
+                        List<String> newArgs = new ArrayList<>();
+                        while (matcher.find()) {
+                            String className = matcher.group("ClassName");
+                            String classPath = matcher.group("ClassPath");
+                            String packageName = matcher.group("PackageName");
+                            String params = matcher.group("Params");
+                            String annoTag = matcher.group("AnnotationTag");
+                            String shortPhrase = StringUtils.join(annoTag, className, params);
+                            newArgs.add(shortPhrase);
+                            if (StringUtils.isNotEmpty(packageName)) {
+                                importMapping.put(className, classPath);
+                                provideArgsClassSet.add(className);
+                                LOGGER.trace("put import mapping {} {}", className, classPath);
+                            }
+                        }
+                        String newArg = String.join(" ", newArgs);
+                        LOGGER.trace("new arg {} {}", newArg);
+                        formatedArgs.add(newArg);
+                    }
+                }
+                operation.getExtensions().put("x-spring-provide-args", formatedArgs);
+            }
+        }
+        return provideArgsClassSet;
+    }
+
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {

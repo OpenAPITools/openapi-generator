@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **int32** | **int** |  | [optional] 
 **int64** | **int** |  | [optional] 
 **number** | **float** |  | 
-**float** | **float** |  | [optional] 
+**var_float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 

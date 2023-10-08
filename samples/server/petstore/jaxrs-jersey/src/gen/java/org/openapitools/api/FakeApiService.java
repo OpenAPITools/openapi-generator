@@ -18,6 +18,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public abstract class FakeApiService {
     public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,Integer enumQueryInteger,Double enumQueryDouble,List<EnumClass> enumQueryModelArray,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testGroupParameters( @NotNull Integer requiredStringGroup, @NotNull Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group,Integer stringGroup,Boolean booleanGroup,Long int64Group,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testNullable(ChildWithNullable childWithNullable,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testQueryParameterCollectionFormat( @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context, @NotNull String allowEmpty,Map<String, String> language,SecurityContext securityContext) throws NotFoundException;

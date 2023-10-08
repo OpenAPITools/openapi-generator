@@ -36,6 +36,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void createXmlItem(@Valid @NotNull XmlItem xmlItem);
 
+
     @POST
     @Path("/outer/boolean")
     @Produces({ "*/*" })
@@ -43,6 +44,7 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
     Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
+
 
     @POST
     @Path("/outer/composite")
@@ -52,6 +54,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
     OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
+
     @POST
     @Path("/outer/number")
     @Produces({ "*/*" })
@@ -59,6 +62,7 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
     BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
+
 
     @POST
     @Path("/outer/string")
@@ -68,6 +72,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     String fakeOuterStringSerialize(@Valid String body);
 
+
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
@@ -75,6 +80,7 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body);
+
 
     @PUT
     @Path("/body-with-query-params")
@@ -84,6 +90,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     void testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User body);
 
+
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -91,6 +98,7 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     Client testClientModel(@Valid @NotNull Client body);
+
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -103,6 +111,7 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
     void testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback);
 
+
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", tags={ "fake" })
@@ -114,11 +123,13 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
     void testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
 
+
     @DELETE
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Something wrong", response = Void.class) })
     void testGroupParameters(@QueryParam("required_string_group") @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @ApiParam("Integer in group parameters")  Long int64Group);
+
 
     @POST
     @Path("/inline-additionalProperties")
@@ -128,6 +139,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
 
+
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -136,12 +148,14 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
 
+
     @PUT
     @Path("/test-query-parameters")
     @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context);
+
 
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
@@ -155,4 +169,5 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata);
+
 }

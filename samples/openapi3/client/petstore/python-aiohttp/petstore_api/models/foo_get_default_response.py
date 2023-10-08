@@ -21,35 +21,42 @@ import json
 from typing import Optional
 from pydantic import BaseModel
 from petstore_api.models.foo import Foo
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FooGetDefaultResponse(BaseModel):
     """
     FooGetDefaultResponse
     """
     string: Optional[Foo] = None
-    __properties = ["string"]
+    __properties: ClassVar[List[str]] = ["string"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FooGetDefaultResponse:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FooGetDefaultResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
@@ -59,15 +66,15 @@ class FooGetDefaultResponse(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FooGetDefaultResponse:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of FooGetDefaultResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FooGetDefaultResponse.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = FooGetDefaultResponse.parse_obj({
+        _obj = cls.model_validate({
             "string": Foo.from_dict(obj.get("string")) if obj.get("string") is not None else None
         })
         return _obj

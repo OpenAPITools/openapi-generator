@@ -943,6 +943,23 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
+      tags:
+      - fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -2487,6 +2504,12 @@ components:
       required:
       - param
       - param2
+      type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
       type: object
     uploadFileWithRequiredFile_request:
       properties:

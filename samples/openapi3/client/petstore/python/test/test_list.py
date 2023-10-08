@@ -16,7 +16,7 @@ import unittest
 import datetime
 
 import petstore_api
-from petstore_api.models.list import List  # noqa: E501
+from petstore_api.models.list_class import ListClass  # noqa: E501
 from petstore_api.rest import ApiException
 
 class TestList(unittest.TestCase):
@@ -35,11 +35,11 @@ class TestList(unittest.TestCase):
             optional params are included """
         # model = petstore_api.models.list.List()  # noqa: E501
         if include_optional :
-            return List(
+            return ListClass(
                 _123_list = ''
             )
         else :
-            return List(
+            return ListClass(
         )
 
     def testList(self):

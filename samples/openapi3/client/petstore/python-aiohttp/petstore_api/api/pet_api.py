@@ -16,11 +16,12 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
-from typing import overload, Optional, Union, Awaitable
+from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
+from pydantic import Field
 from typing_extensions import Annotated
-from pydantic import Field, StrictBytes, StrictInt, StrictStr, conlist, validator
+from pydantic import StrictBytes, StrictInt, StrictStr, field_validator
 
 from typing import List, Optional, Union
 
@@ -47,8 +48,8 @@ class PetApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
-    async def add_pet(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
+    @validate_call
+    async def add_pet(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -70,8 +71,8 @@ class PetApi:
             raise ValueError(message)
         return await self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def add_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def add_pet_with_http_info(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -127,18 +128,18 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['pet'] is not None:
@@ -152,9 +153,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/pet', 'POST',
@@ -172,8 +173,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    @validate_call
+    async def delete_pet(self, pet_id : Annotated[StrictInt, Field(description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
@@ -197,8 +198,8 @@ class PetApi:
             raise ValueError(message)
         return await self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
@@ -257,30 +258,30 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['api_key'] is not None:
             _header_params['api_key'] = _params['api_key']
 
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
@@ -298,8 +299,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def find_pets_by_status(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
+    @validate_call
+    async def find_pets_by_status(self, status : Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -321,8 +322,8 @@ class PetApi:
             raise ValueError(message)
         return await self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def find_pets_by_status_with_http_info(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def find_pets_by_status_with_http_info(self, status : Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")], **kwargs) -> ApiResponse:  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -378,13 +379,13 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('status') is not None:  # noqa: E501
             _query_params.append(('status', _params['status']))
             _collection_formats['status'] = 'csv'
@@ -392,8 +393,8 @@ class PetApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -401,9 +402,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[Pet]",
             '400': None,
         }
@@ -424,8 +425,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
+    @validate_call
+    async def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -447,8 +448,8 @@ class PetApi:
             raise ValueError(message)
         return await self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def find_pets_by_tags_with_http_info(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -506,13 +507,13 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         if _params.get('tags') is not None:  # noqa: E501
             _query_params.append(('tags', _params['tags']))
             _collection_formats['tags'] = 'csv'
@@ -520,8 +521,8 @@ class PetApi:
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -529,9 +530,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[Pet]",
             '400': None,
         }
@@ -552,8 +553,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def get_pet_by_id(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs) -> Pet:  # noqa: E501
+    @validate_call
+    async def get_pet_by_id(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to return")], **kwargs) -> Pet:  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -575,8 +576,8 @@ class PetApi:
             raise ValueError(message)
         return await self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to return")], **kwargs) -> ApiResponse:  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -632,21 +633,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -654,9 +655,9 @@ class PetApi:
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['api_key']  # noqa: E501
+        _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "Pet",
             '400': None,
             '404': None,
@@ -678,8 +679,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def update_pet(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
+    @validate_call
+    async def update_pet(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -701,8 +702,8 @@ class PetApi:
             raise ValueError(message)
         return await self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def update_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def update_pet_with_http_info(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -758,18 +759,18 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         if _params['pet'] is not None:
@@ -783,9 +784,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/pet', 'PUT',
@@ -803,8 +804,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> None:  # noqa: E501
+    @validate_call
+    async def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> None:  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
@@ -830,8 +831,8 @@ class PetApi:
             raise ValueError(message)
         return await self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
@@ -893,21 +894,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['name'] is not None:
             _form_params.append(('name', _params['name']))
 
@@ -924,9 +925,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {}
+        _response_types_map: Dict[str, Optional[str]] = {}
 
         return await self.api_client.call_api(
             '/pet/{petId}', 'POST',
@@ -944,8 +945,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def upload_file(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -971,8 +972,8 @@ class PetApi:
             raise ValueError(message)
         return await self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1034,21 +1035,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
@@ -1069,9 +1070,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiResponse",
         }
 
@@ -1091,8 +1092,8 @@ class PetApi:
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
-    @validate_arguments
-    async def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
@@ -1118,8 +1119,8 @@ class PetApi:
             raise ValueError(message)
         return await self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
-    @validate_arguments
-    async def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    @validate_call
+    async def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
@@ -1181,21 +1182,21 @@ class PetApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
         if _params['pet_id'] is not None:
             _path_params['petId'] = _params['pet_id']
 
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         if _params['additional_metadata'] is not None:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
 
@@ -1216,9 +1217,9 @@ class PetApi:
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiResponse",
         }
 

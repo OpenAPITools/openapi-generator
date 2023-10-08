@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**TestInlineFreeformAdditionalProperties**](FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -218,6 +219,7 @@ Class | Method | HTTP request | Description
  - [Model.Tag](Tag.md)
  - [Model.TestCollectionEndingWithWordList](TestCollectionEndingWithWordList.md)
  - [Model.TestCollectionEndingWithWordListObject](TestCollectionEndingWithWordListObject.md)
+ - [Model.TestInlineFreeformAdditionalPropertiesRequest](TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Model.Triangle](Triangle.md)
  - [Model.TriangleInterface](TriangleInterface.md)
  - [Model.User](User.md)

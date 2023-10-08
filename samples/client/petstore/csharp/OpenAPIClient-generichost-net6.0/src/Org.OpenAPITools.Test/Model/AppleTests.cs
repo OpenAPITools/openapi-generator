@@ -54,6 +54,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'ColorCode'
+        /// </summary>
+        [Fact]
+        public void ColorCodeTest()
+        {
+            // TODO unit test for the property 'ColorCode'
+        }
+
+        /// <summary>
         /// Test the property 'Cultivar'
         /// </summary>
         [Fact]

@@ -18,50 +18,57 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
+from typing import Any, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class NullableClass(BaseModel):
     """
     NullableClass
     """
-    required_integer_prop: Optional[StrictInt] = Field(...)
+    required_integer_prop: Optional[StrictInt]
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[float] = None
     boolean_prop: Optional[StrictBool] = None
     string_prop: Optional[StrictStr] = None
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
-    array_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_and_items_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_items_nullable: Optional[conlist(Dict[str, Any])] = None
-    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
+    array_nullable_prop: Optional[List[Union[str, Any]]] = None
+    array_and_items_nullable_prop: Optional[List[Union[str, Any]]] = None
+    array_items_nullable: Optional[List[Union[str, Any]]] = None
+    object_nullable_prop: Optional[Dict[str, Union[str, Any]]] = None
+    object_and_items_nullable_prop: Optional[Dict[str, Union[str, Any]]] = None
+    object_items_nullable: Optional[Dict[str, Union[str, Any]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
+    __properties: ClassVar[List[str]] = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NullableClass:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of NullableClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -72,72 +79,72 @@ class NullableClass(BaseModel):
                 _dict[_key] = _value
 
         # set to None if required_integer_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.required_integer_prop is None and "required_integer_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.required_integer_prop is None and "required_integer_prop" in self.model_fields_set:
             _dict['required_integer_prop'] = None
 
         # set to None if integer_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.integer_prop is None and "integer_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.integer_prop is None and "integer_prop" in self.model_fields_set:
             _dict['integer_prop'] = None
 
         # set to None if number_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.number_prop is None and "number_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.number_prop is None and "number_prop" in self.model_fields_set:
             _dict['number_prop'] = None
 
         # set to None if boolean_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.boolean_prop is None and "boolean_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.boolean_prop is None and "boolean_prop" in self.model_fields_set:
             _dict['boolean_prop'] = None
 
         # set to None if string_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.string_prop is None and "string_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.string_prop is None and "string_prop" in self.model_fields_set:
             _dict['string_prop'] = None
 
         # set to None if date_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.date_prop is None and "date_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.date_prop is None and "date_prop" in self.model_fields_set:
             _dict['date_prop'] = None
 
         # set to None if datetime_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.datetime_prop is None and "datetime_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.datetime_prop is None and "datetime_prop" in self.model_fields_set:
             _dict['datetime_prop'] = None
 
         # set to None if array_nullable_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.array_nullable_prop is None and "array_nullable_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.array_nullable_prop is None and "array_nullable_prop" in self.model_fields_set:
             _dict['array_nullable_prop'] = None
 
         # set to None if array_and_items_nullable_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.array_and_items_nullable_prop is None and "array_and_items_nullable_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.array_and_items_nullable_prop is None and "array_and_items_nullable_prop" in self.model_fields_set:
             _dict['array_and_items_nullable_prop'] = None
 
         # set to None if object_nullable_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.object_nullable_prop is None and "object_nullable_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.object_nullable_prop is None and "object_nullable_prop" in self.model_fields_set:
             _dict['object_nullable_prop'] = None
 
         # set to None if object_and_items_nullable_prop (nullable) is None
-        # and __fields_set__ contains the field
-        if self.object_and_items_nullable_prop is None and "object_and_items_nullable_prop" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.object_and_items_nullable_prop is None and "object_and_items_nullable_prop" in self.model_fields_set:
             _dict['object_and_items_nullable_prop'] = None
 
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NullableClass:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of NullableClass from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NullableClass.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = NullableClass.parse_obj({
+        _obj = cls.model_validate({
             "required_integer_prop": obj.get("required_integer_prop"),
             "integer_prop": obj.get("integer_prop"),
             "number_prop": obj.get("number_prop"),

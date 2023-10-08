@@ -16,14 +16,44 @@
 
 package org.openapitools.codegen.languages;
 
-import com.github.curiousoddman.rgxgen.RgxGen;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.CodegenMediaType;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.GeneratorLanguage;
+import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -33,14 +63,16 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import com.github.curiousoddman.rgxgen.RgxGen;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+
+
+
+
 
 public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
@@ -78,6 +110,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
                         // @property
                         "property",
+                        // typing keywords
+                        "schema", "base64", "json",
+                        "date", "float",
                         // python reserved words
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",
@@ -826,6 +861,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // process enum in models
         objs = postProcessModelsEnum(objs);
 
+        // TODO: migrate almost (all?) everything to the `Imports` class.
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
@@ -842,7 +878,19 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             pydanticImports.clear();
             datetimeImports.clear();
 
+            Imports otherImports = new Imports();
             CodegenModel model = m.getModel();
+            PydanticType pydantic = new PydanticType(
+                typingImports,
+                pydanticImports,
+                datetimeImports,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                otherImports,
+                model.classname
+            );
 
             // handle null type in oneOf
             if (model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null
@@ -866,13 +914,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add("field_validator");
             } else if (!model.anyOf.isEmpty()) { // anyOF
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
-                pydanticImports.add("validator");
+                pydanticImports.add("field_validator");
             } else { // typical model
                 codegenProperties = model.vars;
 
@@ -892,7 +940,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         if (cp.isArray){ // if array
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
-                            modelImports.add(cp.dataType);
+                            modelImports.add(cp.getDataType());
                         }
                     }
                 }
@@ -903,75 +951,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     && !model.isEnum
                     && !this.disallowAdditionalPropertiesIfNotPresent) {
                 typingImports.add("Dict");
+                typingImports.add("List");
                 typingImports.add("Any");
+                typingImports.add("ClassVar");
             }
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
-                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, model.classname);
-                List<String> fields = new ArrayList<>();
-                String firstField = "";
-
                 // is readOnly?
                 if (cp.isReadOnly) {
                     readOnlyFields.add(cp.name);
                 }
 
-                if (!cp.required) { //optional
-                    firstField = "None";
-                    typing = "Optional[" + typing + "]";
-                    typingImports.add("Optional");
-                } else { // required
-                    firstField = "...";
-                    if (cp.isNullable) {
-                        typing = "Optional[" + typing + "]";
-                        typingImports.add("Optional");
-                    }
-                }
-
-                // field
-                if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                    fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
-                }
-
-                if (!StringUtils.isEmpty(cp.description)) { // has description
-                    fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
-                }
-
-                /* TODO review as example may break the build
-                if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                    fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
-                }*/
-
-                String fieldCustomization;
-                if ("None".equals(firstField)) {
-                    if (cp.defaultValue == null) {
-                        fieldCustomization = "None";
-                    } else {
-                        if (cp.isArray || cp.isMap) {
-                            // TODO handle default value for array/map
-                            fieldCustomization = "None";
-                        } else {
-                            fieldCustomization = cp.defaultValue;
-                        }
-                    }
-                } else { // required field
-                    fieldCustomization = firstField;
-                }
-
-                if (!fields.isEmpty()) {
-                    fields.add(0, fieldCustomization);
-                    pydanticImports.add("Field");
-                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
-                }
-
-                if ("...".equals(fieldCustomization)) {
-                    // use Field() to avoid pylint warnings
-                    pydanticImports.add("Field");
-                    fieldCustomization = "Field(...)";
-                }
-
-                cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
+                String typing = pydantic.generatePythonType(cp);
+                cp.vendorExtensions.put("x-py-typing", typing);
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
@@ -1017,10 +1010,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         continue;
                     }
                     modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+
                 }
 
-                model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
+                if (!modelsToImport.isEmpty()) {
+                    model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
+                }
             }
+
+            if (!otherImports.isEmpty()) {
+                model.getVendorExtensions().putIfAbsent("x-py-other-imports", otherImports.exports());
+            }
+
 
             if (!postponedModelImports.isEmpty()) {
                 Set<String> modelsToImport = new TreeSet<>();
@@ -1034,277 +1035,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
                 model.getVendorExtensions().putIfAbsent("x-py-postponed-model-imports", modelsToImport);
             }
-
         }
 
         return objs;
-    }
-
-
-    /*
-     * Gets the pydantic type given a Codegen Parameter
-     *
-     * @param cp codegen parameter
-     * @param typingImports typing imports
-     * @param pydantic pydantic imports
-     * @param datetimeImports datetime imports
-     * @param modelImports model imports
-     * @param exampleImports example imports
-     * @param postponedModelImports postponed model imports
-     * @param postponedExampleImports postponed example imports
-     * @param classname class name
-     * @return pydantic type
-     *
-     */
-    private String getPydanticType(CodegenParameter cp,
-                                   Set<String> typingImports,
-                                   Set<String> pydanticImports,
-                                   Set<String> datetimeImports,
-                                   Set<String> modelImports,
-                                   Set<String> exampleImports,
-                                   Set<String> postponedModelImports,
-                                   Set<String> postponedExampleImports,
-                                   String classname) {
-        if (cp == null) {
-            // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
-            typingImports.add("Any");
-            return "Any";
-        }
-
-        if (cp.isArray) {
-            String constraints = "";
-            if (cp.maxItems != null) {
-                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
-            }
-            if (cp.minItems != null) {
-                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
-            }
-            if (cp.getUniqueItems()) {
-                constraints += ", unique_items=True";
-            }
-            pydanticImports.add("conlist");
-            return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
-                    constraints);
-        } else if (cp.isMap) {
-            typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
-        } else if (cp.isString) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. constr(regex=r'/[a-z]/i', strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaxLength() != null) {
-                    fieldCustomization.add("max_length=" + cp.getMaxLength());
-                }
-                if (cp.getMinLength() != null) {
-                    fieldCustomization.add("min_length=" + cp.getMinLength());
-                }
-                if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
-                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
-                }
-                pydanticImports.add("constr");
-                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
-                    pydanticImports.add("SecretStr");
-                    return "SecretStr";
-                } else {
-                    pydanticImports.add("StrictStr");
-                    return "StrictStr";
-                }
-            }
-        } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                List<String> intFieldCustomization = new ArrayList<>();
-
-                // e.g. confloat(ge=10, le=100, strict=True)
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("lt=" + cp.getMaximum());
-                        intFieldCustomization.add("lt=" + Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 becomes < 8
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMaximum());
-                        intFieldCustomization.add("le=" + Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 becomes <= 7
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("gt=" + cp.getMinimum());
-                        intFieldCustomization.add("gt=" + Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 becomes > 7
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMinimum());
-                        intFieldCustomization.add("ge=" + Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 becomes >= 8
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-
-                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
-                    fieldCustomization.add("strict=True");
-                    intFieldCustomization.add("strict=True");
-                    pydanticImports.add("confloat");
-                    pydanticImports.add("conint");
-                    typingImports.add("Union");
-                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
-                            StringUtils.join(fieldCustomization, ", "),
-                            "conint",
-                            StringUtils.join(intFieldCustomization, ", ")
-                    );
-                } else if ("StrictFloat".equals(mapNumberTo)) {
-                    fieldCustomization.add("strict=True");
-                    pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else { // float
-                    pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                }
-            } else {
-                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
-                    typingImports.add("Union");
-                    pydanticImports.add("StrictFloat");
-                    pydanticImports.add("StrictInt");
-                    return "Union[StrictFloat, StrictInt]";
-                } else if ("StrictFloat".equals(mapNumberTo)) {
-                    pydanticImports.add("StrictFloat");
-                    return "StrictFloat";
-                } else {
-                    return "float";
-                }
-            }
-        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conint(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("lt=" + cp.getMaximum());
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMaximum());
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("gt=" + cp.getMinimum());
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMinimum());
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-
-                pydanticImports.add("conint");
-                return String.format(Locale.ROOT, "%s(%s)", "conint",
-                        StringUtils.join(fieldCustomization, ", "));
-            } else {
-                pydanticImports.add("StrictInt");
-                return "StrictInt";
-            }
-        } else if (cp.isBinary || cp.isByteArray) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conbytes(min_length=2, max_length=10)
-                fieldCustomization.add("strict=True");
-                if (cp.getMinLength() != null) {
-                    fieldCustomization.add("min_length=" + cp.getMinLength());
-                }
-                if (cp.getMaxLength() != null) {
-                    fieldCustomization.add("max_length=" + cp.getMaxLength());
-                }
-                if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
-                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
-                }
-
-                pydanticImports.add("conbytes");
-                pydanticImports.add("constr");
-                typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                // same as above which has validation
-                pydanticImports.add("StrictBytes");
-                pydanticImports.add("StrictStr");
-                typingImports.add("Union");
-                return "Union[StrictBytes, StrictStr]";
-            }
-        } else if (cp.isBoolean) {
-            pydanticImports.add("StrictBool");
-            return "StrictBool";
-        } else if (cp.isDecimal) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. condecimal(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-                pydanticImports.add("condecimal");
-                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                pydanticImports.add("condecimal");
-                return "condecimal()";
-            }
-        } else if (cp.getIsAnyType()) {
-            typingImports.add("Any");
-            return "Any";
-        } else if (cp.isDate || cp.isDateTime) {
-            if (cp.isDate) {
-                datetimeImports.add("date");
-            }
-            if (cp.isDateTime) {
-                datetimeImports.add("datetime");
-            }
-
-            return cp.dataType;
-        } else if (cp.isUuid) {
-            return cp.dataType;
-        } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
-            typingImports.add("Any");
-            return "Dict[str, Any]";
-        } else if (!cp.isPrimitiveType) {
-            // add model prefix
-            hasModelsToImport = true;
-            modelImports.add(cp.dataType);
-            exampleImports.add(cp.dataType);
-            return cp.dataType;
-        } else if (cp.getContent() != null) {
-            LinkedHashMap<String, CodegenMediaType> contents = cp.getContent();
-            for (String key : contents.keySet()) {
-                CodegenMediaType cmt = contents.get(key);
-                // TODO process the first one only at the moment
-                if (cmt != null)
-                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
-            }
-            throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
-        } else {
-            throw new RuntimeException("Error! Codegen Parameter not yet supported in getPydanticType: " + cp);
-        }
     }
 
 
@@ -1323,7 +1056,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      * @return pydantic type
      *
      */
-    private String getPydanticType(CodegenProperty cp,
+    private PythonType getPydanticType(CodegenProperty cp,
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
@@ -1332,274 +1065,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                                    Set<String> postponedModelImports,
                                    Set<String> postponedExampleImports,
                                    String classname) {
-        if (cp == null) {
-            // if codegen property (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
-            typingImports.add("Any");
-            return "Any";
-        }
+        Imports otherImports = new Imports();
+        PydanticType pt = new PydanticType(
+            typingImports,
+            pydanticImports,
+            datetimeImports,
+            modelImports,
+            exampleImports,
+            postponedModelImports,
+            postponedExampleImports,
+            otherImports,
+            classname
+        );
 
-        if (cp.isEnum) {
-            pydanticImports.add("validator");
-        }
-
-        /* comment out the following since Literal requires python 3.8
-           also need to put cp.isEnum check after isArray, isMap check
-        if (cp.isEnum) {
-            // use Literal for inline enum
-            typingImports.add("Literal");
-            List<String> values = new ArrayList<>();
-            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cp.allowableValues.get("enumVars");
-            if (enumVars != null) {
-                for (Map<String, Object> enumVar : enumVars) {
-                    values.add((String) enumVar.get("value"));
-                }
-            }
-            return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
-        } else*/
-        if (cp.isArray) {
-            String constraints = "";
-            if (cp.maxItems != null) {
-                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
-            }
-            if (cp.minItems != null) {
-                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
-            }
-            if (cp.getUniqueItems()) {
-                constraints += ", unique_items=True";
-            }
-            pydanticImports.add("conlist");
-            typingImports.add("List"); // for return type
-            return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
-                    constraints);
-        } else if (cp.isMap) {
-            typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
-        } else if (cp.isString) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. constr(regex=r'/[a-z]/i', strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaxLength() != null) {
-                    fieldCustomization.add("max_length=" + cp.getMaxLength());
-                }
-                if (cp.getMinLength() != null) {
-                    fieldCustomization.add("min_length=" + cp.getMinLength());
-                }
-                if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
-                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
-                }
-                pydanticImports.add("constr");
-                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
-                    pydanticImports.add("SecretStr");
-                    return "SecretStr";
-                } else {
-                    pydanticImports.add("StrictStr");
-                    return "StrictStr";
-                }
-            }
-        } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                List<String> intFieldCustomization = new ArrayList<>();
-
-                // e.g. confloat(ge=10, le=100, strict=True)
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("lt=" + cp.getMaximum());
-                        intFieldCustomization.add("lt=" + (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 => < 8
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMaximum());
-                        intFieldCustomization.add("le=" + (int) Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 => <= 7
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("gt=" + cp.getMinimum());
-                        intFieldCustomization.add("gt=" + (int) Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 => > 7
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMinimum());
-                        intFieldCustomization.add("ge=" + (int) Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 => >= 8
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-
-                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
-                    fieldCustomization.add("strict=True");
-                    intFieldCustomization.add("strict=True");
-                    pydanticImports.add("confloat");
-                    pydanticImports.add("conint");
-                    typingImports.add("Union");
-                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
-                            StringUtils.join(fieldCustomization, ", "),
-                            "conint",
-                            StringUtils.join(intFieldCustomization, ", ")
-                    );
-                } else if ("StrictFloat".equals(mapNumberTo)) {
-                    fieldCustomization.add("strict=True");
-                    pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else { // float
-                    pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                }
-            } else {
-                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
-                    typingImports.add("Union");
-                    pydanticImports.add("StrictFloat");
-                    pydanticImports.add("StrictInt");
-                    return "Union[StrictFloat, StrictInt]";
-                } else if ("StrictFloat".equals(mapNumberTo)) {
-                    pydanticImports.add("StrictFloat");
-                    return "StrictFloat";
-                } else {
-                    return "float";
-                }
-            }
-        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conint(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("lt=" + cp.getMaximum());
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMaximum());
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("gt=" + cp.getMinimum());
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMinimum());
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-
-                pydanticImports.add("conint");
-                return String.format(Locale.ROOT, "%s(%s)", "conint",
-                        StringUtils.join(fieldCustomization, ", "));
-            } else {
-                pydanticImports.add("StrictInt");
-                return "StrictInt";
-            }
-        } else if (cp.isBinary || cp.isByteArray) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conbytes(min_length=2, max_length=10)
-                fieldCustomization.add("strict=True");
-                if (cp.getMinLength() != null) {
-                    fieldCustomization.add("min_length=" + cp.getMinLength());
-                }
-                if (cp.getMaxLength() != null) {
-                    fieldCustomization.add("max_length=" + cp.getMaxLength());
-                }
-                if (cp.getPattern() != null) {
-                    pydanticImports.add("validator");
-                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
-                }
-
-                pydanticImports.add("conbytes");
-                pydanticImports.add("constr");
-                typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                // same as above which has validation
-                pydanticImports.add("StrictBytes");
-                pydanticImports.add("StrictStr");
-                typingImports.add("Union");
-                return "Union[StrictBytes, StrictStr]";
-            }
-        } else if (cp.isBoolean) {
-            pydanticImports.add("StrictBool");
-            return "StrictBool";
-        } else if (cp.isDecimal) {
-            if (cp.hasValidation) {
-                List<String> fieldCustomization = new ArrayList<>();
-                // e.g. condecimal(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
-                if (cp.getMaximum() != null) {
-                    if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
-                    } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
-                    }
-                }
-                if (cp.getMinimum() != null) {
-                    if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
-                    } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
-                    }
-                }
-                if (cp.getMultipleOf() != null) {
-                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
-                }
-                pydanticImports.add("condecimal");
-                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
-            } else {
-                pydanticImports.add("condecimal");
-                return "condecimal()";
-            }
-        } else if (cp.getIsAnyType()) {
-            typingImports.add("Any");
-            return "Any";
-        } else if (cp.isDate || cp.isDateTime) {
-            if (cp.isDate) {
-                datetimeImports.add("date");
-            }
-            if (cp.isDateTime) {
-                datetimeImports.add("datetime");
-            }
-            return cp.dataType;
-        } else if (cp.isUuid) {
-            return cp.dataType;
-        } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
-            typingImports.add("Any");
-            return "Dict[str, Any]";
-        } else if (!cp.isPrimitiveType || cp.isModel) { // model
-            // skip import if it's a circular reference
-            if (classname == null) {
-                // for parameter model, import directly
-                hasModelsToImport = true;
-                modelImports.add(cp.dataType);
-                exampleImports.add(cp.dataType);
-            } else {
-                if (circularImports.containsKey(cp.dataType)) {
-                    if (circularImports.get(cp.dataType).contains(classname)) {
-                        hasModelsToImport = true;
-                        postponedModelImports.add(cp.dataType);
-                        postponedExampleImports.add(cp.dataType);
-                        // cp.dataType import map of set contains this model (classname), don't import
-                        LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.dataType, classname);
-                    } else {
-                        // not circular import, so ok to import it
-                        hasModelsToImport = true;
-                        modelImports.add(cp.dataType);
-                        exampleImports.add(cp.dataType);
-                    }
-                } else {
-                    LOGGER.error("Failed to look up {} from the imports (map of set) of models.", cp.dataType);
-                }
-            }
-            return cp.dataType;
-        } else {
-            throw new RuntimeException("Error! Codegen Property not yet supported in getPydanticType: " + cp);
-        }
+        return pt.getType(cp);
     }
 
     public void setMapNumberTo(String mapNumberTo) {
@@ -1700,7 +1179,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (cp.isMap) {
             return getModelNameFromDataType(cp.items);
         } else if (!cp.isPrimitiveType || cp.isModel) {
-            return cp.dataType;
+            return cp.getDataType();
         } else {
             return null;
         }
@@ -1747,7 +1226,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         hasModelsToImport = false;
-        boolean importAnnotated = false;
+
+        // TODO: migrate almost (all?) everything to the `Imports` class.
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
@@ -1756,65 +1236,30 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
+
+        Imports otherImports = new Imports();
+
         for (CodegenOperation operation : operations) {
             TreeSet<String> exampleImports = new TreeSet<>(); // import for each operation to be show in sample code
             TreeSet<String> postponedExampleImports = new TreeSet<>(); // import for each operation to be show in sample code
             List<CodegenParameter> params = operation.allParams;
 
-            for (CodegenParameter param : params) {
-                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
-                List<String> fields = new ArrayList<>();
-                String firstField = "";
 
-                if (!param.required) { //optional
-                    firstField = "None";
-                    typing = "Optional[" + typing + "]";
-                    typingImports.add("Optional");
-                } else { // required
-                    firstField = "...";
-                    if (param.isNullable) {
-                        typing = "Optional[" + typing + "]";
-                        typingImports.add("Optional");
-                    }
-                }
-
-                if (!StringUtils.isEmpty(param.description)) { // has description
-                    fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
-                }
-
-                /* TODO support example
-                if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                    fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
-                }*/
-
-                String fieldCustomization;
-                if ("None".equals(firstField)) {
-                    fieldCustomization = null;
-                } else { // required field
-                    fieldCustomization = firstField;
-                }
-
-                if (!fields.isEmpty()) {
-                    if (fieldCustomization != null) {
-                        fields.add(0, fieldCustomization);
-                    }
-                    pydanticImports.add("Field");
-                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
-                } else {
-                    fieldCustomization = "Field()";
-                }
-
-                if ("Field()".equals(fieldCustomization)) {
-                    param.vendorExtensions.put("x-py-typing", typing);
-                } else {
-                    param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
-                    importAnnotated = true;
-                }
+            for (CodegenParameter cp : params) {
+                PydanticType pydantic = new PydanticType(
+                    typingImports, pydanticImports, datetimeImports,
+                    modelImports, exampleImports,
+                    postponedModelImports, postponedExampleImports,
+                    otherImports,
+                    null);
+                String typing = pydantic.generatePythonType(cp);
+                cp.vendorExtensions.put("x-py-typing", typing);
             }
 
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
-                String typing = getPydanticType(operation.returnProperty, typingImports,
+                // Not interested in the result, only in the update of the imports
+                getPydanticType(operation.returnProperty, typingImports,
                         new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
             }
 
@@ -1840,9 +1285,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         List<Map<String, String>> newImports = new ArrayList<>();
 
-        if (importAnnotated) {
+        for (String importLine : otherImports.exports()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format(Locale.ROOT, String.format(Locale.ROOT, "from typing_extensions import Annotated")));
+            item.put("import", importLine);
             newImports.add(item);
         }
 
@@ -1993,5 +1438,806 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(String dataType) {
         return "str".equals(dataType);
+    }
+
+    /* The definition for a Python type.
+     *
+     * This encapsulate all the type definition: the actual type, and potentially:
+     *
+     * * its type parameters if the actual type is a generic type
+     * * the additional constraints on the type
+     * * the additional annotations to give extra information about the type (description, alias, etc.)
+     * * a default value for the variable associated with the type
+     */
+    class PythonType {
+        private String type;
+        private List<PythonType> typeParams;
+        private Map<String, Object> annotations;
+        private Map<String, Object> constraints;
+
+        private String defaultValue;
+
+        public PythonType() {
+            this(null);
+        }
+
+        public PythonType(String type) {
+            this.setType(type);
+            this.defaultValue = null;
+            this.typeParams = new ArrayList<>();
+            this.annotations = new HashMap<>();
+            this.constraints = new HashMap<>();
+        }
+
+        public PythonType setType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public PythonType setDefaultValue(boolean value) {
+            if (value) {
+                defaultValue = "True";
+            } else {
+                defaultValue = "False";
+            }
+            return this;
+        }
+
+        public PythonType setDefaultValue(Object value) {
+            defaultValue = value.toString();
+            return this;
+        }
+
+        public PythonType constrain(String name, String value) {
+            return constrain(name, value, true);
+        }
+
+        public PythonType constrain(String name, String value, boolean quote) {
+            if (quote) {
+                // TODO:jon proper quoting
+                value = "\"" + value + "\"";
+            }
+            constraints.put(name, value);
+            return this;
+        }
+
+        public PythonType constrain(String name, boolean value) {
+            if (value) {
+                constraints.put(name, "True");
+            } else {
+                constraints.put(name, "False");
+            }
+            return this;
+        }
+
+        public PythonType constrain(String name, Object value) {
+            constraints.put(name, value);
+            return this;
+        }
+
+        /* Annotate a field with extra information.
+         *
+         * Annotation are made to add extra information about a field.
+         *
+         * If the information you need to add is a type constraint (to make the
+         * type more specific), use `constrain` instead.
+         */
+        public PythonType annotate(String name, String value) {
+            return annotate(name, value, true);
+        }
+
+        public PythonType annotate(String name, String value, boolean quote) {
+            if (quote) {
+                // TODO:jon proper quoting
+                value = "\"" + value + "\"";
+            }
+            annotations.put(name, value);
+            return this;
+        }
+
+        public PythonType annotate(String name, boolean value) {
+            if (value) {
+                annotations.put(name, "True");
+            } else {
+                annotations.put(name, "False");
+            }
+            return this;
+        }
+
+        public PythonType annotate(String name, Object value) {
+            annotations.put(name, value);
+            return this;
+        }
+
+        /* A "type param" is the parameter to a generic type (the `str` in `list[str]`).
+         *
+         * A Python type can have multiple type parameters: it assumes the
+         * Python type on which the type parameter is added to is a generic
+         * type.
+         *
+         * Type parameters can be as simple or as complex as needed. They are just
+         * another list of `PythonType`.
+         */
+        public PythonType addTypeParam(PythonType typeParam) {
+            this.typeParams.add(typeParam);
+            return this;
+        }
+
+        /* The left-hand side of:
+         *
+         *      my_field: TypeConstraint = TypeAnnotations
+         *
+         *  A "type constraint" is a Python / Pydantic type, potentially
+         *  annotated with extra constraints, such as "less than", "maximum
+         *  number of items", etc.
+         *
+         *  The Python / Pydantic type can be as expressive as needed:
+         *
+         *  - it could simply be `str`
+         *  - or something more complex like `Optional[List[Dict[str, List[int]]]]`.
+         *
+         *  Note that the default value (if available) and/or the metadata about
+         *  the field / variable being defined are *not* part of the
+         *  constraints but part of the "type value".
+         */
+        public String asTypeConstraint(Imports imports) {
+            return asTypeConstraint(imports, false);
+        }
+
+        /* Generate the Python type, constraints + annotations
+         *
+         * This should be mostly used to build the type definition for a
+         * function/method parameter, such as :
+         *
+         *      def f(my_param: TypeConstrainWithAnnotations):
+         *          ...
+         *
+         *  Note that the default value is not managed here, but directly in
+         *  the Mustache template.
+         */
+        public String asTypeConstraintWithAnnotations(Imports imports) {
+            return asTypeConstraint(imports, true);
+        }
+
+        private String asTypeConstraint(Imports imports, boolean withAnnotations) {
+            String typeParam = "";
+            if (this.typeParams.size() > 0) {
+                List<String> types = new ArrayList<>();
+                for (PythonType t : this.typeParams) {
+                    types.add(t.asTypeConstraint(imports));
+                }
+                typeParam = "[" + StringUtils.join(types, ", ") + "]";
+            }
+
+            String currentType = this.type + typeParam;
+
+
+            // Build the parameters for the `Field`, possibly associated with
+            // the type definition.
+            // There can be no constraints nor annotations, in which case we
+            // simply won't build a Field object.
+            List<String> fieldParams = new ArrayList<>();
+            for (Map.Entry<String, Object> entry: this.constraints.entrySet()) {
+                String ans = entry.getKey() + "=";
+                ans += entry.getValue().toString();
+                fieldParams.add(ans);
+            }
+
+            if (withAnnotations) {
+                for (Map.Entry<String, Object> entry: this.annotations.entrySet()) {
+                    String ans = entry.getKey() + "=";
+                    ans += entry.getValue().toString();
+                    fieldParams.add(ans);
+                }
+            }
+
+            if (fieldParams.size() > 0) {
+                imports.add("pydantic", "Field");
+                imports.add("typing_extensions", "Annotated");
+                currentType = "Annotated[" + currentType + ", Field(" + StringUtils.join(fieldParams, ", ") + ")]";
+            }
+
+            return currentType;
+        }
+
+        /* The right-hand side of:
+         *
+         *      my_field: TypeConstraint = TypeValue
+         *
+         *  A "type value" is either:
+         *
+         *  * The default value of a field, if no other information is available
+         *  * A Pydantic `Field`, containing potentially the default value,
+         *    plus all the extra metadata that defines what a field is (description, alias, etc.).
+         *
+         *  Constraints on the type are *not* part of the "type value", but are part of the "type constraints".
+         */
+        @Nullable
+        public String asTypeValue(Imports imports) {
+            String defaultValue = this.defaultValue;
+
+            if (this.annotations.size() > 0) {
+                String typeValue = "";
+
+                List<String> ants = new ArrayList<>();
+
+                if (defaultValue != null) {
+                    // Keep the default value first, if possible.
+                    ants.add("default=" + defaultValue);
+                }
+
+                for (Map.Entry<String, Object> entry: this.annotations.entrySet()) {
+                    String ans = entry.getKey() + "=";
+                    ans += entry.getValue().toString();
+                    ants.add(ans);
+                }
+
+                imports.add("pydantic", "Field");
+                typeValue = "Field(" + StringUtils.join(ants, ", ") + ")";
+                return typeValue;
+            }
+
+            return defaultValue;
+        }
+    }
+
+    /* Track the list of resources to imports from where.
+     *
+     * Imports are tracked as a set of modules to import from, and actual
+     * resources (classes, functions, etc.) to import.
+     *
+     * The same resource can be safely "imported" many times from the same
+     * module; during the rendering of the actual Python imports, duplicated
+     * entries will be automatically removed.
+     *
+     * */
+    class Imports {
+        private Map<String, Set<String>> imports;
+
+        public Imports() {
+            imports = new HashMap<>();
+        }
+
+        /* Add a new import:
+         *
+         *      from $from import $what
+         *
+         */
+        private void add(String from, String what) {
+            // Fetch the set of all the objects already imported from `from` (if any).
+            Set<String> allImportsFrom = imports.get(from);
+            if (allImportsFrom == null) {
+                allImportsFrom = new TreeSet<>();
+            }
+            // Just one more thing to import from `from`.
+            allImportsFrom.add(what);
+            imports.put(from, allImportsFrom);
+        }
+
+        /* Export a list of import statements as:
+         *
+         *      from $from import $what
+         *
+         */
+        public Set<String> exports() {
+            Set<String> results = new TreeSet<>();
+
+            for (Map.Entry<String, Set<String>> entry : imports.entrySet()) {
+                String importLine = String.format(
+                    Locale.ROOT, "from %s import %s",
+                    entry.getKey(), StringUtils.join(entry.getValue(), ", "));
+                results.add(importLine);
+            }
+
+            return results;
+        }
+
+        public boolean isEmpty() {
+            return imports.isEmpty();
+        }
+    }
+
+    class PydanticType {
+        private Set<String> typingImports;
+        private Set<String> pydanticImports;
+        private Set<String> datetimeImports;
+        private Set<String> modelImports;
+        private Set<String> exampleImports;
+        private Set<String> postponedModelImports;
+        private Set<String> postponedExampleImports;
+        private Imports otherImports;
+        private String classname;
+
+        public PydanticType(
+            Set<String> typingImports,
+            Set<String> pydanticImports,
+            Set<String> datetimeImports,
+            Set<String> modelImports,
+            Set<String> exampleImports,
+            Set<String> postponedModelImports,
+            Set<String> postponedExampleImports,
+            Imports otherImports,
+            String classname
+        ) {
+            this.typingImports = typingImports;
+            this.pydanticImports = pydanticImports;
+            this.datetimeImports = datetimeImports;
+            this.modelImports = modelImports;
+            this.exampleImports = exampleImports;
+            this.postponedModelImports = postponedModelImports;
+            this.postponedExampleImports = postponedExampleImports;
+            this.otherImports = otherImports;
+            this.classname = classname;
+        }
+
+        private PythonType arrayType(IJsonSchemaValidationProperties cp) {
+            PythonType pt = new PythonType();
+            if (cp.getMaxItems() != null) {
+                pt.constrain("max_length", cp.getMaxItems());
+            }
+            if (cp.getMinItems()!= null) {
+                pt.constrain("min_length", cp.getMinItems());
+            }
+            if (cp.getUniqueItems()) {
+                // A unique "array" is a set
+                // TODO: pydantic v2: Pydantic suggest to convert this to a set, but this has some implications:
+                // https://github.com/pydantic/pydantic-core/issues/296
+                // Also, having a set instead of list creates complications:
+                // random JSON serialization order, unable to easily serialize
+                // to JSON, etc.
+                //pt.setType("Set");
+                //typingImports.add("Set");
+                pt.setType("List");
+                typingImports.add("List");
+            } else {
+                pt.setType("List");
+                typingImports.add("List");
+            }
+            pt.addTypeParam(getType(cp.getItems()));
+            return pt;
+        }
+
+        private PythonType stringType(IJsonSchemaValidationProperties cp) {
+
+            if (cp.getHasValidation()) {
+                PythonType pt = new PythonType("str");
+
+                // e.g. constr(regex=r'/[a-z]/i', strict=True)
+                pt.constrain("strict", true);
+                if (cp.getMaxLength() != null) {
+                    pt.constrain("max_length", cp.getMaxLength());
+                }
+                if (cp.getMinLength() != null) {
+                    pt.constrain("min_length", cp.getMinLength());
+                }
+
+                if (cp.getPattern() != null) {
+                    pydanticImports.add("field_validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                }
+                return pt;
+            } else {
+                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                    pydanticImports.add("SecretStr");
+                    return new PythonType("SecretStr");
+                } else {
+                    pydanticImports.add("StrictStr");
+                    return new PythonType("StrictStr");
+                }
+            }
+        }
+
+        private PythonType mapType(IJsonSchemaValidationProperties cp) {
+            typingImports.add("Dict");
+            PythonType pt = new PythonType("Dict");
+            pt.addTypeParam(new PythonType("str"));
+            pt.addTypeParam(getType(cp.getItems()));
+            return pt;
+        }
+
+        private PythonType numberType(IJsonSchemaValidationProperties cp) {
+            if (cp.getHasValidation()) {
+                PythonType floatt = new PythonType("float");
+                PythonType intt = new PythonType("int");
+
+                // e.g. confloat(ge=10, le=100, strict=True)
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        floatt.constrain("lt", cp.getMaximum(), false);
+                        intt.constrain("lt", (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 => < 8
+                    } else {
+                        floatt.constrain("le", cp.getMaximum(), false);
+                        intt.constrain("le", (int) Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 => <= 7
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        floatt.constrain("gt", cp.getMinimum(), false);
+                        intt.constrain("gt", (int) Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 => > 7
+                    } else {
+                        floatt.constrain("ge", cp.getMinimum(), false);
+                        intt.constrain("ge", (int) Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 => >= 8
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    floatt.constrain("multiple_of", cp.getMultipleOf());
+                }
+
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    floatt.constrain("strict", true);
+                    intt.constrain("strict", true);
+
+                    typingImports.add("Union");
+                    PythonType pt = new PythonType("Union");
+                    pt.addTypeParam(floatt);
+                    pt.addTypeParam(intt);
+                    return pt;
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    floatt.constrain("strict", true);
+                    return floatt;
+                } else { // float
+                    return floatt;
+                }
+            } else {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    typingImports.add("Union");
+                    pydanticImports.add("StrictFloat");
+                    pydanticImports.add("StrictInt");
+                    PythonType pt = new PythonType("Union");
+                    pt.addTypeParam(new PythonType("StrictFloat"));
+                    pt.addTypeParam(new PythonType("StrictInt"));
+                    return pt;
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    pydanticImports.add("StrictFloat");
+                    return new PythonType("StrictFloat");
+                } else {
+                    return new PythonType("float");
+                }
+            }
+        }
+
+        private PythonType intType(IJsonSchemaValidationProperties cp) {
+            if (cp.getHasValidation()) {
+                PythonType pt = new PythonType("int");
+                // e.g. conint(ge=10, le=100, strict=True)
+                pt.constrain("strict", true);
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        pt.constrain("lt", cp.getMaximum(), false);
+                    } else {
+                        pt.constrain("le", cp.getMaximum(), false);
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        pt.constrain("gt", cp.getMinimum(), false);
+                    } else {
+                        pt.constrain("ge", cp.getMinimum(), false);
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    pt.constrain("multiple_of", cp.getMultipleOf());
+                }
+                return pt;
+            } else {
+                pydanticImports.add("StrictInt");
+                return new PythonType("StrictInt");
+            }
+        }
+
+        private PythonType binaryType(IJsonSchemaValidationProperties cp) {
+            if (cp.getHasValidation()) {
+                PythonType bytest = new PythonType("bytes");
+                PythonType strt = new PythonType("str");
+
+                // e.g. conbytes(min_length=2, max_length=10)
+                bytest.constrain("strict", true);
+                strt.constrain("strict", true);
+                if (cp.getMaxLength() != null) {
+                    bytest.constrain("max_length", cp.getMaxLength());
+                    strt.constrain("max_length", cp.getMaxLength());
+                }
+                if (cp.getMinLength() != null) {
+                    bytest.constrain("min_length", cp.getMinLength());
+                    strt.constrain("min_length", cp.getMinLength());
+                }
+                if (cp.getPattern() != null) {
+                    pydanticImports.add("field_validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                }
+
+                typingImports.add("Union");
+                PythonType pt = new PythonType("Union");
+                pt.addTypeParam(bytest);
+                pt.addTypeParam(strt);
+                return pt;
+            } else {
+                // same as above which has validation
+                pydanticImports.add("StrictBytes");
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+
+                PythonType pt = new PythonType("Union");
+                pt.addTypeParam(new PythonType("StrictBytes"));
+                pt.addTypeParam(new PythonType("StrictStr"));
+                return pt;
+            }
+        }
+
+        private PythonType boolType(IJsonSchemaValidationProperties cp) {
+            pydanticImports.add("StrictBool");
+            return new PythonType("StrictBool");
+        }
+
+        private PythonType decimalType(IJsonSchemaValidationProperties cp) {
+            PythonType pt = new PythonType("Decimal");
+            otherImports.add("decimal", "Decimal");
+
+            if (cp.getHasValidation()) {
+                // e.g. condecimal(ge=10, le=100, strict=True)
+                pt.constrain("strict", true);
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        pt.constrain("gt", cp.getMaximum(), false);
+                    } else {
+                        pt.constrain("ge", cp.getMaximum(), false);
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        pt.constrain("lt", cp.getMinimum(), false);
+                    } else {
+                        pt.constrain("le", cp.getMinimum(), false);
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    pt.constrain("multiple_of", cp.getMultipleOf());
+                }
+            }
+
+            return pt;
+        }
+
+        private PythonType anyType(IJsonSchemaValidationProperties cp) {
+            typingImports.add("Any");
+            return new PythonType("Any");
+        }
+
+        private PythonType dateType(IJsonSchemaValidationProperties cp) {
+            if (cp.getIsDate()) {
+                datetimeImports.add("date");
+            }
+            if (cp.getIsDateTime()) {
+                datetimeImports.add("datetime");
+            }
+
+            return new PythonType(cp.getDataType());
+        }
+
+        private PythonType uuidType(IJsonSchemaValidationProperties cp) {
+            return new PythonType(cp.getDataType());
+        }
+
+        private PythonType freeFormType(IJsonSchemaValidationProperties cp) {
+            typingImports.add("Dict");
+            typingImports.add("Any");
+            typingImports.add("Union");
+            PythonType pt = new PythonType("Union");
+            pt.addTypeParam(new PythonType("str"));
+            pt.addTypeParam(new PythonType("Any"));
+            return pt;
+        }
+
+        private PythonType modelType(IJsonSchemaValidationProperties cp) {
+            // add model prefix
+            hasModelsToImport = true;
+            modelImports.add(cp.getDataType());
+            exampleImports.add(cp.getDataType());
+            return new PythonType(cp.getDataType());
+        }
+
+        private PythonType fromCommon(IJsonSchemaValidationProperties cp) {
+            if (cp == null) {
+                // if codegen property (e.g. map/dict of undefined type) is null, default to string
+                LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+                typingImports.add("Any");
+                return new PythonType("Any");
+            }
+
+            if (cp.getIsEnum()) {
+                pydanticImports.add("field_validator");
+            }
+
+            if (cp.getIsArray()) {
+                return arrayType(cp);
+            } else if (cp.getIsMap()) {
+                return mapType(cp);
+            } else if (cp.getIsString()) {
+                return stringType(cp);
+            } else if (cp.getIsNumber() || cp.getIsFloat() || cp.getIsDouble()) {
+                return numberType(cp);
+            } else if (cp.getIsInteger() || cp.getIsLong() || cp.getIsShort() || cp.getIsUnboundedInteger()) {
+                return intType(cp);
+            } else if (cp.getIsBinary() || cp.getIsByteArray()) {
+                return binaryType(cp);
+            } else if (cp.getIsBoolean()) {
+                return boolType(cp);
+            } else if (cp.getIsDecimal()) {
+                return decimalType(cp);
+            } else if (cp.getIsAnyType()) {
+                return anyType(cp);
+            } else if (cp.getIsDate() || cp.getIsDateTime()) {
+                return dateType(cp);
+            } else if (cp.getIsUuid()) {
+                return uuidType(cp);
+            } else if (cp.getIsFreeFormObject()) { // type: object
+                return freeFormType(cp);
+            }
+
+            return null;
+        }
+
+        public String generatePythonType(CodegenProperty cp) {
+            PythonType pt = this.getType(cp);
+            return this.finalizeType(cp, pt);
+        }
+
+        private PythonType getType(CodegenProperty cp) {
+            PythonType result = fromCommon(cp);
+
+            /* comment out the following since Literal requires python 3.8
+               also need to put cp.isEnum check after isArray, isMap check
+            if (cp.isEnum) {
+                // use Literal for inline enum
+                typingImports.add("Literal");
+                List<String> values = new ArrayList<>();
+                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cp.allowableValues.get("enumVars");
+                if (enumVars != null) {
+                    for (Map<String, Object> enumVar : enumVars) {
+                        values.add((String) enumVar.get("value"));
+                    }
+                }
+                return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+            } else*/
+
+            if (result == null) {
+                // TODO: Cleanup
+                if (!cp.isPrimitiveType || cp.isModel) { // model
+                    // skip import if it's a circular reference
+                    if (classname == null) {
+                        // for parameter model, import directly
+                        hasModelsToImport = true;
+                        modelImports.add(cp.getDataType());
+                        exampleImports.add(cp.getDataType());
+                    } else {
+                        if (circularImports.containsKey(cp.getDataType())) {
+                            if (circularImports.get(cp.getDataType()).contains(classname)) {
+                                hasModelsToImport = true;
+                                postponedModelImports.add(cp.getDataType());
+                                postponedExampleImports.add(cp.getDataType());
+                                // cp.getDataType() import map of set contains this model (classname), don't import
+                                LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.getDataType(), classname);
+                            } else {
+                                // not circular import, so ok to import it
+                                hasModelsToImport = true;
+                                modelImports.add(cp.getDataType());
+                                exampleImports.add(cp.getDataType());
+                            }
+                        } else {
+                            LOGGER.error("Failed to look up {} from the imports (map of set) of models.", cp.getDataType());
+                        }
+                    }
+                    result = new PythonType(cp.getDataType());
+                } else {
+                    throw new RuntimeException("Error! Codegen Property not yet supported in getPydanticType: " + cp);
+                }
+            }
+
+            return result;
+        }
+
+        private String finalizeType(CodegenProperty cp, PythonType pt) {
+            if (!cp.required || cp.isNullable) {
+                typingImports.add("Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(pt);
+                pt = opt;
+            }
+
+            if (!StringUtils.isEmpty(cp.description)) { // has description
+                pt.annotate("description", cp.description);
+            }
+
+            // field
+            if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
+                pt.annotate("alias", cp.baseName);
+            }
+
+            /* TODO review as example may break the build
+            if (!StringUtils.isEmpty(cp.getExample())) { // has example
+                fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
+            }*/
+
+            //String defaultValue = null;
+            if (!cp.required) { //optional
+                if (cp.defaultValue == null) {
+                    pt.setDefaultValue("None");
+                } else {
+                    if (cp.isArray || cp.isMap) {
+                        // TODO handle default value for array/map
+                        pt.setDefaultValue("None");
+                    } else {
+                        //defaultValue = ;
+                        pt.setDefaultValue(cp.defaultValue);
+                    }
+                }
+            }
+
+            String typeConstraint = pt.asTypeConstraint(otherImports);
+            String typeValue = pt.asTypeValue(otherImports);
+
+            if (typeValue == null) {
+                return typeConstraint;
+            } else {
+                return typeConstraint + " = " + typeValue;
+            }
+        }
+
+        public String generatePythonType(CodegenParameter cp) {
+            PythonType pt = this.getType(cp);
+            return this.finalizeType(cp, pt);
+        }
+
+        private PythonType getType(CodegenParameter cp) {
+            // TODO: cleanup
+            PythonType result = fromCommon(cp);
+
+            if (result == null) {
+                if (!cp.isPrimitiveType) {
+                    // add model prefix
+                     hasModelsToImport = true;
+                     modelImports.add(cp.getDataType());
+                     exampleImports.add(cp.getDataType());
+                     result = new PythonType(cp.getDataType());
+                } else if (cp.getContent() != null) {
+                    LinkedHashMap<String, CodegenMediaType> contents = cp.getContent();
+                    for (String key : contents.keySet()) {
+                        CodegenMediaType cmt = contents.get(key);
+                        // TODO process the first one only at the moment
+                        if (cmt != null)
+                            // TODO: don't loop back to the deprecated getPydanticType method
+                            result = getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
+                    }
+                    throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
+                } else {
+                    throw new RuntimeException("Error! Codegen Parameter not yet supported in getPydanticType: " + cp);
+                }
+            }
+
+            return result;
+        }
+
+        private String finalizeType(CodegenParameter cp, PythonType pt) {
+            if (!cp.required || cp.isNullable) {
+                typingImports.add("Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(pt);
+                pt = opt;
+            }
+
+            if (!StringUtils.isEmpty(cp.description)) { // has description
+                pt.annotate("description", cp.description);
+            }
+
+            /* TODO support example
+            if (!StringUtils.isEmpty(cp.getExample())) { // has example
+                fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
+            }*/
+
+            //return pt.asTypeConstraint(otherImports);
+            return pt.asTypeConstraintWithAnnotations(otherImports);
+        }
     }
 }

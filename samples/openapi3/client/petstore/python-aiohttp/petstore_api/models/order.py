@@ -19,21 +19,27 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, field_validator
+from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Order(BaseModel):
     """
     Order
     """
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(None, alias="petId")
+    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(None, alias="shipDate")
-    status: Optional[StrictStr] = Field(None, description="Order Status")
+    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
-    __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
+    __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
-    @validator('status')
+    @field_validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -43,46 +49,48 @@ class Order(BaseModel):
             raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Order:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Order from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Order:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Order from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Order.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Order.parse_obj({
+        _obj = cls.model_validate({
             "id": obj.get("id"),
-            "pet_id": obj.get("petId"),
+            "petId": obj.get("petId"),
             "quantity": obj.get("quantity"),
-            "ship_date": obj.get("shipDate"),
+            "shipDate": obj.get("shipDate"),
             "status": obj.get("status"),
             "complete": obj.get("complete") if obj.get("complete") is not None else False
         })

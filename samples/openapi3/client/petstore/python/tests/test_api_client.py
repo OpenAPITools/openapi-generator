@@ -19,7 +19,7 @@ from dateutil.parser import parse
 import petstore_api
 import petstore_api.configuration
 
-HOST = 'http://petstore.swagger.io/v2'
+HOST = 'http://localhost/v2'
 
 
 class ApiClientTests(unittest.TestCase):
@@ -174,7 +174,7 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        pet = petstore_api.Pet(name=pet_dict["name"], photo_urls=pet_dict["photoUrls"])
+        pet = petstore_api.Pet(name=pet_dict["name"], photoUrls=pet_dict["photoUrls"])
         pet.id = pet_dict["id"]
         cate = petstore_api.Category(name="something")
         cate.id = pet_dict["category"]["id"]

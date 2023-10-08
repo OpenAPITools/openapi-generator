@@ -80,7 +80,7 @@ from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.int_or_string import IntOrString
-from petstore_api.models.list import List
+from petstore_api.models.list_class import ListClass
 from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
@@ -113,6 +113,7 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

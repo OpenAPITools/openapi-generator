@@ -18,10 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class WithNestedOneOf(BaseModel):
     """
@@ -31,29 +36,31 @@ class WithNestedOneOf(BaseModel):
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
+    __properties: ClassVar[List[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> WithNestedOneOf:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of WithNestedOneOf from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -72,15 +79,15 @@ class WithNestedOneOf(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> WithNestedOneOf:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of WithNestedOneOf from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return WithNestedOneOf.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = WithNestedOneOf.parse_obj({
+        _obj = cls.model_validate({
             "size": obj.get("size"),
             "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None,
             "nested_oneof_enum_string": OneOfEnumString.from_dict(obj.get("nested_oneof_enum_string")) if obj.get("nested_oneof_enum_string") is not None else None

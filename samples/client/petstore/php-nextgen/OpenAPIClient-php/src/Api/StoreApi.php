@@ -27,6 +27,7 @@
 
 namespace OpenAPI\Client\Api;
 
+use InvalidArgumentException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
@@ -34,6 +35,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -52,22 +54,22 @@ class StoreApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @var Configuration
      */
-    protected $config;
+    protected Configuration $config;
 
     /**
      * @var HeaderSelector
      */
-    protected $headerSelector;
+    protected HeaderSelector $headerSelector;
 
     /**
      * @var int Host index
      */
-    protected $hostIndex;
+    protected int $hostIndex;
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
@@ -85,17 +87,17 @@ class StoreApi
         ],
     ];
 
-/**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+    /**
+     * @param ClientInterface|null $client
+     * @param Configuration|null   $config
+     * @param HeaderSelector|null  $selector
+     * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $hostIndex = 0
+        int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
@@ -108,7 +110,7 @@ class StoreApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex): void
+    public function setHostIndex(int $hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -118,7 +120,7 @@ class StoreApi
      *
      * @return int Host index
      */
-    public function getHostIndex()
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }
@@ -126,7 +128,7 @@ class StoreApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -139,11 +141,14 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return void
      */
-    public function deleteOrder($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
+    public function deleteOrder(
+        string $order_id,
+        string $contentType = self::contentTypes['deleteOrder'][0]
+    ): void
     {
         $this->deleteOrderWithHttpInfo($order_id, $contentType);
     }
@@ -156,11 +161,14 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteOrderWithHttpInfo($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
+    public function deleteOrderWithHttpInfo(
+        string $order_id,
+        string $contentType = self::contentTypes['deleteOrder'][0]
+    ): array
     {
         $request = $this->deleteOrderRequest($order_id, $contentType);
 
@@ -216,10 +224,13 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function deleteOrderAsync($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
+    public function deleteOrderAsync(
+        string $order_id,
+        string $contentType = self::contentTypes['deleteOrder'][0]
+    ): PromiseInterface
     {
         return $this->deleteOrderAsyncWithHttpInfo($order_id, $contentType)
             ->then(
@@ -237,10 +248,13 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function deleteOrderAsyncWithHttpInfo($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
+    public function deleteOrderAsyncWithHttpInfo(
+        $order_id,
+        string $contentType = self::contentTypes['deleteOrder'][0]
+    ): PromiseInterface
     {
         $returnType = '';
         $request = $this->deleteOrderRequest($order_id, $contentType);
@@ -274,15 +288,18 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteOrderRequest($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
+    public function deleteOrderRequest(
+        $order_id,
+        string $contentType = self::contentTypes['deleteOrder'][0]
+    ): Request
     {
 
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $order_id when calling deleteOrder'
             );
         }
@@ -367,11 +384,13 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array<string,int>
      */
-    public function getInventory(string $contentType = self::contentTypes['getInventory'][0])
+    public function getInventory(
+        string $contentType = self::contentTypes['getInventory'][0]
+    ): array
     {
         list($response) = $this->getInventoryWithHttpInfo($contentType);
         return $response;
@@ -384,11 +403,13 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of array<string,int>, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInventoryWithHttpInfo(string $contentType = self::contentTypes['getInventory'][0])
+    public function getInventoryWithHttpInfo(
+        string $contentType = self::contentTypes['getInventory'][0]
+    ): array
     {
         $request = $this->getInventoryRequest($contentType);
 
@@ -483,10 +504,12 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function getInventoryAsync(string $contentType = self::contentTypes['getInventory'][0])
+    public function getInventoryAsync(
+        string $contentType = self::contentTypes['getInventory'][0]
+    ): PromiseInterface
     {
         return $this->getInventoryAsyncWithHttpInfo($contentType)
             ->then(
@@ -503,10 +526,12 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function getInventoryAsyncWithHttpInfo(string $contentType = self::contentTypes['getInventory'][0])
+    public function getInventoryAsyncWithHttpInfo(
+        string $contentType = self::contentTypes['getInventory'][0]
+    ): PromiseInterface
     {
         $returnType = 'array<string,int>';
         $request = $this->getInventoryRequest($contentType);
@@ -552,10 +577,12 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getInventoryRequest(string $contentType = self::contentTypes['getInventory'][0])
+    public function getInventoryRequest(
+        string $contentType = self::contentTypes['getInventory'][0]
+    ): Request
     {
 
 
@@ -636,11 +663,14 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
-    public function getOrderById($order_id, string $contentType = self::contentTypes['getOrderById'][0])
+    public function getOrderById(
+        int $order_id,
+        string $contentType = self::contentTypes['getOrderById'][0]
+    ): \OpenAPI\Client\Model\Order
     {
         list($response) = $this->getOrderByIdWithHttpInfo($order_id, $contentType);
         return $response;
@@ -654,11 +684,14 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getOrderByIdWithHttpInfo($order_id, string $contentType = self::contentTypes['getOrderById'][0])
+    public function getOrderByIdWithHttpInfo(
+        int $order_id,
+        string $contentType = self::contentTypes['getOrderById'][0]
+    ): array
     {
         $request = $this->getOrderByIdRequest($order_id, $contentType);
 
@@ -754,10 +787,13 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function getOrderByIdAsync($order_id, string $contentType = self::contentTypes['getOrderById'][0])
+    public function getOrderByIdAsync(
+        int $order_id,
+        string $contentType = self::contentTypes['getOrderById'][0]
+    ): PromiseInterface
     {
         return $this->getOrderByIdAsyncWithHttpInfo($order_id, $contentType)
             ->then(
@@ -775,10 +811,13 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function getOrderByIdAsyncWithHttpInfo($order_id, string $contentType = self::contentTypes['getOrderById'][0])
+    public function getOrderByIdAsyncWithHttpInfo(
+        $order_id,
+        string $contentType = self::contentTypes['getOrderById'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->getOrderByIdRequest($order_id, $contentType);
@@ -825,23 +864,26 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getOrderByIdRequest($order_id, string $contentType = self::contentTypes['getOrderById'][0])
+    public function getOrderByIdRequest(
+        $order_id,
+        string $contentType = self::contentTypes['getOrderById'][0]
+    ): Request
     {
 
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderById'
             );
         }
         if ($order_id > 5) {
-            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be smaller than or equal to 5.');
+            throw new InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be smaller than or equal to 5.');
         }
         if ($order_id < 1) {
-            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
+            throw new InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
         
 
@@ -925,11 +967,14 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
-    public function placeOrder($order, string $contentType = self::contentTypes['placeOrder'][0])
+    public function placeOrder(
+        \OpenAPI\Client\Model\Order $order,
+        string $contentType = self::contentTypes['placeOrder'][0]
+    ): \OpenAPI\Client\Model\Order
     {
         list($response) = $this->placeOrderWithHttpInfo($order, $contentType);
         return $response;
@@ -943,11 +988,14 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
-    public function placeOrderWithHttpInfo($order, string $contentType = self::contentTypes['placeOrder'][0])
+    public function placeOrderWithHttpInfo(
+        \OpenAPI\Client\Model\Order $order,
+        string $contentType = self::contentTypes['placeOrder'][0]
+    ): array
     {
         $request = $this->placeOrderRequest($order, $contentType);
 
@@ -1043,10 +1091,13 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function placeOrderAsync($order, string $contentType = self::contentTypes['placeOrder'][0])
+    public function placeOrderAsync(
+        \OpenAPI\Client\Model\Order $order,
+        string $contentType = self::contentTypes['placeOrder'][0]
+    ): PromiseInterface
     {
         return $this->placeOrderAsyncWithHttpInfo($order, $contentType)
             ->then(
@@ -1064,10 +1115,13 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
      */
-    public function placeOrderAsyncWithHttpInfo($order, string $contentType = self::contentTypes['placeOrder'][0])
+    public function placeOrderAsyncWithHttpInfo(
+        $order,
+        string $contentType = self::contentTypes['placeOrder'][0]
+    ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->placeOrderRequest($order, $contentType);
@@ -1114,15 +1168,18 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function placeOrderRequest($order, string $contentType = self::contentTypes['placeOrder'][0])
+    public function placeOrderRequest(
+        $order,
+        string $contentType = self::contentTypes['placeOrder'][0]
+    ): Request
     {
 
         // verify the required parameter 'order' is set
         if ($order === null || (is_array($order) && count($order) === 0)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Missing the required parameter $order when calling placeOrder'
             );
         }
@@ -1205,7 +1262,7 @@ class StoreApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = [];
         if ($this->config->getDebug()) {

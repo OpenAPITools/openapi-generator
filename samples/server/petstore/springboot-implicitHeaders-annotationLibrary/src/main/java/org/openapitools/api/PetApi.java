@@ -44,6 +44,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json", "application/xml" }
     )
+    
     default ResponseEntity<Pet> addPet(
          @Valid @RequestBody Pet pet
     ) {
@@ -77,6 +78,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
+    
     default ResponseEntity<Void> deletePet(
          @PathVariable("petId") Long petId
     ) {
@@ -98,6 +100,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }
     )
+    
     default ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
@@ -135,6 +138,7 @@ public interface PetApi {
         value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }
     )
+    
     default ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
     ) {
@@ -171,6 +175,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
+    
     default ResponseEntity<Pet> getPetById(
          @PathVariable("petId") Long petId
     ) {
@@ -211,6 +216,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json", "application/xml" }
     )
+    
     default ResponseEntity<Pet> updatePet(
          @Valid @RequestBody Pet pet
     ) {
@@ -247,6 +253,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
+    
     default ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) String name,
@@ -272,6 +279,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
+    
     default ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,

@@ -16,7 +16,8 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, ValidationError
+from typing import Dict, List, Optional, Tuple
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
@@ -40,7 +41,7 @@ class DefaultApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
+    @validate_call
     def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -67,7 +68,7 @@ class DefaultApi:
             raise ValueError(message)
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    @validate_arguments
+    @validate_call
     def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -128,18 +129,18 @@ class DefaultApi:
             _params[_key] = _val
         del _params['kwargs']
 
-        _collection_formats = {}
+        _collection_formats: Dict[str, str] = {}
 
         # process the path parameters
-        _path_params = {}
+        _path_params: Dict[str, str] = {}
 
         # process the query parameters
-        _query_params = []
+        _query_params: List[Tuple[str, str]] = []
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
@@ -147,9 +148,9 @@ class DefaultApi:
             ['application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = []  # noqa: E501
+        _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map = {
+        _response_types_map: Dict[str, Optional[str]] = {
         }
 
         return self.api_client.call_api(

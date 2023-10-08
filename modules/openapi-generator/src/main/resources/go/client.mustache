@@ -487,6 +487,13 @@ func (c *APIClient) prepareRequest(
 		c.cfg.Middleware(localVarRequest)
 	}
 
+	if c.cfg.MiddlewareWithError != nil {
+		err = c.cfg.MiddlewareWithError(localVarRequest)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 {{/withCustomMiddlewareFunction}}
 {{#hasHttpSignatureMethods}}
 	if ctx != nil {

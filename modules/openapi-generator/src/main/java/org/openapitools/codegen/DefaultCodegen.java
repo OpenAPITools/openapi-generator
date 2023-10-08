@@ -50,6 +50,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -195,6 +196,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
     protected Map<String, Object> vendorExtensions = new HashMap<>();
+    protected Map<String, String> templateOutputDirs = new HashMap<>();
     /*
     Supporting files are those which aren't models, APIs, or docs.
     These get a different map of data bound to the templates. Supporting files are written once.
@@ -451,9 +453,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
                 .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " ", false))
-                .put("indented_12", new IndentedLambda(12, " ", false))
-                .put("indented_16", new IndentedLambda(16, " ", false));
+                .put("indented_8", new IndentedLambda(8, " ", false, false))
+                .put("indented_12", new IndentedLambda(12, " ", false, false))
+                .put("indented_16", new IndentedLambda(16, " ", false, false));
 
     }
 
@@ -729,9 +731,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         // for oneOf
         final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
-                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
-                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
-                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                        (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                                ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
 
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
@@ -1348,6 +1350,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> vendorExtensions() {
         return vendorExtensions;
+    }
+
+    @Override
+    public Map<String, String> templateOutputDirs() {
+        return templateOutputDirs;
     }
 
     @Override
@@ -3491,7 +3498,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
                     if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                         String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), true);
                         descendentSchemas.add(mm);
                     }
                 }
@@ -3549,7 +3556,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .map(ve -> ve.get("x-discriminator-value"))
                     .map(discriminatorValue -> (String) discriminatorValue)
                     .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3578,6 +3585,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
                 .map(Schema::get$ref)
                 .map(ModelUtils::getSimpleRef)
+                .map(this::toModelName)
                 .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
@@ -3603,7 +3611,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     name = e.getValue();
                 }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name)));
+                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), true));
             }
         }
 
@@ -4850,6 +4858,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenProperty cp = fromProperty("response", responseSchema, false);
         r.dataType = getTypeDeclaration(responseSchema);
+        r.returnProperty = cp;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
             if (cp.complexType != null) {
@@ -4887,7 +4896,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isEmailSchema(responseSchema)) {
                 r.isEmail = true;
             } else if (ModelUtils.isPasswordSchema(responseSchema)) {
-               r.isPassword = true;
+                r.isPassword = true;
             } else if (ModelUtils.isUUIDSchema(responseSchema)) {
                 r.isUuid = true;
             } else if (ModelUtils.isByteArraySchema(responseSchema)) {
@@ -6028,9 +6037,21 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiFilename(String templateName, String tag, String outputDir) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return outputDir + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    @Override
     public String modelFilename(String templateName, String modelName) {
         String suffix = modelTemplateFiles().get(templateName);
         return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName, String outputDir) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return outputDir + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**
@@ -7083,7 +7104,12 @@ public class DefaultCodegen implements CodegenConfig {
             // hoist items data into the array property
             // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
-            codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            // TODO we need to fix array of item (with default value) generator by generator
+            // https://github.com/OpenAPITools/openapi-generator/pull/16654/ is a good reference
+            if (!(this instanceof PhpNextgenClientCodegen)) {
+                // no need to set default value here as it was set earlier
+                codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            }
             if (codegenParameter.items.isFile) {
                 codegenParameter.isFile = true;
                 codegenParameter.dataFormat = codegenParameter.items.dataFormat;
@@ -7234,7 +7260,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
@@ -7341,7 +7367,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
             if (codegenProperty == null) {
-               throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+                throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
             }
 
             imports.add(codegenProperty.baseType);
