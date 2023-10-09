@@ -168,7 +168,7 @@ class PathApi:
             _path_params['enum_nonref_string_path'] = _params['enum_nonref_string_path']
 
         if _params['enum_ref_string_path'] is not None:
-            _path_params['enum_ref_string_path'] = _params['enum_ref_string_path']
+            _path_params['enum_ref_string_path'] = _params['enum_ref_string_path'].value
 
 
         # process the query parameters

@@ -46,7 +46,7 @@ class TestManual(unittest.TestCase):
             enum_ref_string_path=openapi_client.StringEnumRef.FAILURE,
         )
         e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/path/string/string_value/integer/123/success/StringEnumRef.FAILURE")
+        self.assertEqual(e.path, "/path/string/string_value/integer/123/success/failure")
 
     def testHeaderParameters(self):
         api_instance = openapi_client.HeaderApi()

@@ -186,7 +186,7 @@ class {{classname}}:
         _path_params: Dict[str, str] = {}
 {{#pathParams}}
         if _params['{{paramName}}'] is not None:
-            _path_params['{{baseName}}'] = _params['{{paramName}}']
+            _path_params['{{baseName}}'] = _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
