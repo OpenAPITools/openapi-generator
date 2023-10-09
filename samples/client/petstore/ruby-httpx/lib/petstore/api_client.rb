@@ -65,7 +65,7 @@ module Petstore
                 Net::HTTP::STATUS_CODES.fetch(response.status, "HTTP Error (#{response.status})")
       rescue HTTPX::TimeoutError
         fail ApiError.new('Connection timed out')
-      rescue HTTPX::ConnectionError
+      rescue HTTPX::ConnectionError, HTTPX::ResolveError
         fail ApiError.new('Connection failed')
       end
 
@@ -119,14 +119,11 @@ module Petstore
       # http form
       if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
          header_params['Content-Type'] == 'multipart/form-data'
-        data = { form: form_params }
+        header_params.delete('Content-Type') # httpx takes care of this
+        { form: form_params }
       elsif body
-
-        data = body.is_a?(String) ? { body: body } : { json: body }
-      else
-        data = nil
+        body.is_a?(String) ? { body: body } : { json: body }
       end
-      data
     end
 
     def session
