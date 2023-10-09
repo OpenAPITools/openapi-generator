@@ -153,6 +153,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
                     dryRun.set(generate.dryRun)
+                    generateMetadata.set(generate.generateMetadata)
                 }
             }
         }

@@ -440,4 +440,10 @@ public class GenerateTest {
     public void testNPEWithInvalidSpecFile() {
         setupAndRunTest("-i", "src/test/resources/npe-test.yaml", "-g", "java", "-o", "src/main/java", false, null);
     }
+
+    @Test
+    public void testSkipGenerateMetadata() {
+        setupAndRunGenericTest("--skip-generate-metadata");
+        verify(generator).setGenerateMetadata(false);
+    }
 }
