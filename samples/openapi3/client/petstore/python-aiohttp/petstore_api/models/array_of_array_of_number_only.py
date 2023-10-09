@@ -19,52 +19,60 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel
+from pydantic import Field
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayOfArrayOfNumberOnly(BaseModel):
     """
     ArrayOfArrayOfNumberOnly
     """
-    array_array_number: Optional[conlist(conlist(float))] = Field(None, alias="ArrayArrayNumber")
-    __properties = ["ArrayArrayNumber"]
+    array_array_number: Optional[List[List[float]]] = Field(default=None, alias="ArrayArrayNumber")
+    __properties: ClassVar[List[str]] = ["ArrayArrayNumber"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayOfArrayOfNumberOnly:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayOfArrayOfNumberOnly:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfNumberOnly.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayOfArrayOfNumberOnly.parse_obj({
-            "array_array_number": obj.get("ArrayArrayNumber")
+        _obj = cls.model_validate({
+            "ArrayArrayNumber": obj.get("ArrayArrayNumber")
         })
         return _obj
 

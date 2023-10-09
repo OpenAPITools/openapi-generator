@@ -18,30 +18,36 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr, field_validator
+from pydantic import Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class EnumTest(BaseModel):
     """
     EnumTest
     """
     enum_string: Optional[StrictStr] = None
-    enum_string_required: StrictStr = Field(...)
+    enum_string_required: StrictStr
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[StrictFloat] = None
-    outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
-    outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
+    outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
+    outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
-    @validator('enum_string')
+    @field_validator('enum_string')
     def enum_string_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -51,14 +57,14 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
-    @validator('enum_string_required')
+    @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('UPPER', 'lower', ''):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
-    @validator('enum_integer_default')
+    @field_validator('enum_integer_default')
     def enum_integer_default_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -68,7 +74,7 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1, 5, 14)")
         return value
 
-    @validator('enum_integer')
+    @field_validator('enum_integer')
     def enum_integer_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -78,7 +84,7 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1, -1)")
         return value
 
-    @validator('enum_number')
+    @field_validator('enum_number')
     def enum_number_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -88,27 +94,29 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1.1, -1.2)")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> EnumTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -119,31 +127,31 @@ class EnumTest(BaseModel):
                 _dict[_key] = _value
 
         # set to None if outer_enum (nullable) is None
-        # and __fields_set__ contains the field
-        if self.outer_enum is None and "outer_enum" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.outer_enum is None and "outer_enum" in self.model_fields_set:
             _dict['outerEnum'] = None
 
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> EnumTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of EnumTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return EnumTest.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = EnumTest.parse_obj({
+        _obj = cls.model_validate({
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
             "enum_integer": obj.get("enum_integer"),
             "enum_number": obj.get("enum_number"),
-            "outer_enum": obj.get("outerEnum"),
-            "outer_enum_integer": obj.get("outerEnumInteger"),
-            "outer_enum_default_value": obj.get("outerEnumDefaultValue"),
-            "outer_enum_integer_default_value": obj.get("outerEnumIntegerDefaultValue")
+            "outerEnum": obj.get("outerEnum"),
+            "outerEnumInteger": obj.get("outerEnumInteger"),
+            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue"),
+            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

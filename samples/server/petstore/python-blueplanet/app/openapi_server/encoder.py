@@ -1,5 +1,4 @@
 from connexion.apps.flask_app import FlaskJSONEncoder
-import six
 
 from app.openapi_server.models.base_model import Model
 
@@ -10,7 +9,7 @@ class JSONEncoder(FlaskJSONEncoder):
     def default(self, o):
         if isinstance(o, Model):
             dikt = {}
-            for attr, _ in six.iteritems(o.swagger_types):
+            for attr in o.swagger_types:
                 value = getattr(o, attr)
                 if value is None and not self.include_nulls:
                     continue

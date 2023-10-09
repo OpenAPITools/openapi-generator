@@ -1,4 +1,4 @@
-            // This logic may be modified with the AsModel.mustache template
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, _jsonSerializerOptions)
-                : default(T);
+// This logic may be modified with the AsModel.mustache template
+return Is{{vendorExtensions.x-http-status}}
+    ? System.Text.Json.JsonSerializer.Deserialize<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}>(RawContent, _jsonSerializerOptions)
+    : {{^netStandard}}null{{/netStandard}}{{#netStandard}}default{{/netStandard}};

@@ -40,7 +40,8 @@ class TestFormatTest(unittest.TestCase):
                 int32 = 20, 
                 int64 = 56, 
                 number = 132.1, 
-                float = 54.3, 
+                # TODO: pydantic v2: the "float" property aliases the "float" type in the pydantic v2 generator
+                # float = 54.3,
                 double = 67.8, 
                 decimal = 1, 
                 string = 'a', 

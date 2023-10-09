@@ -18,41 +18,50 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, conlist
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
+from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayTest(BaseModel):
     """
     ArrayTest
     """
-    array_of_string: Optional[conlist(StrictStr, max_items=3, min_items=0)] = None
-    array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
-    array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
+    array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
+    array_array_of_integer: Optional[List[List[StrictInt]]] = None
+    array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
+    __properties: ClassVar[List[str]] = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                             "additional_properties"
                           },
@@ -74,15 +83,15 @@ class ArrayTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayTest.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayTest.parse_obj({
+        _obj = cls.model_validate({
             "array_of_string": obj.get("array_of_string"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [

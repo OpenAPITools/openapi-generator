@@ -73,4 +73,39 @@ describe {{moduleName}}::Configuration do
     end
   end
 {{/isFaraday}}
+{{#isHttpx}}
+
+  describe '#configure' do
+    let(:session) { HTTPX::Session.new }
+
+    before do
+      module CustomPlugin
+        module InstanceMethods; end
+      end
+      module AnotherCustomPlugin
+        module InstanceMethods; end
+      end
+
+      config.configure_session do |session|
+        session.plugin(CustomPlugin)
+      end
+    end
+
+    it 'adds a block that will be used to configure the connection' do
+      sess = config.configure(session)
+
+      expect(sess.class.ancestors).to include(CustomPlugin::InstanceMethods)
+    end
+
+    it 'supports multiple configuration blocks' do
+      config.configure_session do |session|
+        session.plugin(AnotherCustomPlugin)
+      end
+      sess = config.configure(session)
+
+      expect(sess.class.ancestors).to include(CustomPlugin::InstanceMethods)
+      expect(sess.class.ancestors).to include(AnotherCustomPlugin::InstanceMethods)
+    end
+  end
+{{/isHttpx}}
 end

@@ -19,32 +19,40 @@ import json
 
 from datetime import date, datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
+from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validator
+from decimal import Decimal
+from pydantic import Field
+from typing_extensions import Annotated
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FormatTest(BaseModel):
     """
     FormatTest
     """
-    integer: Optional[conint(strict=True, le=100, ge=10)] = None
-    int32: Optional[conint(strict=True, le=200, ge=20)] = None
+    integer: Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None
+    int32: Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None
     int64: Optional[StrictInt] = None
-    number: confloat(le=543.2, ge=32.1) = Field(...)
-    float: Optional[confloat(le=987.6, ge=54.3)] = None
-    double: Optional[confloat(le=123.4, ge=67.8)] = None
-    decimal: Optional[condecimal()] = None
-    string: Optional[constr(strict=True)] = None
-    string_with_double_quote_pattern: Optional[constr(strict=True)] = None
+    number: Annotated[float, Field(le=543.2, ge=32.1)]
+    var_float: Optional[Annotated[float, Field(le=987.6, ge=54.3)]] = Field(default=None, alias="float")
+    double: Optional[Annotated[float, Field(le=123.4, ge=67.8)]] = None
+    decimal: Optional[Decimal] = None
+    string: Optional[Annotated[str, Field(strict=True)]] = None
+    string_with_double_quote_pattern: Optional[Annotated[str, Field(strict=True)]] = None
     byte: Optional[Union[StrictBytes, StrictStr]] = None
     binary: Optional[Union[StrictBytes, StrictStr]] = None
-    var_date: date = Field(..., alias="date")
-    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    var_date: date = Field(alias="date")
+    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     uuid: Optional[StrictStr] = None
-    password: constr(strict=True, max_length=64, min_length=10) = Field(...)
-    pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
-    pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-    __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
+    password: Annotated[str, Field(min_length=10, strict=True, max_length=64)]
+    pattern_with_digits: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
+    pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+    __properties: ClassVar[List[str]] = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
-    @validator('string')
+    @field_validator('string')
     def string_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -54,7 +62,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
-    @validator('string_with_double_quote_pattern')
+    @field_validator('string_with_double_quote_pattern')
     def string_with_double_quote_pattern_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -64,7 +72,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
-    @validator('pattern_with_digits')
+    @field_validator('pattern_with_digits')
     def pattern_with_digits_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -74,7 +82,7 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
-    @validator('pattern_with_digits_and_delimiter')
+    @field_validator('pattern_with_digits_and_delimiter')
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -84,42 +92,44 @@ class FormatTest(BaseModel):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FormatTest:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FormatTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FormatTest:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FormatTest.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = FormatTest.parse_obj({
+        _obj = cls.model_validate({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),
@@ -131,8 +141,8 @@ class FormatTest(BaseModel):
             "string_with_double_quote_pattern": obj.get("string_with_double_quote_pattern"),
             "byte": obj.get("byte"),
             "binary": obj.get("binary"),
-            "var_date": obj.get("date"),
-            "date_time": obj.get("dateTime"),
+            "date": obj.get("date"),
+            "dateTime": obj.get("dateTime"),
             "uuid": obj.get("uuid"),
             "password": obj.get("password"),
             "pattern_with_digits": obj.get("pattern_with_digits"),

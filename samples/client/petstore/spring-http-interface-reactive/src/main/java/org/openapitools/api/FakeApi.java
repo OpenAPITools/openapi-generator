@@ -207,20 +207,20 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEndpointParameters(
-         @RequestParam(value = "number", required = true) BigDecimal number,
-         @RequestParam(value = "double", required = true) Double _double,
-         @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestParam(value = "byte", required = true) byte[] _byte,
-         @RequestParam(value = "integer", required = false) Integer integer,
-         @RequestParam(value = "int32", required = false) Integer int32,
-         @RequestParam(value = "int64", required = false) Long int64,
-         @RequestParam(value = "float", required = false) Float _float,
-         @RequestParam(value = "string", required = false) String string,
+         @RequestPart(value = "number", required = true) BigDecimal number,
+         @RequestPart(value = "double", required = true) Double _double,
+         @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+         @RequestPart(value = "byte", required = true) byte[] _byte,
+         @RequestPart(value = "integer", required = false) Integer integer,
+         @RequestPart(value = "int32", required = false) Integer int32,
+         @RequestPart(value = "int64", required = false) Long int64,
+         @RequestPart(value = "float", required = false) Float _float,
+         @RequestPart(value = "string", required = false) String string,
          @RequestPart(value = "binary", required = false) Flux<Part> binary,
-         @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-         @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-         @RequestParam(value = "password", required = false) String password,
-         @RequestParam(value = "callback", required = false) String paramCallback
+         @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+         @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+         @RequestPart(value = "password", required = false) String password,
+         @RequestPart(value = "callback", required = false) String paramCallback
     );
 
 
@@ -253,7 +253,7 @@ public interface FakeApi {
          @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
          @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
          @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-         @RequestParam(value = "enum_form_string", required = false) String enumFormString
+         @RequestPart(value = "enum_form_string", required = false) String enumFormString
     );
 
 
@@ -317,8 +317,8 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testJsonFormData(
-         @RequestParam(value = "param", required = true) String param,
-         @RequestParam(value = "param2", required = true) String param2
+         @RequestPart(value = "param", required = true) String param,
+         @RequestPart(value = "param2", required = true) String param2
     );
 
 

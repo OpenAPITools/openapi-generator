@@ -12,9 +12,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
         parent::__construct($data);
 
         {{/parentSchema}}
-        {{#vars}}
-        $this->{{name}} = $data['{{name}}'] ?? null;
-        {{/vars}}
+        if (is_array($data)) {
+            {{#vars}}
+            $this->{{name}} = array_key_exists('{{name}}', $data) ? $data['{{name}}'] : $this->{{name}};
+            {{/vars}}
+        }
     }
     {{#vars}}
 

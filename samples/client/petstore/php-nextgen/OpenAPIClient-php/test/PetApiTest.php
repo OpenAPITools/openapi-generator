@@ -136,6 +136,7 @@ class PetApiTest extends TestCase
         $updatedPet->setId($petId);
         $updatedPet->setName('updatePet');
         $updatedPet->setStatus('pending');
+        $updatedPet->setPhotoUrls(array('http://a.com'));
         $result = $this->api->updatePet($updatedPet);
         $this->assertNull($result);
 
@@ -186,6 +187,7 @@ class PetApiTest extends TestCase
         $newPet = new Model\Pet;
         $newPet->setId($new_pet_id);
         $newPet->setName("PHP Unit Test 2");
+        $newPet->setPhotoUrls(array("http://a.com"));
 
         // add a new pet (model)
         $add_response = $this->api->addPet($newPet);
@@ -196,6 +198,7 @@ class PetApiTest extends TestCase
         $response = $this->api->getPetById($new_pet_id);
         $this->assertSame($new_pet_id, $response->getId());
         $this->assertSame('PHP Unit Test 2', $response->getName());
+        $this->assertSame(array("http://a.com"), $response->getPhotoUrls());
     }
 
     /*

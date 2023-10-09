@@ -49,7 +49,7 @@ class DeserializationTests(unittest.TestCase):
                                               enum_string_required="lower",
                                               enum_integer=1,
                                               enum_number=1.1,
-                                              outer_enum=petstore_api.OuterEnum.PLACED))
+                                              outerEnum=petstore_api.OuterEnum.PLACED))
 
     def test_deserialize_dict_str_pet(self):
         """ deserialize Dict[str, Pet] """

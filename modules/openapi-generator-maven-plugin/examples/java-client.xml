@@ -94,7 +94,7 @@
          <!-- dependencies are needed for the client being generated -->
 
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
@@ -191,13 +191,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.6.3</swagger-annotations-version>
+        <swagger-annotations-version>2.2.16</swagger-annotations-version>
         <jersey-version>2.35</jersey-version>
-        <jackson-version>2.13.0</jackson-version>
-        <jackson-databind-version>2.13.0</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>4.13.2</junit-version>
-        <scribejava-apis-version>8.3.1</scribejava-apis-version>
+        <scribejava-apis-version>8.3.3</scribejava-apis-version>
     </properties>
 </project>

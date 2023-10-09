@@ -19,59 +19,66 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
+from typing import Dict, Any
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty
     """
     str_value: Optional[OuterEnum] = None
-    value: OuterEnumInteger = Field(...)
-    __properties = ["str_value", "value"]
+    value: OuterEnumInteger
+    __properties: ClassVar[List[str]] = ["str_value", "value"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterObjectWithEnumProperty:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
+        _dict = self.model_dump(by_alias=True,
                           exclude={
                           },
                           exclude_none=True)
         # set to None if str_value (nullable) is None
-        # and __fields_set__ contains the field
-        if self.str_value is None and "str_value" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.str_value is None and "str_value" in self.model_fields_set:
             _dict['str_value'] = None
 
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> OuterObjectWithEnumProperty:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return OuterObjectWithEnumProperty.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = OuterObjectWithEnumProperty.parse_obj({
+        _obj = cls.model_validate({
             "str_value": obj.get("str_value"),
             "value": obj.get("value")
         })

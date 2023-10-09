@@ -283,7 +283,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -310,26 +310,20 @@
             <version>2.35.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <feign-version>10.12</feign-version>
+        <feign-version>12.5</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
-        <jackson-version>2.14.3</jackson-version>
+        <jackson-version>2.15.2</jackson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        <jackson-databind-version>2.14.3</jackson-databind-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-        <junit-version>5.7.0</junit-version>
+        <junit-version>5.10.0</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <scribejava-version>8.0.0</scribejava-version>
+        <scribejava-version>8.3.3</scribejava-version>
     </properties>
 </project>

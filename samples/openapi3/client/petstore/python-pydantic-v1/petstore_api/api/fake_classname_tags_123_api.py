@@ -14,9 +14,6 @@ from __future__ import absolute_import
 
 import re  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
@@ -119,7 +116,7 @@ class FakeClassnameTags123Api(object):
             ]
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
+        for key, val in local_var_params['kwargs'].items():
             if key not in all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"

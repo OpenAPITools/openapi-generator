@@ -62,9 +62,9 @@ if(hasProperty('target') && target == 'android') {
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
             task.description = "Create jar artifact for ${variant.name}"
             task.dependsOn variant.javaCompile
-            task.from variant.javaCompile.destinationDir
-            task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-            task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+            task.from variant.javaCompile.destinationDirectory
+            task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+            task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
             artifacts.add('archives', task)
         }
     }
@@ -115,6 +115,7 @@ dependencies {
     implementation 'javax.ws.rs:jsr311-api:1.1.1'
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'software.amazon.awssdk:auth:2.20.157'
     implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.2'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"

@@ -43,7 +43,7 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-{{^isFaraday}}
+{{#isTyphoeus}}
   describe 'params_encoding in #build_request' do
     let(:config) { {{moduleName}}::Configuration.new }
     let(:api_client) { {{moduleName}}::ApiClient.new(config) }
@@ -82,7 +82,7 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-{{/isFaraday}}
+{{/isTyphoeus}}
 
 {{#isFaraday}}
   describe 'proxy in #build_connection' do

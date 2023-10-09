@@ -5,8 +5,9 @@
 
 {{/nrt}}
 using System;
-using System.Collections.Generic;
+{{^netStandard}}
 using System.Diagnostics.CodeAnalysis;
+{{/netStandard}}
 using System.Net;
 
 namespace {{packageName}}.{{clientPackage}}
@@ -14,15 +15,15 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// Provides a non-generic contract for the ApiResponse wrapper.
     /// </summary>
-    {{>visibility}} interface IApiResponse
+    {{>visibility}} partial interface IApiResponse
     {
         /// <summary>
-        /// The type that represents the server's response.
+        /// The IsSuccessStatusCode from the api response
         /// </summary>
-        Type ResponseType { get; }
+        bool IsSuccessStatusCode { get; }
 
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         HttpStatusCode StatusCode { get; }
@@ -38,9 +39,24 @@ namespace {{packageName}}.{{clientPackage}}
         DateTime DownloadedAt { get; }
 
         /// <summary>
+        /// The headers contained in the api response
+        /// </summary>
+        System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
         /// The path used when making the request.
         /// </summary>
         string Path { get; }
+
+        /// <summary>
+        /// The reason phrase contained in the api response
+        /// </summary>
+        string{{nrt?}} ReasonPhrase { get; }
+
+        /// <summary>
+        /// The DateTime when the request was sent.
+        /// </summary>
+        DateTime RequestedAt { get; }
 
         /// <summary>
         /// The Uri used when making the request.
@@ -51,26 +67,18 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// API Response
     /// </summary>
-    {{>visibility}} partial class ApiResponse<T> : IApiResponse
+    {{>visibility}} partial class ApiResponse : IApiResponse
     {
         /// <summary>
-        /// Gets or sets the status code (HTTP status code)
+        /// Gets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The type that represents the server's response.
-        /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
-
-        /// <summary>
         /// The raw data
         /// </summary>
-        public string RawContent { get; private set; }
+        public string RawContent { get; protected set; }
 
         /// <summary>
         /// The IsSuccessStatusCode from the api response
@@ -108,9 +116,9 @@ namespace {{packageName}}.{{clientPackage}}
         public Uri{{nrt?}} RequestUri { get; }
 
         /// <summary>
-        /// The JsonSerialzierOptions
+        /// The <see cref="System.Text.Json.JsonSerializerOptions"/>
         /// </summary>
-        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+        protected System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
         /// Construct the response using an HttpResponseMessage
@@ -136,32 +144,27 @@ namespace {{packageName}}.{{clientPackage}}
         }
 
         partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-        /// <summary>
-        /// Deserializes the server's response
-        /// </summary>
-        public T{{nrt?}} AsModel()
-        {
-            {{#lambda.trimTrailingWithNewLine}}
-{{>AsModel}}
-            {{/lambda.trimTrailingWithNewLine}}
-        }
-
-        /// <summary>
-        /// Returns true when the model can be deserialized
-        /// </summary>
-        public bool TryToModel({{^netStandard}}[NotNullWhen(true)] {{/netStandard}}out T{{nrt?}} model)
-        {
-            try
-            {
-                model = AsModel();
-                return model != null;
-            }
-            catch
-            {
-                model = default(T);
-                return false;
-            }
-        }
     }
+    {{#x-http-statuses-with-return}}
+
+    /// <summary>
+    /// An interface for responses of type {{TType}}
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    {{>visibility}} interface I{{.}}<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is {{.}}
+        /// </summary>
+        /// <returns></returns>
+        TType {{.}}();
+
+        /// <summary>
+        /// Returns true if the response is {{.}} and the deserialized response is not null
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool Try{{.}}({{^netStandard}}[NotNullWhen(true)]{{/netStandard}}out TType{{nrt?}} result);
+    }
+    {{/x-http-statuses-with-return}}
 }
