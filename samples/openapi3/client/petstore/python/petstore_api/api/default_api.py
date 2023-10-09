@@ -42,7 +42,10 @@ class DefaultApi:
         self.api_client = api_client
 
     @validate_call
-    def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+    def foo_get(
+        self,
+        **kwargs,
+    ) -> FooGetDefaultResponse:
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -69,7 +72,10 @@ class DefaultApi:
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     @validate_call
-    def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    def foo_get_with_http_info(
+        self,
+        **kwargs,
+    ) -> ApiResponse:
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an

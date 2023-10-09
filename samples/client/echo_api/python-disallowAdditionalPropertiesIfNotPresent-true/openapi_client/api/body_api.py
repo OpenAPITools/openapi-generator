@@ -50,7 +50,10 @@ class BodyApi:
         self.api_client = api_client
 
     @validate_call
-    def test_binary_gif(self, **kwargs) -> bytearray:  # noqa: E501
+    def test_binary_gif(
+        self,
+        **kwargs,
+    ) -> bytearray:
         """Test binary (gif) response body  # noqa: E501
 
         Test binary (gif) response body  # noqa: E501
@@ -78,7 +81,10 @@ class BodyApi:
         return self.test_binary_gif_with_http_info(**kwargs)  # noqa: E501
 
     @validate_call
-    def test_binary_gif_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_binary_gif_with_http_info(
+        self,
+        **kwargs,
+    ) -> ApiResponse:
         """Test binary (gif) response body  # noqa: E501
 
         Test binary (gif) response body  # noqa: E501
@@ -182,7 +188,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_body_application_octetstream_binary(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> str:  # noqa: E501
+    def test_body_application_octetstream_binary(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        **kwargs,
+    ) -> str:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -212,7 +222,11 @@ class BodyApi:
         return self.test_body_application_octetstream_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_body_application_octetstream_binary_with_http_info(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_body_application_octetstream_binary_with_http_info(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -334,7 +348,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_body_multipart_formdata_array_of_binary(self, files : List[Union[StrictBytes, StrictStr]], **kwargs) -> str:  # noqa: E501
+    def test_body_multipart_formdata_array_of_binary(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        **kwargs,
+    ) -> str:
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501
@@ -364,7 +382,11 @@ class BodyApi:
         return self.test_body_multipart_formdata_array_of_binary_with_http_info(files, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_body_multipart_formdata_array_of_binary_with_http_info(self, files : List[Union[StrictBytes, StrictStr]], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_body_multipart_formdata_array_of_binary_with_http_info(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        **kwargs,
+    ) -> ApiResponse:
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501
@@ -482,7 +504,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_echo_body_free_form_object_response_string(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_free_form_object_response_string(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        **kwargs,
+    ) -> str:
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -512,7 +538,11 @@ class BodyApi:
         return self.test_echo_body_free_form_object_response_string_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_free_form_object_response_string_with_http_info(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -629,7 +659,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_echo_body_pet(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> Pet:  # noqa: E501
+    def test_echo_body_pet(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> Pet:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -659,7 +693,11 @@ class BodyApi:
         return self.test_echo_body_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_echo_body_pet_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_pet_with_http_info(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -776,7 +814,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_echo_body_pet_response_string(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_pet_response_string(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> str:
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
@@ -806,7 +848,11 @@ class BodyApi:
         return self.test_echo_body_pet_response_string_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_echo_body_pet_response_string_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_pet_response_string_with_http_info(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
@@ -923,7 +969,11 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    def test_echo_body_tag_response_string(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_tag_response_string(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        **kwargs,
+    ) -> str:
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501
@@ -953,7 +1003,11 @@ class BodyApi:
         return self.test_echo_body_tag_response_string_with_http_info(tag, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_echo_body_tag_response_string_with_http_info(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_tag_response_string_with_http_info(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501

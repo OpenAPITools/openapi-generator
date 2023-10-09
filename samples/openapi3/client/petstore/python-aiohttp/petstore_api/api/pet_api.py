@@ -49,7 +49,11 @@ class PetApi:
         self.api_client = api_client
 
     @validate_call
-    async def add_pet(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
+    async def add_pet(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> None:
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -72,7 +76,11 @@ class PetApi:
         return await self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_call
-    async def add_pet_with_http_info(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def add_pet_with_http_info(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> ApiResponse:
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -174,7 +182,12 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def delete_pet(self, pet_id : Annotated[StrictInt, Field(description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    async def delete_pet(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> None:
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
@@ -199,7 +212,12 @@ class PetApi:
         return await self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
     @validate_call
-    async def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def delete_pet_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
@@ -300,7 +318,11 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def find_pets_by_status(self, status : Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
+    async def find_pets_by_status(
+        self,
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        **kwargs,
+    ) -> List[Pet]:
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -323,7 +345,11 @@ class PetApi:
         return await self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     @validate_call
-    async def find_pets_by_status_with_http_info(self, status : Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def find_pets_by_status_with_http_info(
+        self,
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        **kwargs,
+    ) -> ApiResponse:
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -426,7 +452,11 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
+    async def find_pets_by_tags(
+        self,
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        **kwargs,
+    ) -> List[Pet]:
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -449,7 +479,11 @@ class PetApi:
         return await self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_call
-    async def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def find_pets_by_tags_with_http_info(
+        self,
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        **kwargs,
+    ) -> ApiResponse:
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -554,7 +588,11 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def get_pet_by_id(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to return")], **kwargs) -> Pet:  # noqa: E501
+    async def get_pet_by_id(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
+        **kwargs,
+    ) -> Pet:
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -577,7 +615,11 @@ class PetApi:
         return await self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     @validate_call
-    async def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to return")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def get_pet_by_id_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
+        **kwargs,
+    ) -> ApiResponse:
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -680,7 +722,11 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def update_pet(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
+    async def update_pet(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> None:
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -703,7 +749,11 @@ class PetApi:
         return await self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_call
-    async def update_pet_with_http_info(self, pet : Annotated[Pet, Field(description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def update_pet_with_http_info(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        **kwargs,
+    ) -> ApiResponse:
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -805,7 +855,13 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> None:  # noqa: E501
+    async def update_pet_with_form(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
+        **kwargs,
+    ) -> None:
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
@@ -832,7 +888,13 @@ class PetApi:
         return await self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
     @validate_call
-    async def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def update_pet_with_form_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
@@ -946,7 +1008,13 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def upload_file(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def upload_file(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -973,7 +1041,13 @@ class PetApi:
         return await self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
     @validate_call
-    async def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def upload_file_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1093,7 +1167,13 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def upload_file_with_required_file(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
@@ -1120,7 +1200,13 @@ class PetApi:
         return await self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
     @validate_call
-    async def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def upload_file_with_required_file_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501

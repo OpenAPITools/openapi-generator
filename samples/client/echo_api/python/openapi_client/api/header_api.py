@@ -47,7 +47,15 @@ class HeaderApi:
         self.api_client = api_client
 
     @validate_call
-    def test_header_integer_boolean_string_enums(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, enum_nonref_string_header : Optional[StrictStr] = None, enum_ref_string_header : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
+    def test_header_integer_boolean_string_enums(
+        self,
+        integer_header: Optional[StrictInt] = None,
+        boolean_header: Optional[StrictBool] = None,
+        string_header: Optional[StrictStr] = None,
+        enum_nonref_string_header: Optional[StrictStr] = None,
+        enum_ref_string_header: Optional[StringEnumRef] = None,
+        **kwargs,
+    ) -> str:
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501
@@ -85,7 +93,15 @@ class HeaderApi:
         return self.test_header_integer_boolean_string_enums_with_http_info(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_header_integer_boolean_string_enums_with_http_info(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, enum_nonref_string_header : Optional[StrictStr] = None, enum_ref_string_header : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_header_integer_boolean_string_enums_with_http_info(
+        self,
+        integer_header: Optional[StrictInt] = None,
+        boolean_header: Optional[StrictBool] = None,
+        string_header: Optional[StrictStr] = None,
+        enum_nonref_string_header: Optional[StrictStr] = None,
+        enum_ref_string_header: Optional[StringEnumRef] = None,
+        **kwargs,
+    ) -> ApiResponse:
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501

@@ -37,10 +37,22 @@ class {{classname}}:
 
     @validate_call
 {{#asyncio}}
-    async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+    async def {{operationId}}(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{/asyncio}}
 {{^asyncio}}
-    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+    def {{operationId}}(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
@@ -80,10 +92,22 @@ class {{classname}}:
 
     @validate_call
 {{#asyncio}}
-    async def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
+    async def {{operationId}}_with_http_info(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> ApiResponse:
 {{/asyncio}}
 {{^asyncio}}
-    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
+    def {{operationId}}_with_http_info(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> ApiResponse:
 {{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
