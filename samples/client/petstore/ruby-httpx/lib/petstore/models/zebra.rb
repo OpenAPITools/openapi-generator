@@ -14,8 +14,10 @@ require 'date'
 require 'time'
 
 module Petstore
-  class ChildWithNullable < ParentWithNullable
-    attr_accessor :other_property
+  class Zebra
+    attr_accessor :type
+
+    attr_accessor :classname
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -42,19 +44,21 @@ module Petstore
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'other_property' => :'otherProperty'
+        :'type' => :'type',
+        :'classname' => :'classname'
       }
     end
 
-    # Returns all the JSON keys this model knows about, including the ones defined in its parent(s)
+    # Returns all the JSON keys this model knows about
     def self.acceptable_attributes
-      attribute_map.values.concat(superclass.acceptable_attributes)
+      attribute_map.values
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'other_property' => :'String'
+        :'type' => :'String',
+        :'classname' => :'String'
       }
     end
 
@@ -64,33 +68,29 @@ module Petstore
       ])
     end
 
-    # List of class defined in allOf (OpenAPI v3)
-    def self.openapi_all_of
-      [
-      :'ParentWithNullable'
-      ]
-    end
-
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::ChildWithNullable` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::Zebra` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::ChildWithNullable`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::Zebra`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      # call parent's initialize
-      super(attributes)
+      if attributes.key?(:'type')
+        self.type = attributes[:'type']
+      end
 
-      if attributes.key?(:'other_property')
-        self.other_property = attributes[:'other_property']
+      if attributes.key?(:'classname')
+        self.classname = attributes[:'classname']
+      else
+        self.classname = nil
       end
     end
 
@@ -98,7 +98,11 @@ module Petstore
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
-      invalid_properties = super
+      invalid_properties = Array.new
+      if @classname.nil?
+        invalid_properties.push('invalid value for "classname", classname cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -106,7 +110,20 @@ module Petstore
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      true && super
+      type_validator = EnumAttributeValidator.new('String', ["plains", "mountain", "grevys"])
+      return false unless type_validator.valid?(@type)
+      return false if @classname.nil?
+      true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] type Object to be assigned
+    def type=(type)
+      validator = EnumAttributeValidator.new('String', ["plains", "mountain", "grevys"])
+      unless validator.valid?(type)
+        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
+      end
+      @type = type
     end
 
     # Checks equality by comparing each attribute.
@@ -114,7 +131,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          other_property == o.other_property && super(o)
+          type == o.type &&
+          classname == o.classname
     end
 
     # @see the `==` method
@@ -126,7 +144,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [other_property].hash
+      [type, classname].hash
     end
 
     # Builds the object from hash
@@ -134,7 +152,6 @@ module Petstore
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
-      super(attributes)
       attributes = attributes.transform_keys(&:to_sym)
       transformed_hash = {}
       openapi_types.each_pair do |key, type|
@@ -211,7 +228,7 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = super
+      hash = {}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?

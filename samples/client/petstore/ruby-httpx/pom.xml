@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>RubyPetstoreHttpxClientTests</artifactId>
+    <artifactId>RubyHttpxPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Ruby OpenAPI Httpx Petstore Client</name>
+    <name>Ruby Httpx Petstore Client</name>
     <build>
         <plugins>
             <plugin>
