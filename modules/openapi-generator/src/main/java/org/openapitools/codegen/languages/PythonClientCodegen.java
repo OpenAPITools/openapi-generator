@@ -169,7 +169,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
-        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+        this.setDisallowAdditionalPropertiesIfNotPresent(false);
     }
 
     @Override
