@@ -22,7 +22,7 @@ from typing import Dict, List, Optional, Tuple
 
 from datetime import date, datetime
 
-from pydantic import StrictBool, StrictInt, StrictStr
+from pydantic import StrictBool, StrictInt, StrictStr, field_validator
 
 from typing import Any, Optional
 
@@ -51,16 +51,18 @@ class QueryApi:
         self.api_client = api_client
 
     @validate_call
-    def test_enum_ref_string(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
+    def test_enum_ref_string(self, enum_nonref_string_query : Optional[StrictStr] = None, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_enum_ref_string(enum_ref_string_query, async_req=True)
+        >>> thread = api.test_enum_ref_string(enum_nonref_string_query, enum_ref_string_query, async_req=True)
         >>> result = thread.get()
 
+        :param enum_nonref_string_query:
+        :type enum_nonref_string_query: str
         :param enum_ref_string_query:
         :type enum_ref_string_query: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
@@ -78,19 +80,21 @@ class QueryApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_enum_ref_string_with_http_info(enum_ref_string_query, **kwargs)  # noqa: E501
+        return self.test_enum_ref_string_with_http_info(enum_nonref_string_query, enum_ref_string_query, **kwargs)  # noqa: E501
 
     @validate_call
-    def test_enum_ref_string_with_http_info(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_enum_ref_string_with_http_info(self, enum_nonref_string_query : Optional[StrictStr] = None, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_enum_ref_string_with_http_info(enum_ref_string_query, async_req=True)
+        >>> thread = api.test_enum_ref_string_with_http_info(enum_nonref_string_query, enum_ref_string_query, async_req=True)
         >>> result = thread.get()
 
+        :param enum_nonref_string_query:
+        :type enum_nonref_string_query: str
         :param enum_ref_string_query:
         :type enum_ref_string_query: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
@@ -121,6 +125,7 @@ class QueryApi:
         _params = locals()
 
         _all_params = [
+            'enum_nonref_string_query',
             'enum_ref_string_query'
         ]
         _all_params.extend(
@@ -152,6 +157,9 @@ class QueryApi:
 
         # process the query parameters
         _query_params: List[Tuple[str, str]] = []
+        if _params.get('enum_nonref_string_query') is not None:  # noqa: E501
+            _query_params.append(('enum_nonref_string_query', _params['enum_nonref_string_query']))
+
         if _params.get('enum_ref_string_query') is not None:  # noqa: E501
             _query_params.append(('enum_ref_string_query', _params['enum_ref_string_query'].value))
 
