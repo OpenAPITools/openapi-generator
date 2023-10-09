@@ -142,11 +142,18 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             CodegenModel model = m.getModel();
 
             for (CodegenProperty prop : model.vars) {
+                String propType;
                 if (prop.isArray || prop.isMap) {
-                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", "array");
+                    propType = "array";
                 } else {
-                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", prop.dataType);
+                    propType = prop.dataType;
                 }
+
+                if ((!prop.required || prop.isNullable)) { // optional or nullable
+                    propType = "?" + propType;
+                }
+
+                prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
             }
 
             if (model.isEnum) {

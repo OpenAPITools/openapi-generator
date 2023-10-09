@@ -391,9 +391,9 @@ class ObjectSerializer
      * @param string[]|null $httpHeaders   HTTP headers
      * @param string|null   $discriminator discriminator if polymorphism is used
      *
-     * @return object|array|null a single or an array of $class instances
+     * @return mixed a single or an array of $class instances
      */
-    public static function deserialize(mixed $data, string $class, string $httpHeaders = null): object|array|null
+    public static function deserialize(mixed $data, string $class, array $httpHeaders = null): mixed
     {
         if (null === $data) {
             return null;
