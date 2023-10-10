@@ -45,7 +45,14 @@ class PathApi:
         self.api_client = api_client
 
     @validate_call
-    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> str:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(
+        self,
+        path_string: StrictStr,
+        path_integer: StrictInt,
+        enum_nonref_string_path: StrictStr,
+        enum_ref_string_path: StringEnumRef,
+        **kwargs,
+    ) -> str:
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
@@ -81,7 +88,14 @@ class PathApi:
         return self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, **kwargs)  # noqa: E501
 
     @validate_call
-    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> ApiResponse:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(
+        self,
+        path_string: StrictStr,
+        path_integer: StrictInt,
+        enum_nonref_string_path: StrictStr,
+        enum_ref_string_path: StringEnumRef,
+        **kwargs,
+    ) -> ApiResponse:
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501

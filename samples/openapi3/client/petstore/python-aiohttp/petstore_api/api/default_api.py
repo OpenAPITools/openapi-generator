@@ -42,7 +42,10 @@ class DefaultApi:
         self.api_client = api_client
 
     @validate_call
-    async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+    async def foo_get(
+        self,
+        **kwargs,
+    ) -> FooGetDefaultResponse:
         """foo_get  # noqa: E501
 
 
@@ -62,7 +65,10 @@ class DefaultApi:
         return await self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     @validate_call
-    async def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    async def foo_get_with_http_info(
+        self,
+        **kwargs,
+    ) -> ApiResponse:
         """foo_get  # noqa: E501
 
 
