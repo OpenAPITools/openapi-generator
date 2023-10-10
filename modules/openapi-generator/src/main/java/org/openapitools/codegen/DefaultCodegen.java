@@ -3955,7 +3955,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
 
-        property.jsonSchema = Json.pretty(p);
+        property.jsonSchema = Json.pretty(Json.mapper().convertValue(p, TreeMap.class));
 
         if (p.getDeprecated() != null) {
             property.deprecated = p.getDeprecated();
