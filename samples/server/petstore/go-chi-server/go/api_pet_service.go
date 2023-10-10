@@ -52,6 +52,20 @@ func (s *PetAPIService) DeletePet(ctx context.Context, petId int64, apiKey strin
 	return Response(http.StatusNotImplemented, nil), errors.New("DeletePet method not implemented")
 }
 
+// FilterPetsByCategory - Finds Pets
+func (s *PetAPIService) FilterPetsByCategory(ctx context.Context, gender Gender, species Species, notSpecies []Species) (ImplResponse, error) {
+	// TODO - update FilterPetsByCategory with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
+	// return Response(200, []Pet{}), nil
+
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("FilterPetsByCategory method not implemented")
+}
+
 // FindPetsByStatus - Finds Pets by status
 func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string) (ImplResponse, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.

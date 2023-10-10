@@ -173,7 +173,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isDouble}}
 	{{^isLong}}
 	{{^isInteger}}
+	{{^isEnumOrRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
+	{{/isEnumOrRef}}
+	{{#isEnumOrRef}}
+	{{paramName}}ParamPtr, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{paramName}}Param := *{{paramName}}ParamPtr
+	{{/isEnumOrRef}}
 	{{/isInteger}}
 	{{/isLong}}
 	{{/isDouble}}
@@ -329,7 +339,25 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^items.isDouble}}
 	{{^items.isLong}}
 	{{^items.isInteger}}
-	{{paramName}}Param := strings.Split(query.Get("{{baseName}}"), ",")
+	{{^items.isEnumRef}}
+	var {{paramName}}Param [] string
+	if query.Has("{{baseName}}") {
+		{{paramName}}Param = strings.Split(query.Get("{{baseName}}"), ",")
+	}
+	{{/items.isEnumRef}}
+	{{#items.isEnumRef}}
+	var {{paramName}}Param []{{items.dataType}}
+	if query.Has("{{baseName}}") {
+		for _, param := range strings.Split(query.Get("{{baseName}}"), ",") {
+			paramEnum, err := New{{items.dataType}}FromValue(param)
+			if err != nil {
+				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+				return
+			}
+			{{paramName}}Param = append({{paramName}}Param, *paramEnum)
+		}
+	}
+	{{/items.isEnumRef}}
 	{{/items.isInteger}}
 	{{/items.isLong}}
 	{{/items.isDouble}}
@@ -344,13 +372,42 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isBoolean}}
 	{{^isArray}}
 	{{#defaultValue}}
-	{{paramName}}Param := "{{defaultValue}}"
 	if query.Has("{{baseName}}") {
-		{{paramName}}Param = query.Get("{{baseName}}")
+		{{paramName}}Param := {{^isString}}{{dataType}}( {{/isString}}query.Get("{{baseName}}"){{^isString}} ){{/isString}}
 	}
 	{{/defaultValue}}
 	{{^defaultValue}}
+	{{^required}}
+	var {{paramName}}Param {{dataType}}
+	if query.Has("{{baseName}}") {
+		{{^isEnumOrRef}}
+		param := query.Get("{{baseName}}")
+		{{paramName}}Param = &param
+		{{/isEnumOrRef}}
+		{{#isEnumOrRef}}
+		var err error
+		{{paramName}}ParamPtr, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+		{{paramName}}Param = *{{paramName}}ParamPtr
+		{{/isEnumOrRef}}
+	}
+	{{/required}}
+	{{#required}}
+	{{^isEnumOrRef}}
 	{{paramName}}Param := query.Get("{{baseName}}")
+	{{/isEnumOrRef}}
+	{{#isEnumOrRef}}
+	{{paramName}}ParamPtr, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{paramName}}Param := *{{paramName}}ParamPtr
+	{{/isEnumOrRef}}
+	{{/required}}
 	{{/defaultValue}}
 	{{/isArray}}
 	{{/isBoolean}}
