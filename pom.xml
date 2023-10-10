@@ -1165,7 +1165,7 @@
             <modules>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/ruby-faraday</module>
-                <!--<module>samples/client/petstore/ruby-httpx</module>-->
+                <module>samples/client/petstore/ruby-httpx</module>
                 <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
