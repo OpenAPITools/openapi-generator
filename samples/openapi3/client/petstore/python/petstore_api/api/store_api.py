@@ -80,7 +80,7 @@ class StoreApi:
             message = "Error! Please call the delete_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.delete_order_with_http_info(
+        return self.delete_order_with_http_info.raw_function(
             order_id,
             **kwargs,
         )
@@ -223,7 +223,7 @@ class StoreApi:
             message = "Error! Please call the get_inventory_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_inventory_with_http_info(
+        return self.get_inventory_with_http_info.raw_function(
             **kwargs,
         )
 
@@ -367,7 +367,7 @@ class StoreApi:
             message = "Error! Please call the get_order_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_order_by_id_with_http_info(
+        return self.get_order_by_id_with_http_info.raw_function(
             order_id,
             **kwargs,
         )
@@ -521,7 +521,7 @@ class StoreApi:
             message = "Error! Please call the place_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.place_order_with_http_info(
+        return self.place_order_with_http_info.raw_function(
             order,
             **kwargs,
         )

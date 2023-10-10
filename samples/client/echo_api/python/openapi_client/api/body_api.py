@@ -79,7 +79,7 @@ class BodyApi:
             message = "Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_binary_gif_with_http_info(
+        return self.test_binary_gif_with_http_info.raw_function(
             **kwargs,
         )
 
@@ -223,7 +223,7 @@ class BodyApi:
             message = "Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_body_application_octetstream_binary_with_http_info(
+        return self.test_body_application_octetstream_binary_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -387,7 +387,7 @@ class BodyApi:
             message = "Error! Please call the test_body_multipart_formdata_array_of_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_body_multipart_formdata_array_of_binary_with_http_info(
+        return self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
             files,
             **kwargs,
         )
@@ -547,7 +547,7 @@ class BodyApi:
             message = "Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_free_form_object_response_string_with_http_info(
+        return self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -706,7 +706,7 @@ class BodyApi:
             message = "Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_pet_with_http_info(
+        return self.test_echo_body_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
@@ -865,7 +865,7 @@ class BodyApi:
             message = "Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_pet_response_string_with_http_info(
+        return self.test_echo_body_pet_response_string_with_http_info.raw_function(
             pet,
             **kwargs,
         )
@@ -1024,7 +1024,7 @@ class BodyApi:
             message = "Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_echo_body_tag_response_string_with_http_info(
+        return self.test_echo_body_tag_response_string_with_http_info.raw_function(
             tag,
             **kwargs,
         )

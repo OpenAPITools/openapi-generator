@@ -84,7 +84,7 @@ class FormApi:
             message = "Error! Please call the test_form_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_form_integer_boolean_string_with_http_info(
+        return self.test_form_integer_boolean_string_with_http_info.raw_function(
             integer_form,
             boolean_form,
             string_form,
@@ -274,7 +274,7 @@ class FormApi:
             message = "Error! Please call the test_form_oneof_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.test_form_oneof_with_http_info(
+        return self.test_form_oneof_with_http_info.raw_function(
             form1,
             form2,
             form3,

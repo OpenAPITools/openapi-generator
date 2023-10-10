@@ -70,7 +70,7 @@ class DefaultApi:
             message = "Error! Please call the foo_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.foo_get_with_http_info(
+        return self.foo_get_with_http_info.raw_function(
             **kwargs,
         )
 

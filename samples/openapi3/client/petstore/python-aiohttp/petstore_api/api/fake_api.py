@@ -83,7 +83,7 @@ class FakeApi:
             message = "Error! Please call the fake_any_type_request_body_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_any_type_request_body_with_http_info(
+        return await self.fake_any_type_request_body_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -218,7 +218,7 @@ class FakeApi:
             message = "Error! Please call the fake_enum_ref_query_parameter_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_enum_ref_query_parameter_with_http_info(
+        return await self.fake_enum_ref_query_parameter_with_http_info.raw_function(
             enum_ref,
             **kwargs,
         )
@@ -343,7 +343,7 @@ class FakeApi:
             message = "Error! Please call the fake_health_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_health_get_with_http_info(
+        return await self.fake_health_get_with_http_info.raw_function(
             **kwargs,
         )
 
@@ -475,7 +475,7 @@ class FakeApi:
             message = "Error! Please call the fake_http_signature_test_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_http_signature_test_with_http_info(
+        return await self.fake_http_signature_test_with_http_info.raw_function(
             pet,
             query_1,
             header_1,
@@ -627,7 +627,7 @@ class FakeApi:
             message = "Error! Please call the fake_outer_boolean_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_outer_boolean_serialize_with_http_info(
+        return await self.fake_outer_boolean_serialize_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -770,7 +770,7 @@ class FakeApi:
             message = "Error! Please call the fake_outer_composite_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_outer_composite_serialize_with_http_info(
+        return await self.fake_outer_composite_serialize_with_http_info.raw_function(
             outer_composite,
             **kwargs,
         )
@@ -913,7 +913,7 @@ class FakeApi:
             message = "Error! Please call the fake_outer_number_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_outer_number_serialize_with_http_info(
+        return await self.fake_outer_number_serialize_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -1056,7 +1056,7 @@ class FakeApi:
             message = "Error! Please call the fake_outer_string_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_outer_string_serialize_with_http_info(
+        return await self.fake_outer_string_serialize_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -1199,7 +1199,7 @@ class FakeApi:
             message = "Error! Please call the fake_property_enum_integer_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_property_enum_integer_serialize_with_http_info(
+        return await self.fake_property_enum_integer_serialize_with_http_info.raw_function(
             outer_object_with_enum_property,
             **kwargs,
         )
@@ -1338,7 +1338,7 @@ class FakeApi:
             message = "Error! Please call the fake_return_list_of_objects_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_return_list_of_objects_with_http_info(
+        return await self.fake_return_list_of_objects_with_http_info.raw_function(
             **kwargs,
         )
 
@@ -1464,7 +1464,7 @@ class FakeApi:
             message = "Error! Please call the fake_uuid_example_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.fake_uuid_example_with_http_info(
+        return await self.fake_uuid_example_with_http_info.raw_function(
             uuid_example,
             **kwargs,
         )
@@ -1593,7 +1593,7 @@ class FakeApi:
             message = "Error! Please call the test_body_with_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_body_with_binary_with_http_info(
+        return await self.test_body_with_binary_with_http_info.raw_function(
             body,
             **kwargs,
         )
@@ -1735,7 +1735,7 @@ class FakeApi:
             message = "Error! Please call the test_body_with_file_schema_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_body_with_file_schema_with_http_info(
+        return await self.test_body_with_file_schema_with_http_info.raw_function(
             file_schema_test_class,
             **kwargs,
         )
@@ -1874,7 +1874,7 @@ class FakeApi:
             message = "Error! Please call the test_body_with_query_params_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_body_with_query_params_with_http_info(
+        return await self.test_body_with_query_params_with_http_info.raw_function(
             query,
             user,
             **kwargs,
@@ -2018,7 +2018,7 @@ class FakeApi:
             message = "Error! Please call the test_client_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_client_model_with_http_info(
+        return await self.test_client_model_with_http_info.raw_function(
             client,
             **kwargs,
         )
@@ -2163,7 +2163,7 @@ class FakeApi:
             message = "Error! Please call the test_date_time_query_parameter_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_date_time_query_parameter_with_http_info(
+        return await self.test_date_time_query_parameter_with_http_info.raw_function(
             date_time_query,
             str_query,
             **kwargs,
@@ -2345,7 +2345,7 @@ class FakeApi:
             message = "Error! Please call the test_endpoint_parameters_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_endpoint_parameters_with_http_info(
+        return await self.test_endpoint_parameters_with_http_info.raw_function(
             number,
             double,
             pattern_without_delimiter,
@@ -2609,7 +2609,7 @@ class FakeApi:
             message = "Error! Please call the test_group_parameters_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_group_parameters_with_http_info(
+        return await self.test_group_parameters_with_http_info.raw_function(
             required_string_group,
             required_boolean_group,
             required_int64_group,
@@ -2779,7 +2779,7 @@ class FakeApi:
             message = "Error! Please call the test_inline_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_inline_additional_properties_with_http_info(
+        return await self.test_inline_additional_properties_with_http_info.raw_function(
             request_body,
             **kwargs,
         )
@@ -2916,7 +2916,7 @@ class FakeApi:
             message = "Error! Please call the test_inline_freeform_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_inline_freeform_additional_properties_with_http_info(
+        return await self.test_inline_freeform_additional_properties_with_http_info.raw_function(
             test_inline_freeform_additional_properties_request,
             **kwargs,
         )
@@ -3056,7 +3056,7 @@ class FakeApi:
             message = "Error! Please call the test_json_form_data_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_json_form_data_with_http_info(
+        return await self.test_json_form_data_with_http_info.raw_function(
             param,
             param2,
             **kwargs,
@@ -3219,7 +3219,7 @@ class FakeApi:
             message = "Error! Please call the test_query_parameter_collection_format_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return await self.test_query_parameter_collection_format_with_http_info(
+        return await self.test_query_parameter_collection_format_with_http_info.raw_function(
             pipe,
             ioutil,
             http,

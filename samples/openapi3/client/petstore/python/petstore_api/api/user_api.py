@@ -80,7 +80,7 @@ class UserApi:
             message = "Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_user_with_http_info(
+        return self.create_user_with_http_info.raw_function(
             user,
             **kwargs,
         )
@@ -248,7 +248,7 @@ class UserApi:
             message = "Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_users_with_array_input_with_http_info(
+        return self.create_users_with_array_input_with_http_info.raw_function(
             user,
             **kwargs,
         )
@@ -401,7 +401,7 @@ class UserApi:
             message = "Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.create_users_with_list_input_with_http_info(
+        return self.create_users_with_list_input_with_http_info.raw_function(
             user,
             **kwargs,
         )
@@ -554,7 +554,7 @@ class UserApi:
             message = "Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.delete_user_with_http_info(
+        return self.delete_user_with_http_info.raw_function(
             username,
             **kwargs,
         )
@@ -700,7 +700,7 @@ class UserApi:
             message = "Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_user_by_name_with_http_info(
+        return self.get_user_by_name_with_http_info.raw_function(
             username,
             **kwargs,
         )
@@ -857,7 +857,7 @@ class UserApi:
             message = "Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.login_user_with_http_info(
+        return self.login_user_with_http_info.raw_function(
             username,
             password,
             **kwargs,
@@ -1015,7 +1015,7 @@ class UserApi:
             message = "Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.logout_user_with_http_info(
+        return self.logout_user_with_http_info.raw_function(
             **kwargs,
         )
 
@@ -1156,7 +1156,7 @@ class UserApi:
             message = "Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_user_with_http_info(
+        return self.update_user_with_http_info.raw_function(
             username,
             user,
             **kwargs,

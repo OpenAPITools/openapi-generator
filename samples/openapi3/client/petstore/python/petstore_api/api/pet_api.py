@@ -81,7 +81,7 @@ class PetApi:
             message = "Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.add_pet_with_http_info(
+        return self.add_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
@@ -237,7 +237,7 @@ class PetApi:
             message = "Error! Please call the delete_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.delete_pet_with_http_info(
+        return self.delete_pet_with_http_info.raw_function(
             pet_id,
             api_key,
             **kwargs,
@@ -391,7 +391,7 @@ class PetApi:
             message = "Error! Please call the find_pets_by_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.find_pets_by_status_with_http_info(
+        return self.find_pets_by_status_with_http_info.raw_function(
             status,
             **kwargs,
         )
@@ -545,7 +545,7 @@ class PetApi:
             message = "Error! Please call the find_pets_by_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.find_pets_by_tags_with_http_info(
+        return self.find_pets_by_tags_with_http_info.raw_function(
             tags,
             **kwargs,
         )
@@ -701,7 +701,7 @@ class PetApi:
             message = "Error! Please call the get_pet_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.get_pet_by_id_with_http_info(
+        return self.get_pet_by_id_with_http_info.raw_function(
             pet_id,
             **kwargs,
         )
@@ -855,7 +855,7 @@ class PetApi:
             message = "Error! Please call the update_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_pet_with_http_info(
+        return self.update_pet_with_http_info.raw_function(
             pet,
             **kwargs,
         )
@@ -1014,7 +1014,7 @@ class PetApi:
             message = "Error! Please call the update_pet_with_form_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.update_pet_with_form_with_http_info(
+        return self.update_pet_with_form_with_http_info.raw_function(
             pet_id,
             name,
             status,
@@ -1189,7 +1189,7 @@ class PetApi:
             message = "Error! Please call the upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.upload_file_with_http_info(
+        return self.upload_file_with_http_info.raw_function(
             pet_id,
             additional_metadata,
             file,
@@ -1370,7 +1370,7 @@ class PetApi:
             message = "Error! Please call the upload_file_with_required_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
 
-        return self.upload_file_with_required_file_with_http_info(
+        return self.upload_file_with_required_file_with_http_info.raw_function(
             pet_id,
             required_file,
             additional_metadata,
