@@ -80,6 +80,7 @@ public class QueryApi {
 
     /**
      * Build call for testEnumRefString
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -90,7 +91,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -114,6 +115,10 @@ public class QueryApi {
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (enumNonrefStringQuery != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_nonref_string_query", enumNonrefStringQuery));
+        }
 
         if (enumRefStringQuery != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_ref_string_query", enumRefStringQuery));
@@ -139,14 +144,15 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEnumRefStringValidateBeforeCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
-        return testEnumRefStringCall(enumRefStringQuery, _callback);
+    private okhttp3.Call testEnumRefStringValidateBeforeCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+        return testEnumRefStringCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
 
     }
 
     /**
      * Test query parameter(s)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -156,14 +162,15 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
-        ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumRefStringQuery);
+    public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+        ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
         return localVarResp.getData();
     }
 
     /**
      * Test query parameter(s)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -173,8 +180,8 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEnumRefStringWithHttpInfo(StringEnumRef enumRefStringQuery) throws ApiException {
-        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, null);
+    public ApiResponse<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -182,6 +189,7 @@ public class QueryApi {
     /**
      * Test query parameter(s) (asynchronously)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -192,9 +200,9 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringAsync(StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringAsync(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, _callback);
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

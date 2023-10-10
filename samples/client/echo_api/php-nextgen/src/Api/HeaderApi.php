@@ -74,7 +74,7 @@ class HeaderApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'testHeaderIntegerBooleanString' => [
+        'testHeaderIntegerBooleanStringEnums' => [
             'application/json',
         ],
     ];
@@ -126,52 +126,60 @@ class HeaderApi
     }
 
     /**
-     * Operation testHeaderIntegerBooleanString
+     * Operation testHeaderIntegerBooleanStringEnums
      *
      * Test header parameter(s)
      *
      * @param  int|null $integer_header integer_header (optional)
      * @param  bool|null $boolean_header boolean_header (optional)
      * @param  string|null $string_header string_header (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
+     * @param  string|null $enum_nonref_string_header enum_nonref_string_header (optional)
+     * @param  StringEnumRef|null $enum_ref_string_header enum_ref_string_header (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      * @return string
      */
-    public function testHeaderIntegerBooleanString(
+    public function testHeaderIntegerBooleanStringEnums(
         ?int $integer_header = null,
         ?bool $boolean_header = null,
         ?string $string_header = null,
-        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+        ?string $enum_nonref_string_header = null,
+        ?StringEnumRef $enum_ref_string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): string
     {
-        list($response) = $this->testHeaderIntegerBooleanStringWithHttpInfo($integer_header, $boolean_header, $string_header, $contentType);
+        list($response) = $this->testHeaderIntegerBooleanStringEnumsWithHttpInfo($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header, $contentType);
         return $response;
     }
 
     /**
-     * Operation testHeaderIntegerBooleanStringWithHttpInfo
+     * Operation testHeaderIntegerBooleanStringEnumsWithHttpInfo
      *
      * Test header parameter(s)
      *
      * @param  int|null $integer_header (optional)
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
+     * @param  string|null $enum_nonref_string_header (optional)
+     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testHeaderIntegerBooleanStringWithHttpInfo(
+    public function testHeaderIntegerBooleanStringEnumsWithHttpInfo(
         ?int $integer_header = null,
         ?bool $boolean_header = null,
         ?string $string_header = null,
-        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+        ?string $enum_nonref_string_header = null,
+        ?StringEnumRef $enum_ref_string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): array
     {
-        $request = $this->testHeaderIntegerBooleanStringRequest($integer_header, $boolean_header, $string_header, $contentType);
+        $request = $this->testHeaderIntegerBooleanStringEnumsRequest($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -258,26 +266,30 @@ class HeaderApi
     }
 
     /**
-     * Operation testHeaderIntegerBooleanStringAsync
+     * Operation testHeaderIntegerBooleanStringEnumsAsync
      *
      * Test header parameter(s)
      *
      * @param  int|null $integer_header (optional)
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
+     * @param  string|null $enum_nonref_string_header (optional)
+     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function testHeaderIntegerBooleanStringAsync(
+    public function testHeaderIntegerBooleanStringEnumsAsync(
         ?int $integer_header = null,
         ?bool $boolean_header = null,
         ?string $string_header = null,
-        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+        ?string $enum_nonref_string_header = null,
+        ?StringEnumRef $enum_ref_string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): PromiseInterface
     {
-        return $this->testHeaderIntegerBooleanStringAsyncWithHttpInfo($integer_header, $boolean_header, $string_header, $contentType)
+        return $this->testHeaderIntegerBooleanStringEnumsAsyncWithHttpInfo($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -286,27 +298,31 @@ class HeaderApi
     }
 
     /**
-     * Operation testHeaderIntegerBooleanStringAsyncWithHttpInfo
+     * Operation testHeaderIntegerBooleanStringEnumsAsyncWithHttpInfo
      *
      * Test header parameter(s)
      *
      * @param  int|null $integer_header (optional)
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
+     * @param  string|null $enum_nonref_string_header (optional)
+     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function testHeaderIntegerBooleanStringAsyncWithHttpInfo(
+    public function testHeaderIntegerBooleanStringEnumsAsyncWithHttpInfo(
         $integer_header = null,
         $boolean_header = null,
         $string_header = null,
-        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+        $enum_nonref_string_header = null,
+        $enum_ref_string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): PromiseInterface
     {
         $returnType = 'string';
-        $request = $this->testHeaderIntegerBooleanStringRequest($integer_header, $boolean_header, $string_header, $contentType);
+        $request = $this->testHeaderIntegerBooleanStringEnumsRequest($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -345,21 +361,25 @@ class HeaderApi
     }
 
     /**
-     * Create request for operation 'testHeaderIntegerBooleanString'
+     * Create request for operation 'testHeaderIntegerBooleanStringEnums'
      *
      * @param  int|null $integer_header (optional)
      * @param  bool|null $boolean_header (optional)
      * @param  string|null $string_header (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanString'] to see the possible values for this operation
+     * @param  string|null $enum_nonref_string_header (optional)
+     * @param  StringEnumRef|null $enum_ref_string_header (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testHeaderIntegerBooleanStringRequest(
+    public function testHeaderIntegerBooleanStringEnumsRequest(
         $integer_header = null,
         $boolean_header = null,
         $string_header = null,
-        string $contentType = self::contentTypes['testHeaderIntegerBooleanString'][0]
+        $enum_nonref_string_header = null,
+        $enum_ref_string_header = null,
+        string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): Request
     {
 
@@ -367,7 +387,9 @@ class HeaderApi
 
 
 
-        $resourcePath = '/header/integer/boolean/string';
+
+
+        $resourcePath = '/header/integer/boolean/string/enums';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -386,6 +408,14 @@ class HeaderApi
         // header params
         if ($string_header !== null) {
             $headerParams['string_header'] = ObjectSerializer::toHeaderValue($string_header);
+        }
+        // header params
+        if ($enum_nonref_string_header !== null) {
+            $headerParams['enum_nonref_string_header'] = ObjectSerializer::toHeaderValue($enum_nonref_string_header);
+        }
+        // header params
+        if ($enum_ref_string_header !== null) {
+            $headerParams['enum_ref_string_header'] = ObjectSerializer::toHeaderValue($enum_ref_string_header);
         }
 
 

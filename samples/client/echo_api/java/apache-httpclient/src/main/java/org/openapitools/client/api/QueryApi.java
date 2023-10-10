@@ -60,24 +60,26 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
-    return this.testEnumRefString(enumRefStringQuery, Collections.emptyMap());
+  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    return this.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery, Collections.emptyMap());
   }
 
 
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -91,6 +93,7 @@ public class QueryApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPair("enum_nonref_string_query", enumNonrefStringQuery));
     localVarQueryParams.addAll(apiClient.parameterToPair("enum_ref_string_query", enumRefStringQuery));
     
     localVarHeaderParams.putAll(additionalHeaders);

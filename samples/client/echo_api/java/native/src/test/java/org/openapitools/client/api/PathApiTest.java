@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.model.StringEnumRef;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -42,11 +43,13 @@ public class PathApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testsPathStringPathStringIntegerPathIntegerTest() throws ApiException {
+    public void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() throws ApiException {
         String pathString = null;
         Integer pathInteger = null;
+        String enumNonrefStringPath = null;
+        StringEnumRef enumRefStringPath = null;
         String response = 
-        api.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+        api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
         
         // TODO: test validations
     }

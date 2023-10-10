@@ -23,6 +23,7 @@ from pydantic import StrictBool, StrictInt, StrictStr
 
 from typing import Optional
 
+from openapi_client.models.string_enum_ref import StringEnumRef
 
 from openapi_client.api_client import ApiClient
 from openapi_client.api_response import ApiResponse
@@ -45,14 +46,14 @@ class HeaderApi:
         self.api_client = api_client
 
     @validate_arguments
-    def test_header_integer_boolean_string(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, **kwargs) -> str:  # noqa: E501
+    def test_header_integer_boolean_string_enums(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, enum_nonref_string_header : Optional[StrictStr] = None, enum_ref_string_header : Optional[StringEnumRef] = None, **kwargs) -> str:  # noqa: E501
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_header_integer_boolean_string(integer_header, boolean_header, string_header, async_req=True)
+        >>> thread = api.test_header_integer_boolean_string_enums(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, async_req=True)
         >>> result = thread.get()
 
         :param integer_header:
@@ -61,6 +62,10 @@ class HeaderApi:
         :type boolean_header: bool
         :param string_header:
         :type string_header: str
+        :param enum_nonref_string_header:
+        :type enum_nonref_string_header: str
+        :param enum_ref_string_header:
+        :type enum_ref_string_header: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -74,19 +79,19 @@ class HeaderApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the test_header_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the test_header_integer_boolean_string_enums_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_header_integer_boolean_string_with_http_info(integer_header, boolean_header, string_header, **kwargs)  # noqa: E501
+        return self.test_header_integer_boolean_string_enums_with_http_info(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_header_integer_boolean_string_with_http_info(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_header_integer_boolean_string_enums_with_http_info(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, enum_nonref_string_header : Optional[StrictStr] = None, enum_ref_string_header : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_header_integer_boolean_string_with_http_info(integer_header, boolean_header, string_header, async_req=True)
+        >>> thread = api.test_header_integer_boolean_string_enums_with_http_info(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, async_req=True)
         >>> result = thread.get()
 
         :param integer_header:
@@ -95,6 +100,10 @@ class HeaderApi:
         :type boolean_header: bool
         :param string_header:
         :type string_header: str
+        :param enum_nonref_string_header:
+        :type enum_nonref_string_header: str
+        :param enum_ref_string_header:
+        :type enum_ref_string_header: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -125,7 +134,9 @@ class HeaderApi:
         _all_params = [
             'integer_header',
             'boolean_header',
-            'string_header'
+            'string_header',
+            'enum_nonref_string_header',
+            'enum_ref_string_header'
         ]
         _all_params.extend(
             [
@@ -144,7 +155,7 @@ class HeaderApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_header_integer_boolean_string" % _key
+                    " to method test_header_integer_boolean_string_enums" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -167,6 +178,12 @@ class HeaderApi:
         if _params['string_header'] is not None:
             _header_params['string_header'] = _params['string_header']
 
+        if _params['enum_nonref_string_header'] is not None:
+            _header_params['enum_nonref_string_header'] = _params['enum_nonref_string_header']
+
+        if _params['enum_ref_string_header'] is not None:
+            _header_params['enum_ref_string_header'] = _params['enum_ref_string_header']
+
         # process the form parameters
         _form_params = []
         _files = {}
@@ -184,7 +201,7 @@ class HeaderApi:
         }
 
         return self.api_client.call_api(
-            '/header/integer/boolean/string', 'GET',
+            '/header/integer/boolean/string/enums', 'GET',
             _path_params,
             _query_params,
             _header_params,
