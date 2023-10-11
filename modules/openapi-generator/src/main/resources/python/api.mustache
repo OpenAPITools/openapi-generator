@@ -60,21 +60,13 @@ class {{classname}}:
         {{{.}}}  # noqa: E501
 {{/notes}}
 {{^asyncio}}
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 {{/asyncio}}
 
 {{#allParams}}
         :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
-{{^asyncio}}
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-{{/asyncio}}
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -117,21 +109,13 @@ class {{classname}}:
         {{{.}}}  # noqa: E501
 {{/notes}}
 {{^asyncio}}
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 {{/asyncio}}
 
 {{#allParams}}
         :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
-{{^asyncio}}
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-{{/asyncio}}
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -176,9 +160,6 @@ class {{classname}}:
         ]
         _all_params.extend(
             [
-{{^asyncio}}
-                'async_req',
-{{/asyncio}}
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -320,9 +301,6 @@ class {{classname}}:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-{{^asyncio}}
-            async_req=_params.get('async_req'),
-{{/asyncio}}
             _request_timeout=_params.get('_request_timeout'),
             {{#servers.0}}
             _host=_host,

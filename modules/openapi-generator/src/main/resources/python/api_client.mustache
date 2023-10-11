@@ -379,15 +379,9 @@ class ApiClient:
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
-                 {{^asyncio}}async_req=None, {{/asyncio}}
                  collection_formats=None,
                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
-
-{{^asyncio}}
-        To make an async_req request, set the async_req parameter.
-
-{{/asyncio}}
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
         :param path_params: Path parameters in the url.
@@ -401,9 +395,6 @@ class ApiClient:
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
-{{^asyncio}}
-        :param async_req bool: execute request asynchronously
-{{/asyncio}}
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
         :param _request_timeout: timeout setting for this request. If one
@@ -414,17 +405,8 @@ class ApiClient:
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_token: dict, optional
-        :return:
-{{#asyncio}}
-            The response.
-{{/asyncio}}
-{{^asyncio}}
-            If async_req parameter is True,
-            the request will be called asynchronously.
-            The method will return the request thread.
-            If parameter async_req is False or missing,
-            then the method will return the response directly.
-{{/asyncio}}
+        :return: The response.
+
         """
         args = (
             resource_path,
@@ -442,15 +424,8 @@ class ApiClient:
             _host,
             _request_auth,
         )
-{{#asyncio}}
-        return await self.__call_api(*args)
-{{/asyncio}}
-{{^asyncio}}
-        if not async_req:
-            return self.__call_api(*args)
+        return {{#asyncio}}await {{/asyncio}}self.__call_api(*args)
 
-        return self.pool.apply_async(self.__call_api, args)
-{{/asyncio}}
 
     {{#asyncio}}async {{/asyncio}}def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None,

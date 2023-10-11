@@ -116,6 +116,7 @@ class PetApiTests(unittest.TestCase):
         # ensure the default configuration is used
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
+    @unittest.skip("async_req is deprecated")
     def test_async_request(self):
         thread = self.pet_api.add_pet(self.pet, async_req=True)
         response = thread.get()
@@ -125,6 +126,7 @@ class PetApiTests(unittest.TestCase):
         result = thread.get()
         self.assertIsInstance(result, petstore_api.Pet)
 
+    @unittest.skip("async_req is deprecated")
     def test_async_with_result(self):
         self.pet_api.add_pet(self.pet, async_req=False)
 
@@ -137,6 +139,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
+    @unittest.skip("async_req is deprecated")
     def test_async_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
@@ -149,6 +152,7 @@ class PetApiTests(unittest.TestCase):
         self.assertIsInstance(api_response_object.raw_data, str) # it's a str, not Pet
         self.assertTrue(api_response_object.raw_data.startswith('{"id":'))
 
+    @unittest.skip("async_req is deprecated")
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
