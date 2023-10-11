@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import ClassVar, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 from petstore_api.models.single_ref_type import SingleRefType

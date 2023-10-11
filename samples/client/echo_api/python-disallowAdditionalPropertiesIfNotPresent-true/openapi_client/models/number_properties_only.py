@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
+from typing import ClassVar, List, Optional, Union
 from pydantic import BaseModel, StrictFloat, StrictInt
 from pydantic import Field
 from typing_extensions import Annotated

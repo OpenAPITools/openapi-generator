@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import ClassVar, List, Optional
 from pydantic import BaseModel, StrictInt
 from typing import Dict, Any
 try:

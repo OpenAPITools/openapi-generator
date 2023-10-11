@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
+from typing import ClassVar, List, Optional, Union
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 from typing import Dict, Any

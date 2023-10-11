@@ -946,15 +946,22 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            // if model_generic.mustache is used and support additionalProperties
+            // if model_generic.mustache is used
             if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
-                    && !model.isEnum
-                    && !this.disallowAdditionalPropertiesIfNotPresent) {
-                typingImports.add("Dict");
-                typingImports.add("List");
-                typingImports.add("Any");
-                typingImports.add("ClassVar");
+                && !model.isEnum)
+                {
+                    // required for the __properties type hint
+                    typingImports.add("List");
+                    typingImports.add("ClassVar");
+
+                    // and support additionalProperties
+                    if (!this.disallowAdditionalPropertiesIfNotPresent) {
+                        typingImports.add("Dict");
+                        typingImports.add("Any");
+                    }
             }
+
+
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {

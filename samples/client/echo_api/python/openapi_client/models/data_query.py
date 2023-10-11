@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Optional
+from typing import ClassVar, List, Optional
 from pydantic import StrictStr
 from pydantic import Field
 from openapi_client.models.query import Query
