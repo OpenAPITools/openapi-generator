@@ -348,7 +348,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#items.isEnumRef}}
 	var {{paramName}}Param []{{items.dataType}}
 	if query.Has("{{baseName}}") {
-		for _, param := range strings.Split(query.Get("{{baseName}}"), ",") {
+		paramSplits := strings.Split(query.Get("{{baseName}}"), ",")
+		{{paramName}}Param = make([]{{items.dataType}}, 0, len(paramSplits))
+		for _, param := range paramSplits {
 			paramEnum, err := New{{items.dataType}}FromValue(param)
 			if err != nil {
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)

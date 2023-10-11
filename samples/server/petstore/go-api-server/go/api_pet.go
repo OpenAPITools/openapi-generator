@@ -165,7 +165,9 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 	speciesParam := *speciesParamPtr
 	var notSpeciesParam []Species
 	if query.Has("notSpecies") {
-		for _, param := range strings.Split(query.Get("notSpecies"), ",") {
+		paramSplits := strings.Split(query.Get("notSpecies"), ",")
+		notSpeciesParam = make([]Species, 0, len(paramSplits))
+		for _, param := range paramSplits {
 			paramEnum, err := NewSpeciesFromValue(param)
 			if err != nil {
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
