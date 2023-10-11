@@ -122,18 +122,34 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                            {{#vendorExtensions.x-py-readonly}}
-                            "{{{.}}}",
-                            {{/vendorExtensions.x-py-readonly}}
-                            {{#isAdditionalPropertiesTrue}}
-                            "additional_properties"
-                            {{/isAdditionalPropertiesTrue}}
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        {{#vendorExtensions.x-py-readonly}}
+        * OpenAPI `readOnly` fields are excluded.
+        {{/vendorExtensions.x-py-readonly}}
+        {{#isAdditionalPropertiesTrue}}
+        * Fields in `self.additional_properties` are added to the output dict.
+        {{/isAdditionalPropertiesTrue}}
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+                {{#vendorExtensions.x-py-readonly}}
+                "{{{.}}}",
+                {{/vendorExtensions.x-py-readonly}}
+                {{#isAdditionalPropertiesTrue}}
+                "additional_properties",
+                {{/isAdditionalPropertiesTrue}}
+            },
+            exclude_none=True,
+        )
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
