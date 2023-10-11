@@ -20,6 +20,7 @@ import mimetypes
 import os
 import re
 import tempfile
+from typing import Union
 
 from urllib.parse import quote
 
@@ -130,6 +131,9 @@ class ApiClient:
             _return_http_data_only=None, collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None,
             _request_auth=None):
+        if _return_http_data_only:
+            # Remove in #16788
+            assert _preload_content, "_preload_content must be True if _return_http_data_only is True"
 
         config = self.configuration
 
@@ -204,38 +208,42 @@ class ApiClient:
         self.last_response = response_data
 
         return_data = None # assuming deserialization is not needed
+        raw_data: Union[str, bytes] = response_data.data
         # data needs deserialization or returns HTTP data (deserialized) only
-        if _preload_content or _return_http_data_only:
-          response_type = response_types_map.get(str(response_data.status), None)
-          if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
-              # if not found, look for '1XX', '2XX', etc.
-              response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
+        if _preload_content:
+            response_type = response_types_map.get(str(response_data.status), None)
+            if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
+                # if not found, look for '1XX', '2XX', etc.
+                response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
-          if response_type == "bytearray":
-              response_data.data = response_data.data
-          else:
-              match = None
-              content_type = response_data.getheader('content-type')
-              if content_type is not None:
-                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-              encoding = match.group(1) if match else "utf-8"
-              response_data.data = response_data.data.decode(encoding)
+            body_bytes = response_data.data
+            if response_type == "bytearray":
+                return_data = body_bytes
+            else:
+                match = None
+                content_type = response_data.getheader('content-type')
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+                encoding = match.group(1) if match else "utf-8"
+                body_str = body_bytes.decode(encoding)
+                raw_data = body_str
 
-          # deserialize response data
-          if response_type == "bytearray":
-              return_data = response_data.data
-          elif response_type:
-              return_data = self.deserialize(response_data, response_type)
-          else:
-              return_data = None
+                # deserialize response data
+                if response_type:
+                    return_data = self.deserialize(response_data, response_type, body=body_str)
+                else:
+                    return_data = None
 
         if _return_http_data_only:
-            return return_data
+            result = return_data
         else:
-            return ApiResponse(status_code = response_data.status,
-                           data = return_data,
-                           headers = response_data.getheaders(),
-                           raw_data = response_data.data)
+            result = ApiResponse(
+                status_code=response_data.status,
+                data=return_data,
+                headers=response_data.getheaders(),
+                raw_data=raw_data,
+            )
+        return result
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
@@ -277,7 +285,7 @@ class ApiClient:
         return {key: self.sanitize_for_serialization(val)
                 for key, val in obj_dict.items()}
 
-    def deserialize(self, response, response_type):
+    def deserialize(self, response: rest.RESTResponse, response_type, body: str):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
@@ -293,9 +301,9 @@ class ApiClient:
 
         # fetch data from response object
         try:
-            data = json.loads(response.data)
+            data = json.loads(body)
         except ValueError:
-            data = response.data
+            data = body
 
         return self.__deserialize(data, response_type)
 
@@ -399,9 +407,17 @@ class ApiClient:
         )
         return await self.__call_api(*args)
 
-    async def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None, _preload_content=True,
-                _request_timeout=None):
+    async def request(
+        self,
+        method,
+        url,
+        query_params=None,
+        headers=None,
+        post_params=None,
+        body=None,
+        _preload_content=True,
+        _request_timeout=None,
+    ) -> rest.RESTResponse:
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return await self.rest_client.get_request(url,
@@ -643,7 +659,7 @@ class ApiClient:
                 'Authentication token must be in `query` or `header`'
             )
 
-    def __deserialize_file(self, response):
+    def __deserialize_file(self, response: rest.RESTResponse):
         """Deserializes body to file
 
         Saves response body into a file in a temporary folder,
