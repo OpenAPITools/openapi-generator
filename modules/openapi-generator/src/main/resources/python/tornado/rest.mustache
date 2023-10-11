@@ -59,7 +59,7 @@ class RESTClientObject:
 
     @tornado.gen.coroutine
     def request(self, method, url, query_params=None, headers=None, body=None,
-                post_params=None, _preload_content=True,
+                post_params=None,
                 _request_timeout=None):
         """Execute Request
 
@@ -71,8 +71,6 @@ class RESTClientObject:
         :param post_params: request post parameters,
                             `application/x-www-form-urlencoded`
                             and `multipart/form-data`
-        :param _preload_content: this is a non-applicable field for
-                                 the AiohttpClient.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -131,12 +129,11 @@ class RESTClientObject:
 
         r = yield self.pool_manager.fetch(request, raise_error=False)
 
-        if _preload_content:
 
-            r = RESTResponse(r)
+        r = RESTResponse(r)
 
-            # log response body
-            logger.debug("response body: %s", r.data)
+        # log response body
+        logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)
@@ -144,80 +141,73 @@ class RESTClientObject:
         raise tornado.gen.Return(r)
 
     @tornado.gen.coroutine
-    def GET(self, url, headers=None, query_params=None, _preload_content=True,
+    def GET(self, url, headers=None, query_params=None,
             _request_timeout=None):
         result = yield self.request("GET", url,
                                     headers=headers,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     query_params=query_params)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def HEAD(self, url, headers=None, query_params=None, _preload_content=True,
+    def HEAD(self, url, headers=None, query_params=None,
              _request_timeout=None):
         result = yield self.request("HEAD", url,
                                     headers=headers,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     query_params=query_params)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
     def OPTIONS(self, url, headers=None, query_params=None, post_params=None,
-                body=None, _preload_content=True, _request_timeout=None):
+                body=None, _request_timeout=None):
         result = yield self.request("OPTIONS", url,
                                     headers=headers,
                                     query_params=query_params,
                                     post_params=post_params,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
     def DELETE(self, url, headers=None, query_params=None, body=None,
-               _preload_content=True, _request_timeout=None):
+               _request_timeout=None):
         result = yield self.request("DELETE", url,
                                     headers=headers,
                                     query_params=query_params,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
     def POST(self, url, headers=None, query_params=None, post_params=None,
-             body=None, _preload_content=True, _request_timeout=None):
+             body=None, _request_timeout=None):
         result = yield self.request("POST", url,
                                     headers=headers,
                                     query_params=query_params,
                                     post_params=post_params,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
     def PUT(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _preload_content=True, _request_timeout=None):
+            body=None, _request_timeout=None):
         result = yield self.request("PUT", url,
                                     headers=headers,
                                     query_params=query_params,
                                     post_params=post_params,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
     def PATCH(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _preload_content=True, _request_timeout=None):
+              body=None, _request_timeout=None):
         result = yield self.request("PATCH", url,
                                     headers=headers,
                                     query_params=query_params,
                                     post_params=post_params,
-                                    _preload_content=_preload_content,
                                     _request_timeout=_request_timeout,
                                     body=body)
         raise tornado.gen.Return(result)

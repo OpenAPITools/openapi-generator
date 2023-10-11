@@ -69,7 +69,7 @@ class RESTClientObject:
         await self.pool_manager.close()
 
     async def request(self, method, url, query_params=None, headers=None,
-                      body=None, post_params=None, _preload_content=True,
+                      body=None, post_params=None,
                       _request_timeout=None):
         """Execute request
 
@@ -81,8 +81,6 @@ class RESTClientObject:
         :param post_params: request post parameters,
                             `application/x-www-form-urlencoded`
                             and `multipart/form-data`
-        :param _preload_content: this is a non-applicable field for
-                                 the AiohttpClient.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -159,83 +157,76 @@ class RESTClientObject:
                 raise ApiException(status=0, reason=msg)
 
         r = await self.pool_manager.request(**args)
-        if _preload_content:
 
-            data = await r.read()
-            r = RESTResponse(r, data)
 
-            # log response body
-            logger.debug("response body: %s", r.data)
+        data = await r.read()
+        r = RESTResponse(r, data)
 
-            if not 200 <= r.status <= 299:
-                raise ApiException(http_resp=r)
+        # log response body
+        logger.debug("response body: %s", r.data)
+
+        if not 200 <= r.status <= 299:
+            raise ApiException(http_resp=r)
 
         return r
 
     async def get_request(self, url, headers=None, query_params=None,
-                  _preload_content=True, _request_timeout=None):
+            _request_timeout=None):
         return (await self.request("GET", url,
                                    headers=headers,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
     async def head_request(self, url, headers=None, query_params=None,
-                   _preload_content=True, _request_timeout=None):
+            _request_timeout=None):
         return (await self.request("HEAD", url,
                                    headers=headers,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
     async def options_request(self, url, headers=None, query_params=None,
-                      post_params=None, body=None, _preload_content=True,
+                      post_params=None, body=None,
                       _request_timeout=None):
         return (await self.request("OPTIONS", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
 
     async def delete_request(self, url, headers=None, query_params=None, body=None,
-                     _preload_content=True, _request_timeout=None):
+                    _request_timeout=None):
         return (await self.request("DELETE", url,
                                    headers=headers,
                                    query_params=query_params,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
 
     async def post_request(self, url, headers=None, query_params=None,
-                   post_params=None, body=None, _preload_content=True,
+                   post_params=None, body=None,
                    _request_timeout=None):
         return (await self.request("POST", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
 
     async def put_request(self, url, headers=None, query_params=None, post_params=None,
-                  body=None, _preload_content=True, _request_timeout=None):
+                  body=None, _request_timeout=None):
         return (await self.request("PUT", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
 
     async def patch_request(self, url, headers=None, query_params=None,
-                    post_params=None, body=None, _preload_content=True,
+                    post_params=None, body=None,
                     _request_timeout=None):
         return (await self.request("PATCH", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
-                                   _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
