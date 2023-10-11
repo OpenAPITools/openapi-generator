@@ -198,7 +198,7 @@ public class ModelUtils {
         List<String> schemasUsedInOtherCases = new ArrayList<String>();
 
         visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
+            if (s != null && s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
                         "multipart/form-data".equalsIgnoreCase(t)) {
@@ -320,6 +320,10 @@ public class ModelUtils {
      * @param visitor        the visitor function which is invoked for every visited schema.
      */
     private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
+        if (schema == null) {
+            return;
+        }
+
         visitor.visit(schema, mimeType);
         if (schema.get$ref() != null) {
             String ref = getSimpleRef(schema.get$ref());
