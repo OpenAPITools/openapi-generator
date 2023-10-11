@@ -84,14 +84,13 @@ class {{classname}}:
                  returns the request thread.
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
-        kwargs['_return_http_data_only'] = True
 
         return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
             {{#allParams}}
             {{paramName}},
             {{/allParams}}
             **kwargs,
-        )
+        ).data
 
     @validate_call
 {{#asyncio}}
@@ -133,9 +132,6 @@ class {{classname}}:
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
 {{/asyncio}}
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -183,7 +179,6 @@ class {{classname}}:
 {{^asyncio}}
                 'async_req',
 {{/asyncio}}
-                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -328,7 +323,6 @@ class {{classname}}:
 {{^asyncio}}
             async_req=_params.get('async_req'),
 {{/asyncio}}
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             {{#servers.0}}
             _host=_host,

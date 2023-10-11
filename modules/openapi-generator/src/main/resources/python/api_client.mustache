@@ -160,7 +160,7 @@ class ApiClient:
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_types_map=None, auth_settings=None,
-            _return_http_data_only=None, collection_formats=None,
+            collection_formats=None,
             _request_timeout=None, _host=None,
             _request_auth=None):
 
@@ -262,22 +262,16 @@ class ApiClient:
             return_data = None
 
 {{^tornado}}
-        if _return_http_data_only:
-            return return_data
-        else:
-            return ApiResponse(status_code = response_data.status,
-                           data = return_data,
-                           headers = response_data.getheaders(),
-                           raw_data = response_data.data)
+        return ApiResponse(status_code = response_data.status,
+                        data = return_data,
+                        headers = response_data.getheaders(),
+                        raw_data = response_data.data)
 {{/tornado}}
 {{#tornado}}
-        if _return_http_data_only:
-            raise tornado.gen.Return(return_data)
-        else:
-            raise tornado.gen.Return(ApiResponse(status_code = response_data.status,
-                                                 data = return_data,
-                                                 headers = response_data.getheaders(),
-                                                 raw_data = response_data.data))
+        raise tornado.gen.Return(ApiResponse(status_code = response_data.status,
+                                                data = return_data,
+                                                headers = response_data.getheaders(),
+                                                raw_data = response_data.data))
 {{/tornado}}
 
     def sanitize_for_serialization(self, obj):
@@ -385,7 +379,7 @@ class ApiClient:
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
-                 {{^asyncio}}async_req=None, {{/asyncio}}_return_http_data_only=None,
+                 {{^asyncio}}async_req=None, {{/asyncio}}
                  collection_formats=None,
                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
@@ -410,8 +404,6 @@ class ApiClient:
 {{^asyncio}}
         :param async_req bool: execute request asynchronously
 {{/asyncio}}
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
         :param _request_timeout: timeout setting for this request. If one
@@ -445,7 +437,6 @@ class ApiClient:
             files,
             response_types_map,
             auth_settings,
-            _return_http_data_only,
             collection_formats,
             _request_timeout,
             _host,
