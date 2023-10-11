@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## TestEnumRefString
 
-> string TestEnumRefString(ctx).EnumRefStringQuery(enumRefStringQuery).Execute()
+> string TestEnumRefString(ctx).EnumNonrefStringQuery(enumNonrefStringQuery).EnumRefStringQuery(enumRefStringQuery).Execute()
 
 Test query parameter(s)
 
@@ -36,11 +36,12 @@ import (
 )
 
 func main() {
+    enumNonrefStringQuery := "enumNonrefStringQuery_example" // string |  (optional)
     enumRefStringQuery := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestEnumRefString(context.Background()).EnumRefStringQuery(enumRefStringQuery).Execute()
+    resp, r, err := apiClient.QueryAPI.TestEnumRefString(context.Background()).EnumNonrefStringQuery(enumNonrefStringQuery).EnumRefStringQuery(enumRefStringQuery).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestEnumRefString``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -61,6 +62,7 @@ Other parameters are passed through a pointer to a apiTestEnumRefStringRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enumNonrefStringQuery** | **string** |  | 
  **enumRefStringQuery** | [**StringEnumRef**](StringEnumRef.md) |  | 
 
 ### Return type

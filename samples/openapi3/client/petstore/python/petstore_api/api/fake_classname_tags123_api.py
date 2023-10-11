@@ -44,7 +44,11 @@ class FakeClassnameTags123Api:
         self.api_client = api_client
 
     @validate_call
-    def test_classname(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> Client:  # noqa: E501
+    def test_classname(
+        self,
+        client: Annotated[Client, Field(description="client model")],
+        **kwargs,
+    ) -> Client:
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -71,10 +75,18 @@ class FakeClassnameTags123Api:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_classname_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
+
+        return self.test_classname_with_http_info.raw_function(
+            client,
+            **kwargs,
+        )
 
     @validate_call
-    def test_classname_with_http_info(self, client : Annotated[Client, Field(description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_classname_with_http_info(
+        self,
+        client: Annotated[Client, Field(description="client model")],
+        **kwargs,
+    ) -> ApiResponse:
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501

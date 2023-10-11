@@ -122,18 +122,34 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                            {{#vendorExtensions.x-py-readonly}}
-                            "{{{.}}}",
-                            {{/vendorExtensions.x-py-readonly}}
-                            {{#isAdditionalPropertiesTrue}}
-                            "additional_properties"
-                            {{/isAdditionalPropertiesTrue}}
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        {{#vendorExtensions.x-py-readonly}}
+        * OpenAPI `readOnly` fields are excluded.
+        {{/vendorExtensions.x-py-readonly}}
+        {{#isAdditionalPropertiesTrue}}
+        * Fields in `self.additional_properties` are added to the output dict.
+        {{/isAdditionalPropertiesTrue}}
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+                {{#vendorExtensions.x-py-readonly}}
+                "{{{.}}}",
+                {{/vendorExtensions.x-py-readonly}}
+                {{#isAdditionalPropertiesTrue}}
+                "additional_properties",
+                {{/isAdditionalPropertiesTrue}}
+            },
+            exclude_none=True,
+        )
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
@@ -166,15 +182,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isArray}}
         {{#isMap}}
         {{#items.isArray}}
+        {{^items.items.isPrimitiveType}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
             for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
+                if self.{{{name}}}[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}

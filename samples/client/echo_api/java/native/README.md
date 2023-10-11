@@ -124,10 +124,10 @@ Class | Method | HTTP request | Description
 *FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormOneof**](docs/FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *FormApi* | [**testFormOneofWithHttpInfo**](docs/FormApi.md#testFormOneofWithHttpInfo) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
-*HeaderApi* | [**testHeaderIntegerBooleanString**](docs/HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s)
-*HeaderApi* | [**testHeaderIntegerBooleanStringWithHttpInfo**](docs/HeaderApi.md#testHeaderIntegerBooleanStringWithHttpInfo) | **GET** /header/integer/boolean/string | Test header parameter(s)
-*PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
-*PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*HeaderApi* | [**testHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
+*HeaderApi* | [**testHeaderIntegerBooleanStringEnumsWithHttpInfo**](docs/HeaderApi.md#testHeaderIntegerBooleanStringEnumsWithHttpInfo) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryApi* | [**testEnumRefString**](docs/QueryApi.md#testEnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**testEnumRefStringWithHttpInfo**](docs/QueryApi.md#testEnumRefStringWithHttpInfo) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**testQueryDatetimeDateString**](docs/QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)

@@ -86,6 +86,8 @@ docs/StoreApi.md
 docs/Tag.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Tiger.md
+docs/UnnamedDictWithAdditionalModelListProperties.md
+docs/UnnamedDictWithAdditionalStringListProperties.md
 docs/User.md
 docs/UserApi.md
 docs/WithNestedOneOf.md
@@ -181,6 +183,8 @@ petstore_api/models/special_name.py
 petstore_api/models/tag.py
 petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/tiger.py
+petstore_api/models/unnamed_dict_with_additional_model_list_properties.py
+petstore_api/models/unnamed_dict_with_additional_string_list_properties.py
 petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py
 petstore_api/py.typed

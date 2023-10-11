@@ -49,8 +49,6 @@ nb-configuration.xml
 /target
 /generated-files
 test-output/
-nbactions.xml
-test-output/
 
 # website
 website/build/
@@ -72,7 +70,6 @@ samples/client/build
 samples/client/petstore/build
 samples/client/petstore/cpp-qt/PetStore/moc_*
 samples/client/petstore/cpp-qt/PetStore/*.o
-samples/client/petstore/cpp-qt/build-*
 samples/client/petstore/cpp-qt/build-*
 samples/client/petstore/cpp-qt/PetStore/PetStore
 samples/client/petstore/cpp-qt/PetStore/Makefile
@@ -100,9 +97,7 @@ samples/client/petstore/java/jersey2/build/
 samples/client/petstore/java/okhttp-gson/.gradle/
 samples/client/petstore/java/okhttp-gson/build/
 samples/client/petstore/java/feign/build/
-samples/client/petstore/java/feign10x/build/
 samples/client/petstore/java/feign/project/
-samples/client/petstore/java/feign10x/project/
 samples/client/petstore/java/retrofit/build/
 samples/client/petstore/java/retrofit2/build/
 samples/client/petstore/java/retrofit2/hello.txt
@@ -110,7 +105,6 @@ samples/client/petstore/java/retrofit2rx/build/
 samples/client/petstore/java/default/build/
 samples/client/petstore/scala/build/
 samples/client/petstore/java/resttemplate/hello.txt
-samples/client/petstore/java/retrofit2/hello.txt
 samples/client/petstore/java/feign/hello.txt
 samples/client/petstore/java/jersey2-java6/project/
 samples/client/petstore/java/jersey2-java8/project/

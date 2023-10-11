@@ -31,13 +31,13 @@ paths:
   # will response with the same body in the HTTP request.
   #
   # path parameter tests
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       tags:
         - path 
       summary: Test path parameter(s)
       description: Test path parameter(s)
-      operationId: tests/path/string/{path_string}/integer/{path_integer}
+      operationId: tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
       parameters:
       - in: path 
         name: path_string
@@ -49,6 +49,20 @@ paths:
         required: true
         schema:
           type: integer 
+      - in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -118,13 +132,13 @@ paths:
               schema:
                 type: string
   # header parameter tests
-  /header/integer/boolean/string:
+  /header/integer/boolean/string/enums:
     get:
       tags:
         - header
       summary: Test header parameter(s)
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - in: header
         name: integer_header
@@ -144,6 +158,22 @@ paths:
         explode: true #default
         schema:
           type: string
+      - in: header
+        name: enum_nonref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: header
+        name: enum_ref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -160,6 +190,16 @@ paths:
       description: Test query parameter(s)
       operationId: test/enum_ref_string
       parameters:
+      - in: query
+        name: enum_nonref_string_query
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
       - in: query
         name: enum_ref_string_query
         style: form #default

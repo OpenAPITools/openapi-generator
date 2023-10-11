@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**testsPathStringPathStringIntegerPathInteger**](PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
+| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
-<a id="testsPathStringPathStringIntegerPathInteger"></a>
-# **testsPathStringPathStringIntegerPathInteger**
-> String testsPathStringPathStringIntegerPathInteger(pathString, pathInteger)
+<a id="testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
+# **testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
+> String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 
@@ -32,11 +32,13 @@ public class Example {
     PathApi apiInstance = new PathApi(defaultClient);
     String pathString = "pathString_example"; // String | 
     Integer pathInteger = 56; // Integer | 
+    String enumNonrefStringPath = "success"; // String | 
+    StringEnumRef enumRefStringPath = StringEnumRef.fromValue("success"); // StringEnumRef | 
     try {
-      String result = apiInstance.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+      String result = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathInteger");
+      System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -52,6 +54,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **pathString** | **String**|  | |
 | **pathInteger** | **Integer**|  | |
+| **enumNonrefStringPath** | **String**|  | [enum: success, failure, unclassified] |
+| **enumRefStringPath** | [**StringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type
 

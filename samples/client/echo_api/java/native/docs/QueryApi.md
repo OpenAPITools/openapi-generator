@@ -25,7 +25,7 @@ All URIs are relative to *http://localhost:3000*
 
 ## testEnumRefString
 
-> String testEnumRefString(enumRefStringQuery)
+> String testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
 
 Test query parameter(s)
 
@@ -47,9 +47,10 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
+        String enumNonrefStringQuery = "success"; // String | 
         StringEnumRef enumRefStringQuery = StringEnumRef.fromValue("success"); // StringEnumRef | 
         try {
-            String result = apiInstance.testEnumRefString(enumRefStringQuery);
+            String result = apiInstance.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling QueryApi#testEnumRefString");
@@ -67,6 +68,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
@@ -90,7 +92,7 @@ No authorization required
 
 ## testEnumRefStringWithHttpInfo
 
-> ApiResponse<String> testEnumRefString testEnumRefStringWithHttpInfo(enumRefStringQuery)
+> ApiResponse<String> testEnumRefString testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
 
 Test query parameter(s)
 
@@ -113,9 +115,10 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
+        String enumNonrefStringQuery = "success"; // String | 
         StringEnumRef enumRefStringQuery = StringEnumRef.fromValue("success"); // StringEnumRef | 
         try {
-            ApiResponse<String> response = apiInstance.testEnumRefStringWithHttpInfo(enumRefStringQuery);
+            ApiResponse<String> response = apiInstance.testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -135,6 +138,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
 | **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
