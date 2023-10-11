@@ -340,7 +340,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^items.isLong}}
 	{{^items.isInteger}}
 	{{^items.isEnumRef}}
-	var {{paramName}}Param [] string
+	var {{paramName}}Param []string
 	if query.Has("{{baseName}}") {
 		{{paramName}}Param = strings.Split(query.Get("{{baseName}}"), ",")
 	}

@@ -19,7 +19,7 @@ import (
 
 // PetAPIController binds http requests to an api service and writes the service results to the http response
 type PetAPIController struct {
-	service      PetAPIServicer
+	service PetAPIServicer
 	errorHandler ErrorHandler
 }
 
@@ -280,9 +280,11 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
+		
+	
 	nameParam := r.FormValue("name")
-
+		
+	
 	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
@@ -308,15 +310,17 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
+		
+	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-
+	
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
+	
+	
 	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
