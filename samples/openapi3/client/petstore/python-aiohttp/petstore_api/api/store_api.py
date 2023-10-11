@@ -90,9 +90,11 @@ class StoreApi:
 
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -213,9 +215,11 @@ class StoreApi:
 
         Returns a map of status codes to quantities  # noqa: E501
 
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -345,9 +349,11 @@ class StoreApi:
 
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -483,9 +489,11 @@ class StoreApi:
 
         :param order: order placed for purchasing the pet (required)
         :type order: Order
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse

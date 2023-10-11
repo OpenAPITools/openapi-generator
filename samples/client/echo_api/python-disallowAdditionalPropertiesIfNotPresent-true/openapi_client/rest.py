@@ -12,7 +12,7 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
+from typing import Optional
 import io
 import json
 import logging
@@ -30,11 +30,11 @@ logger = logging.getLogger(__name__)
 
 class RESTResponse(io.IOBase):
 
-    def __init__(self, resp) -> None:
+    def __init__(self, resp: urllib3.HTTPResponse, *, data: Optional[bytes]) -> None:
         self.urllib3_response = resp
         self.status = resp.status
         self.reason = resp.reason
-        self.data = resp.data
+        self.data = data
 
     def getheaders(self):
         """Returns a dictionary of the response headers."""
@@ -213,10 +213,12 @@ class RESTClientObject:
             raise ApiException(status=0, reason=msg)
 
         if _preload_content:
-            r = RESTResponse(r)
+            r = RESTResponse(r, data=r.data)
 
             # log response body
             logger.debug("response body: %s", r.data)
+        else:
+            r = RESTResponse(r, data=None)
 
         if not 200 <= r.status <= 299:
             if r.status == 400:

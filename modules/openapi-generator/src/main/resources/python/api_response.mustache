@@ -2,7 +2,17 @@
 
 from __future__ import annotations
 from typing import Any, Dict, Optional, Union
+{{^asyncio}}
+import warnings
+{{/asyncio}}
+
+{{#asyncio}}
+from aiohttp import ClientResponse
+{{/asyncio}}
 from pydantic import Field, StrictInt, StrictStr
+{{^asyncio}}
+from urllib3 import HTTPResponse
+{{/asyncio}}
 
 class ApiResponse:
     """
@@ -12,7 +22,17 @@ class ApiResponse:
     status_code: Optional[StrictInt] = Field(None, description="HTTP status code")
     headers: Optional[Dict[StrictStr, StrictStr]] = Field(None, description="HTTP headers")
     data: Optional[Any] = Field(None, description="Deserialized data given the data type")
-    raw_data: Union[str, bytes] = Field(description="Raw data (HTTP response body)")
+    {{^asyncio}}_{{/asyncio}}raw_data: Union[None, str, bytes] = Field(
+        title="Raw data (HTTP response body)",
+        description="`bytes` if the OpenAPI response body format is 'binary', "
+        "otherwise `str`. `None` if `_preload_content=False`.",
+    )
+    {{#asyncio}}
+    aiohttp_response: ClientResponse = Field(description="Raw aiohttp response for response streaming")
+    {{/asyncio}}
+    {{^asyncio}}
+    urllib3_response: HTTPResponse = Field(description="Raw urllib3 response for response streaming")
+    {{/asyncio}}
 
     def __init__(
         self,
@@ -21,8 +41,64 @@ class ApiResponse:
         data=None,
         *,
         raw_data,
+        {{#asyncio}}
+        aiohttp_response,
+        {{/asyncio}}
+        {{^asyncio}}
+        urllib3_response,
+        {{/asyncio}}
     ) -> None:
         self.status_code = status_code
         self.headers = headers
         self.data = data
-        self.raw_data = raw_data
+        self.{{^asyncio}}_{{/asyncio}}raw_data = raw_data
+        {{#asyncio}}
+        self.aiohttp_response = aiohttp_response
+        {{/asyncio}}
+        {{^asyncio}}
+        self.urllib3_response = urllib3_response
+        {{/asyncio}}
+
+    {{^asyncio}}
+    {{! 
+    With the next major release, the `_raw_data` attribute can be renamed to `raw_data`
+    in the urllib3 client and the `raw_data` property function removed.
+    For the asyncio client, `_preload_content=False` didn't work before, so no backwards-
+    compatibility is needed and the property function is not necessary.
+    }}
+    @property
+    def raw_data(self) -> Union[str, bytes]:
+        """Get raw response body.
+
+        If `preload_content=False`, this loads the entire response body into
+        memory. If `preload_content=True`, the response body is already loaded
+        earlier.
+        To stream responses, read from `self.{{#asyncio}}aiohttp{{/asyncio}}{{^asyncio}}urllib3{{/asyncio}}_response`.
+
+        :return: `str` if `preload_content=True`, `bytes` if not.
+        """
+        if self._raw_data is None:
+            warnings.warn(
+                "If `preload_content=False`, `ApiResponse.raw_data` will change to "
+                "`None` in a future version. Use `ApiResponse.read()` instead.",
+                DeprecationWarning,
+            )
+            return self.urllib3_response.data
+        return self._raw_data
+    {{/asyncio}}
+
+    {{#asyncio}}async {{/asyncio}}def read(self) -> Union[str, bytes]:
+        """Read raw response body.
+
+        If `preload_content=False`, this loads the entire response body into
+        memory. If `preload_content=True`, the response body is already loaded
+        earlier.
+        """
+        if self.{{^asyncio}}_{{/asyncio}}raw_data is not None:
+            return self.{{^asyncio}}_{{/asyncio}}raw_data
+        {{#asyncio}}
+        return await self.aiohttp_response.read()
+        {{/asyncio}}
+        {{^asyncio}}
+        return self.urllib3_response.data
+        {{/asyncio}}

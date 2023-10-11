@@ -228,7 +228,7 @@ class ApiClient:
         self.last_response = response_data
 
         return_data = None # assuming deserialization is not needed
-        raw_data: Union[str, bytes] = response_data.data
+        raw_data: Union[None, str, bytes] = None
         # data needs deserialization or returns HTTP data (deserialized) only
         if _preload_content:
             response_type = response_types_map.get(str(response_data.status), None)
@@ -237,7 +237,9 @@ class ApiClient:
                 response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
             body_bytes = response_data.data
+            assert isinstance(body_bytes, bytes), "Must not be None if _preload_content=True"
             if response_type == "bytearray":
+                raw_data = body_bytes
                 return_data = body_bytes
             else:
                 match = None
@@ -262,6 +264,7 @@ class ApiClient:
                 data=return_data,
                 headers=response_data.getheaders(),
                 raw_data=raw_data,
+                urllib3_response=response_data.urllib3_response,
             )
         return result
 

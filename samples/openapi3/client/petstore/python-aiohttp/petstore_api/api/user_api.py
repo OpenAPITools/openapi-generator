@@ -90,9 +90,11 @@ class UserApi:
 
         :param user: Created user object (required)
         :type user: User
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -242,9 +244,11 @@ class UserApi:
 
         :param user: List of user object (required)
         :type user: List[User]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -379,9 +383,11 @@ class UserApi:
 
         :param user: List of user object (required)
         :type user: List[User]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -516,9 +522,11 @@ class UserApi:
 
         :param username: The name that needs to be deleted (required)
         :type username: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -646,9 +654,11 @@ class UserApi:
 
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
         :type username: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -791,9 +801,11 @@ class UserApi:
         :type username: str
         :param password: The password for login in clear text (required)
         :type password: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -925,9 +937,11 @@ class UserApi:
 
           # noqa: E501
 
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1058,9 +1072,11 @@ class UserApi:
         :type username: str
         :param user: Updated user object (required)
         :type user: User
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse

@@ -10,6 +10,7 @@ $ pytest -vv
 """
 
 import os
+import sys
 import unittest
 import asyncio
 import pytest
@@ -114,6 +115,20 @@ class TestPetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.data.id)
         self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
+
+    @async_test
+    async def test_add_pet_and_get_pet_by_id_preload_content_false(self):
+        await self.pet_api.add_pet(self.pet)
+
+        fetched = await self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id, _preload_content=False)
+        self.assertIsNone(fetched.data)
+        self.assertIsNone(fetched.raw_data)
+        if sys.version_info[:2] >= (3,9):
+            # For some reason, this assertion fails sometimes on Py37 and 38:
+            self.assertFalse(fetched.aiohttp_response.closed)
+        body = await fetched.read()
+        self.assertTrue(fetched.aiohttp_response.closed)
+        self.assertDictEqual(json.loads(body), self.pet.to_dict())
 
     @async_test
     async def test_update_pet(self):

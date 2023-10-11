@@ -11,7 +11,7 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
+from typing import Optional
 import io
 import json
 import logging
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 class RESTResponse(io.IOBase):
 
-    def __init__(self, resp, data) -> None:
+    def __init__(self, resp: aiohttp.ClientResponse, *, data: Optional[bytes]) -> None:
         self.aiohttp_response = resp
         self.status = resp.status
         self.reason = resp.reason
@@ -168,17 +168,19 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        r = await self.pool_manager.request(**args)
-        if _preload_content:
+        aiohttp_response = await self.pool_manager.request(**args)
 
-            data = await r.read()
-            r = RESTResponse(r, data)
+        if _preload_content:
+            data = await aiohttp_response.read()
+            r = RESTResponse(aiohttp_response, data=data)
 
             # log response body
             logger.debug("response body: %s", r.data)
+        else:
+            r = RESTResponse(aiohttp_response, data=None)
 
-            if not 200 <= r.status <= 299:
-                raise ApiException(http_resp=r)
+        if not 200 <= r.status <= 299:
+            raise ApiException(http_resp=r)
 
         return r
 

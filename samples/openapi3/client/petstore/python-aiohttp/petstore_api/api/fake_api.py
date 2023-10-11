@@ -99,9 +99,11 @@ class FakeApi:
 
         :param body:
         :type body: object
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -234,9 +236,11 @@ class FakeApi:
 
         :param enum_ref: enum reference
         :type enum_ref: EnumClass
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -355,9 +359,11 @@ class FakeApi:
         """Health check endpoint  # noqa: E501
 
 
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -499,9 +505,11 @@ class FakeApi:
         :type query_1: str
         :param header_1: header parameter
         :type header_1: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -644,9 +652,11 @@ class FakeApi:
 
         :param body: Input boolean as post body
         :type body: bool
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -787,9 +797,11 @@ class FakeApi:
 
         :param outer_composite: Input composite as post body
         :type outer_composite: OuterComposite
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -930,9 +942,11 @@ class FakeApi:
 
         :param body: Input number as post body
         :type body: float
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1073,9 +1087,11 @@ class FakeApi:
 
         :param body: Input string as post body
         :type body: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1216,9 +1232,11 @@ class FakeApi:
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1350,9 +1368,11 @@ class FakeApi:
         """test returning list of objects  # noqa: E501
 
 
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1480,9 +1500,11 @@ class FakeApi:
 
         :param uuid_example: uuid example (required)
         :type uuid_example: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1610,9 +1632,11 @@ class FakeApi:
 
         :param body: image to upload (required)
         :type body: bytearray
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1752,9 +1776,11 @@ class FakeApi:
 
         :param file_schema_test_class: (required)
         :type file_schema_test_class: FileSchemaTestClass
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1894,9 +1920,11 @@ class FakeApi:
         :type query: str
         :param user: (required)
         :type user: User
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2035,9 +2063,11 @@ class FakeApi:
 
         :param client: client model (required)
         :type client: Client
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2183,9 +2213,11 @@ class FakeApi:
         :type date_time_query: datetime
         :param str_query: (required)
         :type str_query: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2418,9 +2450,11 @@ class FakeApi:
         :type password: str
         :param param_callback: None
         :type param_callback: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2646,9 +2680,11 @@ class FakeApi:
         :type boolean_group: bool
         :param int64_group: Integer in group parameters
         :type int64_group: int
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2796,9 +2832,11 @@ class FakeApi:
 
         :param request_body: request body (required)
         :type request_body: Dict[str, str]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -2933,9 +2971,11 @@ class FakeApi:
 
         :param test_inline_freeform_additional_properties_request: request body (required)
         :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -3077,9 +3117,11 @@ class FakeApi:
         :type param: str
         :param param2: field2 (required)
         :type param2: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -3260,9 +3302,11 @@ class FakeApi:
         :type allow_empty: str
         :param language:
         :type language: Dict[str, str]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse

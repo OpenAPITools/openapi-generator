@@ -91,9 +91,11 @@ class PetApi:
 
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -235,9 +237,11 @@ class PetApi:
         :type pet_id: int
         :param api_key:
         :type api_key: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -369,9 +373,11 @@ class PetApi:
 
         :param status: Status values that need to be considered for filter (required)
         :type status: List[str]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -507,9 +513,11 @@ class PetApi:
 
         :param tags: Tags to filter by (required)
         :type tags: List[str]
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -647,9 +655,11 @@ class PetApi:
 
         :param pet_id: ID of pet to return (required)
         :type pet_id: int
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -785,9 +795,11 @@ class PetApi:
 
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -936,9 +948,11 @@ class PetApi:
         :type name: str
         :param status: Updated status of the pet
         :type status: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1095,9 +1109,11 @@ class PetApi:
         :type additional_metadata: str
         :param file: file to upload
         :type file: bytearray
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1260,9 +1276,11 @@ class PetApi:
         :type required_file: bytearray
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.aiohttp_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse

@@ -12,7 +12,10 @@ $ pytest
 """
 
 import os
+import re
 import unittest
+
+import pytest
 
 import petstore_api
 from petstore_api import Configuration
@@ -171,18 +174,40 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
-    def test_add_pet_and_get_pet_by_id_with_preload_content_flag(self):
+    def test_add_pet_preload_content_false_error(self):
         try:
             self.pet_api.add_pet(self.pet, _preload_content=False)
         except ValueError as e:
             self.assertEqual("Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data", str(e))
 
+    def test_add_pet_and_get_pet_by_id_with_preload_content_flag(self):
         self.pet_api.add_pet(self.pet)
+        
+        # Use read() method
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
                                                             _preload_content=False)
         self.assertIsNone(fetched.data)
-        self.assertIsInstance(fetched.raw_data, bytes) # it's a str, not Pet
-        self.assertTrue(fetched.raw_data.decode("utf-8").startswith('{"id":'))
+        self.assertIsNone(fetched._raw_data)
+        self.assertFalse(fetched.urllib3_response.closed)
+        body = fetched.read()
+        self.assertTrue(fetched.urllib3_response.closed)
+        self.assertDictEqual(json.loads(body), self.pet.to_dict())
+        self.assertIsNone(fetched.data)
+
+        # Use deprecated raw_data @property
+        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
+                                                            _preload_content=False)
+        self.assertIsNone(fetched.data)
+        self.assertIsNone(fetched._raw_data)
+        self.assertFalse(fetched.urllib3_response.closed)
+        with pytest.warns(
+            DeprecationWarning, 
+            match=re.escape("Use `ApiResponse.read()` instead"),
+        ):
+            body = fetched.raw_data
+        self.assertTrue(fetched.urllib3_response.closed)
+        self.assertDictEqual(json.loads(body), self.pet.to_dict())
+        self.assertIsNone(fetched.data)
 
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)

@@ -105,9 +105,11 @@ class PetApi:
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -265,9 +267,11 @@ class PetApi:
         :type api_key: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -415,9 +419,11 @@ class PetApi:
         :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -569,9 +575,11 @@ class PetApi:
         :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -725,9 +733,11 @@ class PetApi:
         :type pet_id: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -879,9 +889,11 @@ class PetApi:
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1046,9 +1058,11 @@ class PetApi:
         :type status: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1221,9 +1235,11 @@ class PetApi:
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
@@ -1402,9 +1418,11 @@ class PetApi:
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
+        :param _preload_content: if False, ApiResponse.data and
+                                 ApiResponse.raw_data are set to None and the
+                                 raw response body can be accessed with
+                                 ApiResponse.read() or streamed using
+                                 ApiResponse.urllib3_response.
                                  Default is True.
         :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
