@@ -157,14 +157,14 @@ signals:
     void logoutUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
 
-    void createUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void createUsersWithArrayInputSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void createUsersWithListInputSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void deleteUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void getUserByNameSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void loginUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void logoutUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void createUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void createUsersWithArrayInputSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void createUsersWithListInputSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void deleteUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void getUserByNameSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void loginUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void logoutUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();

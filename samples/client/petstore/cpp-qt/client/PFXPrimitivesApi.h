@@ -102,8 +102,8 @@ signals:
     void primitivesIntegerPostSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void primitivesNumberPutSignalE(QNetworkReply::NetworkError error_type, QString error_str);
 
-    void primitivesIntegerPostSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void primitivesNumberPutSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void primitivesIntegerPostSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void primitivesNumberPutSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();

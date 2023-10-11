@@ -93,7 +93,7 @@ signals:
 {{#operations}}{{#operation}}
     void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();

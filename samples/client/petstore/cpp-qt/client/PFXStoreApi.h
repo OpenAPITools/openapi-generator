@@ -120,10 +120,10 @@ signals:
     void getOrderByIdSignalE(PFXOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
     void placeOrderSignalE(PFXOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
 
-    void deleteOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void getInventorySignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void getOrderByIdSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void getInventorySignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void getOrderByIdSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
