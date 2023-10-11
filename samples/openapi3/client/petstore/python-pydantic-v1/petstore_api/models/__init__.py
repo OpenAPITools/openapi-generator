@@ -91,5 +91,7 @@ from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.tiger import Tiger
+from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
+from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

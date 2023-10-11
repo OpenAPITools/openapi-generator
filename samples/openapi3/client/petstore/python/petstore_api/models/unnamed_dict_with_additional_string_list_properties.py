@@ -19,22 +19,21 @@ import json
 
 
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from petstore_api.models.tag import Tag
 from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class MapOfArrayOfModel(BaseModel):
+class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
-    MapOfArrayOfModel
+    UnnamedDictWithAdditionalStringListProperties
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
+    dict_property: Optional[Dict[str, List[StrictStr]]] = Field(default=None, alias="dictProperty")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
+    __properties: ClassVar[List[str]] = ["dictProperty"]
 
     model_config = {
         "populate_by_name": True,
@@ -53,36 +52,16 @@ class MapOfArrayOfModel(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of MapOfArrayOfModel from a JSON string"""
+        """Create an instance of UnnamedDictWithAdditionalStringListProperties from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
-        """
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude={
-                "additional_properties",
-            },
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of each value in shop_id_to_org_online_lip_map (dict of array)
-        _field_dict_of_array = {}
-        if self.shop_id_to_org_online_lip_map:
-            for _key in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key] is not None:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key]
-                    ]
-            _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
+    def to_dict(self):
+        """Returns the dictionary representation of the model using alias"""
+        _dict = self.model_dump(by_alias=True,
+                          exclude={
+                            "additional_properties"
+                          },
+                          exclude_none=True)
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -92,7 +71,7 @@ class MapOfArrayOfModel(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: dict) -> Self:
-        """Create an instance of MapOfArrayOfModel from a dict"""
+        """Create an instance of UnnamedDictWithAdditionalStringListProperties from a dict"""
         if obj is None:
             return None
 
@@ -100,14 +79,7 @@ class MapOfArrayOfModel(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "shopIdToOrgOnlineLipMap": dict(
-                (_k,
-                        [Tag.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("shopIdToOrgOnlineLipMap").items()
-            )
+            "dictProperty": obj.get("dictProperty")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

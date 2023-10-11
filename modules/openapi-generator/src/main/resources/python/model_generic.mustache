@@ -182,15 +182,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isArray}}
         {{#isMap}}
         {{#items.isArray}}
+        {{^items.items.isPrimitiveType}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
             for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
+                if self.{{{name}}}[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}
