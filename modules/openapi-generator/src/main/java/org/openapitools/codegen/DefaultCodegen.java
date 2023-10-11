@@ -7665,7 +7665,8 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 if (found == false) {
-                    throw new RuntimeException("Property " + requiredPropertyName + " is missing from getVars");
+                    LOGGER.warn("Property {} is not processed correctly (missing from getVars). Maybe it's a const (not yet supported) in openapi v3.1 spec.", requiredPropertyName);
+                    continue;
                 }
             } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
                 // TODO add processing for requiredPropertyName
