@@ -75,7 +75,11 @@ class AnotherFakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the call_123_test_special_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+
+        return self.call_123_test_special_tags_with_http_info.raw_function(
+            client,
+            **kwargs,
+        )
 
     @validate_call
     def call_123_test_special_tags_with_http_info(

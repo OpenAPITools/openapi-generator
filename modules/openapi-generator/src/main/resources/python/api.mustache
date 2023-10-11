@@ -88,7 +88,13 @@ class {{classname}}:
         if '_preload_content' in kwargs:
             message = "Error! Please call the {{operationId}}_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
+
+        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
+            {{#allParams}}
+            {{paramName}},
+            {{/allParams}}
+            **kwargs,
+        )
 
     @validate_call
 {{#asyncio}}

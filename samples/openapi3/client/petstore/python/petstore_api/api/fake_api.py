@@ -89,7 +89,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_any_type_request_body_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_any_type_request_body_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.fake_any_type_request_body_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def fake_any_type_request_body_with_http_info(
@@ -236,7 +240,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_enum_ref_query_parameter_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_enum_ref_query_parameter_with_http_info(enum_ref, **kwargs)  # noqa: E501
+
+        return self.fake_enum_ref_query_parameter_with_http_info.raw_function(
+            enum_ref,
+            **kwargs,
+        )
 
     @validate_call
     def fake_enum_ref_query_parameter_with_http_info(
@@ -373,7 +381,10 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_health_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
+
+        return self.fake_health_get_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
     def fake_health_get_with_http_info(
@@ -518,7 +529,13 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_http_signature_test_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_http_signature_test_with_http_info(pet, query_1, header_1, **kwargs)  # noqa: E501
+
+        return self.fake_http_signature_test_with_http_info.raw_function(
+            pet,
+            query_1,
+            header_1,
+            **kwargs,
+        )
 
     @validate_call
     def fake_http_signature_test_with_http_info(
@@ -680,7 +697,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_outer_boolean_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_outer_boolean_serialize_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.fake_outer_boolean_serialize_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def fake_outer_boolean_serialize_with_http_info(
@@ -835,7 +856,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_outer_composite_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_outer_composite_serialize_with_http_info(outer_composite, **kwargs)  # noqa: E501
+
+        return self.fake_outer_composite_serialize_with_http_info.raw_function(
+            outer_composite,
+            **kwargs,
+        )
 
     @validate_call
     def fake_outer_composite_serialize_with_http_info(
@@ -990,7 +1015,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_outer_number_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_outer_number_serialize_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.fake_outer_number_serialize_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def fake_outer_number_serialize_with_http_info(
@@ -1145,7 +1174,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_outer_string_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_outer_string_serialize_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.fake_outer_string_serialize_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def fake_outer_string_serialize_with_http_info(
@@ -1300,7 +1333,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_property_enum_integer_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, **kwargs)  # noqa: E501
+
+        return self.fake_property_enum_integer_serialize_with_http_info.raw_function(
+            outer_object_with_enum_property,
+            **kwargs,
+        )
 
     @validate_call
     def fake_property_enum_integer_serialize_with_http_info(
@@ -1451,7 +1488,10 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_return_list_of_objects_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_return_list_of_objects_with_http_info(**kwargs)  # noqa: E501
+
+        return self.fake_return_list_of_objects_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
     def fake_return_list_of_objects_with_http_info(
@@ -1590,7 +1630,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_uuid_example_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.fake_uuid_example_with_http_info(uuid_example, **kwargs)  # noqa: E501
+
+        return self.fake_uuid_example_with_http_info.raw_function(
+            uuid_example,
+            **kwargs,
+        )
 
     @validate_call
     def fake_uuid_example_with_http_info(
@@ -1731,7 +1775,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_with_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.test_body_with_binary_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def test_body_with_binary_with_http_info(
@@ -1885,7 +1933,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_with_file_schema_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
+
+        return self.test_body_with_file_schema_with_http_info.raw_function(
+            file_schema_test_class,
+            **kwargs,
+        )
 
     @validate_call
     def test_body_with_file_schema_with_http_info(
@@ -2036,7 +2088,12 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_with_query_params_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
+
+        return self.test_body_with_query_params_with_http_info.raw_function(
+            query,
+            user,
+            **kwargs,
+        )
 
     @validate_call
     def test_body_with_query_params_with_http_info(
@@ -2191,7 +2248,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_client_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
+
+        return self.test_client_model_with_http_info.raw_function(
+            client,
+            **kwargs,
+        )
 
     @validate_call
     def test_client_model_with_http_info(
@@ -2348,7 +2409,12 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_date_time_query_parameter_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_date_time_query_parameter_with_http_info(date_time_query, str_query, **kwargs)  # noqa: E501
+
+        return self.test_date_time_query_parameter_with_http_info.raw_function(
+            date_time_query,
+            str_query,
+            **kwargs,
+        )
 
     @validate_call
     def test_date_time_query_parameter_with_http_info(
@@ -2541,7 +2607,25 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_endpoint_parameters_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, var_float, string, binary, byte_with_max_length, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
+
+        return self.test_endpoint_parameters_with_http_info.raw_function(
+            number,
+            double,
+            pattern_without_delimiter,
+            byte,
+            integer,
+            int32,
+            int64,
+            var_float,
+            string,
+            binary,
+            byte_with_max_length,
+            var_date,
+            date_time,
+            password,
+            param_callback,
+            **kwargs,
+        )
 
     @validate_call
     def test_endpoint_parameters_with_http_info(
@@ -2803,7 +2887,16 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_group_parameters_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, **kwargs)  # noqa: E501
+
+        return self.test_group_parameters_with_http_info.raw_function(
+            required_string_group,
+            required_boolean_group,
+            required_int64_group,
+            string_group,
+            boolean_group,
+            int64_group,
+            **kwargs,
+        )
 
     @validate_call
     def test_group_parameters_with_http_info(
@@ -2980,7 +3073,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_inline_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
+
+        return self.test_inline_additional_properties_with_http_info.raw_function(
+            request_body,
+            **kwargs,
+        )
 
     @validate_call
     def test_inline_additional_properties_with_http_info(
@@ -3129,7 +3226,11 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_inline_freeform_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request, **kwargs)  # noqa: E501
+
+        return self.test_inline_freeform_additional_properties_with_http_info.raw_function(
+            test_inline_freeform_additional_properties_request,
+            **kwargs,
+        )
 
     @validate_call
     def test_inline_freeform_additional_properties_with_http_info(
@@ -3281,7 +3382,12 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_json_form_data_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
+
+        return self.test_json_form_data_with_http_info.raw_function(
+            param,
+            param2,
+            **kwargs,
+        )
 
     @validate_call
     def test_json_form_data_with_http_info(
@@ -3455,7 +3561,17 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_query_parameter_collection_format_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, **kwargs)  # noqa: E501
+
+        return self.test_query_parameter_collection_format_with_http_info.raw_function(
+            pipe,
+            ioutil,
+            http,
+            url,
+            context,
+            allow_empty,
+            language,
+            **kwargs,
+        )
 
     @validate_call
     def test_query_parameter_collection_format_with_http_info(

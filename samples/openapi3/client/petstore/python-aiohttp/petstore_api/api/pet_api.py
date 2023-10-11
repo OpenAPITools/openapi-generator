@@ -73,7 +73,11 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
+
+        return await self.add_pet_with_http_info.raw_function(
+            pet,
+            **kwargs,
+        )
 
     @validate_call
     async def add_pet_with_http_info(
@@ -209,7 +213,12 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
+
+        return await self.delete_pet_with_http_info.raw_function(
+            pet_id,
+            api_key,
+            **kwargs,
+        )
 
     @validate_call
     async def delete_pet_with_http_info(
@@ -342,7 +351,11 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the find_pets_by_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
+
+        return await self.find_pets_by_status_with_http_info.raw_function(
+            status,
+            **kwargs,
+        )
 
     @validate_call
     async def find_pets_by_status_with_http_info(
@@ -476,7 +489,11 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the find_pets_by_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
+
+        return await self.find_pets_by_tags_with_http_info.raw_function(
+            tags,
+            **kwargs,
+        )
 
     @validate_call
     async def find_pets_by_tags_with_http_info(
@@ -612,7 +629,11 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_pet_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
+
+        return await self.get_pet_by_id_with_http_info.raw_function(
+            pet_id,
+            **kwargs,
+        )
 
     @validate_call
     async def get_pet_by_id_with_http_info(
@@ -746,7 +767,11 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
+
+        return await self.update_pet_with_http_info.raw_function(
+            pet,
+            **kwargs,
+        )
 
     @validate_call
     async def update_pet_with_http_info(
@@ -885,7 +910,13 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_pet_with_form_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
+
+        return await self.update_pet_with_form_with_http_info.raw_function(
+            pet_id,
+            name,
+            status,
+            **kwargs,
+        )
 
     @validate_call
     async def update_pet_with_form_with_http_info(
@@ -1038,7 +1069,13 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
+
+        return await self.upload_file_with_http_info.raw_function(
+            pet_id,
+            additional_metadata,
+            file,
+            **kwargs,
+        )
 
     @validate_call
     async def upload_file_with_http_info(
@@ -1197,7 +1234,13 @@ class PetApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the upload_file_with_required_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
+
+        return await self.upload_file_with_required_file_with_http_info.raw_function(
+            pet_id,
+            required_file,
+            additional_metadata,
+            **kwargs,
+        )
 
     @validate_call
     async def upload_file_with_required_file_with_http_info(

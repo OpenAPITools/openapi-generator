@@ -78,7 +78,10 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_binary_gif_with_http_info(**kwargs)  # noqa: E501
+
+        return self.test_binary_gif_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
     def test_binary_gif_with_http_info(
@@ -219,7 +222,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_body_application_octetstream_binary_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.test_body_application_octetstream_binary_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def test_body_application_octetstream_binary_with_http_info(
@@ -379,7 +386,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_body_multipart_formdata_array_of_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_body_multipart_formdata_array_of_binary_with_http_info(files, **kwargs)  # noqa: E501
+
+        return self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
+            files,
+            **kwargs,
+        )
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary_with_http_info(
@@ -535,7 +546,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_echo_body_free_form_object_response_string_with_http_info(body, **kwargs)  # noqa: E501
+
+        return self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
+            body,
+            **kwargs,
+        )
 
     @validate_call
     def test_echo_body_free_form_object_response_string_with_http_info(
@@ -690,7 +705,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_echo_body_pet_with_http_info(pet, **kwargs)  # noqa: E501
+
+        return self.test_echo_body_pet_with_http_info.raw_function(
+            pet,
+            **kwargs,
+        )
 
     @validate_call
     def test_echo_body_pet_with_http_info(
@@ -845,7 +864,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_echo_body_pet_response_string_with_http_info(pet, **kwargs)  # noqa: E501
+
+        return self.test_echo_body_pet_response_string_with_http_info.raw_function(
+            pet,
+            **kwargs,
+        )
 
     @validate_call
     def test_echo_body_pet_response_string_with_http_info(
@@ -1000,7 +1023,11 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_echo_body_tag_response_string_with_http_info(tag, **kwargs)  # noqa: E501
+
+        return self.test_echo_body_tag_response_string_with_http_info.raw_function(
+            tag,
+            **kwargs,
+        )
 
     @validate_call
     def test_echo_body_tag_response_string_with_http_info(

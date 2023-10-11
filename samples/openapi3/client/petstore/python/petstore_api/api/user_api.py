@@ -79,7 +79,11 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+
+        return self.create_user_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
     def create_user_with_http_info(
@@ -243,7 +247,11 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+
+        return self.create_users_with_array_input_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
     def create_users_with_array_input_with_http_info(
@@ -392,7 +400,11 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+
+        return self.create_users_with_list_input_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
     def create_users_with_list_input_with_http_info(
@@ -541,7 +553,11 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+
+        return self.delete_user_with_http_info.raw_function(
+            username,
+            **kwargs,
+        )
 
     @validate_call
     def delete_user_with_http_info(
@@ -683,7 +699,11 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+
+        return self.get_user_by_name_with_http_info.raw_function(
+            username,
+            **kwargs,
+        )
 
     @validate_call
     def get_user_by_name_with_http_info(
@@ -836,7 +856,12 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+
+        return self.login_user_with_http_info.raw_function(
+            username,
+            password,
+            **kwargs,
+        )
 
     @validate_call
     def login_user_with_http_info(
@@ -989,7 +1014,10 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.logout_user_with_http_info(**kwargs)  # noqa: E501
+
+        return self.logout_user_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
     def logout_user_with_http_info(
@@ -1127,7 +1155,12 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+
+        return self.update_user_with_http_info.raw_function(
+            username,
+            user,
+            **kwargs,
+        )
 
     @validate_call
     def update_user_with_http_info(

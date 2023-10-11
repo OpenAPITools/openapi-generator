@@ -90,7 +90,15 @@ class HeaderApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_header_integer_boolean_string_enums_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_header_integer_boolean_string_enums_with_http_info(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, **kwargs)  # noqa: E501
+
+        return self.test_header_integer_boolean_string_enums_with_http_info.raw_function(
+            integer_header,
+            boolean_header,
+            string_header,
+            enum_nonref_string_header,
+            enum_ref_string_header,
+            **kwargs,
+        )
 
     @validate_call
     def test_header_integer_boolean_string_enums_with_http_info(
