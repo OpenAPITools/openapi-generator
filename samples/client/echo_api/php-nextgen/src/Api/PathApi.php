@@ -74,7 +74,7 @@ class PathApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'testsPathStringPathStringIntegerPathInteger' => [
+        'testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath' => [
             'application/json',
         ],
     ];
@@ -126,48 +126,56 @@ class PathApi
     }
 
     /**
-     * Operation testsPathStringPathStringIntegerPathInteger
+     * Operation testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
      *
      * Test path parameter(s)
      *
      * @param  string $path_string path_string (required)
      * @param  int $path_integer path_integer (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
+     * @param  string $enum_nonref_string_path enum_nonref_string_path (required)
+     * @param  StringEnumRef $enum_ref_string_path enum_ref_string_path (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      * @return string
      */
-    public function testsPathStringPathStringIntegerPathInteger(
+    public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(
         string $path_string,
         int $path_integer,
-        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+        string $enum_nonref_string_path,
+        StringEnumRef $enum_ref_string_path,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): string
     {
-        list($response) = $this->testsPathStringPathStringIntegerPathIntegerWithHttpInfo($path_string, $path_integer, $contentType);
+        list($response) = $this->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path, $contentType);
         return $response;
     }
 
     /**
-     * Operation testsPathStringPathStringIntegerPathIntegerWithHttpInfo
+     * Operation testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo
      *
      * Test path parameter(s)
      *
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
+     * @param  string $enum_nonref_string_path (required)
+     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testsPathStringPathStringIntegerPathIntegerWithHttpInfo(
+    public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(
         string $path_string,
         int $path_integer,
-        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+        string $enum_nonref_string_path,
+        StringEnumRef $enum_ref_string_path,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): array
     {
-        $request = $this->testsPathStringPathStringIntegerPathIntegerRequest($path_string, $path_integer, $contentType);
+        $request = $this->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -254,24 +262,28 @@ class PathApi
     }
 
     /**
-     * Operation testsPathStringPathStringIntegerPathIntegerAsync
+     * Operation testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync
      *
      * Test path parameter(s)
      *
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
+     * @param  string $enum_nonref_string_path (required)
+     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function testsPathStringPathStringIntegerPathIntegerAsync(
+    public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(
         string $path_string,
         int $path_integer,
-        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+        string $enum_nonref_string_path,
+        StringEnumRef $enum_ref_string_path,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): PromiseInterface
     {
-        return $this->testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo($path_string, $path_integer, $contentType)
+        return $this->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsyncWithHttpInfo($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -280,25 +292,29 @@ class PathApi
     }
 
     /**
-     * Operation testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo
+     * Operation testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsyncWithHttpInfo
      *
      * Test path parameter(s)
      *
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
+     * @param  string $enum_nonref_string_path (required)
+     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function testsPathStringPathStringIntegerPathIntegerAsyncWithHttpInfo(
+    public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsyncWithHttpInfo(
         $path_string,
         $path_integer,
-        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+        $enum_nonref_string_path,
+        $enum_ref_string_path,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): PromiseInterface
     {
         $returnType = 'string';
-        $request = $this->testsPathStringPathStringIntegerPathIntegerRequest($path_string, $path_integer, $contentType);
+        $request = $this->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -337,38 +353,56 @@ class PathApi
     }
 
     /**
-     * Create request for operation 'testsPathStringPathStringIntegerPathInteger'
+     * Create request for operation 'testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
      *
      * @param  string $path_string (required)
      * @param  int $path_integer (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathInteger'] to see the possible values for this operation
+     * @param  string $enum_nonref_string_path (required)
+     * @param  StringEnumRef $enum_ref_string_path (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testsPathStringPathStringIntegerPathIntegerRequest(
+    public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest(
         $path_string,
         $path_integer,
-        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathInteger'][0]
+        $enum_nonref_string_path,
+        $enum_ref_string_path,
+        string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): Request
     {
 
         // verify the required parameter 'path_string' is set
         if ($path_string === null || (is_array($path_string) && count($path_string) === 0)) {
             throw new InvalidArgumentException(
-                'Missing the required parameter $path_string when calling testsPathStringPathStringIntegerPathInteger'
+                'Missing the required parameter $path_string when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
 
         // verify the required parameter 'path_integer' is set
         if ($path_integer === null || (is_array($path_integer) && count($path_integer) === 0)) {
             throw new InvalidArgumentException(
-                'Missing the required parameter $path_integer when calling testsPathStringPathStringIntegerPathInteger'
+                'Missing the required parameter $path_integer when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
+            );
+        }
+
+        // verify the required parameter 'enum_nonref_string_path' is set
+        if ($enum_nonref_string_path === null || (is_array($enum_nonref_string_path) && count($enum_nonref_string_path) === 0)) {
+            throw new InvalidArgumentException(
+                'Missing the required parameter $enum_nonref_string_path when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
+            );
+        }
+
+        // verify the required parameter 'enum_ref_string_path' is set
+        if ($enum_ref_string_path === null || (is_array($enum_ref_string_path) && count($enum_ref_string_path) === 0)) {
+            throw new InvalidArgumentException(
+                'Missing the required parameter $enum_ref_string_path when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
 
 
-        $resourcePath = '/path/string/{path_string}/integer/{path_integer}';
+        $resourcePath = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -390,6 +424,22 @@ class PathApi
             $resourcePath = str_replace(
                 '{' . 'path_integer' . '}',
                 ObjectSerializer::toPathValue($path_integer),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($enum_nonref_string_path !== null) {
+            $resourcePath = str_replace(
+                '{' . 'enum_nonref_string_path' . '}',
+                ObjectSerializer::toPathValue($enum_nonref_string_path),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($enum_ref_string_path !== null) {
+            $resourcePath = str_replace(
+                '{' . 'enum_ref_string_path' . '}',
+                ObjectSerializer::toPathValue($enum_ref_string_path),
                 $resourcePath
             );
         }

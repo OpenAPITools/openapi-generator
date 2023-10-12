@@ -155,10 +155,10 @@
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>4.13.2</junit.version>
-    <logback.version>1.2.10</logback.version>
+    <logback.version>1.2.12</logback.version>
     <cxf.version>3.2.7</cxf.version>
-    <jackson.jaxrs.version>2.13.2</jackson.jaxrs.version>
-    <jackson.version>2.14.1</jackson.version>
+    <jackson.jaxrs.version>2.15.2</jackson.jaxrs.version>
+    <jackson.version>2.15.2</jackson.version>
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
     <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>

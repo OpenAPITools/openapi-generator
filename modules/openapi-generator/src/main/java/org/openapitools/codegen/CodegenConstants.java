@@ -429,4 +429,6 @@ public class CodegenConstants {
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
+
+    public static final String WITH_GO_MOD = "withGoMod";
 }

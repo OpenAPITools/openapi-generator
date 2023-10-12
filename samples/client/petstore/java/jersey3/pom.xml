@@ -338,14 +338,14 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jersey-version>3.0.4</jersey-version>
-        <jackson-version>2.13.4</jackson-version>
-        <jackson-databind-version>2.13.4.2</jackson-databind-version>
+        <jersey-version>3.1.1</jersey-version>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        <jakarta-annotation-version>2.1.0</jakarta-annotation-version>
-        <junit-version>5.8.2</junit-version>
-        <http-signature-version>1.7</http-signature-version>
-        <scribejava-apis-version>8.3.1</scribejava-apis-version>
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        <junit-version>5.10.0</junit-version>
+        <http-signature-version>1.8</http-signature-version>
+        <scribejava-apis-version>8.3.3</scribejava-apis-version>
         <spotless.version>2.21.0</spotless.version>
     </properties>
 </project>

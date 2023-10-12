@@ -30,6 +30,7 @@ class StoreApiTest extends TestCase
         $pet = new Pet();
         $pet->setId($id);
         $pet->setName('PHP Unit Test');
+        $pet->setPhotoUrls(array('http://a.com'));
         $pet->setStatus('available');
         // new tag
         $tag = new Tag();

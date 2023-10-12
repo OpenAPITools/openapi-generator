@@ -59,7 +59,7 @@ class ApiException extends Exception
      *
      * @var mixed
      */
-    protected mixed $responseObject;
+    protected mixed $responseObject = null;
 
     /**
      * Constructor

@@ -33,7 +33,7 @@ class AuthTest extends TestCase
 
         $fakeHttpClient = new FakeHttpClient();
         $api = new PetApi($fakeHttpClient, $authConfig);
-        $api->addPet(new Pet());
+        $api->addPet(new Pet(array('name' => 'testing', 'photo_urls' => array('http://a.com'))));
 
         $headers = $fakeHttpClient->getLastRequest()->getHeaders();
 

@@ -22,6 +22,7 @@ module OpenapiClient
     # Test query parameter(s)
     # Test query parameter(s)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :enum_nonref_string_query 
     # @option opts [StringEnumRef] :enum_ref_string_query 
     # @return [String]
     def test_enum_ref_string(opts = {})
@@ -32,17 +33,23 @@ module OpenapiClient
     # Test query parameter(s)
     # Test query parameter(s)
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :enum_nonref_string_query 
     # @option opts [StringEnumRef] :enum_ref_string_query 
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def test_enum_ref_string_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: QueryApi.test_enum_ref_string ...'
       end
+      allowable_values = ["success", "failure", "unclassified"]
+      if @api_client.config.client_side_validation && opts[:'enum_nonref_string_query'] && !allowable_values.include?(opts[:'enum_nonref_string_query'])
+        fail ArgumentError, "invalid value for \"enum_nonref_string_query\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/query/enum_ref_string'
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'enum_nonref_string_query'] = opts[:'enum_nonref_string_query'] if !opts[:'enum_nonref_string_query'].nil?
       query_params[:'enum_ref_string_query'] = opts[:'enum_ref_string_query'] if !opts[:'enum_ref_string_query'].nil?
 
       # header parameters
