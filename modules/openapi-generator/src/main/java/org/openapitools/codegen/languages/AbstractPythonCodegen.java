@@ -867,6 +867,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         TreeSet<String> datetimeImports = new TreeSet<>();
         TreeSet<String> modelImports = new TreeSet<>();
         TreeSet<String> postponedModelImports = new TreeSet<>();
+        TreeSet<String> discriminatorModelImports = new TreeSet<>();
 
         for (ModelMap m : objs.getModels()) {
             TreeSet<String> exampleImports = new TreeSet<>();
@@ -929,7 +930,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     typingImports.add("Union");
                     Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getMappingName());
+                        discriminatorModelImports.add(mappedModel.getMappingName());
                     }
                 }
             }
@@ -1034,6 +1035,19 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 model.getVendorExtensions().putIfAbsent("x-py-postponed-model-imports", modelsToImport);
+            }
+
+            if (!discriminatorModelImports.isEmpty()) {
+                Set<String> modelsToImport = new TreeSet<>();
+                for (String modelImport : discriminatorModelImports) {
+                    if (modelImport.equals(model.classname)) {
+                        // skip self import
+                        continue;
+                    }
+                    modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                }
+
+                model.discriminator.getVendorExtensions().putIfAbsent("x-py-discriminator-model-imports", modelsToImport);
             }
         }
 

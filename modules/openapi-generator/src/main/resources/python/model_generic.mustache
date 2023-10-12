@@ -93,13 +93,22 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     __discriminator_property_name: ClassVar[List[str]] = '{{discriminator.propertyBaseName}}'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
-    }
+    __discriminator_value_class_map: Union[ClassVar[Dict[str, str]], None] = None
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
+
+        if cls.__discriminator_value_class_map == None:
+            # Prevent circular imports caused by mutually referencing classes
+            {{#vendorExtensions.x-py-discriminator-model-imports}}
+            {{{.}}}
+            {{/vendorExtensions.x-py-discriminator-model-imports}}
+
+            cls.__discriminator_value_class_map = {
+                {{#mappedModels}}'{{{mappingName}}}': {{{modelName}}}{{^-last}},{{/-last}}{{/mappedModels}}
+            }
+
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
             return cls.__discriminator_value_class_map.get(discriminator_value)
