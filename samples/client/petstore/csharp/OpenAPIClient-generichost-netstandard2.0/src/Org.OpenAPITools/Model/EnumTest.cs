@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumInteger
         /// </summary>
         [JsonPropertyName("enum_integer")]
-        public EnumIntegerEnum EnumInteger { get; set; }
+        public Option<EnumIntegerEnum> EnumInteger { get; set; }
 
         /// <summary>
         /// Defines EnumIntegerOnly
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
         [JsonPropertyName("enum_integer_only")]
-        public EnumIntegerOnlyEnum EnumIntegerOnly { get; set; }
+        public Option<EnumIntegerOnlyEnum> EnumIntegerOnly { get; set; }
 
         /// <summary>
         /// Defines EnumNumber
@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumNumber
         /// </summary>
         [JsonPropertyName("enum_number")]
-        public EnumNumberEnum EnumNumber { get; set; }
+        public Option<EnumNumberEnum> EnumNumber { get; set; }
 
         /// <summary>
         /// Defines EnumString
@@ -413,7 +413,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumString
         /// </summary>
         [JsonPropertyName("enum_string")]
-        public EnumStringEnum EnumString { get; set; }
+        public Option<EnumStringEnum> EnumString { get; set; }
 
         /// <summary>
         /// Defines EnumStringRequired
@@ -575,25 +575,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumDefaultValue")]
-        public OuterEnumDefaultValue OuterEnumDefaultValue { get; set; }
+        public Option<OuterEnumDefaultValue> OuterEnumDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [JsonPropertyName("outerEnumInteger")]
-        public OuterEnumInteger OuterEnumInteger { get; set; }
+        public Option<OuterEnumInteger> OuterEnumInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumIntegerDefaultValue")]
-        public OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue { get; set; }
+        public Option<OuterEnumIntegerDefaultValue> OuterEnumIntegerDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [JsonPropertyName("outerEnum")]
-        public OuterEnum? OuterEnum { get; set; }
+        public Option<OuterEnum?> OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

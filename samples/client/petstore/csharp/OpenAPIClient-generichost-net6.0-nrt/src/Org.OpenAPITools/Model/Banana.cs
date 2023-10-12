@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         [JsonConstructor]
-        public Banana(decimal lengthCm)
+        public Banana(Option<decimal> lengthCm)
         {
             LengthCm = lengthCm;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal LengthCm { get; set; }
+        public Option<decimal> LengthCm { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? lengthCm = default;
+            Option<decimal> lengthCm = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,16 +122,13 @@ namespace Org.OpenAPITools.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                lengthCm = utf8JsonReader.GetDecimal();
+                                lengthCm = new Option<decimal>(utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (lengthCm == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class Banana.");
 
             return new Banana(lengthCm.Value);
         }

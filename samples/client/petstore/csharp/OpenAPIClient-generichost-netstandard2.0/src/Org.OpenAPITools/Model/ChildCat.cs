@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public new PetTypeEnum PetType { get; set; }
+        public new Option<PetTypeEnum> PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets Name

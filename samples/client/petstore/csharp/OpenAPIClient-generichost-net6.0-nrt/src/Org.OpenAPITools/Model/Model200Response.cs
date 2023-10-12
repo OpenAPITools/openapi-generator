@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string varClass, int name)
+        public Model200Response(Option<string> varClass, Option<int> name)
         {
             VarClass = varClass;
             Name = name;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string VarClass { get; set; }
+        public Option<string> VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int Name { get; set; }
+        public Option<int> Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? varClass = default;
-            int? name = default;
+            Option<string> varClass = default;
+            Option<int> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,23 +131,17 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "class":
-                            varClass = utf8JsonReader.GetString();
+                            varClass = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                name = utf8JsonReader.GetInt32();
+                                name = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (varClass == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
 
             return new Model200Response(varClass, name.Value);
         }

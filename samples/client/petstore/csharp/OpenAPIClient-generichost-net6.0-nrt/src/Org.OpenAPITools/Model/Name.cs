@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
-        public Name(int varName, string property, int snakeCase, int var123Number)
+        public Name(int varName, Option<string> property, Option<int> snakeCase, Option<int> var123Number)
         {
             VarName = varName;
             Property = property;
@@ -59,19 +60,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string Property { get; set; }
+        public Option<string> Property { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int SnakeCase { get; }
+        public Option<int> SnakeCase { get; }
 
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int Var123Number { get; }
+        public Option<int> Var123Number { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -166,10 +167,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? varName = default;
-            string? property = default;
-            int? snakeCase = default;
-            int? var123Number = default;
+            int varName = default;
+            Option<string> property = default;
+            Option<int> snakeCase = default;
+            Option<int> var123Number = default;
 
             while (utf8JsonReader.Read())
             {
@@ -191,15 +192,15 @@ namespace Org.OpenAPITools.Model
                                 varName = utf8JsonReader.GetInt32();
                             break;
                         case "property":
-                            property = utf8JsonReader.GetString();
+                            property = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "snake_case":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                snakeCase = utf8JsonReader.GetInt32();
+                                snakeCase = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         case "123Number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                var123Number = utf8JsonReader.GetInt32();
+                                var123Number = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -209,15 +210,6 @@ namespace Org.OpenAPITools.Model
 
             if (varName == null)
                 throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
-
-            if (property == null)
-                throw new ArgumentNullException(nameof(property), "Property is required for class Name.");
-
-            if (snakeCase == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
-
-            if (var123Number == null)
-                throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
 
             return new Name(varName.Value, property, snakeCase.Value, var123Number.Value);
         }

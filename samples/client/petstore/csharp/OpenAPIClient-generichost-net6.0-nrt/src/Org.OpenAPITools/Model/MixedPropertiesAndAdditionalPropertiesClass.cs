@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="uuidWithPattern">uuidWithPattern</param>
         [JsonConstructor]
-        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
+        public MixedPropertiesAndAdditionalPropertiesClass(Option<DateTime> dateTime, Option<Dictionary<string, Animal>> map, Option<Guid> uuid, Option<Guid> uuidWithPattern)
         {
             DateTime = dateTime;
             Map = map;
@@ -53,25 +54,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
-        public DateTime DateTime { get; set; }
+        public Option<DateTime> DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
         [JsonPropertyName("map")]
-        public Dictionary<string, Animal> Map { get; set; }
+        public Option<Dictionary<string, Animal>> Map { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public Guid Uuid { get; set; }
+        public Option<Guid> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [JsonPropertyName("uuid_with_pattern")]
-        public Guid UuidWithPattern { get; set; }
+        public Option<Guid> UuidWithPattern { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -140,10 +141,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime? dateTime = default;
-            Dictionary<string, Animal>? map = default;
-            Guid? uuid = default;
-            Guid? uuidWithPattern = default;
+            Option<DateTime> dateTime = default;
+            Option<Dictionary<string, Animal>> map = default;
+            Option<Guid> uuid = default;
+            Option<Guid> uuidWithPattern = default;
 
             while (utf8JsonReader.Read())
             {
@@ -162,37 +163,25 @@ namespace Org.OpenAPITools.Model
                     {
                         case "dateTime":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                dateTime = new Option<DateTime>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
+                                map = new Option<Dictionary<string, Animal>>(JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = utf8JsonReader.GetGuid();
+                                uuid = new Option<Guid>(utf8JsonReader.GetGuid());
                             break;
                         case "uuid_with_pattern":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuidWithPattern = utf8JsonReader.GetGuid();
+                                uuidWithPattern = new Option<Guid>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (dateTime == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (map == null)
-                throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuidWithPattern == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime.Value, map, uuid.Value, uuidWithPattern.Value);
         }

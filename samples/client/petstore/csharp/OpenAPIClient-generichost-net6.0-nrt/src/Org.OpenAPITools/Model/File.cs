@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        public File(string sourceURI)
+        public File(Option<string> sourceURI)
         {
             SourceURI = sourceURI;
             OnCreated();
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string SourceURI { get; set; }
+        public Option<string> SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +104,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? sourceURI = default;
+            Option<string> sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,16 +122,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "sourceURI":
-                            sourceURI = utf8JsonReader.GetString();
+                            sourceURI = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (sourceURI == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
 
             return new File(sourceURI);
         }

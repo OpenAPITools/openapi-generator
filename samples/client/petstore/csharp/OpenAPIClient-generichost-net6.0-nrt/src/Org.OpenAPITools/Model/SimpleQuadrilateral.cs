@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? quadrilateralType = default;
-            string? shapeType = default;
+            string quadrilateralType = default;
+            string shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,10 +131,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = utf8JsonReader.GetString()!;
                             break;
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = utf8JsonReader.GetString()!;
                             break;
                         default:
                             break;

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
-        public Category(long id, string name = @"default-name")
+        public Category(Option<long> id, string name = @"default-name")
         {
             Id = id;
             Name = name;
@@ -49,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            string? name = default;
+            Option<long> id = default;
+            string name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,19 +132,16 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = utf8JsonReader.GetString()!;
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Category.");
 
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Category.");

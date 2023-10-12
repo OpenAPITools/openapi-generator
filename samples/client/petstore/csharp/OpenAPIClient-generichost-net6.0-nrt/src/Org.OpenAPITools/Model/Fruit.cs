@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, string color)
+        public Fruit(Apple apple, Option<string> color)
         {
             Apple = apple;
             Color = color;
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana banana, Option<string> color)
         {
             Banana = banana;
             Color = color;
@@ -70,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? color = default;
+            Option<string> color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -158,16 +159,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
             if (apple != null)
                 return new Fruit(apple, color);

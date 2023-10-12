@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -53,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
+        public FormatTest(Option<System.IO.Stream> binary, byte[] varByte, DateTime date, Option<DateTime> dateTime, Option<decimal> varDecimal, Option<double> varDouble, Option<float> varFloat, Option<int> int32, Option<long> int64, Option<int> integer, decimal number, string password, Option<string> patternWithBackslash, Option<string> patternWithDigits, Option<string> patternWithDigitsAndDelimiter, Option<string> varString, Option<uint> unsignedInteger, Option<ulong> unsignedLong, Option<Guid> uuid)
         {
             Binary = binary;
             VarByte = varByte;
@@ -83,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get; set; }
+        public Option<System.IO.Stream> Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets VarByte
@@ -94,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -103,43 +104,43 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [JsonPropertyName("dateTime")]
-        public DateTime DateTime { get; set; }
+        public Option<DateTime> DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets VarDecimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal VarDecimal { get; set; }
+        public Option<decimal> VarDecimal { get; set; }
 
         /// <summary>
         /// Gets or Sets VarDouble
         /// </summary>
         [JsonPropertyName("double")]
-        public double VarDouble { get; set; }
+        public Option<double> VarDouble { get; set; }
 
         /// <summary>
         /// Gets or Sets VarFloat
         /// </summary>
         [JsonPropertyName("float")]
-        public float VarFloat { get; set; }
+        public Option<float> VarFloat { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int Int32 { get; set; }
+        public Option<int> Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long Int64 { get; set; }
+        public Option<long> Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int Integer { get; set; }
+        public Option<int> Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -158,46 +159,46 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string PatternWithBackslash { get; set; }
+        public Option<string> PatternWithBackslash { get; set; }
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string PatternWithDigits { get; set; }
+        public Option<string> PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        public Option<string> PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public string VarString { get; set; }
+        public Option<string> VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [JsonPropertyName("unsigned_integer")]
-        public uint UnsignedInteger { get; set; }
+        public Option<uint> UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [JsonPropertyName("unsigned_long")]
-        public ulong UnsignedLong { get; set; }
+        public Option<ulong> UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid Uuid { get; set; }
+        public Option<Guid> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -400,25 +401,25 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            System.IO.Stream? binary = default;
-            byte[]? varByte = default;
-            DateTime? date = default;
-            DateTime? dateTime = default;
-            decimal? varDecimal = default;
-            double? varDouble = default;
-            float? varFloat = default;
-            int? int32 = default;
-            long? int64 = default;
-            int? integer = default;
-            decimal? number = default;
-            string? password = default;
-            string? patternWithBackslash = default;
-            string? patternWithDigits = default;
-            string? patternWithDigitsAndDelimiter = default;
-            string? varString = default;
-            uint? unsignedInteger = default;
-            ulong? unsignedLong = default;
-            Guid? uuid = default;
+            Option<System.IO.Stream> binary = default;
+            byte[] varByte = default;
+            DateTime date = default;
+            Option<DateTime> dateTime = default;
+            Option<decimal> varDecimal = default;
+            Option<double> varDouble = default;
+            Option<float> varFloat = default;
+            Option<int> int32 = default;
+            Option<long> int64 = default;
+            Option<int> integer = default;
+            decimal number = default;
+            string password = default;
+            Option<string> patternWithBackslash = default;
+            Option<string> patternWithDigits = default;
+            Option<string> patternWithDigitsAndDelimiter = default;
+            Option<string> varString = default;
+            Option<uint> unsignedInteger = default;
+            Option<ulong> unsignedLong = default;
+            Option<Guid> uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -437,11 +438,11 @@ namespace Org.OpenAPITools.Model
                     {
                         case "binary":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
+                                binary = new Option<System.IO.Stream>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "byte":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varByte = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
+                                varByte = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions)!;
                             break;
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -449,62 +450,62 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "dateTime":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                dateTime = new Option<DateTime>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "decimal":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDecimal = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
+                                varDecimal = new Option<decimal>(JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "double":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDouble = utf8JsonReader.GetDouble();
+                                varDouble = new Option<double>(utf8JsonReader.GetDouble());
                             break;
                         case "float":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varFloat = (float)utf8JsonReader.GetDouble();
+                                varFloat = new Option<float>((float)utf8JsonReader.GetDouble());
                             break;
                         case "int32":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int32 = utf8JsonReader.GetInt32();
+                                int32 = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         case "int64":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64 = utf8JsonReader.GetInt64();
+                                int64 = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                integer = utf8JsonReader.GetInt32();
+                                integer = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 number = utf8JsonReader.GetDecimal();
                             break;
                         case "password":
-                            password = utf8JsonReader.GetString();
+                            password = utf8JsonReader.GetString()!;
                             break;
                         case "pattern_with_backslash":
-                            patternWithBackslash = utf8JsonReader.GetString();
+                            patternWithBackslash = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "pattern_with_digits":
-                            patternWithDigits = utf8JsonReader.GetString();
+                            patternWithDigits = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "pattern_with_digits_and_delimiter":
-                            patternWithDigitsAndDelimiter = utf8JsonReader.GetString();
+                            patternWithDigitsAndDelimiter = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "string":
-                            varString = utf8JsonReader.GetString();
+                            varString = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "unsigned_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedInteger = utf8JsonReader.GetUInt32();
+                                unsignedInteger = new Option<uint>(utf8JsonReader.GetUInt32());
                             break;
                         case "unsigned_long":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedLong = utf8JsonReader.GetUInt64();
+                                unsignedLong = new Option<ulong>(utf8JsonReader.GetUInt64());
                             break;
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = utf8JsonReader.GetGuid();
+                                uuid = new Option<Guid>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
@@ -512,62 +513,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (binary == null)
-                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
-
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is required for class FormatTest.");
 
             if (date == null)
                 throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
 
-            if (dateTime == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is required for class FormatTest.");
-
-            if (varDecimal == null)
-                throw new ArgumentNullException(nameof(varDecimal), "Property is required for class FormatTest.");
-
-            if (varDouble == null)
-                throw new ArgumentNullException(nameof(varDouble), "Property is required for class FormatTest.");
-
-            if (varFloat == null)
-                throw new ArgumentNullException(nameof(varFloat), "Property is required for class FormatTest.");
-
-            if (int32 == null)
-                throw new ArgumentNullException(nameof(int32), "Property is required for class FormatTest.");
-
-            if (int64 == null)
-                throw new ArgumentNullException(nameof(int64), "Property is required for class FormatTest.");
-
-            if (integer == null)
-                throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
-
             if (number == null)
                 throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
 
             if (password == null)
                 throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
-
-            if (patternWithBackslash == null)
-                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
-
-            if (patternWithDigits == null)
-                throw new ArgumentNullException(nameof(patternWithDigits), "Property is required for class FormatTest.");
-
-            if (patternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
-
-            if (varString == null)
-                throw new ArgumentNullException(nameof(varString), "Property is required for class FormatTest.");
-
-            if (unsignedInteger == null)
-                throw new ArgumentNullException(nameof(unsignedInteger), "Property is required for class FormatTest.");
-
-            if (unsignedLong == null)
-                throw new ArgumentNullException(nameof(unsignedLong), "Property is required for class FormatTest.");
-
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
 
             return new FormatTest(binary, varByte, date.Value, dateTime.Value, varDecimal.Value, varDouble.Value, varFloat.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }

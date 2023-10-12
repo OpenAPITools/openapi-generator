@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
+        public Pet(Option<Category> category, Option<long> id, string name, List<string> photoUrls, Option<StatusEnum> status, Option<List<Tag>> tags)
         {
             Category = category;
             Id = id;
@@ -139,19 +140,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category Category { get; set; }
+        public Option<Category> Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -170,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag> Tags { get; set; }
+        public Option<List<Tag>> Tags { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -230,12 +231,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Category? category = default;
-            long? id = default;
-            string? name = default;
-            List<string>? photoUrls = default;
-            Pet.StatusEnum? status = default;
-            List<Tag>? tags = default;
+            Option<Category> category = default;
+            Option<long> id = default;
+            string name = default;
+            List<string> photoUrls = default;
+            Option<Pet.StatusEnum> status = default;
+            Option<List<Tag>> tags = default;
 
             while (utf8JsonReader.Read())
             {
@@ -254,28 +255,28 @@ namespace Org.OpenAPITools.Model
                     {
                         case "category":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
+                                category = new Option<Category>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = utf8JsonReader.GetString()!;
                             break;
                         case "photoUrls":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!;
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
                             status = statusRawValue == null
                                 ? null
-                                : Pet.StatusEnumFromStringOrDefault(statusRawValue);
+                                : new Option<Pet.StatusEnum>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "tags":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
+                                tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -283,23 +284,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (category == null)
-                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
-
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
 
             if (photoUrls == null)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
-
-            if (status == null)
-                throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
-
-            if (tags == null)
-                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
 
             return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }

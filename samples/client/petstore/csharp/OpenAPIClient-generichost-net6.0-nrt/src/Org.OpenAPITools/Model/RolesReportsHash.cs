@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="role">role</param>
         /// <param name="roleUuid">roleUuid</param>
         [JsonConstructor]
-        public RolesReportsHash(RolesReportsHashRole role, Guid roleUuid)
+        public RolesReportsHash(Option<RolesReportsHashRole> role, Option<Guid> roleUuid)
         {
             Role = role;
             RoleUuid = roleUuid;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole Role { get; set; }
+        public Option<RolesReportsHashRole> Role { get; set; }
 
         /// <summary>
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid RoleUuid { get; set; }
+        public Option<Guid> RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            RolesReportsHashRole? role = default;
-            Guid? roleUuid = default;
+            Option<RolesReportsHashRole> role = default;
+            Option<Guid> roleUuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,23 +132,17 @@ namespace Org.OpenAPITools.Model
                     {
                         case "role":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                role = JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions);
+                                role = new Option<RolesReportsHashRole>(JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "role_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                roleUuid = utf8JsonReader.GetGuid();
+                                roleUuid = new Option<Guid>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (role == null)
-                throw new ArgumentNullException(nameof(role), "Property is required for class RolesReportsHash.");
-
-            if (roleUuid == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is required for class RolesReportsHash.");
 
             return new RolesReportsHash(role, roleUuid.Value);
         }

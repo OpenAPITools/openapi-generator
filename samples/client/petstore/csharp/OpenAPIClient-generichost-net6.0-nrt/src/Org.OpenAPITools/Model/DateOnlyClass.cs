@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
         [JsonConstructor]
-        public DateOnlyClass(DateTime dateOnlyProperty)
+        public DateOnlyClass(Option<DateTime> dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
             OnCreated();
@@ -46,9 +47,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
+        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
-        public DateTime DateOnlyProperty { get; set; }
+        public Option<DateTime> DateOnlyProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,7 +109,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime? dateOnlyProperty = default;
+            Option<DateTime> dateOnlyProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -127,16 +128,13 @@ namespace Org.OpenAPITools.Model
                     {
                         case "dateOnlyProperty":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                dateOnlyProperty = new Option<DateTime>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (dateOnlyProperty == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
 
             return new DateOnlyClass(dateOnlyProperty.Value);
         }

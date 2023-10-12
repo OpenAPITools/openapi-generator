@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(string value)
+        public TestCollectionEndingWithWordList(Option<string> value)
         {
             Value = value;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public Option<string> Value { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? value = default;
+            Option<string> value = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,16 +121,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "value":
-                            value = utf8JsonReader.GetString();
+                            value = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (value == null)
-                throw new ArgumentNullException(nameof(value), "Property is required for class TestCollectionEndingWithWordList.");
 
             return new TestCollectionEndingWithWordList(value);
         }

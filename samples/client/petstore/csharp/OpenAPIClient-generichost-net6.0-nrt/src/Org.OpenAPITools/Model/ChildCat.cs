@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
+        public ChildCat(Option<string> name, Option<PetTypeEnum> petType = new Option<PetTypeEnum>(PetTypeEnum.ChildCat)) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
             Name = name;
             PetType = petType;
@@ -101,13 +102,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public new PetTypeEnum PetType { get; set; }
+        public new Option<PetTypeEnum> PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -147,8 +148,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? name = default;
-            ChildCat.PetTypeEnum? petType = default;
+            Option<string> name = default;
+            Option<ChildCat.PetTypeEnum> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -166,25 +167,19 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "pet_type":
                             string? petTypeRawValue = utf8JsonReader.GetString();
                             petType = petTypeRawValue == null
                                 ? null
-                                : ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue);
+                                : new Option<ChildCat.PetTypeEnum>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class ChildCat.");
-
-            if (petType == null)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCat.");
 
             return new ChildCat(name, petType.Value);
         }

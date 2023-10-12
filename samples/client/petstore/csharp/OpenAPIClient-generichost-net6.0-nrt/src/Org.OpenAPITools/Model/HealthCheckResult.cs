@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(string? nullableMessage = default)
+        public HealthCheckResult(Option<string?> nullableMessage = default)
         {
             NullableMessage = nullableMessage;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string? NullableMessage { get; set; }
+        public Option<string?> NullableMessage { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? nullableMessage = default;
+            Option<string?> nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = utf8JsonReader.GetString();
+                            nullableMessage = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;

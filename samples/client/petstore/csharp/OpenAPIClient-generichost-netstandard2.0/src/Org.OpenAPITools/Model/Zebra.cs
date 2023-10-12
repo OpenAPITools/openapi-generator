@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum Type { get; set; }
+        public Option<TypeEnum> Type { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName

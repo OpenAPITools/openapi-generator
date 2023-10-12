@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Tag(long id, string name)
+        public Tag(Option<long> id, Option<string> name)
         {
             Id = id;
             Name = name;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            string? name = default;
+            Option<long> id = default;
+            Option<string> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,22 +132,16 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Tag.");
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Tag.");
 
             return new Tag(id.Value, name);
         }

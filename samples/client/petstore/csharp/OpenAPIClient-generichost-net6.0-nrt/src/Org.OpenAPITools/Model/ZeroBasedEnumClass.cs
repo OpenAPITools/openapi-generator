@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
         [JsonConstructor]
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum)
+        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum> zeroBasedEnum)
         {
             ZeroBasedEnum = zeroBasedEnum;
             OnCreated();
@@ -113,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
         [JsonPropertyName("ZeroBasedEnum")]
-        public ZeroBasedEnumEnum ZeroBasedEnum { get; set; }
+        public Option<ZeroBasedEnumEnum> ZeroBasedEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -168,7 +169,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            ZeroBasedEnumClass.ZeroBasedEnumEnum? zeroBasedEnum = default;
+            Option<ZeroBasedEnumClass.ZeroBasedEnumEnum> zeroBasedEnum = default;
 
             while (utf8JsonReader.Read())
             {
@@ -189,16 +190,13 @@ namespace Org.OpenAPITools.Model
                             string? zeroBasedEnumRawValue = utf8JsonReader.GetString();
                             zeroBasedEnum = zeroBasedEnumRawValue == null
                                 ? null
-                                : ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue);
+                                : new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (zeroBasedEnum == null)
-                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is required for class ZeroBasedEnumClass.");
 
             return new ZeroBasedEnumClass(zeroBasedEnum.Value);
         }

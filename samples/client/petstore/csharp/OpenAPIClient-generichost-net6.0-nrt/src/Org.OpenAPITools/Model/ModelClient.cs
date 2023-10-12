@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        public ModelClient(string varClient)
+        public ModelClient(Option<string> varClient)
         {
             VarClient = varClient;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string VarClient { get; set; }
+        public Option<string> VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? varClient = default;
+            Option<string> varClient = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,16 +121,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "client":
-                            varClient = utf8JsonReader.GetString();
+                            varClient = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (varClient == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is required for class ModelClient.");
 
             return new ModelClient(varClient);
         }

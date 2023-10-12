@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
+        public ArrayTest(Option<List<List<long>>> arrayArrayOfInteger, Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel, Option<List<string>> arrayOfString)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
@@ -51,19 +52,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
-        public List<List<long>> ArrayArrayOfInteger { get; set; }
+        public Option<List<List<long>>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+        public Option<List<List<ReadOnlyFirst>>> ArrayArrayOfModel { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
         [JsonPropertyName("array_of_string")]
-        public List<string> ArrayOfString { get; set; }
+        public Option<List<string>> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -120,9 +121,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<long>>? arrayArrayOfInteger = default;
-            List<List<ReadOnlyFirst>>? arrayArrayOfModel = default;
-            List<string>? arrayOfString = default;
+            Option<List<List<long>>> arrayArrayOfInteger = default;
+            Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default;
+            Option<List<string>> arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,30 +142,21 @@ namespace Org.OpenAPITools.Model
                     {
                         case "array_array_of_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayOfInteger = new Option<List<List<long>>>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_array_of_model":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayOfString = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (arrayArrayOfInteger == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
-
-            if (arrayArrayOfModel == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
-
-            if (arrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }

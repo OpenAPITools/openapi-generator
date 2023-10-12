@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Apple? apple, Banana? banana, string color)
+        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string> color)
         {
             Apple = apple;
             Banana = banana;
@@ -49,18 +50,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get; set; }
+        public Option<Apple?> Apple { get; set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Option<Banana?> Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,10 +109,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? color = default;
+            Option<string> color = default;
 
-            Apple? apple = default;
-            Banana? banana = default;
+            Option<Apple?> apple = default;
+            Option<Banana?> banana = default;
 
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
             while (utf8JsonReaderAnyOf.Read())
@@ -148,16 +149,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
 
             return new GmFruit(apple, banana, color);
         }

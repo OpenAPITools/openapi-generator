@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Dog(string breed, string className, string color = @"red") : base(className, color)
+        public Dog(Option<string> breed, string className, Option<string> color = @"red") : base(className, color)
         {
             Breed = breed;
             OnCreated();
@@ -49,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string Breed { get; set; }
+        public Option<string> Breed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? breed = default;
-            string? className = default;
-            string? color = default;
+            Option<string> breed = default;
+            string className = default;
+            Option<string> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -108,13 +109,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "breed":
-                            breed = utf8JsonReader.GetString();
+                            breed = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = utf8JsonReader.GetString()!;
                             break;
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -122,14 +123,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (breed == null)
-                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
-
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
 
             return new Dog(breed, className, color);
         }

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<Dictionary<string, Object>>? aObjVariableobject = default;
-            int? pkiNotificationtestID = default;
+            List<Dictionary<string, Object>> aObjVariableobject = default;
+            int pkiNotificationtestID = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,7 +132,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "a_objVariableobject":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                aObjVariableobject = JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                aObjVariableobject = JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions)!;
                             break;
                         case "pkiNotificationtestID":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

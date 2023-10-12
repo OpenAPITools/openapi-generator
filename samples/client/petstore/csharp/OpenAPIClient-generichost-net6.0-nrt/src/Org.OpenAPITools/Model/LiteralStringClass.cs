@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
         [JsonConstructor]
-        public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
+        public LiteralStringClass(Option<string> escapedLiteralString = @"C:\\Users\\username", Option<string> unescapedLiteralString = @"C:\Users\username")
         {
             EscapedLiteralString = escapedLiteralString;
             UnescapedLiteralString = unescapedLiteralString;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public string EscapedLiteralString { get; set; }
+        public Option<string> EscapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public string UnescapedLiteralString { get; set; }
+        public Option<string> UnescapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? escapedLiteralString = default;
-            string? unescapedLiteralString = default;
+            Option<string> escapedLiteralString = default;
+            Option<string> unescapedLiteralString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,22 +131,16 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "escapedLiteralString":
-                            escapedLiteralString = utf8JsonReader.GetString();
+                            escapedLiteralString = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "unescapedLiteralString":
-                            unescapedLiteralString = utf8JsonReader.GetString();
+                            unescapedLiteralString = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (escapedLiteralString == null)
-                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is required for class LiteralStringClass.");
-
-            if (unescapedLiteralString == null)
-                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is required for class LiteralStringClass.");
 
             return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }

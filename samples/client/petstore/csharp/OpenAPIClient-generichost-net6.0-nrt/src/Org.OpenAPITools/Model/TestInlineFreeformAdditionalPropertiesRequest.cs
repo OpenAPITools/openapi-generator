@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty) : base()
+        public TestInlineFreeformAdditionalPropertiesRequest(Option<string> someProperty) : base()
         {
             SomeProperty = someProperty;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string SomeProperty { get; set; }
+        public Option<string> SomeProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,7 +114,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? someProperty = default;
+            Option<string> someProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,16 +132,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "someProperty":
-                            someProperty = utf8JsonReader.GetString();
+                            someProperty = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (someProperty == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
 
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }

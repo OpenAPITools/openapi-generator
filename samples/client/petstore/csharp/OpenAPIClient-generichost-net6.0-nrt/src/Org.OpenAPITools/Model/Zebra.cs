@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, TypeEnum type) : base()
+        public Zebra(string className, Option<TypeEnum> type) : base()
         {
             ClassName = className;
             Type = type;
@@ -129,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum Type { get; set; }
+        public Option<TypeEnum> Type { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -202,8 +203,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
-            Zebra.TypeEnum? type = default;
+            string className = default;
+            Option<Zebra.TypeEnum> type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -221,13 +222,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = utf8JsonReader.GetString()!;
                             break;
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
                             type = typeRawValue == null
                                 ? null
-                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                                : new Option<Zebra.TypeEnum>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
                             break;
                         default:
                             break;
@@ -237,9 +238,6 @@ namespace Org.OpenAPITools.Model
 
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
 
             return new Zebra(className, type.Value);
         }

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public NullableGuidClass(Guid? uuid = default)
+        public NullableGuidClass(Option<Guid?> uuid = default)
         {
             Uuid = uuid;
             OnCreated();
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get; set; }
+        public Option<Guid?> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +104,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Guid? uuid = default;
+            Option<Guid?> uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +123,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = utf8JsonReader.GetGuid();
+                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(int code, string message, string type)
+        public ApiResponse(Option<int> code, Option<string> message, Option<string> type)
         {
             Code = code;
             Message = message;
@@ -51,19 +52,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public int Code { get; set; }
+        public Option<int> Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public Option<string> Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public Option<string> Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -120,9 +121,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? code = default;
-            string? message = default;
-            string? type = default;
+            Option<int> code = default;
+            Option<string> message = default;
+            Option<string> type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,28 +142,19 @@ namespace Org.OpenAPITools.Model
                     {
                         case "code":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                code = utf8JsonReader.GetInt32();
+                                code = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         case "message":
-                            message = utf8JsonReader.GetString();
+                            message = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "type":
-                            type = utf8JsonReader.GetString();
+                            type = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (code == null)
-                throw new ArgumentNullException(nameof(code), "Property is required for class ApiResponse.");
-
-            if (message == null)
-                throw new ArgumentNullException(nameof(message), "Property is required for class ApiResponse.");
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class ApiResponse.");
 
             return new ApiResponse(code.Value, message, type);
         }

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
+        public Capitalization(Option<string> aTTNAME, Option<string> capitalCamel, Option<string> capitalSnake, Option<string> sCAETHFlowPoints, Option<string> smallCamel, Option<string> smallSnake)
         {
             ATT_NAME = aTTNAME;
             CapitalCamel = capitalCamel;
@@ -58,37 +59,37 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get; set; }
+        public Option<string> ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string CapitalCamel { get; set; }
+        public Option<string> CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string CapitalSnake { get; set; }
+        public Option<string> CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string SCAETHFlowPoints { get; set; }
+        public Option<string> SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get; set; }
+        public Option<string> SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get; set; }
+        public Option<string> SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -148,12 +149,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? aTTNAME = default;
-            string? capitalCamel = default;
-            string? capitalSnake = default;
-            string? sCAETHFlowPoints = default;
-            string? smallCamel = default;
-            string? smallSnake = default;
+            Option<string> aTTNAME = default;
+            Option<string> capitalCamel = default;
+            Option<string> capitalSnake = default;
+            Option<string> sCAETHFlowPoints = default;
+            Option<string> smallCamel = default;
+            Option<string> smallSnake = default;
 
             while (utf8JsonReader.Read())
             {
@@ -171,46 +172,28 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ATT_NAME":
-                            aTTNAME = utf8JsonReader.GetString();
+                            aTTNAME = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "CapitalCamel":
-                            capitalCamel = utf8JsonReader.GetString();
+                            capitalCamel = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "Capital_Snake":
-                            capitalSnake = utf8JsonReader.GetString();
+                            capitalSnake = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "SCA_ETH_Flow_Points":
-                            sCAETHFlowPoints = utf8JsonReader.GetString();
+                            sCAETHFlowPoints = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "smallCamel":
-                            smallCamel = utf8JsonReader.GetString();
+                            smallCamel = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "small_Snake":
-                            smallSnake = utf8JsonReader.GetString();
+                            smallSnake = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (aTTNAME == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
-
-            if (capitalCamel == null)
-                throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
-
-            if (capitalSnake == null)
-                throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
-
-            if (sCAETHFlowPoints == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
-
-            if (smallCamel == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
-
-            if (smallSnake == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }

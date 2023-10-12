@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Id

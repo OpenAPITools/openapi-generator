@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justNumber">justNumber</param>
         [JsonConstructor]
-        public NumberOnly(decimal justNumber)
+        public NumberOnly(Option<decimal> justNumber)
         {
             JustNumber = justNumber;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal JustNumber { get; set; }
+        public Option<decimal> JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? justNumber = default;
+            Option<decimal> justNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,16 +122,13 @@ namespace Org.OpenAPITools.Model
                     {
                         case "JustNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                justNumber = utf8JsonReader.GetDecimal();
+                                justNumber = new Option<decimal>(utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (justNumber == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is required for class NumberOnly.");
 
             return new NumberOnly(justNumber.Value);
         }

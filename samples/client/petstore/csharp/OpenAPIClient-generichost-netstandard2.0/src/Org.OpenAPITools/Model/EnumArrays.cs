@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public JustSymbolEnum JustSymbol { get; set; }
+        public Option<JustSymbolEnum> JustSymbol { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayEnum

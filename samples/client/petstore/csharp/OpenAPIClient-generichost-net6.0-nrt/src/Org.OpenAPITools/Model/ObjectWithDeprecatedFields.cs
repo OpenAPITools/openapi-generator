@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
+        public ObjectWithDeprecatedFields(Option<List<string>> bars, Option<DeprecatedObject> deprecatedRef, Option<decimal> id, Option<string> uuid)
         {
             Bars = bars;
             DeprecatedRef = deprecatedRef;
@@ -54,27 +55,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string> Bars { get; set; }
+        public Option<List<string>> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        public Option<DeprecatedObject> DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal Id { get; set; }
+        public Option<decimal> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string Uuid { get; set; }
+        public Option<string> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -132,10 +133,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<string>? bars = default;
-            DeprecatedObject? deprecatedRef = default;
-            decimal? id = default;
-            string? uuid = default;
+            Option<List<string>> bars = default;
+            Option<DeprecatedObject> deprecatedRef = default;
+            Option<decimal> id = default;
+            Option<string> uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -154,36 +155,24 @@ namespace Org.OpenAPITools.Model
                     {
                         case "bars":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                bars = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                bars = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "deprecatedRef":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions);
+                                deprecatedRef = new Option<DeprecatedObject>(JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetDecimal();
+                                id = new Option<decimal>(utf8JsonReader.GetDecimal());
                             break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetString();
+                            uuid = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (bars == null)
-                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (deprecatedRef == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }

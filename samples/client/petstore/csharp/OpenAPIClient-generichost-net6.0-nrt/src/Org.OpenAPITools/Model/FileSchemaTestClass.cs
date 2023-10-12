@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="file">file</param>
         /// <param name="files">files</param>
         [JsonConstructor]
-        public FileSchemaTestClass(File file, List<File> files)
+        public FileSchemaTestClass(Option<File> file, Option<List<File>> files)
         {
             File = file;
             Files = files;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public File File { get; set; }
+        public Option<File> File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public List<File> Files { get; set; }
+        public Option<List<File>> Files { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -111,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            File? file = default;
-            List<File>? files = default;
+            Option<File> file = default;
+            Option<List<File>> files = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,23 +132,17 @@ namespace Org.OpenAPITools.Model
                     {
                         case "file":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                file = JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions);
+                                file = new Option<File>(JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "files":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                files = JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions);
+                                files = new Option<List<File>>(JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (file == null)
-                throw new ArgumentNullException(nameof(file), "Property is required for class FileSchemaTestClass.");
-
-            if (files == null)
-                throw new ArgumentNullException(nameof(files), "Property is required for class FileSchemaTestClass.");
 
             return new FileSchemaTestClass(file, files);
         }

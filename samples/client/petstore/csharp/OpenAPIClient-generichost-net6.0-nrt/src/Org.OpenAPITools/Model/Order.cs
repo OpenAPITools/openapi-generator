@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
         [JsonConstructor]
-        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
+        public Order(Option<long> id, Option<long> petId, Option<int> quantity, Option<DateTime> shipDate, Option<StatusEnum> status, Option<bool> complete = false)
         {
             Id = id;
             PetId = petId;
@@ -139,38 +140,38 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long PetId { get; set; }
+        public Option<long> PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public Option<int> Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
-        public DateTime ShipDate { get; set; }
+        public Option<DateTime> ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool Complete { get; set; }
+        public Option<bool> Complete { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -235,12 +236,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            long? petId = default;
-            int? quantity = default;
-            DateTime? shipDate = default;
-            Order.StatusEnum? status = default;
-            bool? complete = default;
+            Option<long> id = default;
+            Option<long> petId = default;
+            Option<int> quantity = default;
+            Option<DateTime> shipDate = default;
+            Option<Order.StatusEnum> status = default;
+            Option<bool> complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -259,53 +260,35 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "petId":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                petId = utf8JsonReader.GetInt64();
+                                petId = new Option<long>(utf8JsonReader.GetInt64());
                             break;
                         case "quantity":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                quantity = utf8JsonReader.GetInt32();
+                                quantity = new Option<int>(utf8JsonReader.GetInt32());
                             break;
                         case "shipDate":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                shipDate = new Option<DateTime>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
                             status = statusRawValue == null
                                 ? null
-                                : Order.StatusEnumFromStringOrDefault(statusRawValue);
+                                : new Option<Order.StatusEnum>(Order.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "complete":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                complete = utf8JsonReader.GetBoolean();
+                                complete = new Option<bool>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
-
-            if (petId == null)
-                throw new ArgumentNullException(nameof(petId), "Property is required for class Order.");
-
-            if (quantity == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is required for class Order.");
-
-            if (shipDate == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is required for class Order.");
-
-            if (status == null)
-                throw new ArgumentNullException(nameof(status), "Property is required for class Order.");
-
-            if (complete == null)
-                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
 
             return new Order(id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value, complete.Value);
         }

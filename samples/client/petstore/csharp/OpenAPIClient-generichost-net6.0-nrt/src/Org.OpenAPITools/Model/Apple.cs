@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
         [JsonConstructor]
-        public Apple(string colorCode, string cultivar, string origin)
+        public Apple(Option<string> colorCode, Option<string> cultivar, Option<string> origin)
         {
             ColorCode = colorCode;
             Cultivar = cultivar;
@@ -51,19 +52,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ColorCode
         /// </summary>
         [JsonPropertyName("color_code")]
-        public string ColorCode { get; set; }
+        public Option<string> ColorCode { get; set; }
 
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string Cultivar { get; set; }
+        public Option<string> Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public string Origin { get; set; }
+        public Option<string> Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -147,9 +148,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? colorCode = default;
-            string? cultivar = default;
-            string? origin = default;
+            Option<string> colorCode = default;
+            Option<string> cultivar = default;
+            Option<string> origin = default;
 
             while (utf8JsonReader.Read())
             {
@@ -167,28 +168,19 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color_code":
-                            colorCode = utf8JsonReader.GetString();
+                            colorCode = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "cultivar":
-                            cultivar = utf8JsonReader.GetString();
+                            cultivar = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         case "origin":
-                            origin = utf8JsonReader.GetString();
+                            origin = new Option<string>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (colorCode == null)
-                throw new ArgumentNullException(nameof(colorCode), "Property is required for class Apple.");
-
-            if (cultivar == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is required for class Apple.");
-
-            if (origin == null)
-                throw new ArgumentNullException(nameof(origin), "Property is required for class Apple.");
 
             return new Apple(colorCode, cultivar, origin);
         }
