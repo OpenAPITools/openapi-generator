@@ -161,7 +161,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	query := r.URL.Query()
 	tagsParam := strings.Split(query.Get("tags"), ",")
 	if !query.Has("bornAfter"){
-		c.errorHandler(w, r, errors.New(errMsgRequiredMissing), nil)
+		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
 		return
 	}
 	bornAfterParam, err := parseTime(query.Get("bornAfter"))

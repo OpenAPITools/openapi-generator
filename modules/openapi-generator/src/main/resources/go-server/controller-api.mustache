@@ -191,7 +191,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isDateTime}}
 	{{#required}}
 	if !query.Has("{{baseName}}"){
-		c.errorHandler(w, r, errors.New(errMsgRequiredMissing), nil)
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
 	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
