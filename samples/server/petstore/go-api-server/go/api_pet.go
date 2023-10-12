@@ -151,18 +151,20 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	query := r.URL.Query()
-	genderParamPtr, err := NewGenderFromValue(params["gender"])
+	genderParam, err := NewGenderFromValue(params["gender"])
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	genderParam := *genderParamPtr
-	speciesParamPtr, err := NewSpeciesFromValue(query.Get("species"))
+	if !query.Has("species"){
+		c.errorHandler(w, r, &RequiredError{"species"}, nil)
+		return
+	}
+	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	speciesParam := *speciesParamPtr
 	var notSpeciesParam []Species
 	if query.Has("notSpecies") {
 		for _, param := range strings.Split(query.Get("notSpecies"), ",") {

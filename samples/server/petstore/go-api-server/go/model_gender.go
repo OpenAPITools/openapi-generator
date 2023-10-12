@@ -12,6 +12,7 @@ package petstoreserver
 
 import (
 	"fmt"
+	"golang.org/x/exp/maps"
 )
 
 
@@ -25,29 +26,25 @@ const (
 )
 
 // All allowed values of Gender enum
-var AllowedGenderEnumValues = []Gender{
-	"male",
-	"female",
+var AllowedGenderEnumValues = map[Gender][]struct{}{
+	"male": {},
+	"female": {},
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v Gender) IsValid() bool {
-	for _, existing := range AllowedGenderEnumValues {
-		if existing == v {
-			return true
-		}
-	}
-	return false
+	_, ok := AllowedGenderEnumValues[v]
+	return ok
 }
 
 // NewGenderFromValue returns a pointer to a valid Gender
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func NewGenderFromValue(v string) (*Gender, error) {
+func NewGenderFromValue(v string) (Gender, error) {
 	ev := Gender(v)
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for Gender: valid values are %v", v, AllowedGenderEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for Gender: valid values are %v", v, maps.Keys(AllowedGenderEnumValues))
 	}
 }
 

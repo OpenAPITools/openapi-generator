@@ -177,12 +177,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
-	{{paramName}}ParamPtr, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{paramName}}Param := *{{paramName}}ParamPtr
 	{{/isEnumOrRef}}
 	{{/isInteger}}
 	{{/isLong}}
@@ -386,12 +385,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{/isEnumOrRef}}
 		{{#isEnumOrRef}}
 		var err error
-		{{paramName}}ParamPtr, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
+		{{paramName}}Param, err = New{{dataType}}FromValue(query.Get("{{baseName}}"))
 		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
 		}
-		{{paramName}}Param = *{{paramName}}ParamPtr
 		{{/isEnumOrRef}}
 	}
 	{{/required}}
@@ -400,12 +398,15 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := query.Get("{{baseName}}")
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
-	{{paramName}}ParamPtr, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
+	if !query.Has("{{baseName}}"){
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{paramName}}Param := *{{paramName}}ParamPtr
 	{{/isEnumOrRef}}
 	{{/required}}
 	{{/defaultValue}}

@@ -302,13 +302,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
             CodegenModel model = m.getModel();
             if (model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+                imports.add(createMapping("import", "golang.org/x/exp/maps"));
                 continue;
             }
 
             Boolean importErrors = false;
 
             for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
-                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
+                if (param.isNumeric
+                        && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
                     importErrors = true;
                 }
             }
