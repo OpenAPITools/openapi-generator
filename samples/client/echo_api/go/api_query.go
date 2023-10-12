@@ -27,7 +27,13 @@ type QueryAPIService service
 type ApiTestEnumRefStringRequest struct {
 	ctx context.Context
 	ApiService *QueryAPIService
+	enumNonrefStringQuery *string
 	enumRefStringQuery *StringEnumRef
+}
+
+func (r ApiTestEnumRefStringRequest) EnumNonrefStringQuery(enumNonrefStringQuery string) ApiTestEnumRefStringRequest {
+	r.enumNonrefStringQuery = &enumNonrefStringQuery
+	return r
 }
 
 func (r ApiTestEnumRefStringRequest) EnumRefStringQuery(enumRefStringQuery StringEnumRef) ApiTestEnumRefStringRequest {
@@ -75,6 +81,9 @@ func (a *QueryAPIService) TestEnumRefStringExecute(r ApiTestEnumRefStringRequest
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.enumNonrefStringQuery != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_nonref_string_query", r.enumNonrefStringQuery, "")
+	}
 	if r.enumRefStringQuery != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_ref_string_query", r.enumRefStringQuery, "")
 	}

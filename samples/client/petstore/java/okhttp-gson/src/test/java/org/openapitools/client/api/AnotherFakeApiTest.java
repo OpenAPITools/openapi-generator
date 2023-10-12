@@ -47,6 +47,18 @@ public class AnotherFakeApiTest {
     }
 
     /**
+     * parameter array number default value
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void getParameterArrayNumberTest() throws ApiException {
+        List<Integer> array = null;
+        api.getParameterArrayNumber(array);
+        // TODO: test validations
+    }
+
+    /**
      * parameter string number
      *
      * @throws ApiException if the Api call fails

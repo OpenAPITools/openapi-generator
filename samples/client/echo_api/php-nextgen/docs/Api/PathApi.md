@@ -4,13 +4,13 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**testsPathStringPathStringIntegerPathInteger()**](PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
+| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
-## `testsPathStringPathStringIntegerPathInteger()`
+## `testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()`
 
 ```php
-testsPathStringPathStringIntegerPathInteger($path_string, $path_integer): string
+testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path): string
 ```
 
 Test path parameter(s)
@@ -32,12 +32,14 @@ $apiInstance = new OpenAPI\Client\Api\PathApi(
 );
 $path_string = 'path_string_example'; // string
 $path_integer = 56; // int
+$enum_nonref_string_path = 'enum_nonref_string_path_example'; // string
+$enum_ref_string_path = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
 
 try {
-    $result = $apiInstance->testsPathStringPathStringIntegerPathInteger($path_string, $path_integer);
+    $result = $apiInstance->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PathApi->testsPathStringPathStringIntegerPathInteger: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling PathApi->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -47,6 +49,8 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **path_string** | **string**|  | |
 | **path_integer** | **int**|  | |
+| **enum_nonref_string_path** | **string**|  | |
+| **enum_ref_string_path** | [**StringEnumRef**](../Model/.md)|  | |
 
 ### Return type
 

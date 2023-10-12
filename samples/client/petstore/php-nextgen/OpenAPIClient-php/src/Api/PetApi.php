@@ -827,7 +827,7 @@ class PetApi
     public function findPetsByStatus(
         array $status,
         string $contentType = self::contentTypes['findPetsByStatus'][0]
-    ): \OpenAPI\Client\Model\Pet[]
+    ): array
     {
         list($response) = $this->findPetsByStatusWithHttpInfo($status, $contentType);
         return $response;
@@ -1131,7 +1131,7 @@ class PetApi
     public function findPetsByTags(
         array $tags,
         string $contentType = self::contentTypes['findPetsByTags'][0]
-    ): \OpenAPI\Client\Model\Pet[]
+    ): array
     {
         list($response) = $this->findPetsByTagsWithHttpInfo($tags, $contentType);
         return $response;

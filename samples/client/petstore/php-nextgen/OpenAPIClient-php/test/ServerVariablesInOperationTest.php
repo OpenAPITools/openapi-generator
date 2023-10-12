@@ -22,6 +22,8 @@ class ServerVariablesInOperationTest extends TestCase
         $this->fakeHttpClient = new FakeHttpClient();
         $this->api = new Api\PetApi($this->fakeHttpClient);
         $this->pet = new Model\Pet();
+        $this->pet->setName("something");
+        $this->pet->setPhotoUrls(array("https://a.com"));
     }
 
     public function testServerVariablesInOperation(): void

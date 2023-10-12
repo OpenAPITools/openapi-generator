@@ -24,39 +24,45 @@ import (
 // PathAPIService PathAPI service
 type PathAPIService service
 
-type ApiTestsPathStringPathStringIntegerPathIntegerRequest struct {
+type ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest struct {
 	ctx context.Context
 	ApiService *PathAPIService
 	pathString string
 	pathInteger int32
+	enumNonrefStringPath string
+	enumRefStringPath StringEnumRef
 }
 
-func (r ApiTestsPathStringPathStringIntegerPathIntegerRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.TestsPathStringPathStringIntegerPathIntegerExecute(r)
+func (r ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r)
 }
 
 /*
-TestsPathStringPathStringIntegerPathInteger Test path parameter(s)
+TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath Test path parameter(s)
 
 Test path parameter(s)
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param pathString
  @param pathInteger
- @return ApiTestsPathStringPathStringIntegerPathIntegerRequest
+ @param enumNonrefStringPath
+ @param enumRefStringPath
+ @return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest
 */
-func (a *PathAPIService) TestsPathStringPathStringIntegerPathInteger(ctx context.Context, pathString string, pathInteger int32) ApiTestsPathStringPathStringIntegerPathIntegerRequest {
-	return ApiTestsPathStringPathStringIntegerPathIntegerRequest{
+func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx context.Context, pathString string, pathInteger int32, enumNonrefStringPath string, enumRefStringPath StringEnumRef) ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest {
+	return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest{
 		ApiService: a,
 		ctx: ctx,
 		pathString: pathString,
 		pathInteger: pathInteger,
+		enumNonrefStringPath: enumNonrefStringPath,
+		enumRefStringPath: enumRefStringPath,
 	}
 }
 
 // Execute executes the request
 //  @return string
-func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerExecute(r ApiTestsPathStringPathStringIntegerPathIntegerRequest) (string, *http.Response, error) {
+func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -64,14 +70,16 @@ func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerExecute(r Ap
 		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PathAPIService.TestsPathStringPathStringIntegerPathInteger")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PathAPIService.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/path/string/{path_string}/integer/{path_integer}"
+	localVarPath := localBasePath + "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
 	localVarPath = strings.Replace(localVarPath, "{"+"path_string"+"}", url.PathEscape(parameterValueToString(r.pathString, "pathString")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"path_integer"+"}", url.PathEscape(parameterValueToString(r.pathInteger, "pathInteger")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"enum_nonref_string_path"+"}", url.PathEscape(parameterValueToString(r.enumNonrefStringPath, "enumNonrefStringPath")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"enum_ref_string_path"+"}", url.PathEscape(parameterValueToString(r.enumRefStringPath, "enumRefStringPath")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

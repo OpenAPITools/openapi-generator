@@ -31,7 +31,11 @@ namespace {{packageName}}.Client
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            {{#equatable}}
+            ComparisonConfig comparisonConfig = new{{^net70OrLater}} ComparisonConfig{{/net70OrLater}}();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            {{/equatable}}
+            compareLogic = new{{^net70OrLater}} CompareLogic{{/net70OrLater}}({{#equatable}}comparisonConfig{{/equatable}});
         }
 
         {{/useCompareNetObjects}}
