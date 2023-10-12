@@ -3,12 +3,12 @@ package {{packageName}}
 
 import (
 	"encoding/json"
-    {{#isBodyParam}}
-        {{^required}}
+	{{#isBodyParam}}
+	    {{^required}}
 	"errors"
 	"io"
-        {{/required}}
-    {{/isBodyParam}}
+	    {{/required}}
+	{{/isBodyParam}}
 	"net/http"
 	"strings"
 
@@ -361,9 +361,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isNumber}}
 	{{/isQueryParam}}
 	{{#isFormParam}}
-	{{#isFile}}{{#isArray}}
+	{{#isFile}}
+	{{#isArray}}
 	{{paramName}}Param, err := ReadFormFilesToTempFiles(r, "{{baseName}}")
-	{{/isArray}}{{^isArray}}
+	{{/isArray}}
+	{{^isArray}}
 	{{paramName}}Param, err := ReadFormFileToTempFile(r, "{{baseName}}")
 	{{/isArray}}
 	if err != nil {

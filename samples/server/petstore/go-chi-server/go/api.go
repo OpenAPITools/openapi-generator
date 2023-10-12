@@ -30,6 +30,7 @@ type PetAPIRouter interface {
 	UpdatePet(http.ResponseWriter, *http.Request)
 	UpdatePetWithForm(http.ResponseWriter, *http.Request)
 	UploadFile(http.ResponseWriter, *http.Request)
+	UploadFileArrayOfFiles(http.ResponseWriter, *http.Request)
 }
 // StoreAPIRouter defines the required methods for binding the api requests to a responses for the StoreAPI
 // The StoreAPIRouter implementation should parse necessary information from the http request,
@@ -69,6 +70,7 @@ type PetAPIServicer interface {
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
 	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UploadFileArrayOfFiles(context.Context, int64, string, []*os.File) (ImplResponse, error)
 }
 
 

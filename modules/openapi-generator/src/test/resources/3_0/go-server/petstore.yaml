@@ -579,6 +579,47 @@ paths:
           description: User not found
       security:
         - api_key: []
+  '/fake/uploadImage/array of_file':
+    post:
+      tags:
+        - pet
+      summary: uploads images (array of files)
+      description: ''
+      operationId: uploadFileArrayOfFiles
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                files:
+                  description: files to upload
+                  type: array
+                  items:
+                    type: string
+                    format: binary
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
