@@ -626,21 +626,23 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      */
     private MultiValueMap<String, String> processQueryParams(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         final MultiValueMap<String, String> result = new LinkedMultiValueMap<>();
-        queryParams.forEach((name, values) -> {
-            final String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
-            final List<String> resultValues =
-                result.computeIfAbsent(encodedName, k -> new ArrayList<>(1));
-            if (!CollectionUtils.isEmpty(values)) {
-                int valueItemCounter = 0;
-                for (Object value : values) {
-                    if (value != null) {
-                        String templatizedKey = encodedName + valueItemCounter++;
-                        uriParams.put(templatizedKey, value.toString());
-                        resultValues.add(String.format("{%s}", templatizedKey));
+        if (queryParams != null) {
+            queryParams.forEach((name, values) -> {
+                final String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+                final List<String> resultValues =
+                    result.computeIfAbsent(encodedName, k -> new ArrayList<>(1));
+                if (!CollectionUtils.isEmpty(values)) {
+                    int valueItemCounter = 0;
+                    for (Object value : values) {
+                        if (value != null) {
+                            String templatizedKey = encodedName + valueItemCounter++;
+                            uriParams.put(templatizedKey, value.toString());
+                            resultValues.add(String.format("{%s}", templatizedKey));
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
         return result;
     }
 
