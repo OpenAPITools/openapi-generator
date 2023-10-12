@@ -25,9 +25,11 @@ module OpenapiClient
     # @option opts [Integer] :integer_header 
     # @option opts [Boolean] :boolean_header 
     # @option opts [String] :string_header 
+    # @option opts [String] :enum_nonref_string_header 
+    # @option opts [StringEnumRef] :enum_ref_string_header 
     # @return [String]
-    def test_header_integer_boolean_string(opts = {})
-      data, _status_code, _headers = test_header_integer_boolean_string_with_http_info(opts)
+    def test_header_integer_boolean_string_enums(opts = {})
+      data, _status_code, _headers = test_header_integer_boolean_string_enums_with_http_info(opts)
       data
     end
 
@@ -37,13 +39,19 @@ module OpenapiClient
     # @option opts [Integer] :integer_header 
     # @option opts [Boolean] :boolean_header 
     # @option opts [String] :string_header 
+    # @option opts [String] :enum_nonref_string_header 
+    # @option opts [StringEnumRef] :enum_ref_string_header 
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
-    def test_header_integer_boolean_string_with_http_info(opts = {})
+    def test_header_integer_boolean_string_enums_with_http_info(opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: HeaderApi.test_header_integer_boolean_string ...'
+        @api_client.config.logger.debug 'Calling API: HeaderApi.test_header_integer_boolean_string_enums ...'
+      end
+      allowable_values = ["success", "failure", "unclassified"]
+      if @api_client.config.client_side_validation && opts[:'enum_nonref_string_header'] && !allowable_values.include?(opts[:'enum_nonref_string_header'])
+        fail ArgumentError, "invalid value for \"enum_nonref_string_header\", must be one of #{allowable_values}"
       end
       # resource path
-      local_var_path = '/header/integer/boolean/string'
+      local_var_path = '/header/integer/boolean/string/enums'
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -55,6 +63,8 @@ module OpenapiClient
       header_params['integer_header'] = opts[:'integer_header'] if !opts[:'integer_header'].nil?
       header_params['boolean_header'] = opts[:'boolean_header'] if !opts[:'boolean_header'].nil?
       header_params['string_header'] = opts[:'string_header'] if !opts[:'string_header'].nil?
+      header_params['enum_nonref_string_header'] = opts[:'enum_nonref_string_header'] if !opts[:'enum_nonref_string_header'].nil?
+      header_params['enum_ref_string_header'] = opts[:'enum_ref_string_header'] if !opts[:'enum_ref_string_header'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -69,7 +79,7 @@ module OpenapiClient
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
-        :operation => :"HeaderApi.test_header_integer_boolean_string",
+        :operation => :"HeaderApi.test_header_integer_boolean_string_enums",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -80,7 +90,7 @@ module OpenapiClient
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: HeaderApi#test_header_integer_boolean_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: HeaderApi#test_header_integer_boolean_string_enums\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

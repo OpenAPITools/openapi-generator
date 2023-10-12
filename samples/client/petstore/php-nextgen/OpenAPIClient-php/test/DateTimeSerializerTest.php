@@ -13,6 +13,10 @@ class DateTimeSerializerTest extends TestCase
 
         $input = new FormatTest([
             'date_time' => $dateTime,
+            'date' => $dateTime,
+            'number' => 123.45,
+            'password' => 'password',
+            'byte' => '0101'
         ]);
 
         $data = ObjectSerializer::sanitizeForSerialization($input);
@@ -30,7 +34,11 @@ class DateTimeSerializerTest extends TestCase
         $dateTime = new \DateTime('April 30, 1973 17:05 CEST');
 
         $input = new FormatTest([
+            'date_time' => $dateTime,
             'date' => $dateTime,
+            'number' => 123.45,
+            'password' => 'password',
+            'byte' => '0101'
         ]);
 
         $data = ObjectSerializer::sanitizeForSerialization($input);

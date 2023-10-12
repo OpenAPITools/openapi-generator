@@ -11,10 +11,10 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       description: Test path parameter(s)
-      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
       parameters:
       - explode: false
         in: path
@@ -29,6 +29,24 @@ paths:
         required: true
         schema:
           type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
         style: simple
       responses:
         "200":
@@ -78,10 +96,10 @@ paths:
       summary: Test form parameter(s) for oneOf schema
       tags:
       - form
-  /header/integer/boolean/string:
+  /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - explode: true
         in: header
@@ -104,6 +122,24 @@ paths:
         schema:
           type: string
         style: form
+      - explode: true
+        in: header
+        name: enum_nonref_string_header
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
+      - explode: true
+        in: header
+        name: enum_ref_string_header
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
       responses:
         "200":
           content:
@@ -119,6 +155,17 @@ paths:
       description: Test query parameter(s)
       operationId: test/enum_ref_string
       parameters:
+      - explode: true
+        in: query
+        name: enum_nonref_string_query
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
       - explode: true
         in: query
         name: enum_ref_string_query

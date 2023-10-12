@@ -390,7 +390,7 @@ class StoreApi
      */
     public function getInventory(
         string $contentType = self::contentTypes['getInventory'][0]
-    ): array&lt;string,int&gt;
+    ): array
     {
         list($response) = $this->getInventoryWithHttpInfo($contentType);
         return $response;

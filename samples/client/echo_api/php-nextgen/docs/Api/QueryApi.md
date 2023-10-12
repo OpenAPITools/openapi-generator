@@ -17,7 +17,7 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 ## `testEnumRefString()`
 
 ```php
-testEnumRefString($enum_ref_string_query): string
+testEnumRefString($enum_nonref_string_query, $enum_ref_string_query): string
 ```
 
 Test query parameter(s)
@@ -37,10 +37,11 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
+$enum_nonref_string_query = 'enum_nonref_string_query_example'; // string
 $enum_ref_string_query = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
 
 try {
-    $result = $apiInstance->testEnumRefString($enum_ref_string_query);
+    $result = $apiInstance->testEnumRefString($enum_nonref_string_query, $enum_ref_string_query);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling QueryApi->testEnumRefString: ', $e->getMessage(), PHP_EOL;
@@ -51,6 +52,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **enum_nonref_string_query** | **string**|  | [optional] |
 | **enum_ref_string_query** | [**StringEnumRef**](../Model/.md)|  | [optional] |
 
 ### Return type

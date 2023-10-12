@@ -36,6 +36,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean GENERATE_INTERFACES_VALUE = true;
     public static final boolean DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = true;
     public static final boolean USE_ONE_OF_DISCRIMINATOR_LOOKUP_VALUE = true;
+    public static final boolean WITH_GO_MOD_VALUE = true;
 
     @Override
     public String getLanguage() {
@@ -56,6 +57,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
+                .put(CodegenConstants.WITH_GO_MOD, "true")
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
                 .build();
