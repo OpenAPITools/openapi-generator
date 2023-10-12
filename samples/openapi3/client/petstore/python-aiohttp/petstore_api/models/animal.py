@@ -48,7 +48,7 @@ class Animal(BaseModel):
     __discriminator_value_class_map: ClassVar[Union[Dict[str, str], None]] = None
 
     @classmethod
-    def _get_discriminator_value_class_map() -> ClassVar[Dict[str, str]]:
+    def _get_discriminator_value_class_map(cls) -> ClassVar[Dict[str, str]]:
         if cls.__discriminator_value_class_map == None:
             # Prevent circular imports caused by mutually referencing classes
             from petstore_api.models.cat import Cat
