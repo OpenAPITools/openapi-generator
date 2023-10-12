@@ -56,11 +56,7 @@ class PathApi:
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param path_string: (required)
         :type path_string: str
@@ -70,8 +66,6 @@ class PathApi:
         :type enum_nonref_string_path: str
         :param enum_ref_string_path: (required)
         :type enum_ref_string_path: StringEnumRef
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -81,10 +75,6 @@ class PathApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info.raw_function(
             path_string,
@@ -92,7 +82,7 @@ class PathApi:
             enum_nonref_string_path,
             enum_ref_string_path,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(
@@ -102,15 +92,11 @@ class PathApi:
         enum_nonref_string_path: StrictStr,
         enum_ref_string_path: StringEnumRef,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param path_string: (required)
         :type path_string: str
@@ -120,16 +106,6 @@ class PathApi:
         :type enum_nonref_string_path: str
         :param enum_ref_string_path: (required)
         :type enum_ref_string_path: StringEnumRef
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -155,9 +131,6 @@ class PathApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -222,9 +195,6 @@ class PathApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

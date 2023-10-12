@@ -57,14 +57,8 @@ class BodyApi:
         """Test binary (gif) response body  # noqa: E501
 
         Test binary (gif) response body  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+        This method makes a synchronous HTTP request by default.
 
-        >>> thread = api.test_binary_gif(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -74,39 +68,21 @@ class BodyApi:
                  returns the request thread.
         :rtype: bytearray
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_binary_gif_with_http_info.raw_function(
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_binary_gif_with_http_info(
         self,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[bytearray]:
         """Test binary (gif) response body  # noqa: E501
 
         Test binary (gif) response body  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+        This method makes a synchronous HTTP request by default.
 
-        >>> thread = api.test_binary_gif_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -128,9 +104,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -183,9 +156,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -199,16 +169,10 @@ class BodyApi:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_body_application_octetstream_binary(body, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param body:
         :type body: bytearray
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -218,43 +182,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_body_application_octetstream_binary_with_http_info.raw_function(
             body,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_body_application_octetstream_binary_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_body_application_octetstream_binary_with_http_info(body, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param body:
         :type body: bytearray
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -277,9 +223,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -347,9 +290,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -363,16 +303,10 @@ class BodyApi:
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_body_multipart_formdata_array_of_binary(files, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param files: (required)
         :type files: List[bytearray]
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -382,43 +316,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_body_multipart_formdata_array_of_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
             files,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary_with_http_info(
         self,
         files: List[Union[StrictBytes, StrictStr]],
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test array of binary in multipart mime  # noqa: E501
 
         Test array of binary in multipart mime  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_body_multipart_formdata_array_of_binary_with_http_info(files, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param files: (required)
         :type files: List[bytearray]
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -441,9 +357,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -507,9 +420,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -523,16 +433,10 @@ class BodyApi:
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_free_form_object_response_string(body, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param body: Free form object
         :type body: object
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -542,43 +446,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
             body,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_echo_body_free_form_object_response_string_with_http_info(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_free_form_object_response_string_with_http_info(body, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param body: Free form object
         :type body: object
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -601,9 +487,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -666,9 +549,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -682,16 +562,10 @@ class BodyApi:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_pet(pet, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -701,43 +575,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: Pet
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_echo_body_pet_with_http_info.raw_function(
             pet,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_echo_body_pet_with_http_info(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Pet]:
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_pet_with_http_info(pet, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -760,9 +616,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -825,9 +678,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -841,16 +691,10 @@ class BodyApi:
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_pet_response_string(pet, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -860,43 +704,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_echo_body_pet_response_string_with_http_info.raw_function(
             pet,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_echo_body_pet_response_string_with_http_info(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_pet_response_string_with_http_info(pet, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -919,9 +745,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -984,9 +807,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1000,16 +820,10 @@ class BodyApi:
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_tag_response_string(tag, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param tag: Tag object
         :type tag: Tag
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -1019,43 +833,25 @@ class BodyApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_echo_body_tag_response_string_with_http_info.raw_function(
             tag,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_echo_body_tag_response_string_with_http_info(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_echo_body_tag_response_string_with_http_info(tag, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param tag: Tag object
         :type tag: Tag
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1078,9 +874,6 @@ class BodyApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1143,9 +936,6 @@ class BodyApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

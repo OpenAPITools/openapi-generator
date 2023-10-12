@@ -146,8 +146,8 @@ class ApiClient:
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_types_map=None, auth_settings=None,
-            _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None,
+            collection_formats=None,
+            _request_timeout=None, _host=None,
             _request_auth=None):
 
         config = self.configuration
@@ -213,48 +213,36 @@ class ApiClient:
                 query_params=query_params,
                 headers=header_params,
                 post_params=post_params, body=body,
-                _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
             if e.body:
                 e.body = e.body.decode('utf-8')
             raise e
 
-        self.last_response = response_data
+        response_type = response_types_map.get(str(response_data.status), None)
+        if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
+            # if not found, look for '1XX', '2XX', etc.
+            response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
-        return_data = None # assuming deserialization is not needed
-        # data needs deserialization or returns HTTP data (deserialized) only
-        if _preload_content or _return_http_data_only:
-          response_type = response_types_map.get(str(response_data.status), None)
-          if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
-              # if not found, look for '1XX', '2XX', etc.
-              response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
+        # deserialize response data
 
-          if response_type == "bytearray":
-              response_data.data = response_data.data
-          else:
-              match = None
-              content_type = response_data.getheader('content-type')
-              if content_type is not None:
-                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-              encoding = match.group(1) if match else "utf-8"
-              response_data.data = response_data.data.decode(encoding)
-
-          # deserialize response data
-          if response_type == "bytearray":
-              return_data = response_data.data
-          elif response_type:
-              return_data = self.deserialize(response_data, response_type)
-          else:
-              return_data = None
-
-        if _return_http_data_only:
-            return return_data
+        if response_type == "bytearray" or response_type is None:
+            return_data = None
+        elif response_type == "file":
+            return_data = self.__deserialize_file(response_data)
         else:
-            return ApiResponse(status_code = response_data.status,
-                           data = return_data,
-                           headers = response_data.getheaders(),
-                           raw_data = response_data.data)
+            match = None
+            content_type = response_data.getheader('content-type')
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_text = response_data.data.decode(encoding)
+            return_data = self.deserialize(response_text, response_type)
+
+        return ApiResponse(status_code = response_data.status,
+                        data = return_data,
+                        headers = response_data.getheaders(),
+                        raw_data = response_data.data)
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
@@ -296,7 +284,7 @@ class ApiClient:
         return {key: self.sanitize_for_serialization(val)
                 for key, val in obj_dict.items()}
 
-    def deserialize(self, response, response_type):
+    def deserialize(self, response_text, response_type):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
@@ -305,16 +293,12 @@ class ApiClient:
 
         :return: deserialized object.
         """
-        # handle file downloading
-        # save response body into a tmp file and return the instance
-        if response_type == "file":
-            return self.__deserialize_file(response)
 
         # fetch data from response object
         try:
-            data = json.loads(response.data)
+            data = json.loads(response_text)
         except ValueError:
-            data = response.data
+            data = response_text
 
         return self.__deserialize(data, response_type)
 
@@ -361,13 +345,9 @@ class ApiClient:
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
-                 async_req=None, _return_http_data_only=None,
-                 collection_formats=None, _preload_content=True,
+                 collection_formats=None,
                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
-
-        To make an async_req request, set the async_req parameter.
-
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
         :param path_params: Path parameters in the url.
@@ -381,13 +361,6 @@ class ApiClient:
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
-        :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
         :param _request_timeout: timeout setting for this request. If one
@@ -398,12 +371,8 @@ class ApiClient:
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_token: dict, optional
-        :return:
-            If async_req parameter is True,
-            the request will be called asynchronously.
-            The method will return the request thread.
-            If parameter async_req is False or missing,
-            then the method will return the response directly.
+        :return: The response.
+
         """
         args = (
             resource_path,
@@ -416,46 +385,38 @@ class ApiClient:
             files,
             response_types_map,
             auth_settings,
-            _return_http_data_only,
             collection_formats,
-            _preload_content,
             _request_timeout,
             _host,
             _request_auth,
         )
-        if not async_req:
-            return self.__call_api(*args)
+        return self.__call_api(*args)
 
-        return self.pool.apply_async(self.__call_api, args)
 
     def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None, _preload_content=True,
+                post_params=None, body=None,
                 _request_timeout=None):
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.get_request(url,
                                         query_params=query_params,
-                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.head_request(url,
                                          query_params=query_params,
-                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.options_request(url,
                                             query_params=query_params,
                                             headers=headers,
-                                            _preload_content=_preload_content,
                                             _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.post_request(url,
                                          query_params=query_params,
                                          headers=headers,
                                          post_params=post_params,
-                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          body=body)
         elif method == "PUT":
@@ -463,7 +424,6 @@ class ApiClient:
                                         query_params=query_params,
                                         headers=headers,
                                         post_params=post_params,
-                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         body=body)
         elif method == "PATCH":
@@ -471,14 +431,12 @@ class ApiClient:
                                           query_params=query_params,
                                           headers=headers,
                                           post_params=post_params,
-                                          _preload_content=_preload_content,
                                           _request_timeout=_request_timeout,
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.delete_request(url,
                                            query_params=query_params,
                                            headers=headers,
-                                           _preload_content=_preload_content,
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:
@@ -677,6 +635,9 @@ class ApiClient:
 
         Saves response body into a file in a temporary folder,
         using the filename from the `Content-Disposition` header if provided.
+
+        handle file downloading
+        save response body into a tmp file and return the instance
 
         :param response:  RESTResponse.
         :return: file path.

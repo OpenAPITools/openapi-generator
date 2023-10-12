@@ -52,16 +52,10 @@ class AnotherFakeApi:
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.call_123_test_special_tags(client, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param client: client model (required)
         :type client: Client
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -71,43 +65,25 @@ class AnotherFakeApi:
                  returns the request thread.
         :rtype: Client
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the call_123_test_special_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.call_123_test_special_tags_with_http_info.raw_function(
             client,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def call_123_test_special_tags_with_http_info(
         self,
         client: Annotated[Client, Field(description="client model")],
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Client]:
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.call_123_test_special_tags_with_http_info(client, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param client: client model (required)
         :type client: Client
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -130,9 +106,6 @@ class AnotherFakeApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -195,9 +168,6 @@ class AnotherFakeApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

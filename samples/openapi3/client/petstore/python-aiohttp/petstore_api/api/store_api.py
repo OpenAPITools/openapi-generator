@@ -68,36 +68,24 @@ class StoreApi:
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the delete_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return await self.delete_order_with_http_info.raw_function(
             order_id,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     async def delete_order_with_http_info(
         self,
         order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[None]:
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
 
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -120,8 +108,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -171,8 +157,6 @@ class StoreApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -195,32 +179,20 @@ class StoreApi:
                  returns the request thread.
         :rtype: Dict[str, int]
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the get_inventory_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return await self.get_inventory_with_http_info.raw_function(
             **kwargs,
-        )
+        ).data
 
     @validate_call
     async def get_inventory_with_http_info(
         self,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Dict[str, int]]:
         """Returns pet inventories by status  # noqa: E501
 
         Returns a map of status codes to quantities  # noqa: E501
 
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -242,8 +214,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -296,8 +266,6 @@ class StoreApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -323,36 +291,24 @@ class StoreApi:
                  returns the request thread.
         :rtype: Order
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the get_order_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return await self.get_order_by_id_with_http_info.raw_function(
             order_id,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     async def get_order_by_id_with_http_info(
         self,
         order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Order]:
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
 
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -375,8 +331,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -434,8 +388,6 @@ class StoreApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -461,36 +413,24 @@ class StoreApi:
                  returns the request thread.
         :rtype: Order
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the place_order_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return await self.place_order_with_http_info.raw_function(
             order,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     async def place_order_with_http_info(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[Order]:
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501
 
         :param order: order placed for purchasing the pet (required)
         :type order: Order
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -513,8 +453,6 @@ class StoreApi:
         ]
         _all_params.extend(
             [
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -578,8 +516,6 @@ class StoreApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

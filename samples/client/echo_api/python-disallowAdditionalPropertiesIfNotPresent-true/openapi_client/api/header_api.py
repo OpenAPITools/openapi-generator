@@ -59,11 +59,7 @@ class HeaderApi:
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_header_integer_boolean_string_enums(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param integer_header:
         :type integer_header: int
@@ -75,8 +71,6 @@ class HeaderApi:
         :type enum_nonref_string_header: str
         :param enum_ref_string_header:
         :type enum_ref_string_header: StringEnumRef
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -86,10 +80,6 @@ class HeaderApi:
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the test_header_integer_boolean_string_enums_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
 
         return self.test_header_integer_boolean_string_enums_with_http_info.raw_function(
             integer_header,
@@ -98,7 +88,7 @@ class HeaderApi:
             enum_nonref_string_header,
             enum_ref_string_header,
             **kwargs,
-        )
+        ).data
 
     @validate_call
     def test_header_integer_boolean_string_enums_with_http_info(
@@ -109,15 +99,11 @@ class HeaderApi:
         enum_nonref_string_header: Optional[StrictStr] = None,
         enum_ref_string_header: Optional[StringEnumRef] = None,
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[str]:
         """Test header parameter(s)  # noqa: E501
 
         Test header parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_header_integer_boolean_string_enums_with_http_info(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, async_req=True)
-        >>> result = thread.get()
+        This method makes a synchronous HTTP request by default.
 
         :param integer_header:
         :type integer_header: int
@@ -129,16 +115,6 @@ class HeaderApi:
         :type enum_nonref_string_header: str
         :param enum_ref_string_header:
         :type enum_ref_string_header: StringEnumRef
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -165,9 +141,6 @@ class HeaderApi:
         ]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -235,9 +208,6 @@ class HeaderApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
