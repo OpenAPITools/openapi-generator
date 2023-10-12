@@ -227,7 +227,9 @@ class ApiClient:
 
         # deserialize response data
 
-        if response_type == "bytearray" or response_type is None:
+        if response_type == "bytearray":
+            return_data = response_data.data
+        elif response_type is None
             return_data = None
         elif response_type == "file":
             return_data = self.__deserialize_file(response_data)
