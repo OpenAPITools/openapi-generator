@@ -233,33 +233,25 @@ class ApiClient:
                 e.body = e.body.decode('utf-8')
             raise e
 
-        self.last_response = response_data
-
-        return_data = None # assuming deserialization is not needed
-        # data needs deserialization or returns HTTP data (deserialized) only
-
         response_type = response_types_map.get(str(response_data.status), None)
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
-        if response_type == "bytearray":
-            response_data.data = response_data.data
+        # deserialize response data
+
+        if response_type == "bytearray" or response_type is None:
+            return_data = None
+        elif response_type == "file":
+            return_data = self.__deserialize_file(response_data)
         else:
             match = None
             content_type = response_data.getheader('content-type')
             if content_type is not None:
                 match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
             encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
-        # deserialize response data
-        if response_type == "bytearray":
-            return_data = response_data.data
-        elif response_type:
-            return_data = self.deserialize(response_data, response_type)
-        else:
-            return_data = None
+            response_text = response_data.data.decode(encoding)
+            return_data = self.deserialize(response_text, response_type)
 
 {{^tornado}}
         return ApiResponse(status_code = response_data.status,
@@ -314,7 +306,7 @@ class ApiClient:
         return {key: self.sanitize_for_serialization(val)
                 for key, val in obj_dict.items()}
 
-    def deserialize(self, response, response_type):
+    def deserialize(self, response_text, response_type):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
@@ -323,16 +315,12 @@ class ApiClient:
 
         :return: deserialized object.
         """
-        # handle file downloading
-        # save response body into a tmp file and return the instance
-        if response_type == "file":
-            return self.__deserialize_file(response)
 
         # fetch data from response object
         try:
-            data = json.loads(response.data)
+            data = json.loads(response_text)
         except ValueError:
-            data = response.data
+            data = response_text
 
         return self.__deserialize(data, response_type)
 
@@ -671,6 +659,9 @@ class ApiClient:
 
         Saves response body into a file in a temporary folder,
         using the filename from the `Content-Disposition` header if provided.
+
+        handle file downloading
+        save response body into a tmp file and return the instance
 
         :param response:  RESTResponse.
         :return: file path.

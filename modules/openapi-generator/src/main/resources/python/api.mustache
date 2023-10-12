@@ -92,7 +92,7 @@ class {{classname}}:
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{/asyncio}}
 {{^asyncio}}
     def {{operationId}}_with_http_info(
@@ -101,7 +101,7 @@ class {{classname}}:
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
-    ) -> ApiResponse:
+    ) -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
