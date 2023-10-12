@@ -48,7 +48,7 @@ func (v Species) IsValid() bool {
 func NewSpeciesFromValue(v string) (Species, error) {
 	ev := Species(v)
 	if ev.IsValid() {
-		return &ev, nil
+		return ev, nil
 	} else {
 		return nil, fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, maps.Keys(AllowedSpeciesEnumValues))
 	}

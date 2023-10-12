@@ -175,7 +175,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 				return
 			}
-			notSpeciesParam = append(notSpeciesParam, *paramEnum)
+			notSpeciesParam = append(notSpeciesParam, paramEnum)
 		}
 	}
 	result, err := c.service.FilterPetsByCategory(r.Context(), genderParam, speciesParam, notSpeciesParam)

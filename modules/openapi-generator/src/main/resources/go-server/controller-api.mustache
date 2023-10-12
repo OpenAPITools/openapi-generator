@@ -355,7 +355,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 				return
 			}
-			{{paramName}}Param = append({{paramName}}Param, *paramEnum)
+			{{paramName}}Param = append({{paramName}}Param, paramEnum)
 		}
 	}
 	{{/items.isEnumRef}}

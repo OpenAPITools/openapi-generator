@@ -42,7 +42,7 @@ func (v Gender) IsValid() bool {
 func NewGenderFromValue(v string) (Gender, error) {
 	ev := Gender(v)
 	if ev.IsValid() {
-		return &ev, nil
+		return ev, nil
 	} else {
 		return nil, fmt.Errorf("invalid value '%v' for Gender: valid values are %v", v, maps.Keys(AllowedGenderEnumValues))
 	}
