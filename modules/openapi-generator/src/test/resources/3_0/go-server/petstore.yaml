@@ -583,7 +583,7 @@ paths:
     post:
       tags:
         - fake
-      summary: uploads images (array of files0
+      summary: uploads images (array of files)
       description: ''
       operationId: uploadFileArrayOfFiles
       parameters:

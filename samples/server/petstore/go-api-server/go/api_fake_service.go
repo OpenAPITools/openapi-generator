@@ -27,7 +27,7 @@ func NewFakeAPIService() FakeAPIServicer {
 	return &FakeAPIService{}
 }
 
-// UploadFileArrayOfFiles - uploads images (array of files0
+// UploadFileArrayOfFiles - uploads images (array of files)
 func (s *FakeAPIService) UploadFileArrayOfFiles(ctx context.Context, petId int64, additionalMetadata string, files []*os.File) (ImplResponse, error) {
 	// TODO - update UploadFileArrayOfFiles with the required logic for this service method.
 	// Add api_fake_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.

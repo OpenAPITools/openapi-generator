@@ -628,7 +628,7 @@ paths:
       - petstore_auth:
         - write:pets
         - read:pets
-      summary: uploads images (array of files0
+      summary: uploads images (array of files)
       tags:
       - fake
 components:

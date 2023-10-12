@@ -58,7 +58,7 @@ func (c *FakeAPIController) Routes() Routes {
 	}
 }
 
-// UploadFileArrayOfFiles - uploads images (array of files0
+// UploadFileArrayOfFiles - uploads images (array of files)
 func (c *FakeAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
