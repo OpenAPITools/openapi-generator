@@ -45,13 +45,21 @@ class Animal(BaseModel):
     __discriminator_property_name: ClassVar[List[str]] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'Cat': 'Cat','Dog': 'Dog'
-    }
+    __discriminator_value_class_map: Union[ClassVar[Dict[str, str]], None] = None
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
+
+        if cls.__discriminator_value_class_map == None:
+            # Prevent circular imports caused by mutually referencing classes
+            from petstore_api.models.cat import Cat
+            from petstore_api.models.dog import Dog
+
+            cls.__discriminator_value_class_map = {
+                'Cat': Cat,'Dog': Dog
+            }
+
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
             return cls.__discriminator_value_class_map.get(discriminator_value)
@@ -103,11 +111,4 @@ class Animal(BaseModel):
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # Animal.model_rebuild()
-    pass
 
