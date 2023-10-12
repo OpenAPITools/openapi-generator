@@ -165,7 +165,9 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 	}
 	var notSpeciesParam []Species
 	if query.Has("notSpecies") {
-		for _, param := range strings.Split(query.Get("notSpecies"), ",") {
+		paramSplits := strings.Split(query.Get("notSpecies"), ",")
+		notSpeciesParam = make([]Species, 0, len(paramSplits))
+		for _, param := range paramSplits {
 			paramEnum, err := NewSpeciesFromValue(param)
 			if err != nil {
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -187,7 +189,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	var statusParam [] string
+	var statusParam []string
 	if query.Has("status") {
 		statusParam = strings.Split(query.Get("status"), ",")
 	}
@@ -205,7 +207,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	var tagsParam [] string
+	var tagsParam []string
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")
 	}
