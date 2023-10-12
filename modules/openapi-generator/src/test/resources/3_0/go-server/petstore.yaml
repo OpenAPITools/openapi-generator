@@ -137,6 +137,24 @@ paths:
             type: array
             items:
               type: string
+        - name: bornAfter
+          in: query
+          description: Find pets born after this date
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+            format: date-time
+        - name: bornBefore
+          in: query
+          description: Find pets born before this date
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: string
+            format: date-time
       responses:
         '200':
           description: successful operation

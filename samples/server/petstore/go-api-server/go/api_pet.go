@@ -161,7 +161,21 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	tagsParam := strings.Split(query.Get("tags"), ",")
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
+	if !query.Has("bornAfter"){
+		c.ErrorHandler(w, r, errors.New(errMsgRequiredMissing), nil)
+		return
+	}
+	bornAfterParam, err := parseTime(query.Get("bornAfter"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

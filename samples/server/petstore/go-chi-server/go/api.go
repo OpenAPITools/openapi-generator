@@ -12,6 +12,7 @@ package petstoreserver
 import (
 	"context"
 	"net/http"
+	"time"
 	"os"
 )
 
@@ -64,7 +65,7 @@ type PetAPIServicer interface {
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
-	FindPetsByTags(context.Context, []string) (ImplResponse, error)
+	FindPetsByTags(context.Context, []string, time.Time, time.Time) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
