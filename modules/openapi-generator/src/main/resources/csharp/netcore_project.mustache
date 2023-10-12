@@ -21,6 +21,7 @@
     <PackageReleaseNotes>{{.}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
     <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}{{#nrt}}
     <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
