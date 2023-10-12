@@ -76,13 +76,14 @@ class PathApi:
         :rtype: str
         """
 
-        return self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info.raw_function(
+        data = self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info.raw_function(
             path_string,
             path_integer,
             enum_nonref_string_path,
             enum_ref_string_path,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(

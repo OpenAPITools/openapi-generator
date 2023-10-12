@@ -61,9 +61,10 @@ class AuthApi:
         :rtype: str
         """
 
-        return self.test_auth_http_basic_with_http_info.raw_function(
+        data = self.test_auth_http_basic_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_auth_http_basic_with_http_info(

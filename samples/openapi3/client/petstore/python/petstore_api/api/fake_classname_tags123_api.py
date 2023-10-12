@@ -66,10 +66,11 @@ class FakeClassnameTags123Api:
         :rtype: Client
         """
 
-        return self.test_classname_with_http_info.raw_function(
+        data = self.test_classname_with_http_info.raw_function(
             client,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_classname_with_http_info(

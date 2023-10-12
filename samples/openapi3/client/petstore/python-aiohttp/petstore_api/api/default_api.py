@@ -59,9 +59,10 @@ class DefaultApi:
         :rtype: FooGetDefaultResponse
         """
 
-        return await self.foo_get_with_http_info.raw_function(
+        data = await self.foo_get_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def foo_get_with_http_info(

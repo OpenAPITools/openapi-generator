@@ -70,10 +70,11 @@ class StoreApi:
         :rtype: None
         """
 
-        return self.delete_order_with_http_info.raw_function(
+        data = self.delete_order_with_http_info.raw_function(
             order_id,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def delete_order_with_http_info(
@@ -183,9 +184,10 @@ class StoreApi:
         :rtype: Dict[str, int]
         """
 
-        return self.get_inventory_with_http_info.raw_function(
+        data = self.get_inventory_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def get_inventory_with_http_info(
@@ -297,10 +299,11 @@ class StoreApi:
         :rtype: Order
         """
 
-        return self.get_order_by_id_with_http_info.raw_function(
+        data = self.get_order_by_id_with_http_info.raw_function(
             order_id,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def get_order_by_id_with_http_info(
@@ -421,10 +424,11 @@ class StoreApi:
         :rtype: Order
         """
 
-        return self.place_order_with_http_info.raw_function(
+        data = self.place_order_with_http_info.raw_function(
             order,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def place_order_with_http_info(

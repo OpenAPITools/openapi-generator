@@ -81,14 +81,15 @@ class HeaderApi:
         :rtype: str
         """
 
-        return self.test_header_integer_boolean_string_enums_with_http_info.raw_function(
+        data = self.test_header_integer_boolean_string_enums_with_http_info.raw_function(
             integer_header,
             boolean_header,
             string_header,
             enum_nonref_string_header,
             enum_ref_string_header,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_header_integer_boolean_string_enums_with_http_info(

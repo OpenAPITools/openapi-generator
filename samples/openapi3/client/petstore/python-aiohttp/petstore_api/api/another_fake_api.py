@@ -65,10 +65,11 @@ class AnotherFakeApi:
         :rtype: Client
         """
 
-        return await self.call_123_test_special_tags_with_http_info.raw_function(
+        data = await self.call_123_test_special_tags_with_http_info.raw_function(
             client,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def call_123_test_special_tags_with_http_info(

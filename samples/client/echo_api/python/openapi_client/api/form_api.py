@@ -74,12 +74,13 @@ class FormApi:
         :rtype: str
         """
 
-        return self.test_form_integer_boolean_string_with_http_info.raw_function(
+        data = self.test_form_integer_boolean_string_with_http_info.raw_function(
             integer_form,
             boolean_form,
             string_form,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_form_integer_boolean_string_with_http_info(
@@ -234,7 +235,7 @@ class FormApi:
         :rtype: str
         """
 
-        return self.test_form_oneof_with_http_info.raw_function(
+        data = self.test_form_oneof_with_http_info.raw_function(
             form1,
             form2,
             form3,
@@ -242,7 +243,8 @@ class FormApi:
             id,
             name,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_form_oneof_with_http_info(

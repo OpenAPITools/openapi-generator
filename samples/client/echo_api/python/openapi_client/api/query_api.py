@@ -76,11 +76,12 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_enum_ref_string_with_http_info.raw_function(
+        data = self.test_enum_ref_string_with_http_info.raw_function(
             enum_nonref_string_query,
             enum_ref_string_query,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_enum_ref_string_with_http_info(
@@ -212,12 +213,13 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_datetime_date_string_with_http_info.raw_function(
+        data = self.test_query_datetime_date_string_with_http_info.raw_function(
             datetime_query,
             date_query,
             string_query,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_datetime_date_string_with_http_info(
@@ -362,12 +364,13 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_integer_boolean_string_with_http_info.raw_function(
+        data = self.test_query_integer_boolean_string_with_http_info.raw_function(
             integer_query,
             boolean_query,
             string_query,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_integer_boolean_string_with_http_info(
@@ -500,10 +503,11 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_style_deep_object_explode_true_object_with_http_info.raw_function(
+        data = self.test_query_style_deep_object_explode_true_object_with_http_info.raw_function(
             query_object,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_with_http_info(
@@ -622,10 +626,11 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info.raw_function(
+        data = self.test_query_style_deep_object_explode_true_object_all_of_with_http_info.raw_function(
             query_object,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info(
@@ -744,10 +749,11 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_style_form_explode_true_array_string_with_http_info.raw_function(
+        data = self.test_query_style_form_explode_true_array_string_with_http_info.raw_function(
             query_object,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_style_form_explode_true_array_string_with_http_info(
@@ -866,10 +872,11 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_style_form_explode_true_object_with_http_info.raw_function(
+        data = self.test_query_style_form_explode_true_object_with_http_info.raw_function(
             query_object,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_style_form_explode_true_object_with_http_info(
@@ -988,10 +995,11 @@ class QueryApi:
         :rtype: str
         """
 
-        return self.test_query_style_form_explode_true_object_all_of_with_http_info.raw_function(
+        data = self.test_query_style_form_explode_true_object_all_of_with_http_info.raw_function(
             query_object,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_style_form_explode_true_object_all_of_with_http_info(

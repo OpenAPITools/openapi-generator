@@ -77,12 +77,13 @@ class {{classname}}:
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
 
-        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
+        data = {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
             {{#allParams}}
             {{paramName}},
             {{/allParams}}
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
 {{#asyncio}}

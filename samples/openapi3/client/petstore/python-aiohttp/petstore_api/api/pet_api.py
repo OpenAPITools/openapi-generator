@@ -70,10 +70,11 @@ class PetApi:
         :rtype: None
         """
 
-        return await self.add_pet_with_http_info.raw_function(
+        data = await self.add_pet_with_http_info.raw_function(
             pet,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def add_pet_with_http_info(
@@ -194,11 +195,12 @@ class PetApi:
         :rtype: None
         """
 
-        return await self.delete_pet_with_http_info.raw_function(
+        data = await self.delete_pet_with_http_info.raw_function(
             pet_id,
             api_key,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def delete_pet_with_http_info(
@@ -316,10 +318,11 @@ class PetApi:
         :rtype: List[Pet]
         """
 
-        return await self.find_pets_by_status_with_http_info.raw_function(
+        data = await self.find_pets_by_status_with_http_info.raw_function(
             status,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def find_pets_by_status_with_http_info(
@@ -438,10 +441,11 @@ class PetApi:
         :rtype: List[Pet]
         """
 
-        return await self.find_pets_by_tags_with_http_info.raw_function(
+        data = await self.find_pets_by_tags_with_http_info.raw_function(
             tags,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def find_pets_by_tags_with_http_info(
@@ -562,10 +566,11 @@ class PetApi:
         :rtype: Pet
         """
 
-        return await self.get_pet_by_id_with_http_info.raw_function(
+        data = await self.get_pet_by_id_with_http_info.raw_function(
             pet_id,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def get_pet_by_id_with_http_info(
@@ -684,10 +689,11 @@ class PetApi:
         :rtype: None
         """
 
-        return await self.update_pet_with_http_info.raw_function(
+        data = await self.update_pet_with_http_info.raw_function(
             pet,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def update_pet_with_http_info(
@@ -811,12 +817,13 @@ class PetApi:
         :rtype: None
         """
 
-        return await self.update_pet_with_form_with_http_info.raw_function(
+        data = await self.update_pet_with_form_with_http_info.raw_function(
             pet_id,
             name,
             status,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def update_pet_with_form_with_http_info(
@@ -954,12 +961,13 @@ class PetApi:
         :rtype: ApiResponse
         """
 
-        return await self.upload_file_with_http_info.raw_function(
+        data = await self.upload_file_with_http_info.raw_function(
             pet_id,
             additional_metadata,
             file,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def upload_file_with_http_info(
@@ -1103,12 +1111,13 @@ class PetApi:
         :rtype: ApiResponse
         """
 
-        return await self.upload_file_with_required_file_with_http_info.raw_function(
+        data = await self.upload_file_with_required_file_with_http_info.raw_function(
             pet_id,
             required_file,
             additional_metadata,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def upload_file_with_required_file_with_http_info(

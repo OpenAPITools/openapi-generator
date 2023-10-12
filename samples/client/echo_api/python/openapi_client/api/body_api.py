@@ -69,9 +69,10 @@ class BodyApi:
         :rtype: bytearray
         """
 
-        return self.test_binary_gif_with_http_info.raw_function(
+        data = self.test_binary_gif_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_binary_gif_with_http_info(
@@ -183,10 +184,11 @@ class BodyApi:
         :rtype: str
         """
 
-        return self.test_body_application_octetstream_binary_with_http_info.raw_function(
+        data = self.test_body_application_octetstream_binary_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_body_application_octetstream_binary_with_http_info(
@@ -317,10 +319,11 @@ class BodyApi:
         :rtype: str
         """
 
-        return self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
+        data = self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
             files,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary_with_http_info(
@@ -447,10 +450,11 @@ class BodyApi:
         :rtype: str
         """
 
-        return self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
+        data = self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_echo_body_free_form_object_response_string_with_http_info(
@@ -576,10 +580,11 @@ class BodyApi:
         :rtype: Pet
         """
 
-        return self.test_echo_body_pet_with_http_info.raw_function(
+        data = self.test_echo_body_pet_with_http_info.raw_function(
             pet,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_echo_body_pet_with_http_info(
@@ -705,10 +710,11 @@ class BodyApi:
         :rtype: str
         """
 
-        return self.test_echo_body_pet_response_string_with_http_info.raw_function(
+        data = self.test_echo_body_pet_response_string_with_http_info.raw_function(
             pet,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_echo_body_pet_response_string_with_http_info(
@@ -834,10 +840,11 @@ class BodyApi:
         :rtype: str
         """
 
-        return self.test_echo_body_tag_response_string_with_http_info.raw_function(
+        data = self.test_echo_body_tag_response_string_with_http_info.raw_function(
             tag,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_echo_body_tag_response_string_with_http_info(

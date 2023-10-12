@@ -80,10 +80,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.fake_any_type_request_body_with_http_info.raw_function(
+        data = self.fake_any_type_request_body_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_any_type_request_body_with_http_info(
@@ -201,10 +202,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.fake_enum_ref_query_parameter_with_http_info.raw_function(
+        data = self.fake_enum_ref_query_parameter_with_http_info.raw_function(
             enum_ref,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_enum_ref_query_parameter_with_http_info(
@@ -312,9 +314,10 @@ class FakeApi:
         :rtype: HealthCheckResult
         """
 
-        return self.fake_health_get_with_http_info.raw_function(
+        data = self.fake_health_get_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_health_get_with_http_info(
@@ -430,12 +433,13 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.fake_http_signature_test_with_http_info.raw_function(
+        data = self.fake_http_signature_test_with_http_info.raw_function(
             pet,
             query_1,
             header_1,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_http_signature_test_with_http_info(
@@ -568,10 +572,11 @@ class FakeApi:
         :rtype: bool
         """
 
-        return self.fake_outer_boolean_serialize_with_http_info.raw_function(
+        data = self.fake_outer_boolean_serialize_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_outer_boolean_serialize_with_http_info(
@@ -697,10 +702,11 @@ class FakeApi:
         :rtype: OuterComposite
         """
 
-        return self.fake_outer_composite_serialize_with_http_info.raw_function(
+        data = self.fake_outer_composite_serialize_with_http_info.raw_function(
             outer_composite,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_outer_composite_serialize_with_http_info(
@@ -826,10 +832,11 @@ class FakeApi:
         :rtype: float
         """
 
-        return self.fake_outer_number_serialize_with_http_info.raw_function(
+        data = self.fake_outer_number_serialize_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_outer_number_serialize_with_http_info(
@@ -955,10 +962,11 @@ class FakeApi:
         :rtype: str
         """
 
-        return self.fake_outer_string_serialize_with_http_info.raw_function(
+        data = self.fake_outer_string_serialize_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_outer_string_serialize_with_http_info(
@@ -1084,10 +1092,11 @@ class FakeApi:
         :rtype: OuterObjectWithEnumProperty
         """
 
-        return self.fake_property_enum_integer_serialize_with_http_info.raw_function(
+        data = self.fake_property_enum_integer_serialize_with_http_info.raw_function(
             outer_object_with_enum_property,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_property_enum_integer_serialize_with_http_info(
@@ -1209,9 +1218,10 @@ class FakeApi:
         :rtype: List[List[Tag]]
         """
 
-        return self.fake_return_list_of_objects_with_http_info.raw_function(
+        data = self.fake_return_list_of_objects_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_return_list_of_objects_with_http_info(
@@ -1321,10 +1331,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.fake_uuid_example_with_http_info.raw_function(
+        data = self.fake_uuid_example_with_http_info.raw_function(
             uuid_example,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def fake_uuid_example_with_http_info(
@@ -1436,10 +1447,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_body_with_binary_with_http_info.raw_function(
+        data = self.test_body_with_binary_with_http_info.raw_function(
             body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_body_with_binary_with_http_info(
@@ -1564,10 +1576,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_body_with_file_schema_with_http_info.raw_function(
+        data = self.test_body_with_file_schema_with_http_info.raw_function(
             file_schema_test_class,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_body_with_file_schema_with_http_info(
@@ -1689,11 +1702,12 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_body_with_query_params_with_http_info.raw_function(
+        data = self.test_body_with_query_params_with_http_info.raw_function(
             query,
             user,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_body_with_query_params_with_http_info(
@@ -1819,10 +1833,11 @@ class FakeApi:
         :rtype: Client
         """
 
-        return self.test_client_model_with_http_info.raw_function(
+        data = self.test_client_model_with_http_info.raw_function(
             client,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_client_model_with_http_info(
@@ -1950,11 +1965,12 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_date_time_query_parameter_with_http_info.raw_function(
+        data = self.test_date_time_query_parameter_with_http_info.raw_function(
             date_time_query,
             str_query,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_date_time_query_parameter_with_http_info(
@@ -2118,7 +2134,7 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_endpoint_parameters_with_http_info.raw_function(
+        data = self.test_endpoint_parameters_with_http_info.raw_function(
             number,
             double,
             pattern_without_delimiter,
@@ -2135,7 +2151,8 @@ class FakeApi:
             password,
             param_callback,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_endpoint_parameters_with_http_info(
@@ -2368,7 +2385,7 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_group_parameters_with_http_info.raw_function(
+        data = self.test_group_parameters_with_http_info.raw_function(
             required_string_group,
             required_boolean_group,
             required_int64_group,
@@ -2376,7 +2393,8 @@ class FakeApi:
             boolean_group,
             int64_group,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_group_parameters_with_http_info(
@@ -2524,10 +2542,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_inline_additional_properties_with_http_info.raw_function(
+        data = self.test_inline_additional_properties_with_http_info.raw_function(
             request_body,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_inline_additional_properties_with_http_info(
@@ -2647,10 +2666,11 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_inline_freeform_additional_properties_with_http_info.raw_function(
+        data = self.test_inline_freeform_additional_properties_with_http_info.raw_function(
             test_inline_freeform_additional_properties_request,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_inline_freeform_additional_properties_with_http_info(
@@ -2773,11 +2793,12 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_json_form_data_with_http_info.raw_function(
+        data = self.test_json_form_data_with_http_info.raw_function(
             param,
             param2,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_json_form_data_with_http_info(
@@ -2922,7 +2943,7 @@ class FakeApi:
         :rtype: None
         """
 
-        return self.test_query_parameter_collection_format_with_http_info.raw_function(
+        data = self.test_query_parameter_collection_format_with_http_info.raw_function(
             pipe,
             ioutil,
             http,
@@ -2931,7 +2952,8 @@ class FakeApi:
             allow_empty,
             language,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def test_query_parameter_collection_format_with_http_info(

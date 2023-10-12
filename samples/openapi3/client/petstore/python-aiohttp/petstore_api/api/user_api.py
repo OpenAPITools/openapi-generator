@@ -69,10 +69,11 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.create_user_with_http_info.raw_function(
+        data = await self.create_user_with_http_info.raw_function(
             user,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def create_user_with_http_info(
@@ -205,10 +206,11 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.create_users_with_array_input_with_http_info.raw_function(
+        data = await self.create_users_with_array_input_with_http_info.raw_function(
             user,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def create_users_with_array_input_with_http_info(
@@ -326,10 +328,11 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.create_users_with_list_input_with_http_info.raw_function(
+        data = await self.create_users_with_list_input_with_http_info.raw_function(
             user,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def create_users_with_list_input_with_http_info(
@@ -447,10 +450,11 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.delete_user_with_http_info.raw_function(
+        data = await self.delete_user_with_http_info.raw_function(
             username,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def delete_user_with_http_info(
@@ -561,10 +565,11 @@ class UserApi:
         :rtype: User
         """
 
-        return await self.get_user_by_name_with_http_info.raw_function(
+        data = await self.get_user_by_name_with_http_info.raw_function(
             username,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def get_user_by_name_with_http_info(
@@ -686,11 +691,12 @@ class UserApi:
         :rtype: str
         """
 
-        return await self.login_user_with_http_info.raw_function(
+        data = await self.login_user_with_http_info.raw_function(
             username,
             password,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def login_user_with_http_info(
@@ -812,9 +818,10 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.logout_user_with_http_info.raw_function(
+        data = await self.logout_user_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def logout_user_with_http_info(
@@ -921,11 +928,12 @@ class UserApi:
         :rtype: None
         """
 
-        return await self.update_user_with_http_info.raw_function(
+        data = await self.update_user_with_http_info.raw_function(
             username,
             user,
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     async def update_user_with_http_info(

@@ -60,9 +60,10 @@ class DefaultApi:
         :rtype: FooGetDefaultResponse
         """
 
-        return self.foo_get_with_http_info.raw_function(
+        data = self.foo_get_with_http_info.raw_function(
             **kwargs,
-        ).data
+        )
+        return data.data
 
     @validate_call
     def foo_get_with_http_info(
