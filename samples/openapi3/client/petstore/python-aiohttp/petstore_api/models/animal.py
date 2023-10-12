@@ -55,7 +55,7 @@ class Animal(BaseModel):
             from petstore_api.models.dog import Dog
 
             cls.__discriminator_value_class_map = {
-                'Cat': Cat,'Dog': Dog
+                'Cat': 'Cat','Dog': 'Dog'
             }
         return cls.__discriminator_value_class_map
 
