@@ -16,6 +16,7 @@ from __future__ import annotations
 import pprint
 import re  # noqa: F401
 import json
+import importlib
 
 
 from typing import Any, ClassVar, Dict, List, Optional, Union
@@ -52,8 +53,8 @@ class Animal(BaseModel):
     def _get_discriminator_value_class_map(cls) -> ClassVar[Dict[str, str]]:
         if cls.__discriminator_value_class_map == None:
             # Prevent circular imports caused by mutually referencing classes
-            from petstore_api.models.cat import Cat
-            from petstore_api.models.dog import Dog
+            globals()["Cat"] = importlib.import_module("petstore_api.models.cat").Cat
+            globals()["Dog"] = importlib.import_module("petstore_api.models.dog").Dog
 
             cls.__discriminator_value_class_map = {
                 'Cat': 'Cat','Dog': 'Dog'

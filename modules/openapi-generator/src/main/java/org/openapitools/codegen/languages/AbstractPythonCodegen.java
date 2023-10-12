@@ -1044,7 +1044,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         // skip self import
                         continue;
                     }
-                    modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                    modelsToImport.add("globals()[\"" + modelImport + "\"] = importlib.import_module(\"" + packageName + ".models." + underscore(modelImport) + "\")." + modelImport);
                 }
 
                 model.discriminator.getVendorExtensions().putIfAbsent("x-py-discriminator-model-imports", modelsToImport);
