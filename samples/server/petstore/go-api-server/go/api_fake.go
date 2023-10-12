@@ -36,7 +36,7 @@ func WithFakeAPIErrorHandler(h ErrorHandler) FakeAPIOption {
 // NewFakeAPIController creates a default api controller
 func NewFakeAPIController(s FakeAPIServicer, opts ...FakeAPIOption) Router {
 	controller := &FakeAPIController{
-		service:	  s,
+		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
 

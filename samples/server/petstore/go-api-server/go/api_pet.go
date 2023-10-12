@@ -36,7 +36,7 @@ func WithPetAPIErrorHandler(h ErrorHandler) PetAPIOption {
 // NewPetAPIController creates a default api controller
 func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) Router {
 	controller := &PetAPIController{
-		service:	  s,
+		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
 

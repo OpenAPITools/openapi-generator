@@ -36,7 +36,7 @@ func WithUserAPIErrorHandler(h ErrorHandler) UserAPIOption {
 // NewUserAPIController creates a default api controller
 func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) Router {
 	controller := &UserAPIController{
-		service:	  s,
+		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
 

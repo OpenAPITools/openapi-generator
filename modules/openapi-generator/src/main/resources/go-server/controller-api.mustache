@@ -41,7 +41,7 @@ func With{{classname}}ErrorHandler(h ErrorHandler) {{classname}}Option {
 // New{{classname}}Controller creates a default api controller
 func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Option) Router {
 	controller := &{{classname}}Controller{
-		service:	  s,
+		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
 
