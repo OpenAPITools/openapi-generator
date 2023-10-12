@@ -630,7 +630,7 @@ paths:
         - read:pets
       summary: uploads images (array of files)
       tags:
-      - fake
+      - pet
 components:
   requestBodies:
     UserArray:

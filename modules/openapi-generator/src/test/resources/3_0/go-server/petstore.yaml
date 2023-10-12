@@ -582,7 +582,7 @@ paths:
   '/fake/uploadImage/array of_file':
     post:
       tags:
-        - fake
+        - pet
       summary: uploads images (array of files)
       description: ''
       operationId: uploadFileArrayOfFiles
