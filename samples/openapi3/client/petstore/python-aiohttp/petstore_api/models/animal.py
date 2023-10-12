@@ -45,7 +45,7 @@ class Animal(BaseModel):
     __discriminator_property_name: ClassVar[List[str]] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map: Union[ClassVar[Dict[str, str]], None] = None
+    __discriminator_value_class_map: ClassVar[Union[Dict[str, str], None]] = None
 
     @classmethod
     def get_discriminator_value(cls, obj: dict) -> str:
