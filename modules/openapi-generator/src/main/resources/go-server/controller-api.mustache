@@ -362,7 +362,8 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isQueryParam}}
 	{{#isFormParam}}
 	{{#isFile}}{{#isArray}}
-	{{paramName}}Param, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := ReadFormFilesToTempFiles(r, "{{baseName}}")
+	{{/isArray}}{{^isArray}}
 	{{paramName}}Param, err := ReadFormFileToTempFile(r, "{{baseName}}")
 	{{/isArray}}
 	if err != nil {
