@@ -50,7 +50,7 @@ func NewSpeciesFromValue(v string) (Species, error) {
 	if ev.IsValid() {
 		return ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, maps.Keys(AllowedSpeciesEnumValues))
+		return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, maps.Keys(AllowedSpeciesEnumValues))
 	}
 }
 

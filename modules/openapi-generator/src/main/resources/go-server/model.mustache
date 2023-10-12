@@ -41,7 +41,7 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 	if ev.IsValid() {
 		return ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, maps.Keys(Allowed{{{classname}}}EnumValues))
+		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, maps.Keys(Allowed{{{classname}}}EnumValues))
 	}
 }
 
