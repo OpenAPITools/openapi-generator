@@ -3,6 +3,8 @@ README.md
 api/openapi.yaml
 go.mod
 go/api.go
+go/api_fake.go
+go/api_fake_service.go
 go/api_pet.go
 go/api_pet_service.go
 go/api_store.go

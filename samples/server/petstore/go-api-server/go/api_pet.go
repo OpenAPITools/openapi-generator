@@ -36,7 +36,7 @@ func WithPetAPIErrorHandler(h ErrorHandler) PetAPIOption {
 // NewPetAPIController creates a default api controller
 func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) Router {
 	controller := &PetAPIController{
-		service:      s,
+		service:	  s,
 		errorHandler: DefaultErrorHandler,
 	}
 
@@ -234,10 +234,10 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-		
+	
 	
 	nameParam := r.FormValue("name")
-		
+	
 	
 	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
@@ -265,10 +265,9 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-		
+	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-	
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)

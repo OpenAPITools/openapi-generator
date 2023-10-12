@@ -36,7 +36,7 @@ func WithStoreAPIErrorHandler(h ErrorHandler) StoreAPIOption {
 // NewStoreAPIController creates a default api controller
 func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) Router {
 	controller := &StoreAPIController{
-		service:      s,
+		service:	  s,
 		errorHandler: DefaultErrorHandler,
 	}
 
