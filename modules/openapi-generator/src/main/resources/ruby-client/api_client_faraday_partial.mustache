@@ -32,7 +32,7 @@
         fail ApiError.new('Connection failed')
       end
 
-      if opts[:return_type] == 'File'
+      if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
         data = deserialize_file(stream)
       elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
@@ -139,7 +139,7 @@
         prefix = prefix + '-' unless prefix.end_with?('-')
         encoding = body.encoding
         tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        tempfile.write(@stream.join.force_encoding(encoding))
+        tempfile.write(stream.join.force_encoding(encoding))
         tempfile.close
         config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
