@@ -49,9 +49,7 @@ class Animal(BaseModel):
     __discriminator_value_class_map: ClassVar[Union[Dict[str, str], None]] = None
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
-        """Returns the discriminator value (object type) of the data"""
-
+    def _get_discriminator_value_class_map() -> ClassVar[Dict[str, str]]:
         if cls.__discriminator_value_class_map == None:
             # Prevent circular imports caused by mutually referencing classes
             from petstore_api.models.cat import Cat
@@ -60,10 +58,15 @@ class Animal(BaseModel):
             cls.__discriminator_value_class_map = {
                 'Cat': Cat,'Dog': Dog
             }
+        return cls.__discriminator_value_class_map
+
+    @classmethod
+    def get_discriminator_value(cls, obj: dict) -> str:
+        """Returns the discriminator value (object type) of the data"""
 
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return cls._get_discriminator_value_class_map().get(discriminator_value)
         else:
             return None
 
@@ -117,6 +120,6 @@ class Animal(BaseModel):
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             ", mapping: " + json.dumps(cls._get_discriminator_value_class_map()))
 
 
