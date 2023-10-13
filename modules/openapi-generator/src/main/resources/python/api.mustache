@@ -36,24 +36,13 @@ class {{classname}}:
 {{#operation}}
 
     @validate_call
-{{#asyncio}}
-    async def {{operationId}}(
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}(
         self,
         {{#allParams}}
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
     ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
-{{/asyncio}}
-{{^asyncio}}
-    def {{operationId}}(
-        self,
-        {{#allParams}}
-        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
-        {{/allParams}}
-        **kwargs,
-    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
-{{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -97,24 +86,13 @@ class {{classname}}:
         )
 
     @validate_call
-{{#asyncio}}
-    async def {{operationId}}_with_http_info(
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info(
         self,
         {{#allParams}}
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
         **kwargs,
     ) -> ApiResponse:
-{{/asyncio}}
-{{^asyncio}}
-    def {{operationId}}_with_http_info(
-        self,
-        {{#allParams}}
-        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
-        {{/allParams}}
-        **kwargs,
-    ) -> ApiResponse:
-{{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
