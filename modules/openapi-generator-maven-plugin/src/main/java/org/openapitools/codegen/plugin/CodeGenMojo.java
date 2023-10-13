@@ -505,7 +505,7 @@ public class CodeGenMojo extends AbstractMojo {
         this.buildContext = buildContext;
     }
 
-    protected Generator getCodeGenerator(boolean dryRun) {
+    protected Generator newGenerator(boolean dryRun) {
         return new DefaultGenerator(dryRun);
     }
 
@@ -908,7 +908,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            this.getCodeGenerator(dryRun).opts(input).generate();
+            this.newGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
