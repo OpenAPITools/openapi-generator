@@ -57,6 +57,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -504,6 +505,10 @@ public class CodeGenMojo extends AbstractMojo {
         this.buildContext = buildContext;
     }
 
+    protected Generator getCodeGenerator(boolean dryRun) {
+        return new DefaultGenerator(dryRun);
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
@@ -903,7 +908,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator(dryRun).opts(input).generate();
+            this.getCodeGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
