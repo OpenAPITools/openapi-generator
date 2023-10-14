@@ -911,6 +911,30 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEnumModelWithDefault() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_11110.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema testEnum = openAPI.getComponents().getSchemas().get("TestEnum");
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel testEnumModel = codegen.fromModel("TestEnum", testEnum);
+        Assert.assertEquals(testEnumModel.defaultValue, "valueOne");
+    }
+
+    @Test
+    public void testEnumModelWithDefaultErrors() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_11110.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema testFailEnum = openAPI.getComponents().getSchemas().get("TestFailEnum");
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel testFailEnumModel = codegen.fromModel("TestFailEnum", testFailEnum);
+        Assert.assertNull(testFailEnumModel);
+    }
+
+    @Test
     public void testExample1() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

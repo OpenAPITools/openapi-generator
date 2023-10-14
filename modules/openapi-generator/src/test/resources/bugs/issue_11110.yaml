@@ -1,0 +1,48 @@
+openapi: 3.0.2
+info:
+  title: Content API
+  description: |
+    An API for getting and modifying rich-text documents, sections, presentations, slides, layout slides, and associated content, such as paragraphs, formatted text, shapes, and properties.
+  version: 0.0.0
+
+paths:
+  /:
+    get:
+      description: >
+        Test Return Of TestModel
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestModel'
+
+components:
+  schemas:
+    TestFailEnum:
+      title: TestFailEnum
+      description: |
+        A model, intended to be an enumeration, with a defined default, but should error as default not in set
+      type: string
+      default: notReal
+      enum:
+        - valueOne
+        - valueTwo
+    TestEnum:
+      title: TestEnum
+      description: |
+        A model, intended to be an enumeration, with a defined default
+      type: string
+      default: valueOne
+      enum:
+        - valueOne
+        - valueTwo
+    TestModel:
+      title: TestModel
+      description: |
+        An example model consuming the TestEnum
+      type: object
+      properties:
+        testEnum:
+          $ref: '#/components/schemas/TestEnum'

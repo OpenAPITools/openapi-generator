@@ -3100,6 +3100,13 @@ public class DefaultCodegen implements CodegenConfig {
             // comment out below as allowableValues is not set in post processing model enum
             m.allowableValues = new HashMap<>();
             m.allowableValues.put("values", schema.getEnum());
+            if (schema.getDefault() != null) {
+                if (!schema.getEnum().contains(schema.getDefault())) {
+                    LOGGER.warn("Default value ({}) for enum ({}) not an allowable value", toDefaultValue(schema), m.name);
+                    return null;
+                }
+                m.defaultValue = toDefaultValue(schema);
+            }
         }
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);

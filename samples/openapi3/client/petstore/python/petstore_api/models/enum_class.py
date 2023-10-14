@@ -44,3 +44,9 @@ class EnumClass(str, Enum):
         return cls(json.loads(json_str))
 
 
+    #
+    @classmethod
+    def _missing_value_(cls, value):
+        if value is no_arg:
+            return cls.'-efg'
+
