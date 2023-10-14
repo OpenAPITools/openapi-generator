@@ -73,6 +73,8 @@ public class PostmanCollectionCodegenTest {
 
         // verify request name (from summary)
         assertFileContains(path, "\"name\": \"Get User\"");
+        // verify request endpoint
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
 
     }
 
@@ -155,6 +157,9 @@ public class PostmanCollectionCodegenTest {
         TestUtils.assertFileContains(path,
                 "key\": \"groupId\", \"value\": \"1\", \"type\": \"number\"");
 
+        // verify request endpoint
+        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+
     }
 
     @Test
@@ -186,6 +191,9 @@ public class PostmanCollectionCodegenTest {
         assertEquals(4, ((ArrayNode) jsonNode.get("variable")).size());
 
         assertFileContains(path, "{{MY_VAR_NAME}}");
+
+        // verify request endpoint
+        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
 
     }
 
