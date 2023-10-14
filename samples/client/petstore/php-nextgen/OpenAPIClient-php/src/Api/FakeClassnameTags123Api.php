@@ -3,7 +3,6 @@
  * FakeClassnameTags123Api
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -44,7 +43,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * FakeClassnameTags123Api Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
