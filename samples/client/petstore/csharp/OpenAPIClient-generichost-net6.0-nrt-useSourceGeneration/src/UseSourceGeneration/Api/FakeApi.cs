@@ -3245,6 +3245,7 @@ namespace UseSourceGeneration.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar;
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3770,6 +3771,7 @@ namespace UseSourceGeneration.Api
                         httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar;
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
