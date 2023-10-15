@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param>
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param>
         [JsonConstructor]
-        public User(Option<string> email, Option<string> firstName, Option<long> id, Option<string> lastName, Option<Object> objectWithNoDeclaredProps, Option<string> password, Option<string> phone, Option<int> userStatus, Option<string> username, Option<Object?> anyTypeProp = default, Option<Object?> anyTypePropNullable = default, Option<Object?> objectWithNoDeclaredPropsNullable = default)
+        public User(Option<string> email = default, Option<string> firstName = default, Option<long> id = default, Option<string> lastName = default, Option<Object> objectWithNoDeclaredProps = default, Option<string> password = default, Option<string> phone = default, Option<int> userStatus = default, Option<string> username = default, Option<Object?> anyTypeProp = default, Option<Object?> anyTypePropNullable = default, Option<Object?> objectWithNoDeclaredPropsNullable = default)
         {
             Email = email;
             FirstName = firstName;
@@ -207,15 +207,15 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> email = default;
-            Option<string> firstName = default;
-            Option<long> id = default;
-            Option<string> lastName = default;
-            Option<Object> objectWithNoDeclaredProps = default;
-            Option<string> password = default;
-            Option<string> phone = default;
-            Option<int> userStatus = default;
-            Option<string> username = default;
+            Option<string?> email = default;
+            Option<string?> firstName = default;
+            Option<long?> id = default;
+            Option<string?> lastName = default;
+            Option<Object?> objectWithNoDeclaredProps = default;
+            Option<string?> password = default;
+            Option<string?> phone = default;
+            Option<int?> userStatus = default;
+            Option<string?> username = default;
             Option<Object?> anyTypeProp = default;
             Option<Object?> anyTypePropNullable = default;
             Option<Object?> objectWithNoDeclaredPropsNullable = default;
@@ -236,46 +236,46 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "email":
-                            email = new Option<string>(utf8JsonReader.GetString()!);
+                            email = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "firstName":
-                            firstName = new Option<string>(utf8JsonReader.GetString()!);
+                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long>(utf8JsonReader.GetInt64());
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         case "lastName":
-                            lastName = new Option<string>(utf8JsonReader.GetString()!);
+                            lastName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "objectWithNoDeclaredProps":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectWithNoDeclaredProps = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                objectWithNoDeclaredProps = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "password":
-                            password = new Option<string>(utf8JsonReader.GetString()!);
+                            password = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "phone":
-                            phone = new Option<string>(utf8JsonReader.GetString()!);
+                            phone = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "userStatus":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                userStatus = new Option<int>(utf8JsonReader.GetInt32());
+                                userStatus = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "username":
-                            username = new Option<string>(utf8JsonReader.GetString()!);
+                            username = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "anyTypeProp":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypeProp = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                anyTypeProp = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "anyTypePropNullable":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypePropNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                anyTypePropNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "objectWithNoDeclaredPropsNullable":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectWithNoDeclaredPropsNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                objectWithNoDeclaredPropsNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -283,7 +283,44 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new User(email, firstName, id.Value, lastName, objectWithNoDeclaredProps, password, phone, userStatus.Value, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
+            if (email.Value == null)
+                throw new ArgumentNullException(nameof(email), "Property is not nullable for class User.");
+
+            if (firstName.Value == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class User.");
+
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class User.");
+
+            if (lastName.Value == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class User.");
+
+            if (objectWithNoDeclaredProps.Value == null)
+                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is not nullable for class User.");
+
+            if (password.Value == null)
+                throw new ArgumentNullException(nameof(password), "Property is not nullable for class User.");
+
+            if (phone.Value == null)
+                throw new ArgumentNullException(nameof(phone), "Property is not nullable for class User.");
+
+            if (userStatus.Value == null)
+                throw new ArgumentNullException(nameof(userStatus), "Property is not nullable for class User.");
+
+            if (username.Value == null)
+                throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
+
+            Option<string> emailParsedValue = new Option<string>(email.Value);
+            Option<string> firstNameParsedValue = new Option<string>(firstName.Value);
+            Option<long> idParsedValue = new Option<long>(id.Value.Value);
+            Option<string> lastNameParsedValue = new Option<string>(lastName.Value);
+            Option<Object> objectWithNoDeclaredPropsParsedValue = new Option<Object>(objectWithNoDeclaredProps.Value);
+            Option<string> passwordParsedValue = new Option<string>(password.Value);
+            Option<string> phoneParsedValue = new Option<string>(phone.Value);
+            Option<int> userStatusParsedValue = new Option<int>(userStatus.Value.Value);
+            Option<string> usernameParsedValue = new Option<string>(username.Value);
+
+            return new User(emailParsedValue, firstNameParsedValue, idParsedValue, lastNameParsedValue, objectWithNoDeclaredPropsParsedValue, passwordParsedValue, phoneParsedValue, userStatusParsedValue, usernameParsedValue, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }
 
         /// <summary>
@@ -310,22 +347,63 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("email", user.Email);
-            writer.WriteString("firstName", user.FirstName);
-            writer.WriteNumber("id", user.Id);
-            writer.WriteString("lastName", user.LastName);
-            writer.WritePropertyName("objectWithNoDeclaredProps");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
-            writer.WriteString("password", user.Password);
-            writer.WriteString("phone", user.Phone);
-            writer.WriteNumber("userStatus", user.UserStatus);
-            writer.WriteString("username", user.Username);
-            writer.WritePropertyName("anyTypeProp");
-            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);
-            writer.WritePropertyName("anyTypePropNullable");
-            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);
-            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
+            if (user.Email.IsSet)
+                writer.WriteString("email", user.Email.Value);
+            if (user.FirstName.IsSet)
+                writer.WriteString("firstName", user.FirstName.Value);
+            if (user.Id.IsSet)
+                writer.WriteNumber("id", user.Id.Value);
+            if (user.LastName.IsSet)
+                writer.WriteString("lastName", user.LastName.Value);
+
+
+            // hello world!
+
+            if (user.ObjectWithNoDeclaredProps.IsSet)
+                writer.WritePropertyName("objectWithNoDeclaredProps");
+                JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
+            if (user.Password.IsSet)
+                writer.WriteString("password", user.Password.Value);
+            if (user.Phone.IsSet)
+                writer.WriteString("phone", user.Phone.Value);
+            if (user.UserStatus.IsSet)
+                writer.WriteNumber("userStatus", user.UserStatus.Value);
+            if (user.Username.IsSet)
+                writer.WriteString("username", user.Username.Value);
+
+
+            // hello world!
+
+            if (user.AnyTypeProp.IsSet)
+                if (user.AnyTypeProp.Value != null)
+                {
+                    writer.WritePropertyName("anyTypeProp");
+                    JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("anyTypeProp");
+
+            // hello world!
+
+            if (user.AnyTypePropNullable.IsSet)
+                if (user.AnyTypePropNullable.Value != null)
+                {
+                    writer.WritePropertyName("anyTypePropNullable");
+                    JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("anyTypePropNullable");
+
+            // hello world!
+
+            if (user.ObjectWithNoDeclaredPropsNullable.IsSet)
+                if (user.ObjectWithNoDeclaredPropsNullable.Value != null)
+                {
+                    writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
+                    JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("objectWithNoDeclaredPropsNullable");
         }
     }
 }

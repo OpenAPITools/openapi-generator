@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, Option<string> color)
+        public Fruit(Apple apple, Option<string> color = default)
         {
             Apple = apple;
             Color = color;
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, Option<string> color)
+        public Fruit(Banana banana, Option<string> color = default)
         {
             Banana = banana;
             Color = color;
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> color = default;
+            Option<string?> color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string>(utf8JsonReader.GetString()!);
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -167,11 +167,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
+
+            Option<string> colorParsedValue = new Option<string>(color.Value);
+
             if (apple != null)
-                return new Fruit(apple, color);
+                return new Fruit(apple, colorParsedValue);
 
             if (banana != null)
-                return new Fruit(banana, color);
+                return new Fruit(banana, colorParsedValue);
 
             throw new JsonException();
         }
@@ -200,7 +205,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("color", fruit.Color);
+            if (fruit.Color.IsSet)
+                writer.WriteString("color", fruit.Color.Value);
         }
     }
 }

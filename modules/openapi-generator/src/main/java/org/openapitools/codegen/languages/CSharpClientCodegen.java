@@ -454,7 +454,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
             Collections.sort(codegenModel.parentVars, propertyComparatorByName);
 
-            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
+            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByRequired).thenComparing(propertyComparatorByDefaultValue);
             Collections.sort(codegenModel.vars, comparator);
             Collections.sort(codegenModel.allVars, comparator);
             Collections.sort(codegenModel.requiredVars, comparator);
@@ -480,6 +480,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if ((one.defaultValue == null) == (another.defaultValue == null))
                 return 0;
             else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByRequired = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
                 return -1;
             else
                 return 1;

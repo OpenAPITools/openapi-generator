@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(Option<string> value)
+        public TestCollectionEndingWithWordList(Option<string> value = default)
         {
             Value = value;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> value = default;
+            Option<string?> value = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "value":
-                            value = new Option<string>(utf8JsonReader.GetString()!);
+                            value = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,7 +129,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new TestCollectionEndingWithWordList(value);
+            if (value.Value == null)
+                throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
+
+            Option<string> valueParsedValue = new Option<string>(value.Value);
+
+            return new TestCollectionEndingWithWordList(valueParsedValue);
         }
 
         /// <summary>
@@ -156,7 +161,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("value", testCollectionEndingWithWordList.Value);
+            if (testCollectionEndingWithWordList.Value.IsSet)
+                writer.WriteString("value", testCollectionEndingWithWordList.Value.Value);
         }
     }
 }

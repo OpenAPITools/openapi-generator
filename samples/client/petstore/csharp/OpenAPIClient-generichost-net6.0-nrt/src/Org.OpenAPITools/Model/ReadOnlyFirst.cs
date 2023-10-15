@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(Option<string> bar, Option<string> baz)
+        public ReadOnlyFirst(Option<string> bar = default, Option<string> baz = default)
         {
             Bar = bar;
             Baz = baz;
@@ -148,8 +148,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> bar = default;
-            Option<string> baz = default;
+            Option<string?> bar = default;
+            Option<string?> baz = default;
 
             while (utf8JsonReader.Read())
             {
@@ -167,10 +167,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string>(utf8JsonReader.GetString()!);
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "baz":
-                            baz = new Option<string>(utf8JsonReader.GetString()!);
+                            baz = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -178,7 +178,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ReadOnlyFirst(bar, baz);
+            if (bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
+
+            if (baz.Value == null)
+                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
+
+            Option<string> barParsedValue = new Option<string>(bar.Value);
+            Option<string> bazParsedValue = new Option<string>(baz.Value);
+
+            return new ReadOnlyFirst(barParsedValue, bazParsedValue);
         }
 
         /// <summary>
@@ -205,8 +214,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", readOnlyFirst.Bar);
-            writer.WriteString("baz", readOnlyFirst.Baz);
+            if (readOnlyFirst.Bar.IsSet)
+                writer.WriteString("bar", readOnlyFirst.Bar.Value);
+            if (readOnlyFirst.Baz.IsSet)
+                writer.WriteString("baz", readOnlyFirst.Baz.Value);
         }
     }
 }

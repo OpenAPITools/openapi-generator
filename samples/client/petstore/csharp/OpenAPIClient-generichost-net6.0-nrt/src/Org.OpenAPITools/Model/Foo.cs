@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(Option<string> bar = @"bar")
+        public Foo(Option<string> bar = default)
         {
             Bar = bar;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> bar = default;
+            Option<string?> bar = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string>(utf8JsonReader.GetString()!);
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,7 +129,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Foo(bar);
+            if (bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
+
+            Option<string> barParsedValue = new Option<string>(bar.Value);
+
+            return new Foo(barParsedValue);
         }
 
         /// <summary>
@@ -156,7 +161,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", foo.Bar);
+            if (foo.Bar.IsSet)
+                writer.WriteString("bar", foo.Bar.Value);
         }
     }
 }

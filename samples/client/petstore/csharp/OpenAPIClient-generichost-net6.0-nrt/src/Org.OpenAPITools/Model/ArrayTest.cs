@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(Option<List<List<long>>> arrayArrayOfInteger, Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel, Option<List<string>> arrayOfString)
+        public ArrayTest(Option<List<List<long>>> arrayArrayOfInteger = default, Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default, Option<List<string>> arrayOfString = default)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
@@ -121,9 +121,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<List<long>>> arrayArrayOfInteger = default;
-            Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default;
-            Option<List<string>> arrayOfString = default;
+            Option<List<List<long>>?> arrayArrayOfInteger = default;
+            Option<List<List<ReadOnlyFirst>>?> arrayArrayOfModel = default;
+            Option<List<string>?> arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -142,15 +142,15 @@ namespace Org.OpenAPITools.Model
                     {
                         case "array_array_of_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfInteger = new Option<List<List<long>>>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                arrayArrayOfInteger = new Option<List<List<long>>?>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_array_of_model":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>?>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                arrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -158,7 +158,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
+            if (arrayArrayOfInteger.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
+
+            if (arrayArrayOfModel.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
+
+            if (arrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
+
+            Option<List<List<long>>> arrayArrayOfIntegerParsedValue = new Option<List<List<long>>>(arrayArrayOfInteger.Value);
+            Option<List<List<ReadOnlyFirst>>> arrayArrayOfModelParsedValue = new Option<List<List<ReadOnlyFirst>>>(arrayArrayOfModel.Value);
+            Option<List<string>> arrayOfStringParsedValue = new Option<List<string>>(arrayOfString.Value);
+
+            return new ArrayTest(arrayArrayOfIntegerParsedValue, arrayArrayOfModelParsedValue, arrayOfStringParsedValue);
         }
 
         /// <summary>
@@ -185,12 +198,25 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("array_array_of_integer");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
-            writer.WritePropertyName("array_array_of_model");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
-            writer.WritePropertyName("array_of_string");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
+
+
+            // hello world!
+
+            if (arrayTest.ArrayArrayOfInteger.IsSet)
+                writer.WritePropertyName("array_array_of_integer");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
+
+            // hello world!
+
+            if (arrayTest.ArrayArrayOfModel.IsSet)
+                writer.WritePropertyName("array_array_of_model");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
+
+            // hello world!
+
+            if (arrayTest.ArrayOfString.IsSet)
+                writer.WritePropertyName("array_of_string");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
     }
 }

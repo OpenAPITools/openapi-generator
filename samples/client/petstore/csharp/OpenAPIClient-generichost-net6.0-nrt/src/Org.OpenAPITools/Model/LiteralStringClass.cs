@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
         [JsonConstructor]
-        public LiteralStringClass(Option<string> escapedLiteralString = @"C:\\Users\\username", Option<string> unescapedLiteralString = @"C:\Users\username")
+        public LiteralStringClass(Option<string> escapedLiteralString = default, Option<string> unescapedLiteralString = default)
         {
             EscapedLiteralString = escapedLiteralString;
             UnescapedLiteralString = unescapedLiteralString;
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> escapedLiteralString = default;
-            Option<string> unescapedLiteralString = default;
+            Option<string?> escapedLiteralString = default;
+            Option<string?> unescapedLiteralString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,10 +131,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "escapedLiteralString":
-                            escapedLiteralString = new Option<string>(utf8JsonReader.GetString()!);
+                            escapedLiteralString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "unescapedLiteralString":
-                            unescapedLiteralString = new Option<string>(utf8JsonReader.GetString()!);
+                            unescapedLiteralString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -142,7 +142,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
+            if (escapedLiteralString.Value == null)
+                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+
+            if (unescapedLiteralString.Value == null)
+                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+
+            Option<string> escapedLiteralStringParsedValue = new Option<string>(escapedLiteralString.Value);
+            Option<string> unescapedLiteralStringParsedValue = new Option<string>(unescapedLiteralString.Value);
+
+            return new LiteralStringClass(escapedLiteralStringParsedValue, unescapedLiteralStringParsedValue);
         }
 
         /// <summary>
@@ -169,8 +178,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
-            writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
+            if (literalStringClass.EscapedLiteralString.IsSet)
+                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString.Value);
+            if (literalStringClass.UnescapedLiteralString.IsSet)
+                writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString.Value);
         }
     }
 }

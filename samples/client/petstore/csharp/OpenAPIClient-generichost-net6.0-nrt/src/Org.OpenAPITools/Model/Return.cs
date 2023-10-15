@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varReturn">varReturn</param>
         [JsonConstructor]
-        public Return(Option<int> varReturn)
+        public Return(Option<int> varReturn = default)
         {
             VarReturn = varReturn;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<int> varReturn = default;
+            Option<int?> varReturn = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varReturn = new Option<int>(utf8JsonReader.GetInt32());
+                                varReturn = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -130,7 +130,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Return(varReturn.Value);
+            if (varReturn.Value == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
+
+            Option<int> varReturnParsedValue = new Option<int>(varReturn.Value.Value);
+
+            return new Return(varReturnParsedValue);
         }
 
         /// <summary>
@@ -157,7 +162,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("return", varReturn.VarReturn);
+            if (varReturn.VarReturn.IsSet)
+                writer.WriteNumber("return", varReturn.VarReturn.Value);
         }
     }
 }

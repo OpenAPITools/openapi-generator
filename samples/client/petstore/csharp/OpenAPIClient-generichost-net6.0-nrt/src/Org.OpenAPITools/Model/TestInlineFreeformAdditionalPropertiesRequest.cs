@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(Option<string> someProperty) : base()
+        public TestInlineFreeformAdditionalPropertiesRequest(Option<string> someProperty = default) : base()
         {
             SomeProperty = someProperty;
             OnCreated();
@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> someProperty = default;
+            Option<string?> someProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "someProperty":
-                            someProperty = new Option<string>(utf8JsonReader.GetString()!);
+                            someProperty = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -140,7 +140,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
+            if (someProperty.Value == null)
+                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
+
+            Option<string> somePropertyParsedValue = new Option<string>(someProperty.Value);
+
+            return new TestInlineFreeformAdditionalPropertiesRequest(somePropertyParsedValue);
         }
 
         /// <summary>
@@ -167,7 +172,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
+            if (testInlineFreeformAdditionalPropertiesRequest.SomeProperty.IsSet)
+                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty.Value);
         }
     }
 }

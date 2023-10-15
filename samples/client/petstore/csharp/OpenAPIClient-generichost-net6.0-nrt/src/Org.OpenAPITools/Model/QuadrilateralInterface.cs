@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
+            Option<string?> quadrilateralType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString()!;
+                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,10 +129,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
+            if (!quadrilateralType.IsSet)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class QuadrilateralInterface.");
 
-            return new QuadrilateralInterface(quadrilateralType);
+            if (quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
+
+            string quadrilateralTypeParsedValue = quadrilateralType.Value;
+
+            return new QuadrilateralInterface(quadrilateralTypeParsedValue);
         }
 
         /// <summary>

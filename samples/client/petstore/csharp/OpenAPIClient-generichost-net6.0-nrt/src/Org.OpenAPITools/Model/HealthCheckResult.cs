@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = new Option<string?>(utf8JsonReader.GetString()!);
+                            nullableMessage = new Option<string?>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -156,7 +156,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
+            if (healthCheckResult.NullableMessage.IsSet)
+                if (healthCheckResult.NullableMessage.Value != null)
+                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage.Value);
+                else
+                    writer.WriteNull("NullableMessage");
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string> color)
+        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string> color = default)
         {
             Apple = apple;
             Banana = banana;
@@ -109,10 +109,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> color = default;
+            Option<string?> color = default;
 
-            Option<Apple?> apple = default;
-            Option<Banana?> banana = default;
+            Apple? apple = default;
+            Banana? banana = default;
 
             Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
             while (utf8JsonReaderAnyOf.Read())
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string>(utf8JsonReader.GetString()!);
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -157,7 +157,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new GmFruit(apple, banana, color);
+            if (color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
+
+            Option<string> colorParsedValue = new Option<string>(color.Value);
+
+            Option<Apple?> appleParsedValue = new Option<Apple?>(apple);
+            Option<Banana?> bananaParsedValue = new Option<Banana?>(banana);
+
+            return new GmFruit(appleParsedValue, bananaParsedValue, colorParsedValue);
         }
 
         /// <summary>
@@ -196,7 +204,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("color", gmFruit.Color);
+            if (gmFruit.Color.IsSet)
+                writer.WriteString("color", gmFruit.Color.Value);
         }
     }
 }

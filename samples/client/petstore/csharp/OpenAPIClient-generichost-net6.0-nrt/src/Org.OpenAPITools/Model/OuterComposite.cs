@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
         [JsonConstructor]
-        public OuterComposite(Option<bool> myBoolean, Option<decimal> myNumber, Option<string> myString)
+        public OuterComposite(Option<bool> myBoolean = default, Option<decimal> myNumber = default, Option<string> myString = default)
         {
             MyBoolean = myBoolean;
             MyNumber = myNumber;
@@ -121,9 +121,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<bool> myBoolean = default;
-            Option<decimal> myNumber = default;
-            Option<string> myString = default;
+            Option<bool?> myBoolean = default;
+            Option<decimal?> myNumber = default;
+            Option<string?> myString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -142,14 +142,14 @@ namespace Org.OpenAPITools.Model
                     {
                         case "my_boolean":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                myBoolean = new Option<bool>(utf8JsonReader.GetBoolean());
+                                myBoolean = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         case "my_number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                myNumber = new Option<decimal>(utf8JsonReader.GetDecimal());
+                                myNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "my_string":
-                            myString = new Option<string>(utf8JsonReader.GetString()!);
+                            myString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -157,7 +157,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new OuterComposite(myBoolean.Value, myNumber.Value, myString);
+            if (myBoolean.Value == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
+
+            if (myNumber.Value == null)
+                throw new ArgumentNullException(nameof(myNumber), "Property is not nullable for class OuterComposite.");
+
+            if (myString.Value == null)
+                throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
+
+            Option<bool> myBooleanParsedValue = new Option<bool>(myBoolean.Value.Value);
+            Option<decimal> myNumberParsedValue = new Option<decimal>(myNumber.Value.Value);
+            Option<string> myStringParsedValue = new Option<string>(myString.Value);
+
+            return new OuterComposite(myBooleanParsedValue, myNumberParsedValue, myStringParsedValue);
         }
 
         /// <summary>
@@ -184,9 +197,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
-            writer.WriteNumber("my_number", outerComposite.MyNumber);
-            writer.WriteString("my_string", outerComposite.MyString);
+            if (outerComposite.MyBoolean.IsSet)
+                writer.WriteBoolean("my_boolean", outerComposite.MyBoolean.Value);
+            if (outerComposite.MyNumber.IsSet)
+                writer.WriteNumber("my_number", outerComposite.MyNumber.Value);
+            if (outerComposite.MyString.IsSet)
+                writer.WriteString("my_string", outerComposite.MyString.Value);
         }
     }
 }

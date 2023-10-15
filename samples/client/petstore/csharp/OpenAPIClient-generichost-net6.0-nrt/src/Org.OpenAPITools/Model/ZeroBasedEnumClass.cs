@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
         [JsonConstructor]
-        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum> zeroBasedEnum)
+        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum> zeroBasedEnum = default)
         {
             ZeroBasedEnum = zeroBasedEnum;
             OnCreated();
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<ZeroBasedEnumClass.ZeroBasedEnumEnum> zeroBasedEnum = default;
+            Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?> zeroBasedEnum = default;
 
             while (utf8JsonReader.Read())
             {
@@ -188,9 +188,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "ZeroBasedEnum":
                             string? zeroBasedEnumRawValue = utf8JsonReader.GetString();
-                            zeroBasedEnum = zeroBasedEnumRawValue == null
-                                ? null
-                                : new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
+                            if (zeroBasedEnumRawValue != null)
+                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
                             break;
                         default:
                             break;
@@ -198,7 +197,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ZeroBasedEnumClass(zeroBasedEnum.Value);
+            if (zeroBasedEnum.Value == null)
+                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is not nullable for class ZeroBasedEnumClass.");
+
+            Option<ZeroBasedEnumClass.ZeroBasedEnumEnum> zeroBasedEnumParsedValue = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum>(zeroBasedEnum.Value.Value);
+
+            return new ZeroBasedEnumClass(zeroBasedEnumParsedValue);
         }
 
         /// <summary>
@@ -225,8 +229,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-            var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum);
+            var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum.Value);
             if (zeroBasedEnumRawValue != null)
                 writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
             else

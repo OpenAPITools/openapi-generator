@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(Option<string> var123List)
+        public List(Option<string> var123List = default)
         {
             Var123List = var123List;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> var123List = default;
+            Option<string?> var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "123-list":
-                            var123List = new Option<string>(utf8JsonReader.GetString()!);
+                            var123List = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,7 +129,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new List(var123List);
+            if (var123List.Value == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
+
+            Option<string> var123ListParsedValue = new Option<string>(var123List.Value);
+
+            return new List(var123ListParsedValue);
         }
 
         /// <summary>
@@ -156,7 +161,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("123-list", list.Var123List);
+            if (list.Var123List.IsSet)
+                writer.WriteString("123-list", list.Var123List.Value);
         }
     }
 }

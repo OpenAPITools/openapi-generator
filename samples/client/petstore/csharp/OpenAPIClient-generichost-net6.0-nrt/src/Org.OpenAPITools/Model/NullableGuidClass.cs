@@ -159,10 +159,11 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
 
-            if (nullableGuidClass.Uuid == null)
-                writer.WriteNull("uuid");
-            else
-                writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
+            if (nullableGuidClass.Uuid.IsSet)
+                if (nullableGuidClass.Uuid.Value != null)
+                    writer.WriteString("uuid", nullableGuidClass.Uuid.Value.Value);
+                else
+                    writer.WriteNull("uuid");
         }
     }
 }

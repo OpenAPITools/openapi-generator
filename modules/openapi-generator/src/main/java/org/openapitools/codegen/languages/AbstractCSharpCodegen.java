@@ -411,6 +411,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        CopyLambda copyLambda = new CopyLambda();
+        CopyLambda copyLambda2 = new CopyLambda();
+
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
@@ -423,9 +426,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
+                .put("indent1", new IndentedLambda(4, " ", false, true))
                 .put("indent3", new IndentedLambda(12, " ", false, true))
                 .put("indent4", new IndentedLambda(16, " ", false, true))
-                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
+                .put("indentLine1", new IndentedLambda(4, " ", true, true))
+                .put("indentLine3", new IndentedLambda(12, " ", true, true))
+                .put("indentLine4", new IndentedLambda(16, " ", true, true))
+                // .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true))
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda(true))
+                .put("copy", copyLambda)
+                .put("copy2", copyLambda2)
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false))
+                .put("pasteLine2", new PasteLambda(copyLambda2, true, true, false));
     }
 
     @Override

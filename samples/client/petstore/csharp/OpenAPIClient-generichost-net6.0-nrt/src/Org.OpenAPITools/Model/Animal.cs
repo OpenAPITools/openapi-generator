@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, Option<string> color = @"red")
+        public Animal(string className, Option<string> color = default)
         {
             ClassName = className;
             Color = color;
@@ -122,8 +122,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
-            Option<string> color = default;
+            Option<string?> className = default;
+            Option<string?> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,10 +141,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString()!;
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "color":
-                            color = new Option<string>(utf8JsonReader.GetString()!);
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -152,10 +152,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Animal.");
 
-            return new Animal(className, color);
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Animal.");
+
+            if (color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
+
+            string classNameParsedValue = className.Value;
+            Option<string> colorParsedValue = new Option<string>(color.Value);
+
+            return new Animal(classNameParsedValue, colorParsedValue);
         }
 
         /// <summary>
@@ -183,7 +192,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", animal.ClassName);
-            writer.WriteString("color", animal.Color);
+            if (animal.Color.IsSet)
+                writer.WriteString("color", animal.Color.Value);
         }
     }
 }

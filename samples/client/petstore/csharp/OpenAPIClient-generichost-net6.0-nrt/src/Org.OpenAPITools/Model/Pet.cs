@@ -34,19 +34,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="category">category</param>
-        /// <param name="id">id</param>
         /// <param name="name">name</param>
         /// <param name="photoUrls">photoUrls</param>
+        /// <param name="category">category</param>
+        /// <param name="id">id</param>
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(Option<Category> category, Option<long> id, string name, List<string> photoUrls, Option<StatusEnum> status, Option<List<Tag>> tags)
+        public Pet(string name, List<string> photoUrls, Option<Category> category = default, Option<long> id = default, Option<StatusEnum> status = default, Option<List<Tag>> tags = default)
         {
-            Category = category;
-            Id = id;
             Name = name;
             PhotoUrls = photoUrls;
+            Category = category;
+            Id = id;
             Status = status;
             Tags = tags;
             OnCreated();
@@ -143,18 +143,6 @@ namespace Org.OpenAPITools.Model
         public Option<StatusEnum> Status { get; set; }
 
         /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [JsonPropertyName("category")]
-        public Option<Category> Category { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public Option<long> Id { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>doggie</example>
@@ -166,6 +154,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("photoUrls")]
         public List<string> PhotoUrls { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [JsonPropertyName("category")]
+        public Option<Category> Category { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
@@ -187,10 +187,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -231,12 +231,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Category> category = default;
-            Option<long> id = default;
-            string name = default;
-            List<string> photoUrls = default;
-            Option<Pet.StatusEnum> status = default;
-            Option<List<Tag>> tags = default;
+            Option<string?> name = default;
+            Option<List<string>?> photoUrls = default;
+            Option<Category?> category = default;
+            Option<long?> id = default;
+            Option<Pet.StatusEnum?> status = default;
+            Option<List<Tag>?> tags = default;
 
             while (utf8JsonReader.Read())
             {
@@ -253,30 +253,29 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "category":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                category = new Option<Category>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long>(utf8JsonReader.GetInt64());
-                            break;
                         case "name":
-                            name = utf8JsonReader.GetString()!;
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "photoUrls":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!;
+                                photoUrls = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "category":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                category = new Option<Category?>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "id":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
-                            status = statusRawValue == null
-                                ? null
-                                : new Option<Pet.StatusEnum>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
+                            if (statusRawValue != null)
+                                status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "tags":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                tags = new Option<List<Tag>?>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -284,13 +283,38 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name == null)
+            if (!name.IsSet)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
 
-            if (photoUrls == null)
+            if (!photoUrls.IsSet)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
 
-            return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Pet.");
+
+            if (photoUrls.Value == null)
+                throw new ArgumentNullException(nameof(photoUrls), "Property is not nullable for class Pet.");
+
+            if (category.Value == null)
+                throw new ArgumentNullException(nameof(category), "Property is not nullable for class Pet.");
+
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Pet.");
+
+            if (status.Value == null)
+                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Pet.");
+
+            if (tags.Value == null)
+                throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
+
+            string nameParsedValue = name.Value;
+            List<string> photoUrlsParsedValue = photoUrls.Value;
+            Option<Category> categoryParsedValue = new Option<Category>(category.Value);
+            Option<long> idParsedValue = new Option<long>(id.Value.Value);
+            Option<Pet.StatusEnum> statusParsedValue = new Option<Pet.StatusEnum>(status.Value.Value);
+            Option<List<Tag>> tagsParsedValue = new Option<List<Tag>>(tags.Value);
+
+            return new Pet(nameParsedValue, photoUrlsParsedValue, categoryParsedValue, idParsedValue, statusParsedValue, tagsParsedValue);
         }
 
         /// <summary>
@@ -317,21 +341,32 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("category");
-            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
-            writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
+
+
+            // hello world!
+
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
 
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
+            // hello world!
+
+            if (pet.Category.IsSet)
+                writer.WritePropertyName("category");
+                JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
+            if (pet.Id.IsSet)
+                writer.WriteNumber("id", pet.Id.Value);
+            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 
-            writer.WritePropertyName("tags");
-            JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
+            // hello world!
+
+            if (pet.Tags.IsSet)
+                writer.WritePropertyName("tags");
+                JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
         }
     }
 }

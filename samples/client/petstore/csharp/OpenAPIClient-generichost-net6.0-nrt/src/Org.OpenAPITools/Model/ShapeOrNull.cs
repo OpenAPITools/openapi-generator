@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string shapeType = default;
+            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString()!;
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -195,14 +195,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeOrNull.");
 
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeOrNull.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+
             if (quadrilateral != null)
-                return new ShapeOrNull(quadrilateral, shapeType);
+                return new ShapeOrNull(quadrilateral, shapeTypeParsedValue);
 
             if (triangle != null)
-                return new ShapeOrNull(triangle, shapeType);
+                return new ShapeOrNull(triangle, shapeTypeParsedValue);
 
             throw new JsonException();
         }

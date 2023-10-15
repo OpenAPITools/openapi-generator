@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Cat(string className, Option<bool> declawed, Option<string> color = @"red") : base(className, color)
+        public Cat(string className, Option<bool> declawed = default, Option<string> color = default) : base(className, color)
         {
             Declawed = declawed;
             OnCreated();
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
-            Option<bool> declawed = default;
-            Option<string> color = default;
+            Option<string?> className = default;
+            Option<bool?> declawed = default;
+            Option<string?> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -109,14 +109,14 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString()!;
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "declawed":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                declawed = new Option<bool>(utf8JsonReader.GetBoolean());
+                                declawed = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         case "color":
-                            color = new Option<string>(utf8JsonReader.GetString()!);
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -124,10 +124,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
 
-            return new Cat(className, declawed.Value, color);
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Cat.");
+
+            if (declawed.Value == null)
+                throw new ArgumentNullException(nameof(declawed), "Property is not nullable for class Cat.");
+
+            if (color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
+
+            string classNameParsedValue = className.Value;
+            Option<bool> declawedParsedValue = new Option<bool>(declawed.Value.Value);
+            Option<string> colorParsedValue = new Option<string>(color.Value);
+
+            return new Cat(classNameParsedValue, declawedParsedValue, colorParsedValue);
         }
 
         /// <summary>
@@ -155,8 +168,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", cat.ClassName);
-            writer.WriteBoolean("declawed", cat.Declawed);
-            writer.WriteString("color", cat.Color);
+            if (cat.Declawed.IsSet)
+                writer.WriteBoolean("declawed", cat.Declawed.Value);
+            if (cat.Color.IsSet)
+                writer.WriteString("color", cat.Color.Value);
         }
     }
 }

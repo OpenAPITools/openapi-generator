@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public RolesReportsHashRole(Option<string> name)
+        public RolesReportsHashRole(Option<string> name = default)
         {
             Name = name;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> name = default;
+            Option<string?> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<string>(utf8JsonReader.GetString()!);
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,7 +129,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new RolesReportsHashRole(name);
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class RolesReportsHashRole.");
+
+            Option<string> nameParsedValue = new Option<string>(name.Value);
+
+            return new RolesReportsHashRole(nameParsedValue);
         }
 
         /// <summary>
@@ -156,7 +161,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("name", rolesReportsHashRole.Name);
+            if (rolesReportsHashRole.Name.IsSet)
+                writer.WriteString("name", rolesReportsHashRole.Name.Value);
         }
     }
 }

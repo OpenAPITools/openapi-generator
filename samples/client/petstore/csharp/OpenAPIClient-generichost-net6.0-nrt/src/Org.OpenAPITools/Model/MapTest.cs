@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         [JsonConstructor]
-        public MapTest(Option<Dictionary<string, bool>> directMap, Option<Dictionary<string, bool>> indirectMap, Option<Dictionary<string, Dictionary<string, string>>> mapMapOfString, Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumString)
+        public MapTest(Option<Dictionary<string, bool>> directMap = default, Option<Dictionary<string, bool>> indirectMap = default, Option<Dictionary<string, Dictionary<string, string>>> mapMapOfString = default, Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumString = default)
         {
             DirectMap = directMap;
             IndirectMap = indirectMap;
@@ -196,10 +196,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Dictionary<string, bool>> directMap = default;
-            Option<Dictionary<string, bool>> indirectMap = default;
-            Option<Dictionary<string, Dictionary<string, string>>> mapMapOfString = default;
-            Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumString = default;
+            Option<Dictionary<string, bool>?> directMap = default;
+            Option<Dictionary<string, bool>?> indirectMap = default;
+            Option<Dictionary<string, Dictionary<string, string>>?> mapMapOfString = default;
+            Option<Dictionary<string, MapTest.InnerEnum>?> mapOfEnumString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -218,19 +218,19 @@ namespace Org.OpenAPITools.Model
                     {
                         case "direct_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                directMap = new Option<Dictionary<string, bool>>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                directMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "indirect_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                indirectMap = new Option<Dictionary<string, bool>>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                indirectMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "map_map_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapMapOfString = new Option<Dictionary<string, Dictionary<string, string>>>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                mapMapOfString = new Option<Dictionary<string, Dictionary<string, string>>?>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "map_of_enum_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapOfEnumString = new Option<Dictionary<string, MapTest.InnerEnum>>(JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                mapOfEnumString = new Option<Dictionary<string, MapTest.InnerEnum>?>(JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -238,7 +238,24 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
+            if (directMap.Value == null)
+                throw new ArgumentNullException(nameof(directMap), "Property is not nullable for class MapTest.");
+
+            if (indirectMap.Value == null)
+                throw new ArgumentNullException(nameof(indirectMap), "Property is not nullable for class MapTest.");
+
+            if (mapMapOfString.Value == null)
+                throw new ArgumentNullException(nameof(mapMapOfString), "Property is not nullable for class MapTest.");
+
+            if (mapOfEnumString.Value == null)
+                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
+
+            Option<Dictionary<string, bool>> directMapParsedValue = new Option<Dictionary<string, bool>>(directMap.Value);
+            Option<Dictionary<string, bool>> indirectMapParsedValue = new Option<Dictionary<string, bool>>(indirectMap.Value);
+            Option<Dictionary<string, Dictionary<string, string>>> mapMapOfStringParsedValue = new Option<Dictionary<string, Dictionary<string, string>>>(mapMapOfString.Value);
+            Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumStringParsedValue = new Option<Dictionary<string, MapTest.InnerEnum>>(mapOfEnumString.Value);
+
+            return new MapTest(directMapParsedValue, indirectMapParsedValue, mapMapOfStringParsedValue, mapOfEnumStringParsedValue);
         }
 
         /// <summary>
@@ -265,14 +282,31 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("direct_map");
-            JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
-            writer.WritePropertyName("indirect_map");
-            JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
-            writer.WritePropertyName("map_map_of_string");
-            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
-            writer.WritePropertyName("map_of_enum_string");
-            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
+
+
+            // hello world!
+
+            if (mapTest.DirectMap.IsSet)
+                writer.WritePropertyName("direct_map");
+                JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
+
+            // hello world!
+
+            if (mapTest.IndirectMap.IsSet)
+                writer.WritePropertyName("indirect_map");
+                JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
+
+            // hello world!
+
+            if (mapTest.MapMapOfString.IsSet)
+                writer.WritePropertyName("map_map_of_string");
+                JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
+
+            // hello world!
+
+            if (mapTest.MapOfEnumString.IsSet)
+                writer.WritePropertyName("map_of_enum_string");
+                JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
     }
 }

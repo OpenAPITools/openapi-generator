@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
         [JsonConstructor]
-        internal HasOnlyReadOnly(Option<string> bar, Option<string> foo)
+        internal HasOnlyReadOnly(Option<string> bar = default, Option<string> foo = default)
         {
             Bar = bar;
             Foo = foo;
@@ -149,8 +149,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> bar = default;
-            Option<string> foo = default;
+            Option<string?> bar = default;
+            Option<string?> foo = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,10 +168,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string>(utf8JsonReader.GetString()!);
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "foo":
-                            foo = new Option<string>(utf8JsonReader.GetString()!);
+                            foo = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -179,7 +179,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new HasOnlyReadOnly(bar, foo);
+            if (bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
+
+            if (foo.Value == null)
+                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
+
+            Option<string> barParsedValue = new Option<string>(bar.Value);
+            Option<string> fooParsedValue = new Option<string>(foo.Value);
+
+            return new HasOnlyReadOnly(barParsedValue, fooParsedValue);
         }
 
         /// <summary>
@@ -206,8 +215,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", hasOnlyReadOnly.Bar);
-            writer.WriteString("foo", hasOnlyReadOnly.Foo);
+            if (hasOnlyReadOnly.Bar.IsSet)
+                writer.WriteString("bar", hasOnlyReadOnly.Bar.Value);
+            if (hasOnlyReadOnly.Foo.IsSet)
+                writer.WriteString("foo", hasOnlyReadOnly.Foo.Value);
         }
     }
 }

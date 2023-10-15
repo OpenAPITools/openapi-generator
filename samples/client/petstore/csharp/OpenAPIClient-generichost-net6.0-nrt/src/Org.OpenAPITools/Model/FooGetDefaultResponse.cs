@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Option<Foo> varString)
+        public FooGetDefaultResponse(Option<Foo> varString = default)
         {
             VarString = varString;
             OnCreated();
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Foo> varString = default;
+            Option<Foo?> varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varString = new Option<Foo>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                varString = new Option<Foo?>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -130,7 +130,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FooGetDefaultResponse(varString);
+            if (varString.Value == null)
+                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
+
+            Option<Foo> varStringParsedValue = new Option<Foo>(varString.Value);
+
+            return new FooGetDefaultResponse(varStringParsedValue);
         }
 
         /// <summary>
@@ -157,8 +162,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+
+
+            // hello world!
+
+            if (fooGetDefaultResponse.VarString.IsSet)
+                writer.WritePropertyName("string");
+                JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
         }
     }
 }

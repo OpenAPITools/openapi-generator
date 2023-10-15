@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(Option<string> name, Option<PetTypeEnum> petType = new Option<PetTypeEnum>(PetTypeEnum.ChildCat)) : base(ChildCat.PetTypeEnumToJsonValue(petType))
+        public ChildCat(Option<string> name = default, Option<PetTypeEnum> petType = default) : base(ChildCat.PetTypeEnumToJsonValue(petType.Value))
         {
             Name = name;
             PetType = petType;
@@ -148,8 +148,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> name = default;
-            Option<ChildCat.PetTypeEnum> petType = default;
+            Option<string?> name = default;
+            Option<ChildCat.PetTypeEnum?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -167,13 +167,12 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<string>(utf8JsonReader.GetString()!);
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "pet_type":
                             string? petTypeRawValue = utf8JsonReader.GetString();
-                            petType = petTypeRawValue == null
-                                ? null
-                                : new Option<ChildCat.PetTypeEnum>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
+                            if (petTypeRawValue != null)
+                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
                             break;
                         default:
                             break;
@@ -181,7 +180,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ChildCat(name, petType.Value);
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
+
+            if (petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
+
+            Option<string> nameParsedValue = new Option<string>(name.Value);
+            Option<ChildCat.PetTypeEnum> petTypeParsedValue = new Option<ChildCat.PetTypeEnum>(petType.Value.Value);
+
+            return new ChildCat(nameParsedValue, petTypeParsedValue);
         }
 
         /// <summary>
@@ -208,9 +216,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("name", childCat.Name);
-
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
+            if (childCat.Name.IsSet)
+                writer.WriteString("name", childCat.Name.Value);
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
             else

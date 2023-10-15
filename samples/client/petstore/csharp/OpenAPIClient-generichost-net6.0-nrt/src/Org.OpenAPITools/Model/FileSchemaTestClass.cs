@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="file">file</param>
         /// <param name="files">files</param>
         [JsonConstructor]
-        public FileSchemaTestClass(Option<File> file, Option<List<File>> files)
+        public FileSchemaTestClass(Option<File> file = default, Option<List<File>> files = default)
         {
             File = file;
             Files = files;
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<File> file = default;
-            Option<List<File>> files = default;
+            Option<File?> file = default;
+            Option<List<File>?> files = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,11 +132,11 @@ namespace Org.OpenAPITools.Model
                     {
                         case "file":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                file = new Option<File>(JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                file = new Option<File?>(JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "files":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                files = new Option<List<File>>(JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                files = new Option<List<File>?>(JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -144,7 +144,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FileSchemaTestClass(file, files);
+            if (file.Value == null)
+                throw new ArgumentNullException(nameof(file), "Property is not nullable for class FileSchemaTestClass.");
+
+            if (files.Value == null)
+                throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
+
+            Option<File> fileParsedValue = new Option<File>(file.Value);
+            Option<List<File>> filesParsedValue = new Option<List<File>>(files.Value);
+
+            return new FileSchemaTestClass(fileParsedValue, filesParsedValue);
         }
 
         /// <summary>
@@ -171,10 +180,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("file");
-            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
-            writer.WritePropertyName("files");
-            JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
+
+
+            // hello world!
+
+            if (fileSchemaTestClass.File.IsSet)
+                writer.WritePropertyName("file");
+                JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
+
+            // hello world!
+
+            if (fileSchemaTestClass.Files.IsSet)
+                writer.WritePropertyName("files");
+                JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }
     }
 }

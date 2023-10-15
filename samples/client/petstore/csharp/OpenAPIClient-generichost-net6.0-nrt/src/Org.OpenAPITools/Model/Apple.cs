@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
         [JsonConstructor]
-        public Apple(Option<string> colorCode, Option<string> cultivar, Option<string> origin)
+        public Apple(Option<string> colorCode = default, Option<string> cultivar = default, Option<string> origin = default)
         {
             ColorCode = colorCode;
             Cultivar = cultivar;
@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Model
         {
             if (this.ColorCode != null) {
                 // ColorCode (string) pattern
-                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
+                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant); // a
                 if (!regexColorCode.Match(this.ColorCode).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Model
 
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern
-                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant); // a
                 if (!regexCultivar.Match(this.Cultivar).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
 
             if (this.Origin != null) {
                 // Origin (string) pattern
-                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase); // a
                 if (!regexOrigin.Match(this.Origin).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
@@ -148,9 +148,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> colorCode = default;
-            Option<string> cultivar = default;
-            Option<string> origin = default;
+            Option<string?> colorCode = default;
+            Option<string?> cultivar = default;
+            Option<string?> origin = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,13 +168,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color_code":
-                            colorCode = new Option<string>(utf8JsonReader.GetString()!);
+                            colorCode = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "cultivar":
-                            cultivar = new Option<string>(utf8JsonReader.GetString()!);
+                            cultivar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "origin":
-                            origin = new Option<string>(utf8JsonReader.GetString()!);
+                            origin = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -182,7 +182,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Apple(colorCode, cultivar, origin);
+            if (colorCode.Value == null)
+                throw new ArgumentNullException(nameof(colorCode), "Property is not nullable for class Apple.");
+
+            if (cultivar.Value == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class Apple.");
+
+            if (origin.Value == null)
+                throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
+
+            Option<string> colorCodeParsedValue = new Option<string>(colorCode.Value);
+            Option<string> cultivarParsedValue = new Option<string>(cultivar.Value);
+            Option<string> originParsedValue = new Option<string>(origin.Value);
+
+            return new Apple(colorCodeParsedValue, cultivarParsedValue, originParsedValue);
         }
 
         /// <summary>
@@ -209,9 +222,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("color_code", apple.ColorCode);
-            writer.WriteString("cultivar", apple.Cultivar);
-            writer.WriteString("origin", apple.Origin);
+            if (apple.ColorCode.IsSet)
+                writer.WriteString("color_code", apple.ColorCode.Value);
+            if (apple.Cultivar.IsSet)
+                writer.WriteString("cultivar", apple.Cultivar.Value);
+            if (apple.Origin.IsSet)
+                writer.WriteString("origin", apple.Origin.Value);
         }
     }
 }

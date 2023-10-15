@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        public SpecialModelName(Option<string> varSpecialModelName, Option<long> specialPropertyName)
+        public SpecialModelName(Option<string> varSpecialModelName = default, Option<long> specialPropertyName = default)
         {
             VarSpecialModelName = varSpecialModelName;
             SpecialPropertyName = specialPropertyName;
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> varSpecialModelName = default;
-            Option<long> specialPropertyName = default;
+            Option<string?> varSpecialModelName = default;
+            Option<long?> specialPropertyName = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,11 +131,11 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "_special_model.name_":
-                            varSpecialModelName = new Option<string>(utf8JsonReader.GetString()!);
+                            varSpecialModelName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "$special[property.name]":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                specialPropertyName = new Option<long>(utf8JsonReader.GetInt64());
+                                specialPropertyName = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         default:
                             break;
@@ -143,7 +143,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new SpecialModelName(varSpecialModelName, specialPropertyName.Value);
+            if (varSpecialModelName.Value == null)
+                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
+
+            if (specialPropertyName.Value == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
+
+            Option<string> varSpecialModelNameParsedValue = new Option<string>(varSpecialModelName.Value);
+            Option<long> specialPropertyNameParsedValue = new Option<long>(specialPropertyName.Value.Value);
+
+            return new SpecialModelName(varSpecialModelNameParsedValue, specialPropertyNameParsedValue);
         }
 
         /// <summary>
@@ -170,8 +179,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
-            writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
+            if (specialModelName.VarSpecialModelName.IsSet)
+                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName.Value);
+            if (specialModelName.SpecialPropertyName.IsSet)
+                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName.Value);
         }
     }
 }
