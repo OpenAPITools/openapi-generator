@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -133,7 +134,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
+            Option<string> quadrilateralType = default;
 
             ComplexQuadrilateral complexQuadrilateral = null;
             SimpleQuadrilateral simpleQuadrilateral = null;
@@ -184,7 +185,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -192,14 +193,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
+            if (!quadrilateralType.IsSet)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class Quadrilateral.");
 
+            if (quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
+
+            string quadrilateralTypeParsedValue = quadrilateralType.Value;
+
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType);
+                return new Quadrilateral(complexQuadrilateral, quadrilateralTypeParsedValue);
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType);
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralTypeParsedValue);
 
             throw new JsonException();
         }

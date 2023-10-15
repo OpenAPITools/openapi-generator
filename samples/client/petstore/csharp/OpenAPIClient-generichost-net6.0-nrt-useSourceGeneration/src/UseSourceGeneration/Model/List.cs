@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(string var123List)
+        public List(Option<string> var123List = default)
         {
             Var123List = var123List;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string Var123List { get; set; }
+        public Option<string> Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? var123List = default;
+            Option<string?> var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "123-list":
-                            var123List = utf8JsonReader.GetString();
+                            var123List = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (var123List == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
+            if (var123List.Value == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
 
-            return new List(var123List);
+            Option<string> var123ListParsedValue = new Option<string>(var123List.Value);
+
+            return new List(var123ListParsedValue);
         }
 
         /// <summary>
@@ -160,7 +162,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("123-list", list.Var123List);
+            if (list.Var123List.IsSet)
+                writer.WriteString("123-list", list.Var123List.Value);
         }
     }
 

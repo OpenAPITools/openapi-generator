@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Apple? apple, Banana? banana, string color)
+        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string> color = default)
         {
             Apple = apple;
             Banana = banana;
@@ -51,18 +51,18 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get; set; }
+        public Option<Apple?> Apple { get; set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Option<Banana?> Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -110,7 +110,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? color = default;
+            Option<string?> color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -150,7 +150,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -158,10 +158,15 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
+            if (color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
 
-            return new GmFruit(apple, banana, color);
+            Option<string> colorParsedValue = new Option<string>(color.Value);
+
+            Option<Apple?> appleParsedValue = new Option<Apple?>(apple);
+            Option<Banana?> bananaParsedValue = new Option<Banana?>(banana);
+
+            return new GmFruit(appleParsedValue, bananaParsedValue, colorParsedValue);
         }
 
         /// <summary>
@@ -175,16 +180,16 @@ namespace UseSourceGeneration.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.Apple != null)
+            if (gmFruit.Apple.IsSet && gmFruit.Apple.Value != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.Value.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple.Value, jsonSerializerOptions);
             }
 
-            if (gmFruit.Banana != null)
+            if (gmFruit.Banana.IsSet && gmFruit.Banana.Value != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.Value.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana.Value, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
@@ -200,7 +205,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("color", gmFruit.Color);
+            if (gmFruit.Color.IsSet)
+                writer.WriteString("color", gmFruit.Color.Value);
         }
     }
 

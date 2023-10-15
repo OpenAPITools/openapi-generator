@@ -969,6 +969,7 @@ namespace Org.OpenAPITools.Model
         {
             if (value == null)
                 return null;
+
             if (value == RequiredNullableEnumStringEnum.UPPER)
                 return "UPPER";
 
@@ -1263,6 +1264,7 @@ namespace Org.OpenAPITools.Model
         {
             if (value == null)
                 return null;
+
             if (value == NotrequiredNullableEnumStringEnum.UPPER)
                 return "UPPER";
 

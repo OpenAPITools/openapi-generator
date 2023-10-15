@@ -79,6 +79,7 @@ docs/models/PolymorphicProperty.md
 docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
+docs/models/RequiredClass.md
 docs/models/Return.md
 docs/models/RolesReportsHash.md
 docs/models/RolesReportsHashRole.md
@@ -206,6 +207,7 @@ src/UseSourceGeneration/Model/PolymorphicProperty.cs
 src/UseSourceGeneration/Model/Quadrilateral.cs
 src/UseSourceGeneration/Model/QuadrilateralInterface.cs
 src/UseSourceGeneration/Model/ReadOnlyFirst.cs
+src/UseSourceGeneration/Model/RequiredClass.cs
 src/UseSourceGeneration/Model/Return.cs
 src/UseSourceGeneration/Model/RolesReportsHash.cs
 src/UseSourceGeneration/Model/RolesReportsHashRole.cs

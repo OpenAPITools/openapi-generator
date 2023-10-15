@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
         /// <param name="anytype1">anytype1</param>
         [JsonConstructor]
-        public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object anytype1 = default)
+        public AdditionalPropertiesClass(Option<Object> emptyMap = default, Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default, Option<Dictionary<string, string>> mapProperty = default, Option<Object> mapWithUndeclaredPropertiesAnytype1 = default, Option<Object> mapWithUndeclaredPropertiesAnytype2 = default, Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default, Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default, Option<Object> anytype1 = default)
         {
             EmptyMap = emptyMap;
             MapOfMapProperty = mapOfMapProperty;
@@ -60,49 +61,49 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [JsonPropertyName("empty_map")]
-        public Object EmptyMap { get; set; }
+        public Option<Object> EmptyMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [JsonPropertyName("map_of_map_property")]
-        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
+        public Option<Dictionary<string, Dictionary<string, string>>> MapOfMapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
         [JsonPropertyName("map_property")]
-        public Dictionary<string, string> MapProperty { get; set; }
+        public Option<Dictionary<string, string>> MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_1")]
-        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        public Option<Object> MapWithUndeclaredPropertiesAnytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_2")]
-        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        public Option<Object> MapWithUndeclaredPropertiesAnytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_3")]
-        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
+        public Option<Dictionary<string, Object>> MapWithUndeclaredPropertiesAnytype3 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_string")]
-        public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
+        public Option<Dictionary<string, string>> MapWithUndeclaredPropertiesString { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
         [JsonPropertyName("anytype_1")]
-        public Object Anytype1 { get; set; }
+        public Option<Object> Anytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -164,14 +165,14 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Object emptyMap = default;
-            Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default;
-            Dictionary<string, string> mapProperty = default;
-            Object mapWithUndeclaredPropertiesAnytype1 = default;
-            Object mapWithUndeclaredPropertiesAnytype2 = default;
-            Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default;
-            Dictionary<string, string> mapWithUndeclaredPropertiesString = default;
-            Object anytype1 = default;
+            Option<Object> emptyMap = default;
+            Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default;
+            Option<Dictionary<string, string>> mapProperty = default;
+            Option<Object> mapWithUndeclaredPropertiesAnytype1 = default;
+            Option<Object> mapWithUndeclaredPropertiesAnytype2 = default;
+            Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default;
+            Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default;
+            Option<Object> anytype1 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -190,35 +191,35 @@ namespace Org.OpenAPITools.Model
                     {
                         case "empty_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                emptyMap = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                                emptyMap = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_of_map_property":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapOfMapProperty = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapOfMapProperty = new Option<Dictionary<string, Dictionary<string, string>>>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_property":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapProperty = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapProperty = new Option<Dictionary<string, string>>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_with_undeclared_properties_anytype_1":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapWithUndeclaredPropertiesAnytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapWithUndeclaredPropertiesAnytype1 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_with_undeclared_properties_anytype_2":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapWithUndeclaredPropertiesAnytype2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapWithUndeclaredPropertiesAnytype2 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_with_undeclared_properties_anytype_3":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapWithUndeclaredPropertiesAnytype3 = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapWithUndeclaredPropertiesAnytype3 = new Option<Dictionary<string, Object>>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "map_with_undeclared_properties_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapWithUndeclaredPropertiesString = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                mapWithUndeclaredPropertiesString = new Option<Dictionary<string, string>>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "anytype_1":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                                anytype1 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -226,28 +227,36 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (emptyMap == null)
-                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
+            if (emptyMap.Value == null)
+                throw new ArgumentNullException(nameof(emptyMap), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapOfMapProperty == null)
-                throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+            if (mapOfMapProperty.Value == null)
+                throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapProperty == null)
-                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
+            if (mapProperty.Value == null)
+                throw new ArgumentNullException(nameof(mapProperty), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapWithUndeclaredPropertiesAnytype1 == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
+            if (mapWithUndeclaredPropertiesAnytype1.Value == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapWithUndeclaredPropertiesAnytype2 == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
+            if (mapWithUndeclaredPropertiesAnytype2.Value == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype2), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapWithUndeclaredPropertiesAnytype3 == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
+            if (mapWithUndeclaredPropertiesAnytype3.Value == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            if (mapWithUndeclaredPropertiesString == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
+            if (mapWithUndeclaredPropertiesString.Value == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
+            Option<Object> emptyMapParsedValue = new Option<Object>(emptyMap.Value);
+            Option<Dictionary<string, Dictionary<string, string>>> mapOfMapPropertyParsedValue = new Option<Dictionary<string, Dictionary<string, string>>>(mapOfMapProperty.Value);
+            Option<Dictionary<string, string>> mapPropertyParsedValue = new Option<Dictionary<string, string>>(mapProperty.Value);
+            Option<Object> mapWithUndeclaredPropertiesAnytype1ParsedValue = new Option<Object>(mapWithUndeclaredPropertiesAnytype1.Value);
+            Option<Object> mapWithUndeclaredPropertiesAnytype2ParsedValue = new Option<Object>(mapWithUndeclaredPropertiesAnytype2.Value);
+            Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3ParsedValue = new Option<Dictionary<string, Object>>(mapWithUndeclaredPropertiesAnytype3.Value);
+            Option<Dictionary<string, string>> mapWithUndeclaredPropertiesStringParsedValue = new Option<Dictionary<string, string>>(mapWithUndeclaredPropertiesString.Value);
+
+            return new AdditionalPropertiesClass(emptyMapParsedValue, mapOfMapPropertyParsedValue, mapPropertyParsedValue, mapWithUndeclaredPropertiesAnytype1ParsedValue, mapWithUndeclaredPropertiesAnytype2ParsedValue, mapWithUndeclaredPropertiesAnytype3ParsedValue, mapWithUndeclaredPropertiesStringParsedValue, anytype1);
         }
 
         /// <summary>
@@ -274,22 +283,35 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("empty_map");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
-            writer.WritePropertyName("map_of_map_property");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
-            writer.WritePropertyName("map_property");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
-            writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
-            writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
-            writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
-            writer.WritePropertyName("map_with_undeclared_properties_string");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
-            writer.WritePropertyName("anytype_1");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
+            if (additionalPropertiesClass.EmptyMap.IsSet)
+                writer.WritePropertyName("empty_map");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapOfMapProperty.IsSet)
+                writer.WritePropertyName("map_of_map_property");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapProperty.IsSet)
+                writer.WritePropertyName("map_property");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1.IsSet)
+                writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2.IsSet)
+                writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3.IsSet)
+                writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesString.IsSet)
+                writer.WritePropertyName("map_with_undeclared_properties_string");
+                JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
+            if (additionalPropertiesClass.Anytype1.IsSet)
+                if (additionalPropertiesClass.Anytype1.Value != null)
+                {
+                    writer.WritePropertyName("anytype_1");
+                    JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("anytype_1");
         }
     }
 }

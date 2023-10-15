@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**EnumStringRequired** | **string** |  | 
 **EnumInteger** | **int** |  | [optional] 
 **EnumIntegerOnly** | **int** |  | [optional] 
 **EnumNumber** | **double** |  | [optional] 
 **EnumString** | **string** |  | [optional] 
-**EnumStringRequired** | **string** |  | 
 **OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
 **OuterEnumInteger** | **OuterEnumInteger** |  | [optional] 
 **OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] 

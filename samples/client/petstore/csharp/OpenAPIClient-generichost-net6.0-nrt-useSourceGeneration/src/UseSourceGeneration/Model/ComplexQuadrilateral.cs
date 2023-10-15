@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? quadrilateralType = default;
-            string? shapeType = default;
+            Option<string?> quadrilateralType = default;
+            Option<string?> shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,10 +132,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -143,13 +143,22 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (quadrilateralType == null)
+            if (!quadrilateralType.IsSet)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ComplexQuadrilateral.");
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ComplexQuadrilateral.");
 
-            return new ComplexQuadrilateral(quadrilateralType, shapeType);
+            if (quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class ComplexQuadrilateral.");
+
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ComplexQuadrilateral.");
+
+            string quadrilateralTypeParsedValue = quadrilateralType.Value;
+            string shapeTypeParsedValue = shapeType.Value;
+
+            return new ComplexQuadrilateral(quadrilateralTypeParsedValue, shapeTypeParsedValue);
         }
 
         /// <summary>
@@ -177,7 +186,7 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ComplexQuadrilateral complexQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
-            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
+            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
         }
     }
 

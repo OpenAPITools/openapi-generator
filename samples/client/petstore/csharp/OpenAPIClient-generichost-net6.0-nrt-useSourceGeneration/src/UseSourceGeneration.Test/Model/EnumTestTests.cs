@@ -54,6 +54,15 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'EnumStringRequired'
+        /// </summary>
+        [Fact]
+        public void EnumStringRequiredTest()
+        {
+            // TODO unit test for the property 'EnumStringRequired'
+        }
+
+        /// <summary>
         /// Test the property 'EnumInteger'
         /// </summary>
         [Fact]
@@ -87,15 +96,6 @@ namespace UseSourceGeneration.Test.Model
         public void EnumStringTest()
         {
             // TODO unit test for the property 'EnumString'
-        }
-
-        /// <summary>
-        /// Test the property 'EnumStringRequired'
-        /// </summary>
-        [Fact]
-        public void EnumStringRequiredTest()
-        {
-            // TODO unit test for the property 'EnumStringRequired'
         }
 
         /// <summary>

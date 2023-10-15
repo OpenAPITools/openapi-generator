@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        public File(string sourceURI)
+        public File(Option<string> sourceURI = default)
         {
             SourceURI = sourceURI;
             OnCreated();
@@ -50,7 +50,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string SourceURI { get; set; }
+        public Option<string> SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,7 +105,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? sourceURI = default;
+            Option<string?> sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +123,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "sourceURI":
-                            sourceURI = utf8JsonReader.GetString();
+                            sourceURI = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -131,10 +131,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (sourceURI == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
+            if (sourceURI.Value == null)
+                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
 
-            return new File(sourceURI);
+            Option<string> sourceURIParsedValue = new Option<string>(sourceURI.Value);
+
+            return new File(sourceURIParsedValue);
         }
 
         /// <summary>
@@ -161,7 +163,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("sourceURI", file.SourceURI);
+            if (file.SourceURI.IsSet)
+                writer.WriteString("sourceURI", file.SourceURI.Value);
         }
     }
 

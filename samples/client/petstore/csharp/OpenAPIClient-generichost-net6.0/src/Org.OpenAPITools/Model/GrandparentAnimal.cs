@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -110,7 +111,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string petType = default;
+            Option<string> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,7 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = utf8JsonReader.GetString();
+                            petType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -136,10 +137,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (petType == null)
+            if (!petType.IsSet)
                 throw new ArgumentNullException(nameof(petType), "Property is required for class GrandparentAnimal.");
 
-            return new GrandparentAnimal(petType);
+            if (petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
+
+            string petTypeParsedValue = petType.Value;
+
+            return new GrandparentAnimal(petTypeParsedValue);
         }
 
         /// <summary>

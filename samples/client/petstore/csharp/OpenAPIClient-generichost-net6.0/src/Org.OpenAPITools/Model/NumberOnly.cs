@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justNumber">justNumber</param>
         [JsonConstructor]
-        public NumberOnly(decimal justNumber)
+        public NumberOnly(Option<decimal> justNumber = default)
         {
             JustNumber = justNumber;
             OnCreated();
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal JustNumber { get; set; }
+        public Option<decimal> JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? justNumber = default;
+            Option<decimal?> justNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "JustNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                justNumber = utf8JsonReader.GetDecimal();
+                                justNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
@@ -127,10 +128,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (justNumber == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is required for class NumberOnly.");
+            if (justNumber.Value == null)
+                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
 
-            return new NumberOnly(justNumber.Value);
+            Option<decimal> justNumberParsedValue = new Option<decimal>(justNumber.Value.Value);
+
+            return new NumberOnly(justNumberParsedValue);
         }
 
         /// <summary>
@@ -157,7 +160,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("JustNumber", numberOnly.JustNumber);
+            if (numberOnly.JustNumber.IsSet)
+                writer.WriteNumber("JustNumber", numberOnly.JustNumber.Value);
         }
     }
 }

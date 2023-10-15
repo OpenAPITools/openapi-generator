@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         [JsonConstructor]
-        public ClassModel(string varClass)
+        public ClassModel(Option<string> varClass = default)
         {
             VarClass = varClass;
             OnCreated();
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("_class")]
-        public string VarClass { get; set; }
+        public Option<string> VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string varClass = default;
+            Option<string> varClass = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "_class":
-                            varClass = utf8JsonReader.GetString();
+                            varClass = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -126,10 +127,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClass == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is required for class ClassModel.");
+            if (varClass.Value == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
 
-            return new ClassModel(varClass);
+            Option<string> varClassParsedValue = new Option<string>(varClass.Value);
+
+            return new ClassModel(varClassParsedValue);
         }
 
         /// <summary>
@@ -156,7 +159,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("_class", classModel.VarClass);
+            if (classModel.VarClass.IsSet)
+                writer.WriteString("_class", classModel.VarClass.Value);
         }
     }
 }

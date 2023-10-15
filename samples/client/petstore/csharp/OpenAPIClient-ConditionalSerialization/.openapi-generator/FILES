@@ -77,6 +77,7 @@ docs/PolymorphicProperty.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/RequiredClass.md
 docs/Return.md
 docs/RolesReportsHash.md
 docs/RolesReportsHashRole.md
@@ -198,6 +199,7 @@ src/Org.OpenAPITools/Model/PolymorphicProperty.cs
 src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
+src/Org.OpenAPITools/Model/RequiredClass.cs
 src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/RolesReportsHash.cs
 src/Org.OpenAPITools/Model/RolesReportsHashRole.cs

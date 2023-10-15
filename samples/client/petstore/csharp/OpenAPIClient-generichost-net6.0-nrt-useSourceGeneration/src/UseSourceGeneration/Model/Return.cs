@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varReturn">varReturn</param>
         [JsonConstructor]
-        public Return(int varReturn)
+        public Return(Option<int> varReturn = default)
         {
             VarReturn = varReturn;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int VarReturn { get; set; }
+        public Option<int> VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? varReturn = default;
+            Option<int?> varReturn = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +123,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varReturn = utf8JsonReader.GetInt32();
+                                varReturn = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -131,10 +131,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varReturn == null)
-                throw new ArgumentNullException(nameof(varReturn), "Property is required for class Return.");
+            if (varReturn.Value == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
 
-            return new Return(varReturn.Value);
+            Option<int> varReturnParsedValue = new Option<int>(varReturn.Value.Value);
+
+            return new Return(varReturnParsedValue);
         }
 
         /// <summary>
@@ -161,7 +163,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("return", varReturn.VarReturn);
+            if (varReturn.VarReturn.IsSet)
+                writer.WriteNumber("return", varReturn.VarReturn.Value);
         }
     }
 

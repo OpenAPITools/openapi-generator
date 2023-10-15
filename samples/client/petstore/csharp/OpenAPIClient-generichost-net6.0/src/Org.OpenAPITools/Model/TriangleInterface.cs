@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string triangleType = default;
+            Option<string> triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -126,10 +127,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (triangleType == null)
+            if (!triangleType.IsSet)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class TriangleInterface.");
 
-            return new TriangleInterface(triangleType);
+            if (triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
+
+            string triangleTypeParsedValue = triangleType.Value;
+
+            return new TriangleInterface(triangleTypeParsedValue);
         }
 
         /// <summary>

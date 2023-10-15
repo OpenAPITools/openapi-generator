@@ -106,8 +106,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
-            string? triangleType = default;
+            Option<string?> shapeType = default;
+            Option<string?> triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -125,10 +125,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -136,13 +136,22 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class IsoscelesTriangle.");
 
-            if (triangleType == null)
+            if (!triangleType.IsSet)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class IsoscelesTriangle.");
 
-            return new IsoscelesTriangle(shapeType, triangleType);
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class IsoscelesTriangle.");
+
+            if (triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class IsoscelesTriangle.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+            string triangleTypeParsedValue = triangleType.Value;
+
+            return new IsoscelesTriangle(shapeTypeParsedValue, triangleTypeParsedValue);
         }
 
         /// <summary>
@@ -170,7 +179,7 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
-            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
+            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
     }
 

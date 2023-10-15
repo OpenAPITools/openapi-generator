@@ -35,29 +35,29 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
+        /// <param name="id">id</param>
         [JsonConstructor]
-        public Category(long id, string name = @"default-name")
+        public Category(string name = @"default-name", Option<long> id = default)
         {
-            Id = id;
             Name = name;
+            Id = id;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public long Id { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -73,8 +73,8 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            string? name = default;
+            Option<string?> name = default;
+            Option<long?> id = default;
 
             while (utf8JsonReader.Read())
             {
@@ -131,12 +131,12 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "name":
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
-                            break;
-                        case "name":
-                            name = utf8JsonReader.GetString();
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         default:
                             break;
@@ -144,13 +144,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Category.");
-
-            if (name == null)
+            if (!name.IsSet)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Category.");
 
-            return new Category(id.Value, name);
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
+
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
+
+            string nameParsedValue = name.Value;
+            Option<long> idParsedValue = new Option<long>(id.Value.Value);
+
+            return new Category(nameParsedValue, idParsedValue);
         }
 
         /// <summary>
@@ -177,8 +183,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("id", category.Id);
             writer.WriteString("name", category.Name);
+            if (category.Id.IsSet)
+                writer.WriteNumber("id", category.Id.Value);
         }
     }
 

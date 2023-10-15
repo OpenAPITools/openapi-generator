@@ -40,7 +40,7 @@ namespace UseSourceGeneration.Model
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapeOrNull">shapeOrNull</param>
         [JsonConstructor]
-        public Drawing(Shape mainShape, List<Shape> shapes, NullableShape? nullableShape = default, ShapeOrNull? shapeOrNull = default) : base()
+        public Drawing(Option<Shape> mainShape = default, Option<List<Shape>> shapes = default, Option<NullableShape?> nullableShape = default, Option<ShapeOrNull?> shapeOrNull = default) : base()
         {
             MainShape = mainShape;
             Shapes = shapes;
@@ -55,25 +55,25 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape MainShape { get; set; }
+        public Option<Shape> MainShape { get; set; }
 
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
-        public List<Shape> Shapes { get; set; }
+        public Option<List<Shape>> Shapes { get; set; }
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape? NullableShape { get; set; }
+        public Option<NullableShape?> NullableShape { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull? ShapeOrNull { get; set; }
+        public Option<ShapeOrNull?> ShapeOrNull { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -142,10 +142,10 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Shape? mainShape = default;
-            List<Shape>? shapes = default;
-            NullableShape? nullableShape = default;
-            ShapeOrNull? shapeOrNull = default;
+            Option<Shape?> mainShape = default;
+            Option<List<Shape>?> shapes = default;
+            Option<NullableShape?> nullableShape = default;
+            Option<ShapeOrNull?> shapeOrNull = default;
 
             while (utf8JsonReader.Read())
             {
@@ -164,19 +164,19 @@ namespace UseSourceGeneration.Model
                     {
                         case "mainShape":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
+                                mainShape = new Option<Shape?>(JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "shapes":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
+                                shapes = new Option<List<Shape>?>(JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "nullableShape":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
+                                nullableShape = new Option<NullableShape?>(JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "shapeOrNull":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
+                                shapeOrNull = new Option<ShapeOrNull?>(JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -184,13 +184,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (mainShape == null)
-                throw new ArgumentNullException(nameof(mainShape), "Property is required for class Drawing.");
+            if (mainShape.Value == null)
+                throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
 
-            if (shapes == null)
-                throw new ArgumentNullException(nameof(shapes), "Property is required for class Drawing.");
+            if (shapes.Value == null)
+                throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
 
-            return new Drawing(mainShape, shapes, nullableShape, shapeOrNull);
+            Option<Shape> mainShapeParsedValue = new Option<Shape>(mainShape.Value);
+            Option<List<Shape>> shapesParsedValue = new Option<List<Shape>>(shapes.Value);
+
+            return new Drawing(mainShapeParsedValue, shapesParsedValue, nullableShape, shapeOrNull);
         }
 
         /// <summary>
@@ -217,14 +220,28 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("mainShape");
-            JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapes");
-            JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
-            writer.WritePropertyName("nullableShape");
-            JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapeOrNull");
-            JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
+            if (drawing.MainShape.IsSet)
+                writer.WritePropertyName("mainShape");
+                JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
+            if (drawing.Shapes.IsSet)
+                writer.WritePropertyName("shapes");
+                JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
+            if (drawing.NullableShape.IsSet)
+                if (drawing.NullableShape.Value != null)
+                {
+                    writer.WritePropertyName("nullableShape");
+                    JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("nullableShape");
+            if (drawing.ShapeOrNull.IsSet)
+                if (drawing.ShapeOrNull.Value != null)
+                {
+                    writer.WritePropertyName("shapeOrNull");
+                    JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("shapeOrNull");
         }
     }
 

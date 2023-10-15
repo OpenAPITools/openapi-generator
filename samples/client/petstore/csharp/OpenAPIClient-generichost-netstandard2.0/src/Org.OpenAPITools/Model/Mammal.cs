@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -150,7 +151,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
+            Option<string> className = default;
 
             Pig pig = null;
             Whale whale = null;
@@ -207,7 +208,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -215,17 +216,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
 
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
+
+            string classNameParsedValue = className.Value;
+
             if (pig != null)
-                return new Mammal(pig, className);
+                return new Mammal(pig, classNameParsedValue);
 
             if (whale != null)
-                return new Mammal(whale, className);
+                return new Mammal(whale, classNameParsedValue);
 
             if (zebra != null)
-                return new Mammal(zebra, className);
+                return new Mammal(zebra, classNameParsedValue);
 
             throw new JsonException();
         }

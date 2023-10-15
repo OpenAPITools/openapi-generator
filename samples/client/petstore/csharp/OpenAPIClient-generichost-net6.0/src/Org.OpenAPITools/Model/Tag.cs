@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Tag(long id, string name)
+        public Tag(Option<long> id = default, Option<string> name = default)
         {
             Id = id;
             Name = name;
@@ -47,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,8 +110,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            string name = default;
+            Option<long?> id = default;
+            Option<string> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,10 +130,10 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -140,13 +141,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Tag.");
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Tag.");
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Tag.");
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Tag.");
 
-            return new Tag(id.Value, name);
+            Option<long> idParsedValue = new Option<long>(id.Value.Value);
+            Option<string> nameParsedValue = new Option<string>(name.Value);
+
+            return new Tag(idParsedValue, nameParsedValue);
         }
 
         /// <summary>
@@ -173,8 +177,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("id", tag.Id);
-            writer.WriteString("name", tag.Name);
+            if (tag.Id.IsSet)
+                writer.WriteNumber("id", tag.Id.Value);
+            if (tag.Name.IsSet)
+                writer.WriteString("name", tag.Name.Value);
         }
     }
 }

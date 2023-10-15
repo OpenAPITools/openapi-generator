@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -109,8 +110,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
-            string shapeType = default;
+            Option<string> quadrilateralType = default;
+            Option<string> shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,10 +129,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -139,13 +140,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
+            if (!quadrilateralType.IsSet)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class SimpleQuadrilateral.");
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class SimpleQuadrilateral.");
 
-            return new SimpleQuadrilateral(quadrilateralType, shapeType);
+            if (quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class SimpleQuadrilateral.");
+
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class SimpleQuadrilateral.");
+
+            string quadrilateralTypeParsedValue = quadrilateralType.Value;
+            string shapeTypeParsedValue = shapeType.Value;
+
+            return new SimpleQuadrilateral(quadrilateralTypeParsedValue, shapeTypeParsedValue);
         }
 
         /// <summary>
@@ -173,7 +183,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
-            writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
+            writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
         }
     }
 }

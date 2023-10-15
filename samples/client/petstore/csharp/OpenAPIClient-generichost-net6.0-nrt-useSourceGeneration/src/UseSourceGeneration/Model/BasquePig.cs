@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
+            Option<string?> className = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,15 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class BasquePig.");
 
-            return new BasquePig(className);
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
+
+            string classNameParsedValue = className.Value;
+
+            return new BasquePig(classNameParsedValue);
         }
 
         /// <summary>

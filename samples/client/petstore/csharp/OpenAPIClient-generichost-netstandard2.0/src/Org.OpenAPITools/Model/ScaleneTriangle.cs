@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -109,8 +110,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string shapeType = default;
-            string triangleType = default;
+            Option<string> shapeType = default;
+            Option<string> triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,10 +129,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -139,13 +140,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ScaleneTriangle.");
 
-            if (triangleType == null)
+            if (!triangleType.IsSet)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class ScaleneTriangle.");
 
-            return new ScaleneTriangle(shapeType, triangleType);
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ScaleneTriangle.");
+
+            if (triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class ScaleneTriangle.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+            string triangleTypeParsedValue = triangleType.Value;
+
+            return new ScaleneTriangle(shapeTypeParsedValue, triangleTypeParsedValue);
         }
 
         /// <summary>
@@ -173,7 +183,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
-            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
+            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }
 }

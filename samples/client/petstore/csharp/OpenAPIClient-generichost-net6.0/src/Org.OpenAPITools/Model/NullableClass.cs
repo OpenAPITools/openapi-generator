@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
         [JsonConstructor]
-        public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectNullableProp = default, string stringProp = default) : base()
+        public NullableClass(Option<List<Object>> arrayItemsNullable = default, Option<Dictionary<string, Object>> objectItemsNullable = default, Option<List<Object>> arrayAndItemsNullableProp = default, Option<List<Object>> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateTime?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>> objectNullableProp = default, Option<string> stringProp = default) : base()
         {
             ArrayItemsNullable = arrayItemsNullable;
             ObjectItemsNullable = objectItemsNullable;
@@ -67,73 +68,73 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
-        public List<Object> ArrayItemsNullable { get; set; }
+        public Option<List<Object>> ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
+        public Option<Dictionary<string, Object>> ObjectItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("array_and_items_nullable_prop")]
-        public List<Object> ArrayAndItemsNullableProp { get; set; }
+        public Option<List<Object>> ArrayAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [JsonPropertyName("array_nullable_prop")]
-        public List<Object> ArrayNullableProp { get; set; }
+        public Option<List<Object>> ArrayNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [JsonPropertyName("boolean_prop")]
-        public bool? BooleanProp { get; set; }
+        public Option<bool?> BooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
-        public DateTime? DateProp { get; set; }
+        public Option<DateTime?> DateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [JsonPropertyName("datetime_prop")]
-        public DateTime? DatetimeProp { get; set; }
+        public Option<DateTime?> DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerProp
         /// </summary>
         [JsonPropertyName("integer_prop")]
-        public int? IntegerProp { get; set; }
+        public Option<int?> IntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [JsonPropertyName("number_prop")]
-        public decimal? NumberProp { get; set; }
+        public Option<decimal?> NumberProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("object_and_items_nullable_prop")]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+        public Option<Dictionary<string, Object>> ObjectAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [JsonPropertyName("object_nullable_prop")]
-        public Dictionary<string, Object> ObjectNullableProp { get; set; }
+        public Option<Dictionary<string, Object>> ObjectNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [JsonPropertyName("string_prop")]
-        public string StringProp { get; set; }
+        public Option<string> StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -220,18 +221,18 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<Object> arrayItemsNullable = default;
-            Dictionary<string, Object> objectItemsNullable = default;
-            List<Object> arrayAndItemsNullableProp = default;
-            List<Object> arrayNullableProp = default;
-            bool? booleanProp = default;
-            DateTime? dateProp = default;
-            DateTime? datetimeProp = default;
-            int? integerProp = default;
-            decimal? numberProp = default;
-            Dictionary<string, Object> objectAndItemsNullableProp = default;
-            Dictionary<string, Object> objectNullableProp = default;
-            string stringProp = default;
+            Option<List<Object>> arrayItemsNullable = default;
+            Option<Dictionary<string, Object>> objectItemsNullable = default;
+            Option<List<Object>> arrayAndItemsNullableProp = default;
+            Option<List<Object>> arrayNullableProp = default;
+            Option<bool?> booleanProp = default;
+            Option<DateTime?> dateProp = default;
+            Option<DateTime?> datetimeProp = default;
+            Option<int?> integerProp = default;
+            Option<decimal?> numberProp = default;
+            Option<Dictionary<string, Object>> objectAndItemsNullableProp = default;
+            Option<Dictionary<string, Object>> objectNullableProp = default;
+            Option<string> stringProp = default;
 
             while (utf8JsonReader.Read())
             {
@@ -250,50 +251,50 @@ namespace Org.OpenAPITools.Model
                     {
                         case "array_items_nullable":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayItemsNullable = JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayItemsNullable = new Option<List<Object>>(JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "object_items_nullable":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectItemsNullable = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                objectItemsNullable = new Option<Dictionary<string, Object>>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "array_and_items_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayAndItemsNullableProp = JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayAndItemsNullableProp = new Option<List<Object>>(JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "array_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayNullableProp = JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayNullableProp = new Option<List<Object>>(JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "boolean_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                booleanProp = utf8JsonReader.GetBoolean();
+                                booleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         case "date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateProp = JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions);
+                                dateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                datetimeProp = JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions);
+                                datetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "integer_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                integerProp = utf8JsonReader.GetInt32();
+                                integerProp = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "number_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                numberProp = utf8JsonReader.GetDecimal();
+                                numberProp = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "object_and_items_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectAndItemsNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                objectAndItemsNullableProp = new Option<Dictionary<string, Object>>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "object_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                                objectNullableProp = new Option<Dictionary<string, Object>>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "string_prop":
-                            stringProp = utf8JsonReader.GetString();
+                            stringProp = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -301,13 +302,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayItemsNullable == null)
-                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is required for class NullableClass.");
+            if (arrayItemsNullable.Value == null)
+                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is not nullable for class NullableClass.");
 
-            if (objectItemsNullable == null)
-                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is required for class NullableClass.");
+            if (objectItemsNullable.Value == null)
+                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is not nullable for class NullableClass.");
 
-            return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
+            Option<List<Object>> arrayItemsNullableParsedValue = new Option<List<Object>>(arrayItemsNullable.Value);
+            Option<Dictionary<string, Object>> objectItemsNullableParsedValue = new Option<Dictionary<string, Object>>(objectItemsNullable.Value);
+
+            return new NullableClass(arrayItemsNullableParsedValue, objectItemsNullableParsedValue, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
         }
 
         /// <summary>
@@ -334,45 +338,74 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("array_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
-            writer.WritePropertyName("object_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
-            writer.WritePropertyName("array_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);
-            writer.WritePropertyName("array_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, jsonSerializerOptions);
-
-            if (nullableClass.BooleanProp != null)
-                writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
-            else
-                writer.WriteNull("boolean_prop");
-
-            if (nullableClass.DateProp != null)
-                writer.WriteString("date_prop", nullableClass.DateProp.Value.ToString(DatePropFormat));
-            else
-                writer.WriteNull("date_prop");
-
-            if (nullableClass.DatetimeProp != null)
-                writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.ToString(DatetimePropFormat));
-            else
-                writer.WriteNull("datetime_prop");
-
-            if (nullableClass.IntegerProp != null)
-                writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
-            else
-                writer.WriteNull("integer_prop");
-
-            if (nullableClass.NumberProp != null)
-                writer.WriteNumber("number_prop", nullableClass.NumberProp.Value);
-            else
-                writer.WriteNull("number_prop");
-
-            writer.WritePropertyName("object_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);
-            writer.WritePropertyName("object_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
-            writer.WriteString("string_prop", nullableClass.StringProp);
+            if (nullableClass.ArrayItemsNullable.IsSet)
+                writer.WritePropertyName("array_items_nullable");
+                JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
+            if (nullableClass.ObjectItemsNullable.IsSet)
+                writer.WritePropertyName("object_items_nullable");
+                JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
+            if (nullableClass.ArrayAndItemsNullableProp.IsSet)
+                if (nullableClass.ArrayAndItemsNullableProp.Value != null)
+                {
+                    writer.WritePropertyName("array_and_items_nullable_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("array_and_items_nullable_prop");
+            if (nullableClass.ArrayNullableProp.IsSet)
+                if (nullableClass.ArrayNullableProp.Value != null)
+                {
+                    writer.WritePropertyName("array_nullable_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("array_nullable_prop");
+            if (nullableClass.BooleanProp.IsSet)
+                if (nullableClass.BooleanProp.Value != null)
+                    writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value.Value);
+                else
+                    writer.WriteNull("boolean_prop");
+            if (nullableClass.DateProp.IsSet)
+                if (nullableClass.DateProp.Value != null)
+                    writer.WriteString("date_prop", nullableClass.DateProp.Value.Value.ToString(DatePropFormat));
+                else
+                    writer.WriteNull("date_prop");
+            if (nullableClass.DatetimeProp.IsSet)
+                if (nullableClass.DatetimeProp.Value != null)
+                    writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.Value.ToString(DatetimePropFormat));
+                else
+                    writer.WriteNull("datetime_prop");
+            if (nullableClass.IntegerProp.IsSet)
+                if (nullableClass.IntegerProp.Value != null)
+                    writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value.Value);
+                else
+                    writer.WriteNull("integer_prop");
+            if (nullableClass.NumberProp.IsSet)
+                if (nullableClass.NumberProp.Value != null)
+                    writer.WriteNumber("number_prop", nullableClass.NumberProp.Value.Value);
+                else
+                    writer.WriteNull("number_prop");
+            if (nullableClass.ObjectAndItemsNullableProp.IsSet)
+                if (nullableClass.ObjectAndItemsNullableProp.Value != null)
+                {
+                    writer.WritePropertyName("object_and_items_nullable_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("object_and_items_nullable_prop");
+            if (nullableClass.ObjectNullableProp.IsSet)
+                if (nullableClass.ObjectNullableProp.Value != null)
+                {
+                    writer.WritePropertyName("object_nullable_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("object_nullable_prop");
+            if (nullableClass.StringProp.IsSet)
+                if (nullableClass.StringProp.Value != null)
+                    writer.WriteString("string_prop", nullableClass.StringProp.Value);
+                else
+                    writer.WriteNull("string_prop");
         }
     }
 }

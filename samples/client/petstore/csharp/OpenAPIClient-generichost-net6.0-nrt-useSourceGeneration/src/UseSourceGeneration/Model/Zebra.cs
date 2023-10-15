@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, TypeEnum type) : base()
+        public Zebra(string className, Option<TypeEnum> type = default) : base()
         {
             ClassName = className;
             Type = type;
@@ -131,7 +131,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum Type { get; set; }
+        public Option<TypeEnum> Type { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -204,8 +204,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
-            Zebra.TypeEnum? type = default;
+            Option<string?> className = default;
+            Option<Zebra.TypeEnum?> type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -223,13 +223,12 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
-                            type = typeRawValue == null
-                                ? null
-                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                            if (typeRawValue != null)
+                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
                             break;
                         default:
                             break;
@@ -237,13 +236,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
 
-            return new Zebra(className, type.Value);
+            if (type.Value == null)
+                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
+
+            string classNameParsedValue = className.Value;
+            Option<Zebra.TypeEnum> typeParsedValue = new Option<Zebra.TypeEnum>(type.Value.Value);
+
+            return new Zebra(classNameParsedValue, typeParsedValue);
         }
 
         /// <summary>
@@ -271,8 +276,7 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", zebra.ClassName);
-
-            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);
             else

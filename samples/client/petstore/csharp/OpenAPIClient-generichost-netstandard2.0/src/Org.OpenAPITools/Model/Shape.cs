@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -133,7 +134,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string shapeType = default;
+            Option<string> shapeType = default;
 
             Quadrilateral quadrilateral = null;
             Triangle triangle = null;
@@ -184,7 +185,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -192,14 +193,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class Shape.");
 
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+
             if (quadrilateral != null)
-                return new Shape(quadrilateral, shapeType);
+                return new Shape(quadrilateral, shapeTypeParsedValue);
 
             if (triangle != null)
-                return new Shape(triangle, shapeType);
+                return new Shape(triangle, shapeTypeParsedValue);
 
             throw new JsonException();
         }

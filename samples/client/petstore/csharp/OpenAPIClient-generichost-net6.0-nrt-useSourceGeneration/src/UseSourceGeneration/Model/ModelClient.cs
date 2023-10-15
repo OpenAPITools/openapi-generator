@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        public ModelClient(string varClient)
+        public ModelClient(Option<string> varClient = default)
         {
             VarClient = varClient;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string VarClient { get; set; }
+        public Option<string> VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? varClient = default;
+            Option<string?> varClient = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "client":
-                            varClient = utf8JsonReader.GetString();
+                            varClient = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varClient == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is required for class ModelClient.");
+            if (varClient.Value == null)
+                throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
 
-            return new ModelClient(varClient);
+            Option<string> varClientParsedValue = new Option<string>(varClient.Value);
+
+            return new ModelClient(varClientParsedValue);
         }
 
         /// <summary>
@@ -160,7 +162,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("client", modelClient.VarClient);
+            if (modelClient.VarClient.IsSet)
+                writer.WriteString("client", modelClient.VarClient.Value);
         }
     }
 

@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList)
+        public TestCollectionEndingWithWordListObject(Option<List<TestCollectionEndingWithWordList>> testCollectionEndingWithWordList = default)
         {
             TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
             OnCreated();
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
+        public Option<List<TestCollectionEndingWithWordList>> TestCollectionEndingWithWordList { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default;
+            Option<List<TestCollectionEndingWithWordList>> testCollectionEndingWithWordList = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "TestCollectionEndingWithWordList":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                testCollectionEndingWithWordList = JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions);
+                                testCollectionEndingWithWordList = new Option<List<TestCollectionEndingWithWordList>>(JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -127,10 +128,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (testCollectionEndingWithWordList == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
+            if (testCollectionEndingWithWordList.Value == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is not nullable for class TestCollectionEndingWithWordListObject.");
 
-            return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList);
+            Option<List<TestCollectionEndingWithWordList>> testCollectionEndingWithWordListParsedValue = new Option<List<TestCollectionEndingWithWordList>>(testCollectionEndingWithWordList.Value);
+
+            return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordListParsedValue);
         }
 
         /// <summary>
@@ -157,8 +160,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("TestCollectionEndingWithWordList");
-            JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
+            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList.IsSet)
+                writer.WritePropertyName("TestCollectionEndingWithWordList");
+                JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
         }
     }
 }

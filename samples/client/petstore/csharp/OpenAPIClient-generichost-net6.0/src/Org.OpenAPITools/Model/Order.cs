@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
         [JsonConstructor]
-        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
+        public Order(Option<long> id = default, Option<long> petId = default, Option<int> quantity = default, Option<DateTime> shipDate = default, Option<StatusEnum> status = default, Option<bool> complete = default)
         {
             Id = id;
             PetId = petId;
@@ -137,38 +138,38 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long PetId { get; set; }
+        public Option<long> PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public Option<int> Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
-        public DateTime ShipDate { get; set; }
+        public Option<DateTime> ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool Complete { get; set; }
+        public Option<bool> Complete { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -233,12 +234,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            long? petId = default;
-            int? quantity = default;
-            DateTime? shipDate = default;
-            Order.StatusEnum? status = default;
-            bool? complete = default;
+            Option<long?> id = default;
+            Option<long?> petId = default;
+            Option<int?> quantity = default;
+            Option<DateTime?> shipDate = default;
+            Option<Order.StatusEnum?> status = default;
+            Option<bool?> complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -257,29 +258,28 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         case "petId":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                petId = utf8JsonReader.GetInt64();
+                                petId = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         case "quantity":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                quantity = utf8JsonReader.GetInt32();
+                                quantity = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "shipDate":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
-                            status = statusRawValue == null
-                                ? null
-                                : Order.StatusEnumFromStringOrDefault(statusRawValue);
+                            if (statusRawValue != null)
+                                status = new Option<Order.StatusEnum?>(Order.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "complete":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                complete = utf8JsonReader.GetBoolean();
+                                complete = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -287,25 +287,32 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
 
-            if (petId == null)
-                throw new ArgumentNullException(nameof(petId), "Property is required for class Order.");
+            if (petId.Value == null)
+                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
 
-            if (quantity == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is required for class Order.");
+            if (quantity.Value == null)
+                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
 
-            if (shipDate == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is required for class Order.");
+            if (shipDate.Value == null)
+                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
 
-            if (status == null)
-                throw new ArgumentNullException(nameof(status), "Property is required for class Order.");
+            if (status.Value == null)
+                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
 
-            if (complete == null)
-                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
+            if (complete.Value == null)
+                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
 
-            return new Order(id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value, complete.Value);
+            Option<long> idParsedValue = new Option<long>(id.Value.Value);
+            Option<long> petIdParsedValue = new Option<long>(petId.Value.Value);
+            Option<int> quantityParsedValue = new Option<int>(quantity.Value.Value);
+            Option<DateTime> shipDateParsedValue = new Option<DateTime>(shipDate.Value.Value);
+            Option<Order.StatusEnum> statusParsedValue = new Option<Order.StatusEnum>(status.Value.Value);
+            Option<bool> completeParsedValue = new Option<bool>(complete.Value.Value);
+
+            return new Order(idParsedValue, petIdParsedValue, quantityParsedValue, shipDateParsedValue, statusParsedValue, completeParsedValue);
         }
 
         /// <summary>
@@ -332,18 +339,22 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("id", order.Id);
-            writer.WriteNumber("petId", order.PetId);
-            writer.WriteNumber("quantity", order.Quantity);
-            writer.WriteString("shipDate", order.ShipDate.ToString(ShipDateFormat));
-
-            var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
+            if (order.Id.IsSet)
+                writer.WriteNumber("id", order.Id.Value);
+            if (order.PetId.IsSet)
+                writer.WriteNumber("petId", order.PetId.Value);
+            if (order.Quantity.IsSet)
+                writer.WriteNumber("quantity", order.Quantity.Value);
+            if (order.ShipDate.IsSet)
+                writer.WriteString("shipDate", order.ShipDate.Value.ToString(ShipDateFormat));
+            var statusRawValue = Order.StatusEnumToJsonValue(order.Status.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 
-            writer.WriteBoolean("complete", order.Complete);
+            if (order.Complete.IsSet)
+                writer.WriteBoolean("complete", order.Complete.Value);
         }
     }
 }

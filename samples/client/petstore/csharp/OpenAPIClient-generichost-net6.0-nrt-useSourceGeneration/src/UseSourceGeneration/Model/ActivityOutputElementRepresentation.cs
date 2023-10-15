@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
         [JsonConstructor]
-        public ActivityOutputElementRepresentation(string prop1, Object prop2)
+        public ActivityOutputElementRepresentation(Option<string> prop1 = default, Option<Object> prop2 = default)
         {
             Prop1 = prop1;
             Prop2 = prop2;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string Prop1 { get; set; }
+        public Option<string> Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object Prop2 { get; set; }
+        public Option<Object> Prop2 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? prop1 = default;
-            Object? prop2 = default;
+            Option<string?> prop1 = default;
+            Option<Object?> prop2 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,11 +132,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "prop1":
-                            prop1 = utf8JsonReader.GetString();
+                            prop1 = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "prop2":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                prop2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                                prop2 = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -144,13 +144,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (prop1 == null)
-                throw new ArgumentNullException(nameof(prop1), "Property is required for class ActivityOutputElementRepresentation.");
+            if (prop1.Value == null)
+                throw new ArgumentNullException(nameof(prop1), "Property is not nullable for class ActivityOutputElementRepresentation.");
 
-            if (prop2 == null)
-                throw new ArgumentNullException(nameof(prop2), "Property is required for class ActivityOutputElementRepresentation.");
+            if (prop2.Value == null)
+                throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
 
-            return new ActivityOutputElementRepresentation(prop1, prop2);
+            Option<string> prop1ParsedValue = new Option<string>(prop1.Value);
+            Option<Object> prop2ParsedValue = new Option<Object>(prop2.Value);
+
+            return new ActivityOutputElementRepresentation(prop1ParsedValue, prop2ParsedValue);
         }
 
         /// <summary>
@@ -177,9 +180,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
-            writer.WritePropertyName("prop2");
-            JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
+            if (activityOutputElementRepresentation.Prop1.IsSet)
+                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1.Value);
+            if (activityOutputElementRepresentation.Prop2.IsSet)
+                writer.WritePropertyName("prop2");
+                JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }
     }
 

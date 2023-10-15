@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -133,7 +134,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
+            Option<string> className = default;
 
             BasquePig basquePig = null;
             DanishPig danishPig = null;
@@ -184,7 +185,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -192,14 +193,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
+            if (!className.IsSet)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
 
+            if (className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+
+            string classNameParsedValue = className.Value;
+
             if (basquePig != null)
-                return new Pig(basquePig, className);
+                return new Pig(basquePig, classNameParsedValue);
 
             if (danishPig != null)
-                return new Pig(danishPig, className);
+                return new Pig(danishPig, classNameParsedValue);
 
             throw new JsonException();
         }

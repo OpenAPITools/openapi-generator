@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
         [JsonConstructor]
-        public AppleReq(string cultivar, bool mealy)
+        public AppleReq(string cultivar, Option<bool> mealy = default)
         {
             Cultivar = cultivar;
             Mealy = mealy;
@@ -53,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool Mealy { get; set; }
+        public Option<bool> Mealy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -102,8 +103,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string cultivar = default;
-            bool? mealy = default;
+            Option<string> cultivar = default;
+            Option<bool?> mealy = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,11 +122,11 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "cultivar":
-                            cultivar = utf8JsonReader.GetString();
+                            cultivar = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "mealy":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mealy = utf8JsonReader.GetBoolean();
+                                mealy = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -133,13 +134,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (cultivar == null)
+            if (!cultivar.IsSet)
                 throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
 
-            if (mealy == null)
-                throw new ArgumentNullException(nameof(mealy), "Property is required for class AppleReq.");
+            if (cultivar.Value == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class AppleReq.");
 
-            return new AppleReq(cultivar, mealy.Value);
+            if (mealy.Value == null)
+                throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
+
+            string cultivarParsedValue = cultivar.Value;
+            Option<bool> mealyParsedValue = new Option<bool>(mealy.Value.Value);
+
+            return new AppleReq(cultivarParsedValue, mealyParsedValue);
         }
 
         /// <summary>
@@ -167,7 +174,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("cultivar", appleReq.Cultivar);
-            writer.WriteBoolean("mealy", appleReq.Mealy);
+            if (appleReq.Mealy.IsSet)
+                writer.WriteBoolean("mealy", appleReq.Mealy.Value);
         }
     }
 }

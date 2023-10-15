@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string shapeType = default;
+            Option<string> shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -126,10 +127,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeInterface.");
 
-            return new ShapeInterface(shapeType);
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+
+            return new ShapeInterface(shapeTypeParsedValue);
         }
 
         /// <summary>

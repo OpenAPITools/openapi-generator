@@ -74,7 +74,7 @@
         {{#isString}}
         /// <exception cref="NotImplementedException"></exception>
         {{/isString}}
-        public static {{>EnumValueDataType}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} value)
+        public static {{>EnumValueDataType}}{{#nrt}}{{#isString}}{{>NullConditionalProperty}}{{/isString}}{{/nrt}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} value)
         {
             {{^isString}}
             return ({{>EnumValueDataType}}) value;
@@ -83,6 +83,7 @@
             {{#isNullable}}
             if (value == null)
                 return null;
+
             {{/isNullable}}
             {{#allowableValues}}
             {{#enumVars}}

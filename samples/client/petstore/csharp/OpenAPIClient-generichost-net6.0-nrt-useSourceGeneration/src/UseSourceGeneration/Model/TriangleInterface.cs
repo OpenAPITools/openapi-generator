@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? triangleType = default;
+            Option<string?> triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,15 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (triangleType == null)
+            if (!triangleType.IsSet)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class TriangleInterface.");
 
-            return new TriangleInterface(triangleType);
+            if (triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
+
+            string triangleTypeParsedValue = triangleType.Value;
+
+            return new TriangleInterface(triangleTypeParsedValue);
         }
 
         /// <summary>

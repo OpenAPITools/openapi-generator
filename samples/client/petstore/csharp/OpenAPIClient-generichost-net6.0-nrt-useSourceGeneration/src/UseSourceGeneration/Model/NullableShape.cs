@@ -137,7 +137,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
+            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -188,7 +188,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -196,14 +196,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (shapeType == null)
+            if (!shapeType.IsSet)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
 
+            if (shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
+
+            string shapeTypeParsedValue = shapeType.Value;
+
             if (quadrilateral != null)
-                return new NullableShape(quadrilateral, shapeType);
+                return new NullableShape(quadrilateral, shapeTypeParsedValue);
 
             if (triangle != null)
-                return new NullableShape(triangle, shapeType);
+                return new NullableShape(triangle, shapeTypeParsedValue);
 
             throw new JsonException();
         }

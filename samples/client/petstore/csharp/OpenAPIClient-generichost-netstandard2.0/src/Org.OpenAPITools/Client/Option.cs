@@ -35,5 +35,17 @@ namespace Org.OpenAPITools.Client
             IsSet = true;
             Value = value;
         }
+
+        /// <summary>
+        /// Implicitly converts this option to the contained type
+        /// </summary>
+        /// <param name="o"></param>
+        public static implicit operator TType(Option<TType> o) => o.Value;
+
+        /// <summary>
+        /// Implicitly constructs a new Option
+        /// </summary>
+        /// <param name="t"></param>
+        public static implicit operator Option<TType>(TType t) => new Option<TType>(t);
     }
 }

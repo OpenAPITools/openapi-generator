@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        public SpecialModelName(string varSpecialModelName, long specialPropertyName)
+        public SpecialModelName(Option<string> varSpecialModelName = default, Option<long> specialPropertyName = default)
         {
             VarSpecialModelName = varSpecialModelName;
             SpecialPropertyName = specialPropertyName;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string VarSpecialModelName { get; set; }
+        public Option<string> VarSpecialModelName { get; set; }
 
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long SpecialPropertyName { get; set; }
+        public Option<long> SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? varSpecialModelName = default;
-            long? specialPropertyName = default;
+            Option<string?> varSpecialModelName = default;
+            Option<long?> specialPropertyName = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,11 +132,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "_special_model.name_":
-                            varSpecialModelName = utf8JsonReader.GetString();
+                            varSpecialModelName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "$special[property.name]":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                specialPropertyName = utf8JsonReader.GetInt64();
+                                specialPropertyName = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         default:
                             break;
@@ -144,13 +144,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varSpecialModelName == null)
-                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is required for class SpecialModelName.");
+            if (varSpecialModelName.Value == null)
+                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
 
-            if (specialPropertyName == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
+            if (specialPropertyName.Value == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
 
-            return new SpecialModelName(varSpecialModelName, specialPropertyName.Value);
+            Option<string> varSpecialModelNameParsedValue = new Option<string>(varSpecialModelName.Value);
+            Option<long> specialPropertyNameParsedValue = new Option<long>(specialPropertyName.Value.Value);
+
+            return new SpecialModelName(varSpecialModelNameParsedValue, specialPropertyNameParsedValue);
         }
 
         /// <summary>
@@ -177,8 +180,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
-            writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
+            if (specialModelName.VarSpecialModelName.IsSet)
+                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName.Value);
+            if (specialModelName.SpecialPropertyName.IsSet)
+                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName.Value);
         }
     }
 

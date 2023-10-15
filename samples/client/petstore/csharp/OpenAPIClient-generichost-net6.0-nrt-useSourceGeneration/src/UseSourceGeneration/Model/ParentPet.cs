@@ -80,7 +80,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? petType = default;
+            Option<string?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -98,7 +98,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = utf8JsonReader.GetString();
+                            petType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -106,10 +106,15 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (petType == null)
+            if (!petType.IsSet)
                 throw new ArgumentNullException(nameof(petType), "Property is required for class ParentPet.");
 
-            return new ParentPet(petType);
+            if (petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
+
+            string petTypeParsedValue = petType.Value;
+
+            return new ParentPet(petTypeParsedValue);
         }
 
         /// <summary>

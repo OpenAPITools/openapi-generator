@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(string bar = @"bar")
+        public Foo(Option<string> bar = default)
         {
             Bar = bar;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; set; }
+        public Option<string> Bar { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? bar = default;
+            Option<string?> bar = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = utf8JsonReader.GetString();
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (bar == null)
-                throw new ArgumentNullException(nameof(bar), "Property is required for class Foo.");
+            if (bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
 
-            return new Foo(bar);
+            Option<string> barParsedValue = new Option<string>(bar.Value);
+
+            return new Foo(barParsedValue);
         }
 
         /// <summary>
@@ -160,7 +162,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", foo.Bar);
+            if (foo.Bar.IsSet)
+                writer.WriteString("bar", foo.Bar.Value);
         }
     }
 

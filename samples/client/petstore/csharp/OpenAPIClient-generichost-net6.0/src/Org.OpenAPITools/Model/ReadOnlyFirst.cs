@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(string bar, string baz)
+        public ReadOnlyFirst(Option<string> bar = default, Option<string> baz = default)
         {
             Bar = bar;
             Baz = baz;
@@ -47,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; }
+        public Option<string> Bar { get; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string Baz { get; set; }
+        public Option<string> Baz { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -145,8 +146,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string bar = default;
-            string baz = default;
+            Option<string> bar = default;
+            Option<string> baz = default;
 
             while (utf8JsonReader.Read())
             {
@@ -164,10 +165,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = utf8JsonReader.GetString();
+                            bar = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "baz":
-                            baz = utf8JsonReader.GetString();
+                            baz = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -175,13 +176,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar == null)
-                throw new ArgumentNullException(nameof(bar), "Property is required for class ReadOnlyFirst.");
+            if (bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
 
-            if (baz == null)
-                throw new ArgumentNullException(nameof(baz), "Property is required for class ReadOnlyFirst.");
+            if (baz.Value == null)
+                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
 
-            return new ReadOnlyFirst(bar, baz);
+            Option<string> barParsedValue = new Option<string>(bar.Value);
+            Option<string> bazParsedValue = new Option<string>(baz.Value);
+
+            return new ReadOnlyFirst(barParsedValue, bazParsedValue);
         }
 
         /// <summary>
@@ -208,8 +212,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", readOnlyFirst.Bar);
-            writer.WriteString("baz", readOnlyFirst.Baz);
+            if (readOnlyFirst.Bar.IsSet)
+                writer.WriteString("bar", readOnlyFirst.Bar.Value);
+            if (readOnlyFirst.Baz.IsSet)
+                writer.WriteString("baz", readOnlyFirst.Baz.Value);
         }
     }
 }

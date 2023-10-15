@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="justNumber">justNumber</param>
         [JsonConstructor]
-        public NumberOnly(decimal justNumber)
+        public NumberOnly(Option<decimal> justNumber = default)
         {
             JustNumber = justNumber;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal JustNumber { get; set; }
+        public Option<decimal> JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? justNumber = default;
+            Option<decimal?> justNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +123,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "JustNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                justNumber = utf8JsonReader.GetDecimal();
+                                justNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
@@ -131,10 +131,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (justNumber == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is required for class NumberOnly.");
+            if (justNumber.Value == null)
+                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
 
-            return new NumberOnly(justNumber.Value);
+            Option<decimal> justNumberParsedValue = new Option<decimal>(justNumber.Value.Value);
+
+            return new NumberOnly(justNumberParsedValue);
         }
 
         /// <summary>
@@ -161,7 +163,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("JustNumber", numberOnly.JustNumber);
+            if (numberOnly.JustNumber.IsSet)
+                writer.WriteNumber("JustNumber", numberOnly.JustNumber.Value);
         }
     }
 

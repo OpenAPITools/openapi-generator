@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
         [JsonConstructor]
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
+        public ArrayOfArrayOfNumberOnly(Option<List<List<decimal>>> arrayArrayNumber = default)
         {
             ArrayArrayNumber = arrayArrayNumber;
             OnCreated();
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayArrayNumber")]
-        public List<List<decimal>> ArrayArrayNumber { get; set; }
+        public Option<List<List<decimal>>> ArrayArrayNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<decimal>> arrayArrayNumber = default;
+            Option<List<List<decimal>>> arrayArrayNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "ArrayArrayNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayNumber = new Option<List<List<decimal>>>(JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -127,10 +128,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
+            if (arrayArrayNumber.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is not nullable for class ArrayOfArrayOfNumberOnly.");
 
-            return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
+            Option<List<List<decimal>>> arrayArrayNumberParsedValue = new Option<List<List<decimal>>>(arrayArrayNumber.Value);
+
+            return new ArrayOfArrayOfNumberOnly(arrayArrayNumberParsedValue);
         }
 
         /// <summary>
@@ -157,8 +160,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("ArrayArrayNumber");
-            JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
+            if (arrayOfArrayOfNumberOnly.ArrayArrayNumber.IsSet)
+                writer.WritePropertyName("ArrayArrayNumber");
+                JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo varString)
+        public FooGetDefaultResponse(Option<Foo> varString = default)
         {
             VarString = varString;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo VarString { get; set; }
+        public Option<Foo> VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Foo? varString = default;
+            Option<Foo?> varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +123,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varString = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                                varString = new Option<Foo?>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -131,10 +131,12 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varString == null)
-                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
+            if (varString.Value == null)
+                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
 
-            return new FooGetDefaultResponse(varString);
+            Option<Foo> varStringParsedValue = new Option<Foo>(varString.Value);
+
+            return new FooGetDefaultResponse(varStringParsedValue);
         }
 
         /// <summary>
@@ -161,8 +163,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+            if (fooGetDefaultResponse.VarString.IsSet)
+                writer.WritePropertyName("string");
+                JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
         }
     }
 

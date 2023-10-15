@@ -40,7 +40,7 @@ namespace UseSourceGeneration.Model
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
+        public ObjectWithDeprecatedFields(Option<List<string>> bars = default, Option<DeprecatedObject> deprecatedRef = default, Option<decimal> id = default, Option<string> uuid = default)
         {
             Bars = bars;
             DeprecatedRef = deprecatedRef;
@@ -56,27 +56,27 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string> Bars { get; set; }
+        public Option<List<string>> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        public Option<DeprecatedObject> DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal Id { get; set; }
+        public Option<decimal> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string Uuid { get; set; }
+        public Option<string> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -134,10 +134,10 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<string>? bars = default;
-            DeprecatedObject? deprecatedRef = default;
-            decimal? id = default;
-            string? uuid = default;
+            Option<List<string>?> bars = default;
+            Option<DeprecatedObject?> deprecatedRef = default;
+            Option<decimal?> id = default;
+            Option<string?> uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -156,18 +156,18 @@ namespace UseSourceGeneration.Model
                     {
                         case "bars":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                bars = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                bars = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "deprecatedRef":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions);
+                                deprecatedRef = new Option<DeprecatedObject?>(JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetDecimal();
+                                id = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetString();
+                            uuid = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -175,19 +175,24 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (bars == null)
-                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
+            if (bars.Value == null)
+                throw new ArgumentNullException(nameof(bars), "Property is not nullable for class ObjectWithDeprecatedFields.");
 
-            if (deprecatedRef == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
+            if (deprecatedRef.Value == null)
+                throw new ArgumentNullException(nameof(deprecatedRef), "Property is not nullable for class ObjectWithDeprecatedFields.");
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+            if (id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class ObjectWithDeprecatedFields.");
 
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
+            if (uuid.Value == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
+            Option<List<string>> barsParsedValue = new Option<List<string>>(bars.Value);
+            Option<DeprecatedObject> deprecatedRefParsedValue = new Option<DeprecatedObject>(deprecatedRef.Value);
+            Option<decimal> idParsedValue = new Option<decimal>(id.Value.Value);
+            Option<string> uuidParsedValue = new Option<string>(uuid.Value);
+
+            return new ObjectWithDeprecatedFields(barsParsedValue, deprecatedRefParsedValue, idParsedValue, uuidParsedValue);
         }
 
         /// <summary>
@@ -214,12 +219,16 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("bars");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
-            writer.WritePropertyName("deprecatedRef");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
-            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
-            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
+            if (objectWithDeprecatedFields.Bars.IsSet)
+                writer.WritePropertyName("bars");
+                JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
+            if (objectWithDeprecatedFields.DeprecatedRef.IsSet)
+                writer.WritePropertyName("deprecatedRef");
+                JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
+            if (objectWithDeprecatedFields.Id.IsSet)
+                writer.WriteNumber("id", objectWithDeprecatedFields.Id.Value);
+            if (objectWithDeprecatedFields.Uuid.IsSet)
+                writer.WriteString("uuid", objectWithDeprecatedFields.Uuid.Value);
         }
     }
 

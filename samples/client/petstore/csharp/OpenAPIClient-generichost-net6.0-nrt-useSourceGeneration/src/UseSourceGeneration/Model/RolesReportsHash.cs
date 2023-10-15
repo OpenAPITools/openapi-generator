@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="role">role</param>
         /// <param name="roleUuid">roleUuid</param>
         [JsonConstructor]
-        public RolesReportsHash(RolesReportsHashRole role, Guid roleUuid)
+        public RolesReportsHash(Option<RolesReportsHashRole> role = default, Option<Guid> roleUuid = default)
         {
             Role = role;
             RoleUuid = roleUuid;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole Role { get; set; }
+        public Option<RolesReportsHashRole> Role { get; set; }
 
         /// <summary>
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid RoleUuid { get; set; }
+        public Option<Guid> RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            RolesReportsHashRole? role = default;
-            Guid? roleUuid = default;
+            Option<RolesReportsHashRole?> role = default;
+            Option<Guid?> roleUuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,11 +133,11 @@ namespace UseSourceGeneration.Model
                     {
                         case "role":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                role = JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions);
+                                role = new Option<RolesReportsHashRole?>(JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "role_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                roleUuid = utf8JsonReader.GetGuid();
+                                roleUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
@@ -145,13 +145,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (role == null)
-                throw new ArgumentNullException(nameof(role), "Property is required for class RolesReportsHash.");
+            if (role.Value == null)
+                throw new ArgumentNullException(nameof(role), "Property is not nullable for class RolesReportsHash.");
 
-            if (roleUuid == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is required for class RolesReportsHash.");
+            if (roleUuid.Value == null)
+                throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
 
-            return new RolesReportsHash(role, roleUuid.Value);
+            Option<RolesReportsHashRole> roleParsedValue = new Option<RolesReportsHashRole>(role.Value);
+            Option<Guid> roleUuidParsedValue = new Option<Guid>(roleUuid.Value.Value);
+
+            return new RolesReportsHash(roleParsedValue, roleUuidParsedValue);
         }
 
         /// <summary>
@@ -178,9 +181,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHash rolesReportsHash, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("role");
-            JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
-            writer.WriteString("role_uuid", rolesReportsHash.RoleUuid);
+            if (rolesReportsHash.Role.IsSet)
+                writer.WritePropertyName("role");
+                JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
+            if (rolesReportsHash.RoleUuid.IsSet)
+                writer.WriteString("role_uuid", rolesReportsHash.RoleUuid.Value);
         }
     }
 

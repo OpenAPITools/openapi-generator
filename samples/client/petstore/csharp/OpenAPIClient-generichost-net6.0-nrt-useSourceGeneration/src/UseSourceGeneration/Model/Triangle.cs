@@ -154,7 +154,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? triangleType = default;
+            Option<string?> triangleType = default;
 
             EquilateralTriangle? equilateralTriangle = null;
             IsoscelesTriangle? isoscelesTriangle = null;
@@ -211,7 +211,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -219,17 +219,22 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (triangleType == null)
+            if (!triangleType.IsSet)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
 
+            if (triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
+
+            string triangleTypeParsedValue = triangleType.Value;
+
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType);
+                return new Triangle(equilateralTriangle, triangleTypeParsedValue);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType);
+                return new Triangle(isoscelesTriangle, triangleTypeParsedValue);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType);
+                return new Triangle(scaleneTriangle, triangleTypeParsedValue);
 
             throw new JsonException();
         }

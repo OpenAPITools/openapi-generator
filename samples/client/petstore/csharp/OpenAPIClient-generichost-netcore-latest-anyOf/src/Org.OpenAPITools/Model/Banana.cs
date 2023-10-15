@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="count">count</param>
         [JsonConstructor]
-        public Banana(decimal count)
+        public Banana(Option<decimal> count = default)
         {
             Count = count;
             OnCreated();
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Count
         /// </summary>
         [JsonPropertyName("count")]
-        public decimal Count { get; set; }
+        public Option<decimal> Count { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? count = default;
+            Option<decimal?> count = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +122,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "count":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                count = utf8JsonReader.GetDecimal();
+                                count = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
@@ -129,10 +130,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (count == null)
-                throw new ArgumentNullException(nameof(count), "Property is required for class Banana.");
+            if (count.Value == null)
+                throw new ArgumentNullException(nameof(count), "Property is not nullable for class Banana.");
 
-            return new Banana(count.Value);
+            Option<decimal> countParsedValue = new Option<decimal>(count.Value.Value);
+
+            return new Banana(countParsedValue);
         }
 
         /// <summary>
@@ -159,7 +162,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("count", banana.Count);
+            if (banana.Count.IsSet)
+                writer.WriteNumber("count", banana.Count.Value);
         }
     }
 }

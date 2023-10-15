@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
+        public ChildCat(Option<string> name = default, Option<PetTypeEnum> petType = default) : base(ChildCat.PetTypeEnumToJsonValue(petType.Value))
         {
             Name = name;
             PetType = petType;
@@ -103,13 +103,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public new PetTypeEnum PetType { get; set; }
+        public new Option<PetTypeEnum> PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -149,8 +149,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? name = default;
-            ChildCat.PetTypeEnum? petType = default;
+            Option<string?> name = default;
+            Option<ChildCat.PetTypeEnum?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,13 +168,12 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "pet_type":
                             string? petTypeRawValue = utf8JsonReader.GetString();
-                            petType = petTypeRawValue == null
-                                ? null
-                                : ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue);
+                            if (petTypeRawValue != null)
+                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
                             break;
                         default:
                             break;
@@ -182,13 +181,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class ChildCat.");
+            if (name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
 
-            if (petType == null)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCat.");
+            if (petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
-            return new ChildCat(name, petType.Value);
+            Option<string> nameParsedValue = new Option<string>(name.Value);
+            Option<ChildCat.PetTypeEnum> petTypeParsedValue = new Option<ChildCat.PetTypeEnum>(petType.Value.Value);
+
+            return new ChildCat(nameParsedValue, petTypeParsedValue);
         }
 
         /// <summary>
@@ -215,9 +217,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("name", childCat.Name);
-
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
+            if (childCat.Name.IsSet)
+                writer.WriteString("name", childCat.Name.Value);
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
             else

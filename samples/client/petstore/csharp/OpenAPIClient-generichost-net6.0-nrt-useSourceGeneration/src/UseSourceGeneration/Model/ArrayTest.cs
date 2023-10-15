@@ -39,7 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
+        public ArrayTest(Option<List<List<long>>> arrayArrayOfInteger = default, Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default, Option<List<string>> arrayOfString = default)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
@@ -53,19 +53,19 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
-        public List<List<long>> ArrayArrayOfInteger { get; set; }
+        public Option<List<List<long>>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+        public Option<List<List<ReadOnlyFirst>>> ArrayArrayOfModel { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
         [JsonPropertyName("array_of_string")]
-        public List<string> ArrayOfString { get; set; }
+        public Option<List<string>> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -122,9 +122,9 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<long>>? arrayArrayOfInteger = default;
-            List<List<ReadOnlyFirst>>? arrayArrayOfModel = default;
-            List<string>? arrayOfString = default;
+            Option<List<List<long>>?> arrayArrayOfInteger = default;
+            Option<List<List<ReadOnlyFirst>>?> arrayArrayOfModel = default;
+            Option<List<string>?> arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -143,15 +143,15 @@ namespace UseSourceGeneration.Model
                     {
                         case "array_array_of_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayOfInteger = new Option<List<List<long>>?>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_array_of_model":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>?>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayOfString = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -159,16 +159,20 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (arrayArrayOfInteger == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
+            if (arrayArrayOfInteger.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
 
-            if (arrayArrayOfModel == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
+            if (arrayArrayOfModel.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
 
-            if (arrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
+            if (arrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
 
-            return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
+            Option<List<List<long>>> arrayArrayOfIntegerParsedValue = new Option<List<List<long>>>(arrayArrayOfInteger.Value);
+            Option<List<List<ReadOnlyFirst>>> arrayArrayOfModelParsedValue = new Option<List<List<ReadOnlyFirst>>>(arrayArrayOfModel.Value);
+            Option<List<string>> arrayOfStringParsedValue = new Option<List<string>>(arrayOfString.Value);
+
+            return new ArrayTest(arrayArrayOfIntegerParsedValue, arrayArrayOfModelParsedValue, arrayOfStringParsedValue);
         }
 
         /// <summary>
@@ -195,12 +199,15 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("array_array_of_integer");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
-            writer.WritePropertyName("array_array_of_model");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
-            writer.WritePropertyName("array_of_string");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
+            if (arrayTest.ArrayArrayOfInteger.IsSet)
+                writer.WritePropertyName("array_array_of_integer");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
+            if (arrayTest.ArrayArrayOfModel.IsSet)
+                writer.WritePropertyName("array_array_of_model");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
+            if (arrayTest.ArrayOfString.IsSet)
+                writer.WritePropertyName("array_of_string");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
     }
 
