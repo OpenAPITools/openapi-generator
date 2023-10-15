@@ -25,27 +25,29 @@ public interface QueryApi extends ApiClient.Api {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return String
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
     "Accept: text/plain",
   })
-  String testEnumRefString(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  String testEnumRefString(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
 
   /**
    * Test query parameter(s)
    * Similar to <code>testEnumRefString</code> but it also returns the http response headers .
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
 
 
   /**
@@ -59,11 +61,12 @@ public interface QueryApi extends ApiClient.Api {
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
+   *   <li>enumNonrefStringQuery -  (optional)</li>
    *   <li>enumRefStringQuery -  (optional)</li>
    *   </ul>
    * @return String
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
   "Accept: text/plain",
   })
@@ -77,11 +80,12 @@ public interface QueryApi extends ApiClient.Api {
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
       *   <ul>
+          *   <li>enumNonrefStringQuery -  (optional)</li>
           *   <li>enumRefStringQuery -  (optional)</li>
       *   </ul>
           * @return String
       */
-      @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+      @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
       @Headers({
     "Accept: text/plain",
       })
@@ -93,6 +97,10 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testEnumRefString</code> method in a fluent style.
    */
   public static class TestEnumRefStringQueryParams extends HashMap<String, Object> {
+    public TestEnumRefStringQueryParams enumNonrefStringQuery(final String value) {
+      put("enum_nonref_string_query", EncodingUtils.encode(value));
+      return this;
+    }
     public TestEnumRefStringQueryParams enumRefStringQuery(final StringEnumRef value) {
       put("enum_ref_string_query", EncodingUtils.encode(value));
       return this;

@@ -468,14 +468,13 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#authMethods}}
                     {{#-first}}
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
+                    ApiKeyToken apiKeyTokenLocalVar;
                     {{/-first}}
                     {{#isApiKey}}
-                    ApiKeyToken apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
+                    apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar);{{#isKeyInHeader}}
-
                     apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+
                     {{/isKeyInHeader}}
                     {{#isKeyInQuery}}
 

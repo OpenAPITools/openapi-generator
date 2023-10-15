@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\Model\ModelInterface;
 /**
  * ObjectSerializer Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -391,9 +389,9 @@ class ObjectSerializer
      * @param string[]|null $httpHeaders   HTTP headers
      * @param string|null   $discriminator discriminator if polymorphism is used
      *
-     * @return object|array|null a single or an array of $class instances
+     * @return mixed a single or an array of $class instances
      */
-    public static function deserialize(mixed $data, string $class, string $httpHeaders = null): object|array|null
+    public static function deserialize(mixed $data, string $class, array $httpHeaders = null): mixed
     {
         if (null === $data) {
             return null;
@@ -437,7 +435,7 @@ class ObjectSerializer
             return $data;
         }
 
-        if ($class === 'DateTime') {
+        if ($class === '\DateTime') {
             // Some APIs return an invalid, empty string as a
             // date-time property. DateTime::__construct() will return
             // the current time for empty input which is probably not
@@ -484,7 +482,12 @@ class ObjectSerializer
         }
 
         /** @psalm-suppress ParadoxicalCondition */
-        if (in_array($class, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
+        // handle primitive types
+        if (in_array($class, ['\DateTime', '\SplFileObject'], true)) {
+            return $data;
+        } elseif (in_array($class, ['array', 'bool', 'boolean', 'float', 'double', 'int', 'integer', 'object', 'string', 'null'], true)) {
+            // type ref: https://www.php.net/manual/en/function.settype.php
+            // byte, mixed, void in the old php client were removed
             settype($data, $class);
             return $data;
         }

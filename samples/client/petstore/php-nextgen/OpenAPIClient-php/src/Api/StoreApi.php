@@ -3,7 +3,6 @@
  * StoreApi
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -44,7 +43,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * StoreApi Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -390,7 +388,7 @@ class StoreApi
      */
     public function getInventory(
         string $contentType = self::contentTypes['getInventory'][0]
-    ): array&lt;string,int&gt;
+    ): array
     {
         list($response) = $this->getInventoryWithHttpInfo($contentType);
         return $response;

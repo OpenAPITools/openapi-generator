@@ -23,10 +23,12 @@ module OpenapiClient
     # Test path parameter(s)
     # @param path_string [String] 
     # @param path_integer [Integer] 
+    # @param enum_nonref_string_path [String] 
+    # @param enum_ref_string_path [StringEnumRef] 
     # @param [Hash] opts the optional parameters
     # @return [String]
-    def tests_path_string_path_string_integer_path_integer(path_string, path_integer, opts = {})
-      data, _status_code, _headers = tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, opts)
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, opts = {})
+      data, _status_code, _headers = tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, opts)
       data
     end
 
@@ -34,22 +36,37 @@ module OpenapiClient
     # Test path parameter(s)
     # @param path_string [String] 
     # @param path_integer [Integer] 
+    # @param enum_nonref_string_path [String] 
+    # @param enum_ref_string_path [StringEnumRef] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
-    def tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, opts = {})
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PathApi.tests_path_string_path_string_integer_path_integer ...'
+        @api_client.config.logger.debug 'Calling API: PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path ...'
       end
       # verify the required parameter 'path_string' is set
       if @api_client.config.client_side_validation && path_string.nil?
-        fail ArgumentError, "Missing the required parameter 'path_string' when calling PathApi.tests_path_string_path_string_integer_path_integer"
+        fail ArgumentError, "Missing the required parameter 'path_string' when calling PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path"
       end
       # verify the required parameter 'path_integer' is set
       if @api_client.config.client_side_validation && path_integer.nil?
-        fail ArgumentError, "Missing the required parameter 'path_integer' when calling PathApi.tests_path_string_path_string_integer_path_integer"
+        fail ArgumentError, "Missing the required parameter 'path_integer' when calling PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path"
+      end
+      # verify the required parameter 'enum_nonref_string_path' is set
+      if @api_client.config.client_side_validation && enum_nonref_string_path.nil?
+        fail ArgumentError, "Missing the required parameter 'enum_nonref_string_path' when calling PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path"
+      end
+      # verify enum value
+      allowable_values = ["success", "failure", "unclassified"]
+      if @api_client.config.client_side_validation && !allowable_values.include?(enum_nonref_string_path)
+        fail ArgumentError, "invalid value for \"enum_nonref_string_path\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'enum_ref_string_path' is set
+      if @api_client.config.client_side_validation && enum_ref_string_path.nil?
+        fail ArgumentError, "Missing the required parameter 'enum_ref_string_path' when calling PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path"
       end
       # resource path
-      local_var_path = '/path/string/{path_string}/integer/{path_integer}'.sub('{' + 'path_string' + '}', CGI.escape(path_string.to_s)).sub('{' + 'path_integer' + '}', CGI.escape(path_integer.to_s))
+      local_var_path = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'.sub('{' + 'path_string' + '}', CGI.escape(path_string.to_s)).sub('{' + 'path_integer' + '}', CGI.escape(path_integer.to_s)).sub('{' + 'enum_nonref_string_path' + '}', CGI.escape(enum_nonref_string_path.to_s)).sub('{' + 'enum_ref_string_path' + '}', CGI.escape(enum_ref_string_path.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -72,7 +89,7 @@ module OpenapiClient
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
-        :operation => :"PathApi.tests_path_string_path_string_integer_path_integer",
+        :operation => :"PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -83,7 +100,7 @@ module OpenapiClient
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PathApi#tests_path_string_path_string_integer_path_integer\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: PathApi#tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

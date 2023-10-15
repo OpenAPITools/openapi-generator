@@ -90,6 +90,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string PetTypeEnumToJsonValue(PetTypeEnum value)
         {
+
             if (value == PetTypeEnum.ChildCat)
                 return "ChildCat";
 

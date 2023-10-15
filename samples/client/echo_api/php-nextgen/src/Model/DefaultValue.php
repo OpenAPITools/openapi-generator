@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -38,7 +37,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * DefaultValue Class Doc Comment
  *
- * @category Class
  * @description to test the default value of properties
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team

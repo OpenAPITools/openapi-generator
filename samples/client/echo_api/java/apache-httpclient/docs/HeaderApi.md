@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**testHeaderIntegerBooleanString**](HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s) |
+| [**testHeaderIntegerBooleanStringEnums**](HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s) |
 
 
 
-## testHeaderIntegerBooleanString
+## testHeaderIntegerBooleanStringEnums
 
-> String testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader)
+> String testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader)
 
 Test header parameter(s)
 
@@ -35,11 +35,13 @@ public class Example {
         Integer integerHeader = 56; // Integer | 
         Boolean booleanHeader = true; // Boolean | 
         String stringHeader = "stringHeader_example"; // String | 
+        String enumNonrefStringHeader = "success"; // String | 
+        StringEnumRef enumRefStringHeader = StringEnumRef.fromValue("success"); // StringEnumRef | 
         try {
-            String result = apiInstance.testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+            String result = apiInstance.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling HeaderApi#testHeaderIntegerBooleanString");
+            System.err.println("Exception when calling HeaderApi#testHeaderIntegerBooleanStringEnums");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -57,6 +59,8 @@ public class Example {
 | **integerHeader** | **Integer**|  | [optional] |
 | **booleanHeader** | **Boolean**|  | [optional] |
 | **stringHeader** | **String**|  | [optional] |
+| **enumNonrefStringHeader** | **String**|  | [optional] [enum: success, failure, unclassified] |
+| **enumRefStringHeader** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 

@@ -36,7 +36,7 @@ Default configuration comes with `Servers` field that contains server objects as
 
 ### Select Server Configuration
 
-For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+For using other server than the one defined on index 0 set context value `openapi.ContextServerIndex` of type `int`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
@@ -44,7 +44,7 @@ ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
 
 ### Templated Server URL
 
-Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+Templated server URL is formatted using default variables from configuration or from context value `openapi.ContextServerVariables` of type `map[string]string`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerVariables, map[string]string{
@@ -58,7 +58,7 @@ Note, enum values are always validated and all unused variables are silently ign
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
-Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+Similar rules for overriding default operation server index and variables applies by using `openapi.ContextOperationServerIndices` and `openapi.ContextOperationServerVariables` context maps.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextOperationServerIndices, map[string]int{
@@ -87,8 +87,8 @@ Class | Method | HTTP request | Description
 *BodyAPI* | [**TestEchoBodyTagResponseString**](docs/BodyAPI.md#testechobodytagresponsestring) | **Post** /echo/body/Tag/response_string | Test empty json (request body)
 *FormAPI* | [**TestFormIntegerBooleanString**](docs/FormAPI.md#testformintegerbooleanstring) | **Post** /form/integer/boolean/string | Test form parameter(s)
 *FormAPI* | [**TestFormOneof**](docs/FormAPI.md#testformoneof) | **Post** /form/oneof | Test form parameter(s) for oneOf schema
-*HeaderAPI* | [**TestHeaderIntegerBooleanString**](docs/HeaderAPI.md#testheaderintegerbooleanstring) | **Get** /header/integer/boolean/string | Test header parameter(s)
-*PathAPI* | [**TestsPathStringPathStringIntegerPathInteger**](docs/PathAPI.md#testspathstringpathstringintegerpathinteger) | **Get** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*HeaderAPI* | [**TestHeaderIntegerBooleanStringEnums**](docs/HeaderAPI.md#testheaderintegerbooleanstringenums) | **Get** /header/integer/boolean/string/enums | Test header parameter(s)
+*PathAPI* | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathAPI.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **Get** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryAPI* | [**TestEnumRefString**](docs/QueryAPI.md#testenumrefstring) | **Get** /query/enum_ref_string | Test query parameter(s)
 *QueryAPI* | [**TestQueryDatetimeDateString**](docs/QueryAPI.md#testquerydatetimedatestring) | **Get** /query/datetime/date/string | Test query parameter(s)
 *QueryAPI* | [**TestQueryIntegerBooleanString**](docs/QueryAPI.md#testqueryintegerbooleanstring) | **Get** /query/integer/boolean/string | Test query parameter(s)
@@ -125,7 +125,7 @@ Authentication schemes defined for the API:
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+auth := context.WithValue(context.Background(), openapi.ContextBasicAuth, openapi.BasicAuth{
     UserName: "username",
     Password: "password",
 })
