@@ -205,6 +205,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (fruit.Color.Value == null)
+                throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
+
             if (fruit.Color.IsSet)
                 writer.WriteString("color", fruit.Color.Value);
         }

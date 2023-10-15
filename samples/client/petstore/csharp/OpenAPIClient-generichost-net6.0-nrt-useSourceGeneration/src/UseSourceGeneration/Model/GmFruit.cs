@@ -205,6 +205,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (gmFruit.Color.Value == null)
+                throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
+
             if (gmFruit.Color.IsSet)
                 writer.WriteString("color", gmFruit.Color.Value);
         }

@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!lengthCm.IsSet)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class BananaReq.");
+                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
 
             if (lengthCm.Value == null)
                 throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");

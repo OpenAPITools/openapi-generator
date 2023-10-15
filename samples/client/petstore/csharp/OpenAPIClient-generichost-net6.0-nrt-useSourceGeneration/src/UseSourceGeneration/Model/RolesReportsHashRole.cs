@@ -162,6 +162,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (rolesReportsHashRole.Name.Value == null)
+                throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
+
             if (rolesReportsHashRole.Name.IsSet)
                 writer.WriteString("name", rolesReportsHashRole.Name.Value);
         }

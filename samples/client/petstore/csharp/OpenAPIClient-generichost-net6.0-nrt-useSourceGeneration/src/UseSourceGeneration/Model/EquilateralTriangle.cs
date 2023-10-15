@@ -144,10 +144,10 @@ namespace UseSourceGeneration.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class EquilateralTriangle.");
+                throw new ArgumentException("Property is required for class EquilateralTriangle.", nameof(shapeType));
 
             if (!triangleType.IsSet)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class EquilateralTriangle.");
+                throw new ArgumentException("Property is required for class EquilateralTriangle.", nameof(triangleType));
 
             if (shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class EquilateralTriangle.");
@@ -185,6 +185,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, EquilateralTriangle equilateralTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (equilateralTriangle.ShapeType == null)
+                throw new ArgumentNullException(nameof(equilateralTriangle.ShapeType), "Property is required for class EquilateralTriangle.");
+
+            if (equilateralTriangle.TriangleType == null)
+                throw new ArgumentNullException(nameof(equilateralTriangle.TriangleType), "Property is required for class EquilateralTriangle.");
+
             writer.WriteString("shapeType", equilateralTriangle.ShapeType);
             writer.WriteString("triangleType", equilateralTriangle.TriangleType);
         }

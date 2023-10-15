@@ -216,6 +216,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (objectWithDeprecatedFields.Bars.Value == null)
+                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Bars), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (objectWithDeprecatedFields.DeprecatedRef.Value == null)
+                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.DeprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (objectWithDeprecatedFields.Uuid.Value == null)
+                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
+
             if (objectWithDeprecatedFields.Bars.IsSet)
                 writer.WritePropertyName("bars");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);

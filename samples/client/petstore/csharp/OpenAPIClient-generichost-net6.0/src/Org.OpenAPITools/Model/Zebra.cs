@@ -234,7 +234,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
+                throw new ArgumentException("Property is required for class Zebra.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
@@ -272,6 +272,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (zebra.ClassName == null)
+                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+
             writer.WriteString("className", zebra.ClassName);
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
             if (typeRawValue != null)

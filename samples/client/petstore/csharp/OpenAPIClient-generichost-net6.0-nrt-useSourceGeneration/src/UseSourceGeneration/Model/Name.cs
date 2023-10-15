@@ -210,7 +210,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!varName.IsSet)
-                throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
+                throw new ArgumentException("Property is required for class Name.", nameof(varName));
 
             if (varName.Value == null)
                 throw new ArgumentNullException(nameof(varName), "Property is not nullable for class Name.");
@@ -256,6 +256,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (name.Property.Value == null)
+                throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
+
             writer.WriteNumber("name", name.VarName);
             if (name.Property.IsSet)
                 writer.WriteString("property", name.Property.Value);

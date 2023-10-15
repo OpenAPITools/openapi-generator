@@ -143,10 +143,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class SimpleQuadrilateral.");
+                throw new ArgumentException("Property is required for class SimpleQuadrilateral.", nameof(quadrilateralType));
 
             if (!shapeType.IsSet)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class SimpleQuadrilateral.");
+                throw new ArgumentException("Property is required for class SimpleQuadrilateral.", nameof(shapeType));
 
             if (quadrilateralType.Value == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class SimpleQuadrilateral.");
@@ -184,6 +184,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (simpleQuadrilateral.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(simpleQuadrilateral.QuadrilateralType), "Property is required for class SimpleQuadrilateral.");
+
+            if (simpleQuadrilateral.ShapeType == null)
+                throw new ArgumentNullException(nameof(simpleQuadrilateral.ShapeType), "Property is required for class SimpleQuadrilateral.");
+
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
         }

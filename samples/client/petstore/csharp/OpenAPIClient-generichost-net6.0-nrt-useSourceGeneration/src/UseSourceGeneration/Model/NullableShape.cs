@@ -197,7 +197,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
+                throw new ArgumentException("Property is required for class NullableShape.", nameof(shapeType));
 
             if (shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
@@ -247,6 +247,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullableShape.ShapeType == null)
+                throw new ArgumentNullException(nameof(nullableShape.ShapeType), "Property is required for class NullableShape.");
+
             writer.WriteString("shapeType", nullableShape.ShapeType);
         }
     }

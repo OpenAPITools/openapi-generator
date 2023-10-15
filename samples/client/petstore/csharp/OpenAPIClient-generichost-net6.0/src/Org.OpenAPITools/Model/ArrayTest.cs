@@ -196,6 +196,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (arrayTest.ArrayArrayOfInteger.Value == null)
+                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfInteger), "Property is required for class ArrayTest.");
+
+            if (arrayTest.ArrayArrayOfModel.Value == null)
+                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfModel), "Property is required for class ArrayTest.");
+
+            if (arrayTest.ArrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
+
             if (arrayTest.ArrayArrayOfInteger.IsSet)
                 writer.WritePropertyName("array_array_of_integer");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);

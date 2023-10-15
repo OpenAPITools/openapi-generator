@@ -131,7 +131,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class QuadrilateralInterface.");
+                throw new ArgumentException("Property is required for class QuadrilateralInterface.", nameof(quadrilateralType));
 
             if (quadrilateralType.Value == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
@@ -165,6 +165,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (quadrilateralInterface.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralInterface.QuadrilateralType), "Property is required for class QuadrilateralInterface.");
+
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
         }
     }

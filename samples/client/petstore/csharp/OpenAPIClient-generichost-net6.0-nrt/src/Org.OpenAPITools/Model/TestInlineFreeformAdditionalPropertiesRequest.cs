@@ -172,6 +172,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (testInlineFreeformAdditionalPropertiesRequest.SomeProperty.Value == null)
+                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
+
             if (testInlineFreeformAdditionalPropertiesRequest.SomeProperty.IsSet)
                 writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty.Value);
         }

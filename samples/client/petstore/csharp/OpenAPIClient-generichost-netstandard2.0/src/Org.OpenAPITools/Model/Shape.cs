@@ -194,7 +194,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class Shape.");
+                throw new ArgumentException("Property is required for class Shape.", nameof(shapeType));
 
             if (shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
@@ -244,6 +244,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shape.ShapeType == null)
+                throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
+
             writer.WriteString("shapeType", shape.ShapeType);
         }
     }

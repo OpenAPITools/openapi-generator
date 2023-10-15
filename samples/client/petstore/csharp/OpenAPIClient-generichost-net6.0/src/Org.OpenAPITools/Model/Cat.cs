@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
+                throw new ArgumentException("Property is required for class Cat.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Cat.");
@@ -165,6 +165,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (cat.ClassName == null)
+                throw new ArgumentNullException(nameof(cat.ClassName), "Property is required for class Cat.");
+
+            if (cat.Color.Value == null)
+                throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
+
             writer.WriteString("className", cat.ClassName);
             if (cat.Declawed.IsSet)
                 writer.WriteBoolean("declawed", cat.Declawed.Value);

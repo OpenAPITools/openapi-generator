@@ -512,16 +512,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!varByte.IsSet)
-                throw new ArgumentNullException(nameof(varByte), "Property is required for class FormatTest.");
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(varByte));
 
             if (!date.IsSet)
-                throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(date));
 
             if (!number.IsSet)
-                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(number));
 
             if (!password.IsSet)
-                throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(password));
 
             if (varByte.Value == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is not nullable for class FormatTest.");
@@ -627,6 +627,27 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (formatTest.VarByte == null)
+                throw new ArgumentNullException(nameof(formatTest.VarByte), "Property is required for class FormatTest.");
+
+            if (formatTest.Password == null)
+                throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");
+
+            if (formatTest.Binary.Value == null)
+                throw new ArgumentNullException(nameof(formatTest.Binary), "Property is required for class FormatTest.");
+
+            if (formatTest.PatternWithBackslash.Value == null)
+                throw new ArgumentNullException(nameof(formatTest.PatternWithBackslash), "Property is required for class FormatTest.");
+
+            if (formatTest.PatternWithDigits.Value == null)
+                throw new ArgumentNullException(nameof(formatTest.PatternWithDigits), "Property is required for class FormatTest.");
+
+            if (formatTest.PatternWithDigitsAndDelimiter.Value == null)
+                throw new ArgumentNullException(nameof(formatTest.PatternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
+
+            if (formatTest.VarString.Value == null)
+                throw new ArgumentNullException(nameof(formatTest.VarString), "Property is required for class FormatTest.");
+
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
             writer.WriteString("date", formatTest.Date.ToString(DateFormat));

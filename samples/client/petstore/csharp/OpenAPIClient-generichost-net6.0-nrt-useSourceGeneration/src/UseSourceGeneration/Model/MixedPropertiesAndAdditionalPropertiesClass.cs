@@ -228,6 +228,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mixedPropertiesAndAdditionalPropertiesClass.Map.Value == null)
+                throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTime.IsSet)
                 writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.Value.ToString(DateTimeFormat));
             if (mixedPropertiesAndAdditionalPropertiesClass.Map.IsSet)

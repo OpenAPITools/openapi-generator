@@ -734,7 +734,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!enumStringRequired.IsSet)
-                throw new ArgumentNullException(nameof(enumStringRequired), "Property is required for class EnumTest.");
+                throw new ArgumentException("Property is required for class EnumTest.", nameof(enumStringRequired));
 
             if (enumStringRequired.Value == null)
                 throw new ArgumentNullException(nameof(enumStringRequired), "Property is not nullable for class EnumTest.");

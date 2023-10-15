@@ -163,6 +163,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (arrayOfNumberOnly.ArrayNumber.Value == null)
+                throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
+
             if (arrayOfNumberOnly.ArrayNumber.IsSet)
                 writer.WritePropertyName("ArrayNumber");
                 JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);

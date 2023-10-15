@@ -220,7 +220,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!triangleType.IsSet)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
+                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
 
             if (triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
@@ -278,6 +278,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (triangle.TriangleType == null)
+                throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
+
             writer.WriteString("triangleType", triangle.TriangleType);
         }
     }

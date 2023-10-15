@@ -217,6 +217,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (childCat.Name.Value == null)
+                throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
+
             if (childCat.Name.IsSet)
                 writer.WriteString("name", childCat.Name.Value);
             var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);

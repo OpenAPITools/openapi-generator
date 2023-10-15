@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class GrandparentAnimal.");
+                throw new ArgumentException("Property is required for class GrandparentAnimal.", nameof(petType));
 
             if (petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
@@ -174,6 +174,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (grandparentAnimal.PetType == null)
+                throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
+
             writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }

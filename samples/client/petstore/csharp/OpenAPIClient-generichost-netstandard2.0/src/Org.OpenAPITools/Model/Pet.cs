@@ -282,10 +282,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
+                throw new ArgumentException("Property is required for class Pet.", nameof(name));
 
             if (!photoUrls.IsSet)
-                throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
+                throw new ArgumentException("Property is required for class Pet.", nameof(photoUrls));
 
             if (name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Pet.");
@@ -339,6 +339,18 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (pet.Name == null)
+                throw new ArgumentNullException(nameof(pet.Name), "Property is required for class Pet.");
+
+            if (pet.PhotoUrls == null)
+                throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
+
+            if (pet.Category.Value == null)
+                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
+
+            if (pet.Tags.Value == null)
+                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
+
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);

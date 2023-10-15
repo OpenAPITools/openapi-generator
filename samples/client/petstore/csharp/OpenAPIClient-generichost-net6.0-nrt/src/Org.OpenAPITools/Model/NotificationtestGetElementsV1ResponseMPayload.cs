@@ -145,10 +145,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!aObjVariableobject.IsSet)
-                throw new ArgumentNullException(nameof(aObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(aObjVariableobject));
 
             if (!pkiNotificationtestID.IsSet)
-                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
 
             if (aObjVariableobject.Value == null)
                 throw new ArgumentNullException(nameof(aObjVariableobject), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
@@ -186,6 +186,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (notificationtestGetElementsV1ResponseMPayload.AObjVariableobject == null)
+                throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);

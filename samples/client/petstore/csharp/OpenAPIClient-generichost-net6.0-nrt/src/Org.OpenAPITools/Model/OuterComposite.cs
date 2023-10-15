@@ -197,6 +197,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (outerComposite.MyString.Value == null)
+                throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
+
             if (outerComposite.MyBoolean.IsSet)
                 writer.WriteBoolean("my_boolean", outerComposite.MyBoolean.Value);
             if (outerComposite.MyNumber.IsSet)

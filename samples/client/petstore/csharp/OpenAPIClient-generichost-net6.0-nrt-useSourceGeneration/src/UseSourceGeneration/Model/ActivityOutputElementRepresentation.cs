@@ -180,6 +180,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (activityOutputElementRepresentation.Prop1.Value == null)
+                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop1), "Property is required for class ActivityOutputElementRepresentation.");
+
+            if (activityOutputElementRepresentation.Prop2.Value == null)
+                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
+
             if (activityOutputElementRepresentation.Prop1.IsSet)
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1.Value);
             if (activityOutputElementRepresentation.Prop2.IsSet)

@@ -215,6 +215,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (hasOnlyReadOnly.Bar.Value == null)
+                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Bar), "Property is required for class HasOnlyReadOnly.");
+
+            if (hasOnlyReadOnly.Foo.Value == null)
+                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
+
             if (hasOnlyReadOnly.Bar.IsSet)
                 writer.WriteString("bar", hasOnlyReadOnly.Bar.Value);
             if (hasOnlyReadOnly.Foo.IsSet)

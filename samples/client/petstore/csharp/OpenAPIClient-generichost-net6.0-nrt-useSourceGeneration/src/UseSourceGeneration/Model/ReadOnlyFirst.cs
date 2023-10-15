@@ -215,6 +215,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (readOnlyFirst.Bar.Value == null)
+                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
+
+            if (readOnlyFirst.Baz.Value == null)
+                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
+
             if (readOnlyFirst.Bar.IsSet)
                 writer.WriteString("bar", readOnlyFirst.Bar.Value);
             if (readOnlyFirst.Baz.IsSet)

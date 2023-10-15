@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (file.SourceURI.Value == null)
+                throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
+
             if (file.SourceURI.IsSet)
                 writer.WriteString("sourceURI", file.SourceURI.Value);
         }

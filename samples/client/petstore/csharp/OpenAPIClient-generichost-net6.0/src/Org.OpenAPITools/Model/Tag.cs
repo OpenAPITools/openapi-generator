@@ -177,6 +177,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (tag.Name.Value == null)
+                throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
+
             if (tag.Id.IsSet)
                 writer.WriteNumber("id", tag.Id.Value);
             if (tag.Name.IsSet)

@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Whale.");
+                throw new ArgumentException("Property is required for class Whale.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Whale.");
@@ -198,6 +198,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (whale.ClassName == null)
+                throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
+
             writer.WriteString("className", whale.ClassName);
             if (whale.HasBaleen.IsSet)
                 writer.WriteBoolean("hasBaleen", whale.HasBaleen.Value);

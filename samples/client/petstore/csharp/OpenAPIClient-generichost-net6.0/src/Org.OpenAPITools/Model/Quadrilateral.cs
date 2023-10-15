@@ -194,7 +194,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class Quadrilateral.");
+                throw new ArgumentException("Property is required for class Quadrilateral.", nameof(quadrilateralType));
 
             if (quadrilateralType.Value == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
@@ -244,6 +244,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (quadrilateral.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
+
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }

@@ -340,6 +340,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullableClass.ArrayItemsNullable.Value == null)
+                throw new ArgumentNullException(nameof(nullableClass.ArrayItemsNullable), "Property is required for class NullableClass.");
+
+            if (nullableClass.ObjectItemsNullable.Value == null)
+                throw new ArgumentNullException(nameof(nullableClass.ObjectItemsNullable), "Property is required for class NullableClass.");
+
             if (nullableClass.ArrayItemsNullable.IsSet)
                 writer.WritePropertyName("array_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);

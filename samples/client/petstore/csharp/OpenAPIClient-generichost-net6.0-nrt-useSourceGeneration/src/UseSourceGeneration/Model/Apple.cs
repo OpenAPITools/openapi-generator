@@ -223,6 +223,15 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (apple.ColorCode.Value == null)
+                throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");
+
+            if (apple.Cultivar.Value == null)
+                throw new ArgumentNullException(nameof(apple.Cultivar), "Property is required for class Apple.");
+
+            if (apple.Origin.Value == null)
+                throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
+
             if (apple.ColorCode.IsSet)
                 writer.WriteString("color_code", apple.ColorCode.Value);
             if (apple.Cultivar.IsSet)

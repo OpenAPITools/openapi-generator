@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Category.");
+                throw new ArgumentException("Property is required for class Category.", nameof(name));
 
             if (name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
@@ -182,6 +182,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (category.Name == null)
+                throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
+
             writer.WriteString("name", category.Name);
             if (category.Id.IsSet)
                 writer.WriteNumber("id", category.Id.Value);

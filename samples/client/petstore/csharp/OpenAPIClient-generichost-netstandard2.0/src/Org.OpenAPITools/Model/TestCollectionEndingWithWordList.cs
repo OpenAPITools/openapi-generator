@@ -159,6 +159,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (testCollectionEndingWithWordList.Value.Value == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
+
             if (testCollectionEndingWithWordList.Value.IsSet)
                 writer.WriteString("value", testCollectionEndingWithWordList.Value.Value);
         }

@@ -125,7 +125,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+                throw new ArgumentException("Property is required for class Dog.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Dog.");
@@ -167,6 +167,15 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (dog.ClassName == null)
+                throw new ArgumentNullException(nameof(dog.ClassName), "Property is required for class Dog.");
+
+            if (dog.Breed.Value == null)
+                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
+
+            if (dog.Color.Value == null)
+                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
+
             writer.WriteString("className", dog.ClassName);
             if (dog.Breed.IsSet)
                 writer.WriteString("breed", dog.Breed.Value);

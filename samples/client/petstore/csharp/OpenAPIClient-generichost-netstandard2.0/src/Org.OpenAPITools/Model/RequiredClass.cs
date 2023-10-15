@@ -1857,70 +1857,70 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!requiredNotNullableDateProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotNullableDateProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotNullableDateProp));
 
             if (!requiredNotnullableArrayOfString.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableArrayOfString));
 
             if (!requiredNotnullableBooleanProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableBooleanProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableBooleanProp));
 
             if (!requiredNotnullableDatetimeProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableDatetimeProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableDatetimeProp));
 
             if (!requiredNotnullableEnumInteger.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableEnumInteger), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableEnumInteger));
 
             if (!requiredNotnullableEnumIntegerOnly.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableEnumIntegerOnly), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableEnumIntegerOnly));
 
             if (!requiredNotnullableEnumString.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableEnumString), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableEnumString));
 
             if (!requiredNotnullableOuterEnumDefaultValue.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableOuterEnumDefaultValue), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableOuterEnumDefaultValue));
 
             if (!requiredNotnullableStringProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableStringProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableStringProp));
 
             if (!requiredNotnullableUuid.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableUuid), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableUuid));
 
             if (!requiredNotnullableintegerProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNotnullableintegerProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableintegerProp));
 
             if (!requiredNullableArrayOfString.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableArrayOfString), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableArrayOfString));
 
             if (!requiredNullableBooleanProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableBooleanProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableBooleanProp));
 
             if (!requiredNullableDateProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableDateProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableDateProp));
 
             if (!requiredNullableDatetimeProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableDatetimeProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableDatetimeProp));
 
             if (!requiredNullableEnumInteger.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableEnumInteger), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableEnumInteger));
 
             if (!requiredNullableEnumIntegerOnly.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableEnumIntegerOnly), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableEnumIntegerOnly));
 
             if (!requiredNullableEnumString.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableEnumString), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableEnumString));
 
             if (!requiredNullableIntegerProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableIntegerProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableIntegerProp));
 
             if (!requiredNullableOuterEnumDefaultValue.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableOuterEnumDefaultValue), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableOuterEnumDefaultValue));
 
             if (!requiredNullableStringProp.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableStringProp), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableStringProp));
 
             if (!requiredNullableUuid.IsSet)
-                throw new ArgumentNullException(nameof(requiredNullableUuid), "Property is required for class RequiredClass.");
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableUuid));
 
             if (requiredNotNullableDateProp.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotNullableDateProp), "Property is not nullable for class RequiredClass.");
@@ -2049,6 +2049,18 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (requiredClass.RequiredNotnullableArrayOfString == null)
+                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+
+            if (requiredClass.RequiredNotnullableStringProp == null)
+                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+
+            if (requiredClass.NotrequiredNotnullableArrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+
+            if (requiredClass.NotrequiredNotnullableStringProp.Value == null)
+                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
             writer.WritePropertyName("required_notnullable_array_of_string");
             JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableArrayOfString, jsonSerializerOptions);

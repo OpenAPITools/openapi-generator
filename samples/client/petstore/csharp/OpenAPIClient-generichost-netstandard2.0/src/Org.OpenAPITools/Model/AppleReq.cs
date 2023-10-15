@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!cultivar.IsSet)
-                throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
+                throw new ArgumentException("Property is required for class AppleReq.", nameof(cultivar));
 
             if (cultivar.Value == null)
                 throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class AppleReq.");
@@ -173,6 +173,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (appleReq.Cultivar == null)
+                throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
+
             writer.WriteString("cultivar", appleReq.Cultivar);
             if (appleReq.Mealy.IsSet)
                 writer.WriteBoolean("mealy", appleReq.Mealy.Value);

@@ -196,6 +196,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (apiResponse.Message.Value == null)
+                throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");
+
+            if (apiResponse.Type.Value == null)
+                throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
+
             if (apiResponse.Code.IsSet)
                 writer.WriteNumber("code", apiResponse.Code.Value);
             if (apiResponse.Message.IsSet)

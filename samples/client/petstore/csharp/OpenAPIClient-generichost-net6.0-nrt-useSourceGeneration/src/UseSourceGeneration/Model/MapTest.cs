@@ -283,6 +283,18 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mapTest.DirectMap.Value == null)
+                throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");
+
+            if (mapTest.IndirectMap.Value == null)
+                throw new ArgumentNullException(nameof(mapTest.IndirectMap), "Property is required for class MapTest.");
+
+            if (mapTest.MapMapOfString.Value == null)
+                throw new ArgumentNullException(nameof(mapTest.MapMapOfString), "Property is required for class MapTest.");
+
+            if (mapTest.MapOfEnumString.Value == null)
+                throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
+
             if (mapTest.DirectMap.IsSet)
                 writer.WritePropertyName("direct_map");
                 JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);

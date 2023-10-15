@@ -131,7 +131,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class BasquePig.");
+                throw new ArgumentException("Property is required for class BasquePig.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
@@ -165,6 +165,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (basquePig.ClassName == null)
+                throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
+
             writer.WriteString("className", basquePig.ClassName);
         }
     }

@@ -160,6 +160,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (activity.ActivityOutputs.Value == null)
+                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
+
             if (activity.ActivityOutputs.IsSet)
                 writer.WritePropertyName("activity_outputs");
                 JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);

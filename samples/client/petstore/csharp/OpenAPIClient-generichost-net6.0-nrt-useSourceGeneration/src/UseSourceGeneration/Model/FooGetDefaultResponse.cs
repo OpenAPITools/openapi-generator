@@ -163,6 +163,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (fooGetDefaultResponse.VarString.Value == null)
+                throw new ArgumentNullException(nameof(fooGetDefaultResponse.VarString), "Property is required for class FooGetDefaultResponse.");
+
             if (fooGetDefaultResponse.VarString.IsSet)
                 writer.WritePropertyName("string");
                 JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);

@@ -247,6 +247,24 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (capitalization.ATT_NAME.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.ATT_NAME), "Property is required for class Capitalization.");
+
+            if (capitalization.CapitalCamel.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.CapitalCamel), "Property is required for class Capitalization.");
+
+            if (capitalization.CapitalSnake.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.CapitalSnake), "Property is required for class Capitalization.");
+
+            if (capitalization.SCAETHFlowPoints.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.SCAETHFlowPoints), "Property is required for class Capitalization.");
+
+            if (capitalization.SmallCamel.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.SmallCamel), "Property is required for class Capitalization.");
+
+            if (capitalization.SmallSnake.Value == null)
+                throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
+
             if (capitalization.ATT_NAME.IsSet)
                 writer.WriteString("ATT_NAME", capitalization.ATT_NAME.Value);
             if (capitalization.CapitalCamel.IsSet)

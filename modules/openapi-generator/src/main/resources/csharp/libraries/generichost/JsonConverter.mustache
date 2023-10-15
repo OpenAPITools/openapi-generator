@@ -264,7 +264,7 @@
             {{#allVars}}
             {{#required}}
             if (!{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}.IsSet)
-                throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}), "Property is required for class {{classname}}.");
+                throw new ArgumentException("Property is required for class {{classname}}.", nameof({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}));
 
             {{/required}}
             {{/allVars}}
@@ -379,6 +379,15 @@
         {
             {{#lambda.trimTrailingWithNewLine}}
             {{#lambda.trimLineBreaks}}
+            {{#allVars}}
+            {{^isNullable}}
+            {{#vendorExtensions.x-is-reference-type}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}.Value{{/required}} == null)
+                throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}), "Property is required for class {{classname}}.");
+
+            {{/vendorExtensions.x-is-reference-type}}
+            {{/isNullable}}
+            {{/allVars}}
             {{#allVars}}
             {{#isString}}
             {{^isMap}}

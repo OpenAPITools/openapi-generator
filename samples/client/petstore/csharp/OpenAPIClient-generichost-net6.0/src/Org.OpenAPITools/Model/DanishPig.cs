@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class DanishPig.");
+                throw new ArgumentException("Property is required for class DanishPig.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class DanishPig.");
@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DanishPig danishPig, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (danishPig.ClassName == null)
+                throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
+
             writer.WriteString("className", danishPig.ClassName);
         }
     }

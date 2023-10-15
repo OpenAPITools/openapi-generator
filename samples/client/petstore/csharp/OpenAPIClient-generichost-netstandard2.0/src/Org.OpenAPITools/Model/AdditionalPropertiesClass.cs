@@ -283,6 +283,27 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (additionalPropertiesClass.EmptyMap.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.EmptyMap), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapOfMapProperty.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapProperty.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
+
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesString.Value == null)
+                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
+
             if (additionalPropertiesClass.EmptyMap.IsSet)
                 writer.WritePropertyName("empty_map");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);

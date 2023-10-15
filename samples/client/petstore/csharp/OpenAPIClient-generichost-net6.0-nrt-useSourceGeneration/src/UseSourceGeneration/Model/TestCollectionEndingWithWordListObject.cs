@@ -163,6 +163,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList.Value == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
+
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList.IsSet)
                 writer.WritePropertyName("TestCollectionEndingWithWordList");
                 JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);

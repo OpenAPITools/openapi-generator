@@ -131,7 +131,7 @@ namespace UseSourceGeneration.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeInterface.");
+                throw new ArgumentException("Property is required for class ShapeInterface.", nameof(shapeType));
 
             if (shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
@@ -165,6 +165,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shapeInterface.ShapeType == null)
+                throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");
+
             writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }

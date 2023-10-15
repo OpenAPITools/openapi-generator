@@ -181,6 +181,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (fileSchemaTestClass.File.Value == null)
+                throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");
+
+            if (fileSchemaTestClass.Files.Value == null)
+                throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
+
             if (fileSchemaTestClass.File.IsSet)
                 writer.WritePropertyName("file");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);

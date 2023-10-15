@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
+                throw new ArgumentException("Property is required for class Pig.", nameof(className));
 
             if (className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
@@ -246,6 +246,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (pig.ClassName == null)
+                throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
+
             writer.WriteString("className", pig.ClassName);
         }
     }

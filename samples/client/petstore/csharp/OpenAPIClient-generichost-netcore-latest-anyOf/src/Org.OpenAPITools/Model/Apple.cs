@@ -161,6 +161,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (apple.Kind.Value == null)
+                throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
+
             if (apple.Kind.IsSet)
                 writer.WriteString("kind", apple.Kind.Value);
         }

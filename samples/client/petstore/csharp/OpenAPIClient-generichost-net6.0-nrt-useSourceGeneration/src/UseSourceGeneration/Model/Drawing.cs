@@ -220,6 +220,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (drawing.MainShape.Value == null)
+                throw new ArgumentNullException(nameof(drawing.MainShape), "Property is required for class Drawing.");
+
+            if (drawing.Shapes.Value == null)
+                throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
+
             if (drawing.MainShape.IsSet)
                 writer.WritePropertyName("mainShape");
                 JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
