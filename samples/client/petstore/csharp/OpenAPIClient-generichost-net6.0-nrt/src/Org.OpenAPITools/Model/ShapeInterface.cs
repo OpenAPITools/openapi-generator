@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
             if (shapeInterface.ShapeType == null)
                 throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");
 
-            writer.WriteString("shapeType", shapeInterface.ShapeType);
+            writer.WriteString("shapeType", shapeInterface.ShapeType);// 1
         }
     }
 }

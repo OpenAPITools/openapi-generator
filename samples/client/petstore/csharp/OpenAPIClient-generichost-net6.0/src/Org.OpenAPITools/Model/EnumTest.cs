@@ -181,7 +181,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string EnumStringRequiredEnumToJsonValue(EnumStringRequiredEnum value)
         {
-
             if (value == EnumStringRequiredEnum.UPPER)
                 return "UPPER";
 
@@ -801,15 +800,9 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("enum_string_required");
 
             if (enumTest.EnumInteger.IsSet)
-                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumInteger.Value));
-
-            if (enumTest.EnumIntegerOnly.IsSet)
-                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly.Value));
-
-            if (enumTest.EnumNumber.IsSet)
-                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber.Value));
-
-            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString.Value);
+                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumInteger.Value));            if (enumTest.EnumIntegerOnly.IsSet)
+                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly.Value));            if (enumTest.EnumNumber.IsSet)
+                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber.Value));            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString.Value);
             if (enumStringRawValue != null)
                 writer.WriteString("enum_string", enumStringRawValue);
             else

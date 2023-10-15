@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
 
             if (gmFruit.Color.IsSet)
-                writer.WriteString("color", gmFruit.Color.Value);
+                writer.WriteString("color", gmFruit.Color.Value);// 1
         }
     }
 }

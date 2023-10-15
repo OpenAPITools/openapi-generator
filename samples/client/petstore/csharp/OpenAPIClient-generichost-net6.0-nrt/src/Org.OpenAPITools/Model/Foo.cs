@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
 
             if (foo.Bar.IsSet)
-                writer.WriteString("bar", foo.Bar.Value);
+                writer.WriteString("bar", foo.Bar.Value);// 1
         }
     }
 }

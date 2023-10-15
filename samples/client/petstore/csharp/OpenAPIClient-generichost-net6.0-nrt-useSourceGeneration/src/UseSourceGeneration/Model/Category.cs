@@ -186,8 +186,7 @@ namespace UseSourceGeneration.Model
             if (category.Name == null)
                 throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
 
-            writer.WriteString("name", category.Name);
-            if (category.Id.IsSet)
+            writer.WriteString("name", category.Name);            if (category.Id.IsSet)
                 writer.WriteNumber("id", category.Id.Value);
         }
     }

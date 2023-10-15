@@ -215,10 +215,8 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
 
             if (person.FirstName.IsSet)
-                writer.WriteString("firstName", person.FirstName.Value);
-            if (person.LastName.IsSet)
-                writer.WriteString("lastName", person.LastName.Value);
-            if (person.Type.IsSet)
+                writer.WriteString("firstName", person.FirstName.Value);            if (person.LastName.IsSet)
+                writer.WriteString("lastName", person.LastName.Value);            if (person.Type.IsSet)
                 writer.WriteString("$_type", person.Type.Value);
         }
     }

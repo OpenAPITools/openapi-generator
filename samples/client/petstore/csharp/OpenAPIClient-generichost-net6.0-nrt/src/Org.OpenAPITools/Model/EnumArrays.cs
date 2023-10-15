@@ -103,7 +103,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
         {
-
             if (value == ArrayEnumEnum.Fish)
                 return "fish";
 
@@ -170,7 +169,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
-
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
                 return ">=";
 
@@ -323,7 +321,7 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol.Value);
             if (justSymbolRawValue != null)
-                writer.WriteString("just_symbol", justSymbolRawValue);
+                writer.WriteString("just_symbol", justSymbolRawValue); // 4
             else
                 writer.WriteNull("just_symbol");
         }

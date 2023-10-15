@@ -190,8 +190,7 @@ namespace Org.OpenAPITools.Model
             if (complexQuadrilateral.ShapeType == null)
                 throw new ArgumentNullException(nameof(complexQuadrilateral.ShapeType), "Property is required for class ComplexQuadrilateral.");
 
-            writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
-            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
+            writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);// 1            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);// 1
         }
     }
 }

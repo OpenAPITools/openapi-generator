@@ -178,8 +178,7 @@ namespace Org.OpenAPITools.Model
             if (appleReq.Cultivar == null)
                 throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
 
-            writer.WriteString("cultivar", appleReq.Cultivar);
-            if (appleReq.Mealy.IsSet)
+            writer.WriteString("cultivar", appleReq.Cultivar);// 1            if (appleReq.Mealy.IsSet)
                 writer.WriteBoolean("mealy", appleReq.Mealy.Value);
         }
     }

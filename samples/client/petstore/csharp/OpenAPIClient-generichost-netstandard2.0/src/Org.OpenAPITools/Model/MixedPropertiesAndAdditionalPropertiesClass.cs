@@ -229,13 +229,11 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTime.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.Value.ToString(DateTimeFormat));
-            if (mixedPropertiesAndAdditionalPropertiesClass.Map.IsSet)
+                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.Value.ToString(DateTimeFormat));            if (mixedPropertiesAndAdditionalPropertiesClass.Map.IsSet)
                 writer.WritePropertyName("map");
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             if (mixedPropertiesAndAdditionalPropertiesClass.Uuid.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid.Value);
-            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.IsSet)
+                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid.Value);            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.IsSet)
                 writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.Value);
         }
     }

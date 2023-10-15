@@ -188,8 +188,7 @@ namespace Org.OpenAPITools.Model
             if (equilateralTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(equilateralTriangle.TriangleType), "Property is required for class EquilateralTriangle.");
 
-            writer.WriteString("shapeType", equilateralTriangle.ShapeType);
-            writer.WriteString("triangleType", equilateralTriangle.TriangleType);
+            writer.WriteString("shapeType", equilateralTriangle.ShapeType);            writer.WriteString("triangleType", equilateralTriangle.TriangleType);
         }
     }
 }

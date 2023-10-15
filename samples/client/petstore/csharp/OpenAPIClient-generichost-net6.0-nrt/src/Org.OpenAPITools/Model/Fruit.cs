@@ -209,7 +209,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
 
             if (fruit.Color.IsSet)
-                writer.WriteString("color", fruit.Color.Value);
+                writer.WriteString("color", fruit.Color.Value);// 1
         }
     }
 }

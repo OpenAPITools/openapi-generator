@@ -124,7 +124,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string StatusEnumToJsonValue(StatusEnum value)
         {
-
             if (value == StatusEnum.Placed)
                 return "placed";
 
@@ -344,14 +343,10 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.Id.IsSet)
-                writer.WriteNumber("id", order.Id.Value);
-            if (order.PetId.IsSet)
-                writer.WriteNumber("petId", order.PetId.Value);
-            if (order.Quantity.IsSet)
-                writer.WriteNumber("quantity", order.Quantity.Value);
-            if (order.ShipDate.IsSet)
-                writer.WriteString("shipDate", order.ShipDate.Value.ToString(ShipDateFormat));
-            var statusRawValue = Order.StatusEnumToJsonValue(order.Status.Value);
+                writer.WriteNumber("id", order.Id.Value);            if (order.PetId.IsSet)
+                writer.WriteNumber("petId", order.PetId.Value);            if (order.Quantity.IsSet)
+                writer.WriteNumber("quantity", order.Quantity.Value);            if (order.ShipDate.IsSet)
+                writer.WriteString("shipDate", order.ShipDate.Value.ToString(ShipDateFormat));            var statusRawValue = Order.StatusEnumToJsonValue(order.Status.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else

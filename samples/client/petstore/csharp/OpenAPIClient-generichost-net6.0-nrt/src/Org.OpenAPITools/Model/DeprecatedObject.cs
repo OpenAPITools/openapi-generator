@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
 
             if (deprecatedObject.Name.IsSet)
-                writer.WriteString("name", deprecatedObject.Name.Value);
+                writer.WriteString("name", deprecatedObject.Name.Value);// 1
         }
     }
 }

@@ -201,11 +201,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
 
             if (outerComposite.MyBoolean.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBoolean.Value);
-            if (outerComposite.MyNumber.IsSet)
-                writer.WriteNumber("my_number", outerComposite.MyNumber.Value);
-            if (outerComposite.MyString.IsSet)
-                writer.WriteString("my_string", outerComposite.MyString.Value);
+                writer.WriteBoolean("my_boolean", outerComposite.MyBoolean.Value);            if (outerComposite.MyNumber.IsSet)
+                writer.WriteNumber("my_number", outerComposite.MyNumber.Value);            if (outerComposite.MyString.IsSet)
+                writer.WriteString("my_string", outerComposite.MyString.Value);// 1
         }
     }
 }

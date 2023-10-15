@@ -230,10 +230,8 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
 
             if (apple.ColorCode.IsSet)
-                writer.WriteString("color_code", apple.ColorCode.Value);
-            if (apple.Cultivar.IsSet)
-                writer.WriteString("cultivar", apple.Cultivar.Value);
-            if (apple.Origin.IsSet)
+                writer.WriteString("color_code", apple.ColorCode.Value);            if (apple.Cultivar.IsSet)
+                writer.WriteString("cultivar", apple.Cultivar.Value);            if (apple.Origin.IsSet)
                 writer.WriteString("origin", apple.Origin.Value);
         }
     }

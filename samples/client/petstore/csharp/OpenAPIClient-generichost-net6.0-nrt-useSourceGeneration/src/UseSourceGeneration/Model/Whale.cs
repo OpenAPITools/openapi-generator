@@ -204,10 +204,8 @@ namespace UseSourceGeneration.Model
             if (whale.ClassName == null)
                 throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
 
-            writer.WriteString("className", whale.ClassName);
-            if (whale.HasBaleen.IsSet)
-                writer.WriteBoolean("hasBaleen", whale.HasBaleen.Value);
-            if (whale.HasTeeth.IsSet)
+            writer.WriteString("className", whale.ClassName);            if (whale.HasBaleen.IsSet)
+                writer.WriteBoolean("hasBaleen", whale.HasBaleen.Value);            if (whale.HasTeeth.IsSet)
                 writer.WriteBoolean("hasTeeth", whale.HasTeeth.Value);
         }
     }

@@ -90,7 +90,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string PetTypeEnumToJsonValue(PetTypeEnum value)
         {
-
             if (value == PetTypeEnum.ChildCat)
                 return "ChildCat";
 
@@ -219,8 +218,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
 
             if (childCat.Name.IsSet)
-                writer.WriteString("name", childCat.Name.Value);
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
+                writer.WriteString("name", childCat.Name.Value);            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
             else

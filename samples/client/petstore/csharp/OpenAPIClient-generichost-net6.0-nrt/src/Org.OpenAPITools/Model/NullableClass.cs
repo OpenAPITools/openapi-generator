@@ -372,28 +372,23 @@ namespace Org.OpenAPITools.Model
                 if (nullableClass.BooleanProp.Value != null)
                     writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value.Value);
                 else
-                    writer.WriteNull("boolean_prop");
-            if (nullableClass.DateProp.IsSet)
+                    writer.WriteNull("boolean_prop");            if (nullableClass.DateProp.IsSet)
                 if (nullableClass.DateProp.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DateProp.Value.Value.ToString(DatePropFormat));
+                    writer.WriteString("date_prop", nullableClass.DateProp.Value.Value.ToString(DatePropFormat));// 2
                 else
-                    writer.WriteNull("date_prop");
-            if (nullableClass.DatetimeProp.IsSet)
+                    writer.WriteNull("date_prop");            if (nullableClass.DatetimeProp.IsSet)
                 if (nullableClass.DatetimeProp.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.Value.ToString(DatetimePropFormat));
+                    writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.Value.ToString(DatetimePropFormat));// 3
                 else
-                    writer.WriteNull("datetime_prop");
-            if (nullableClass.IntegerProp.IsSet)
+                    writer.WriteNull("datetime_prop");            if (nullableClass.IntegerProp.IsSet)
                 if (nullableClass.IntegerProp.Value != null)
                     writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value.Value);
                 else
-                    writer.WriteNull("integer_prop");
-            if (nullableClass.NumberProp.IsSet)
+                    writer.WriteNull("integer_prop");            if (nullableClass.NumberProp.IsSet)
                 if (nullableClass.NumberProp.Value != null)
                     writer.WriteNumber("number_prop", nullableClass.NumberProp.Value.Value);
                 else
-                    writer.WriteNull("number_prop");
-            if (nullableClass.ObjectAndItemsNullableProp.IsSet)
+                    writer.WriteNull("number_prop");            if (nullableClass.ObjectAndItemsNullableProp.IsSet)
                 if (nullableClass.ObjectAndItemsNullableProp.Value != null)
                 {
                     writer.WritePropertyName("object_and_items_nullable_prop");
@@ -411,7 +406,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("object_nullable_prop");
             if (nullableClass.StringProp.IsSet)
                 if (nullableClass.StringProp.Value != null)
-                    writer.WriteString("string_prop", nullableClass.StringProp.Value);
+                    writer.WriteString("string_prop", nullableClass.StringProp.Value);// 1
                 else
                     writer.WriteNull("string_prop");
         }

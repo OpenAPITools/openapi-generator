@@ -174,10 +174,8 @@ namespace UseSourceGeneration.Model
             if (cat.Color.Value == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
 
-            writer.WriteString("className", cat.ClassName);
-            if (cat.Declawed.IsSet)
-                writer.WriteBoolean("declawed", cat.Declawed.Value);
-            if (cat.Color.IsSet)
+            writer.WriteString("className", cat.ClassName);            if (cat.Declawed.IsSet)
+                writer.WriteBoolean("declawed", cat.Declawed.Value);            if (cat.Color.IsSet)
                 writer.WriteString("color", cat.Color.Value);
         }
     }

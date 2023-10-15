@@ -201,14 +201,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(child.Type), "Property is required for class Child.");
 
             if (child.Age.IsSet)
-                writer.WriteNumber("age", child.Age.Value);
-            if (child.FirstName.IsSet)
-                writer.WriteString("firstName", child.FirstName.Value);
-            if (child.LastName.IsSet)
-                writer.WriteString("lastName", child.LastName.Value);
-            if (child.Type.IsSet)
-                writer.WriteString("$_type", child.Type.Value);
-            if (child.BoosterSeat.IsSet)
+                writer.WriteNumber("age", child.Age.Value);            if (child.FirstName.IsSet)
+                writer.WriteString("firstName", child.FirstName.Value);            if (child.LastName.IsSet)
+                writer.WriteString("lastName", child.LastName.Value);            if (child.Type.IsSet)
+                writer.WriteString("$_type", child.Type.Value);            if (child.BoosterSeat.IsSet)
                 writer.WriteBoolean("boosterSeat", child.BoosterSeat.Value);
         }
     }

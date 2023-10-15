@@ -184,8 +184,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
 
             if (activityOutputElementRepresentation.Prop1.IsSet)
-                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1.Value);
-            if (activityOutputElementRepresentation.Prop2.IsSet)
+                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1.Value);            if (activityOutputElementRepresentation.Prop2.IsSet)
                 writer.WritePropertyName("prop2");
                 JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }

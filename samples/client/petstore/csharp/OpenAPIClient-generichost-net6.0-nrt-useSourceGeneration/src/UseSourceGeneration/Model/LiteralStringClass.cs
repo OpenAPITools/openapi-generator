@@ -186,8 +186,7 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
 
             if (literalStringClass.EscapedLiteralString.IsSet)
-                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString.Value);
-            if (literalStringClass.UnescapedLiteralString.IsSet)
+                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString.Value);            if (literalStringClass.UnescapedLiteralString.IsSet)
                 writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString.Value);
         }
     }

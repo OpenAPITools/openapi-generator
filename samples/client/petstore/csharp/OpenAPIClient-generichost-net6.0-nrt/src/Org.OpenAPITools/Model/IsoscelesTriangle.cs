@@ -183,8 +183,7 @@ namespace Org.OpenAPITools.Model
             if (isoscelesTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(isoscelesTriangle.TriangleType), "Property is required for class IsoscelesTriangle.");
 
-            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
-            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
+            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);// 1            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);// 1
         }
     }
 }

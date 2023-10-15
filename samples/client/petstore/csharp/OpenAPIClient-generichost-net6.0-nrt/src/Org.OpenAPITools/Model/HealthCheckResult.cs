@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         {
             if (healthCheckResult.NullableMessage.IsSet)
                 if (healthCheckResult.NullableMessage.Value != null)
-                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage.Value);
+                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage.Value);// 1
                 else
                     writer.WriteNull("NullableMessage");
         }

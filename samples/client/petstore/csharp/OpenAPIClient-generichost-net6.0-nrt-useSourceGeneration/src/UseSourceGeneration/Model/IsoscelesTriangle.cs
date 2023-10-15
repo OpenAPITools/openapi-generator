@@ -184,8 +184,7 @@ namespace UseSourceGeneration.Model
             if (isoscelesTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(isoscelesTriangle.TriangleType), "Property is required for class IsoscelesTriangle.");
 
-            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
-            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
+            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
     }
 

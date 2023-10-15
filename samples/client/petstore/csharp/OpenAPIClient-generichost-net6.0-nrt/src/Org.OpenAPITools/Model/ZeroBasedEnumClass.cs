@@ -101,7 +101,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string ZeroBasedEnumEnumToJsonValue(ZeroBasedEnumEnum value)
         {
-
             if (value == ZeroBasedEnumEnum.Unknown)
                 return "unknown";
 
@@ -232,7 +231,7 @@ namespace Org.OpenAPITools.Model
         {
             var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum.Value);
             if (zeroBasedEnumRawValue != null)
-                writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
+                writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue); // 4
             else
                 writer.WriteNull("ZeroBasedEnum");
         }

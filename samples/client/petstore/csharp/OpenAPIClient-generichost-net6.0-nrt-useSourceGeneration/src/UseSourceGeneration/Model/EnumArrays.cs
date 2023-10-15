@@ -104,7 +104,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
         {
-
             if (value == ArrayEnumEnum.Fish)
                 return "fish";
 
@@ -171,7 +170,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
-
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
                 return ">=";
 

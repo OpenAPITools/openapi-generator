@@ -181,8 +181,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
 
             if (specialModelName.VarSpecialModelName.IsSet)
-                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName.Value);
-            if (specialModelName.SpecialPropertyName.IsSet)
+                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName.Value);            if (specialModelName.SpecialPropertyName.IsSet)
                 writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName.Value);
         }
     }

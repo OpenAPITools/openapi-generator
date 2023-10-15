@@ -219,8 +219,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
 
             if (readOnlyFirst.Bar.IsSet)
-                writer.WriteString("bar", readOnlyFirst.Bar.Value);
-            if (readOnlyFirst.Baz.IsSet)
+                writer.WriteString("bar", readOnlyFirst.Bar.Value);            if (readOnlyFirst.Baz.IsSet)
                 writer.WriteString("baz", readOnlyFirst.Baz.Value);
         }
     }

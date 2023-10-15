@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -652,41 +652,26 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
-            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
-            writer.WriteNumber("number", formatTest.Number);
-            writer.WriteString("password", formatTest.Password);
-            if (formatTest.Binary.IsSet)
+            writer.WriteString("date", formatTest.Date.ToString(DateFormat));// 2            writer.WriteNumber("number", formatTest.Number);            writer.WriteString("password", formatTest.Password);// 1            if (formatTest.Binary.IsSet)
                 writer.WritePropertyName("binary");
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             if (formatTest.DateTime.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTime.Value.ToString(DateTimeFormat));
-            if (formatTest.VarDecimal.IsSet)
+                writer.WriteString("dateTime", formatTest.DateTime.Value.ToString(DateTimeFormat));// 3            if (formatTest.VarDecimal.IsSet)
                 writer.WritePropertyName("decimal");
                 JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
             if (formatTest.VarDouble.IsSet)
-                writer.WriteNumber("double", formatTest.VarDouble.Value);
-            if (formatTest.VarFloat.IsSet)
-                writer.WriteNumber("float", formatTest.VarFloat.Value);
-            if (formatTest.Int32.IsSet)
-                writer.WriteNumber("int32", formatTest.Int32.Value);
-            if (formatTest.Int64.IsSet)
-                writer.WriteNumber("int64", formatTest.Int64.Value);
-            if (formatTest.Integer.IsSet)
-                writer.WriteNumber("integer", formatTest.Integer.Value);
-            if (formatTest.PatternWithBackslash.IsSet)
-                writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash.Value);
-            if (formatTest.PatternWithDigits.IsSet)
-                writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits.Value);
-            if (formatTest.PatternWithDigitsAndDelimiter.IsSet)
-                writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter.Value);
-            if (formatTest.VarString.IsSet)
-                writer.WriteString("string", formatTest.VarString.Value);
-            if (formatTest.UnsignedInteger.IsSet)
-                writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger.Value);
-            if (formatTest.UnsignedLong.IsSet)
-                writer.WriteNumber("unsigned_long", formatTest.UnsignedLong.Value);
-            if (formatTest.Uuid.IsSet)
-                writer.WriteString("uuid", formatTest.Uuid.Value);
+                writer.WriteNumber("double", formatTest.VarDouble.Value);            if (formatTest.VarFloat.IsSet)
+                writer.WriteNumber("float", formatTest.VarFloat.Value);            if (formatTest.Int32.IsSet)
+                writer.WriteNumber("int32", formatTest.Int32.Value);            if (formatTest.Int64.IsSet)
+                writer.WriteNumber("int64", formatTest.Int64.Value);            if (formatTest.Integer.IsSet)
+                writer.WriteNumber("integer", formatTest.Integer.Value);            if (formatTest.PatternWithBackslash.IsSet)
+                writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash.Value);// 1            if (formatTest.PatternWithDigits.IsSet)
+                writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits.Value);// 1            if (formatTest.PatternWithDigitsAndDelimiter.IsSet)
+                writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter.Value);// 1            if (formatTest.VarString.IsSet)
+                writer.WriteString("string", formatTest.VarString.Value);// 1            if (formatTest.UnsignedInteger.IsSet)
+                writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger.Value);            if (formatTest.UnsignedLong.IsSet)
+                writer.WriteNumber("unsigned_long", formatTest.UnsignedLong.Value);            if (formatTest.Uuid.IsSet)
+                writer.WriteString("uuid", formatTest.Uuid.Value); // 7
         }
     }
 }

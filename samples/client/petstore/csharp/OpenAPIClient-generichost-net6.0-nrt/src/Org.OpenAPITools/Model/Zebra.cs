@@ -114,7 +114,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum value)
         {
-
             if (value == TypeEnum.Plains)
                 return "plains";
 
@@ -278,10 +277,9 @@ namespace Org.OpenAPITools.Model
             if (zebra.ClassName == null)
                 throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
 
-            writer.WriteString("className", zebra.ClassName);
-            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
+            writer.WriteString("className", zebra.ClassName);// 1            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
             if (typeRawValue != null)
-                writer.WriteString("type", typeRawValue);
+                writer.WriteString("type", typeRawValue); // 4
             else
                 writer.WriteNull("type");
         }

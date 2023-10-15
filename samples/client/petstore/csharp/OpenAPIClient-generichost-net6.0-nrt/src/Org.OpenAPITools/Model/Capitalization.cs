@@ -266,17 +266,12 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
 
             if (capitalization.ATT_NAME.IsSet)
-                writer.WriteString("ATT_NAME", capitalization.ATT_NAME.Value);
-            if (capitalization.CapitalCamel.IsSet)
-                writer.WriteString("CapitalCamel", capitalization.CapitalCamel.Value);
-            if (capitalization.CapitalSnake.IsSet)
-                writer.WriteString("Capital_Snake", capitalization.CapitalSnake.Value);
-            if (capitalization.SCAETHFlowPoints.IsSet)
-                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints.Value);
-            if (capitalization.SmallCamel.IsSet)
-                writer.WriteString("smallCamel", capitalization.SmallCamel.Value);
-            if (capitalization.SmallSnake.IsSet)
-                writer.WriteString("small_Snake", capitalization.SmallSnake.Value);
+                writer.WriteString("ATT_NAME", capitalization.ATT_NAME.Value);// 1            if (capitalization.CapitalCamel.IsSet)
+                writer.WriteString("CapitalCamel", capitalization.CapitalCamel.Value);// 1            if (capitalization.CapitalSnake.IsSet)
+                writer.WriteString("Capital_Snake", capitalization.CapitalSnake.Value);// 1            if (capitalization.SCAETHFlowPoints.IsSet)
+                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints.Value);// 1            if (capitalization.SmallCamel.IsSet)
+                writer.WriteString("smallCamel", capitalization.SmallCamel.Value);// 1            if (capitalization.SmallSnake.IsSet)
+                writer.WriteString("small_Snake", capitalization.SmallSnake.Value);// 1
         }
     }
 }

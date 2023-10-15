@@ -124,7 +124,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string StatusEnumToJsonValue(StatusEnum value)
         {
-
             if (value == StatusEnum.Available)
                 return "available";
 
@@ -355,15 +354,13 @@ namespace UseSourceGeneration.Model
             if (pet.Tags.Value == null)
                 throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
 
-            writer.WriteString("name", pet.Name);
-            writer.WritePropertyName("photoUrls");
+            writer.WriteString("name", pet.Name);            writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
             if (pet.Category.IsSet)
                 writer.WritePropertyName("category");
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             if (pet.Id.IsSet)
-                writer.WriteNumber("id", pet.Id.Value);
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status.Value);
+                writer.WriteNumber("id", pet.Id.Value);            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else

@@ -177,8 +177,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
-            if (bananaReq.Sweet.IsSet)
+            writer.WriteNumber("lengthCm", bananaReq.LengthCm);            if (bananaReq.Sweet.IsSet)
                 writer.WriteBoolean("sweet", bananaReq.Sweet.Value);
         }
     }

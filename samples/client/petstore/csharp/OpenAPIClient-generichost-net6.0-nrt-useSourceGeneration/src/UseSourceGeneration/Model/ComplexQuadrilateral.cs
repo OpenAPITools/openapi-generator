@@ -191,8 +191,7 @@ namespace UseSourceGeneration.Model
             if (complexQuadrilateral.ShapeType == null)
                 throw new ArgumentNullException(nameof(complexQuadrilateral.ShapeType), "Property is required for class ComplexQuadrilateral.");
 
-            writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
-            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
+            writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);            writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
         }
     }
 
