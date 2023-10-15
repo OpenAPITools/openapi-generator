@@ -345,9 +345,9 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("id", order.Id.Value);            if (order.PetId.IsSet)
                 writer.WriteNumber("petId", order.PetId.Value);            if (order.Quantity.IsSet)
                 writer.WriteNumber("quantity", order.Quantity.Value);            if (order.ShipDate.IsSet)
-                writer.WriteString("shipDate", order.ShipDate.Value.ToString(ShipDateFormat));// 3            var statusRawValue = Order.StatusEnumToJsonValue(order.Status.Value);
+                writer.WriteString("shipDate", order.ShipDate.Value.ToString(ShipDateFormat));            var statusRawValue = Order.StatusEnumToJsonValue(order.Status.Value);
             if (statusRawValue != null)
-                writer.WriteString("status", statusRawValue); // 4
+                writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 

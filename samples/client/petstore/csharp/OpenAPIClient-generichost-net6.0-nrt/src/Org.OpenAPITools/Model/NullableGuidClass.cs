@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
         {
             if (nullableGuidClass.Uuid.IsSet)
                 if (nullableGuidClass.Uuid.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.Uuid.Value.Value); // 7
+                    writer.WriteString("uuid", nullableGuidClass.Uuid.Value.Value);
                 else
                     writer.WriteNull("uuid");
         }

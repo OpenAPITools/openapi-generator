@@ -797,7 +797,7 @@ namespace Org.OpenAPITools.Model
         {
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             if (enumStringRequiredRawValue != null)
-                writer.WriteString("enum_string_required", enumStringRequiredRawValue); // 4
+                writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             else
                 writer.WriteNull("enum_string_required");
 
@@ -806,7 +806,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly.Value));            if (enumTest.EnumNumber.IsSet)
                 writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber.Value));            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString.Value);
             if (enumStringRawValue != null)
-                writer.WriteString("enum_string", enumStringRawValue); // 4
+                writer.WriteString("enum_string", enumStringRawValue);
             else
                 writer.WriteNull("enum_string");
 

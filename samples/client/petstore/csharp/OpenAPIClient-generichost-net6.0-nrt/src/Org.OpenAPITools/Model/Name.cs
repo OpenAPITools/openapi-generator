@@ -259,7 +259,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
 
             writer.WriteNumber("name", name.VarName);            if (name.Property.IsSet)
-                writer.WriteString("property", name.Property.Value);// 1            if (name.SnakeCase.IsSet)
+                writer.WriteString("property", name.Property.Value);            if (name.SnakeCase.IsSet)
                 writer.WriteNumber("snake_case", name.SnakeCase.Value);            if (name.Var123Number.IsSet)
                 writer.WriteNumber("123Number", name.Var123Number.Value);
         }

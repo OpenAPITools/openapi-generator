@@ -280,7 +280,7 @@ namespace Org.OpenAPITools.Model
             if (mammal.ClassName == null)
                 throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
 
-            writer.WriteString("className", mammal.ClassName);// 1
+            writer.WriteString("className", mammal.ClassName);
         }
     }
 }

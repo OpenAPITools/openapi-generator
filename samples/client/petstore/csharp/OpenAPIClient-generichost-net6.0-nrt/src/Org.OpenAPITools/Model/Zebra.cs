@@ -277,9 +277,9 @@ namespace Org.OpenAPITools.Model
             if (zebra.ClassName == null)
                 throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
 
-            writer.WriteString("className", zebra.ClassName);// 1            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
+            writer.WriteString("className", zebra.ClassName);            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
             if (typeRawValue != null)
-                writer.WriteString("type", typeRawValue); // 4
+                writer.WriteString("type", typeRawValue);
             else
                 writer.WriteNull("type");
         }

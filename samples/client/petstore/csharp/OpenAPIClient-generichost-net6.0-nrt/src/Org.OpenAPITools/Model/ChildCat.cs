@@ -220,9 +220,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
 
             if (childCat.Name.IsSet)
-                writer.WriteString("name", childCat.Name.Value);// 1            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
+                writer.WriteString("name", childCat.Name.Value);            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType.Value);
             if (petTypeRawValue != null)
-                writer.WriteString("pet_type", petTypeRawValue); // 4
+                writer.WriteString("pet_type", petTypeRawValue);
             else
                 writer.WriteNull("pet_type");
         }

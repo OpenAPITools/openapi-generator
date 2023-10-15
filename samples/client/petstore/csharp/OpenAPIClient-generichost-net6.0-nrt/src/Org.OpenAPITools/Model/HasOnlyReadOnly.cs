@@ -222,8 +222,8 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
 
             if (hasOnlyReadOnly.Bar.IsSet)
-                writer.WriteString("bar", hasOnlyReadOnly.Bar.Value);// 1            if (hasOnlyReadOnly.Foo.IsSet)
-                writer.WriteString("foo", hasOnlyReadOnly.Foo.Value);// 1
+                writer.WriteString("bar", hasOnlyReadOnly.Bar.Value);            if (hasOnlyReadOnly.Foo.IsSet)
+                writer.WriteString("foo", hasOnlyReadOnly.Foo.Value);
         }
     }
 }

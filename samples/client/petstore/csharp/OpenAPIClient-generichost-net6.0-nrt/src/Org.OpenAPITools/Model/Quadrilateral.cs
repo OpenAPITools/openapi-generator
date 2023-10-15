@@ -249,7 +249,7 @@ namespace Org.OpenAPITools.Model
             if (quadrilateral.QuadrilateralType == null)
                 throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
 
-            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);// 1
+            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
 }

@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
 
             if (rolesReportsHashRole.Name.IsSet)
-                writer.WriteString("name", rolesReportsHashRole.Name.Value);// 1
+                writer.WriteString("name", rolesReportsHashRole.Name.Value);
         }
     }
 }

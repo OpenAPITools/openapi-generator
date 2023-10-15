@@ -369,17 +369,17 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(user.Username), "Property is required for class User.");
 
             if (user.Email.IsSet)
-                writer.WriteString("email", user.Email.Value);// 1            if (user.FirstName.IsSet)
-                writer.WriteString("firstName", user.FirstName.Value);// 1            if (user.Id.IsSet)
+                writer.WriteString("email", user.Email.Value);            if (user.FirstName.IsSet)
+                writer.WriteString("firstName", user.FirstName.Value);            if (user.Id.IsSet)
                 writer.WriteNumber("id", user.Id.Value);            if (user.LastName.IsSet)
-                writer.WriteString("lastName", user.LastName.Value);// 1            if (user.ObjectWithNoDeclaredProps.IsSet)
+                writer.WriteString("lastName", user.LastName.Value);            if (user.ObjectWithNoDeclaredProps.IsSet)
                 writer.WritePropertyName("objectWithNoDeclaredProps");
                 JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
             if (user.Password.IsSet)
-                writer.WriteString("password", user.Password.Value);// 1            if (user.Phone.IsSet)
-                writer.WriteString("phone", user.Phone.Value);// 1            if (user.UserStatus.IsSet)
+                writer.WriteString("password", user.Password.Value);            if (user.Phone.IsSet)
+                writer.WriteString("phone", user.Phone.Value);            if (user.UserStatus.IsSet)
                 writer.WriteNumber("userStatus", user.UserStatus.Value);            if (user.Username.IsSet)
-                writer.WriteString("username", user.Username.Value);// 1            if (user.AnyTypeProp.IsSet)
+                writer.WriteString("username", user.Username.Value);            if (user.AnyTypeProp.IsSet)
                 if (user.AnyTypeProp.Value != null)
                 {
                     writer.WritePropertyName("anyTypeProp");

@@ -204,8 +204,8 @@ namespace Org.OpenAPITools.Model
 
             if (apiResponse.Code.IsSet)
                 writer.WriteNumber("code", apiResponse.Code.Value);            if (apiResponse.Message.IsSet)
-                writer.WriteString("message", apiResponse.Message.Value);// 1            if (apiResponse.Type.IsSet)
-                writer.WriteString("type", apiResponse.Type.Value);// 1
+                writer.WriteString("message", apiResponse.Message.Value);            if (apiResponse.Type.IsSet)
+                writer.WriteString("type", apiResponse.Type.Value);
         }
     }
 }

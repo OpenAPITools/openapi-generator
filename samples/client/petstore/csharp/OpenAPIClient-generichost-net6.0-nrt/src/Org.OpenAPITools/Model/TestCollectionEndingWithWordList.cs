@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
 
             if (testCollectionEndingWithWordList.Value.IsSet)
-                writer.WriteString("value", testCollectionEndingWithWordList.Value.Value);// 1
+                writer.WriteString("value", testCollectionEndingWithWordList.Value.Value);
         }
     }
 }

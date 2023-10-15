@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
 
             if (model200Response.VarClass.IsSet)
-                writer.WriteString("class", model200Response.VarClass.Value);// 1            if (model200Response.Name.IsSet)
+                writer.WriteString("class", model200Response.VarClass.Value);            if (model200Response.Name.IsSet)
                 writer.WriteNumber("name", model200Response.Name.Value);
         }
     }

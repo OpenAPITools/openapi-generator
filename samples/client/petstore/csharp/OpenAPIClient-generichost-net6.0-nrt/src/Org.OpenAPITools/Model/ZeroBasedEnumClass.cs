@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Model
         {
             var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum.Value);
             if (zeroBasedEnumRawValue != null)
-                writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue); // 4
+                writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
             else
                 writer.WriteNull("ZeroBasedEnum");
         }

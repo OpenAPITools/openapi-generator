@@ -321,7 +321,7 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol.Value);
             if (justSymbolRawValue != null)
-                writer.WriteString("just_symbol", justSymbolRawValue); // 4
+                writer.WriteString("just_symbol", justSymbolRawValue);
             else
                 writer.WriteNull("just_symbol");
         }

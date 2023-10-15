@@ -374,11 +374,11 @@ namespace Org.OpenAPITools.Model
                 else
                     writer.WriteNull("boolean_prop");            if (nullableClass.DateProp.IsSet)
                 if (nullableClass.DateProp.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DateProp.Value.Value.ToString(DatePropFormat));// 2
+                    writer.WriteString("date_prop", nullableClass.DateProp.Value.Value.ToString(DatePropFormat));
                 else
                     writer.WriteNull("date_prop");            if (nullableClass.DatetimeProp.IsSet)
                 if (nullableClass.DatetimeProp.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.Value.ToString(DatetimePropFormat));// 3
+                    writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.Value.ToString(DatetimePropFormat));
                 else
                     writer.WriteNull("datetime_prop");            if (nullableClass.IntegerProp.IsSet)
                 if (nullableClass.IntegerProp.Value != null)
@@ -406,7 +406,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("object_nullable_prop");
             if (nullableClass.StringProp.IsSet)
                 if (nullableClass.StringProp.Value != null)
-                    writer.WriteString("string_prop", nullableClass.StringProp.Value);// 1
+                    writer.WriteString("string_prop", nullableClass.StringProp.Value);
                 else
                     writer.WriteNull("string_prop");
         }

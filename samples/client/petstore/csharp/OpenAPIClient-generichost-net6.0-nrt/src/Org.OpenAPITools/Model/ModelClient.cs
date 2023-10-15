@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
 
             if (modelClient.VarClient.IsSet)
-                writer.WriteString("client", modelClient.VarClient.Value);// 1
+                writer.WriteString("client", modelClient.VarClient.Value);
         }
     }
 }

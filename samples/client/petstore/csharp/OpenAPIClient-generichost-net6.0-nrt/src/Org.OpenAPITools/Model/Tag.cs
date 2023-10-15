@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Model
 
             if (tag.Id.IsSet)
                 writer.WriteNumber("id", tag.Id.Value);            if (tag.Name.IsSet)
-                writer.WriteString("name", tag.Name.Value);// 1
+                writer.WriteString("name", tag.Name.Value);
         }
     }
 }

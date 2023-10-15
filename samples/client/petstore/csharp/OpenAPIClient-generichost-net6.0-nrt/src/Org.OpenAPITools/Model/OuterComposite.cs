@@ -203,7 +203,7 @@ namespace Org.OpenAPITools.Model
             if (outerComposite.MyBoolean.IsSet)
                 writer.WriteBoolean("my_boolean", outerComposite.MyBoolean.Value);            if (outerComposite.MyNumber.IsSet)
                 writer.WriteNumber("my_number", outerComposite.MyNumber.Value);            if (outerComposite.MyString.IsSet)
-                writer.WriteString("my_string", outerComposite.MyString.Value);// 1
+                writer.WriteString("my_string", outerComposite.MyString.Value);
         }
     }
 }

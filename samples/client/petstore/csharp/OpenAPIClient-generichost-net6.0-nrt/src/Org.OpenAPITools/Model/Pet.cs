@@ -353,7 +353,7 @@ namespace Org.OpenAPITools.Model
             if (pet.Tags.Value == null)
                 throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
 
-            writer.WriteString("name", pet.Name);// 1            writer.WritePropertyName("photoUrls");
+            writer.WriteString("name", pet.Name);            writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
             if (pet.Category.IsSet)
                 writer.WritePropertyName("category");
@@ -361,7 +361,7 @@ namespace Org.OpenAPITools.Model
             if (pet.Id.IsSet)
                 writer.WriteNumber("id", pet.Id.Value);            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status.Value);
             if (statusRawValue != null)
-                writer.WriteString("status", statusRawValue); // 4
+                writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 

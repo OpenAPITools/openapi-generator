@@ -175,9 +175,9 @@ namespace Org.OpenAPITools.Model
             if (dog.Color.Value == null)
                 throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
 
-            writer.WriteString("className", dog.ClassName);// 1            if (dog.Breed.IsSet)
-                writer.WriteString("breed", dog.Breed.Value);// 1            if (dog.Color.IsSet)
-                writer.WriteString("color", dog.Color.Value);// 1
+            writer.WriteString("className", dog.ClassName);            if (dog.Breed.IsSet)
+                writer.WriteString("breed", dog.Breed.Value);            if (dog.Color.IsSet)
+                writer.WriteString("color", dog.Color.Value);
         }
     }
 }

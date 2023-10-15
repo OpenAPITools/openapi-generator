@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Model
             if (scaleneTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(scaleneTriangle.TriangleType), "Property is required for class ScaleneTriangle.");
 
-            writer.WriteString("shapeType", scaleneTriangle.ShapeType);// 1            writer.WriteString("triangleType", scaleneTriangle.TriangleType);// 1
+            writer.WriteString("shapeType", scaleneTriangle.ShapeType);            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }
 }
