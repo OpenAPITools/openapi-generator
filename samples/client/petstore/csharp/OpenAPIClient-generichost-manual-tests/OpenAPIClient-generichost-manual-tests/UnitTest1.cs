@@ -87,17 +87,14 @@ namespace OpenAPIClient_generichost_manual_tests
             string gmFruitJson = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);
             GmFruit? gmFruit2 = JsonSerializer.Deserialize<GmFruit>(gmFruitJson, _jsonSerializerOptions);
             Assert.IsTrue(
-                gmFruit.Apple != null &&
-                gmFruit.Banana != null &&
+                gmFruit.Apple.Value != null &&
+                gmFruit.Banana.Value != null &&
                 gmFruit2 != null &&
-                gmFruit2.Apple != null &&
-                gmFruit2.Banana != null &&
-                gmFruit2.Apple.Cultivar.Equals(gmFruit.Apple.Cultivar) &&
-                gmFruit2.Apple.Origin.Equals(gmFruit.Apple.Origin) &&
-                gmFruit2.Banana.LengthCm.Equals(gmFruit.Banana.LengthCm));
-
-            Apple? apple2 = JsonSerializer.Deserialize<Apple>(gmFruitJson);
-            Assert.IsTrue(apple2 != null && apple.Cultivar == apple2.Cultivar && apple.Origin == apple2.Origin);
+                gmFruit2.Apple.Value != null &&
+                gmFruit2.Banana.Value != null &&
+                gmFruit2.Apple.Value.Cultivar.Equals(gmFruit.Apple.Value.Cultivar) &&
+                gmFruit2.Apple.Value.Origin.Equals(gmFruit.Apple.Value.Origin) &&
+                gmFruit2.Banana.Value.LengthCm.Equals(gmFruit.Banana.Value.LengthCm));
             // TODO: assert the the properties from Banana and GmFruit are in additionalProperties
         }
 

@@ -105,8 +105,8 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // UuidWithPattern (Guid) pattern
-            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant); // a
-            if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
+            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
+            if (!regexUuidWithPattern.Match(this.UuidWithPattern.Value.ToString()).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
             }
@@ -229,18 +229,12 @@ namespace Org.OpenAPITools.Model
         {
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTime.IsSet)
                 writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.Value.ToString(DateTimeFormat));
-
-
-            // hello world!
-
-            if (mixedPropertiesAndAdditionalPropertiesClass.Map.IsSet)
+            if (mixedPropertiesAndAdditionalPropertiesClass.Map.IsSet)
                 writer.WritePropertyName("map");
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
-
             if (mixedPropertiesAndAdditionalPropertiesClass.Uuid.IsSet)
                 writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid.Value);
-
-            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.IsSet)
+            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.IsSet)
                 writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern.Value);
         }
     }

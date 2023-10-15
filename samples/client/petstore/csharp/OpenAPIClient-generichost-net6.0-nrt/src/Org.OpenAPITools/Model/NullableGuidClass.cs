@@ -158,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
             if (nullableGuidClass.Uuid.IsSet)
                 if (nullableGuidClass.Uuid.Value != null)
                     writer.WriteString("uuid", nullableGuidClass.Uuid.Value.Value);

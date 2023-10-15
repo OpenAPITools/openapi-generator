@@ -198,22 +198,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (arrayTest.ArrayArrayOfInteger.IsSet)
                 writer.WritePropertyName("array_array_of_integer");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
-
-            // hello world!
-
             if (arrayTest.ArrayArrayOfModel.IsSet)
                 writer.WritePropertyName("array_array_of_model");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
-
-            // hello world!
-
             if (arrayTest.ArrayOfString.IsSet)
                 writer.WritePropertyName("array_of_string");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);

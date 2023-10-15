@@ -95,28 +95,28 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            if (this.ColorCode != null) {
+            if (this.ColorCode.Value != null) {
                 // ColorCode (string) pattern
-                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant); // a
-                if (!regexColorCode.Match(this.ColorCode).Success)
+                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
+                if (!regexColorCode.Match(this.ColorCode.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
                 }
             }
 
-            if (this.Cultivar != null) {
+            if (this.Cultivar.Value != null) {
                 // Cultivar (string) pattern
-                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant); // a
-                if (!regexCultivar.Match(this.Cultivar).Success)
+                Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+                if (!regexCultivar.Match(this.Cultivar.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
                 }
             }
 
-            if (this.Origin != null) {
+            if (this.Origin.Value != null) {
                 // Origin (string) pattern
-                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase); // a
-                if (!regexOrigin.Match(this.Origin).Success)
+                Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexOrigin.Match(this.Origin.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
                 }

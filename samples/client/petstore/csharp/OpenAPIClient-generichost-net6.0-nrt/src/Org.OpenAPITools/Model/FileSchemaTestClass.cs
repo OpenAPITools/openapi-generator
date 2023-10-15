@@ -180,16 +180,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (fileSchemaTestClass.File.IsSet)
                 writer.WritePropertyName("file");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
-
-            // hello world!
-
             if (fileSchemaTestClass.Files.IsSet)
                 writer.WritePropertyName("files");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);

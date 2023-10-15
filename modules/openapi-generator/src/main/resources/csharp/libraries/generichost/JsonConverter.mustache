@@ -354,10 +354,10 @@
             {{^model.discriminator}}
             {{#composedSchemas}}
             {{#anyOf}}
-            if ({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}} != null)
+            if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}.IsSet  {{/required}}{{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}{{^required}}.Value{{/required}} != null{{/lambda.joinWithAmpersand}})
             {
-                {{datatypeWithEnum}}JsonConverter {{datatypeWithEnum}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}.GetType()));
-                {{datatypeWithEnum}}JsonConverter.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}, jsonSerializerOptions);
+                {{datatypeWithEnum}}JsonConverter {{datatypeWithEnum}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}{{^required}}.Value{{/required}}.GetType()));
+                {{datatypeWithEnum}}JsonConverter.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}.{{datatypeWithEnum}}{{^required}}.Value{{/required}}, jsonSerializerOptions);
             }
 
             {{/anyOf}}
@@ -498,7 +498,7 @@
                 if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}.Value{{/required}} != null)
                 {
                     var {{#lambda.pasteLine}}{{/lambda.pasteLine}} = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.Value);
-                    writer.WriteString("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}});
+                    writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{#isString}}WriteString  {{/isString}}{{^isString}}WriteNumber  {{/isString}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}});
                 }
                 else
                     writer.WriteNull("{{baseName}}");
@@ -506,7 +506,7 @@
                 {{^isNullable}}
             {
                 var {{#lambda.pasteLine}}{{/lambda.pasteLine}} = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
-                writer.WriteString("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}});
+                writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{#isString}}WriteString  {{/isString}}{{^isString}}WriteNumber  {{/isString}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}});
             }
                 {{/isNullable}}
             {{/required}}
@@ -515,7 +515,6 @@
             {{/isMap}}
             {{/isEnum}}
             {{#isUuid}}
-
             {{#lambda.copy}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}.Value{{/required}}{{#isNullable}}.Value{{/isNullable}});
             {{/lambda.copy}}
@@ -530,12 +529,6 @@
             {{^isNumeric}}
             {{^isDate}}
             {{^isDateTime}}
-
-
-
-
-            // hello world!
-
             {{#required}}
             {{#isNullable}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}.Value{{/required}} != null)

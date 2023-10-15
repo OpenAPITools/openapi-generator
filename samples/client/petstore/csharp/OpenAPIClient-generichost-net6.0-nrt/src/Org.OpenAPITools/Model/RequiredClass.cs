@@ -2050,11 +2050,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
-
-
-            // hello world!
-
-            writer.WritePropertyName("required_notnullable_array_of_string");
+            writer.WritePropertyName("required_notnullable_array_of_string");
             JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableArrayOfString, jsonSerializerOptions);
             writer.WriteBoolean("required_notnullable_boolean_prop", requiredClass.RequiredNotnullableBooleanProp);
             writer.WriteString("required_notnullable_datetime_prop", requiredClass.RequiredNotnullableDatetimeProp.ToString(RequiredNotnullableDatetimePropFormat));
@@ -2070,18 +2066,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("required_notnullable_outerEnumDefaultValue", requiredNotnullableOuterEnumDefaultValueRawValue);
 
             writer.WriteString("required_notnullable_string_prop", requiredClass.RequiredNotnullableStringProp);
-
-            writer.WriteString("required_notnullable_uuid", requiredClass.RequiredNotnullableUuid);
+            writer.WriteString("required_notnullable_uuid", requiredClass.RequiredNotnullableUuid);
             writer.WriteNumber("required_notnullableinteger_prop", requiredClass.RequiredNotnullableintegerProp);
             if (requiredClass.NotRequiredNotnullableDateProp.IsSet)
                 writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDateProp.Value.ToString(NotRequiredNotnullableDatePropFormat));
             if (requiredClass.NotRequiredNotnullableintegerProp.IsSet)
                 writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerProp.Value);
-
-
-            // hello world!
-
-            if (requiredClass.NotrequiredNotnullableArrayOfString.IsSet)
+            if (requiredClass.NotrequiredNotnullableArrayOfString.IsSet)
                 writer.WritePropertyName("notrequired_notnullable_array_of_string");
                 JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableArrayOfString, jsonSerializerOptions);
             if (requiredClass.NotrequiredNotnullableBooleanProp.IsSet)
@@ -2105,14 +2096,9 @@ namespace Org.OpenAPITools.Model
             }
             if (requiredClass.NotrequiredNotnullableStringProp.IsSet)
                 writer.WriteString("notrequired_notnullable_string_prop", requiredClass.NotrequiredNotnullableStringProp.Value);
-
-            if (requiredClass.NotrequiredNotnullableUuid.IsSet)
+            if (requiredClass.NotrequiredNotnullableUuid.IsSet)
                 writer.WriteString("notrequired_notnullable_uuid", requiredClass.NotrequiredNotnullableUuid.Value);
-
-
-            // hello world!
-
-            if (requiredClass.RequiredNullableArrayOfString != null)
+            if (requiredClass.RequiredNullableArrayOfString != null)
             {
                 writer.WritePropertyName("required_nullable_array_of_string");
                 JsonSerializer.Serialize(writer, requiredClass.RequiredNullableArrayOfString, jsonSerializerOptions);
@@ -2164,8 +2150,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("required_nullable_string_prop", requiredClass.RequiredNullableStringProp);
             else
                 writer.WriteNull("required_nullable_string_prop");
-
-            if (requiredClass.RequiredNullableUuid != null)
+            if (requiredClass.RequiredNullableUuid != null)
                 writer.WriteString("required_nullable_uuid", requiredClass.RequiredNullableUuid.Value);
             else
                 writer.WriteNull("required_nullable_uuid");
@@ -2179,11 +2164,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNumber("not_required_nullable_integer_prop", requiredClass.NotRequiredNullableIntegerProp.Value.Value);
                 else
                     writer.WriteNull("not_required_nullable_integer_prop");
-
-
-            // hello world!
-
-            if (requiredClass.NotrequiredNullableArrayOfString.IsSet)
+            if (requiredClass.NotrequiredNullableArrayOfString.IsSet)
                 if (requiredClass.NotrequiredNullableArrayOfString.Value != null)
                 {
                     writer.WritePropertyName("notrequired_nullable_array_of_string");
@@ -2230,8 +2211,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteString("notrequired_nullable_string_prop", requiredClass.NotrequiredNullableStringProp.Value);
                 else
                     writer.WriteNull("notrequired_nullable_string_prop");
-
-            if (requiredClass.NotrequiredNullableUuid.IsSet)
+            if (requiredClass.NotrequiredNullableUuid.IsSet)
                 if (requiredClass.NotrequiredNullableUuid.Value != null)
                     writer.WriteString("notrequired_nullable_uuid", requiredClass.NotrequiredNullableUuid.Value.Value);
                 else

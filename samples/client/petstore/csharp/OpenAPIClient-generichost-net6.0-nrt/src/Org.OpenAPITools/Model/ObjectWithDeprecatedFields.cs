@@ -218,16 +218,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (objectWithDeprecatedFields.Bars.IsSet)
                 writer.WritePropertyName("bars");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
-
-            // hello world!
-
             if (objectWithDeprecatedFields.DeprecatedRef.IsSet)
                 writer.WritePropertyName("deprecatedRef");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);

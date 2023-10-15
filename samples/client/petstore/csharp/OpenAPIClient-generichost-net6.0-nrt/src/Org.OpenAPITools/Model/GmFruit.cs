@@ -179,16 +179,16 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.Apple != null)
+            if (gmFruit.Apple.IsSet && gmFruit.Apple.Value != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.Value.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple.Value, jsonSerializerOptions);
             }
 
-            if (gmFruit.Banana != null)
+            if (gmFruit.Banana.IsSet && gmFruit.Banana.Value != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.Value.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana.Value, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, gmFruit, jsonSerializerOptions);

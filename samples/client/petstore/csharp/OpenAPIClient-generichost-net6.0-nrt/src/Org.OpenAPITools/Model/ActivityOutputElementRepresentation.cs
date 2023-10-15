@@ -181,11 +181,7 @@ namespace Org.OpenAPITools.Model
         {
             if (activityOutputElementRepresentation.Prop1.IsSet)
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1.Value);
-
-
-            // hello world!
-
-            if (activityOutputElementRepresentation.Prop2.IsSet)
+            if (activityOutputElementRepresentation.Prop2.IsSet)
                 writer.WritePropertyName("prop2");
                 JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }

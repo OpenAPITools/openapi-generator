@@ -342,15 +342,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("name", pet.Name);
-
-
-            // hello world!
-
-            writer.WritePropertyName("photoUrls");
+            writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
-
-            // hello world!
-
             if (pet.Category.IsSet)
                 writer.WritePropertyName("category");
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
@@ -361,8 +354,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
-
-            // hello world!
 
             if (pet.Tags.IsSet)
                 writer.WritePropertyName("tags");

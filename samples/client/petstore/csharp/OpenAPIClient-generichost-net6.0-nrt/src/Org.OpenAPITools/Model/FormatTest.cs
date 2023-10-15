@@ -270,97 +270,97 @@ namespace Org.OpenAPITools.Model
             }
 
             // VarDouble (double) maximum
-            if (this.VarDouble > (double)123.4)
+            if (this.VarDouble.IsSet && this.VarDouble.Value > (double)123.4)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
             }
 
             // VarDouble (double) minimum
-            if (this.VarDouble < (double)67.8)
+            if (this.VarDouble.IsSet && this.VarDouble.Value < (double)67.8)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
             }
 
             // VarFloat (float) maximum
-            if (this.VarFloat > (float)987.6)
+            if (this.VarFloat.IsSet && this.VarFloat.Value > (float)987.6)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
             }
 
             // VarFloat (float) minimum
-            if (this.VarFloat < (float)54.3)
+            if (this.VarFloat.IsSet && this.VarFloat.Value < (float)54.3)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
             }
 
             // Int32 (int) maximum
-            if (this.Int32 > (int)200)
+            if (this.Int32.IsSet && this.Int32.Value > (int)200)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
-            if (this.Int32 < (int)20)
+            if (this.Int32.IsSet && this.Int32.Value < (int)20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // Integer (int) maximum
-            if (this.Integer > (int)100)
+            if (this.Integer.IsSet && this.Integer.Value > (int)100)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
-            if (this.Integer < (int)10)
+            if (this.Integer.IsSet && this.Integer.Value < (int)10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
-            if (this.PatternWithBackslash != null) {
+            if (this.PatternWithBackslash.Value != null) {
                 // PatternWithBackslash (string) pattern
-                Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant); // a
-                if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
+                Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+                if (!regexPatternWithBackslash.Match(this.PatternWithBackslash.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
                 }
             }
 
-            if (this.PatternWithDigits != null) {
+            if (this.PatternWithDigits.Value != null) {
                 // PatternWithDigits (string) pattern
-                Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant); // a
-                if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
+                Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
+                if (!regexPatternWithDigits.Match(this.PatternWithDigits.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
                 }
             }
 
-            if (this.PatternWithDigitsAndDelimiter != null) {
+            if (this.PatternWithDigitsAndDelimiter.Value != null) {
                 // PatternWithDigitsAndDelimiter (string) pattern
-                Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase); // a
-                if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
+                Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
                 }
             }
 
-            if (this.VarString != null) {
+            if (this.VarString.Value != null) {
                 // VarString (string) pattern
-                Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase); // a
-                if (!regexVarString.Match(this.VarString).Success)
+                Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+                if (!regexVarString.Match(this.VarString.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
                 }
             }
 
             // UnsignedInteger (uint) maximum
-            if (this.UnsignedInteger > (uint)200)
+            if (this.UnsignedInteger.IsSet && this.UnsignedInteger.Value > (uint)200)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
-            if (this.UnsignedInteger < (uint)20)
+            if (this.UnsignedInteger.IsSet && this.UnsignedInteger.Value < (uint)20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
@@ -629,29 +629,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
             writer.WriteString("date", formatTest.Date.ToString(DateFormat));
             writer.WriteNumber("number", formatTest.Number);
             writer.WriteString("password", formatTest.Password);
-
-
-            // hello world!
-
-            if (formatTest.Binary.IsSet)
+            if (formatTest.Binary.IsSet)
                 writer.WritePropertyName("binary");
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             if (formatTest.DateTime.IsSet)
                 writer.WriteString("dateTime", formatTest.DateTime.Value.ToString(DateTimeFormat));
-
-
-            // hello world!
-
-            if (formatTest.VarDecimal.IsSet)
+            if (formatTest.VarDecimal.IsSet)
                 writer.WritePropertyName("decimal");
                 JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
             if (formatTest.VarDouble.IsSet)
@@ -676,8 +664,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger.Value);
             if (formatTest.UnsignedLong.IsSet)
                 writer.WriteNumber("unsigned_long", formatTest.UnsignedLong.Value);
-
-            if (formatTest.Uuid.IsSet)
+            if (formatTest.Uuid.IsSet)
                 writer.WriteString("uuid", formatTest.Uuid.Value);
         }
     }

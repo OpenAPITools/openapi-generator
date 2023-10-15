@@ -340,22 +340,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (nullableClass.ArrayItemsNullable.IsSet)
                 writer.WritePropertyName("array_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
-
-            // hello world!
-
             if (nullableClass.ObjectItemsNullable.IsSet)
                 writer.WritePropertyName("object_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
-
-            // hello world!
-
             if (nullableClass.ArrayAndItemsNullableProp.IsSet)
                 if (nullableClass.ArrayAndItemsNullableProp.Value != null)
                 {
@@ -364,9 +354,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("array_and_items_nullable_prop");
-
-            // hello world!
-
             if (nullableClass.ArrayNullableProp.IsSet)
                 if (nullableClass.ArrayNullableProp.Value != null)
                 {
@@ -400,11 +387,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNumber("number_prop", nullableClass.NumberProp.Value.Value);
                 else
                     writer.WriteNull("number_prop");
-
-
-            // hello world!
-
-            if (nullableClass.ObjectAndItemsNullableProp.IsSet)
+            if (nullableClass.ObjectAndItemsNullableProp.IsSet)
                 if (nullableClass.ObjectAndItemsNullableProp.Value != null)
                 {
                     writer.WritePropertyName("object_and_items_nullable_prop");
@@ -412,9 +395,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("object_and_items_nullable_prop");
-
-            // hello world!
-
             if (nullableClass.ObjectNullableProp.IsSet)
                 if (nullableClass.ObjectNullableProp.Value != null)
                 {

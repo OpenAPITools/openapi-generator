@@ -219,22 +219,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (drawing.MainShape.IsSet)
                 writer.WritePropertyName("mainShape");
                 JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
-
-            // hello world!
-
             if (drawing.Shapes.IsSet)
                 writer.WritePropertyName("shapes");
                 JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
-
-            // hello world!
-
             if (drawing.NullableShape.IsSet)
                 if (drawing.NullableShape.Value != null)
                 {
@@ -243,9 +233,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("nullableShape");
-
-            // hello world!
-
             if (drawing.ShapeOrNull.IsSet)
                 if (drawing.ShapeOrNull.Value != null)
                 {

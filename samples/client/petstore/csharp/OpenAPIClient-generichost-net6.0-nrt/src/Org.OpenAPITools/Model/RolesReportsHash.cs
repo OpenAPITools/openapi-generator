@@ -180,14 +180,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHash rolesReportsHash, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (rolesReportsHash.Role.IsSet)
                 writer.WritePropertyName("role");
                 JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
-
             if (rolesReportsHash.RoleUuid.IsSet)
                 writer.WriteString("role_uuid", rolesReportsHash.RoleUuid.Value);
         }

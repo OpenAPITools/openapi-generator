@@ -419,6 +419,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())

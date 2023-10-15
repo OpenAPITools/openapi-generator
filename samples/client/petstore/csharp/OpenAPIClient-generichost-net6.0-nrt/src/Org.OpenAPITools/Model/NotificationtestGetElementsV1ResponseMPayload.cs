@@ -186,10 +186,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);

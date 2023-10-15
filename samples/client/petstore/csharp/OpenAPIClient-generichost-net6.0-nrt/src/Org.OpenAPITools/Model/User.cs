@@ -355,11 +355,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("id", user.Id.Value);
             if (user.LastName.IsSet)
                 writer.WriteString("lastName", user.LastName.Value);
-
-
-            // hello world!
-
-            if (user.ObjectWithNoDeclaredProps.IsSet)
+            if (user.ObjectWithNoDeclaredProps.IsSet)
                 writer.WritePropertyName("objectWithNoDeclaredProps");
                 JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
             if (user.Password.IsSet)
@@ -370,11 +366,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("userStatus", user.UserStatus.Value);
             if (user.Username.IsSet)
                 writer.WriteString("username", user.Username.Value);
-
-
-            // hello world!
-
-            if (user.AnyTypeProp.IsSet)
+            if (user.AnyTypeProp.IsSet)
                 if (user.AnyTypeProp.Value != null)
                 {
                     writer.WritePropertyName("anyTypeProp");
@@ -382,9 +374,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("anyTypeProp");
-
-            // hello world!
-
             if (user.AnyTypePropNullable.IsSet)
                 if (user.AnyTypePropNullable.Value != null)
                 {
@@ -393,9 +382,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("anyTypePropNullable");
-
-            // hello world!
-
             if (user.ObjectWithNoDeclaredPropsNullable.IsSet)
                 if (user.ObjectWithNoDeclaredPropsNullable.Value != null)
                 {

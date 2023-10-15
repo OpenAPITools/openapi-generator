@@ -282,28 +282,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (mapTest.DirectMap.IsSet)
                 writer.WritePropertyName("direct_map");
                 JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
-
-            // hello world!
-
             if (mapTest.IndirectMap.IsSet)
                 writer.WritePropertyName("indirect_map");
                 JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
-
-            // hello world!
-
             if (mapTest.MapMapOfString.IsSet)
                 writer.WritePropertyName("map_map_of_string");
                 JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
-
-            // hello world!
-
             if (mapTest.MapOfEnumString.IsSet)
                 writer.WritePropertyName("map_of_enum_string");
                 JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);

@@ -162,10 +162,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (arrayOfNumberOnly.ArrayNumber.IsSet)
                 writer.WritePropertyName("ArrayNumber");
                 JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);

@@ -285,52 +285,27 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (additionalPropertiesClass.EmptyMap.IsSet)
                 writer.WritePropertyName("empty_map");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapOfMapProperty.IsSet)
                 writer.WritePropertyName("map_of_map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapProperty.IsSet)
                 writer.WritePropertyName("map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesString.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_string");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
-
-            // hello world!
-
             if (additionalPropertiesClass.Anytype1.IsSet)
                 if (additionalPropertiesClass.Anytype1.Value != null)
                 {

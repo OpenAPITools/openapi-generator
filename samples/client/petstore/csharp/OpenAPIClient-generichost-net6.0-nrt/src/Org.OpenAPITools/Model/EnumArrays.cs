@@ -313,10 +313,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (enumArrays.ArrayEnum.IsSet)
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);

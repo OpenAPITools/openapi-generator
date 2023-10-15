@@ -821,12 +821,12 @@ namespace Org.OpenAPITools.Model
             if (enumTest.OuterEnumInteger.IsSet)
             {
                 var outerEnumIntegerRawValue = OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumInteger.Value);
-                writer.WriteString("outerEnumInteger", outerEnumIntegerRawValue);
+                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
             }
             if (enumTest.OuterEnumIntegerDefaultValue.IsSet)
             {
                 var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue.Value);
-                writer.WriteString("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
+                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
             }
             if (enumTest.OuterEnum.IsSet)
                 if (enumTest.OuterEnum.Value != null)

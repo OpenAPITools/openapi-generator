@@ -162,10 +162,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
-
-
-            // hello world!
-
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList.IsSet)
                 writer.WritePropertyName("TestCollectionEndingWithWordList");
                 JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
