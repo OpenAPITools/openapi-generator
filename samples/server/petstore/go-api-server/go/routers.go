@@ -140,7 +140,7 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 }
 
 func parseTimes(param string) ([]time.Time, error) {
-	splits := strings.Split(param, ", ")
+	splits := strings.Split(param, ",")
 	times := make([]time.Time, 0, len(splits))
 	for _, v := range splits {
 		t, err := parseTime(v)
