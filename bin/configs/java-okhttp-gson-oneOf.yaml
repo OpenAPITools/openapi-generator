@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/echo_api/java/okhttp-gson-oneOf
+outputDir: samples/client/others/java/okhttp-gson-oneOf
 library: okhttp-gson
 inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_twoPrimitives.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
