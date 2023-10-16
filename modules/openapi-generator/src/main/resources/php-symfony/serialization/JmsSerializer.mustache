@@ -76,6 +76,12 @@ class JmsSerializer implements SerializerInterface
                 }
 
                 break;
+            case 'float':
+                if (is_float($data) || is_numeric($data)) {
+                    return (float) $data;
+                }
+
+                break;
             case 'string':
                 break;
             case 'boolean':
