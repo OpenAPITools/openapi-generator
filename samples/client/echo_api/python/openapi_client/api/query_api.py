@@ -170,19 +170,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/enum_ref_string', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/enum_ref_string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_datetime_date_string(
@@ -321,19 +331,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/datetime/date/string', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/datetime/date/string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_integer_boolean_string(
@@ -466,19 +486,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/integer/boolean/string', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/integer/boolean/string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_style_deep_object_explode_true_object(
@@ -589,19 +619,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/style_deepObject/explode_true/object', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/style_deepObject/explode_true/object',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_style_deep_object_explode_true_object_all_of(
@@ -712,19 +752,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/style_deepObject/explode_true/object/allOf', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/style_deepObject/explode_true/object/allOf',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_style_form_explode_true_array_string(
@@ -835,19 +885,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/style_form/explode_true/array_string', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/style_form/explode_true/array_string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_style_form_explode_true_object(
@@ -958,19 +1018,29 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/style_form/explode_true/object', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/style_form/explode_true/object',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_style_form_explode_true_object_all_of(
@@ -1081,16 +1151,26 @@ class QueryApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/query/style_form/explode_true/object/allOf', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/query/style_form/explode_true/object/allOf',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+

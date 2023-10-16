@@ -27,7 +27,15 @@ from petstore_api.configuration import Configuration
 from petstore_api.api_response import ApiResponse
 import petstore_api.models
 from petstore_api import rest
-from petstore_api.exceptions import ApiValueError, ApiException
+from petstore_api.exceptions import (
+    ApiValueError,
+    ApiException,
+    BadRequestException,
+    UnauthorizedException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceException
+)
 
 
 class ApiClient:
@@ -123,13 +131,32 @@ class ApiClient:
         """
         cls._default = default
 
-    async def __call_api(
-            self, resource_path, method, path_params=None,
-            query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_types_map=None, auth_settings=None,
-            collection_formats=None,
-            _request_timeout=None, _host=None,
-            _request_auth=None):
+    def param_serialize(self, method, resource_path,
+                path_params=None, query_params=None, header_params=None,
+                body=None, post_params=None, files=None, auth_settings=None,
+                collection_formats=None, _host=None, _request_auth=None):
+
+        """Builds the HTTP request params needed by the request.
+        :param method: Method to call.
+        :param resource_path: Path to method endpoint.
+        :param path_params: Path parameters in the url.
+        :param query_params: Query parameters in the url.
+        :param header_params: Header parameters to be
+            placed in the request header.
+        :param body: Request body.
+        :param post_params dict: Request post form parameters,
+            for `application/x-www-form-urlencoded`, `multipart/form-data`.
+        :param auth_settings list: Auth Settings names for the request.
+        :param files dict: key -> filename, value -> filepath,
+            for `multipart/form-data`.
+        :param collection_formats: dict of collection formats for path, query,
+            header, and post parameters.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :return: tuple of form (path, http_method, query_params, header_params,
+            body, post_params, files)
+        """
 
         config = self.configuration
 
@@ -187,22 +214,75 @@ class ApiClient:
                                                      collection_formats)
             url += "?" + url_query
 
+        return method, url, header_params, body, post_params
+
+
+    async def call_api(self, method, url, header_params=None,
+                 body=None, post_params=None, _request_timeout=None):
+        """Makes the HTTP request (synchronous)
+        :param method: Method to call.
+        :param url: Path to method endpoint.
+        :param header_params: Header parameters to be
+            placed in the request header.
+        :param body: Request body.
+        :param post_params dict: Request post form parameters,
+            for `application/x-www-form-urlencoded`, `multipart/form-data`.
+        :param _request_timeout: timeout setting for this request.
+        :return: RESTResponse
+        """
+
         try:
             # perform request and return response
             response_data = await self.rest_client.request(
                 method, url,
                 headers=header_params,
-                post_params=post_params, body=body,
+                body=body, post_params=post_params,
                 _request_timeout=_request_timeout)
+
         except ApiException as e:
             if e.body:
                 e.body = e.body.decode('utf-8')
             raise e
 
+        return response_data
+
+    async def read(self, response):
+        """Read response data.
+        :param response: RESTResponse
+        :return: RESTResponse
+        """
+        await self.rest_client.read(response)
+
+    def response_deserialize(self, response_data=None, response_types_map=None):
+        """Deserializes response into an object.
+        :param response_data: RESTResponse object to be deserialized.
+        :param response_types_map: dict of response types.
+        :return: ApiResponse
+        """
+
+
         response_type = response_types_map.get(str(response_data.status), None)
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
+
+        if response_type is None:
+            if not 200 <= response_data.status <= 299:
+                if response_data.status == 400:
+                    raise BadRequestException(http_resp=response_data)
+
+                if response_data.status == 401:
+                    raise UnauthorizedException(http_resp=response_data)
+
+                if response_data.status == 403:
+                    raise ForbiddenException(http_resp=response_data)
+
+                if response_data.status == 404:
+                    raise NotFoundException(http_resp=response_data)
+
+                if 500 <= response_data.status <= 599:
+                    raise ServiceException(http_resp=response_data)
+                raise ApiException(http_resp=response_data)
 
         # deserialize response data
 
@@ -322,58 +402,6 @@ class ApiClient:
             return self.__deserialize_datetime(data)
         else:
             return self.__deserialize_model(data, klass)
-
-    async def call_api(self, resource_path, method,
-                 path_params=None, query_params=None, header_params=None,
-                 body=None, post_params=None, files=None,
-                 response_types_map=None, auth_settings=None,
-                 collection_formats=None,
-                 _request_timeout=None, _host=None, _request_auth=None):
-        """Makes the HTTP request (synchronous) and returns deserialized data.
-        :param resource_path: Path to method endpoint.
-        :param method: Method to call.
-        :param path_params: Path parameters in the url.
-        :param query_params: Query parameters in the url.
-        :param header_params: Header parameters to be
-            placed in the request header.
-        :param body: Request body.
-        :param post_params dict: Request post form parameters,
-            for `application/x-www-form-urlencoded`, `multipart/form-data`.
-        :param auth_settings list: Auth Settings names for the request.
-        :param response: Response data type.
-        :param files dict: key -> filename, value -> filepath,
-            for `multipart/form-data`.
-        :param collection_formats: dict of collection formats for path, query,
-            header, and post parameters.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_token: dict, optional
-        :return: The response.
-
-        """
-        args = (
-            resource_path,
-            method,
-            path_params,
-            query_params,
-            header_params,
-            body,
-            post_params,
-            files,
-            response_types_map,
-            auth_settings,
-            collection_formats,
-            _request_timeout,
-            _host,
-            _request_auth,
-        )
-        return await self.__call_api(*args)
-
 
     def parameters_to_tuples(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.

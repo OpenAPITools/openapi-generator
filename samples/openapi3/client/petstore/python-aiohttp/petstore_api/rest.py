@@ -28,10 +28,13 @@ logger = logging.getLogger(__name__)
 
 class RESTResponse(io.IOBase):
 
-    def __init__(self, resp, data) -> None:
+    def __init__(self, resp) -> None:
         self.aiohttp_response = resp
         self.status = resp.status
         self.reason = resp.reason
+        self.data = None
+
+    def setdata(self, data):
         self.data = data
 
     def getheaders(self):
@@ -162,16 +165,11 @@ class RESTClientObject:
 
         r = await self.pool_manager.request(**args)
 
+        return RESTResponse(r)
 
-        data = await r.read()
-        r = RESTResponse(r, data)
+    async read(self, response):
+        response.setdata(await response.aiohttp_response.read())
 
-        # log response body
-        logger.debug("response body: %s", r.data)
 
-        if not 200 <= r.status <= 299:
-            raise ApiException(http_resp=r)
-
-        return r
 
 

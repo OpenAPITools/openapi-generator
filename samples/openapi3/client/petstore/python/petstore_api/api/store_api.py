@@ -150,19 +150,29 @@ class StoreApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/store/order/{order_id}', 'DELETE',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/store/order/{order_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def get_inventory(
@@ -262,19 +272,29 @@ class StoreApi:
             '200': "Dict[str, int]",
         }
 
-        return self.api_client.call_api(
-            '/store/inventory', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/store/inventory',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def get_order_by_id(
@@ -387,19 +407,29 @@ class StoreApi:
             '404': None,
         }
 
-        return self.api_client.call_api(
-            '/store/order/{order_id}', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/store/order/{order_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def place_order(
@@ -518,16 +548,26 @@ class StoreApi:
             '400': None,
         }
 
-        return self.api_client.call_api(
-            '/store/order', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/store/order',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+

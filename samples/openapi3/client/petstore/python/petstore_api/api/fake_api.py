@@ -166,19 +166,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/any_type_body', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/any_type_body',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_enum_ref_query_parameter(
@@ -281,19 +291,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/enum_ref_query_parameter', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/enum_ref_query_parameter',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_health_get(
@@ -391,19 +411,29 @@ class FakeApi:
             '200': "HealthCheckResult",
         }
 
-        return self.api_client.call_api(
-            '/fake/health', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/health',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_http_signature_test(
@@ -535,19 +565,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/http-signature-test', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/http-signature-test',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_outer_boolean_serialize(
@@ -665,19 +705,29 @@ class FakeApi:
             '200': "bool",
         }
 
-        return self.api_client.call_api(
-            '/fake/outer/boolean', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/outer/boolean',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_outer_composite_serialize(
@@ -795,19 +845,29 @@ class FakeApi:
             '200': "OuterComposite",
         }
 
-        return self.api_client.call_api(
-            '/fake/outer/composite', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/outer/composite',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_outer_number_serialize(
@@ -925,19 +985,29 @@ class FakeApi:
             '200': "float",
         }
 
-        return self.api_client.call_api(
-            '/fake/outer/number', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/outer/number',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_outer_string_serialize(
@@ -1055,19 +1125,29 @@ class FakeApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/fake/outer/string', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/outer/string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_property_enum_integer_serialize(
@@ -1185,19 +1265,29 @@ class FakeApi:
             '200': "OuterObjectWithEnumProperty",
         }
 
-        return self.api_client.call_api(
-            '/fake/property/enum-int', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/property/enum-int',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_return_list_of_objects(
@@ -1295,19 +1385,29 @@ class FakeApi:
             '200': "List[List[Tag]]",
         }
 
-        return self.api_client.call_api(
-            '/fake/return_list_of_object', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/return_list_of_object',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def fake_uuid_example(
@@ -1410,19 +1510,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/uuid_example', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/uuid_example',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_body_with_binary(
@@ -1539,19 +1649,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/body-with-binary', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/fake/body-with-binary',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_body_with_file_schema(
@@ -1663,19 +1783,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/body-with-file-schema', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/fake/body-with-file-schema',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_body_with_query_params(
@@ -1796,19 +1926,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/body-with-query-params', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/fake/body-with-query-params',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_client_model(
@@ -1926,19 +2066,29 @@ class FakeApi:
             '200': "Client",
         }
 
-        return self.api_client.call_api(
-            '/fake', 'PATCH',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/fake',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_date_time_query_parameter(
@@ -2055,19 +2205,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/date-time-query-params', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/fake/date-time-query-params',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_endpoint_parameters(
@@ -2333,19 +2493,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_group_parameters(
@@ -2505,19 +2675,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake', 'DELETE',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/fake',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_inline_additional_properties(
@@ -2629,19 +2809,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/inline-additionalProperties', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/inline-additionalProperties',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_inline_freeform_additional_properties(
@@ -2753,19 +2943,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/inline-freeform-additionalProperties', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/inline-freeform-additionalProperties',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_json_form_data(
@@ -2888,19 +3088,29 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/jsonFormData', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/fake/jsonFormData',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_query_parameter_collection_format(
@@ -3076,16 +3286,26 @@ class FakeApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/fake/test-query-parameters', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/fake/test-query-parameters',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+

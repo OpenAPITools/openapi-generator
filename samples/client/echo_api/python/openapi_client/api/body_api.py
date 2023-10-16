@@ -147,19 +147,29 @@ class BodyApi:
             '200': "bytearray",
         }
 
-        return self.api_client.call_api(
-            '/binary/gif', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/binary/gif',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_body_application_octetstream_binary(
@@ -282,19 +292,29 @@ class BodyApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/body/application/octetstream/binary', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/body/application/octetstream/binary',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_body_multipart_formdata_array_of_binary(
@@ -413,19 +433,29 @@ class BodyApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/body/application/octetstream/array_of_binary', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/body/application/octetstream/array_of_binary',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_echo_body_free_form_object_response_string(
@@ -543,19 +573,29 @@ class BodyApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/echo/body/FreeFormObject/response_string', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/echo/body/FreeFormObject/response_string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_echo_body_pet(
@@ -673,19 +713,29 @@ class BodyApi:
             '200': "Pet",
         }
 
-        return self.api_client.call_api(
-            '/echo/body/Pet', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/echo/body/Pet',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_echo_body_pet_response_string(
@@ -803,19 +853,29 @@ class BodyApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/echo/body/Pet/response_string', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/echo/body/Pet/response_string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def test_echo_body_tag_response_string(
@@ -933,16 +993,26 @@ class BodyApi:
             '200': "str",
         }
 
-        return self.api_client.call_api(
-            '/echo/body/Tag/response_string', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/echo/body/Tag/response_string',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+

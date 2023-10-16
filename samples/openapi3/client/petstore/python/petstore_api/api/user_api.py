@@ -171,20 +171,29 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/user',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
-            _host=_host,
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _host=_host,
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def create_users_with_array_input(
@@ -296,19 +305,29 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user/createWithArray', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/user/createWithArray',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def create_users_with_list_input(
@@ -420,19 +439,29 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user/createWithList', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/user/createWithList',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def delete_user(
@@ -537,19 +566,29 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user/{username}', 'DELETE',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/user/{username}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def get_user_by_name(
@@ -662,19 +701,29 @@ class UserApi:
             '404': None,
         }
 
-        return self.api_client.call_api(
-            '/user/{username}', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/user/{username}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def login_user(
@@ -797,19 +846,29 @@ class UserApi:
             '400': None,
         }
 
-        return self.api_client.call_api(
-            '/user/login', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/user/login',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def logout_user(
@@ -903,19 +962,29 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user/logout', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/user/logout',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     def update_user(
@@ -1038,16 +1107,26 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return self.api_client.call_api(
-            '/user/{username}', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/user/{username}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+

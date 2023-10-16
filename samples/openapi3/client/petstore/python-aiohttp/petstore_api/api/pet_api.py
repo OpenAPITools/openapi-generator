@@ -156,19 +156,29 @@ class PetApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return await self.api_client.call_api(
-            '/pet', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/pet',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def delete_pet(
@@ -282,19 +292,29 @@ class PetApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return await self.api_client.call_api(
-            '/pet/{petId}', 'DELETE',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/pet/{petId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def find_pets_by_status(
@@ -405,19 +425,29 @@ class PetApi:
             '400': None,
         }
 
-        return await self.api_client.call_api(
-            '/pet/findByStatus', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/pet/findByStatus',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def find_pets_by_tags(
@@ -530,19 +560,29 @@ class PetApi:
             '400': None,
         }
 
-        return await self.api_client.call_api(
-            '/pet/findByTags', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/pet/findByTags',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def get_pet_by_id(
@@ -653,19 +693,29 @@ class PetApi:
             '404': None,
         }
 
-        return await self.api_client.call_api(
-            '/pet/{petId}', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='GET',
+            resource_path='/pet/{petId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def update_pet(
@@ -775,19 +825,29 @@ class PetApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return await self.api_client.call_api(
-            '/pet', 'PUT',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/pet',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def update_pet_with_form(
@@ -919,19 +979,29 @@ class PetApi:
 
         _response_types_map: Dict[str, Optional[str]] = {}
 
-        return await self.api_client.call_api(
-            '/pet/{petId}', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/pet/{petId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def upload_file(
@@ -1069,19 +1139,29 @@ class PetApi:
             '200': "ApiResponse",
         }
 
-        return await self.api_client.call_api(
-            '/pet/{petId}/uploadImage', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/pet/{petId}/uploadImage',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
 
     @validate_call
     async def upload_file_with_required_file(
@@ -1219,16 +1299,26 @@ class PetApi:
             '200': "ApiResponse",
         }
 
-        return await self.api_client.call_api(
-            '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        param = self.api_client.param_serialize(
+            method='POST',
+            resource_path='/fake/{petId}/uploadImageWithRequiredFile',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            
+            _request_auth=_params.get('_request_auth')
+        )
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        await self.api_client.read(response_data)
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
