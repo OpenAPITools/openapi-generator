@@ -152,7 +152,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#hasRequiredParams}}
     // Check required parameters
     {{#allParams}}
@@ -232,7 +232,7 @@ public class {{classname}} {
                                {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
                                {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
   }
-  {{#vendorExtensions.x-group-parameters}}
+  {{/vendorExtensions.x-group-parameters}}
 
   {{^vendorExtensions.x-group-parameters}}
   /**
@@ -263,7 +263,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} Future<Response> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public Future<Response> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#hasRequiredParams}}
     // Check required parameters
     {{#allParams}}
@@ -343,8 +343,9 @@ public class {{classname}} {
                                {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
                                {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
   }
-  {{#vendorExtensions.x-group-parameters}}
+  {{/vendorExtensions.x-group-parameters}}
 
+  {{#vendorExtensions.x-group-parameters}}
   public class API{{operationId}}Request {
     {{#allParams}}
     private {{{dataType}}} {{paramName}};

@@ -1241,7 +1241,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     try {
       response = sendRequest(method, builderAndEntity.invocationBuilder, builderAndEntity.entity);
-
+      renewOauthIfNeeded(method, authNames, response.getStatus());
       return toApiResponse(returnType, response);
     } finally {
       try {
@@ -1253,18 +1253,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
   }
 
-  /**
-   * Convert the Jax RS Response to ApiResponse.
-   * @param returnType The return type into which to deserialize the response
-   * @param response The response from the jax-rs invocation.
-   * @return The ApiResponse that respresents this Jax RS response.
-   * @param <T> The type into which to deserialize the response
-   * @throws ApiException API Exceptions are thrown in case of failing status codes.
-   */
-  public <T> ApiResponse<T> toApiResponse(GenericType<T> returnType, Response response) throws ApiException {
-    int statusCode = response.getStatusInfo().getStatusCode();
-
-    {{#hasOAuthMethods}}
+  {{#hasOAuthMethods}}
+  public void renewOauthIfNeeded(String method, String[] authNames, int statusCode) {
     // If OAuth is used and a status 401 is received, renew the access token and retry the request
     if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
       for (String authName : authNames) {
@@ -1280,8 +1270,19 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
       }
     }
-    {{/hasOAuthMethods}}
+  }
+  {{/hasOAuthMethods}}
 
+  /**
+   * Convert the Jax RS Response to ApiResponse.
+   * @param returnType The return type into which to deserialize the response
+   * @param response The response from the jax-rs invocation.
+   * @return The ApiResponse that respresents this Jax RS response.
+   * @param <T> The type into which to deserialize the response
+   * @throws ApiException API Exceptions are thrown in case of failing status codes.
+   */
+  public <T> ApiResponse<T> toApiResponse(GenericType<T> returnType, Response response) throws ApiException {
+    int statusCode = response.getStatusInfo().getStatusCode();
     Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
     if (response.getStatusInfo() == Status.NO_CONTENT) {
