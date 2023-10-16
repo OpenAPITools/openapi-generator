@@ -139,3 +139,14 @@ func (s *PetAPIService) UploadFile(ctx context.Context, petId int64, additionalM
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UploadFile method not implemented")
 }
+
+// UploadFileArrayOfFiles - uploads images (array of files)
+func (s *PetAPIService) UploadFileArrayOfFiles(ctx context.Context, petId int64, additionalMetadata string, files []*os.File) (ImplResponse, error) {
+	// TODO - update UploadFileArrayOfFiles with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(200, ApiResponse{}) or use other options such as http.Ok ...
+	// return Response(200, ApiResponse{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("UploadFileArrayOfFiles method not implemented")
+}
