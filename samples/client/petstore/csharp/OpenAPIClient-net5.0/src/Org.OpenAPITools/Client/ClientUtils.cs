@@ -36,7 +36,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            ComparisonConfig comparisonConfig = new();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            compareLogic = new(comparisonConfig);
         }
 
         /// <summary>

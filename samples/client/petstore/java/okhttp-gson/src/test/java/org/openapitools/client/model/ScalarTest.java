@@ -13,9 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Model tests for Scalar

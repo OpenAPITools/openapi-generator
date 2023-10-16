@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
@@ -35,9 +36,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestsPathStringPathStringIntegerPathInteger(string pathString, int pathInteger, int operationIndex = 0);
+        string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0);
 
         /// <summary>
         /// Test path parameter(s)
@@ -48,9 +51,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestsPathStringPathStringIntegerPathIntegerWithHttpInfo(string pathString, int pathInteger, int operationIndex = 0);
+        ApiResponse<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -69,10 +74,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerAsync(string pathString, int pathInteger, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test path parameter(s)
@@ -83,10 +90,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerWithHttpInfoAsync(string pathString, int pathInteger, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -213,11 +222,13 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestsPathStringPathStringIntegerPathInteger(string pathString, int pathInteger, int operationIndex = 0)
+        public string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestsPathStringPathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
             return localVarResponse.Data;
         }
 
@@ -227,14 +238,28 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestsPathStringPathStringIntegerPathIntegerWithHttpInfo(string pathString, int pathInteger, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0)
         {
             // verify the required parameter 'pathString' is set
             if (pathString == null)
             {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathInteger");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            }
+
+            // verify the required parameter 'enumNonrefStringPath' is set
+            if (enumNonrefStringPath == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            }
+
+            // verify the required parameter 'enumRefStringPath' is set
+            if (enumRefStringPath == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumRefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -261,16 +286,18 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.PathParameters.Add("path_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(pathString)); // path parameter
             localVarRequestOptions.PathParameters.Add("path_integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(pathInteger)); // path parameter
+            localVarRequestOptions.PathParameters.Add("enum_nonref_string_path", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringPath)); // path parameter
+            localVarRequestOptions.PathParameters.Add("enum_ref_string_path", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringPath)); // path parameter
 
-            localVarRequestOptions.Operation = "PathApi.TestsPathStringPathStringIntegerPathInteger";
+            localVarRequestOptions.Operation = "PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath";
             localVarRequestOptions.OperationIndex = operationIndex;
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<string>("/path/string/{path_string}/integer/{path_integer}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<string>("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("TestsPathStringPathStringIntegerPathInteger", localVarResponse);
+                Exception _exception = this.ExceptionFactory("TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -286,12 +313,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerAsync(string pathString, int pathInteger, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestsPathStringPathStringIntegerPathIntegerWithHttpInfoAsync(pathString, pathInteger, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -301,15 +330,29 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pathString"></param>
         /// <param name="pathInteger"></param>
+        /// <param name="enumNonrefStringPath"></param>
+        /// <param name="enumRefStringPath"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerWithHttpInfoAsync(string pathString, int pathInteger, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'pathString' is set
             if (pathString == null)
             {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathInteger");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            }
+
+            // verify the required parameter 'enumNonrefStringPath' is set
+            if (enumNonrefStringPath == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            }
+
+            // verify the required parameter 'enumRefStringPath' is set
+            if (enumRefStringPath == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumRefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             }
 
 
@@ -337,17 +380,19 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.PathParameters.Add("path_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(pathString)); // path parameter
             localVarRequestOptions.PathParameters.Add("path_integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(pathInteger)); // path parameter
+            localVarRequestOptions.PathParameters.Add("enum_nonref_string_path", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringPath)); // path parameter
+            localVarRequestOptions.PathParameters.Add("enum_ref_string_path", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringPath)); // path parameter
 
-            localVarRequestOptions.Operation = "PathApi.TestsPathStringPathStringIntegerPathInteger";
+            localVarRequestOptions.Operation = "PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath";
             localVarRequestOptions.OperationIndex = operationIndex;
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/path/string/{path_string}/integer/{path_integer}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("TestsPathStringPathStringIntegerPathInteger", localVarResponse);
+                Exception _exception = this.ExceptionFactory("TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

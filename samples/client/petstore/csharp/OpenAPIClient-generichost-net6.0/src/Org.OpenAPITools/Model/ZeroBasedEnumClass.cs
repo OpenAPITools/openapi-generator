@@ -98,6 +98,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string ZeroBasedEnumEnumToJsonValue(ZeroBasedEnumEnum value)
         {
+
             if (value == ZeroBasedEnumEnum.Unknown)
                 return "unknown";
 

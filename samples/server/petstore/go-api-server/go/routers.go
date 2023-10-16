@@ -12,20 +12,20 @@ package petstoreserver
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gorilla/mux"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Method	  string
-	Pattern	 string
+	Method      string
+	Pattern     string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -140,19 +140,17 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 
 	defer formFile.Close()
 
-	fileBytes, err := ioutil.ReadAll(formFile)
-	if err != nil {
-		return nil, err
-	}
-
-	file, err := ioutil.TempFile("", fileHeader.Filename)
+	file, err := os.CreateTemp("", fileHeader.Filename)
 	if err != nil {
 		return nil, err
 	}
 
 	defer file.Close()
 
-	file.Write(fileBytes)
+	_, err = io.Copy(file, formFile)
+	if err != nil {
+		return nil, err
+	}
 
 	return file, nil
 }

@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.StringEnumRef;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,11 +93,13 @@ public class HeaderApi {
    * @param integerHeader  (optional)
    * @param booleanHeader  (optional)
    * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testHeaderIntegerBooleanString(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
-    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringWithHttpInfo(integerHeader, booleanHeader, stringHeader);
+  public String testHeaderIntegerBooleanStringEnums(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws ApiException {
+    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     return localVarResponse.getData();
   }
 
@@ -106,11 +109,13 @@ public class HeaderApi {
    * @param integerHeader  (optional)
    * @param booleanHeader  (optional)
    * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testHeaderIntegerBooleanStringWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringRequestBuilder(integerHeader, booleanHeader, stringHeader);
+  public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringEnumsRequestBuilder(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -120,7 +125,7 @@ public class HeaderApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testHeaderIntegerBooleanString", localVarResponse);
+          throw getApiException("testHeaderIntegerBooleanStringEnums", localVarResponse);
         }
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
@@ -146,11 +151,11 @@ public class HeaderApi {
     }
   }
 
-  private HttpRequest.Builder testHeaderIntegerBooleanStringRequestBuilder(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
+  private HttpRequest.Builder testHeaderIntegerBooleanStringEnumsRequestBuilder(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/header/integer/boolean/string";
+    String localVarPath = "/header/integer/boolean/string/enums";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -162,6 +167,12 @@ public class HeaderApi {
     }
     if (stringHeader != null) {
       localVarRequestBuilder.header("string_header", stringHeader.toString());
+    }
+    if (enumNonrefStringHeader != null) {
+      localVarRequestBuilder.header("enum_nonref_string_header", enumNonrefStringHeader.toString());
+    }
+    if (enumRefStringHeader != null) {
+      localVarRequestBuilder.header("enum_ref_string_header", enumRefStringHeader.toString());
     }
     localVarRequestBuilder.header("Accept", "text/plain");
 

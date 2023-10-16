@@ -244,6 +244,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static double EnumNumberEnumToJsonValue(EnumNumberEnum value)
         {
+
             if (value == EnumNumberEnum.NUMBER_1_DOT_1)
                 return 1.1;
 
@@ -382,6 +383,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string EnumStringEnumToJsonValue(EnumStringEnum value)
         {
+
             if (value == EnumStringEnum.UPPER)
                 return "UPPER";
 
@@ -538,6 +540,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string EnumStringRequiredEnumToJsonValue(EnumStringRequiredEnum value)
         {
+
             if (value == EnumStringRequiredEnum.UPPER)
                 return "UPPER";
 

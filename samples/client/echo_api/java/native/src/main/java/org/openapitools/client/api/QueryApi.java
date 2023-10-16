@@ -96,24 +96,26 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
-    ApiResponse<String> localVarResponse = testEnumRefStringWithHttpInfo(enumRefStringQuery);
+  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    ApiResponse<String> localVarResponse = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
     return localVarResponse.getData();
   }
 
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEnumRefStringWithHttpInfo(StringEnumRef enumRefStringQuery) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEnumRefStringRequestBuilder(enumRefStringQuery);
+  public ApiResponse<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEnumRefStringRequestBuilder(enumNonrefStringQuery, enumRefStringQuery);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -149,7 +151,7 @@ public class QueryApi {
     }
   }
 
-  private HttpRequest.Builder testEnumRefStringRequestBuilder(StringEnumRef enumRefStringQuery) throws ApiException {
+  private HttpRequest.Builder testEnumRefStringRequestBuilder(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -158,6 +160,8 @@ public class QueryApi {
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "enum_nonref_string_query";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_nonref_string_query", enumNonrefStringQuery));
     localVarQueryParameterBaseName = "enum_ref_string_query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_ref_string_query", enumRefStringQuery));
 

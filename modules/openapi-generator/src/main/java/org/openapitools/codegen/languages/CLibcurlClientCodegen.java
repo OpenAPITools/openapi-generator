@@ -289,6 +289,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("UUID", "char");
         typeMapping.put("URI", "char");
         typeMapping.put("array", "list");
+        typeMapping.put("set", "list");
         typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
 
