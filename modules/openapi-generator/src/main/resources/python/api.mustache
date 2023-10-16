@@ -227,6 +227,13 @@ class {{classname}}:
             {{/isArray}}
 
 {{/queryParams}}
+        {{#constantParams}}
+        {{#isQueryParam}}
+        # Set client side default value of Query Param "{{baseName}}".
+        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+
+        {{/isQueryParam}}
+        {{/constantParams}}
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 {{#headerParams}}
@@ -237,6 +244,13 @@ class {{classname}}:
             {{/isArray}}
 
 {{/headerParams}}
+        {{#constantParams}}
+        {{#isHeaderParam}}
+        # Set client side default value of Header Param "{{baseName}}".
+        _header_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+
+        {{/isHeaderParam}}
+        {{/constantParams}}
         # process the form parameters
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
