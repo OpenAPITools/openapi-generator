@@ -3556,7 +3556,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .map(ve -> ve.get("x-discriminator-value"))
                     .map(discriminatorValue -> (String) discriminatorValue)
                     .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), mappingName != currentSchemaName);
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3585,6 +3585,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
                 .map(Schema::get$ref)
                 .map(ModelUtils::getSimpleRef)
+                .map(this::toModelName)
                 .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
@@ -3954,7 +3955,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
 
-        property.jsonSchema = Json.pretty(p);
+        property.jsonSchema = Json.pretty(Json.mapper().convertValue(p, TreeMap.class));
 
         if (p.getDeprecated() != null) {
             property.deprecated = p.getDeprecated();
@@ -7664,7 +7665,8 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 if (found == false) {
-                    throw new RuntimeException("Property " + requiredPropertyName + " is missing from getVars");
+                    LOGGER.warn("Property {} is not processed correctly (missing from getVars). Maybe it's a const (not yet supported) in openapi v3.1 spec.", requiredPropertyName);
+                    continue;
                 }
             } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
                 // TODO add processing for requiredPropertyName

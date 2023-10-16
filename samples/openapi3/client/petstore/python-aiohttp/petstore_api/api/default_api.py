@@ -42,7 +42,10 @@ class DefaultApi:
         self.api_client = api_client
 
     @validate_call
-    async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+    async def foo_get(
+        self,
+        **kwargs,
+    ) -> FooGetDefaultResponse:
         """foo_get  # noqa: E501
 
 
@@ -59,10 +62,16 @@ class DefaultApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the foo_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.foo_get_with_http_info(**kwargs)  # noqa: E501
+
+        return await self.foo_get_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
-    async def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    async def foo_get_with_http_info(
+        self,
+        **kwargs,
+    ) -> ApiResponse:
         """foo_get  # noqa: E501
 
 

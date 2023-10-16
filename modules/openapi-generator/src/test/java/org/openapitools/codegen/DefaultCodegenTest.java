@@ -1530,6 +1530,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testComposedSchemaOneOfDiscriminatorMapPreAndPostFix() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNamePrefix("Transfer");
+        codegen.setModelNameSuffix("Dto");
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        // ref oneOf models with enum property discriminator
+        modelName = "FruitOneOfEnumMappingDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertThat(cm.discriminator.getPropertyType()).isEqualTo("TransferFruitTypeEnumDto");
+    }
+
+    @Test
     public void testComposedSchemaMyPetsOneOfDiscriminatorMap() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 

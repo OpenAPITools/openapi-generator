@@ -17,6 +17,7 @@ require 'tempfile'
 require 'time'
 require 'typhoeus'
 
+
 module Petstore
   class ApiClient
     # The Configuration object holding settings to be used in the API client.
@@ -222,7 +223,7 @@ module Petstore
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type
-      return body if return_type == 'String'
+      return body.to_s if return_type == 'String'
 
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'

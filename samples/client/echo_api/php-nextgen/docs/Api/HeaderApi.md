@@ -4,13 +4,13 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**testHeaderIntegerBooleanString()**](HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s) |
+| [**testHeaderIntegerBooleanStringEnums()**](HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s) |
 
 
-## `testHeaderIntegerBooleanString()`
+## `testHeaderIntegerBooleanStringEnums()`
 
 ```php
-testHeaderIntegerBooleanString($integer_header, $boolean_header, $string_header): string
+testHeaderIntegerBooleanStringEnums($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header): string
 ```
 
 Test header parameter(s)
@@ -33,12 +33,14 @@ $apiInstance = new OpenAPI\Client\Api\HeaderApi(
 $integer_header = 56; // int
 $boolean_header = True; // bool
 $string_header = 'string_header_example'; // string
+$enum_nonref_string_header = 'enum_nonref_string_header_example'; // string
+$enum_ref_string_header = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
 
 try {
-    $result = $apiInstance->testHeaderIntegerBooleanString($integer_header, $boolean_header, $string_header);
+    $result = $apiInstance->testHeaderIntegerBooleanStringEnums($integer_header, $boolean_header, $string_header, $enum_nonref_string_header, $enum_ref_string_header);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling HeaderApi->testHeaderIntegerBooleanString: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling HeaderApi->testHeaderIntegerBooleanStringEnums: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -49,6 +51,8 @@ try {
 | **integer_header** | **int**|  | [optional] |
 | **boolean_header** | **bool**|  | [optional] |
 | **string_header** | **string**|  | [optional] |
+| **enum_nonref_string_header** | **string**|  | [optional] |
+| **enum_ref_string_header** | [**StringEnumRef**](../Model/.md)|  | [optional] |
 
 ### Return type
 

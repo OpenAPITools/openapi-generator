@@ -291,4 +291,46 @@ public class GoClientCodegenTest {
                 "httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
     }
 
+    @Test
+    public void testAdditionalPropertiesWithGoMod() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore_oas3_test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path goModFile = Paths.get(output + "/go.mod");
+        TestUtils.assertFileExists(goModFile);
+        Path goSumFile = Paths.get(output + "/go.sum");
+        TestUtils.assertFileExists(goSumFile);
+    }
+
+    @Test
+    public void testAdditionalPropertiesWithoutGoMod() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore_oas3_test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(GoClientCodegen.WITH_GO_MOD, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path goModFile = Paths.get(output + "/go.mod");
+        TestUtils.assertFileNotExists(goModFile);
+        Path goSumFile = Paths.get(output + "/go.sum");
+        TestUtils.assertFileNotExists(goSumFile);
+    }
 }

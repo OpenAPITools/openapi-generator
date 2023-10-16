@@ -55,6 +55,7 @@ jobs:
           - samples/server/petstore/springboot-spring-pageable-delegatePattern
           - samples/server/petstore/springboot-spring-pageable-without-j8
           - samples/server/petstore/springboot-spring-pageable
+          - samples/server/petstore/springboot-spring-provide-args
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v3

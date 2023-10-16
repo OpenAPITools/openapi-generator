@@ -1,0 +1,7 @@
+generatorName: ruby
+outputDir: samples/client/echo_api/ruby-httpx
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/ruby-client
+library: httpx
+additionalProperties:
+  hideGenerationTimestamp: "true"

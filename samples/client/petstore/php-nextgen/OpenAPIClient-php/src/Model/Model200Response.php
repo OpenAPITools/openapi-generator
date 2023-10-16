@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * Model200Response Class Doc Comment
  *
- * @category Class
  * @description Model for testing model name starting with number
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team

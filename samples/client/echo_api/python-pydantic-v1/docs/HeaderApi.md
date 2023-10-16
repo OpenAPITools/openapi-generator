@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_header_integer_boolean_string**](HeaderApi.md#test_header_integer_boolean_string) | **GET** /header/integer/boolean/string | Test header parameter(s)
+[**test_header_integer_boolean_string_enums**](HeaderApi.md#test_header_integer_boolean_string_enums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
 
 
-# **test_header_integer_boolean_string**
-> str test_header_integer_boolean_string(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header)
+# **test_header_integer_boolean_string_enums**
+> str test_header_integer_boolean_string_enums(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header, enum_nonref_string_header=enum_nonref_string_header, enum_ref_string_header=enum_ref_string_header)
 
 Test header parameter(s)
 
@@ -20,6 +20,7 @@ Test header parameter(s)
 import time
 import os
 import openapi_client
+from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -37,14 +38,16 @@ with openapi_client.ApiClient(configuration) as api_client:
     integer_header = 56 # int |  (optional)
     boolean_header = True # bool |  (optional)
     string_header = 'string_header_example' # str |  (optional)
+    enum_nonref_string_header = 'enum_nonref_string_header_example' # str |  (optional)
+    enum_ref_string_header = openapi_client.StringEnumRef() # StringEnumRef |  (optional)
 
     try:
         # Test header parameter(s)
-        api_response = api_instance.test_header_integer_boolean_string(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header)
-        print("The response of HeaderApi->test_header_integer_boolean_string:\n")
+        api_response = api_instance.test_header_integer_boolean_string_enums(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header, enum_nonref_string_header=enum_nonref_string_header, enum_ref_string_header=enum_ref_string_header)
+        print("The response of HeaderApi->test_header_integer_boolean_string_enums:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling HeaderApi->test_header_integer_boolean_string: %s\n" % e)
+        print("Exception when calling HeaderApi->test_header_integer_boolean_string_enums: %s\n" % e)
 ```
 
 
@@ -56,6 +59,8 @@ Name | Type | Description  | Notes
  **integer_header** | **int**|  | [optional] 
  **boolean_header** | **bool**|  | [optional] 
  **string_header** | **str**|  | [optional] 
+ **enum_nonref_string_header** | **str**|  | [optional] 
+ **enum_ref_string_header** | [**StringEnumRef**](.md)|  | [optional] 
 
 ### Return type
 

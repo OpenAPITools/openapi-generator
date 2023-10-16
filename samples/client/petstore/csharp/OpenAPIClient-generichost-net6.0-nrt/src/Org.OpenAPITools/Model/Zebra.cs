@@ -113,6 +113,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum value)
         {
+
             if (value == TypeEnum.Plains)
                 return "plains";
 

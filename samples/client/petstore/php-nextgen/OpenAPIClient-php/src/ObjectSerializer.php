@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -36,7 +35,6 @@ use OpenAPI\Client\Model\ModelInterface;
 /**
  * ObjectSerializer Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -77,6 +75,10 @@ class ObjectSerializer
             return ($format === 'date') ? $data->format('Y-m-d') : $data->format(self::$dateTimeFormat);
         }
 
+        if ($data instanceof \BackedEnum) {
+            return $data->value;
+        }
+
         if (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -92,11 +94,19 @@ class ObjectSerializer
                     $getter = $data::getters()[$property];
                     $value = $data->$getter();
                     if ($value !== null && !in_array($openAPIType, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
-                        if (is_sublass_of($openAPIType, '\BackedEnum')) {
-                            $data = $openAPIType::tryFrom($data);
-                            if ($data === null) {
-                                $imploded = implode("', '", array_map(fn($case) => $case->value, $openAPIType::cases()));
-                                throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
+                        if (is_subclass_of($openAPIType, '\BackedEnum')) {
+                            if (is_scalar($value)) {
+                                $value = $openAPIType::tryFrom($value);
+                                if ($value === null) {
+                                    $imploded = implode("', '", array_map(fn($case) => $case->value, $openAPIType::cases()));
+                                    throw new \InvalidArgumentException(
+                                        sprintf(
+                                            "Invalid value for enum '%s', must be one of: '%s'",
+                                            $openAPIType::class,
+                                            $imploded
+                                        )
+                                    );
+                                }
                             }
                         }
                     }
@@ -378,9 +388,9 @@ class ObjectSerializer
      * @param string[]|null $httpHeaders   HTTP headers
      * @param string|null   $discriminator discriminator if polymorphism is used
      *
-     * @return object|array|null a single or an array of $class instances
+     * @return mixed a single or an array of $class instances
      */
-    public static function deserialize(mixed $data, string $class, string $httpHeaders = null): object|array|null
+    public static function deserialize(mixed $data, string $class, array $httpHeaders = null): mixed
     {
         if (null === $data) {
             return null;
@@ -424,7 +434,7 @@ class ObjectSerializer
             return $data;
         }
 
-        if ($class === 'DateTime') {
+        if ($class === '\DateTime') {
             // Some APIs return an invalid, empty string as a
             // date-time property. DateTime::__construct() will return
             // the current time for empty input which is probably not
@@ -453,7 +463,7 @@ class ObjectSerializer
             // determine file name
             if (
                 is_array($httpHeaders)
-                && array_key_exists('Content-Disposition', $httpHeaders) 
+                && array_key_exists('Content-Disposition', $httpHeaders)
                 && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)
             ) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . DIRECTORY_SEPARATOR . self::sanitizeFilename($match[1]);
@@ -471,7 +481,12 @@ class ObjectSerializer
         }
 
         /** @psalm-suppress ParadoxicalCondition */
-        if (in_array($class, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
+        // handle primitive types
+        if (in_array($class, ['\DateTime', '\SplFileObject'], true)) {
+            return $data;
+        } elseif (in_array($class, ['array', 'bool', 'boolean', 'float', 'double', 'int', 'integer', 'object', 'string', 'null'], true)) {
+            // type ref: https://www.php.net/manual/en/function.settype.php
+            // byte, mixed, void in the old php client were removed
             settype($data, $class);
             return $data;
         }

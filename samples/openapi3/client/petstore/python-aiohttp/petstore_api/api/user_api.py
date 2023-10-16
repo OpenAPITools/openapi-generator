@@ -48,7 +48,11 @@ class UserApi:
         self.api_client = api_client
 
     @validate_call
-    async def create_user(self, user : Annotated[User, Field(description="Created user object")], **kwargs) -> None:  # noqa: E501
+    async def create_user(
+        self,
+        user: Annotated[User, Field(description="Created user object")],
+        **kwargs,
+    ) -> None:
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -68,10 +72,18 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+
+        return await self.create_user_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
-    async def create_user_with_http_info(self, user : Annotated[User, Field(description="Created user object")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def create_user_with_http_info(
+        self,
+        user: Annotated[User, Field(description="Created user object")],
+        **kwargs,
+    ) -> ApiResponse:
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -188,7 +200,11 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def create_users_with_array_input(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> None:  # noqa: E501
+    async def create_users_with_array_input(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> None:
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -208,10 +224,18 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+
+        return await self.create_users_with_array_input_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
-    async def create_users_with_array_input_with_http_info(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def create_users_with_array_input_with_http_info(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> ApiResponse:
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -313,7 +337,11 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def create_users_with_list_input(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> None:  # noqa: E501
+    async def create_users_with_list_input(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> None:
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -333,10 +361,18 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+
+        return await self.create_users_with_list_input_with_http_info.raw_function(
+            user,
+            **kwargs,
+        )
 
     @validate_call
-    async def create_users_with_list_input_with_http_info(self, user : Annotated[List[User], Field(description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def create_users_with_list_input_with_http_info(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        **kwargs,
+    ) -> ApiResponse:
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -438,7 +474,11 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def delete_user(self, username : Annotated[StrictStr, Field(description="The name that needs to be deleted")], **kwargs) -> None:  # noqa: E501
+    async def delete_user(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
+        **kwargs,
+    ) -> None:
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -458,10 +498,18 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+
+        return await self.delete_user_with_http_info.raw_function(
+            username,
+            **kwargs,
+        )
 
     @validate_call
-    async def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(description="The name that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def delete_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
+        **kwargs,
+    ) -> ApiResponse:
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -556,7 +604,11 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def get_user_by_name(self, username : Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> User:  # noqa: E501
+    async def get_user_by_name(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+        **kwargs,
+    ) -> User:
         """Get user by user name  # noqa: E501
 
           # noqa: E501
@@ -576,10 +628,18 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+
+        return await self.get_user_by_name_with_http_info.raw_function(
+            username,
+            **kwargs,
+        )
 
     @validate_call
-    async def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def get_user_by_name_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+        **kwargs,
+    ) -> ApiResponse:
         """Get user by user name  # noqa: E501
 
           # noqa: E501
@@ -682,7 +742,12 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def login_user(self, username : Annotated[StrictStr, Field(description="The user name for login")], password : Annotated[StrictStr, Field(description="The password for login in clear text")], **kwargs) -> str:  # noqa: E501
+    async def login_user(
+        self,
+        username: Annotated[StrictStr, Field(description="The user name for login")],
+        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
+        **kwargs,
+    ) -> str:
         """Logs user into the system  # noqa: E501
 
           # noqa: E501
@@ -704,10 +769,20 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+
+        return await self.login_user_with_http_info.raw_function(
+            username,
+            password,
+            **kwargs,
+        )
 
     @validate_call
-    async def login_user_with_http_info(self, username : Annotated[StrictStr, Field(description="The user name for login")], password : Annotated[StrictStr, Field(description="The password for login in clear text")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def login_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The user name for login")],
+        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
+        **kwargs,
+    ) -> ApiResponse:
         """Logs user into the system  # noqa: E501
 
           # noqa: E501
@@ -815,7 +890,10 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def logout_user(self, **kwargs) -> None:  # noqa: E501
+    async def logout_user(
+        self,
+        **kwargs,
+    ) -> None:
         """Logs out current logged in user session  # noqa: E501
 
           # noqa: E501
@@ -833,10 +911,16 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.logout_user_with_http_info(**kwargs)  # noqa: E501
+
+        return await self.logout_user_with_http_info.raw_function(
+            **kwargs,
+        )
 
     @validate_call
-    async def logout_user_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
+    async def logout_user_with_http_info(
+        self,
+        **kwargs,
+    ) -> ApiResponse:
         """Logs out current logged in user session  # noqa: E501
 
           # noqa: E501
@@ -925,7 +1009,12 @@ class UserApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_call
-    async def update_user(self, username : Annotated[StrictStr, Field(description="name that need to be deleted")], user : Annotated[User, Field(description="Updated user object")], **kwargs) -> None:  # noqa: E501
+    async def update_user(
+        self,
+        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
+        user: Annotated[User, Field(description="Updated user object")],
+        **kwargs,
+    ) -> None:
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -947,10 +1036,20 @@ class UserApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+
+        return await self.update_user_with_http_info.raw_function(
+            username,
+            user,
+            **kwargs,
+        )
 
     @validate_call
-    async def update_user_with_http_info(self, username : Annotated[StrictStr, Field(description="name that need to be deleted")], user : Annotated[User, Field(description="Updated user object")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def update_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
+        user: Annotated[User, Field(description="Updated user object")],
+        **kwargs,
+    ) -> ApiResponse:
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501

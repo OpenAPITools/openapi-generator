@@ -120,6 +120,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string StatusEnumToJsonValue(StatusEnum value)
         {
+
             if (value == StatusEnum.Placed)
                 return "placed";
 

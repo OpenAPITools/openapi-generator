@@ -21,6 +21,7 @@ from pydantic import validate_arguments, ValidationError
 
 from pydantic import StrictInt, StrictStr
 
+from openapi_client.models.string_enum_ref import StringEnumRef
 
 from openapi_client.api_client import ApiClient
 from openapi_client.api_response import ApiResponse
@@ -43,20 +44,24 @@ class PathApi:
         self.api_client = api_client
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> str:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> str:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_string_path_string_integer_path_integer(path_string, path_integer, async_req=True)
+        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
         :type path_string: str
         :param path_integer: (required)
         :type path_integer: int
+        :param enum_nonref_string_path: (required)
+        :type enum_nonref_string_path: str
+        :param enum_ref_string_path: (required)
+        :type enum_ref_string_path: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -70,25 +75,29 @@ class PathApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the tests_path_string_path_string_integer_path_integer_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
+        return self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, async_req=True)
+        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
         :type path_string: str
         :param path_integer: (required)
         :type path_integer: int
+        :param enum_nonref_string_path: (required)
+        :type enum_nonref_string_path: str
+        :param enum_ref_string_path: (required)
+        :type enum_ref_string_path: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -118,7 +127,9 @@ class PathApi:
 
         _all_params = [
             'path_string',
-            'path_integer'
+            'path_integer',
+            'enum_nonref_string_path',
+            'enum_ref_string_path'
         ]
         _all_params.extend(
             [
@@ -137,7 +148,7 @@ class PathApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method tests_path_string_path_string_integer_path_integer" % _key
+                    " to method tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -151,6 +162,12 @@ class PathApi:
 
         if _params['path_integer'] is not None:
             _path_params['path_integer'] = _params['path_integer']
+
+        if _params['enum_nonref_string_path'] is not None:
+            _path_params['enum_nonref_string_path'] = _params['enum_nonref_string_path']
+
+        if _params['enum_ref_string_path'] is not None:
+            _path_params['enum_ref_string_path'] = _params['enum_ref_string_path']
 
 
         # process the query parameters
@@ -174,7 +191,7 @@ class PathApi:
         }
 
         return self.api_client.call_api(
-            '/path/string/{path_string}/integer/{path_integer}', 'GET',
+            '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}', 'GET',
             _path_params,
             _query_params,
             _header_params,

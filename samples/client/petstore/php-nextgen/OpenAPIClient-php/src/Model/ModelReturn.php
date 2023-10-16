@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * ModelReturn Class Doc Comment
  *
- * @category Class
  * @description Model for testing reserved words
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team

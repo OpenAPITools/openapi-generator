@@ -90,6 +90,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}/uploadImage",
 			c.UploadFile,
 		},
+		"UploadFileArrayOfFiles": Route{
+			strings.ToUpper("Post"),
+			"/v2/fake/uploadImage/array of_file",
+			c.UploadFileArrayOfFiles,
+		},
 	}
 }
 
@@ -234,10 +239,10 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-		
+	
 	
 	nameParam := r.FormValue("name")
-		
+	
 	
 	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
@@ -265,10 +270,9 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-		
+	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-	
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -277,6 +281,41 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// UploadFileArrayOfFiles - uploads images (array of files)
+func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	params := mux.Vars(r)
+	petIdParam, err := parseNumericParameter[int64](
+		params["petId"],
+		WithRequire[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	
+	
+	additionalMetadataParam := r.FormValue("additionalMetadata")
+	filesParam, err := ReadFormFilesToTempFiles(r, "files")
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	
+	
+	result, err := c.service.UploadFileArrayOfFiles(r.Context(), petIdParam, additionalMetadataParam, filesParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
