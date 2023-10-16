@@ -139,7 +139,7 @@ class TestFakeApi(unittest.TestCase):
             value_headers = {"Header1": "value1"}
             api.find_pets_by_status(["available"], _headers=value_headers)
             args, _ = mock_method.call_args
-            self.assertEqual(args, ('/pet/findByStatus', 'GET', {}, [('status', ['available'])], {'Accept': 'application/json', 'Header1': 'value1'})
+            self.assertEqual(args, ('GET', '/pet/findByStatus', {}, [('status', ['available'])], {'Accept': 'application/json', 'Header1': 'value1'})
 )
 
 if __name__ == '__main__':

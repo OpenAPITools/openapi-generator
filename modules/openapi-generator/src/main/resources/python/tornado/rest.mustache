@@ -24,11 +24,10 @@ class RESTResponse(io.IOBase):
         self.tornado_response = resp
         self.status = resp.code
         self.reason = resp.reason
+        self.data = None
 
-        if resp.body:
-            self.data = resp.body
-        else:
-            self.data = None
+    def setdata(self, data):
+        self.data = data
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
@@ -128,10 +127,8 @@ class RESTClientObject:
 
         r = RESTResponse(r)
 
-        # log response body
-        logger.debug("response body: %s", r.data)
-
-        if not 200 <= r.status <= 299:
-            raise ApiException(http_resp=r)
-
         raise tornado.gen.Return(r)
+
+    def read(self, response):
+        # Tornado cannot download data in streams.
+        response.setdata(response.tornado_response.body)
