@@ -1242,7 +1242,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     try {
       response = sendRequest(method, builderAndEntity.invocationBuilder, builderAndEntity.entity);
       {{#hasOAuthMethods}}
-      renewOauthIfNeeded(method, authNames, response.getStatus());
+      response = renewOauthIfNeeded(method, authNames, response.getStatus(), builderAndEntity.invocationBuilder, builderAndEntity.entity);
       {{/hasOAuthMethods}}
       return toApiResponse(returnType, response);
     } finally {
@@ -1256,8 +1256,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   {{#hasOAuthMethods}}
-  public void renewOauthIfNeeded(String method, String[] authNames, int statusCode) {
+  private Response renewOauthIfNeeded(String method, String[] authNames, int statusCode, Invocation.Builder invocationBuilder, Entity<?> entity) {
     // If OAuth is used and a status 401 is received, renew the access token and retry the request
+    Response response = null;
     if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
       for (String authName : authNames) {
         Authentication authentication = authentications.get(authName);
@@ -1272,6 +1273,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
       }
     }
+    return response;
   }
   {{/hasOAuthMethods}}
 
