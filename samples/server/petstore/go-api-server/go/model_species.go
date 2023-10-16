@@ -12,7 +12,6 @@ package petstoreserver
 
 import (
 	"fmt"
-	"golang.org/x/exp/maps"
 )
 
 
@@ -28,8 +27,17 @@ const (
 	PIG Species = "pig"
 )
 
-// All allowed values of Species enum
-var AllowedSpeciesEnumValues = map[Species][]struct{}{
+// AllowedSpeciesEnumValues is all the allowed values of Species enum
+var AllowedSpeciesEnumValues = []Species{
+	"cat",
+	"dog",
+	"fish",
+	"goat",
+	"pig",
+}
+
+// validSpeciesEnumValue provides a map of Speciess for fast verification of use input
+var validSpeciesEnumValues = map[Species]struct{}{
 	"cat": {},
 	"dog": {},
 	"fish": {},
@@ -39,7 +47,7 @@ var AllowedSpeciesEnumValues = map[Species][]struct{}{
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v Species) IsValid() bool {
-	_, ok := AllowedSpeciesEnumValues[v]
+	_, ok := validSpeciesEnumValues[v]
 	return ok
 }
 
@@ -50,7 +58,7 @@ func NewSpeciesFromValue(v string) (Species, error) {
 	if ev.IsValid() {
 		return ev, nil
 	} else {
-		return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, maps.Keys(AllowedSpeciesEnumValues))
+		return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, AllowedSpeciesEnumValues)
 	}
 }
 

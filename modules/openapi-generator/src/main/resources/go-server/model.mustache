@@ -19,8 +19,17 @@ const (
 	{{/allowableValues}}
 )
 
-// All allowed values of {{{classname}}} enum
-var Allowed{{{classname}}}EnumValues = map[{{{classname}}}][]struct{}{
+// Allowed{{{classname}}}EnumValues is all the allowed values of {{{classname}}} enum
+var Allowed{{{classname}}}EnumValues = []{{{classname}}}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+// valid{{{classname}}}EnumValue provides a map of {{classname}}s for fast verification of use input
+var valid{{{classname}}}EnumValues = map[{{{classname}}}]struct{}{
 	{{#allowableValues}}
 	{{#enumVars}}
 	{{{value}}}: {},
@@ -30,7 +39,7 @@ var Allowed{{{classname}}}EnumValues = map[{{{classname}}}][]struct{}{
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v {{{classname}}}) IsValid() bool {
-	_, ok := Allowed{{{classname}}}EnumValues[v]
+	_, ok := valid{{{classname}}}EnumValues[v]
 	return ok
 }
 
@@ -41,7 +50,7 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 	if ev.IsValid() {
 		return ev, nil
 	} else {
-		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, maps.Keys(Allowed{{{classname}}}EnumValues))
+		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 	}
 }
 

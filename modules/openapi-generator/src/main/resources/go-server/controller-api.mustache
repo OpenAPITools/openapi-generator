@@ -373,8 +373,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isBoolean}}
 	{{^isArray}}
 	{{#defaultValue}}
+	{{paramName}}Param := "{{defaultValue}}"
 	if query.Has("{{baseName}}") {
-		{{paramName}}Param := {{^isString}}{{dataType}}( {{/isString}}query.Get("{{baseName}}"){{^isString}} ){{/isString}}
+		{{paramName}}Param = {{^isString}}{{dataType}}( {{/isString}}query.Get("{{baseName}}"){{^isString}} ){{/isString}}
 	}
 	{{/defaultValue}}
 	{{^defaultValue}}
@@ -382,8 +383,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	var {{paramName}}Param {{dataType}}
 	if query.Has("{{baseName}}") {
 		{{^isEnumOrRef}}
-		param := query.Get("{{baseName}}")
-		{{paramName}}Param = &param
+		{{paramName}}Param = query.Get("{{baseName}}")
 		{{/isEnumOrRef}}
 		{{#isEnumOrRef}}
 		var err error
