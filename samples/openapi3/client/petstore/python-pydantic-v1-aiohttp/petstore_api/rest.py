@@ -78,14 +78,13 @@ class RESTClientObject:
     async def close(self):
         await self.pool_manager.close()
 
-    async def request(self, method, url, query_params=None, headers=None,
+    async def request(self, method, url, headers=None,
                       body=None, post_params=None,
                       _request_timeout=None):
         """Execute request
 
         :param method: http request method
         :param url: http request url
-        :param query_params: query parameters in the url
         :param headers: http request headers
         :param body: request json body, for `application/json`
         :param post_params: request post parameters,
@@ -108,8 +107,6 @@ class RESTClientObject:
         post_params = post_params or {}
         headers = headers or {}
         # url already contains the URL query string
-        # so reset query_params to empty dict
-        query_params = {}
         timeout = _request_timeout or 5 * 60
 
         if 'Content-Type' not in headers:
@@ -126,9 +123,6 @@ class RESTClientObject:
             args["proxy"] = self.proxy
         if self.proxy_headers:
             args["proxy_headers"] = self.proxy_headers
-
-        if query_params:
-            args["url"] += '?' + urlencode(query_params)
 
         # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
         if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
@@ -180,63 +174,4 @@ class RESTClientObject:
 
         return r
 
-    async def get_request(self, url, headers=None, query_params=None,
-            _request_timeout=None):
-        return (await self.request("GET", url,
-                                   headers=headers,
-                                   _request_timeout=_request_timeout,
-                                   query_params=query_params))
 
-    async def head_request(self, url, headers=None, query_params=None,
-            _request_timeout=None):
-        return (await self.request("HEAD", url,
-                                   headers=headers,
-                                   _request_timeout=_request_timeout,
-                                   query_params=query_params))
-
-    async def options_request(self, url, headers=None, query_params=None,
-                      post_params=None, body=None,
-                      _request_timeout=None):
-        return (await self.request("OPTIONS", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _request_timeout=_request_timeout,
-                                   body=body))
-
-    async def delete_request(self, url, headers=None, query_params=None, body=None,
-                    _request_timeout=None):
-        return (await self.request("DELETE", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   _request_timeout=_request_timeout,
-                                   body=body))
-
-    async def post_request(self, url, headers=None, query_params=None,
-                   post_params=None, body=None,
-                   _request_timeout=None):
-        return (await self.request("POST", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _request_timeout=_request_timeout,
-                                   body=body))
-
-    async def put_request(self, url, headers=None, query_params=None, post_params=None,
-                  body=None, _request_timeout=None):
-        return (await self.request("PUT", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _request_timeout=_request_timeout,
-                                   body=body))
-
-    async def patch_request(self, url, headers=None, query_params=None,
-                    post_params=None, body=None,
-                    _request_timeout=None):
-        return (await self.request("PATCH", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _request_timeout=_request_timeout,
-                                   body=body))

@@ -103,14 +103,13 @@ class RESTClientObject:
                 **addition_pool_args
             )
 
-    def request(self, method, url, query_params=None, headers=None,
+    def request(self, method, url, headers=None,
                 body=None, post_params=None,
                 _request_timeout=None):
         """Perform requests.
 
         :param method: http request method
         :param url: http request url
-        :param query_params: query parameters in the url
         :param headers: http request headers
         :param body: request json body, for `application/json`
         :param post_params: request post parameters,
@@ -132,9 +131,6 @@ class RESTClientObject:
 
         post_params = post_params or {}
         headers = headers or {}
-        # url already contains the URL query string
-        # so reset query_params to empty dict
-        query_params = {}
 
         timeout = None
         if _request_timeout:
@@ -227,61 +223,3 @@ class RESTClientObject:
             raise ApiException(http_resp=r)
 
         return r
-
-    def get_request(self, url, headers=None, query_params=None,
-            _request_timeout=None):
-        return self.request("GET", url,
-                            headers=headers,
-                            _request_timeout=_request_timeout,
-                            query_params=query_params)
-
-    def head_request(self, url, headers=None, query_params=None,
-            _request_timeout=None):
-        return self.request("HEAD", url,
-                            headers=headers,
-                            _request_timeout=_request_timeout,
-                            query_params=query_params)
-
-    def options_request(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _request_timeout=None):
-        return self.request("OPTIONS", url,
-                            headers=headers,
-                            query_params=query_params,
-                            post_params=post_params,
-                            _request_timeout=_request_timeout,
-                            body=body)
-
-    def delete_request(self, url, headers=None, query_params=None, body=None,
-            _request_timeout=None):
-        return self.request("DELETE", url,
-                            headers=headers,
-                            query_params=query_params,
-                            _request_timeout=_request_timeout,
-                            body=body)
-
-    def post_request(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _request_timeout=None):
-        return self.request("POST", url,
-                            headers=headers,
-                            query_params=query_params,
-                            post_params=post_params,
-                            _request_timeout=_request_timeout,
-                            body=body)
-
-    def put_request(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _request_timeout=None):
-        return self.request("PUT", url,
-                            headers=headers,
-                            query_params=query_params,
-                            post_params=post_params,
-                            _request_timeout=_request_timeout,
-                            body=body)
-
-    def patch_request(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _request_timeout=None):
-        return self.request("PATCH", url,
-                            headers=headers,
-                            query_params=query_params,
-                            post_params=post_params,
-                            _request_timeout=_request_timeout,
-                            body=body)

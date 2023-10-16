@@ -189,9 +189,8 @@ class ApiClient:
 
         try:
             # perform request and return response
-            response_data = await self.request(
+            response_data = await self.rest_client.request(
                 method, url,
-                query_params=query_params,
                 headers=header_params,
                 post_params=post_params, body=body,
                 _request_timeout=_request_timeout)
@@ -375,58 +374,6 @@ class ApiClient:
         )
         return await self.__call_api(*args)
 
-
-    async def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None,
-                _request_timeout=None):
-        """Makes the HTTP request using RESTClient."""
-        if method == "GET":
-            return await self.rest_client.get_request(url,
-                                        query_params=query_params,
-                                        _request_timeout=_request_timeout,
-                                        headers=headers)
-        elif method == "HEAD":
-            return await self.rest_client.head_request(url,
-                                         query_params=query_params,
-                                         _request_timeout=_request_timeout,
-                                         headers=headers)
-        elif method == "OPTIONS":
-            return await self.rest_client.options_request(url,
-                                            query_params=query_params,
-                                            headers=headers,
-                                            _request_timeout=_request_timeout)
-        elif method == "POST":
-            return await self.rest_client.post_request(url,
-                                         query_params=query_params,
-                                         headers=headers,
-                                         post_params=post_params,
-                                         _request_timeout=_request_timeout,
-                                         body=body)
-        elif method == "PUT":
-            return await self.rest_client.put_request(url,
-                                        query_params=query_params,
-                                        headers=headers,
-                                        post_params=post_params,
-                                        _request_timeout=_request_timeout,
-                                        body=body)
-        elif method == "PATCH":
-            return await self.rest_client.patch_request(url,
-                                          query_params=query_params,
-                                          headers=headers,
-                                          post_params=post_params,
-                                          _request_timeout=_request_timeout,
-                                          body=body)
-        elif method == "DELETE":
-            return await self.rest_client.delete_request(url,
-                                           query_params=query_params,
-                                           headers=headers,
-                                           _request_timeout=_request_timeout,
-                                           body=body)
-        else:
-            raise ApiValueError(
-                "http method must be `GET`, `HEAD`, `OPTIONS`,"
-                " `POST`, `PATCH`, `PUT` or `DELETE`."
-            )
 
     def parameters_to_tuples(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.
