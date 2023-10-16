@@ -2717,7 +2717,10 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ApiClient.java"))
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ApiClient.java"));
+        javaFileAssert
                 .assertMethod("invokeAPIAsync")
                 .bodyContainsLines("return sendRequestAsync(method, builderAndEntity.invocationBuilder.async(), builderAndEntity.entity);");
         JavaFileAssert.assertThat(files.get("UserApi.java"))
