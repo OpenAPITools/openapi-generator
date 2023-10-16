@@ -1241,7 +1241,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     try {
       response = sendRequest(method, builderAndEntity.invocationBuilder, builderAndEntity.entity);
+      {{#hasOAuthMethods}}
       renewOauthIfNeeded(method, authNames, response.getStatus());
+      {{/hasOAuthMethods}}
       return toApiResponse(returnType, response);
     } finally {
       try {
