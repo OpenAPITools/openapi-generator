@@ -24,8 +24,10 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason
         self.data = None
 
-    def setdata(self, data):
-        self.data = data
+    async read(self, response):
+        if self.data is None:
+            self.data = await response.read()
+        return self.data
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
@@ -157,8 +159,6 @@ class RESTClientObject:
 
         return RESTResponse(r)
 
-    async read(self, response):
-        response.setdata(await response.aiohttp_response.read())
 
 
 

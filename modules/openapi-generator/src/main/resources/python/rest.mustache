@@ -22,8 +22,10 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason
         self.data = None
 
-    def setdata(self, data):
-        self.data = data
+    def read(self):
+        if self.data is None:
+            self.data = self.urllib3_response.data
+        return self.data
 
     def getheaders(self):
         """Returns a dictionary of the response headers."""
@@ -195,6 +197,3 @@ class RESTClientObject:
             raise ApiException(status=0, reason=msg)
 
         return RESTResponse(r)
-
-    def read(self, response):
-        response.setdata(response.urllib3_response.data)

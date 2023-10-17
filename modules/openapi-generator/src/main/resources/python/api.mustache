@@ -286,7 +286,7 @@ class {{classname}}:
         )
 
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        {{#asyncio}}await {{/asyncio}}self.api_client.read(response_data)
+        {{#asyncio}}await {{/asyncio}}response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
