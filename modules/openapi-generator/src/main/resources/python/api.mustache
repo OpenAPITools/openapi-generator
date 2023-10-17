@@ -2,11 +2,10 @@
 
 {{>partial_header}}
 
-import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError, Field
+from pydantic import validate_call, Field
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 try:
@@ -20,10 +19,6 @@ except ImportError:
 
 from {{packageName}}.api_client import ApiClient
 from {{packageName}}.api_response import ApiResponse
-from {{packageName}}.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
-)
 from {{packageName}}.rest import RESTResponseType
 
 {{^asyncio}}
