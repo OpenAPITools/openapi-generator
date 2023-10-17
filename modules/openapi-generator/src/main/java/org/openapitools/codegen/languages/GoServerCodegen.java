@@ -301,6 +301,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                imports.add(createMapping("import", "fmt"));
                 continue;
             }
 

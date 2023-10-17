@@ -68,7 +68,25 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 			wHeader.Add(key, value)
 		}
 	}
+
+	f, ok := i.(*os.File)
+	if ok {
+		data, err := io.ReadAll(f)
+		if err != nil {
+			return err
+		}
+		wHeader.Set("Content-Type", http.DetectContentType(data))
+		wHeader.Set("Content-Disposition", "attachment; filename="+f.Name())
+		if status != nil {
+			w.WriteHeader(*status)
+		} else {
+			w.WriteHeader(http.StatusOK)
+		}
+		_, err = w.Write(data)
+		return err
+	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
+
 	if status != nil {
 		w.WriteHeader(*status)
 	} else {

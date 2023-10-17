@@ -1281,6 +1281,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
+            
+            // Remove constant params from allParams list and add to constantParams
+            handleConstantParams(operation);
         }
 
         List<Map<String, String>> newImports = new ArrayList<>();
