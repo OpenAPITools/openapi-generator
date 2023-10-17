@@ -176,9 +176,11 @@ class {{classname}}:
         if {{paramName}} is not None:
             {{#isBinary}}
             # convert to byte array if the input is a file name (str)
-            if isinstance(_body_params, str):
-                with io.open(_body_params, "rb", encoding="utf-8") as _fp:
+            if isinstance({{paramName}}, str):
+                with io.open({{paramName}}, "rb") as _fp:
                     _body_params = _fp.read()
+            else:
+                _body_params = {{paramName}}
             {{/isBinary}}
             {{^isBinary}}
             _body_params = {{paramName}}
