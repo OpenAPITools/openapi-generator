@@ -116,22 +116,20 @@ class PetApiTests(unittest.TestCase):
         # ensure the default configuration is used
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
-    @unittest.skip("async_req is deprecated")
     def test_async_request(self):
-        thread = self.pet_api.add_pet(self.pet, async_req=True)
+        thread = self.pet_api.add_pet_with_async(self.pet)
         response = thread.get()
         self.assertIsNone(response)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_with_async(self.pet.id)
         result = thread.get()
         self.assertIsInstance(result, petstore_api.Pet)
 
-    @unittest.skip("async_req is deprecated")
     def test_async_with_result(self):
-        self.pet_api.add_pet(self.pet, async_req=False)
+        self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
-        thread2 = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_with_async(self.pet.id)
+        thread2 = self.pet_api.get_pet_by_id_with_async(self.pet.id)
 
         response = thread.get()
         response2 = thread2.get()
@@ -139,24 +137,22 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
-    @unittest.skip("async_req is deprecated")
     def test_async_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id_with_http_info_async(self.pet.id)
         api_response_object = thread.get()
 
         self.assertIsInstance(api_response_object.data, petstore_api.Pet)
         self.assertEqual(api_response_object.status_code, 200)
         self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
-        self.assertIsInstance(api_response_object.raw_data, str) # it's a str, not Pet
-        self.assertTrue(api_response_object.raw_data.startswith('{"id":'))
+        self.assertIsInstance(api_response_object.raw_data, bytes)
+        self.assertTrue(api_response_object.raw_data.decode("utf-8").startswith('{"id":'))
 
-    @unittest.skip("async_req is deprecated")
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id(9999999999999, async_req=True)
+        thread = self.pet_api.get_pet_by_id_with_async(9999999999999)
 
         exception = None
         try:
