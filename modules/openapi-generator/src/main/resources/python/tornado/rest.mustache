@@ -15,29 +15,28 @@ from urllib3.filepost import encode_multipart_formdata
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
 
-logger = logging.getLogger(__name__)
-
+RESTResponseType = httpclient.HTTPResponse
 
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
-        self.tornado_response = resp
+        self.response = resp
         self.status = resp.code
         self.reason = resp.reason
         self.data = None
 
     def read(self):
         if self.data is None:
-            self.data = self.tornado_response.body
+            self.data = self.response.body
         return self.data
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
-        return self.tornado_response.headers
+        return self.response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.tornado_response.headers.get(name, default)
+        return self.response.headers.get(name, default)
 
 
 class RESTClientObject:

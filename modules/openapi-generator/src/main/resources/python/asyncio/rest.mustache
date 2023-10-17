@@ -13,13 +13,12 @@ from urllib.parse import urlencode, quote_plus
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
 
-logger = logging.getLogger(__name__)
-
+RESTResponseType = aiohttp.ClientResponse
 
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
-        self.aiohttp_response = resp
+        self.response = resp
         self.status = resp.status
         self.reason = resp.reason
         self.data = None
@@ -31,11 +30,11 @@ class RESTResponse(io.IOBase):
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
-        return self.aiohttp_response.headers
+        return self.response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.aiohttp_response.headers.get(name, default)
+        return self.response.headers.get(name, default)
 
 
 class RESTClientObject:

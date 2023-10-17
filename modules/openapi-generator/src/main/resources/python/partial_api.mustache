@@ -1,0 +1,46 @@
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}
+        {{#notes}}
+        {{{.}}}
+        {{/notes}}
+        {{^asyncio}}
+                This method makes a synchronous HTTP request by default.
+        {{/asyncio}}
+        {{#allParams}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
+        {{/allParams}}
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]
+        """
+        {{#isDeprecated}}
+        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+        {{/isDeprecated}}
+
+        param = self._{{operationId}}_serialize(
+            {{#allParams}}
+            {{paramName}}={{paramName}},
+            {{/allParams}}
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            {{#returnType}}{{#responses}}{{^isWildcard}}'{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}}{{/isWildcard}}{{^-last}},{{/-last}}
+            {{/responses}}{{/returnType}}
+        }

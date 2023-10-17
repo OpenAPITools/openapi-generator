@@ -19,6 +19,11 @@ from {{packageName}}.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
+from {{packageName}}.rest import RESTResponseType
+
+{{^asyncio}}
+from multiprocessing.pool import ApplyResult
+{{/asyncio}}
 
 
 {{#operations}}
@@ -36,106 +41,87 @@ class {{classname}}:
 {{#operation}}
 
     @validate_call
-    {{#asyncio}}async {{/asyncio}}def {{operationId}}(
-        self,
-        {{#allParams}}
-        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
-        {{/allParams}}
-        **kwargs,
-    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
-        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 
-{{#notes}}
-        {{{.}}}  # noqa: E501
-{{/notes}}
-{{^asyncio}}
-        This method makes a synchronous HTTP request by default.
-{{/asyncio}}
+{{>partial_api}}
 
-{{#allParams}}
-        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
-        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
-{{/allParams}}
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
-        """
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        {{#asyncio}}await {{/asyncio}}response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        data = {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
-            {{#allParams}}
-            {{paramName}},
-            {{/allParams}}
-            **kwargs,
-        )
-        return data.data
 
     @validate_call
-    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info(
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
+
+{{>partial_api}}
+
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    {{^asyncio}}
+    @validate_call
+    def {{operationId}}_with_async{{>partial_api_args}} -> ApplyResult:
+
+{{>partial_api}}
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def {{operationId}}_with_http_info_async{{>partial_api_args}} -> ApplyResult:
+
+{{>partial_api}}
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+    {{/asyncio}}
+
+
+    @validate_call
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+
+{{>partial_api}}
+
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        {{#asyncio}}await {{/asyncio}}response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _{{operationId}}_serialize(
         self,
         {{#allParams}}
-        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{paramName}},
         {{/allParams}}
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le={{#servers.size}}{{servers.size}}{{/servers.size}}{{^servers.size}}1{{/servers.size}},
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
-        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}
-{{#notes}}
-        {{{.}}}
-{{/notes}}
-{{^asyncio}}
-        This method makes a synchronous HTTP request by default.
-{{/asyncio}}
-
-{{#allParams}}
-        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
-        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
-{{/allParams}}
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]
-        """
-
-{{#isDeprecated}}
-        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
-{{/isDeprecated}}
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
 
         _hosts = [
             {{#servers.size}}{{#servers}}'{{{url}}}'{{^-last}},{{/-last}}
             {{/servers}}{{/servers.size}}
         ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
 
         _collection_formats: Dict[str, str] = {
             {{#allParams}}{{#isArray}}
@@ -149,13 +135,13 @@ class {{classname}}:
         _files: Dict[str, str] = {}
         _body_params: Optional[bytes] = None
 
-{{#pathParams}}
         # process the path parameters
+{{#pathParams}}
         if {{paramName}} is not None:
             _path_params['{{baseName}}'] = {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}
 {{/pathParams}}
-{{#queryParams}}
         # process the query parameters
+{{#queryParams}}
         if {{paramName}} is not None:  # noqa: E501
             {{#isDateTime}}
             if isinstance({{paramName}}, datetime):
@@ -173,13 +159,13 @@ class {{classname}}:
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
             {{/isDate}}{{/isDateTime}}
 {{/queryParams}}
-{{#headerParams}}
         # process the header parameters
+{{#headerParams}}
         if {{paramName}} is not None:
             _header_params['{{baseName}}'] = {{paramName}}
 {{/headerParams}}
-{{#formParams}}
         # process the form parameters
+{{#formParams}}
         if {{paramName}} is not None:
             {{#isFile}}
             _files['{{{baseName}}}'] = {{paramName}}
@@ -188,8 +174,8 @@ class {{classname}}:
             _form_params.append(('{{{baseName}}}', {{paramName}}))
             {{/isFile}}
 {{/formParams}}
-{{#bodyParam}}
         # process the body parameter
+{{#bodyParam}}
         if {{paramName}} is not None:
             {{#isBinary}}
             # convert to byte array if the input is a file name (str)
@@ -221,12 +207,7 @@ class {{classname}}:
         # authentication setting
         _auth_settings: List[str] = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            {{#returnType}}{{#responses}}{{^isWildcard}}'{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}}{{/isWildcard}}{{^-last}},{{/-last}}
-            {{/responses}}{{/returnType}}
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='{{httpMethod}}',
             resource_path='{{{path}}}',
             path_params=_path_params,
@@ -237,15 +218,8 @@ class {{classname}}:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=None if len(_hosts) == 0 else _hosts[_host_index],
+            _host=_host,
             _request_auth=_request_auth
-        )
-
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        {{#asyncio}}await {{/asyncio}}response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
         )
 
 

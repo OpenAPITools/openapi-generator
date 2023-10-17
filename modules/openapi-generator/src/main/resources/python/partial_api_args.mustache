@@ -1,0 +1,23 @@
+(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le={{#servers.size}}{{servers.size}}{{/servers.size}}{{^servers.size}}1{{/servers.size}},
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    )
