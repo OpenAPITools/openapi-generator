@@ -15,3 +15,4 @@ class ApiResponse(BaseModel, Generic[T]):
     headers: Optional[Dict[StrictStr, StrictStr]] = Field(None, description="HTTP headers")
     data: T = Field(description="Deserialized data given the data type")
     raw_data: StrictBytes = Field(description="Raw data (HTTP response body)")
+

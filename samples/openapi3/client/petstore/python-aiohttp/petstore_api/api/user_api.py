@@ -49,6 +49,7 @@ class UserApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+
     @validate_call
     async def create_user(
         self,
@@ -71,7 +72,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Create user
         This can only be done by the logged in user.
         :param user: Created user object (required)
@@ -80,18 +80,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_user_serialize(
@@ -105,13 +111,81 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def create_user_with_http_info(
+        self,
+        user: Annotated[User, Field(description="Created user object")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=3,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Create user
+        This can only be done by the logged in user.
+        :param user: Created user object (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._create_user_serialize(
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -136,7 +210,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Create user
         This can only be done by the logged in user.
         :param user: Created user object (required)
@@ -145,18 +218,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_user_serialize(
@@ -170,75 +249,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def create_user_with_http_info(
-        self,
-        user: Annotated[User, Field(description="Created user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=3,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Create user
-        This can only be done by the logged in user.
-        :param user: Created user object (required)
-        :type user: User
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._create_user_serialize(
-            user=user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _create_user_serialize(
@@ -306,6 +320,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def create_users_with_array_input(
         self,
@@ -328,7 +343,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Creates list of users with given input array
         
         :param user: List of user object (required)
@@ -337,18 +351,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_users_with_array_input_serialize(
@@ -362,13 +382,81 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def create_users_with_array_input_with_http_info(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Creates list of users with given input array
+        
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._create_users_with_array_input_serialize(
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -393,7 +481,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Creates list of users with given input array
         
         :param user: List of user object (required)
@@ -402,18 +489,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_users_with_array_input_serialize(
@@ -427,75 +520,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def create_users_with_array_input_with_http_info(
-        self,
-        user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Creates list of users with given input array
-        
-        :param user: List of user object (required)
-        :type user: List[User]
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._create_users_with_array_input_serialize(
-            user=user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _create_users_with_array_input_serialize(
@@ -561,6 +589,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def create_users_with_list_input(
         self,
@@ -583,7 +612,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Creates list of users with given input array
         
         :param user: List of user object (required)
@@ -592,18 +620,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_users_with_list_input_serialize(
@@ -617,13 +651,81 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def create_users_with_list_input_with_http_info(
+        self,
+        user: Annotated[List[User], Field(description="List of user object")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Creates list of users with given input array
+        
+        :param user: List of user object (required)
+        :type user: List[User]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._create_users_with_list_input_serialize(
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -648,7 +750,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Creates list of users with given input array
         
         :param user: List of user object (required)
@@ -657,18 +758,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._create_users_with_list_input_serialize(
@@ -682,75 +789,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def create_users_with_list_input_with_http_info(
-        self,
-        user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Creates list of users with given input array
-        
-        :param user: List of user object (required)
-        :type user: List[User]
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._create_users_with_list_input_serialize(
-            user=user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _create_users_with_list_input_serialize(
@@ -816,6 +858,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def delete_user(
         self,
@@ -838,7 +881,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Delete user
         This can only be done by the logged in user.
         :param username: The name that needs to be deleted (required)
@@ -847,18 +889,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_user_serialize(
@@ -872,13 +920,81 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def delete_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Delete user
+        This can only be done by the logged in user.
+        :param username: The name that needs to be deleted (required)
+        :type username: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._delete_user_serialize(
+            username=username,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -903,7 +1019,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Delete user
         This can only be done by the logged in user.
         :param username: The name that needs to be deleted (required)
@@ -912,18 +1027,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_user_serialize(
@@ -937,75 +1058,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def delete_user_with_http_info(
-        self,
-        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Delete user
-        This can only be done by the logged in user.
-        :param username: The name that needs to be deleted (required)
-        :type username: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._delete_user_serialize(
-            username=username,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _delete_user_serialize(
@@ -1063,6 +1119,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def get_user_by_name(
         self,
@@ -1085,7 +1142,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> User:
-
         """Get user by user name
         
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
@@ -1094,18 +1150,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[User]
         """
 
         param = self._get_user_by_name_serialize(
@@ -1122,13 +1184,84 @@ class UserApi:
             '404': None
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def get_user_by_name_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[User]:
+        """Get user by user name
+        
+        :param username: The name that needs to be fetched. Use user1 for testing. (required)
+        :type username: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._get_user_by_name_serialize(
+            username=username,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "User",
+            '400': None,
+            '404': None
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -1153,7 +1286,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Get user by user name
         
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
@@ -1162,18 +1294,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[User]
         """
 
         param = self._get_user_by_name_serialize(
@@ -1190,78 +1328,10 @@ class UserApi:
             '404': None
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def get_user_by_name_with_http_info(
-        self,
-        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> User:
-
-        """Get user by user name
-        
-        :param username: The name that needs to be fetched. Use user1 for testing. (required)
-        :type username: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[User]
-        """
-
-        param = self._get_user_by_name_serialize(
-            username=username,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "User",
-            '400': None,
-            '404': None
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _get_user_by_name_serialize(
@@ -1322,6 +1392,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def login_user(
         self,
@@ -1345,7 +1416,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> str:
-
         """Logs user into the system
         
         :param username: The user name for login (required)
@@ -1356,18 +1426,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._login_user_serialize(
@@ -1384,13 +1460,87 @@ class UserApi:
             '400': None
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def login_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="The user name for login")],
+        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[str]:
+        """Logs user into the system
+        
+        :param username: The user name for login (required)
+        :type username: str
+        :param password: The password for login in clear text (required)
+        :type password: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._login_user_serialize(
+            username=username,
+            password=password,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+            '400': None
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -1416,7 +1566,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Logs user into the system
         
         :param username: The user name for login (required)
@@ -1427,18 +1576,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._login_user_serialize(
@@ -1455,81 +1610,10 @@ class UserApi:
             '400': None
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def login_user_with_http_info(
-        self,
-        username: Annotated[StrictStr, Field(description="The user name for login")],
-        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> str:
-
-        """Logs user into the system
-        
-        :param username: The user name for login (required)
-        :type username: str
-        :param password: The password for login in clear text (required)
-        :type password: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[str]
-        """
-
-        param = self._login_user_serialize(
-            username=username,
-            password=password,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-            '400': None
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _login_user_serialize(
@@ -1597,6 +1681,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def logout_user(
         self,
@@ -1618,25 +1703,30 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Logs out current logged in user session
         
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._logout_user_serialize(
@@ -1649,13 +1739,77 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def logout_user_with_http_info(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Logs out current logged in user session
+        
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._logout_user_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -1679,25 +1833,30 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Logs out current logged in user session
         
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._logout_user_serialize(
@@ -1710,71 +1869,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def logout_user_with_http_info(
-        self,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Logs out current logged in user session
-        
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._logout_user_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _logout_user_serialize(
@@ -1829,6 +1927,7 @@ class UserApi:
 
 
 
+
     @validate_call
     async def update_user(
         self,
@@ -1852,7 +1951,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Updated user
         This can only be done by the logged in user.
         :param username: name that need to be deleted (required)
@@ -1863,18 +1961,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._update_user_serialize(
@@ -1889,13 +1993,85 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    async def update_user_with_http_info(
+        self,
+        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
+        user: Annotated[User, Field(description="Updated user object")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Updated user
+        This can only be done by the logged in user.
+        :param username: name that need to be deleted (required)
+        :type username: str
+        :param user: Updated user object (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._update_user_serialize(
+            username=username,
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -1921,7 +2097,6 @@ class UserApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Updated user
         This can only be done by the logged in user.
         :param username: name that need to be deleted (required)
@@ -1932,18 +2107,24 @@ class UserApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._update_user_serialize(
@@ -1958,79 +2139,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
 
 
-
-    @validate_call
-    async def update_user_with_http_info(
-        self,
-        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
-        user: Annotated[User, Field(description="Updated user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Updated user
-        This can only be done by the logged in user.
-        :param username: name that need to be deleted (required)
-        :type username: str
-        :param user: Updated user object (required)
-        :type user: User
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._update_user_serialize(
-            username=username,
-            user=user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _update_user_serialize(

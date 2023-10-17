@@ -40,11 +40,10 @@ class {{classname}}:
         self.api_client = api_client
 {{#operation}}
 
+
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
-
 {{>partial_api}}
-
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
         {{#asyncio}}await {{/asyncio}}response_data.read()
         return self.api_client.response_deserialize(
@@ -54,19 +53,27 @@ class {{classname}}:
 
 
     @validate_call
-    {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
-
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{>partial_api}}
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        {{#asyncio}}await {{/asyncio}}response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
+
+    @validate_call
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
+{{>partial_api}}
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     {{^asyncio}}
     @validate_call
     def {{operationId}}_with_async{{>partial_api_args}} -> ApplyResult:
-
 {{>partial_api}}
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -76,11 +83,10 @@ class {{classname}}:
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
 
+
     @validate_call
     def {{operationId}}_with_http_info_async{{>partial_api_args}} -> ApplyResult:
-
 {{>partial_api}}
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -88,22 +94,8 @@ class {{classname}}:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
     {{/asyncio}}
-
-
-    @validate_call
-    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
-
-{{>partial_api}}
-
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        {{#asyncio}}await {{/asyncio}}response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _{{operationId}}_serialize(

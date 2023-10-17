@@ -48,6 +48,7 @@ class FormApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+
     @validate_call
     def test_form_integer_boolean_string(
         self,
@@ -72,7 +73,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> str:
-
         """Test form parameter(s)
         Test form parameter(s)
                 This method makes a synchronous HTTP request by default.
@@ -86,18 +86,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_integer_boolean_string_serialize(
@@ -114,13 +120,91 @@ class FormApi:
             '200': "str"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def test_form_integer_boolean_string_with_http_info(
+        self,
+        integer_form: Optional[StrictInt] = None,
+        boolean_form: Optional[StrictBool] = None,
+        string_form: Optional[StrictStr] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[str]:
+        """Test form parameter(s)
+        Test form parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param integer_form:
+        :type integer_form: int
+        :param boolean_form:
+        :type boolean_form: bool
+        :param string_form:
+        :type string_form: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._test_form_integer_boolean_string_serialize(
+            integer_form=integer_form,
+            boolean_form=boolean_form,
+            string_form=string_form,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -147,7 +231,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Test form parameter(s)
         Test form parameter(s)
                 This method makes a synchronous HTTP request by default.
@@ -161,18 +244,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_integer_boolean_string_serialize(
@@ -189,9 +278,9 @@ class FormApi:
             '200': "str"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def test_form_integer_boolean_string_with_async(
@@ -217,7 +306,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Test form parameter(s)
         Test form parameter(s)
                 This method makes a synchronous HTTP request by default.
@@ -231,18 +319,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_integer_boolean_string_serialize(
@@ -259,7 +353,6 @@ class FormApi:
             '200': "str"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -268,6 +361,7 @@ class FormApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def test_form_integer_boolean_string_with_http_info_async(
@@ -293,7 +387,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Test form parameter(s)
         Test form parameter(s)
                 This method makes a synchronous HTTP request by default.
@@ -307,18 +400,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_integer_boolean_string_serialize(
@@ -335,7 +434,6 @@ class FormApi:
             '200': "str"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -343,83 +441,7 @@ class FormApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def test_form_integer_boolean_string_with_http_info(
-        self,
-        integer_form: Optional[StrictInt] = None,
-        boolean_form: Optional[StrictBool] = None,
-        string_form: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> str:
-
-        """Test form parameter(s)
-        Test form parameter(s)
-                This method makes a synchronous HTTP request by default.
-        :param integer_form:
-        :type integer_form: int
-        :param boolean_form:
-        :type boolean_form: bool
-        :param string_form:
-        :type string_form: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[str]
-        """
-
-        param = self._test_form_integer_boolean_string_serialize(
-            integer_form=integer_form,
-            boolean_form=boolean_form,
-            string_form=string_form,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _test_form_integer_boolean_string_serialize(
@@ -493,6 +515,7 @@ class FormApi:
 
 
 
+
     @validate_call
     def test_form_oneof(
         self,
@@ -520,7 +543,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> str:
-
         """Test form parameter(s) for oneOf schema
         Test form parameter(s) for oneOf schema
                 This method makes a synchronous HTTP request by default.
@@ -540,18 +562,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_oneof_serialize(
@@ -571,13 +599,103 @@ class FormApi:
             '200': "str"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def test_form_oneof_with_http_info(
+        self,
+        form1: Optional[StrictStr] = None,
+        form2: Optional[StrictInt] = None,
+        form3: Optional[StrictStr] = None,
+        form4: Optional[StrictBool] = None,
+        id: Optional[StrictInt] = None,
+        name: Optional[StrictStr] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[str]:
+        """Test form parameter(s) for oneOf schema
+        Test form parameter(s) for oneOf schema
+                This method makes a synchronous HTTP request by default.
+        :param form1:
+        :type form1: str
+        :param form2:
+        :type form2: int
+        :param form3:
+        :type form3: str
+        :param form4:
+        :type form4: bool
+        :param id:
+        :type id: int
+        :param name:
+        :type name: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._test_form_oneof_serialize(
+            form1=form1,
+            form2=form2,
+            form3=form3,
+            form4=form4,
+            id=id,
+            name=name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -607,7 +725,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Test form parameter(s) for oneOf schema
         Test form parameter(s) for oneOf schema
                 This method makes a synchronous HTTP request by default.
@@ -627,18 +744,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_oneof_serialize(
@@ -658,9 +781,9 @@ class FormApi:
             '200': "str"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def test_form_oneof_with_async(
@@ -689,7 +812,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Test form parameter(s) for oneOf schema
         Test form parameter(s) for oneOf schema
                 This method makes a synchronous HTTP request by default.
@@ -709,18 +831,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_oneof_serialize(
@@ -740,7 +868,6 @@ class FormApi:
             '200': "str"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -749,6 +876,7 @@ class FormApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def test_form_oneof_with_http_info_async(
@@ -777,7 +905,6 @@ class FormApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Test form parameter(s) for oneOf schema
         Test form parameter(s) for oneOf schema
                 This method makes a synchronous HTTP request by default.
@@ -797,18 +924,24 @@ class FormApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[str]
         """
 
         param = self._test_form_oneof_serialize(
@@ -828,7 +961,6 @@ class FormApi:
             '200': "str"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -836,95 +968,7 @@ class FormApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def test_form_oneof_with_http_info(
-        self,
-        form1: Optional[StrictStr] = None,
-        form2: Optional[StrictInt] = None,
-        form3: Optional[StrictStr] = None,
-        form4: Optional[StrictBool] = None,
-        id: Optional[StrictInt] = None,
-        name: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> str:
-
-        """Test form parameter(s) for oneOf schema
-        Test form parameter(s) for oneOf schema
-                This method makes a synchronous HTTP request by default.
-        :param form1:
-        :type form1: str
-        :param form2:
-        :type form2: int
-        :param form3:
-        :type form3: str
-        :param form4:
-        :type form4: bool
-        :param id:
-        :type id: int
-        :param name:
-        :type name: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[str]
-        """
-
-        param = self._test_form_oneof_serialize(
-            form1=form1,
-            form2=form2,
-            form3=form3,
-            form4=form4,
-            id=id,
-            name=name,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _test_form_oneof_serialize(

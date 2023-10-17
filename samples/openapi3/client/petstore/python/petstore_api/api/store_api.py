@@ -50,6 +50,7 @@ class StoreApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+
     @validate_call
     def delete_order(
         self,
@@ -72,7 +73,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> None:
-
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
                 This method makes a synchronous HTTP request by default.
@@ -82,18 +82,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_order_serialize(
@@ -107,13 +113,82 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def delete_order_with_http_info(
+        self,
+        order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[None]:
+        """Delete purchase order by ID
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+                This method makes a synchronous HTTP request by default.
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -138,7 +213,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
                 This method makes a synchronous HTTP request by default.
@@ -148,18 +222,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_order_serialize(
@@ -173,9 +253,9 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def delete_order_with_async(
@@ -199,7 +279,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
                 This method makes a synchronous HTTP request by default.
@@ -209,18 +288,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_order_serialize(
@@ -234,7 +319,6 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -243,6 +327,7 @@ class StoreApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def delete_order_with_http_info_async(
@@ -266,7 +351,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
                 This method makes a synchronous HTTP request by default.
@@ -276,18 +360,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[None]
         """
 
         param = self._delete_order_serialize(
@@ -301,7 +391,6 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -309,74 +398,7 @@ class StoreApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def delete_order_with_http_info(
-        self,
-        order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> None:
-
-        """Delete purchase order by ID
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-                This method makes a synchronous HTTP request by default.
-        :param order_id: ID of the order that needs to be deleted (required)
-        :type order_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[None]
-        """
-
-        param = self._delete_order_serialize(
-            order_id=order_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _delete_order_serialize(
@@ -434,6 +456,7 @@ class StoreApi:
 
 
 
+
     @validate_call
     def get_inventory(
         self,
@@ -455,7 +478,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> Dict[str, int]:
-
         """Returns pet inventories by status
         Returns a map of status codes to quantities
                 This method makes a synchronous HTTP request by default.
@@ -463,18 +485,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Dict[str, int]]
         """
 
         param = self._get_inventory_serialize(
@@ -488,13 +516,79 @@ class StoreApi:
             '200': "Dict[str, int]"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def get_inventory_with_http_info(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[Dict[str, int]]:
+        """Returns pet inventories by status
+        Returns a map of status codes to quantities
+                This method makes a synchronous HTTP request by default.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]"
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -518,7 +612,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Returns pet inventories by status
         Returns a map of status codes to quantities
                 This method makes a synchronous HTTP request by default.
@@ -526,18 +619,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Dict[str, int]]
         """
 
         param = self._get_inventory_serialize(
@@ -551,9 +650,9 @@ class StoreApi:
             '200': "Dict[str, int]"
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def get_inventory_with_async(
@@ -576,7 +675,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Returns pet inventories by status
         Returns a map of status codes to quantities
                 This method makes a synchronous HTTP request by default.
@@ -584,18 +682,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Dict[str, int]]
         """
 
         param = self._get_inventory_serialize(
@@ -609,7 +713,6 @@ class StoreApi:
             '200': "Dict[str, int]"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -618,6 +721,7 @@ class StoreApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def get_inventory_with_http_info_async(
@@ -640,7 +744,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Returns pet inventories by status
         Returns a map of status codes to quantities
                 This method makes a synchronous HTTP request by default.
@@ -648,18 +751,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Dict[str, int]]
         """
 
         param = self._get_inventory_serialize(
@@ -673,7 +782,6 @@ class StoreApi:
             '200': "Dict[str, int]"
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -681,71 +789,7 @@ class StoreApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def get_inventory_with_http_info(
-        self,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> Dict[str, int]:
-
-        """Returns pet inventories by status
-        Returns a map of status codes to quantities
-                This method makes a synchronous HTTP request by default.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[Dict[str, int]]
-        """
-
-        param = self._get_inventory_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]"
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _get_inventory_serialize(
@@ -803,6 +847,7 @@ class StoreApi:
 
 
 
+
     @validate_call
     def get_order_by_id(
         self,
@@ -825,7 +870,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> Order:
-
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
                 This method makes a synchronous HTTP request by default.
@@ -835,18 +879,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._get_order_by_id_serialize(
@@ -863,13 +913,85 @@ class StoreApi:
             '404': None
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def get_order_by_id_with_http_info(
+        self,
+        order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[Order]:
+        """Find purchase order by ID
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+                This method makes a synchronous HTTP request by default.
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -894,7 +1016,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
                 This method makes a synchronous HTTP request by default.
@@ -904,18 +1025,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._get_order_by_id_serialize(
@@ -932,9 +1059,9 @@ class StoreApi:
             '404': None
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def get_order_by_id_with_async(
@@ -958,7 +1085,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
                 This method makes a synchronous HTTP request by default.
@@ -968,18 +1094,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._get_order_by_id_serialize(
@@ -996,7 +1128,6 @@ class StoreApi:
             '404': None
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -1005,6 +1136,7 @@ class StoreApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def get_order_by_id_with_http_info_async(
@@ -1028,7 +1160,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
                 This method makes a synchronous HTTP request by default.
@@ -1038,18 +1169,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._get_order_by_id_serialize(
@@ -1066,7 +1203,6 @@ class StoreApi:
             '404': None
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -1074,77 +1210,7 @@ class StoreApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def get_order_by_id_with_http_info(
-        self,
-        order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> Order:
-
-        """Find purchase order by ID
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-                This method makes a synchronous HTTP request by default.
-        :param order_id: ID of pet that needs to be fetched (required)
-        :type order_id: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[Order]
-        """
-
-        param = self._get_order_by_id_serialize(
-            order_id=order_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Order",
-            '400': None,
-            '404': None
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _get_order_by_id_serialize(
@@ -1205,6 +1271,7 @@ class StoreApi:
 
 
 
+
     @validate_call
     def place_order(
         self,
@@ -1227,7 +1294,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> Order:
-
         """Place an order for a pet
         
                 This method makes a synchronous HTTP request by default.
@@ -1237,18 +1303,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._place_order_serialize(
@@ -1264,13 +1336,84 @@ class StoreApi:
             '400': None
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+
+
+    @validate_call
+    def place_order_with_http_info(
+        self,
+        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse[Order]:
+        """Place an order for a pet
+        
+                This method makes a synchronous HTTP request by default.
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None
+            
+        }
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
 
     @validate_call
@@ -1295,7 +1438,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> RESTResponseType:
-
         """Place an order for a pet
         
                 This method makes a synchronous HTTP request by default.
@@ -1305,18 +1447,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._place_order_serialize(
@@ -1332,9 +1480,9 @@ class StoreApi:
             '400': None
             
         }
-
         response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
         return response_data.response
+
 
     @validate_call
     def place_order_with_async(
@@ -1358,7 +1506,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Place an order for a pet
         
                 This method makes a synchronous HTTP request by default.
@@ -1368,18 +1515,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._place_order_serialize(
@@ -1395,7 +1548,6 @@ class StoreApi:
             '400': None
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -1404,6 +1556,7 @@ class StoreApi:
                 response_types_map=_response_types_map,
             ).data
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
 
     @validate_call
     def place_order_with_http_info_async(
@@ -1427,7 +1580,6 @@ class StoreApi:
             description="index of the host to use, if the server has multiple hosts",
         )] = 0,
     ) -> ApplyResult:
-
         """Place an order for a pet
         
                 This method makes a synchronous HTTP request by default.
@@ -1437,18 +1589,24 @@ class StoreApi:
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ApiResponse[Order]
         """
 
         param = self._place_order_serialize(
@@ -1464,7 +1622,6 @@ class StoreApi:
             '400': None
             
         }
-
         def callback(*args):
             response_data = self.api_client.call_api(*args)
             response_data.read()
@@ -1472,76 +1629,7 @@ class StoreApi:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-
         return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
-
-
-    @validate_call
-    def place_order_with_http_info(
-        self,
-        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
-        )] = None,
-        _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
-        )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
-        )] = None,
-        _host_index: Annotated[int, Field(
-            ge=0,
-            le=0,
-            description="index of the host to use, if the server has multiple hosts",
-        )] = 0,
-    ) -> Order:
-
-        """Place an order for a pet
-        
-                This method makes a synchronous HTTP request by default.
-        :param order: order placed for purchasing the pet (required)
-        :type order: Order
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :type _headers: dict, optional: set to override the header params for an a single
-                        request; this effectively ignores the header params
-                        in the spec for a single request.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse[Order]
-        """
-
-        param = self._place_order_serialize(
-            order=order,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Order",
-            '400': None
-            
-        }
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
 
 
     def _place_order_serialize(
