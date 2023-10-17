@@ -8,7 +8,7 @@ const buildKeyAndLabel = (prefix, isInput = true, isArrayChild = false) => {
     const labelPrefix = !_.isEmpty(keyPrefix) ? keyPrefix.replaceAll('__', '.') : ''
     return {
         keyPrefix: keyPrefix,
-        labelPrefix:labelPrefix,
+        labelPrefix: labelPrefix,
     }
 }
 const isSearchAction = (key) => {
