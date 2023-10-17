@@ -6,8 +6,8 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError
-from typing import Dict, List, Optional, Tuple
+from pydantic import validate_call, ValidationError, Field
+from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
 
 {{#imports}}
 {{import}}
@@ -80,12 +80,27 @@ class {{classname}}:
         {{#allParams}}
         {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
         {{/allParams}}
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le={{#servers.size}}{{servers.size}}{{/servers.size}}{{^servers.size}}1{{/servers.size}},
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
-        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
-
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}
 {{#notes}}
-        {{{.}}}  # noqa: E501
+        {{{.}}}
 {{/notes}}
 {{^asyncio}}
         This method makes a synchronous HTTP request by default.
@@ -104,171 +119,112 @@ class {{classname}}:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]
         """
 
-        {{#isDeprecated}}
+{{#isDeprecated}}
         warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+{{/isDeprecated}}
 
-        {{/isDeprecated}}
-        {{#servers.0}}
         _hosts = [
-{{#servers}}
-            '{{{url}}}'{{^-last}},{{/-last}}
-{{/servers}}
+            {{#servers.size}}{{#servers}}'{{{url}}}'{{^-last}},{{/-last}}
+            {{/servers}}{{/servers.size}}
         ]
-        _host = _hosts[0]
-        if kwargs.get('_host_index'):
-            _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(_hosts):
-                raise ApiValueError(
-                    "Invalid host index. Must be 0 <= index < %s"
-                    % len(_host)
-                )
-            _host = _hosts[_host_index]
-        {{/servers.0}}
-        _params = locals()
 
-        _all_params = [
-{{#allParams}}
-            '{{paramName}}'{{^-last}},{{/-last}}
-{{/allParams}}
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
+        _collection_formats: Dict[str, str] = {
+            {{#allParams}}{{#isArray}}
+            '{{baseName}}': '{{collectionFormat}}',{{/isArray}}{{/allParams}}
+        }
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params{{#servers.0}} and _key != "_host_index"{{/servers.0}}:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method {{operationId}}" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats: Dict[str, str] = {}
-
-        # process the path parameters
         _path_params: Dict[str, str] = {}
-{{#pathParams}}
-        if _params['{{paramName}}'] is not None:
-            _path_params['{{baseName}}'] = _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}
-            {{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
-            {{/isArray}}
-
-{{/pathParams}}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-{{#queryParams}}
-        if _params.get('{{paramName}}') is not None:  # noqa: E501
-            {{#isDateTime}}
-            if isinstance(_params['{{paramName}}'], datetime):
-                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)))
-            else:
-                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
-            if isinstance(_params['{{paramName}}'], date):
-                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
-            else:
-                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
-            {{/isDate}}
-            {{^isDate}}
-            _query_params.append(('{{baseName}}', _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}))
-            {{/isDate}}
-            {{/isDateTime}}
-            {{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
-            {{/isArray}}
-
-{{/queryParams}}
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-{{#headerParams}}
-        if _params['{{paramName}}'] is not None:
-            _header_params['{{baseName}}'] = _params['{{paramName}}']
-            {{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
-            {{/isArray}}
-
-{{/headerParams}}
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
-{{#formParams}}
-        if _params['{{paramName}}'] is not None:
-            {{^isFile}}
-            _form_params.append(('{{{baseName}}}', _params['{{paramName}}']))
-            {{/isFile}}
-            {{#isFile}}
-            _files['{{{baseName}}}'] = _params['{{paramName}}']
-            {{/isFile}}
-            {{#isArray}}
-            _collection_formats['{{{baseName}}}'] = '{{collectionFormat}}'
-            {{/isArray}}
+        _body_params: Optional[bytes] = None
 
+{{#pathParams}}
+        # process the path parameters
+        if {{paramName}} is not None:
+            _path_params['{{baseName}}'] = {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}
+{{/pathParams}}
+{{#queryParams}}
+        # process the query parameters
+        if {{paramName}} is not None:  # noqa: E501
+            {{#isDateTime}}
+            if isinstance({{paramName}}, datetime):
+                _query_params.append(('{{baseName}}', {{paramName}}.strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDateTime}}
+            {{#isDate}}
+            if isinstance({{paramName}}, date):
+                _query_params.append(('{{baseName}}', {{paramName}}.strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDate}}
+            {{^isDateTime}}{{^isDate}}
+            _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isDate}}{{/isDateTime}}
+{{/queryParams}}
+{{#headerParams}}
+        # process the header parameters
+        if {{paramName}} is not None:
+            _header_params['{{baseName}}'] = {{paramName}}
+{{/headerParams}}
+{{#formParams}}
+        # process the form parameters
+        if {{paramName}} is not None:
+            {{#isFile}}
+            _files['{{{baseName}}}'] = {{paramName}}
+            {{/isFile}}
+            {{^isFile}}
+            _form_params.append(('{{{baseName}}}', {{paramName}}))
+            {{/isFile}}
 {{/formParams}}
-        # process the body parameter
-        _body_params = None
 {{#bodyParam}}
-        if _params['{{paramName}}'] is not None:
-            _body_params = _params['{{paramName}}']
+        # process the body parameter
+        if {{paramName}} is not None:
             {{#isBinary}}
             # convert to byte array if the input is a file name (str)
             if isinstance(_body_params, str):
-                with io.open(_body_params, "rb") as _fp:
-                   _body_params_from_file = _fp.read()
-                _body_params = _body_params_from_file
+                with io.open(_body_params, "rb", encoding="utf-8") as _fp:
+                    _body_params = _fp.read()
             {{/isBinary}}
-
+            {{^isBinary}}
+            _body_params = {{paramName}}
+            {{/isBinary}}
 {{/bodyParam}}
+
         {{#hasProduces}}
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])  # noqa: E501
-
         {{/hasProduces}}
+
         {{#hasConsumes}}
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}]))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
-
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
         {{/hasConsumes}}
+
         # authentication setting
         _auth_settings: List[str] = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
 
-        {{#returnType}}
-        {{#responses}}
-        {{#-first}}
         _response_types_map: Dict[str, Optional[str]] = {
-        {{/-first}}
-            {{^isWildcard}}
-            '{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
-            {{/isWildcard}}
-        {{#-last}}
+            {{#returnType}}{{#responses}}{{^isWildcard}}'{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}}{{/isWildcard}}{{^-last}},{{/-last}}
+            {{/responses}}{{/returnType}}
         }
-        {{/-last}}
-        {{/responses}}
-        {{/returnType}}
-        {{^returnType}}
-        _response_types_map: Dict[str, Optional[str]] = {}
-        {{/returnType}}
 
         param = self.api_client.param_serialize(
             method='{{httpMethod}}',
@@ -281,11 +237,11 @@ class {{classname}}:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            {{#servers.0}}_host=_host,{{/servers.0}}
-            _request_auth=_params.get('_request_auth')
+            _host=None if len(_hosts) == 0 else _hosts[_host_index],
+            _request_auth=_request_auth
         )
 
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
         {{#asyncio}}await {{/asyncio}}response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
