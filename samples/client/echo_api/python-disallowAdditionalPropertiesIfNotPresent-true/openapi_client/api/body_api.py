@@ -17,8 +17,8 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError
-from typing import Dict, List, Optional, Tuple
+from pydantic import validate_call, ValidationError, Field
+from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -35,6 +35,9 @@ from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
+from openapi_client.rest import RESTResponseType
+
+from multiprocessing.pool import ApplyResult
 
 
 class BodyApi:
@@ -52,38 +55,28 @@ class BodyApi:
     @validate_call
     def test_binary_gif(
         self,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> bytearray:
-        """Test binary (gif) response body  # noqa: E501
 
-        Test binary (gif) response body  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: bytearray
-        """
-
-        data = self.test_binary_gif_with_http_info.raw_function(
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_binary_gif_with_http_info(
-        self,
-        **kwargs,
-    ) -> ApiResponse[bytearray]:
-        """Test binary (gif) response body  # noqa: E501
-
-        Test binary (gif) response body  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test binary (gif) response body
+        Test binary (gif) response body
+                This method makes a synchronous HTTP request by default.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -93,61 +86,325 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(bytearray, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[bytearray]
         """
 
-        _params = locals()
-
-        _all_params = [
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_binary_gif_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_binary_gif" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytearray"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_binary_gif_without_preload_content(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test binary (gif) response body
+        Test binary (gif) response body
+                This method makes a synchronous HTTP request by default.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[bytearray]
+        """
+
+        param = self._test_binary_gif_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytearray"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_binary_gif_with_async(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test binary (gif) response body
+        Test binary (gif) response body
+                This method makes a synchronous HTTP request by default.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[bytearray]
+        """
+
+        param = self._test_binary_gif_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytearray"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_binary_gif_with_http_info_async(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test binary (gif) response body
+        Test binary (gif) response body
+                This method makes a synchronous HTTP request by default.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[bytearray]
+        """
+
+        param = self._test_binary_gif_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytearray"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_binary_gif_with_http_info(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> bytearray:
+
+        """Test binary (gif) response body
+        Test binary (gif) response body
+                This method makes a synchronous HTTP request by default.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[bytearray]
+        """
+
+        param = self._test_binary_gif_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytearray"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_binary_gif_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['image/gif'])  # noqa: E501
 
+
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/binary/gif',
             path_params=_path_params,
@@ -158,15 +415,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -175,42 +425,28 @@ class BodyApi:
     def test_body_application_octetstream_binary(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> str:
-        """Test body parameter(s)  # noqa: E501
 
-        Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param body:
-        :type body: bytearray
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: str
-        """
-
-        data = self.test_body_application_octetstream_binary_with_http_info.raw_function(
-            body,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_body_application_octetstream_binary_with_http_info(
-        self,
-        body: Optional[Union[StrictBytes, StrictStr]] = None,
-        **kwargs,
-    ) -> ApiResponse[str]:
-        """Test body parameter(s)  # noqa: E501
-
-        Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -222,77 +458,355 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[str]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'body'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_body_application_octetstream_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_body_application_octetstream_binary" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_body_application_octetstream_binary_without_preload_content(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param body:
+        :type body: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_application_octetstream_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_body_application_octetstream_binary_with_async(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param body:
+        :type body: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_application_octetstream_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_body_application_octetstream_binary_with_http_info_async(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param body:
+        :type body: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_application_octetstream_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_body_application_octetstream_binary_with_http_info(
+        self,
+        body: Optional[Union[StrictBytes, StrictStr]] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> str:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param body:
+        :type body: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_application_octetstream_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_body_application_octetstream_binary_serialize(
+        self,
+        body,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['body'] is not None:
-            _body_params = _params['body']
+        if body is not None:
             # convert to byte array if the input is a file name (str)
             if isinstance(_body_params, str):
-                with io.open(_body_params, "rb") as _fp:
-                   _body_params_from_file = _fp.read()
-                _body_params = _body_params_from_file
+                with io.open(_body_params, "rb", encoding="utf-8") as _fp:
+                    _body_params = _fp.read()
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/octet-stream']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/octet-stream'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/body/application/octetstream/binary',
             path_params=_path_params,
@@ -303,15 +817,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -320,42 +827,28 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> str:
-        """Test array of binary in multipart mime  # noqa: E501
 
-        Test array of binary in multipart mime  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param files: (required)
-        :type files: List[bytearray]
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: str
-        """
-
-        data = self.test_body_multipart_formdata_array_of_binary_with_http_info.raw_function(
-            files,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_body_multipart_formdata_array_of_binary_with_http_info(
-        self,
-        files: List[Union[StrictBytes, StrictStr]],
-        **kwargs,
-    ) -> ApiResponse[str]:
-        """Test array of binary in multipart mime  # noqa: E501
-
-        Test array of binary in multipart mime  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test array of binary in multipart mime
+        Test array of binary in multipart mime
+                This method makes a synchronous HTTP request by default.
         :param files: (required)
         :type files: List[bytearray]
         :param _request_timeout: timeout setting for this request. If one
@@ -367,73 +860,353 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[str]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'files'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_body_multipart_formdata_array_of_binary_serialize(
+            files=files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_body_multipart_formdata_array_of_binary" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_body_multipart_formdata_array_of_binary_without_preload_content(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test array of binary in multipart mime
+        Test array of binary in multipart mime
+                This method makes a synchronous HTTP request by default.
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_multipart_formdata_array_of_binary_serialize(
+            files=files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_body_multipart_formdata_array_of_binary_with_async(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test array of binary in multipart mime
+        Test array of binary in multipart mime
+                This method makes a synchronous HTTP request by default.
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_multipart_formdata_array_of_binary_serialize(
+            files=files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_body_multipart_formdata_array_of_binary_with_http_info_async(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test array of binary in multipart mime
+        Test array of binary in multipart mime
+                This method makes a synchronous HTTP request by default.
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_multipart_formdata_array_of_binary_serialize(
+            files=files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_body_multipart_formdata_array_of_binary_with_http_info(
+        self,
+        files: List[Union[StrictBytes, StrictStr]],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> str:
+
+        """Test array of binary in multipart mime
+        Test array of binary in multipart mime
+                This method makes a synchronous HTTP request by default.
+        :param files: (required)
+        :type files: List[bytearray]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_body_multipart_formdata_array_of_binary_serialize(
+            files=files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_body_multipart_formdata_array_of_binary_serialize(
+        self,
+        files,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+            'files': 'csv',
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
-        if _params['files'] is not None:
-            _files['files'] = _params['files']
-            _collection_formats['files'] = 'csv'
+        _body_params: Optional[bytes] = None
 
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if files is not None:
+            _files['files'] = files
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['multipart/form-data']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['multipart/form-data'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/body/application/octetstream/array_of_binary',
             path_params=_path_params,
@@ -444,15 +1217,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -461,42 +1227,28 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> str:
-        """Test free form object  # noqa: E501
 
-        Test free form object  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param body: Free form object
-        :type body: object
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: str
-        """
-
-        data = self.test_echo_body_free_form_object_response_string_with_http_info.raw_function(
-            body,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_echo_body_free_form_object_response_string_with_http_info(
-        self,
-        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        **kwargs,
-    ) -> ApiResponse[str]:
-        """Test free form object  # noqa: E501
-
-        Test free form object  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test free form object
+        Test free form object
+                This method makes a synchronous HTTP request by default.
         :param body: Free form object
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -508,72 +1260,352 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[str]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'body'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_echo_body_free_form_object_response_string_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_echo_body_free_form_object_response_string" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_echo_body_free_form_object_response_string_without_preload_content(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test free form object
+        Test free form object
+                This method makes a synchronous HTTP request by default.
+        :param body: Free form object
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_free_form_object_response_string_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_echo_body_free_form_object_response_string_with_async(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test free form object
+        Test free form object
+                This method makes a synchronous HTTP request by default.
+        :param body: Free form object
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_free_form_object_response_string_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_echo_body_free_form_object_response_string_with_http_info_async(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test free form object
+        Test free form object
+                This method makes a synchronous HTTP request by default.
+        :param body: Free form object
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_free_form_object_response_string_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_echo_body_free_form_object_response_string_with_http_info(
+        self,
+        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> str:
+
+        """Test free form object
+        Test free form object
+                This method makes a synchronous HTTP request by default.
+        :param body: Free form object
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_free_form_object_response_string_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_echo_body_free_form_object_response_string_serialize(
+        self,
+        body,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['body'] is not None:
-            _body_params = _params['body']
+        if body is not None:
+            _body_params = body
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/echo/body/FreeFormObject/response_string',
             path_params=_path_params,
@@ -584,15 +1616,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -601,42 +1626,28 @@ class BodyApi:
     def test_echo_body_pet(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> Pet:
-        """Test body parameter(s)  # noqa: E501
 
-        Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param pet: Pet object that needs to be added to the store
-        :type pet: Pet
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Pet
-        """
-
-        data = self.test_echo_body_pet_with_http_info.raw_function(
-            pet,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_echo_body_pet_with_http_info(
-        self,
-        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        **kwargs,
-    ) -> ApiResponse[Pet]:
-        """Test body parameter(s)  # noqa: E501
-
-        Test body parameter(s)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -648,72 +1659,352 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[Pet]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_echo_body_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_echo_body_pet" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_echo_body_pet_without_preload_content(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._test_echo_body_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_echo_body_pet_with_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._test_echo_body_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_echo_body_pet_with_http_info_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._test_echo_body_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_echo_body_pet_with_http_info(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> Pet:
+
+        """Test body parameter(s)
+        Test body parameter(s)
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._test_echo_body_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_echo_body_pet_serialize(
+        self,
+        pet,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['pet'] is not None:
-            _body_params = _params['pet']
+        if pet is not None:
+            _body_params = pet
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/echo/body/Pet',
             path_params=_path_params,
@@ -724,15 +2015,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -741,42 +2025,28 @@ class BodyApi:
     def test_echo_body_pet_response_string(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> str:
-        """Test empty response body  # noqa: E501
 
-        Test empty response body  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param pet: Pet object that needs to be added to the store
-        :type pet: Pet
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: str
-        """
-
-        data = self.test_echo_body_pet_response_string_with_http_info.raw_function(
-            pet,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_echo_body_pet_response_string_with_http_info(
-        self,
-        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        **kwargs,
-    ) -> ApiResponse[str]:
-        """Test empty response body  # noqa: E501
-
-        Test empty response body  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test empty response body
+        Test empty response body
+                This method makes a synchronous HTTP request by default.
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -788,72 +2058,352 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[str]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_echo_body_pet_response_string_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_echo_body_pet_response_string" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_echo_body_pet_response_string_without_preload_content(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test empty response body
+        Test empty response body
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_pet_response_string_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_echo_body_pet_response_string_with_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test empty response body
+        Test empty response body
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_pet_response_string_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_echo_body_pet_response_string_with_http_info_async(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test empty response body
+        Test empty response body
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_pet_response_string_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_echo_body_pet_response_string_with_http_info(
+        self,
+        pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> str:
+
+        """Test empty response body
+        Test empty response body
+                This method makes a synchronous HTTP request by default.
+        :param pet: Pet object that needs to be added to the store
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_pet_response_string_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_echo_body_pet_response_string_serialize(
+        self,
+        pet,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['pet'] is not None:
-            _body_params = _params['pet']
+        if pet is not None:
+            _body_params = pet
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/echo/body/Pet/response_string',
             path_params=_path_params,
@@ -864,15 +2414,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -881,42 +2424,28 @@ class BodyApi:
     def test_echo_body_tag_response_string(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> str:
-        """Test empty json (request body)  # noqa: E501
 
-        Test empty json (request body)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
-        :param tag: Tag object
-        :type tag: Tag
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: str
-        """
-
-        data = self.test_echo_body_tag_response_string_with_http_info.raw_function(
-            tag,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    def test_echo_body_tag_response_string_with_http_info(
-        self,
-        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        **kwargs,
-    ) -> ApiResponse[str]:
-        """Test empty json (request body)  # noqa: E501
-
-        Test empty json (request body)  # noqa: E501
-        This method makes a synchronous HTTP request by default.
-
+        """Test empty json (request body)
+        Test empty json (request body)
+                This method makes a synchronous HTTP request by default.
         :param tag: Tag object
         :type tag: Tag
         :param _request_timeout: timeout setting for this request. If one
@@ -928,72 +2457,352 @@ class BodyApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[str]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'tag'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._test_echo_body_tag_response_string_serialize(
+            tag=tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_echo_body_tag_response_string" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    def test_echo_body_tag_response_string_without_preload_content(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Test empty json (request body)
+        Test empty json (request body)
+                This method makes a synchronous HTTP request by default.
+        :param tag: Tag object
+        :type tag: Tag
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_tag_response_string_serialize(
+            tag=tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    @validate_call
+    def test_echo_body_tag_response_string_with_async(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test empty json (request body)
+        Test empty json (request body)
+                This method makes a synchronous HTTP request by default.
+        :param tag: Tag object
+        :type tag: Tag
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_tag_response_string_serialize(
+            tag=tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+    @validate_call
+    def test_echo_body_tag_response_string_with_http_info_async(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApplyResult:
+
+        """Test empty json (request body)
+        Test empty json (request body)
+                This method makes a synchronous HTTP request by default.
+        :param tag: Tag object
+        :type tag: Tag
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_tag_response_string_serialize(
+            tag=tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        def callback(*args):
+            response_data = self.api_client.call_api(*args)
+            response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            )
+
+        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+
+
+    @validate_call
+    def test_echo_body_tag_response_string_with_http_info(
+        self,
+        tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> str:
+
+        """Test empty json (request body)
+        Test empty json (request body)
+                This method makes a synchronous HTTP request by default.
+        :param tag: Tag object
+        :type tag: Tag
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[str]
+        """
+
+        param = self._test_echo_body_tag_response_string_serialize(
+            tag=tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str"
+            
+        }
+
+        response_data = self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _test_echo_body_tag_response_string_serialize(
+        self,
+        tag,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['tag'] is not None:
-            _body_params = _params['tag']
+        if tag is not None:
+            _body_params = tag
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/echo/body/Tag/response_string',
             path_params=_path_params,
@@ -1004,15 +2813,8 @@ class BodyApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 

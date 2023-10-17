@@ -16,8 +16,8 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError
-from typing import Dict, List, Optional, Tuple
+from pydantic import validate_call, ValidationError, Field
+from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -34,6 +34,8 @@ from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
+from petstore_api.rest import RESTResponseType
+
 
 
 class PetApi:
@@ -52,40 +54,27 @@ class PetApi:
     async def add_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> None:
-        """Add a new pet to the store  # noqa: E501
 
-          # noqa: E501
-
-        :param pet: Pet object that needs to be added to the store (required)
-        :type pet: Pet
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        data = await self.add_pet_with_http_info.raw_function(
-            pet,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def add_pet_with_http_info(
-        self,
-        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        **kwargs,
-    ) -> ApiResponse[None]:
-        """Add a new pet to the store  # noqa: E501
-
-          # noqa: E501
-
+        """Add a new pet to the store
+        
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -97,66 +86,208 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse[None]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method add_pet" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def add_pet_without_preload_content(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Add a new pet to the store
+        
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def add_pet_with_http_info(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> None:
+
+        """Add a new pet to the store
+        
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _add_pet_serialize(
+        self,
+        pet,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['pet'] is not None:
-            _body_params = _params['pet']
+        if pet is not None:
+            _body_params = pet
+
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json', 'application/xml']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json', 'application/xml'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/pet',
             path_params=_path_params,
@@ -167,15 +298,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -185,44 +309,27 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> None:
-        """Deletes a pet  # noqa: E501
 
-          # noqa: E501
-
-        :param pet_id: Pet id to delete (required)
-        :type pet_id: int
-        :param api_key:
-        :type api_key: str
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        data = await self.delete_pet_with_http_info.raw_function(
-            pet_id,
-            api_key,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def delete_pet_with_http_info(
-        self,
-        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
-        api_key: Optional[StrictStr] = None,
-        **kwargs,
-    ) -> ApiResponse[None]:
-        """Deletes a pet  # noqa: E501
-
-          # noqa: E501
-
+        """Deletes a pet
+        
         :param pet_id: Pet id to delete (required)
         :type pet_id: int
         :param api_key:
@@ -236,63 +343,213 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse[None]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet_id',
-            'api_key'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_pet" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def delete_pet_without_preload_content(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Deletes a pet
+        
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def delete_pet_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> None:
+
+        """Deletes a pet
+        
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _delete_pet_serialize(
+        self,
+        pet_id,
+        api_key,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-        if _params['pet_id'] is not None:
-            _path_params['petId'] = _params['pet_id']
-
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        if _params['api_key'] is not None:
-            _header_params['api_key'] = _params['api_key']
-
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if pet_id is not None:
+            _path_params['petId'] = pet_id
+        # process the query parameters
+        # process the header parameters
+        if api_key is not None:
+            _header_params['api_key'] = api_key
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
+
+
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/pet/{petId}',
             path_params=_path_params,
@@ -303,15 +560,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -320,40 +570,27 @@ class PetApi:
     async def find_pets_by_status(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> List[Pet]:
-        """Finds Pets by status  # noqa: E501
 
-        Multiple status values can be provided with comma separated strings  # noqa: E501
-
-        :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: List[Pet]
-        """
-
-        data = await self.find_pets_by_status_with_http_info.raw_function(
-            status,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def find_pets_by_status_with_http_info(
-        self,
-        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        **kwargs,
-    ) -> ApiResponse[List[Pet]]:
-        """Finds Pets by status  # noqa: E501
-
-        Multiple status values can be provided with comma separated strings  # noqa: E501
-
+        """Finds Pets by status
+        Multiple status values can be provided with comma separated strings
         :param status: Status values that need to be considered for filter (required)
         :type status: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -365,67 +602,213 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[List[Pet]]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'status'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method find_pets_by_status" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def find_pets_by_status_without_preload_content(
+        self,
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Finds Pets by status
+        Multiple status values can be provided with comma separated strings
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[List[Pet]]
+        """
+
+        param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def find_pets_by_status_with_http_info(
+        self,
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> List[Pet]:
+
+        """Finds Pets by status
+        Multiple status values can be provided with comma separated strings
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[List[Pet]]
+        """
+
+        param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _find_pets_by_status_serialize(
+        self,
+        status,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+            'status': 'csv',
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        if _params.get('status') is not None:  # noqa: E501
-            _query_params.append(('status', _params['status']))
-            _collection_formats['status'] = 'csv'
-
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if status is not None:  # noqa: E501
+            
+            _query_params.append(('status', status))
+            
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
+
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Pet]",
-            '400': None,
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='GET',
             resource_path='/pet/findByStatus',
             path_params=_path_params,
@@ -436,15 +819,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -453,40 +829,27 @@ class PetApi:
     async def find_pets_by_tags(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> List[Pet]:
-        """(Deprecated) Finds Pets by tags  # noqa: E501
 
-        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
-
-        :param tags: Tags to filter by (required)
-        :type tags: List[str]
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: List[Pet]
-        """
-
-        data = await self.find_pets_by_tags_with_http_info.raw_function(
-            tags,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def find_pets_by_tags_with_http_info(
-        self,
-        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        **kwargs,
-    ) -> ApiResponse[List[Pet]]:
-        """(Deprecated) Finds Pets by tags  # noqa: E501
-
-        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
-
+        """(Deprecated) Finds Pets by tags
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         :param tags: Tags to filter by (required)
         :type tags: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -498,69 +861,216 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[List[Pet]]
         """
-
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
-        _params = locals()
-
-        _all_params = [
-            'tags'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method find_pets_by_tags" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def find_pets_by_tags_without_preload_content(
+        self,
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """(Deprecated) Finds Pets by tags
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[List[Pet]]
+        """
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def find_pets_by_tags_with_http_info(
+        self,
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> List[Pet]:
+
+        """(Deprecated) Finds Pets by tags
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[List[Pet]]
+        """
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _find_pets_by_tags_serialize(
+        self,
+        tags,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+            'tags': 'csv',
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        if _params.get('tags') is not None:  # noqa: E501
-            _query_params.append(('tags', _params['tags']))
-            _collection_formats['tags'] = 'csv'
-
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if tags is not None:  # noqa: E501
+            
+            _query_params.append(('tags', tags))
+            
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
+
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Pet]",
-            '400': None,
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='GET',
             resource_path='/pet/findByTags',
             path_params=_path_params,
@@ -571,15 +1081,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -588,40 +1091,27 @@ class PetApi:
     async def get_pet_by_id(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> Pet:
-        """Find pet by ID  # noqa: E501
 
-        Returns a single pet  # noqa: E501
-
-        :param pet_id: ID of pet to return (required)
-        :type pet_id: int
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Pet
-        """
-
-        data = await self.get_pet_by_id_with_http_info.raw_function(
-            pet_id,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def get_pet_by_id_with_http_info(
-        self,
-        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        **kwargs,
-    ) -> ApiResponse[Pet]:
-        """Find pet by ID  # noqa: E501
-
-        Returns a single pet  # noqa: E501
-
+        """Find pet by ID
+        Returns a single pet
         :param pet_id: ID of pet to return (required)
         :type pet_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -633,67 +1123,213 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[Pet]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet_id'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
-
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_pet_by_id" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats: Dict[str, str] = {}
-
-        # process the path parameters
-        _path_params: Dict[str, str] = {}
-        if _params['pet_id'] is not None:
-            _path_params['petId'] = _params['pet_id']
-
-
-        # process the query parameters
-        _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # authentication setting
-        _auth_settings: List[str] = ['api_key']  # noqa: E501
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Pet",
             '400': None,
-            '404': None,
+            '404': None
+            
         }
 
-        param = self.api_client.param_serialize(
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    async def get_pet_by_id_without_preload_content(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Find pet by ID
+        Returns a single pet
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet",
+            '400': None,
+            '404': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def get_pet_by_id_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> Pet:
+
+        """Find pet by ID
+        Returns a single pet
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Pet]
+        """
+
+        param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet",
+            '400': None,
+            '404': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _get_pet_by_id_serialize(
+        self,
+        pet_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, str] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if pet_id is not None:
+            _path_params['petId'] = pet_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+
+        # authentication setting
+        _auth_settings: List[str] = ['api_key']  # noqa: E501
+
+        return self.api_client.param_serialize(
             method='GET',
             resource_path='/pet/{petId}',
             path_params=_path_params,
@@ -704,15 +1340,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -721,40 +1350,27 @@ class PetApi:
     async def update_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> None:
-        """Update an existing pet  # noqa: E501
 
-          # noqa: E501
-
-        :param pet: Pet object that needs to be added to the store (required)
-        :type pet: Pet
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        data = await self.update_pet_with_http_info.raw_function(
-            pet,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def update_pet_with_http_info(
-        self,
-        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        **kwargs,
-    ) -> ApiResponse[None]:
-        """Update an existing pet  # noqa: E501
-
-          # noqa: E501
-
+        """Update an existing pet
+        
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -766,66 +1382,208 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse[None]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_pet" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def update_pet_without_preload_content(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Update an existing pet
+        
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def update_pet_with_http_info(
+        self,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> None:
+
+        """Update an existing pet
+        
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _update_pet_serialize(
+        self,
+        pet,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['pet'] is not None:
-            _body_params = _params['pet']
+        if pet is not None:
+            _body_params = pet
+
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json', 'application/xml']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json', 'application/xml'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='PUT',
             resource_path='/pet',
             path_params=_path_params,
@@ -836,15 +1594,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -855,48 +1606,27 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> None:
-        """Updates a pet in the store with form data  # noqa: E501
 
-          # noqa: E501
-
-        :param pet_id: ID of pet that needs to be updated (required)
-        :type pet_id: int
-        :param name: Updated name of the pet
-        :type name: str
-        :param status: Updated status of the pet
-        :type status: str
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        data = await self.update_pet_with_form_with_http_info.raw_function(
-            pet_id,
-            name,
-            status,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def update_pet_with_form_with_http_info(
-        self,
-        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
-        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        **kwargs,
-    ) -> ApiResponse[None]:
-        """Updates a pet in the store with form data  # noqa: E501
-
-          # noqa: E501
-
+        """Updates a pet in the store with form data
+        
         :param pet_id: ID of pet that needs to be updated (required)
         :type pet_id: int
         :param name: Updated name of the pet
@@ -912,74 +1642,232 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse[None]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet_id',
-            'name',
-            'status'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_pet_with_form" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def update_pet_with_form_without_preload_content(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Updates a pet in the store with form data
+        
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def update_pet_with_form_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> None:
+
+        """Updates a pet in the store with form data
+        
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _update_pet_with_form_serialize(
+        self,
+        pet_id,
+        name,
+        status,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-        if _params['pet_id'] is not None:
-            _path_params['petId'] = _params['pet_id']
-
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
-        if _params['name'] is not None:
-            _form_params.append(('name', _params['name']))
+        _body_params: Optional[bytes] = None
 
-        if _params['status'] is not None:
-            _form_params.append(('status', _params['status']))
-
+        # process the path parameters
+        if pet_id is not None:
+            _path_params['petId'] = pet_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if name is not None:
+            _form_params.append(('name', name))
+        if status is not None:
+            _form_params.append(('status', status))
         # process the body parameter
-        _body_params = None
+
+
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/x-www-form-urlencoded']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/x-www-form-urlencoded'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/pet/{petId}',
             path_params=_path_params,
@@ -990,15 +1878,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -1009,48 +1890,27 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> ApiResponse:
-        """uploads an image  # noqa: E501
 
-          # noqa: E501
-
-        :param pet_id: ID of pet to update (required)
-        :type pet_id: int
-        :param additional_metadata: Additional data to pass to server
-        :type additional_metadata: str
-        :param file: file to upload
-        :type file: bytearray
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse
-        """
-
-        data = await self.upload_file_with_http_info.raw_function(
-            pet_id,
-            additional_metadata,
-            file,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def upload_file_with_http_info(
-        self,
-        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
-        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        **kwargs,
-    ) -> ApiResponse[ApiResponse]:
-        """uploads an image  # noqa: E501
-
-          # noqa: E501
-
+        """uploads an image
+        
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param additional_metadata: Additional data to pass to server
@@ -1066,80 +1926,238 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[ApiResponse]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet_id',
-            'additional_metadata',
-            'file'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method upload_file" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def upload_file_without_preload_content(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """uploads an image
+        
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[ApiResponse]
+        """
+
+        param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def upload_file_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse:
+
+        """uploads an image
+        
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[ApiResponse]
+        """
+
+        param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _upload_file_serialize(
+        self,
+        pet_id,
+        additional_metadata,
+        file,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-        if _params['pet_id'] is not None:
-            _path_params['petId'] = _params['pet_id']
-
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
-        if _params['additional_metadata'] is not None:
-            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+        _body_params: Optional[bytes] = None
 
-        if _params['file'] is not None:
-            _files['file'] = _params['file']
-
+        # process the path parameters
+        if pet_id is not None:
+            _path_params['petId'] = pet_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if additional_metadata is not None:
+            _form_params.append(('additionalMetadata', additional_metadata))
+        if file is not None:
+            _files['file'] = file
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['multipart/form-data']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['multipart/form-data'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/pet/{petId}/uploadImage',
             path_params=_path_params,
@@ -1150,15 +2168,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -1169,48 +2180,27 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> ApiResponse:
-        """uploads an image (required)  # noqa: E501
 
-          # noqa: E501
-
-        :param pet_id: ID of pet to update (required)
-        :type pet_id: int
-        :param required_file: file to upload (required)
-        :type required_file: bytearray
-        :param additional_metadata: Additional data to pass to server
-        :type additional_metadata: str
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: ApiResponse
-        """
-
-        data = await self.upload_file_with_required_file_with_http_info.raw_function(
-            pet_id,
-            required_file,
-            additional_metadata,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def upload_file_with_required_file_with_http_info(
-        self,
-        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
-        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
-        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        **kwargs,
-    ) -> ApiResponse[ApiResponse]:
-        """uploads an image (required)  # noqa: E501
-
-          # noqa: E501
-
+        """uploads an image (required)
+        
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
@@ -1226,80 +2216,238 @@ class PetApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[ApiResponse]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'pet_id',
-            'required_file',
-            'additional_metadata'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method upload_file_with_required_file" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def upload_file_with_required_file_without_preload_content(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """uploads an image (required)
+        
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytearray
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[ApiResponse]
+        """
+
+        param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def upload_file_with_required_file_with_http_info(
+        self,
+        pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
+        required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> ApiResponse:
+
+        """uploads an image (required)
+        
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytearray
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[ApiResponse]
+        """
+
+        param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApiResponse"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _upload_file_with_required_file_serialize(
+        self,
+        pet_id,
+        required_file,
+        additional_metadata,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-        if _params['pet_id'] is not None:
-            _path_params['petId'] = _params['pet_id']
-
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
-        if _params['additional_metadata'] is not None:
-            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+        _body_params: Optional[bytes] = None
 
-        if _params['required_file'] is not None:
-            _files['requiredFile'] = _params['required_file']
-
+        # process the path parameters
+        if pet_id is not None:
+            _path_params['petId'] = pet_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if additional_metadata is not None:
+            _form_params.append(('additionalMetadata', additional_metadata))
+        if required_file is not None:
+            _files['requiredFile'] = required_file
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['multipart/form-data']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['multipart/form-data'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/fake/{petId}/uploadImageWithRequiredFile',
             path_params=_path_params,
@@ -1310,15 +2458,8 @@ class PetApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 

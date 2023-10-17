@@ -265,13 +265,6 @@ class ApiClient:
 
         return response_data
 
-    def read(self, response):
-        """Read response data.
-        :param response: RESTResponse
-        :return: RESTResponse
-        """
-        self.rest_client.read(response)
-
     def response_deserialize(self, response_data=None, response_types_map=None):
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.

@@ -23,27 +23,28 @@ from urllib.parse import urlencode, quote_plus
 
 from petstore_api.exceptions import ApiException, ApiValueError
 
-logger = logging.getLogger(__name__)
-
+RESTResponseType = aiohttp.ClientResponse
 
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
-        self.aiohttp_response = resp
+        self.response = resp
         self.status = resp.status
         self.reason = resp.reason
         self.data = None
 
-    def setdata(self, data):
-        self.data = data
+    async read(self, response):
+        if self.data is None:
+            self.data = await response.read()
+        return self.data
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
-        return self.aiohttp_response.headers
+        return self.response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.aiohttp_response.headers.get(name, default)
+        return self.response.headers.get(name, default)
 
 
 class RESTClientObject:
@@ -167,8 +168,6 @@ class RESTClientObject:
 
         return RESTResponse(r)
 
-    async read(self, response):
-        response.setdata(await response.aiohttp_response.read())
 
 
 

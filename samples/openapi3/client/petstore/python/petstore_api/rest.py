@@ -21,27 +21,30 @@ import ssl
 from urllib.parse import urlencode, quote_plus
 import urllib3
 
-from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError, BadRequestException
+from petstore_api.exceptions import ApiException
 
+RESTResponseType = urllib3.HTTPResponse
 
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
-        self.urllib3_response = resp
+        self.response = resp
         self.status = resp.status
         self.reason = resp.reason
         self.data = None
 
-    def setdata(self, data):
-        self.data = data
+    def read(self):
+        if self.data is None:
+            self.data = self.response.data
+        return self.data
 
     def getheaders(self):
         """Returns a dictionary of the response headers."""
-        return self.urllib3_response.headers
+        return self.response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.urllib3_response.headers.get(name, default)
+        return self.response.headers.get(name, default)
 
 
 class RESTClientObject:
@@ -205,6 +208,3 @@ class RESTClientObject:
             raise ApiException(status=0, reason=msg)
 
         return RESTResponse(r)
-
-    def read(self, response):
-        response.setdata(response.urllib3_response.data)

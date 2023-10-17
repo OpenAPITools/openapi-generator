@@ -16,8 +16,8 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError
-from typing import Dict, List, Optional, Tuple
+from pydantic import validate_call, ValidationError, Field
+from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -33,6 +33,8 @@ from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
+from petstore_api.rest import RESTResponseType
+
 
 
 class StoreApi:
@@ -51,40 +53,27 @@ class StoreApi:
     async def delete_order(
         self,
         order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> None:
-        """Delete purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
-
-        :param order_id: ID of the order that needs to be deleted (required)
-        :type order_id: str
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        data = await self.delete_order_with_http_info.raw_function(
-            order_id,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def delete_order_with_http_info(
-        self,
-        order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        **kwargs,
-    ) -> ApiResponse[None]:
-        """Delete purchase order by ID  # noqa: E501
-
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
-
+        """Delete purchase order by ID
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -96,59 +85,201 @@ class StoreApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: None
+        :rtype: ApiResponse[None]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'order_id'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_order" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def delete_order_without_preload_content(
+        self,
+        order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Delete purchase order by ID
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def delete_order_with_http_info(
+        self,
+        order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> None:
+
+        """Delete purchase order by ID
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[None]
+        """
+
+        param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _delete_order_serialize(
+        self,
+        order_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-        if _params['order_id'] is not None:
-            _path_params['order_id'] = _params['order_id']
-
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if order_id is not None:
+            _path_params['order_id'] = order_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
+
+
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {}
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/store/order/{order_id}',
             path_params=_path_params,
@@ -159,15 +290,8 @@ class StoreApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -175,36 +299,27 @@ class StoreApi:
     @validate_call
     async def get_inventory(
         self,
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> Dict[str, int]:
-        """Returns pet inventories by status  # noqa: E501
 
-        Returns a map of status codes to quantities  # noqa: E501
-
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Dict[str, int]
-        """
-
-        data = await self.get_inventory_with_http_info.raw_function(
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def get_inventory_with_http_info(
-        self,
-        **kwargs,
-    ) -> ApiResponse[Dict[str, int]]:
-        """Returns pet inventories by status  # noqa: E501
-
-        Returns a map of status codes to quantities  # noqa: E501
-
+        """Returns pet inventories by status
+        Returns a map of status codes to quantities
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -214,61 +329,195 @@ class StoreApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Dict[str, int], status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[Dict[str, int]]
         """
 
-        _params = locals()
-
-        _all_params = [
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_inventory" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]"
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def get_inventory_without_preload_content(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Returns pet inventories by status
+        Returns a map of status codes to quantities
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Dict[str, int]]
+        """
+
+        param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def get_inventory_with_http_info(
+        self,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> Dict[str, int]:
+
+        """Returns pet inventories by status
+        Returns a map of status codes to quantities
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Dict[str, int]]
+        """
+
+        param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]"
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _get_inventory_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
+
         # authentication setting
         _auth_settings: List[str] = ['api_key']  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]",
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='GET',
             resource_path='/store/inventory',
             path_params=_path_params,
@@ -279,15 +528,8 @@ class StoreApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -296,40 +538,27 @@ class StoreApi:
     async def get_order_by_id(
         self,
         order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> Order:
-        """Find purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
-
-        :param order_id: ID of pet that needs to be fetched (required)
-        :type order_id: int
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Order
-        """
-
-        data = await self.get_order_by_id_with_http_info.raw_function(
-            order_id,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def get_order_by_id_with_http_info(
-        self,
-        order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        **kwargs,
-    ) -> ApiResponse[Order]:
-        """Find purchase order by ID  # noqa: E501
-
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
-
+        """Find purchase order by ID
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -341,67 +570,213 @@ class StoreApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[Order]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'order_id'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
-
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_order_by_id" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats: Dict[str, str] = {}
-
-        # process the path parameters
-        _path_params: Dict[str, str] = {}
-        if _params['order_id'] is not None:
-            _path_params['order_id'] = _params['order_id']
-
-
-        # process the query parameters
-        _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
-            '404': None,
+            '404': None
+            
         }
 
-        param = self.api_client.param_serialize(
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    async def get_order_by_id_without_preload_content(
+        self,
+        order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Find purchase order by ID
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Order]
+        """
+
+        param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def get_order_by_id_with_http_info(
+        self,
+        order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> Order:
+
+        """Find purchase order by ID
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Order]
+        """
+
+        param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _get_order_by_id_serialize(
+        self,
+        order_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, str] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if order_id is not None:
+            _path_params['order_id'] = order_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/xml', 'application/json'])  # noqa: E501
+
+
+        # authentication setting
+        _auth_settings: List[str] = []  # noqa: E501
+
+        return self.api_client.param_serialize(
             method='GET',
             resource_path='/store/order/{order_id}',
             path_params=_path_params,
@@ -412,15 +787,8 @@ class StoreApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
@@ -429,40 +797,27 @@ class StoreApi:
     async def place_order(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        **kwargs,
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
     ) -> Order:
-        """Place an order for a pet  # noqa: E501
 
-          # noqa: E501
-
-        :param order: order placed for purchasing the pet (required)
-        :type order: Order
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: Order
-        """
-
-        data = await self.place_order_with_http_info.raw_function(
-            order,
-            **kwargs,
-        )
-        return data.data
-
-    @validate_call
-    async def place_order_with_http_info(
-        self,
-        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        **kwargs,
-    ) -> ApiResponse[Order]:
-        """Place an order for a pet  # noqa: E501
-
-          # noqa: E501
-
+        """Place an order for a pet
+        
         :param order: order placed for purchasing the pet (required)
         :type order: Order
         :param _request_timeout: timeout setting for this request. If one
@@ -474,73 +829,217 @@ class StoreApi:
                               in the spec for a single request.
         :type _request_auth: dict, optional
         :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :rtype: ApiResponse[Order]
         """
 
-        _params = locals()
-
-        _all_params = [
-            'order'
-        ]
-        _all_params.extend(
-            [
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method place_order" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None
+            
+        }
 
-        _collection_formats: Dict[str, str] = {}
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        # process the path parameters
+
+    @validate_call
+    async def place_order_without_preload_content(
+        self,
+        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> RESTResponseType:
+
+        """Place an order for a pet
+        
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Order]
+        """
+
+        param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        return response_data.response
+
+
+
+    @validate_call
+    async def place_order_with_http_info(
+        self,
+        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
+        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
+            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+        )] = None,
+        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+        )] = None,
+        _content_type: Annotated[Optional[str], Field(
+            description="force content-type for the request",
+        )] = None,
+        _headers: Annotated[Optional[Dict[str, Any]], Field(
+            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+        )] = None,
+        _host_index: Annotated[int, Field(
+            ge=0,
+            le=0,
+            description="index of the host to use, if the server has multiple hosts",
+        )] = 0,
+    ) -> Order:
+
+        """Place an order for a pet
+        
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :type _headers: dict, optional: set to override the header params for an a single
+                        request; this effectively ignores the header params
+                        in the spec for a single request.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse[Order]
+        """
+
+        param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None
+            
+        }
+
+        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    def _place_order_serialize(
+        self,
+        order,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _hosts = [
+            
+        ]
+        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
         _path_params: Dict[str, str] = {}
-
-        # process the query parameters
         _query_params: List[Tuple[str, str]] = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
+        _header_params: Dict[str, str] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
         # process the body parameter
-        _body_params = None
-        if _params['order'] is not None:
-            _body_params = _params['order']
+        if order is not None:
+            _body_params = order
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _type = self.api_client.select_header_content_type(['application/json'])
+            if _type is not None:
+                _header_params['Content-Type'] = _type
 
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Order",
-            '400': None,
-        }
-
-        param = self.api_client.param_serialize(
+        return self.api_client.param_serialize(
             method='POST',
             resource_path='/store/order',
             path_params=_path_params,
@@ -551,15 +1050,8 @@ class StoreApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            
-            _request_auth=_params.get('_request_auth')
-        )
-
-        response_data = await self.api_client.call_api(*param, _request_timeout=_params.get('_request_timeout'))
-        await self.api_client.read(response_data)
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
+            _host=_host,
+            _request_auth=_request_auth
         )
 
 
