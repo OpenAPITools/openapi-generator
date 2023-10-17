@@ -60,6 +60,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}",
 			c.DeletePet,
 		},
+		"FilterPetsByCategory": Route{
+			strings.ToUpper("Get"),
+			"/v2/pet/filterPets/{gender}",
+			c.FilterPetsByCategory,
+		},
 		"FindPetsByStatus": Route{
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
@@ -146,10 +151,53 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
+// FilterPetsByCategory - Finds Pets
+func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	genderParam, err := NewGenderFromValue(chi.URLParam(r, "gender"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if !query.Has("species"){
+		c.errorHandler(w, r, &RequiredError{"species"}, nil)
+		return
+	}
+	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var notSpeciesParam []Species
+	if query.Has("notSpecies") {
+		paramSplits := strings.Split(query.Get("notSpecies"), ",")
+		notSpeciesParam = make([]Species, 0, len(paramSplits))
+		for _, param := range paramSplits {
+			paramEnum, err := NewSpeciesFromValue(param)
+			if err != nil {
+				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+				return
+			}
+			notSpeciesParam = append(notSpeciesParam, paramEnum)
+		}
+	}
+	result, err := c.service.FilterPetsByCategory(r.Context(), genderParam, speciesParam, notSpeciesParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	statusParam := strings.Split(query.Get("status"), ",")
+	var statusParam []string
+	if query.Has("status") {
+		statusParam = strings.Split(query.Get("status"), ",")
+	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -164,7 +212,10 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tagsParam := strings.Split(query.Get("tags"), ",")
+	var tagsParam []string
+	if query.Has("tags") {
+		tagsParam = strings.Split(query.Get("tags"), ",")
+	}
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

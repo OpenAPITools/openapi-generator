@@ -158,6 +158,54 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
+  /pet/filterPets/{gender}:
+    get:
+      operationId: filterPetsByCategory
+      parameters:
+      - explode: false
+        in: path
+        name: gender
+        required: true
+        schema:
+          $ref: '#/components/schemas/Gender'
+        style: simple
+      - description: Species to filter by
+        explode: false
+        in: query
+        name: species
+        required: true
+        schema:
+          $ref: '#/components/schemas/Species'
+        style: form
+      - description: Species to omit from results
+        explode: false
+        in: query
+        name: notSpecies
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/Species'
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+        "400":
+          description: Invalid species value
+      summary: Finds Pets
+      tags:
+      - pet
   /pet/{petId}:
     delete:
       description: ""
@@ -1020,6 +1068,20 @@ components:
       type: object
       xml:
         name: Pet
+    Species:
+      enum:
+      - cat
+      - dog
+      - fish
+      - goat
+      - pig
+      title: The species of a pet
+      type: string
+    Gender:
+      enum:
+      - male
+      - female
+      type: string
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:

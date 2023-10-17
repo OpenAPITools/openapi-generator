@@ -157,6 +157,52 @@ paths:
         - petstore_auth:
             - 'read:pets'
       deprecated: true
+  '/pet/filterPets/{gender}':
+    get:
+      tags:
+        - pet
+      summary: Finds Pets
+      operationId: filterPetsByCategory
+      parameters:
+        - name: gender
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Gender'
+        - name: species
+          in: query
+          description: Species to filter by
+          required: true
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Species'
+        - name: notSpecies
+          in: query
+          description: Species to omit from results
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Species'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid species value
   '/pet/{petId}':
     get:
       tags:
@@ -851,6 +897,20 @@ components:
             - sold
       xml:
         name: Pet
+    Species:
+      title: The species of a pet
+      type: string
+      enum:
+        - cat
+        - dog
+        - fish
+        - goat
+        - pig
+    Gender:
+      type: string
+      enum:
+        - male
+        - female
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource

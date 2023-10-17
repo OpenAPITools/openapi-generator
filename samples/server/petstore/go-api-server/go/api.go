@@ -23,6 +23,7 @@ import (
 type PetAPIRouter interface { 
 	AddPet(http.ResponseWriter, *http.Request)
 	DeletePet(http.ResponseWriter, *http.Request)
+	FilterPetsByCategory(http.ResponseWriter, *http.Request)
 	FindPetsByStatus(http.ResponseWriter, *http.Request)
 	// Deprecated
 	FindPetsByTags(http.ResponseWriter, *http.Request)
@@ -63,6 +64,7 @@ type UserAPIRouter interface {
 type PetAPIServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
+	FilterPetsByCategory(context.Context, Gender, Species, []Species) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
 	FindPetsByTags(context.Context, []string) (ImplResponse, error)
