@@ -297,6 +297,7 @@ class FakeApi:
             _body_params = body
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -565,6 +566,7 @@ class FakeApi:
 
 
 
+
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
@@ -808,6 +810,7 @@ class FakeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1103,6 +1106,7 @@ class FakeApi:
             _body_params = pet
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -1372,6 +1376,7 @@ class FakeApi:
         # process the body parameter
         if body is not None:
             _body_params = body
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1647,6 +1652,7 @@ class FakeApi:
         if outer_composite is not None:
             _body_params = outer_composite
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -1920,6 +1926,7 @@ class FakeApi:
         # process the body parameter
         if body is not None:
             _body_params = body
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -2195,6 +2202,7 @@ class FakeApi:
         if body is not None:
             _body_params = body
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -2469,6 +2477,7 @@ class FakeApi:
         if outer_object_with_enum_property is not None:
             _body_params = outer_object_with_enum_property
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -2724,6 +2733,7 @@ class FakeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -2990,6 +3000,7 @@ class FakeApi:
 
 
 
+
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
@@ -3251,6 +3262,7 @@ class FakeApi:
             if isinstance(_body_params, str):
                 with io.open(_body_params, "rb", encoding="utf-8") as _fp:
                     _body_params = _fp.read()
+
 
 
         # set the HTTP header `Content-Type`
@@ -3519,6 +3531,7 @@ class FakeApi:
         # process the body parameter
         if file_schema_test_class is not None:
             _body_params = file_schema_test_class
+
 
 
         # set the HTTP header `Content-Type`
@@ -3803,6 +3816,7 @@ class FakeApi:
             _body_params = user
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -4072,6 +4086,7 @@ class FakeApi:
         # process the body parameter
         if client is not None:
             _body_params = client
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -4361,6 +4376,7 @@ class FakeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
 
 
@@ -4834,6 +4850,7 @@ class FakeApi:
         # process the body parameter
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -5186,6 +5203,7 @@ class FakeApi:
 
 
 
+
         # authentication setting
         _auth_settings: List[str] = ['bearer_test']  # noqa: E501
 
@@ -5444,6 +5462,7 @@ class FakeApi:
         # process the body parameter
         if request_body is not None:
             _body_params = request_body
+
 
 
         # set the HTTP header `Content-Type`
@@ -5712,6 +5731,7 @@ class FakeApi:
         # process the body parameter
         if test_inline_freeform_additional_properties_request is not None:
             _body_params = test_inline_freeform_additional_properties_request
+
 
 
         # set the HTTP header `Content-Type`
@@ -5995,6 +6015,7 @@ class FakeApi:
         if param2 is not None:
             _form_params.append(('param2', param2))
         # process the body parameter
+
 
 
         # set the HTTP header `Content-Type`
@@ -6372,6 +6393,7 @@ class FakeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
 
 

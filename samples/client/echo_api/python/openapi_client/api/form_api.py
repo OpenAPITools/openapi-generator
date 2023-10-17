@@ -483,6 +483,7 @@ class FormApi:
             _form_params.append(('string_form', string_form))
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -1018,6 +1019,7 @@ class FormApi:
         if name is not None:
             _form_params.append(('name', name))
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

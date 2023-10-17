@@ -267,6 +267,7 @@ class DefaultApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

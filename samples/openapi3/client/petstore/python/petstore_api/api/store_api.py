@@ -436,6 +436,7 @@ class StoreApi:
 
 
 
+
         # authentication setting
         _auth_settings: List[str] = []  # noqa: E501
 
@@ -821,6 +822,7 @@ class StoreApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1246,6 +1248,7 @@ class StoreApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -1664,6 +1667,7 @@ class StoreApi:
         # process the body parameter
         if order is not None:
             _body_params = order
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

@@ -292,6 +292,7 @@ class UserApi:
             _body_params = user
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -559,6 +560,7 @@ class UserApi:
         # process the body parameter
         if user is not None:
             _body_params = user
+
 
 
         # set the HTTP header `Content-Type`
@@ -830,6 +832,7 @@ class UserApi:
             _body_params = user
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -1096,6 +1099,7 @@ class UserApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
 
 
@@ -1366,6 +1370,7 @@ class UserApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1656,6 +1661,7 @@ class UserApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -1904,6 +1910,7 @@ class UserApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
 
 
@@ -2180,6 +2187,7 @@ class UserApi:
         # process the body parameter
         if user is not None:
             _body_params = user
+
 
 
         # set the HTTP header `Content-Type`

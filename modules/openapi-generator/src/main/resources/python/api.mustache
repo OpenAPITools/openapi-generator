@@ -180,6 +180,17 @@ class {{classname}}:
             {{/isBinary}}
 {{/bodyParam}}
 
+        {{#constantParams}}
+        {{#isQueryParam}}
+        # Set client side default value of Query Param "{{baseName}}".
+        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+        {{/isQueryParam}}
+        {{#isHeaderParam}}
+        # Set client side default value of Header Param "{{baseName}}".
+        _header_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+        {{/isHeaderParam}}
+        {{/constantParams}}
+
         {{#hasProduces}}
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

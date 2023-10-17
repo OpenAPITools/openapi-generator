@@ -418,6 +418,7 @@ class BodyApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['image/gif'])  # noqa: E501
@@ -834,6 +835,7 @@ class BodyApi:
             if isinstance(_body_params, str):
                 with io.open(_body_params, "rb", encoding="utf-8") as _fp:
                     _body_params = _fp.read()
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1257,6 +1259,7 @@ class BodyApi:
             _files['files'] = files
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -1677,6 +1680,7 @@ class BodyApi:
         # process the body parameter
         if body is not None:
             _body_params = body
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -2099,6 +2103,7 @@ class BodyApi:
         if pet is not None:
             _body_params = pet
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -2520,6 +2525,7 @@ class BodyApi:
         if pet is not None:
             _body_params = pet
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -2940,6 +2946,7 @@ class BodyApi:
         # process the body parameter
         if tag is not None:
             _body_params = tag
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

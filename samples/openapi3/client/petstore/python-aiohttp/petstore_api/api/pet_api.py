@@ -290,6 +290,7 @@ class PetApi:
             _body_params = pet
 
 
+
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
@@ -574,6 +575,7 @@ class PetApi:
 
 
 
+
         # authentication setting
         _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
 
@@ -841,6 +843,7 @@ class PetApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -1118,6 +1121,7 @@ class PetApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -1391,6 +1395,7 @@ class PetApi:
         # process the form parameters
         # process the body parameter
 
+
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -1654,6 +1659,7 @@ class PetApi:
         # process the body parameter
         if pet is not None:
             _body_params = pet
+
 
 
         # set the HTTP header `Content-Type`
@@ -1952,6 +1958,7 @@ class PetApi:
         if status is not None:
             _form_params.append(('status', status))
         # process the body parameter
+
 
 
         # set the HTTP header `Content-Type`
@@ -2253,6 +2260,7 @@ class PetApi:
         if file is not None:
             _files['file'] = file
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
@@ -2557,6 +2565,7 @@ class PetApi:
         if required_file is not None:
             _files['requiredFile'] = required_file
         # process the body parameter
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
