@@ -298,6 +298,34 @@ paths:
       tags:
       - pet
   /pet/{petId}/uploadImage:
+    get:
+      description: Returns the image for the Pet that has been previously uploaded
+      operationId: getPetImageById
+      parameters:
+      - description: ID of pet to return
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            image/jpeg:
+              schema:
+                format: binary
+                type: string
+          description: successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+      summary: Returns the image for the Pet that has been previously uploaded
+      tags:
+      - pet
     post:
       description: ""
       operationId: uploadFile

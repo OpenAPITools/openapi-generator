@@ -80,6 +80,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}",
 			c.GetPetById,
 		},
+		"GetPetImageById": Route{
+			strings.ToUpper("Get"),
+			"/v2/pet/{petId}/uploadImage",
+			c.GetPetImageById,
+		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
 			"/v2/pet",
@@ -237,6 +242,26 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.GetPetById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetImageById - Returns the image for the Pet that has been previously uploaded
+func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Request) {
+	petIdParam, err := parseNumericParameter[int64](
+		chi.URLParam(r, "petId"),
+		WithRequire[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
