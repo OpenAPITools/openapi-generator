@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -138,6 +139,8 @@ class User
         return $this->id;
     }
 
+
+
     /**
      * Sets id.
      *
@@ -161,6 +164,8 @@ class User
     {
         return $this->username;
     }
+
+
 
     /**
      * Sets username.
@@ -186,6 +191,8 @@ class User
         return $this->firstName;
     }
 
+
+
     /**
      * Sets firstName.
      *
@@ -209,6 +216,8 @@ class User
     {
         return $this->lastName;
     }
+
+
 
     /**
      * Sets lastName.
@@ -234,6 +243,8 @@ class User
         return $this->email;
     }
 
+
+
     /**
      * Sets email.
      *
@@ -257,6 +268,8 @@ class User
     {
         return $this->password;
     }
+
+
 
     /**
      * Sets password.
@@ -282,6 +295,8 @@ class User
         return $this->phone;
     }
 
+
+
     /**
      * Sets phone.
      *
@@ -305,6 +320,8 @@ class User
     {
         return $this->userStatus;
     }
+
+
 
     /**
      * Sets userStatus.
