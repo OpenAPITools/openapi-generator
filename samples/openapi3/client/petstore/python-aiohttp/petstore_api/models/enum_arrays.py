@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr, field_validator
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -94,7 +93,7 @@ class EnumArrays(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of EnumArrays from a dict"""
         if obj is None:
             return None

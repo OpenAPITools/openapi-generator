@@ -22,7 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -89,7 +88,7 @@ class Parent(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Parent from a dict"""
         if obj is None:
             return None

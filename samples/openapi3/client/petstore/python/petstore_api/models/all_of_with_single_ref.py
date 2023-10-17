@@ -22,7 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 from petstore_api.models.single_ref_type import SingleRefType
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -83,7 +82,7 @@ class AllOfWithSingleRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of AllOfWithSingleRef from a dict"""
         if obj is None:
             return None

@@ -22,7 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from petstore_api.models.category import Category
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -97,7 +96,7 @@ class SpecialName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of SpecialName from a dict"""
         if obj is None:
             return None

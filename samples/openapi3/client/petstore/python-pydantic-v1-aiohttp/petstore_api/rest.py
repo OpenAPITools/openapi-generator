@@ -14,7 +14,6 @@
 
 import io
 import json
-import logging
 import re
 import ssl
 
@@ -33,9 +32,9 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason
         self.data = None
 
-    async read(self, response):
+    async def read(self):
         if self.data is None:
-            self.data = await response.read()
+            self.data = await self.response.read()
         return self.data
 
     def getheaders(self):

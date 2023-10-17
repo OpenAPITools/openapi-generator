@@ -18,11 +18,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -80,7 +79,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None

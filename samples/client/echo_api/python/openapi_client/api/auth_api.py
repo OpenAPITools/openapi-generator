@@ -13,20 +13,20 @@
 """  # noqa: E501
 
 
-import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError, Field
-from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
+from pydantic import validate_call, Field
+from typing import Dict, List, Optional, Tuple, Union, Any
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 
 from openapi_client.api_client import ApiClient
 from openapi_client.api_response import ApiResponse
-from openapi_client.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
-)
 from openapi_client.rest import RESTResponseType
 
 from multiprocessing.pool import ApplyResult

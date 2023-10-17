@@ -14,14 +14,13 @@
 
 import io
 import json
-import logging
 import re
 import ssl
 
 from urllib.parse import urlencode, quote_plus
 import urllib3
 
-from petstore_api.exceptions import ApiException
+from petstore_api.exceptions import ApiException, ApiValueError
 
 RESTResponseType = urllib3.HTTPResponse
 

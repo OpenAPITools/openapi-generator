@@ -23,7 +23,6 @@ from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validat
 from decimal import Decimal
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -139,7 +138,7 @@ class FormatTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None

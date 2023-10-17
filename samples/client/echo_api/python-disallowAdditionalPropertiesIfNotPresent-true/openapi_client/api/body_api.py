@@ -13,12 +13,16 @@
 """  # noqa: E501
 
 
-import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_call, ValidationError, Field
-from typing import Dict, List, Optional, Tuple, Union, Any, Annotated
+from pydantic import validate_call, Field
+from typing import Dict, List, Optional, Tuple, Union, Any
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -31,10 +35,6 @@ from openapi_client.models.tag import Tag
 
 from openapi_client.api_client import ApiClient
 from openapi_client.api_response import ApiResponse
-from openapi_client.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
-)
 from openapi_client.rest import RESTResponseType
 
 from multiprocessing.pool import ApplyResult
@@ -832,9 +832,11 @@ class BodyApi:
         # process the body parameter
         if body is not None:
             # convert to byte array if the input is a file name (str)
-            if isinstance(_body_params, str):
-                with io.open(_body_params, "rb", encoding="utf-8") as _fp:
+            if isinstance(body, str):
+                with io.open(body, "rb") as _fp:
                     _body_params = _fp.read()
+            else:
+                _body_params = body
 
 
         # set the HTTP header `Accept`

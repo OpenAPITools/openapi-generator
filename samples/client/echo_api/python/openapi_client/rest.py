@@ -15,14 +15,13 @@
 
 import io
 import json
-import logging
 import re
 import ssl
 
 from urllib.parse import urlencode, quote_plus
 import urllib3
 
-from openapi_client.exceptions import ApiException
+from openapi_client.exceptions import ApiException, ApiValueError
 
 RESTResponseType = urllib3.HTTPResponse
 

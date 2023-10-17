@@ -22,7 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -98,7 +97,7 @@ class NullableProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of NullableProperty from a dict"""
         if obj is None:
             return None
