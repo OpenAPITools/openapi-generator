@@ -199,21 +199,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isQueryParam}}
 	{{#isDateTime}}
 	{{#required}}
-	{{paramName}}Param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
+	if !query.Has("{{baseName}}"){
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/required}}
 	{{^required}}
-	var {{paramName}}Param *time.Time
-	if query.Has("{{baseName}}") {
-		param, err := time.Parse(time.RFC3339, query.Get("{{baseName}}"))
-		if err != nil {
-				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-				return
-		}
-		{{paramName}}Param = &param
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
 	}
 	{{/required}}
 	{{/isDateTime}}
@@ -359,16 +359,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/items.isInteger}}       
+	{{/items.isInteger}}
 	{{#items.isDateTime}}
-	var {{paramName}}Param []time.Time
-	for t := range strings.Split(query.Get("{{baseName}}"), ",") {
-		parsedTime, err := time.Parse(time.RFC3339, t)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-		{{paramName}}Param = append({{paramName}}Param, parsedTime)
+	{{paramName}}Param, err := parseTimes(query.Get("{{baseName"}}))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
 	{{/items.isDateTime}}
 	{{^items.isNumber}}
@@ -410,6 +406,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{^isArray}}
+	{{^isDateTime}}
 	{{#defaultValue}}
 	{{paramName}}Param := "{{defaultValue}}"
 	if query.Has("{{baseName}}") {
@@ -450,6 +447,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isEnumOrRef}}
 	{{/required}}
 	{{/defaultValue}}
+	{{/isDateTime}}
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
