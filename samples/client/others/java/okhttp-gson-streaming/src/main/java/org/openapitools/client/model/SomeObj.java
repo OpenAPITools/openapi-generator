@@ -97,6 +97,11 @@ public class SomeObj implements Serializable {
         return TypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      TypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
@@ -313,6 +318,10 @@ public class SomeObj implements Serializable {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) && !jsonObj.get("$_type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
+      }
+      // validate the optional field `$_type`
+      if (jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) {
+        TypeEnum.validateJsonElement(jsonObj.get("$_type"));
       }
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
