@@ -1,15 +1,12 @@
 package org.openapitools.codegen.kotlin.spring;
 
 import com.google.common.collect.testing.Helpers;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.apache.commons.io.FileUtils;
-
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
