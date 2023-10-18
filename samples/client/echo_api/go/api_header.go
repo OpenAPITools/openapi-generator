@@ -23,43 +23,55 @@ import (
 // HeaderAPIService HeaderAPI service
 type HeaderAPIService service
 
-type ApiTestHeaderIntegerBooleanStringRequest struct {
+type ApiTestHeaderIntegerBooleanStringEnumsRequest struct {
 	ctx context.Context
 	ApiService *HeaderAPIService
 	integerHeader *int32
 	booleanHeader *bool
 	stringHeader *string
+	enumNonrefStringHeader *string
+	enumRefStringHeader *StringEnumRef
 }
 
-func (r ApiTestHeaderIntegerBooleanStringRequest) IntegerHeader(integerHeader int32) ApiTestHeaderIntegerBooleanStringRequest {
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) IntegerHeader(integerHeader int32) ApiTestHeaderIntegerBooleanStringEnumsRequest {
 	r.integerHeader = &integerHeader
 	return r
 }
 
-func (r ApiTestHeaderIntegerBooleanStringRequest) BooleanHeader(booleanHeader bool) ApiTestHeaderIntegerBooleanStringRequest {
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) BooleanHeader(booleanHeader bool) ApiTestHeaderIntegerBooleanStringEnumsRequest {
 	r.booleanHeader = &booleanHeader
 	return r
 }
 
-func (r ApiTestHeaderIntegerBooleanStringRequest) StringHeader(stringHeader string) ApiTestHeaderIntegerBooleanStringRequest {
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) StringHeader(stringHeader string) ApiTestHeaderIntegerBooleanStringEnumsRequest {
 	r.stringHeader = &stringHeader
 	return r
 }
 
-func (r ApiTestHeaderIntegerBooleanStringRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.TestHeaderIntegerBooleanStringExecute(r)
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) EnumNonrefStringHeader(enumNonrefStringHeader string) ApiTestHeaderIntegerBooleanStringEnumsRequest {
+	r.enumNonrefStringHeader = &enumNonrefStringHeader
+	return r
+}
+
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) EnumRefStringHeader(enumRefStringHeader StringEnumRef) ApiTestHeaderIntegerBooleanStringEnumsRequest {
+	r.enumRefStringHeader = &enumRefStringHeader
+	return r
+}
+
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestHeaderIntegerBooleanStringEnumsExecute(r)
 }
 
 /*
-TestHeaderIntegerBooleanString Test header parameter(s)
+TestHeaderIntegerBooleanStringEnums Test header parameter(s)
 
 Test header parameter(s)
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiTestHeaderIntegerBooleanStringRequest
+ @return ApiTestHeaderIntegerBooleanStringEnumsRequest
 */
-func (a *HeaderAPIService) TestHeaderIntegerBooleanString(ctx context.Context) ApiTestHeaderIntegerBooleanStringRequest {
-	return ApiTestHeaderIntegerBooleanStringRequest{
+func (a *HeaderAPIService) TestHeaderIntegerBooleanStringEnums(ctx context.Context) ApiTestHeaderIntegerBooleanStringEnumsRequest {
+	return ApiTestHeaderIntegerBooleanStringEnumsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -67,7 +79,7 @@ func (a *HeaderAPIService) TestHeaderIntegerBooleanString(ctx context.Context) A
 
 // Execute executes the request
 //  @return string
-func (a *HeaderAPIService) TestHeaderIntegerBooleanStringExecute(r ApiTestHeaderIntegerBooleanStringRequest) (string, *http.Response, error) {
+func (a *HeaderAPIService) TestHeaderIntegerBooleanStringEnumsExecute(r ApiTestHeaderIntegerBooleanStringEnumsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -75,12 +87,12 @@ func (a *HeaderAPIService) TestHeaderIntegerBooleanStringExecute(r ApiTestHeader
 		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HeaderAPIService.TestHeaderIntegerBooleanString")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HeaderAPIService.TestHeaderIntegerBooleanStringEnums")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/header/integer/boolean/string"
+	localVarPath := localBasePath + "/header/integer/boolean/string/enums"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -111,6 +123,12 @@ func (a *HeaderAPIService) TestHeaderIntegerBooleanStringExecute(r ApiTestHeader
 	}
 	if r.stringHeader != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "string_header", r.stringHeader, "")
+	}
+	if r.enumNonrefStringHeader != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_nonref_string_header", r.enumNonrefStringHeader, "")
+	}
+	if r.enumRefStringHeader != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_ref_string_header", r.enumRefStringHeader, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

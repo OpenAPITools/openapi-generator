@@ -30,6 +30,7 @@ require 'openapi_client'
 
 api_instance = OpenapiClient::QueryApi.new
 opts = {
+  enum_nonref_string_query: 'success', # String | 
   enum_ref_string_query: OpenapiClient::StringEnumRef::SUCCESS # StringEnumRef | 
 }
 
@@ -64,6 +65,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
+| **enum_nonref_string_query** | **String** |  | [optional] |
 | **enum_ref_string_query** | [**StringEnumRef**](.md) |  | [optional] |
 
 ### Return type

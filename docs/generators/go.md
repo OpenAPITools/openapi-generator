@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
+|withGoMod|Generate go.mod and go.sum| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING

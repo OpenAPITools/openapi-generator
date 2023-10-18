@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.python;
 
+import static org.junit.Assert.assertNotNull;
 import com.google.common.collect.Sets;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -30,6 +31,7 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.io.File;
@@ -40,6 +42,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PythonClientCodegenTest {
 
@@ -500,5 +505,29 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(vars.size(), 1);
         CodegenProperty property = vars.get(0);
         Assert.assertEquals(property.name, "dollar_value");
+    }
+
+    @Test
+    public void testHandleConstantParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/autoset_constant.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        PythonClientCodegen pythonClientCodegen = new PythonClientCodegen();
+        pythonClientCodegen.setOutputDir(output.getAbsolutePath());
+        pythonClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
+        pythonClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(pythonClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
+        assertNotNull(apiFile);
+        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
     }
 }

@@ -217,9 +217,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         for(CodegenOperation codegenOperation : opList) {
 
             if(pathParamsAsVariables) {
+                // create Postman variable from path parameter
                 codegenOperation.path = doubleCurlyBraces(codegenOperation.path);
+            } else {
+                // use Postman notation for path parameter
+                codegenOperation.path = replacesBracesInPath(codegenOperation.path);
             }
-
             codegenOperation.summary = getSummary(codegenOperation);
 
             // request headers
@@ -501,6 +504,15 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         return s;
 
+    }
+
+    // convert path from /users/{id} to /users/:id
+    String replacesBracesInPath(String path) {
+
+        String s = path.replace("{", ":");
+        s = s.replace("}", "");
+
+        return s;
     }
 
     public String extractExampleByName(String ref) {

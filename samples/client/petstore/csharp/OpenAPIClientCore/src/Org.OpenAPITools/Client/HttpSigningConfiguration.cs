@@ -380,13 +380,17 @@ namespace Org.OpenAPITools.Client
             else
                 ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
 
-            var signedBytes = ecdsa.SignHash(dataToSign);
-            var derBytes = ConvertToECDSAANS1Format(signedBytes);
+            var derBytes = ecdsa.SignHash(dataToSign, DSASignatureFormat.Rfc3279DerSequence);
             var signedString = System.Convert.ToBase64String(derBytes);
 
             return signedString;
         }
 
+        /// <summary>
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// </summary>
+        /// <param name="signedBytes"></param>
+        /// <returns></returns>
         private byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();

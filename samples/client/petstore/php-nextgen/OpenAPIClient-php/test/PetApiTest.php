@@ -8,6 +8,8 @@ use OpenAPI\Client\Model\Pet;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 
+require_once __DIR__ . '/FakeHttpClient.php';
+
 class PetApiTest extends TestCase
 {
 
@@ -117,7 +119,7 @@ class PetApiTest extends TestCase
 
     public function testFindPetByStatus()
     {
-        $response = $this->api->findPetsByStatus('available');
+        $response = $this->api->findPetsByStatus(array('available'));
         $this->assertGreaterThan(0, count($response)); // at least one object returned
 
         $this->assertInstanceOf(Pet::class, $response[0]); // verify the object is Pet
@@ -125,7 +127,7 @@ class PetApiTest extends TestCase
             $this->assertSame('available', $pet->getStatus());
         }
 
-        $response = $this->api->findPetsByStatus('unknown_and_incorrect_status');
+        $response = $this->api->findPetsByStatus(array('unknown_and_incorrect_status'));
         $this->assertCount(0, $response);
     }
 
@@ -280,14 +282,6 @@ class PetApiTest extends TestCase
         $this->assertSame($json['tags'][0]['name'], 'test php tag');
     }
      */
-
-    // test empty object serialization
-    public function testEmptyPetSerialization()
-    {
-        $new_pet = new Model\Pet;
-        // the empty object should be serialised to {}
-        $this->assertSame("{}", "$new_pet");
-    }
 
     // test inheritance in the model
     public function testInheritance()

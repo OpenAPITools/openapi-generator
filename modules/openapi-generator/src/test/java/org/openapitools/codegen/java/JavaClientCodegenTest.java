@@ -2673,6 +2673,7 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
     public void testHandleConstantParams() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -2682,7 +2683,7 @@ public class JavaClientCodegenTest {
         clientOptInput.openAPI(openAPI);
         JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
         javaClientCodegen.setOutputDir(output.getAbsolutePath());
-        javaClientCodegen.additionalProperties().put(JavaClientCodegen.AUTOSET_CONSTANTS, "true");
+        javaClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
         javaClientCodegen.setAutosetConstants(true);
         clientOptInput.config(javaClientCodegen);
         defaultGenerator.opts(clientOptInput);

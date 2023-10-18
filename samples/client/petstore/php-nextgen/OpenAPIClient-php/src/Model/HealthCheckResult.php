@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * HealthCheckResult Class Doc Comment
  *
- * @category Class
  * @description Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
