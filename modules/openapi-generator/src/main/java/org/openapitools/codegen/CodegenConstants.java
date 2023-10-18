@@ -43,6 +43,8 @@ public class CodegenConstants {
     public static final String API_SUFFIX = "apiSuffix";
     public static final String API_SUFFIX_DESC = "suffix for api classes";
 
+    public static final String AUTOSET_CONSTANTS = "autosetConstants";
+
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
@@ -429,4 +431,6 @@ public class CodegenConstants {
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
+
+    public static final String WITH_GO_MOD = "withGoMod";
 }

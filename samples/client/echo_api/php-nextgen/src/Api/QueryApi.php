@@ -3,7 +3,6 @@
  * QueryApi
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -45,7 +44,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * QueryApi Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -151,6 +149,7 @@ class QueryApi
      *
      * Test query parameter(s)
      *
+     * @param  string|null $enum_nonref_string_query enum_nonref_string_query (optional)
      * @param  StringEnumRef|null $enum_ref_string_query enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
@@ -159,11 +158,12 @@ class QueryApi
      * @return string
      */
     public function testEnumRefString(
+        ?string $enum_nonref_string_query = null,
         ?StringEnumRef $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): string
     {
-        list($response) = $this->testEnumRefStringWithHttpInfo($enum_ref_string_query, $contentType);
+        list($response) = $this->testEnumRefStringWithHttpInfo($enum_nonref_string_query, $enum_ref_string_query, $contentType);
         return $response;
     }
 
@@ -172,6 +172,7 @@ class QueryApi
      *
      * Test query parameter(s)
      *
+     * @param  string|null $enum_nonref_string_query (optional)
      * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
@@ -180,11 +181,12 @@ class QueryApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumRefStringWithHttpInfo(
+        ?string $enum_nonref_string_query = null,
         ?StringEnumRef $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): array
     {
-        $request = $this->testEnumRefStringRequest($enum_ref_string_query, $contentType);
+        $request = $this->testEnumRefStringRequest($enum_nonref_string_query, $enum_ref_string_query, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -275,6 +277,7 @@ class QueryApi
      *
      * Test query parameter(s)
      *
+     * @param  string|null $enum_nonref_string_query (optional)
      * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
@@ -282,11 +285,12 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testEnumRefStringAsync(
+        ?string $enum_nonref_string_query = null,
         ?StringEnumRef $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): PromiseInterface
     {
-        return $this->testEnumRefStringAsyncWithHttpInfo($enum_ref_string_query, $contentType)
+        return $this->testEnumRefStringAsyncWithHttpInfo($enum_nonref_string_query, $enum_ref_string_query, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -299,6 +303,7 @@ class QueryApi
      *
      * Test query parameter(s)
      *
+     * @param  string|null $enum_nonref_string_query (optional)
      * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
@@ -306,12 +311,13 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testEnumRefStringAsyncWithHttpInfo(
+        $enum_nonref_string_query = null,
         $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): PromiseInterface
     {
         $returnType = 'string';
-        $request = $this->testEnumRefStringRequest($enum_ref_string_query, $contentType);
+        $request = $this->testEnumRefStringRequest($enum_nonref_string_query, $enum_ref_string_query, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -352,6 +358,7 @@ class QueryApi
     /**
      * Create request for operation 'testEnumRefString'
      *
+     * @param  string|null $enum_nonref_string_query (optional)
      * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
@@ -359,10 +366,12 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEnumRefStringRequest(
+        $enum_nonref_string_query = null,
         $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): Request
     {
+
 
 
 
@@ -373,6 +382,15 @@ class QueryApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $enum_nonref_string_query,
+            'enum_nonref_string_query', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $enum_ref_string_query,

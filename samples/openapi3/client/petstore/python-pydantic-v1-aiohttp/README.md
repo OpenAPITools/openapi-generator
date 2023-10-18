@@ -212,6 +212,8 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Tiger](docs/Tiger.md)
+ - [UnnamedDictWithAdditionalModelListProperties](docs/UnnamedDictWithAdditionalModelListProperties.md)
+ - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
  - [User](docs/User.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 

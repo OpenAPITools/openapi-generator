@@ -14,7 +14,7 @@ import (
 	"errors"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -64,7 +64,25 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 			wHeader.Add(key, value)
 		}
 	}
+
+	f, ok := i.(*os.File)
+	if ok {
+		data, err := io.ReadAll(f)
+		if err != nil {
+			return err
+		}
+		wHeader.Set("Content-Type", http.DetectContentType(data))
+		wHeader.Set("Content-Disposition", "attachment; filename="+f.Name())
+		if status != nil {
+			w.WriteHeader(*status)
+		} else {
+			w.WriteHeader(http.StatusOK)
+		}
+		_, err = w.Write(data)
+		return err
+	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
+
 	if status != nil {
 		w.WriteHeader(*status)
 	} else {
@@ -117,20 +135,18 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 
 	defer formFile.Close()
 
-	fileBytes, err := ioutil.ReadAll(formFile)
-	if err != nil {
-		return nil, err
-	}
-
-	file, err := ioutil.TempFile("", fileHeader.Filename)
+	file, err := os.CreateTemp("", fileHeader.Filename)
 	if err != nil {
 		return nil, err
 	}
 
 	defer file.Close()
 
-	file.Write(fileBytes)
-
+	_, err = io.Copy(file, formFile)
+	if err != nil {
+		return nil, err
+	}
+	
 	return file, nil
 }
 

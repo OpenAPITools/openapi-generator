@@ -86,8 +86,8 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyTagResponseString**](docs/Api/BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/Api/FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormOneof**](docs/Api/FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
-*HeaderApi* | [**testHeaderIntegerBooleanString**](docs/Api/HeaderApi.md#testheaderintegerbooleanstring) | **GET** /header/integer/boolean/string | Test header parameter(s)
-*PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/Api/PathApi.md#testspathstringpathstringintegerpathinteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*HeaderApi* | [**testHeaderIntegerBooleanStringEnums**](docs/Api/HeaderApi.md#testheaderintegerbooleanstringenums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/Api/PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryApi* | [**testEnumRefString**](docs/Api/QueryApi.md#testenumrefstring) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**testQueryDatetimeDateString**](docs/Api/QueryApi.md#testquerydatetimedatestring) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/Api/QueryApi.md#testqueryintegerbooleanstring) | **GET** /query/integer/boolean/string | Test query parameter(s)

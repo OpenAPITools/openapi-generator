@@ -15,7 +15,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testenumrefstring"></a>
 # **TestEnumRefString**
-> string TestEnumRefString (StringEnumRef? enumRefStringQuery = null)
+> string TestEnumRefString (string? enumNonrefStringQuery = null, StringEnumRef? enumRefStringQuery = null)
 
 Test query parameter(s)
 
@@ -38,12 +38,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new QueryApi(config);
+            var enumNonrefStringQuery = "success";  // string? |  (optional) 
             var enumRefStringQuery = new StringEnumRef?(); // StringEnumRef? |  (optional) 
 
             try
             {
                 // Test query parameter(s)
-                string result = apiInstance.TestEnumRefString(enumRefStringQuery);
+                string result = apiInstance.TestEnumRefString(enumNonrefStringQuery, enumRefStringQuery);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -64,7 +65,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Test query parameter(s)
-    ApiResponse<string> response = apiInstance.TestEnumRefStringWithHttpInfo(enumRefStringQuery);
+    ApiResponse<string> response = apiInstance.TestEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -81,6 +82,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **enumNonrefStringQuery** | **string?** |  | [optional]  |
 | **enumRefStringQuery** | [**StringEnumRef?**](StringEnumRef?.md) |  | [optional]  |
 
 ### Return type

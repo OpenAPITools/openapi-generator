@@ -2351,3 +2351,21 @@ components:
       title: ListOfObjects
       items:
         $ref: "#/components/schemas/Tag"
+    UnnamedDictWithAdditionalStringListProperties:
+      type: object
+      properties:
+        dictProperty:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    UnnamedDictWithAdditionalModelListProperties:
+      type: object
+      properties:
+        dictProperty:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/CreatureInfo"

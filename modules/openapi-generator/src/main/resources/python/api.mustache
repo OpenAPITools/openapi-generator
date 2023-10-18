@@ -36,12 +36,13 @@ class {{classname}}:
 {{#operation}}
 
     @validate_call
-{{#asyncio}}
-    async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
-{{/asyncio}}
-{{^asyncio}}
-    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
-{{/asyncio}}
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -76,15 +77,22 @@ class {{classname}}:
         if '_preload_content' in kwargs:
             message = "Error! Please call the {{operationId}}_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
+
+        return {{#asyncio}}await {{/asyncio}}self.{{operationId}}_with_http_info.raw_function(
+            {{#allParams}}
+            {{paramName}},
+            {{/allParams}}
+            **kwargs,
+        )
 
     @validate_call
-{{#asyncio}}
-    async def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
-{{/asyncio}}
-{{^asyncio}}
-    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
-{{/asyncio}}
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info(
+        self,
+        {{#allParams}}
+        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{/allParams}}
+        **kwargs,
+    ) -> ApiResponse:
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -186,7 +194,7 @@ class {{classname}}:
         _path_params: Dict[str, str] = {}
 {{#pathParams}}
         if _params['{{paramName}}'] is not None:
-            _path_params['{{baseName}}'] = _params['{{paramName}}']
+            _path_params['{{baseName}}'] = _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
@@ -219,6 +227,13 @@ class {{classname}}:
             {{/isArray}}
 
 {{/queryParams}}
+        {{#constantParams}}
+        {{#isQueryParam}}
+        # Set client side default value of Query Param "{{baseName}}".
+        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+
+        {{/isQueryParam}}
+        {{/constantParams}}
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 {{#headerParams}}
@@ -229,6 +244,13 @@ class {{classname}}:
             {{/isArray}}
 
 {{/headerParams}}
+        {{#constantParams}}
+        {{#isHeaderParam}}
+        # Set client side default value of Header Param "{{baseName}}".
+        _header_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+
+        {{/isHeaderParam}}
+        {{/constantParams}}
         # process the form parameters
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}

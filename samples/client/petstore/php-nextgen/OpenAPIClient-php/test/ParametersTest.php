@@ -50,10 +50,10 @@ class ParametersTest extends TestCase
     {
         $param = new \stdClass();
         $param->foo = 'bar';
-        $this->fakeApi->testInlineAdditionalProperties($param);
+        $this->fakeApi->testInlineAdditionalProperties(array($param));
 
         $request = $this->fakeHttpClient->getLastRequest();
-        $this->assertSame('{"foo":"bar"}', $request->getBody()->getContents());
+        $this->assertSame('[{"foo":"bar"}]', $request->getBody()->getContents());
     }
 
     /**

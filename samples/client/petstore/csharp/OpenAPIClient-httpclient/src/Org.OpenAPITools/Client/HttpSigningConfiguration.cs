@@ -352,6 +352,11 @@ namespace Org.OpenAPITools.Client
             throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
         }
 
+        /// <summary>
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// </summary>
+        /// <param name="signedBytes"></param>
+        /// <returns></returns>
         private byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();

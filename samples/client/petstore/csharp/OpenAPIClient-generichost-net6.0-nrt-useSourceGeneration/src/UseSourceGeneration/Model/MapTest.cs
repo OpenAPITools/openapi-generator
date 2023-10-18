@@ -108,6 +108,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string InnerEnumToJsonValue(InnerEnum value)
         {
+
             if (value == InnerEnum.UPPER)
                 return "UPPER";
 

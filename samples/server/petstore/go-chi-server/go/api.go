@@ -23,13 +23,16 @@ import (
 type PetAPIRouter interface { 
 	AddPet(http.ResponseWriter, *http.Request)
 	DeletePet(http.ResponseWriter, *http.Request)
+	FilterPetsByCategory(http.ResponseWriter, *http.Request)
 	FindPetsByStatus(http.ResponseWriter, *http.Request)
 	// Deprecated
 	FindPetsByTags(http.ResponseWriter, *http.Request)
 	GetPetById(http.ResponseWriter, *http.Request)
+	GetPetImageById(http.ResponseWriter, *http.Request)
 	UpdatePet(http.ResponseWriter, *http.Request)
 	UpdatePetWithForm(http.ResponseWriter, *http.Request)
 	UploadFile(http.ResponseWriter, *http.Request)
+	UploadFileArrayOfFiles(http.ResponseWriter, *http.Request)
 }
 // StoreAPIRouter defines the required methods for binding the api requests to a responses for the StoreAPI
 // The StoreAPIRouter implementation should parse necessary information from the http request,
@@ -62,13 +65,16 @@ type UserAPIRouter interface {
 type PetAPIServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
+	FilterPetsByCategory(context.Context, Gender, Species, []Species) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
 	FindPetsByTags(context.Context, []string) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
+	GetPetImageById(context.Context, int64) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
 	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UploadFileArrayOfFiles(context.Context, int64, string, []*os.File) (ImplResponse, error)
 }
 
 

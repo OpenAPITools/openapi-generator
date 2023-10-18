@@ -3,7 +3,6 @@
  * {{classname}}
  * PHP version 8.1
  *
- * @category Class
  * @package  {{invokerPackage}}
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -35,7 +34,6 @@ use {{invokerPackage}}\ObjectSerializer;
 /**
  * {{classname}} Class Doc Comment
  *
- * @category Class
  * @package  {{invokerPackage}}
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -187,7 +185,7 @@ use {{invokerPackage}}\ObjectSerializer;
     {{#vendorExtensions.x-group-parameters}}
         array $associative_array
     {{/vendorExtensions.x-group-parameters}}
-    ): {{vendorExtensions.x-php-return-type}}
+    ): {{{vendorExtensions.x-php-return-type}}}
     {
         {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}, {{/allParams}}{{#servers}}{{#-first}}$hostIndex, $variables, {{/-first}}{{/servers}}$contentType{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
         return $response;{{/returnType}}

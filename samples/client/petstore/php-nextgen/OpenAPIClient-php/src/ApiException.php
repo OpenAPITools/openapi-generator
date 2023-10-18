@@ -3,7 +3,6 @@
  * ApiException
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -33,7 +32,6 @@ use stdClass;
 /**
  * ApiException Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,7 +57,7 @@ class ApiException extends Exception
      *
      * @var mixed
      */
-    protected mixed $responseObject;
+    protected mixed $responseObject = null;
 
     /**
      * Constructor
