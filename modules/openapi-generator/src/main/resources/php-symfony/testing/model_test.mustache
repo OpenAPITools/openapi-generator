@@ -50,7 +50,9 @@ class {{classname}}Test extends TestCase
      */
     public function setUp(): void
     {
+        {{^isEnum}}
          $this->object = $this->getMockBuilder({{classname}}::class)->getMockForAbstractClass();
+        {{/isEnum}}
     }
 
     /**
