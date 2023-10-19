@@ -58,7 +58,6 @@ class EnumStringModelTest extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder(EnumStringModel::class)->getMockForAbstractClass();
     }
 
     /**
