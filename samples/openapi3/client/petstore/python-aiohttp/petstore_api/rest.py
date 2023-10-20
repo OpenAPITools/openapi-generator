@@ -54,7 +54,9 @@ class RESTClientObject:
         if maxsize is None:
             maxsize = configuration.connection_pool_maxsize
 
-        ssl_context = ssl.create_default_context(cafile=configuration.ssl_ca_cert)
+        ssl_context = ssl.create_default_context(
+            cafile=configuration.ssl_ca_cert
+        )
         if configuration.cert_file:
             ssl_context.load_cert_chain(
                 configuration.cert_file, keyfile=configuration.key_file
@@ -81,9 +83,15 @@ class RESTClientObject:
     async def close(self):
         await self.pool_manager.close()
 
-    async def request(self, method, url, headers=None,
-                      body=None, post_params=None,
-                      _request_timeout=None):
+    async def request(
+        self,
+        method,
+        url,
+        headers=None,
+        body=None,
+        post_params=None,
+        _request_timeout=None
+    ):
         """Execute request
 
         :param method: http request method
@@ -99,8 +107,15 @@ class RESTClientObject:
                                  (connection, read) timeouts.
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
-                          'PATCH', 'OPTIONS']
+        assert method in [
+            'GET',
+            'HEAD',
+            'DELETE',
+            'POST',
+            'PUT',
+            'PATCH',
+            'OPTIONS'
+        ]
 
         if post_params and body:
             raise ApiValueError(
@@ -133,7 +148,7 @@ class RESTClientObject:
                 if body is not None:
                     body = json.dumps(body)
                 args["data"] = body
-            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
+            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
                 args["data"] = aiohttp.FormData(post_params)
             elif headers['Content-Type'] == 'multipart/form-data':
                 # must del headers['Content-Type'], or the correct

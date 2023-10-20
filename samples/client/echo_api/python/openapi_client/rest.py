@@ -108,9 +108,15 @@ class RESTClientObject:
                 **addition_pool_args
             )
 
-    def request(self, method, url, headers=None,
-                body=None, post_params=None,
-                _request_timeout=None):
+    def request(
+        self,
+        method,
+        url,
+        headers=None,
+        body=None,
+        post_params=None,
+        _request_timeout=None
+    ):
         """Perform requests.
 
         :param method: http request method
@@ -126,8 +132,15 @@ class RESTClientObject:
                                  (connection, read) timeouts.
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
-                          'PATCH', 'OPTIONS']
+        assert method in [
+            'GET',
+            'HEAD',
+            'DELETE',
+            'POST',
+            'PUT',
+            'PATCH',
+            'OPTIONS'
+        ]
 
         if post_params and body:
             raise ApiValueError(

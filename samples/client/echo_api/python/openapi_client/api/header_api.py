@@ -561,7 +561,7 @@ class HeaderApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, str] = _headers or {}
+        _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[str, str] = {}
         _body_params: Optional[bytes] = None
