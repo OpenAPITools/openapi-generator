@@ -15,7 +15,7 @@
 import io
 import warnings
 
-from pydantic import validate_call, Field
+from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 try:
@@ -54,26 +54,28 @@ class UserApi:
     async def create_user(
         self,
         user: Annotated[User, Field(description="Created user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=3,
             description="""index of the host to use, if the server has multiple
@@ -134,26 +136,28 @@ class UserApi:
     async def create_user_with_http_info(
         self,
         user: Annotated[User, Field(description="Created user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=3,
             description="""index of the host to use, if the server has multiple
@@ -214,26 +218,28 @@ class UserApi:
     async def create_user_without_preload_content(
         self,
         user: Annotated[User, Field(description="Created user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=3,
             description="""index of the host to use, if the server has multiple
@@ -365,26 +371,28 @@ class UserApi:
     async def create_users_with_array_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -445,26 +453,28 @@ class UserApi:
     async def create_users_with_array_input_with_http_info(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -525,26 +535,28 @@ class UserApi:
     async def create_users_with_array_input_without_preload_content(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -672,26 +684,28 @@ class UserApi:
     async def create_users_with_list_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -752,26 +766,28 @@ class UserApi:
     async def create_users_with_list_input_with_http_info(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -832,26 +848,28 @@ class UserApi:
     async def create_users_with_list_input_without_preload_content(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -979,26 +997,28 @@ class UserApi:
     async def delete_user(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1059,26 +1079,28 @@ class UserApi:
     async def delete_user_with_http_info(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1139,26 +1161,28 @@ class UserApi:
     async def delete_user_without_preload_content(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1272,26 +1296,28 @@ class UserApi:
     async def get_user_by_name(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1355,26 +1381,28 @@ class UserApi:
     async def get_user_by_name_with_http_info(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1438,26 +1466,28 @@ class UserApi:
     async def get_user_by_name_without_preload_content(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1582,26 +1612,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1668,26 +1700,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1754,26 +1788,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1905,26 +1941,28 @@ class UserApi:
     @validate_call
     async def logout_user(
         self,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1981,26 +2019,28 @@ class UserApi:
     @validate_call
     async def logout_user_with_http_info(
         self,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2057,26 +2097,28 @@ class UserApi:
     @validate_call
     async def logout_user_without_preload_content(
         self,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2185,26 +2227,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2269,26 +2313,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2353,26 +2399,28 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple

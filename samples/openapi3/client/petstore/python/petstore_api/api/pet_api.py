@@ -15,7 +15,7 @@
 import io
 import warnings
 
-from pydantic import validate_call, Field
+from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 try:
@@ -56,26 +56,28 @@ class PetApi:
     def add_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -137,26 +139,28 @@ class PetApi:
     def add_pet_with_http_info(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -218,26 +222,28 @@ class PetApi:
     def add_pet_without_preload_content(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -295,26 +301,28 @@ class PetApi:
     def add_pet_with_async(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -378,26 +386,28 @@ class PetApi:
     def add_pet_with_http_info_async(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -533,26 +543,28 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -618,26 +630,28 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -703,26 +717,28 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -784,26 +800,28 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -871,26 +889,28 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1016,26 +1036,28 @@ class PetApi:
     def find_pets_by_status(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1099,26 +1121,28 @@ class PetApi:
     def find_pets_by_status_with_http_info(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1182,26 +1206,28 @@ class PetApi:
     def find_pets_by_status_without_preload_content(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1261,26 +1287,28 @@ class PetApi:
     def find_pets_by_status_with_async(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1346,26 +1374,28 @@ class PetApi:
     def find_pets_by_status_with_http_info_async(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1498,26 +1528,28 @@ class PetApi:
     def find_pets_by_tags(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1582,26 +1614,28 @@ class PetApi:
     def find_pets_by_tags_with_http_info(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1666,26 +1700,28 @@ class PetApi:
     def find_pets_by_tags_without_preload_content(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1746,26 +1782,28 @@ class PetApi:
     def find_pets_by_tags_with_async(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1832,26 +1870,28 @@ class PetApi:
     def find_pets_by_tags_with_http_info_async(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -1985,26 +2025,28 @@ class PetApi:
     def get_pet_by_id(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2069,26 +2111,28 @@ class PetApi:
     def get_pet_by_id_with_http_info(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2153,26 +2197,28 @@ class PetApi:
     def get_pet_by_id_without_preload_content(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2233,26 +2279,28 @@ class PetApi:
     def get_pet_by_id_with_async(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2319,26 +2367,28 @@ class PetApi:
     def get_pet_by_id_with_http_info_async(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2468,26 +2518,28 @@ class PetApi:
     def update_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2549,26 +2601,28 @@ class PetApi:
     def update_pet_with_http_info(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2630,26 +2684,28 @@ class PetApi:
     def update_pet_without_preload_content(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2707,26 +2763,28 @@ class PetApi:
     def update_pet_with_async(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2790,26 +2848,28 @@ class PetApi:
     def update_pet_with_http_info_async(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -2946,26 +3006,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3035,26 +3097,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3124,26 +3188,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3209,26 +3275,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3300,26 +3368,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3466,26 +3536,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3556,26 +3628,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3646,26 +3720,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3732,26 +3808,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3824,26 +3902,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -3997,26 +4077,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -4087,26 +4169,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -4177,26 +4261,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -4263,26 +4349,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -4355,26 +4443,28 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple

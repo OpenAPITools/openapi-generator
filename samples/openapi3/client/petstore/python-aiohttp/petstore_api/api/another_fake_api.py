@@ -15,7 +15,7 @@
 import io
 import warnings
 
-from pydantic import validate_call, Field
+from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 try:
@@ -50,26 +50,28 @@ class AnotherFakeApi:
     async def call_123_test_special_tags(
         self,
         client: Annotated[Client, Field(description="client model")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -131,26 +133,28 @@ class AnotherFakeApi:
     async def call_123_test_special_tags_with_http_info(
         self,
         client: Annotated[Client, Field(description="client model")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
@@ -212,26 +216,28 @@ class AnotherFakeApi:
     async def call_123_test_special_tags_without_preload_content(
         self,
         client: Annotated[Client, Field(description="client model")],
-        _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="""timeout setting for this request. If one number
-                           provided, it will be total request timeout. It can
-                           also be a pair (tuple) of (connection, read)
-                           timeouts.""",
+        _request_timeout: Annotated[
+            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
+            Field(
+                description="""timeout setting for this request. If one number
+                               provided, it will be total request timeout. It can
+                               also be a pair (tuple) of (connection, read)
+                               timeouts.""",
         )] = None,
-        _request_auth: Annotated[Optional[Dict[str, Any]], Field(
+        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the auth_settings for an a single
                            request; this effectively ignores the authentication
                            in the specfor a single request.""",
         )] = None,
-        _content_type: Annotated[Optional[str], Field(
+        _content_type: Annotated[Optional[StrictStr], Field(
             description="""force content-type for the request""",
         )] = None,
-        _headers: Annotated[Optional[Dict[str, Any]], Field(
+        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
             description="""set to override the header params for an a single
                            request; this effectively ignores the header params
                            in the spec fora single request.""",
         )] = None,
-        _host_index: Annotated[int, Field(
+        _host_index: Annotated[StrictInt, Field(
             ge=0,
             le=0,
             description="""index of the host to use, if the server has multiple
