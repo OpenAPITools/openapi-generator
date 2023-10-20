@@ -93,7 +93,7 @@ public interface PetApiDelegate {
                 break;
             }
         }
-        return result.thenMany(s -> {});
+        return result.then(Mono.empty());
 
     }
 
@@ -124,7 +124,7 @@ public interface PetApiDelegate {
                 break;
             }
         }
-        return result.thenMany(s -> {});
+        return result.then(Mono.empty());
 
     }
 
