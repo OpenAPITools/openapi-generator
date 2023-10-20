@@ -80,8 +80,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Order</returns>
-        Order GetOrderById(long orderId, int operationIndex = 0);
+        /// <returns>Model.Order</returns>
+        Model.Order GetOrderById(long orderId, int operationIndex = 0);
 
         /// <summary>
         /// Find purchase order by ID
@@ -92,16 +92,16 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo(long orderId, int operationIndex = 0);
+        /// <returns>ApiResponse of Model.Order</returns>
+        ApiResponse<Model.Order> GetOrderByIdWithHttpInfo(long orderId, int operationIndex = 0);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Order</returns>
-        Order PlaceOrder(Order order, int operationIndex = 0);
+        /// <returns>Model.Order</returns>
+        Model.Order PlaceOrder(Order order, int operationIndex = 0);
 
         /// <summary>
         /// Place an order for a pet
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo(Order order, int operationIndex = 0);
+        /// <returns>ApiResponse of Model.Order</returns>
+        ApiResponse<Model.Order> PlaceOrderWithHttpInfo(Order order, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -181,8 +181,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Order</returns>
+        System.Threading.Tasks.Task<Model.Order> GetOrderByIdAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Find purchase order by ID
@@ -194,8 +194,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Order>> GetOrderByIdWithHttpInfoAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -206,8 +206,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Order</returns>
+        System.Threading.Tasks.Task<Model.Order> PlaceOrderAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Place an order for a pet
@@ -219,8 +219,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Order>> PlaceOrderWithHttpInfoAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -623,10 +623,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Order</returns>
-        public Order GetOrderById(long orderId, int operationIndex = 0)
+        /// <returns>Model.Order</returns>
+        public Model.Order GetOrderById(long orderId, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
+            Org.OpenAPITools.Client.ApiResponse<Model.Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
             return localVarResponse.Data;
         }
 
@@ -636,8 +636,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Order> GetOrderByIdWithHttpInfo(long orderId, int operationIndex = 0)
+        /// <returns>ApiResponse of Model.Order</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Order> GetOrderByIdWithHttpInfo(long orderId, int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -669,7 +669,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetOrderById", localVarResponse);
@@ -689,10 +689,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Order</returns>
+        public async System.Threading.Tasks.Task<Model.Order> GetOrderByIdAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await GetOrderByIdWithHttpInfoAsync(orderId, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Order> localVarResponse = await GetOrderByIdWithHttpInfoAsync(orderId, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -703,8 +703,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Order)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Order>> GetOrderByIdWithHttpInfoAsync(long orderId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -737,7 +737,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Model.Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -757,10 +757,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Order</returns>
-        public Order PlaceOrder(Order order, int operationIndex = 0)
+        /// <returns>Model.Order</returns>
+        public Model.Order PlaceOrder(Order order, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(order);
+            Org.OpenAPITools.Client.ApiResponse<Model.Order> localVarResponse = PlaceOrderWithHttpInfo(order);
             return localVarResponse.Data;
         }
 
@@ -770,8 +770,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Order> PlaceOrderWithHttpInfo(Order order, int operationIndex = 0)
+        /// <returns>ApiResponse of Model.Order</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Order> PlaceOrderWithHttpInfo(Order order, int operationIndex = 0)
         {
             // verify the required parameter 'order' is set
             if (order == null)
@@ -810,7 +810,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Order>("/store/order", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.Order>("/store/order", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("PlaceOrder", localVarResponse);
@@ -830,10 +830,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Order</returns>
+        public async System.Threading.Tasks.Task<Model.Order> PlaceOrderAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderWithHttpInfoAsync(order, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Order> localVarResponse = await PlaceOrderWithHttpInfoAsync(order, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -844,8 +844,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Order)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Order>> PlaceOrderWithHttpInfoAsync(Order order, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'order' is set
             if (order == null)
@@ -885,7 +885,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Order>("/store/order", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Model.Order>("/store/order", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

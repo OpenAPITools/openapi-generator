@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 
 <a id="rootget"></a>
 # **RootGet**
-> Fruit RootGet ()
+> Model.Fruit RootGet ()
 
 
 
@@ -32,7 +32,7 @@ namespace Example
 
             try
             {
-                Fruit result = apiInstance.RootGet();
+                Model.Fruit result = apiInstance.RootGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -52,7 +52,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<Fruit> response = apiInstance.RootGetWithHttpInfo();
+    ApiResponse<Model.Fruit> response = apiInstance.RootGetWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -69,7 +69,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**Fruit**](Fruit.md)
+[**Model.Fruit**](Fruit.md)
 
 ### Authorization
 

@@ -198,7 +198,7 @@ This endpoint does not need any parameter.
 
 <a id="getorderbyid"></a>
 # **GetOrderById**
-> Order GetOrderById (long orderId)
+> Model.Order GetOrderById (long orderId)
 
 Find purchase order by ID
 
@@ -230,7 +230,7 @@ namespace Example
             try
             {
                 // Find purchase order by ID
-                Order result = apiInstance.GetOrderById(orderId);
+                Model.Order result = apiInstance.GetOrderById(orderId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -251,7 +251,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Find purchase order by ID
-    ApiResponse<Order> response = apiInstance.GetOrderByIdWithHttpInfo(orderId);
+    ApiResponse<Model.Order> response = apiInstance.GetOrderByIdWithHttpInfo(orderId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -272,7 +272,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Order**](Order.md)
+[**Model.Order**](Order.md)
 
 ### Authorization
 
@@ -295,7 +295,7 @@ No authorization required
 
 <a id="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order order)
+> Model.Order PlaceOrder (Order order)
 
 Place an order for a pet
 
@@ -325,7 +325,7 @@ namespace Example
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(order);
+                Model.Order result = apiInstance.PlaceOrder(order);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -346,7 +346,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Place an order for a pet
-    ApiResponse<Order> response = apiInstance.PlaceOrderWithHttpInfo(order);
+    ApiResponse<Model.Order> response = apiInstance.PlaceOrderWithHttpInfo(order);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -367,7 +367,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Order**](Order.md)
+[**Model.Order**](Order.md)
 
 ### Authorization
 

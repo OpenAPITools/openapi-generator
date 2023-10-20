@@ -30,8 +30,8 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>HealthCheckResult</returns>
-        HealthCheckResult FakeHealthGet();
+        /// <returns>Model.HealthCheckResult</returns>
+        Model.HealthCheckResult FakeHealthGet();
 
         /// <summary>
         /// Health check endpoint
@@ -40,8 +40,8 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of HealthCheckResult</returns>
-        ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo();
+        /// <returns>ApiResponse of Model.HealthCheckResult</returns>
+        ApiResponse<Model.HealthCheckResult> FakeHealthGetWithHttpInfo();
         /// <summary>
         /// 
         /// </summary>
@@ -71,8 +71,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite));
+        /// <returns>Model.OuterComposite</returns>
+        Model.OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite));
 
         /// <summary>
         /// 
@@ -82,8 +82,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite));
+        /// <returns>ApiResponse of Model.OuterComposite</returns>
+        ApiResponse<Model.OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite));
         /// <summary>
         /// 
         /// </summary>
@@ -193,8 +193,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        ModelClient TestClientModel(ModelClient modelClient);
+        /// <returns>Model.ModelClient</returns>
+        Model.ModelClient TestClientModel(ModelClient modelClient);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -204,8 +204,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient);
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        ApiResponse<Model.ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient);
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -429,8 +429,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of HealthCheckResult</returns>
-        System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.HealthCheckResult</returns>
+        System.Threading.Tasks.Task<Model.HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Health check endpoint
@@ -440,8 +440,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.HealthCheckResult)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -474,8 +474,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of OuterComposite</returns>
-        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.OuterComposite</returns>
+        System.Threading.Tasks.Task<Model.OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -486,8 +486,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.OuterComposite)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -614,8 +614,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ModelClient</returns>
+        System.Threading.Tasks.Task<Model.ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -626,8 +626,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -1005,10 +1005,10 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>HealthCheckResult</returns>
-        public HealthCheckResult FakeHealthGet()
+        /// <returns>Model.HealthCheckResult</returns>
+        public Model.HealthCheckResult FakeHealthGet()
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<Model.HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -1016,8 +1016,8 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of HealthCheckResult</returns>
-        public Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo()
+        /// <returns>ApiResponse of Model.HealthCheckResult</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.HealthCheckResult> FakeHealthGetWithHttpInfo()
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1038,7 +1038,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1054,14 +1054,14 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of HealthCheckResult</returns>
-        public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.HealthCheckResult</returns>
+        public async System.Threading.Tasks.Task<Model.HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var task = FakeHealthGetWithHttpInfoAsync(cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.HealthCheckResult> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<Model.HealthCheckResult> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -1071,8 +1071,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.HealthCheckResult)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1096,7 +1096,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.GetAsync<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.GetAsync<Model.HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);
@@ -1238,10 +1238,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite))
+        /// <returns>Model.OuterComposite</returns>
+        public Model.OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite))
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
+            Org.OpenAPITools.Client.ApiResponse<Model.OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
             return localVarResponse.Data;
         }
 
@@ -1250,8 +1250,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <returns>ApiResponse of OuterComposite</returns>
-        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite))
+        /// <returns>ApiResponse of Model.OuterComposite</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite))
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1274,7 +1274,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1291,14 +1291,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of OuterComposite</returns>
-        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.OuterComposite</returns>
+        public async System.Threading.Tasks.Task<Model.OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var task = FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.OuterComposite> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<Model.OuterComposite> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -1309,8 +1309,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.OuterComposite)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1336,7 +1336,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.PostAsync<Model.OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);
@@ -1978,10 +1978,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        public ModelClient TestClientModel(ModelClient modelClient)
+        /// <returns>Model.ModelClient</returns>
+        public Model.ModelClient TestClientModel(ModelClient modelClient)
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
             return localVarResponse.Data;
         }
 
@@ -1990,8 +1990,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient)
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -2018,7 +2018,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<ModelClient>("/fake", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<Model.ModelClient>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2035,14 +2035,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ModelClient</returns>
+        public async System.Threading.Tasks.Task<Model.ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var task = TestClientModelWithHttpInfoAsync(modelClient, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -2053,8 +2053,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -2084,7 +2084,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.PatchAsync<Model.ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);

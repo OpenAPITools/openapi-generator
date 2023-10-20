@@ -93,7 +93,7 @@ namespace Example
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
+                Model.ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)

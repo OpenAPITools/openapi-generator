@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        ModelClient Call123TestSpecialTags(ModelClient modelClient);
+        /// <returns>Model.ModelClient</returns>
+        Model.ModelClient Call123TestSpecialTags(ModelClient modelClient);
 
         /// <summary>
         /// To test special tags
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient);
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        ApiResponse<Model.ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient);
         #endregion Synchronous Operations
     }
 
@@ -65,8 +65,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ModelClient</returns>
+        System.Threading.Tasks.Task<Model.ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test special tags
@@ -77,8 +77,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -228,10 +228,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        public ModelClient Call123TestSpecialTags(ModelClient modelClient)
+        /// <returns>Model.ModelClient</returns>
+        public Model.ModelClient Call123TestSpecialTags(ModelClient modelClient)
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
             return localVarResponse.Data;
         }
 
@@ -240,8 +240,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient)
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -268,7 +268,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<ModelClient>("/another-fake/dummy", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<Model.ModelClient>("/another-fake/dummy", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -285,14 +285,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ModelClient</returns>
+        public async System.Threading.Tasks.Task<Model.ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var task = Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -303,8 +303,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.PatchAsync<ModelClient>("/another-fake/dummy", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.PatchAsync<Model.ModelClient>("/another-fake/dummy", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);

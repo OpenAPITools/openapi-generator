@@ -12,7 +12,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 <a id="fooget"></a>
 # **FooGet**
-> FooGetDefaultResponse FooGet ()
+> Model.FooGetDefaultResponse FooGet ()
 
 
 
@@ -40,7 +40,7 @@ namespace Example
 
             try
             {
-                FooGetDefaultResponse result = apiInstance.FooGet();
+                Model.FooGetDefaultResponse result = apiInstance.FooGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -60,7 +60,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<FooGetDefaultResponse> response = apiInstance.FooGetWithHttpInfo();
+    ApiResponse<Model.FooGetDefaultResponse> response = apiInstance.FooGetWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -77,7 +77,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
+[**Model.FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 
@@ -361,7 +361,7 @@ No authorization required
 
 <a id="test"></a>
 # **Test**
-> NotificationtestGetElementsV1ResponseMPayload Test ()
+> Model.NotificationtestGetElementsV1ResponseMPayload Test ()
 
 Retrieve an existing Notificationtest's Elements
 
@@ -390,7 +390,7 @@ namespace Example
             try
             {
                 // Retrieve an existing Notificationtest's Elements
-                NotificationtestGetElementsV1ResponseMPayload result = apiInstance.Test();
+                Model.NotificationtestGetElementsV1ResponseMPayload result = apiInstance.Test();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -411,7 +411,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Retrieve an existing Notificationtest's Elements
-    ApiResponse<NotificationtestGetElementsV1ResponseMPayload> response = apiInstance.TestWithHttpInfo();
+    ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload> response = apiInstance.TestWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -428,7 +428,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**NotificationtestGetElementsV1ResponseMPayload**](NotificationtestGetElementsV1ResponseMPayload.md)
+[**Model.NotificationtestGetElementsV1ResponseMPayload**](NotificationtestGetElementsV1ResponseMPayload.md)
 
 ### Authorization
 

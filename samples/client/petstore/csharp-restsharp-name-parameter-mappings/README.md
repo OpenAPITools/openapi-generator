@@ -94,7 +94,7 @@ namespace Example
             try
             {
                 // parameter name mapping test
-                Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Model.Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)

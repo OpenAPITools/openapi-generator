@@ -8,7 +8,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 <a id="testclassname"></a>
 # **TestClassname**
-> ModelClient TestClassname (ModelClient modelClient)
+> Model.ModelClient TestClassname (ModelClient modelClient)
 
 To test class name in snake case
 
@@ -45,7 +45,7 @@ namespace Example
             try
             {
                 // To test class name in snake case
-                ModelClient result = apiInstance.TestClassname(modelClient);
+                Model.ModelClient result = apiInstance.TestClassname(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -66,7 +66,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test class name in snake case
-    ApiResponse<ModelClient> response = apiInstance.TestClassnameWithHttpInfo(modelClient);
+    ApiResponse<Model.ModelClient> response = apiInstance.TestClassnameWithHttpInfo(modelClient);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -87,7 +87,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**ModelClient**](ModelClient.md)
+[**Model.ModelClient**](ModelClient.md)
 
 ### Authorization
 

@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
@@ -1654,5 +1655,26 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return objs;
+    }
+
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> schemaMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
+
+        // Use full qualified name, so eg if an Entity is named TimeZone, the dotnet compiler won't complain because
+        // an ambiguous reference exists with System.TimeZone (this adresses #16123)
+        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+        if (responseSchema != null) {
+            CodegenProperty cm = fromProperty("response", responseSchema, false);
+            if (cm.complexType != null // but not if it's eg a "string" or "object" or other primitive types
+                    && !ModelUtils.isArraySchema(responseSchema)
+                    && !ModelUtils.isMapSchema(responseSchema)) {
+                op.returnType = modelPackage + "." + cm.dataType;
+            }
+        }
     }
 }

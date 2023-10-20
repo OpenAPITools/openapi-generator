@@ -33,8 +33,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        Pet AddPet(Pet pet, int operationIndex = 0);
+        /// <returns>Model.Pet</returns>
+        Model.Pet AddPet(Pet pet, int operationIndex = 0);
 
         /// <summary>
         /// Add a new pet to the store
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> AddPetWithHttpInfo(Pet pet, int operationIndex = 0);
+        /// <returns>ApiResponse of Model.Pet</returns>
+        ApiResponse<Model.Pet> AddPetWithHttpInfo(Pet pet, int operationIndex = 0);
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -126,8 +126,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        Pet GetPetById(long petId, int operationIndex = 0);
+        /// <returns>Model.Pet</returns>
+        Model.Pet GetPetById(long petId, int operationIndex = 0);
 
         /// <summary>
         /// Find pet by ID
@@ -138,16 +138,16 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdWithHttpInfo(long petId, int operationIndex = 0);
+        /// <returns>ApiResponse of Model.Pet</returns>
+        ApiResponse<Model.Pet> GetPetByIdWithHttpInfo(long petId, int operationIndex = 0);
         /// <summary>
         /// Update an existing pet
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        Pet UpdatePet(Pet pet, int operationIndex = 0);
+        /// <returns>Model.Pet</returns>
+        Model.Pet UpdatePet(Pet pet, int operationIndex = 0);
 
         /// <summary>
         /// Update an existing pet
@@ -158,8 +158,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> UpdatePetWithHttpInfo(Pet pet, int operationIndex = 0);
+        /// <returns>ApiResponse of Model.Pet</returns>
+        ApiResponse<Model.Pet> UpdatePetWithHttpInfo(Pet pet, int operationIndex = 0);
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -192,8 +192,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
+        /// <returns>Model.ApiResponse</returns>
+        Model.ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
 
         /// <summary>
         /// uploads an image
@@ -206,8 +206,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        ApiResponse<Model.ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -227,8 +227,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> AddPetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Pet</returns>
+        System.Threading.Tasks.Task<Model.Pet> AddPetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Add a new pet to the store
@@ -240,8 +240,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> AddPetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Pet>> AddPetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -331,8 +331,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Pet</returns>
+        System.Threading.Tasks.Task<Model.Pet> GetPetByIdAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Find pet by ID
@@ -344,8 +344,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Pet>> GetPetByIdWithHttpInfoAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -356,8 +356,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> UpdatePetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Pet</returns>
+        System.Threading.Tasks.Task<Model.Pet> UpdatePetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update an existing pet
@@ -369,8 +369,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> UpdatePetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Pet>> UpdatePetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -412,8 +412,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ApiResponse</returns>
+        System.Threading.Tasks.Task<Model.ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// uploads an image
@@ -427,8 +427,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -555,10 +555,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        public Pet AddPet(Pet pet, int operationIndex = 0)
+        /// <returns>Model.Pet</returns>
+        public Model.Pet AddPet(Pet pet, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = AddPetWithHttpInfo(pet);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = AddPetWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
@@ -568,8 +568,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> AddPetWithHttpInfo(Pet pet, int operationIndex = 0)
+        /// <returns>ApiResponse of Model.Pet</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Pet> AddPetWithHttpInfo(Pet pet, int operationIndex = 0)
         {
             // verify the required parameter 'pet' is set
             if (pet == null)
@@ -625,7 +625,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Pet>("/pet", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.Pet>("/pet", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("AddPet", localVarResponse);
@@ -645,10 +645,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> AddPetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Pet</returns>
+        public async System.Threading.Tasks.Task<Model.Pet> AddPetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await AddPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = await AddPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -659,8 +659,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> AddPetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Pet>> AddPetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'pet' is set
             if (pet == null)
@@ -717,7 +717,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Pet>("/pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Model.Pet>("/pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1269,10 +1269,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        public Pet GetPetById(long petId, int operationIndex = 0)
+        /// <returns>Model.Pet</returns>
+        public Model.Pet GetPetById(long petId, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
             return localVarResponse.Data;
         }
 
@@ -1282,8 +1282,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> GetPetByIdWithHttpInfo(long petId, int operationIndex = 0)
+        /// <returns>ApiResponse of Model.Pet</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Pet> GetPetByIdWithHttpInfo(long petId, int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1320,7 +1320,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetPetById", localVarResponse);
@@ -1340,10 +1340,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Pet</returns>
+        public async System.Threading.Tasks.Task<Model.Pet> GetPetByIdAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdWithHttpInfoAsync(petId, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = await GetPetByIdWithHttpInfoAsync(petId, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1354,8 +1354,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Pet>> GetPetByIdWithHttpInfoAsync(long petId, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1393,7 +1393,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Model.Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1413,10 +1413,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>Pet</returns>
-        public Pet UpdatePet(Pet pet, int operationIndex = 0)
+        /// <returns>Model.Pet</returns>
+        public Model.Pet UpdatePet(Pet pet, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = UpdatePetWithHttpInfo(pet);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = UpdatePetWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
@@ -1426,8 +1426,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> UpdatePetWithHttpInfo(Pet pet, int operationIndex = 0)
+        /// <returns>ApiResponse of Model.Pet</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Pet> UpdatePetWithHttpInfo(Pet pet, int operationIndex = 0)
         {
             // verify the required parameter 'pet' is set
             if (pet == null)
@@ -1483,7 +1483,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Pet>("/pet", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Model.Pet>("/pet", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UpdatePet", localVarResponse);
@@ -1503,10 +1503,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> UpdatePetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Pet</returns>
+        public async System.Threading.Tasks.Task<Model.Pet> UpdatePetAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await UpdatePetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = await UpdatePetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1517,8 +1517,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> UpdatePetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Pet>> UpdatePetWithHttpInfoAsync(Pet pet, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'pet' is set
             if (pet == null)
@@ -1575,7 +1575,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Pet>("/pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Model.Pet>("/pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1783,10 +1783,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
+        /// <returns>Model.ApiResponse</returns>
+        public Model.ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
             return localVarResponse.Data;
         }
 
@@ -1798,8 +1798,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1855,7 +1855,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("UploadFile", localVarResponse);
@@ -1877,10 +1877,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Model.ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1893,8 +1893,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1951,7 +1951,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Model.ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

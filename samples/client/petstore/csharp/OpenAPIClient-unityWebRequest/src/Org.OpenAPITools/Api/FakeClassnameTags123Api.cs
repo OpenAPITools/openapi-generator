@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        ModelClient TestClassname(ModelClient modelClient);
+        /// <returns>Model.ModelClient</returns>
+        Model.ModelClient TestClassname(ModelClient modelClient);
 
         /// <summary>
         /// To test class name in snake case
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClassnameWithHttpInfo(ModelClient modelClient);
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        ApiResponse<Model.ModelClient> TestClassnameWithHttpInfo(ModelClient modelClient);
         #endregion Synchronous Operations
     }
 
@@ -65,8 +65,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ModelClient</returns>
+        System.Threading.Tasks.Task<Model.ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test class name in snake case
@@ -77,8 +77,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -228,10 +228,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ModelClient</returns>
-        public ModelClient TestClassname(ModelClient modelClient)
+        /// <returns>Model.ModelClient</returns>
+        public Model.ModelClient TestClassname(ModelClient modelClient)
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = TestClassnameWithHttpInfo(modelClient);
             return localVarResponse.Data;
         }
 
@@ -240,8 +240,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
-        /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClassnameWithHttpInfo(ModelClient modelClient)
+        /// <returns>ApiResponse of Model.ModelClient</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> TestClassnameWithHttpInfo(ModelClient modelClient)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -273,7 +273,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<Model.ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -290,14 +290,14 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ModelClient</returns>
+        public async System.Threading.Tasks.Task<Model.ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var task = TestClassnameWithHttpInfoAsync(modelClient, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<Model.ModelClient> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -308,8 +308,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ModelClient)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -344,7 +344,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.PatchAsync<Model.ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);

@@ -23,7 +23,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 <a id="fakehealthget"></a>
 # **FakeHealthGet**
-> HealthCheckResult FakeHealthGet ()
+> Model.HealthCheckResult FakeHealthGet ()
 
 Health check endpoint
 
@@ -52,7 +52,7 @@ namespace Example
             try
             {
                 // Health check endpoint
-                HealthCheckResult result = apiInstance.FakeHealthGet();
+                Model.HealthCheckResult result = apiInstance.FakeHealthGet();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -73,7 +73,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Health check endpoint
-    ApiResponse<HealthCheckResult> response = apiInstance.FakeHealthGetWithHttpInfo();
+    ApiResponse<Model.HealthCheckResult> response = apiInstance.FakeHealthGetWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -90,7 +90,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-[**HealthCheckResult**](HealthCheckResult.md)
+[**Model.HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -204,7 +204,7 @@ No authorization required
 
 <a id="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
+> Model.OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
 
 
 
@@ -235,7 +235,7 @@ namespace Example
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
+                Model.OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -255,7 +255,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<OuterComposite> response = apiInstance.FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
+    ApiResponse<Model.OuterComposite> response = apiInstance.FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -276,7 +276,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**OuterComposite**](OuterComposite.md)
+[**Model.OuterComposite**](OuterComposite.md)
 
 ### Authorization
 
@@ -751,7 +751,7 @@ No authorization required
 
 <a id="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient modelClient)
+> Model.ModelClient TestClientModel (ModelClient modelClient)
 
 To test \"client\" model
 
@@ -783,7 +783,7 @@ namespace Example
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(modelClient);
+                Model.ModelClient result = apiInstance.TestClientModel(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -804,7 +804,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test \"client\" model
-    ApiResponse<ModelClient> response = apiInstance.TestClientModelWithHttpInfo(modelClient);
+    ApiResponse<Model.ModelClient> response = apiInstance.TestClientModelWithHttpInfo(modelClient);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -825,7 +825,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**ModelClient**](ModelClient.md)
+[**Model.ModelClient**](ModelClient.md)
 
 ### Authorization
 

@@ -32,8 +32,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>FooGetDefaultResponse</returns>
-        FooGetDefaultResponse FooGet(int operationIndex = 0);
+        /// <returns>Model.FooGetDefaultResponse</returns>
+        Model.FooGetDefaultResponse FooGet(int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -43,8 +43,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of FooGetDefaultResponse</returns>
-        ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0);
+        /// <returns>ApiResponse of Model.FooGetDefaultResponse</returns>
+        ApiResponse<Model.FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -109,8 +109,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>NotificationtestGetElementsV1ResponseMPayload</returns>
-        NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0);
+        /// <returns>Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        Model.NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0);
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -120,8 +120,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of NotificationtestGetElementsV1ResponseMPayload</returns>
-        ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0);
+        /// <returns>ApiResponse of Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -140,8 +140,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of FooGetDefaultResponse</returns>
-        System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.FooGetDefaultResponse</returns>
+        System.Threading.Tasks.Task<Model.FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -152,8 +152,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.FooGetDefaultResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -234,8 +234,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of NotificationtestGetElementsV1ResponseMPayload</returns>
-        System.Threading.Tasks.Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        System.Threading.Tasks.Task<Model.NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -246,8 +246,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (NotificationtestGetElementsV1ResponseMPayload)</returns>
-        System.Threading.Tasks.Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.NotificationtestGetElementsV1ResponseMPayload)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -373,10 +373,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>FooGetDefaultResponse</returns>
-        public FooGetDefaultResponse FooGet(int operationIndex = 0)
+        /// <returns>Model.FooGetDefaultResponse</returns>
+        public Model.FooGetDefaultResponse FooGet(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<Model.FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -385,8 +385,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of FooGetDefaultResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
+        /// <returns>ApiResponse of Model.FooGetDefaultResponse</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FooGet", localVarResponse);
@@ -435,10 +435,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of FooGetDefaultResponse</returns>
-        public async System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.FooGetDefaultResponse</returns>
+        public async System.Threading.Tasks.Task<Model.FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -448,8 +448,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.FooGetDefaultResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -480,7 +480,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Model.FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -893,10 +893,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>NotificationtestGetElementsV1ResponseMPayload</returns>
-        public NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0)
+        /// <returns>Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        public Model.NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = TestWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload> localVarResponse = TestWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -905,8 +905,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of NotificationtestGetElementsV1ResponseMPayload</returns>
-        public Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0)
+        /// <returns>ApiResponse of Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -936,7 +936,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("Test", localVarResponse);
@@ -955,10 +955,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of NotificationtestGetElementsV1ResponseMPayload</returns>
-        public async System.Threading.Tasks.Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.NotificationtestGetElementsV1ResponseMPayload</returns>
+        public async System.Threading.Tasks.Task<Model.NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = await TestWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload> localVarResponse = await TestWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -968,8 +968,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (NotificationtestGetElementsV1ResponseMPayload)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.NotificationtestGetElementsV1ResponseMPayload)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1000,7 +1000,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Model.NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

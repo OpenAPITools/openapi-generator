@@ -84,7 +84,7 @@ namespace Example
             try
             {
                 // Add a new pet to the store
-                Pet result = apiInstance.AddPet(pet);
+                Model.Pet result = apiInstance.AddPet(pet);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)

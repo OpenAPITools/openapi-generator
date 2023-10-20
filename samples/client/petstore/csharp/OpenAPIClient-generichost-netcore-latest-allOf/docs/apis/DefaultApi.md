@@ -8,7 +8,7 @@ All URIs are relative to *http://api.example.xyz/v1*
 
 <a id="list"></a>
 # **List**
-> Person List (string personId)
+> Model.Person List (string personId)
 
 
 
@@ -33,7 +33,7 @@ namespace Example
 
             try
             {
-                Person result = apiInstance.List(personId);
+                Model.Person result = apiInstance.List(personId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -53,7 +53,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<Person> response = apiInstance.ListWithHttpInfo(personId);
+    ApiResponse<Model.Person> response = apiInstance.ListWithHttpInfo(personId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -74,7 +74,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Person**](Person.md)
+[**Model.Person**](Person.md)
 
 ### Authorization
 

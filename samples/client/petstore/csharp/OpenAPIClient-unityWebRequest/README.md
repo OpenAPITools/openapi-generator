@@ -66,7 +66,7 @@ namespace Org.OpenAPIToolsExample
             try
             {
                 // To test special tags
-                ModelClient result = await apiInstance.Call123TestSpecialTagsAsync(modelClient);
+                Model.ModelClient result = await apiInstance.Call123TestSpecialTagsAsync(modelClient);
                 Debug.Log(result);
                 Debug.Log("Done!");
             }

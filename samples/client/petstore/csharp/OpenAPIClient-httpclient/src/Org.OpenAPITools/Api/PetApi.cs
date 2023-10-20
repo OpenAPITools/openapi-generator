@@ -117,8 +117,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
-        /// <returns>Pet</returns>
-        Pet GetPetById(long petId);
+        /// <returns>Model.Pet</returns>
+        Model.Pet GetPetById(long petId);
 
         /// <summary>
         /// Find pet by ID
@@ -128,8 +128,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdWithHttpInfo(long petId);
+        /// <returns>ApiResponse of Model.Pet</returns>
+        ApiResponse<Model.Pet> GetPetByIdWithHttpInfo(long petId);
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -177,8 +177,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter));
+        /// <returns>Model.ApiResponse</returns>
+        Model.ApiResponse UploadFile(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter));
 
         /// <summary>
         /// uploads an image
@@ -190,8 +190,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter));
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        ApiResponse<Model.ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -199,8 +199,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile(long petId, FileParameter requiredFile, string additionalMetadata = default(string));
+        /// <returns>Model.ApiResponse</returns>
+        Model.ApiResponse UploadFileWithRequiredFile(long petId, FileParameter requiredFile, string additionalMetadata = default(string));
 
         /// <summary>
         /// uploads an image (required)
@@ -212,8 +212,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, FileParameter requiredFile, string additionalMetadata = default(string));
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        ApiResponse<Model.ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, FileParameter requiredFile, string additionalMetadata = default(string));
         #endregion Synchronous Operations
     }
 
@@ -328,8 +328,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.Pet</returns>
+        System.Threading.Tasks.Task<Model.Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Find pet by ID
@@ -340,8 +340,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -403,8 +403,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ApiResponse</returns>
+        System.Threading.Tasks.Task<Model.ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// uploads an image
@@ -417,8 +417,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -430,8 +430,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of Model.ApiResponse</returns>
+        System.Threading.Tasks.Task<Model.ApiResponse> UploadFileWithRequiredFileAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// uploads an image (required)
@@ -444,8 +444,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Model.ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1276,10 +1276,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
-        /// <returns>Pet</returns>
-        public Pet GetPetById(long petId)
+        /// <returns>Model.Pet</returns>
+        public Model.Pet GetPetById(long petId)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
             return localVarResponse.Data;
         }
 
@@ -1288,8 +1288,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
-        /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> GetPetByIdWithHttpInfo(long petId)
+        /// <returns>ApiResponse of Model.Pet</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.Pet> GetPetByIdWithHttpInfo(long petId)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1317,7 +1317,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Model.Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1334,10 +1334,10 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.Pet</returns>
+        public async System.Threading.Tasks.Task<Model.Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.Pet> localVarResponse = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1347,8 +1347,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.Pet)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.Pet>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1379,7 +1379,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Model.Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1697,10 +1697,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter))
+        /// <returns>Model.ApiResponse</returns>
+        public Model.ApiResponse UploadFile(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter))
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
             return localVarResponse.Data;
         }
 
@@ -1711,8 +1711,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter))
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter))
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1749,7 +1749,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1768,10 +1768,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Model.ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1783,8 +1783,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), FileParameter file = default(FileParameter), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1824,7 +1824,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Model.ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1842,10 +1842,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile(long petId, FileParameter requiredFile, string additionalMetadata = default(string))
+        /// <returns>Model.ApiResponse</returns>
+        public Model.ApiResponse UploadFileWithRequiredFile(long petId, FileParameter requiredFile, string additionalMetadata = default(string))
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
             return localVarResponse.Data;
         }
 
@@ -1856,8 +1856,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to update</param>
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, FileParameter requiredFile, string additionalMetadata = default(string))
+        /// <returns>ApiResponse of Model.ApiResponse</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, FileParameter requiredFile, string additionalMetadata = default(string))
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
@@ -1896,7 +1896,7 @@ namespace Org.OpenAPITools.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Model.ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1915,10 +1915,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of Model.ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Model.ApiResponse> UploadFileWithRequiredFileAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1930,8 +1930,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (Model.ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Model.ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, FileParameter requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
@@ -1973,7 +1973,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Model.ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

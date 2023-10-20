@@ -373,7 +373,7 @@ No authorization required
 
 <a id="testechobodypet"></a>
 # **TestEchoBodyPet**
-> Pet TestEchoBodyPet (Pet? pet = null)
+> Model.Pet TestEchoBodyPet (Pet? pet = null)
 
 Test body parameter(s)
 
@@ -401,7 +401,7 @@ namespace Example
             try
             {
                 // Test body parameter(s)
-                Pet result = apiInstance.TestEchoBodyPet(pet);
+                Model.Pet result = apiInstance.TestEchoBodyPet(pet);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -422,7 +422,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Test body parameter(s)
-    ApiResponse<Pet> response = apiInstance.TestEchoBodyPetWithHttpInfo(pet);
+    ApiResponse<Model.Pet> response = apiInstance.TestEchoBodyPetWithHttpInfo(pet);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -443,7 +443,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**Model.Pet**](Pet.md)
 
 ### Authorization
 

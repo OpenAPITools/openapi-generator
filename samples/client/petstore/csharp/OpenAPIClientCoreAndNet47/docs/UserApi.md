@@ -380,7 +380,7 @@ void (empty response body)
 
 <a id="getuserbyname"></a>
 # **GetUserByName**
-> User GetUserByName (string username)
+> Model.User GetUserByName (string username)
 
 Get user by user name
 
@@ -406,7 +406,7 @@ namespace Example
             try
             {
                 // Get user by user name
-                User result = apiInstance.GetUserByName(username);
+                Model.User result = apiInstance.GetUserByName(username);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -427,7 +427,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Get user by user name
-    ApiResponse<User> response = apiInstance.GetUserByNameWithHttpInfo(username);
+    ApiResponse<Model.User> response = apiInstance.GetUserByNameWithHttpInfo(username);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -448,7 +448,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**User**](User.md)
+[**Model.User**](User.md)
 
 ### Authorization
 

@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 
 <a id="getparameternamemapping"></a>
 # **GetParameterNameMapping**
-> Env GetParameterNameMapping (long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption)
+> Model.Env GetParameterNameMapping (long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption)
 
 parameter name mapping test
 
@@ -37,7 +37,7 @@ namespace Example
             try
             {
                 // parameter name mapping test
-                Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Model.Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -58,7 +58,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // parameter name mapping test
-    ApiResponse<Env> response = apiInstance.GetParameterNameMappingWithHttpInfo(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+    ApiResponse<Model.Env> response = apiInstance.GetParameterNameMappingWithHttpInfo(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -82,7 +82,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Env**](Env.md)
+[**Model.Env**](Env.md)
 
 ### Authorization
 

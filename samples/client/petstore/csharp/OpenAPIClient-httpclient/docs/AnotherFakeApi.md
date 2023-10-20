@@ -8,7 +8,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 <a id="call123testspecialtags"></a>
 # **Call123TestSpecialTags**
-> ModelClient Call123TestSpecialTags (ModelClient modelClient)
+> Model.ModelClient Call123TestSpecialTags (ModelClient modelClient)
 
 To test special tags
 
@@ -40,7 +40,7 @@ namespace Example
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
+                Model.ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -61,7 +61,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test special tags
-    ApiResponse<ModelClient> response = apiInstance.Call123TestSpecialTagsWithHttpInfo(modelClient);
+    ApiResponse<Model.ModelClient> response = apiInstance.Call123TestSpecialTagsWithHttpInfo(modelClient);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -82,7 +82,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**ModelClient**](ModelClient.md)
+[**Model.ModelClient**](ModelClient.md)
 
 ### Authorization
 

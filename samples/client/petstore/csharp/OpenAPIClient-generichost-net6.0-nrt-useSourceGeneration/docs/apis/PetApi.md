@@ -384,7 +384,7 @@ catch (ApiException e)
 
 <a id="getpetbyid"></a>
 # **GetPetById**
-> Pet GetPetById (long petId)
+> Model.Pet GetPetById (long petId)
 
 Find pet by ID
 
@@ -417,7 +417,7 @@ namespace Example
             try
             {
                 // Find pet by ID
-                Pet result = apiInstance.GetPetById(petId);
+                Model.Pet result = apiInstance.GetPetById(petId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -438,7 +438,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Find pet by ID
-    ApiResponse<Pet> response = apiInstance.GetPetByIdWithHttpInfo(petId);
+    ApiResponse<Model.Pet> response = apiInstance.GetPetByIdWithHttpInfo(petId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -459,7 +459,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**Model.Pet**](Pet.md)
 
 ### Authorization
 
@@ -664,7 +664,7 @@ void (empty response body)
 
 <a id="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, System.IO.Stream file = null, string additionalMetadata = null)
+> Model.ApiResponse UploadFile (long petId, System.IO.Stream file = null, string additionalMetadata = null)
 
 uploads an image
 
@@ -695,7 +695,7 @@ namespace Example
             try
             {
                 // uploads an image
-                ApiResponse result = apiInstance.UploadFile(petId, file, additionalMetadata);
+                Model.ApiResponse result = apiInstance.UploadFile(petId, file, additionalMetadata);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -716,7 +716,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, file, additionalMetadata);
+    ApiResponse<Model.ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, file, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -739,7 +739,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**Model.ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -760,7 +760,7 @@ catch (ApiException e)
 
 <a id="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (System.IO.Stream requiredFile, long petId, string additionalMetadata = null)
+> Model.ApiResponse UploadFileWithRequiredFile (System.IO.Stream requiredFile, long petId, string additionalMetadata = null)
 
 uploads an image (required)
 
@@ -791,7 +791,7 @@ namespace Example
             try
             {
                 // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
+                Model.ApiResponse result = apiInstance.UploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -812,7 +812,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(requiredFile, petId, additionalMetadata);
+    ApiResponse<Model.ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(requiredFile, petId, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -835,7 +835,7 @@ catch (ApiException e)
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**Model.ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
