@@ -1287,6 +1287,50 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void reactiveArrayShouldBeWrappedInFluxWithoutMono() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.DELEGATE_PATTERN, "false");
+        additionalProperties.put(SpringCodegen.REACTIVE, "true");
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "false");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert
+            .assertThat(files.get("PetApi.java"))
+                .assertMethod("addPet").hasReturnType("Mono<Pet>")
+            .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("Flux<Pet>")
+            .toFileAssert()
+                .assertMethod("deletePet").hasReturnType("Mono<Void>");
+    }
+
+    @Test
+    public void reactiveArrayShouldBeWrappedInFluxWithoutMonoEvenIfUsingResponseEntity() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.DELEGATE_PATTERN, "false");
+        additionalProperties.put(SpringCodegen.REACTIVE, "true");
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert
+            .assertThat(files.get("PetApi.java"))
+                .assertMethod("addPet").hasReturnType("Mono<ResponseEntity<Pet>>")
+            .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("Flux<ResponseEntity<Pet>>")
+            .toFileAssert()
+                .assertMethod("deletePet").hasReturnType("Mono<ResponseEntity<Void>>");
+    }
+
+    @Test
     public void shouldGenerateValidCodeForReactiveControllerWithoutParams_issue14907() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
