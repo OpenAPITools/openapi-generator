@@ -28,7 +28,7 @@ except ImportError:
 class DummyModel(BaseModel):
     """
     DummyModel
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
     __properties: ClassVar[List[str]] = ["category", "self_ref"]

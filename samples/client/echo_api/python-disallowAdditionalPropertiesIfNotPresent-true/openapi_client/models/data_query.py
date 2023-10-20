@@ -31,7 +31,7 @@ except ImportError:
 class DataQuery(Query):
     """
     DataQuery
-    """
+    """ # noqa: E501
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
     var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")

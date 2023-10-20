@@ -28,7 +28,7 @@ except ImportError:
 class Foo(BaseModel):
     """
     Foo
-    """
+    """ # noqa: E501
     bar: Optional[StrictStr] = 'bar'
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["bar"]

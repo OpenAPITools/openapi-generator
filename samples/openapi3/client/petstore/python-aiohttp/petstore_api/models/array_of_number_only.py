@@ -29,7 +29,7 @@ except ImportError:
 class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
-    """
+    """ # noqa: E501
     array_number: Optional[List[float]] = Field(default=None, alias="ArrayNumber")
     __properties: ClassVar[List[str]] = ["ArrayNumber"]
 

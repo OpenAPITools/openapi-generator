@@ -29,7 +29,7 @@ except ImportError:
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
-    """
+    """ # noqa: E501
     underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")

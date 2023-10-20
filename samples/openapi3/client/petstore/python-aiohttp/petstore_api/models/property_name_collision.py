@@ -29,7 +29,7 @@ except ImportError:
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
-    """
+    """ # noqa: E501
     type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_: Optional[StrictStr] = None

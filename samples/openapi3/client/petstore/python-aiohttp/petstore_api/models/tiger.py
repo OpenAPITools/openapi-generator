@@ -28,7 +28,7 @@ except ImportError:
 class Tiger(BaseModel):
     """
     Tiger
-    """
+    """ # noqa: E501
     skill: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["skill"]
 

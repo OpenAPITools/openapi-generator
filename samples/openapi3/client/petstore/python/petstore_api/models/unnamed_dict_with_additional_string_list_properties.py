@@ -29,7 +29,7 @@ except ImportError:
 class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties
-    """
+    """ # noqa: E501
     dict_property: Optional[Dict[str, List[StrictStr]]] = Field(default=None, alias="dictProperty")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["dictProperty"]

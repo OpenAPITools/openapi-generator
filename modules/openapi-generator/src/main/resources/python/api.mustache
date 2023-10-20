@@ -44,7 +44,10 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{>partial_api}}
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         {{#asyncio}}await {{/asyncio}}response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -55,7 +58,10 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{>partial_api}}
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         {{#asyncio}}await {{/asyncio}}response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -66,7 +72,10 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
 {{>partial_api}}
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -81,7 +90,10 @@ class {{classname}}:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             ).data
-        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+        return self.api_client.pool.apply_async(
+            callback,
+            _param + (_request_timeout,)
+        )
 
 
     @validate_call
@@ -94,7 +106,10 @@ class {{classname}}:
                 response_data=response_data,
                 response_types_map=_response_types_map,
             )
-        return self.api_client.pool.apply_async(callback, param + (_request_timeout,))
+        return self.api_client.pool.apply_async(
+            callback,
+            _param + (_request_timeout,)
+        )
     {{/asyncio}}
 
 
@@ -109,11 +124,15 @@ class {{classname}}:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            {{#servers.size}}{{#servers}}'{{{url}}}'{{^-last}},{{/-last}}
-            {{/servers}}{{/servers.size}}
+        {{#servers.0}}
+        _hosts = [{{#servers}}
+            '{{{url}}}'{{^-last}},{{/-last}}{{/servers}}
         ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = _hosts[_host_index]
+        {{/servers.0}}
+        {{^servers.0}}
+        _host = None
+        {{/servers.0}}
 
         _collection_formats: Dict[str, str] = {
             {{#allParams}}{{#isArray}}
@@ -134,16 +153,30 @@ class {{classname}}:
 {{/pathParams}}
         # process the query parameters
 {{#queryParams}}
-        if {{paramName}} is not None:  # noqa: E501
+        if {{paramName}} is not None:
             {{#isDateTime}}
             if isinstance({{paramName}}, datetime):
-                _query_params.append(('{{baseName}}', {{paramName}}.strftime(self.api_client.configuration.datetime_format)))
+                _query_params.append(
+                    (
+                        '{{baseName}}',
+                        {{paramName}}.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
             else:
                 _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isDateTime}}
             {{#isDate}}
             if isinstance({{paramName}}, date):
-                _query_params.append(('{{baseName}}', {{paramName}}.strftime(self.api_client.configuration.date_format)))
+                _query_params.append(
+                    (
+                        '{{baseName}}',
+                        {{paramName}}.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
             else:
                 _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isDate}}
@@ -196,7 +229,10 @@ class {{classname}}:
         {{#hasProduces}}
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])  # noqa: E501
+            [{{#produces}}
+                '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
+            ]
+        )
         {{/hasProduces}}
 
         {{#hasConsumes}}
@@ -204,13 +240,21 @@ class {{classname}}:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [{{#consumes}}
+                        '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
         {{/hasConsumes}}
 
         # authentication setting
-        _auth_settings: List[str] = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
+        _auth_settings: List[str] = [{{#authMethods}}
+            '{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}
+        ]
 
         return self.api_client.param_serialize(
             method='{{httpMethod}}',

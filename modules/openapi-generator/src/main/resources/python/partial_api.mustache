@@ -15,8 +15,8 @@
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -36,7 +36,7 @@
         warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
         {{/isDeprecated}}
 
-        param = self._{{operationId}}_serialize(
+        _param = self._{{operationId}}_serialize(
             {{#allParams}}
             {{paramName}}={{paramName}},
             {{/allParams}}

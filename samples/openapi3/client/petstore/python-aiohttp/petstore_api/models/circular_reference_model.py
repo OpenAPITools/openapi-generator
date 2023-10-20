@@ -28,7 +28,7 @@ except ImportError:
 class CircularReferenceModel(BaseModel):
     """
     CircularReferenceModel
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
     __properties: ClassVar[List[str]] = ["size", "nested"]

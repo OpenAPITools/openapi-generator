@@ -33,7 +33,7 @@ except ImportError:
 class EnumTest(BaseModel):
     """
     EnumTest
-    """
+    """ # noqa: E501
     enum_string: Optional[StrictStr] = None
     enum_string_required: StrictStr
     enum_integer_default: Optional[StrictInt] = 5

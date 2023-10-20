@@ -31,7 +31,7 @@ except ImportError:
 class ArrayTest(BaseModel):
     """
     ArrayTest
-    """
+    """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None

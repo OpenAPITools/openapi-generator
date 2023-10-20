@@ -28,8 +28,8 @@ except ImportError:
 
 class ModelReturn(BaseModel):
     """
-    Model for testing reserved words  # noqa: E501
-    """
+    Model for testing reserved words
+    """ # noqa: E501
     var_return: Optional[StrictInt] = Field(default=None, alias="return")
     __properties: ClassVar[List[str]] = ["return"]
 

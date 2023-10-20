@@ -28,7 +28,7 @@ except ImportError:
 class ReadOnlyFirst(BaseModel):
     """
     ReadOnlyFirst
-    """
+    """ # noqa: E501
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}

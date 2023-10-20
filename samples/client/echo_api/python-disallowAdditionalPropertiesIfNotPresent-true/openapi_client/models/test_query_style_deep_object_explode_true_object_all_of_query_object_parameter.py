@@ -29,7 +29,7 @@ except ImportError:
 class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseModel):
     """
     TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    """
+    """ # noqa: E501
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None

@@ -29,7 +29,7 @@ except ImportError:
 class ArrayOfArrayOfModel(BaseModel):
     """
     ArrayOfArrayOfModel
-    """
+    """ # noqa: E501
     another_property: Optional[List[List[Tag]]] = None
     __properties: ClassVar[List[str]] = ["another_property"]
 

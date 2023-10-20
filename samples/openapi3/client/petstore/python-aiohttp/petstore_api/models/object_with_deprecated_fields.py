@@ -30,7 +30,7 @@ except ImportError:
 class ObjectWithDeprecatedFields(BaseModel):
     """
     ObjectWithDeprecatedFields
-    """
+    """ # noqa: E501
     uuid: Optional[StrictStr] = None
     id: Optional[float] = None
     deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")

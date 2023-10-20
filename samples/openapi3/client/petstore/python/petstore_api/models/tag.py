@@ -28,7 +28,7 @@ except ImportError:
 class Tag(BaseModel):
     """
     Tag
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}

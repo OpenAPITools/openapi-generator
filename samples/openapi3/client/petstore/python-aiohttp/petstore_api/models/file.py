@@ -28,8 +28,8 @@ except ImportError:
 
 class File(BaseModel):
     """
-    Must be named `File` for test.  # noqa: E501
-    """
+    Must be named `File` for test.
+    """ # noqa: E501
     source_uri: Optional[StrictStr] = Field(default=None, description="Test capitalization", alias="sourceURI")
     __properties: ClassVar[List[str]] = ["sourceURI"]
 

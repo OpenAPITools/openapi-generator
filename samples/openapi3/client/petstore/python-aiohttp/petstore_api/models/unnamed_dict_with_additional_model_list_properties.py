@@ -30,7 +30,7 @@ except ImportError:
 class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalModelListProperties
-    """
+    """ # noqa: E501
     dict_property: Optional[Dict[str, List[CreatureInfo]]] = Field(default=None, alias="dictProperty")
     __properties: ClassVar[List[str]] = ["dictProperty"]
 

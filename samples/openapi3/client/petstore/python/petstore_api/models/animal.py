@@ -29,7 +29,7 @@ except ImportError:
 class Animal(BaseModel):
     """
     Animal
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
     additional_properties: Dict[str, Any] = {}

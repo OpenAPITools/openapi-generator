@@ -133,10 +133,12 @@ class RESTClientObject:
                 for param in post_params:
                     k, v = param
                     if isinstance(v, tuple) and len(v) == 3:
-                        data.add_field(k,
-                                       value=v[1],
-                                       filename=v[0],
-                                       content_type=v[2])
+                        data.add_field(
+                            k,
+                            value=v[1],
+                            filename=v[0],
+                            content_type=v[2]
+                        )
                     else:
                         data.add_field(k, v)
                 args["data"] = data

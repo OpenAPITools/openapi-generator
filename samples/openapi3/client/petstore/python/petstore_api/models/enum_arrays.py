@@ -28,7 +28,7 @@ except ImportError:
 class EnumArrays(BaseModel):
     """
     EnumArrays
-    """
+    """ # noqa: E501
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[List[StrictStr]] = None
     additional_properties: Dict[str, Any] = {}

@@ -29,8 +29,8 @@ except ImportError:
 
 class DefaultValue(BaseModel):
     """
-    to test the default value of properties  # noqa: E501
-    """
+    to test the default value of properties
+    """ # noqa: E501
     array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
     array_string_enum_default: Optional[List[StrictStr]] = None
     array_string_default: Optional[List[StrictStr]] = None

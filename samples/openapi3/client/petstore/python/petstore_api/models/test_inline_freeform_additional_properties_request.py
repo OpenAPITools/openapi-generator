@@ -29,7 +29,7 @@ except ImportError:
 class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     TestInlineFreeformAdditionalPropertiesRequest
-    """
+    """ # noqa: E501
     some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["someProperty"]

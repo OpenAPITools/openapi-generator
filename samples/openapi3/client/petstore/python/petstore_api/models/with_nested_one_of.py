@@ -30,7 +30,7 @@ except ImportError:
 class WithNestedOneOf(BaseModel):
     """
     WithNestedOneOf
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None

@@ -28,7 +28,7 @@ except ImportError:
 class SecondRef(BaseModel):
     """
     SecondRef
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
     __properties: ClassVar[List[str]] = ["category", "circular_ref"]

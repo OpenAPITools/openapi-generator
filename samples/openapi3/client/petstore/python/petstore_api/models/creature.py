@@ -29,7 +29,7 @@ except ImportError:
 class Creature(BaseModel):
     """
     Creature
-    """
+    """ # noqa: E501
     info: CreatureInfo
     type: StrictStr
     additional_properties: Dict[str, Any] = {}

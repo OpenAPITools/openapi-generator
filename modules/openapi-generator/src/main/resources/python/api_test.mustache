@@ -4,14 +4,14 @@
 
 import unittest
 
-from {{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+from {{apiPackage}}.{{classFilename}} import {{classname}}
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = {{classname}}()  # noqa: E501
+        self.api = {{classname}}()
 
     def tearDown(self) -> None:
         pass
@@ -21,7 +21,7 @@ class {{#operations}}Test{{classname}}(unittest.TestCase):
         """Test case for {{{operationId}}}
 
 {{#summary}}
-        {{{.}}}  # noqa: E501
+        {{{.}}}
 {{/summary}}
         """
         pass

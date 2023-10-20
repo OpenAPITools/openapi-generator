@@ -28,7 +28,7 @@ except ImportError:
 class AdditionalPropertiesAnyType(BaseModel):
     """
     AdditionalPropertiesAnyType
-    """
+    """ # noqa: E501
     name: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["name"]

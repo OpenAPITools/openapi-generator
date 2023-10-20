@@ -30,7 +30,7 @@ except ImportError:
 class Query(BaseModel):
     """
     Query
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
     outcomes: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["id", "outcomes"]

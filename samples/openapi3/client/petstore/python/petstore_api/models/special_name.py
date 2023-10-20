@@ -30,7 +30,7 @@ except ImportError:
 class SpecialName(BaseModel):
     """
     SpecialName
-    """
+    """ # noqa: E501
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")

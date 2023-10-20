@@ -28,7 +28,7 @@ except ImportError:
 class DeprecatedObject(BaseModel):
     """
     DeprecatedObject
-    """
+    """ # noqa: E501
     name: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["name"]
 

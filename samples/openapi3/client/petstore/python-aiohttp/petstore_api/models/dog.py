@@ -29,7 +29,7 @@ except ImportError:
 class Dog(Animal):
     """
     Dog
-    """
+    """ # noqa: E501
     breed: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["className", "color", "breed"]
 

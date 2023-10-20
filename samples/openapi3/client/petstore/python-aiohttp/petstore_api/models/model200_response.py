@@ -28,8 +28,8 @@ except ImportError:
 
 class Model200Response(BaseModel):
     """
-    Model for testing model name starting with number  # noqa: E501
-    """
+    Model for testing model name starting with number
+    """ # noqa: E501
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(default=None, alias="class")
     __properties: ClassVar[List[str]] = ["name", "class"]

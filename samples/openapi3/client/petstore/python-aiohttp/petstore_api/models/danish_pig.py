@@ -29,7 +29,7 @@ except ImportError:
 class DanishPig(BaseModel):
     """
     DanishPig
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     size: StrictInt
     __properties: ClassVar[List[str]] = ["className", "size"]

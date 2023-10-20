@@ -29,7 +29,7 @@ except ImportError:
 class FooGetDefaultResponse(BaseModel):
     """
     FooGetDefaultResponse
-    """
+    """ # noqa: E501
     string: Optional[Foo] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["string"]

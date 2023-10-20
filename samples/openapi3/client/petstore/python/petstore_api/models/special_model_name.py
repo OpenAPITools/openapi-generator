@@ -29,7 +29,7 @@ except ImportError:
 class SpecialModelName(BaseModel):
     """
     SpecialModelName
-    """
+    """ # noqa: E501
     special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["$special[property.name]"]

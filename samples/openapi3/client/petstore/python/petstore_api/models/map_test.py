@@ -28,7 +28,7 @@ except ImportError:
 class MapTest(BaseModel):
     """
     MapTest
-    """
+    """ # noqa: E501
     map_map_of_string: Optional[Dict[str, Dict[str, StrictStr]]] = None
     map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None

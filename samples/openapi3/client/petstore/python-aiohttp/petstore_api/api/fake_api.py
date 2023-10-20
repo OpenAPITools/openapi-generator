@@ -66,21 +66,29 @@ class FakeApi:
         self,
         body: Optional[Dict[str, Any]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test any type request body
@@ -92,8 +100,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -110,7 +118,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_any_type_request_body_serialize(
+        _param = self._fake_any_type_request_body_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -121,7 +129,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -134,21 +145,29 @@ class FakeApi:
         self,
         body: Optional[Dict[str, Any]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test any type request body
@@ -160,8 +179,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -178,7 +197,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_any_type_request_body_serialize(
+        _param = self._fake_any_type_request_body_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -189,7 +208,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -202,21 +224,29 @@ class FakeApi:
         self,
         body: Optional[Dict[str, Any]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test any type request body
@@ -228,8 +258,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -246,7 +276,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_any_type_request_body_serialize(
+        _param = self._fake_any_type_request_body_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -257,7 +287,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -272,10 +305,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -302,12 +332,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -332,21 +369,29 @@ class FakeApi:
         self,
         enum_ref: Annotated[Optional[EnumClass], Field(description="enum reference")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test enum reference query parameter
@@ -358,8 +403,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -376,7 +421,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_enum_ref_query_parameter_serialize(
+        _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -387,7 +432,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -400,21 +448,29 @@ class FakeApi:
         self,
         enum_ref: Annotated[Optional[EnumClass], Field(description="enum reference")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test enum reference query parameter
@@ -426,8 +482,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -444,7 +500,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_enum_ref_query_parameter_serialize(
+        _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -455,7 +511,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -468,21 +527,29 @@ class FakeApi:
         self,
         enum_ref: Annotated[Optional[EnumClass], Field(description="enum reference")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test enum reference query parameter
@@ -494,8 +561,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -512,7 +579,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_enum_ref_query_parameter_serialize(
+        _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -523,7 +590,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -538,10 +608,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -556,7 +623,7 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if enum_ref is not None:  # noqa: E501
+        if enum_ref is not None:
             
             _query_params.append(('enum_ref', enum_ref.value))
             
@@ -568,7 +635,8 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -592,21 +660,29 @@ class FakeApi:
     async def fake_health_get(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> HealthCheckResult:
         """Health check endpoint
@@ -616,8 +692,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -634,7 +710,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_health_get_serialize(
+        _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -645,7 +721,10 @@ class FakeApi:
             '200': "HealthCheckResult"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -657,21 +736,29 @@ class FakeApi:
     async def fake_health_get_with_http_info(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[HealthCheckResult]:
         """Health check endpoint
@@ -681,8 +768,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -699,7 +786,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_health_get_serialize(
+        _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -710,7 +797,10 @@ class FakeApi:
             '200': "HealthCheckResult"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -722,21 +812,29 @@ class FakeApi:
     async def fake_health_get_without_preload_content(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Health check endpoint
@@ -746,8 +844,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -764,7 +862,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_health_get_serialize(
+        _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -775,7 +873,10 @@ class FakeApi:
             '200': "HealthCheckResult"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -789,10 +890,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -814,11 +912,15 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -845,21 +947,29 @@ class FakeApi:
         query_1: Annotated[Optional[StrictStr], Field(description="query parameter")] = None,
         header_1: Annotated[Optional[StrictStr], Field(description="header parameter")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test http signature authentication
@@ -875,8 +985,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -893,7 +1003,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_http_signature_test_serialize(
+        _param = self._fake_http_signature_test_serialize(
             pet=pet,
             query_1=query_1,
             header_1=header_1,
@@ -906,7 +1016,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -921,21 +1034,29 @@ class FakeApi:
         query_1: Annotated[Optional[StrictStr], Field(description="query parameter")] = None,
         header_1: Annotated[Optional[StrictStr], Field(description="header parameter")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test http signature authentication
@@ -951,8 +1072,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -969,7 +1090,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_http_signature_test_serialize(
+        _param = self._fake_http_signature_test_serialize(
             pet=pet,
             query_1=query_1,
             header_1=header_1,
@@ -982,7 +1103,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -997,21 +1121,29 @@ class FakeApi:
         query_1: Annotated[Optional[StrictStr], Field(description="query parameter")] = None,
         header_1: Annotated[Optional[StrictStr], Field(description="header parameter")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test http signature authentication
@@ -1027,8 +1159,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1045,7 +1177,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_http_signature_test_serialize(
+        _param = self._fake_http_signature_test_serialize(
             pet=pet,
             query_1=query_1,
             header_1=header_1,
@@ -1058,7 +1190,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1075,10 +1210,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1093,7 +1225,7 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if query_1 is not None:  # noqa: E501
+        if query_1 is not None:
             
             _query_params.append(('query_1', query_1))
             
@@ -1111,12 +1243,21 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json', 'application/xml'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json', 
+                        'application/xml'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'http_signature_test'
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1141,21 +1282,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> bool:
         """fake_outer_boolean_serialize
@@ -1168,8 +1317,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1186,7 +1335,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_boolean_serialize_serialize(
+        _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1198,7 +1347,10 @@ class FakeApi:
             '200': "bool"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1211,21 +1363,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[bool]:
         """fake_outer_boolean_serialize
@@ -1238,8 +1398,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1256,7 +1416,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_boolean_serialize_serialize(
+        _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1268,7 +1428,10 @@ class FakeApi:
             '200': "bool"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1281,21 +1444,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """fake_outer_boolean_serialize
@@ -1308,8 +1479,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1326,7 +1497,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_boolean_serialize_serialize(
+        _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1338,7 +1509,10 @@ class FakeApi:
             '200': "bool"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1353,10 +1527,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1380,18 +1551,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
+            [
+                '*/*'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -1416,21 +1597,29 @@ class FakeApi:
         self,
         outer_composite: Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> OuterComposite:
         """fake_outer_composite_serialize
@@ -1443,8 +1632,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1461,7 +1650,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_composite_serialize_serialize(
+        _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1473,7 +1662,10 @@ class FakeApi:
             '200': "OuterComposite"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1486,21 +1678,29 @@ class FakeApi:
         self,
         outer_composite: Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[OuterComposite]:
         """fake_outer_composite_serialize
@@ -1513,8 +1713,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1531,7 +1731,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_composite_serialize_serialize(
+        _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1543,7 +1743,10 @@ class FakeApi:
             '200': "OuterComposite"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1556,21 +1759,29 @@ class FakeApi:
         self,
         outer_composite: Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """fake_outer_composite_serialize
@@ -1583,8 +1794,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1601,7 +1812,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_composite_serialize_serialize(
+        _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1613,7 +1824,10 @@ class FakeApi:
             '200': "OuterComposite"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1628,10 +1842,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1655,18 +1866,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
+            [
+                '*/*'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -1691,21 +1912,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[float], Field(description="Input number as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> float:
         """fake_outer_number_serialize
@@ -1718,8 +1947,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1736,7 +1965,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_number_serialize_serialize(
+        _param = self._fake_outer_number_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1748,7 +1977,10 @@ class FakeApi:
             '200': "float"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1761,21 +1993,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[float], Field(description="Input number as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[float]:
         """fake_outer_number_serialize
@@ -1788,8 +2028,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1806,7 +2046,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_number_serialize_serialize(
+        _param = self._fake_outer_number_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1818,7 +2058,10 @@ class FakeApi:
             '200': "float"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1831,21 +2074,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[float], Field(description="Input number as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """fake_outer_number_serialize
@@ -1858,8 +2109,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1876,7 +2127,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_number_serialize_serialize(
+        _param = self._fake_outer_number_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1888,7 +2139,10 @@ class FakeApi:
             '200': "float"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1903,10 +2157,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1930,18 +2181,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
+            [
+                '*/*'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -1966,21 +2227,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> str:
         """fake_outer_string_serialize
@@ -1993,8 +2262,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2011,7 +2280,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_string_serialize_serialize(
+        _param = self._fake_outer_string_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2023,7 +2292,10 @@ class FakeApi:
             '200': "str"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2036,21 +2308,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[str]:
         """fake_outer_string_serialize
@@ -2063,8 +2343,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2081,7 +2361,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_string_serialize_serialize(
+        _param = self._fake_outer_string_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2093,7 +2373,10 @@ class FakeApi:
             '200': "str"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2106,21 +2389,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """fake_outer_string_serialize
@@ -2133,8 +2424,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2151,7 +2442,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_outer_string_serialize_serialize(
+        _param = self._fake_outer_string_serialize_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2163,7 +2454,10 @@ class FakeApi:
             '200': "str"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2178,10 +2472,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2205,18 +2496,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
+            [
+                '*/*'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -2241,21 +2542,29 @@ class FakeApi:
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> OuterObjectWithEnumProperty:
         """fake_property_enum_integer_serialize
@@ -2268,8 +2577,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2286,7 +2595,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_property_enum_integer_serialize_serialize(
+        _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2298,7 +2607,10 @@ class FakeApi:
             '200': "OuterObjectWithEnumProperty"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2311,21 +2623,29 @@ class FakeApi:
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[OuterObjectWithEnumProperty]:
         """fake_property_enum_integer_serialize
@@ -2338,8 +2658,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2356,7 +2676,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_property_enum_integer_serialize_serialize(
+        _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2368,7 +2688,10 @@ class FakeApi:
             '200': "OuterObjectWithEnumProperty"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2381,21 +2704,29 @@ class FakeApi:
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """fake_property_enum_integer_serialize
@@ -2408,8 +2739,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2426,7 +2757,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_property_enum_integer_serialize_serialize(
+        _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2438,7 +2769,10 @@ class FakeApi:
             '200': "OuterObjectWithEnumProperty"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2453,10 +2787,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2480,18 +2811,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
+            [
+                '*/*'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -2515,21 +2856,29 @@ class FakeApi:
     async def fake_return_list_of_objects(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> List[List[Tag]]:
         """test returning list of objects
@@ -2539,8 +2888,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2557,7 +2906,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_return_list_of_objects_serialize(
+        _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2568,7 +2917,10 @@ class FakeApi:
             '200': "List[List[Tag]]"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2580,21 +2932,29 @@ class FakeApi:
     async def fake_return_list_of_objects_with_http_info(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[List[List[Tag]]]:
         """test returning list of objects
@@ -2604,8 +2964,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2622,7 +2982,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_return_list_of_objects_serialize(
+        _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2633,7 +2993,10 @@ class FakeApi:
             '200': "List[List[Tag]]"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2645,21 +3008,29 @@ class FakeApi:
     async def fake_return_list_of_objects_without_preload_content(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test returning list of objects
@@ -2669,8 +3040,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2687,7 +3058,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_return_list_of_objects_serialize(
+        _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2698,7 +3069,10 @@ class FakeApi:
             '200': "List[List[Tag]]"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2712,10 +3086,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2737,11 +3108,15 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -2766,21 +3141,29 @@ class FakeApi:
         self,
         uuid_example: Annotated[StrictStr, Field(description="uuid example")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test uuid example
@@ -2792,8 +3175,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2810,7 +3193,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_uuid_example_serialize(
+        _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2821,7 +3204,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2834,21 +3220,29 @@ class FakeApi:
         self,
         uuid_example: Annotated[StrictStr, Field(description="uuid example")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test uuid example
@@ -2860,8 +3254,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2878,7 +3272,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_uuid_example_serialize(
+        _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2889,7 +3283,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2902,21 +3299,29 @@ class FakeApi:
         self,
         uuid_example: Annotated[StrictStr, Field(description="uuid example")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test uuid example
@@ -2928,8 +3333,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2946,7 +3351,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._fake_uuid_example_serialize(
+        _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2957,7 +3362,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2972,10 +3380,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2990,7 +3395,7 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if uuid_example is not None:  # noqa: E501
+        if uuid_example is not None:
             
             _query_params.append(('uuid_example', uuid_example))
             
@@ -3002,7 +3407,8 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -3027,21 +3433,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="image to upload")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test_body_with_binary
@@ -3054,8 +3468,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3072,7 +3486,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_binary_serialize(
+        _param = self._test_body_with_binary_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3083,7 +3497,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3096,21 +3513,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="image to upload")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_binary
@@ -3123,8 +3548,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3141,7 +3566,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_binary_serialize(
+        _param = self._test_body_with_binary_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3152,7 +3577,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3165,21 +3593,29 @@ class FakeApi:
         self,
         body: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="image to upload")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test_body_with_binary
@@ -3192,8 +3628,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3210,7 +3646,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_binary_serialize(
+        _param = self._test_body_with_binary_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3221,7 +3657,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -3236,10 +3675,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -3271,12 +3707,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['image/png'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'image/png'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',
@@ -3301,21 +3744,29 @@ class FakeApi:
         self,
         file_schema_test_class: FileSchemaTestClass,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test_body_with_file_schema
@@ -3328,8 +3779,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3346,7 +3797,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_file_schema_serialize(
+        _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3357,7 +3808,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3370,21 +3824,29 @@ class FakeApi:
         self,
         file_schema_test_class: FileSchemaTestClass,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_file_schema
@@ -3397,8 +3859,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3415,7 +3877,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_file_schema_serialize(
+        _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3426,7 +3888,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3439,21 +3904,29 @@ class FakeApi:
         self,
         file_schema_test_class: FileSchemaTestClass,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test_body_with_file_schema
@@ -3466,8 +3939,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3484,7 +3957,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_file_schema_serialize(
+        _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3495,7 +3968,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -3510,10 +3986,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -3540,12 +4013,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',
@@ -3571,21 +4051,29 @@ class FakeApi:
         query: StrictStr,
         user: User,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test_body_with_query_params
@@ -3599,8 +4087,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3617,7 +4105,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_query_params_serialize(
+        _param = self._test_body_with_query_params_serialize(
             query=query,
             user=user,
             _request_auth=_request_auth,
@@ -3629,7 +4117,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3643,21 +4134,29 @@ class FakeApi:
         query: StrictStr,
         user: User,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_query_params
@@ -3671,8 +4170,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3689,7 +4188,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_query_params_serialize(
+        _param = self._test_body_with_query_params_serialize(
             query=query,
             user=user,
             _request_auth=_request_auth,
@@ -3701,7 +4200,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3715,21 +4217,29 @@ class FakeApi:
         query: StrictStr,
         user: User,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test_body_with_query_params
@@ -3743,8 +4253,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3761,7 +4271,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_body_with_query_params_serialize(
+        _param = self._test_body_with_query_params_serialize(
             query=query,
             user=user,
             _request_auth=_request_auth,
@@ -3773,7 +4283,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -3789,10 +4302,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -3807,7 +4317,7 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if query is not None:  # noqa: E501
+        if query is not None:
             
             _query_params.append(('query', query))
             
@@ -3823,12 +4333,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',
@@ -3853,21 +4370,29 @@ class FakeApi:
         self,
         client: Annotated[Client, Field(description="client model")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> Client:
         """To test \"client\" model
@@ -3880,8 +4405,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3898,7 +4423,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_client_model_serialize(
+        _param = self._test_client_model_serialize(
             client=client,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3910,7 +4435,10 @@ class FakeApi:
             '200': "Client"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3923,21 +4451,29 @@ class FakeApi:
         self,
         client: Annotated[Client, Field(description="client model")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[Client]:
         """To test \"client\" model
@@ -3950,8 +4486,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -3968,7 +4504,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_client_model_serialize(
+        _param = self._test_client_model_serialize(
             client=client,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3980,7 +4516,10 @@ class FakeApi:
             '200': "Client"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -3993,21 +4532,29 @@ class FakeApi:
         self,
         client: Annotated[Client, Field(description="client model")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """To test \"client\" model
@@ -4020,8 +4567,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4038,7 +4585,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_client_model_serialize(
+        _param = self._test_client_model_serialize(
             client=client,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4050,7 +4597,10 @@ class FakeApi:
             '200': "Client"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -4065,10 +4615,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -4092,18 +4639,28 @@ class FakeApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PATCH',
@@ -4129,21 +4686,29 @@ class FakeApi:
         date_time_query: datetime,
         str_query: StrictStr,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test_date_time_query_parameter
@@ -4157,8 +4722,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4175,7 +4740,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_date_time_query_parameter_serialize(
+        _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
             str_query=str_query,
             _request_auth=_request_auth,
@@ -4187,7 +4752,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -4201,21 +4769,29 @@ class FakeApi:
         date_time_query: datetime,
         str_query: StrictStr,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test_date_time_query_parameter
@@ -4229,8 +4805,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4247,7 +4823,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_date_time_query_parameter_serialize(
+        _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
             str_query=str_query,
             _request_auth=_request_auth,
@@ -4259,7 +4835,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -4273,21 +4852,29 @@ class FakeApi:
         date_time_query: datetime,
         str_query: StrictStr,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test_date_time_query_parameter
@@ -4301,8 +4888,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4319,7 +4906,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_date_time_query_parameter_serialize(
+        _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
             str_query=str_query,
             _request_auth=_request_auth,
@@ -4331,7 +4918,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -4347,10 +4937,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -4365,13 +4952,20 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if date_time_query is not None:  # noqa: E501
+        if date_time_query is not None:
             if isinstance(date_time_query, datetime):
-                _query_params.append(('date_time_query', date_time_query.strftime(self.api_client.configuration.datetime_format)))
+                _query_params.append(
+                    (
+                        'date_time_query',
+                        date_time_query.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
             else:
                 _query_params.append(('date_time_query', date_time_query))
             
-        if str_query is not None:  # noqa: E501
+        if str_query is not None:
             
             _query_params.append(('str_query', str_query))
             
@@ -4383,7 +4977,8 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',
@@ -4422,21 +5017,29 @@ class FakeApi:
         password: Annotated[Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]], Field(description="None")] = None,
         param_callback: Annotated[Optional[StrictStr], Field(description="None")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -4477,8 +5080,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4495,7 +5098,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_endpoint_parameters_serialize(
+        _param = self._test_endpoint_parameters_serialize(
             number=number,
             double=double,
             pattern_without_delimiter=pattern_without_delimiter,
@@ -4520,7 +5123,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -4547,21 +5153,29 @@ class FakeApi:
         password: Annotated[Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]], Field(description="None")] = None,
         param_callback: Annotated[Optional[StrictStr], Field(description="None")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -4602,8 +5216,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4620,7 +5234,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_endpoint_parameters_serialize(
+        _param = self._test_endpoint_parameters_serialize(
             number=number,
             double=double,
             pattern_without_delimiter=pattern_without_delimiter,
@@ -4645,7 +5259,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -4672,21 +5289,29 @@ class FakeApi:
         password: Annotated[Optional[Annotated[str, Field(min_length=10, strict=True, max_length=64)]], Field(description="None")] = None,
         param_callback: Annotated[Optional[StrictStr], Field(description="None")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -4727,8 +5352,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4745,7 +5370,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_endpoint_parameters_serialize(
+        _param = self._test_endpoint_parameters_serialize(
             number=number,
             double=double,
             pattern_without_delimiter=pattern_without_delimiter,
@@ -4770,7 +5395,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -4799,10 +5427,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -4857,12 +5482,20 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/x-www-form-urlencoded'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/x-www-form-urlencoded'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['http_basic_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'http_basic_test'
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -4892,21 +5525,29 @@ class FakeApi:
         boolean_group: Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None,
         int64_group: Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Fake endpoint to test group parameters (optional)
@@ -4929,8 +5570,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -4947,7 +5588,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_group_parameters_serialize(
+        _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
             required_boolean_group=required_boolean_group,
             required_int64_group=required_int64_group,
@@ -4963,7 +5604,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -4981,21 +5625,29 @@ class FakeApi:
         boolean_group: Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None,
         int64_group: Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint to test group parameters (optional)
@@ -5018,8 +5670,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5036,7 +5688,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_group_parameters_serialize(
+        _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
             required_boolean_group=required_boolean_group,
             required_int64_group=required_int64_group,
@@ -5052,7 +5704,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5070,21 +5725,29 @@ class FakeApi:
         boolean_group: Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None,
         int64_group: Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Fake endpoint to test group parameters (optional)
@@ -5107,8 +5770,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5125,7 +5788,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_group_parameters_serialize(
+        _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
             required_boolean_group=required_boolean_group,
             required_int64_group=required_int64_group,
@@ -5141,7 +5804,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -5161,10 +5827,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -5179,19 +5842,19 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if required_string_group is not None:  # noqa: E501
+        if required_string_group is not None:
             
             _query_params.append(('required_string_group', required_string_group))
             
-        if required_int64_group is not None:  # noqa: E501
+        if required_int64_group is not None:
             
             _query_params.append(('required_int64_group', required_int64_group))
             
-        if string_group is not None:  # noqa: E501
+        if string_group is not None:
             
             _query_params.append(('string_group', string_group))
             
-        if int64_group is not None:  # noqa: E501
+        if int64_group is not None:
             
             _query_params.append(('int64_group', int64_group))
             
@@ -5207,7 +5870,9 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = ['bearer_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'bearer_test'
+        ]
 
         return self.api_client.param_serialize(
             method='DELETE',
@@ -5232,21 +5897,29 @@ class FakeApi:
         self,
         request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test inline additionalProperties
@@ -5259,8 +5932,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5277,7 +5950,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_additional_properties_serialize(
+        _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5288,7 +5961,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5301,21 +5977,29 @@ class FakeApi:
         self,
         request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test inline additionalProperties
@@ -5328,8 +6012,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5346,7 +6030,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_additional_properties_serialize(
+        _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5357,7 +6041,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5370,21 +6057,29 @@ class FakeApi:
         self,
         request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test inline additionalProperties
@@ -5397,8 +6092,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5415,7 +6110,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_additional_properties_serialize(
+        _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5426,7 +6121,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -5441,10 +6139,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -5471,12 +6166,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -5501,21 +6203,29 @@ class FakeApi:
         self,
         test_inline_freeform_additional_properties_request: Annotated[TestInlineFreeformAdditionalPropertiesRequest, Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test inline free-form additionalProperties
@@ -5528,8 +6238,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5546,7 +6256,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_freeform_additional_properties_serialize(
+        _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5557,7 +6267,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5570,21 +6283,29 @@ class FakeApi:
         self,
         test_inline_freeform_additional_properties_request: Annotated[TestInlineFreeformAdditionalPropertiesRequest, Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test inline free-form additionalProperties
@@ -5597,8 +6318,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5615,7 +6336,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_freeform_additional_properties_serialize(
+        _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5626,7 +6347,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5639,21 +6363,29 @@ class FakeApi:
         self,
         test_inline_freeform_additional_properties_request: Annotated[TestInlineFreeformAdditionalPropertiesRequest, Field(description="request body")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test inline free-form additionalProperties
@@ -5666,8 +6398,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5684,7 +6416,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_inline_freeform_additional_properties_serialize(
+        _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5695,7 +6427,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -5710,10 +6445,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -5740,12 +6472,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -5771,21 +6510,29 @@ class FakeApi:
         param: Annotated[StrictStr, Field(description="field1")],
         param2: Annotated[StrictStr, Field(description="field2")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test json serialization of form data
@@ -5800,8 +6547,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5818,7 +6565,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_json_form_data_serialize(
+        _param = self._test_json_form_data_serialize(
             param=param,
             param2=param2,
             _request_auth=_request_auth,
@@ -5830,7 +6577,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5844,21 +6594,29 @@ class FakeApi:
         param: Annotated[StrictStr, Field(description="field1")],
         param2: Annotated[StrictStr, Field(description="field2")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test json serialization of form data
@@ -5873,8 +6631,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5891,7 +6649,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_json_form_data_serialize(
+        _param = self._test_json_form_data_serialize(
             param=param,
             param2=param2,
             _request_auth=_request_auth,
@@ -5903,7 +6661,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -5917,21 +6678,29 @@ class FakeApi:
         param: Annotated[StrictStr, Field(description="field1")],
         param2: Annotated[StrictStr, Field(description="field2")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test json serialization of form data
@@ -5946,8 +6715,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -5964,7 +6733,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_json_form_data_serialize(
+        _param = self._test_json_form_data_serialize(
             param=param,
             param2=param2,
             _request_auth=_request_auth,
@@ -5976,7 +6745,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -5992,10 +6764,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -6024,12 +6793,19 @@ class FakeApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/x-www-form-urlencoded'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/x-www-form-urlencoded'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -6060,21 +6836,29 @@ class FakeApi:
         allow_empty: StrictStr,
         language: Optional[Dict[str, StrictStr]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """test_query_parameter_collection_format
@@ -6099,8 +6883,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -6117,7 +6901,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_query_parameter_collection_format_serialize(
+        _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,
             ioutil=ioutil,
             http=http,
@@ -6134,7 +6918,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -6153,21 +6940,29 @@ class FakeApi:
         allow_empty: StrictStr,
         language: Optional[Dict[str, StrictStr]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """test_query_parameter_collection_format
@@ -6192,8 +6987,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -6210,7 +7005,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_query_parameter_collection_format_serialize(
+        _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,
             ioutil=ioutil,
             http=http,
@@ -6227,7 +7022,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -6246,21 +7044,29 @@ class FakeApi:
         allow_empty: StrictStr,
         language: Optional[Dict[str, StrictStr]] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """test_query_parameter_collection_format
@@ -6285,8 +7091,8 @@ class FakeApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -6303,7 +7109,7 @@ class FakeApi:
                  returns the request thread.
         """
 
-        param = self._test_query_parameter_collection_format_serialize(
+        _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,
             ioutil=ioutil,
             http=http,
@@ -6320,7 +7126,10 @@ class FakeApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -6341,10 +7150,7 @@ class FakeApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -6364,31 +7170,31 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
-        if pipe is not None:  # noqa: E501
+        if pipe is not None:
             
             _query_params.append(('pipe', pipe))
             
-        if ioutil is not None:  # noqa: E501
+        if ioutil is not None:
             
             _query_params.append(('ioutil', ioutil))
             
-        if http is not None:  # noqa: E501
+        if http is not None:
             
             _query_params.append(('http', http))
             
-        if url is not None:  # noqa: E501
+        if url is not None:
             
             _query_params.append(('url', url))
             
-        if context is not None:  # noqa: E501
+        if context is not None:
             
             _query_params.append(('context', context))
             
-        if language is not None:  # noqa: E501
+        if language is not None:
             
             _query_params.append(('language', language))
             
-        if allow_empty is not None:  # noqa: E501
+        if allow_empty is not None:
             
             _query_params.append(('allowEmpty', allow_empty))
             
@@ -6400,7 +7206,8 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',

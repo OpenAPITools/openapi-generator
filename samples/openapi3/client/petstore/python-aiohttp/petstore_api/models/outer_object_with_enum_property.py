@@ -30,7 +30,7 @@ except ImportError:
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty
-    """
+    """ # noqa: E501
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger
     __properties: ClassVar[List[str]] = ["str_value", "value"]

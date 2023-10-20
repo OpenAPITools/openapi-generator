@@ -29,7 +29,7 @@ except ImportError:
 class ListClass(BaseModel):
     """
     ListClass
-    """
+    """ # noqa: E501
     var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["123-list"]

@@ -29,7 +29,7 @@ except ImportError:
 class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
-    """
+    """ # noqa: E501
     a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
     __properties: ClassVar[List[str]] = ["aProperty"]
 

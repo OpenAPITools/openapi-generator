@@ -28,8 +28,8 @@ except ImportError:
 
 class ClassModel(BaseModel):
     """
-    Model for testing model with \"_class\" property  # noqa: E501
-    """
+    Model for testing model with \"_class\" property
+    """ # noqa: E501
     var_class: Optional[StrictStr] = Field(default=None, alias="_class")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["_class"]

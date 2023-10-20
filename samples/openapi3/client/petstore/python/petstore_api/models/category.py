@@ -28,7 +28,7 @@ except ImportError:
 class Category(BaseModel):
     """
     Category
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: StrictStr
     additional_properties: Dict[str, Any] = {}

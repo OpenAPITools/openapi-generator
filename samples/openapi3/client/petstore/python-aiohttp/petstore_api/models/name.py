@@ -28,8 +28,8 @@ except ImportError:
 
 class Name(BaseModel):
     """
-    Model for testing model name same as property name  # noqa: E501
-    """
+    Model for testing model name same as property name
+    """ # noqa: E501
     name: StrictInt
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(default=None, alias="property")

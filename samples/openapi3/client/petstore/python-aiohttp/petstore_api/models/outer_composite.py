@@ -28,7 +28,7 @@ except ImportError:
 class OuterComposite(BaseModel):
     """
     OuterComposite
-    """
+    """ # noqa: E501
     my_number: Optional[float] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None

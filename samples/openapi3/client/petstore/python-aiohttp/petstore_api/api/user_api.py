@@ -55,21 +55,29 @@ class UserApi:
         self,
         user: Annotated[User, Field(description="Created user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=3,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Create user
@@ -82,8 +90,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -100,7 +108,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_user_serialize(
+        _param = self._create_user_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +119,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -124,21 +135,29 @@ class UserApi:
         self,
         user: Annotated[User, Field(description="Created user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=3,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Create user
@@ -151,8 +170,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -169,7 +188,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_user_serialize(
+        _param = self._create_user_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +199,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -193,21 +215,29 @@ class UserApi:
         self,
         user: Annotated[User, Field(description="Created user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=3,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Create user
@@ -220,8 +250,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -238,7 +268,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_user_serialize(
+        _param = self._create_user_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -249,7 +279,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -268,9 +301,8 @@ class UserApi:
             'http://petstore.swagger.io/v2',
             'http://path-server-test.petstore.local/v2',
             'http://{server}.swagger.io:{port}/v2'
-            
         ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = _hosts[_host_index]
 
         _collection_formats: Dict[str, str] = {
             
@@ -297,12 +329,19 @@ class UserApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -327,21 +366,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Creates list of users with given input array
@@ -354,8 +401,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -372,7 +419,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_array_input_serialize(
+        _param = self._create_users_with_array_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +430,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -396,21 +446,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Creates list of users with given input array
@@ -423,8 +481,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -441,7 +499,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_array_input_serialize(
+        _param = self._create_users_with_array_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -452,7 +510,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -465,21 +526,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Creates list of users with given input array
@@ -492,8 +561,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -510,7 +579,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_array_input_serialize(
+        _param = self._create_users_with_array_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -521,7 +590,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -536,10 +608,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -567,12 +636,19 @@ class UserApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -597,21 +673,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Creates list of users with given input array
@@ -624,8 +708,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -642,7 +726,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_list_input_serialize(
+        _param = self._create_users_with_list_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -653,7 +737,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -666,21 +753,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Creates list of users with given input array
@@ -693,8 +788,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -711,7 +806,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_list_input_serialize(
+        _param = self._create_users_with_list_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -722,7 +817,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -735,21 +833,29 @@ class UserApi:
         self,
         user: Annotated[List[User], Field(description="List of user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Creates list of users with given input array
@@ -762,8 +868,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -780,7 +886,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._create_users_with_list_input_serialize(
+        _param = self._create_users_with_list_input_serialize(
             user=user,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -791,7 +897,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -806,10 +915,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -837,12 +943,19 @@ class UserApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -867,21 +980,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Delete user
@@ -894,8 +1015,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -912,7 +1033,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._delete_user_serialize(
+        _param = self._delete_user_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -923,7 +1044,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -936,21 +1060,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Delete user
@@ -963,8 +1095,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -981,7 +1113,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._delete_user_serialize(
+        _param = self._delete_user_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -992,7 +1124,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1005,21 +1140,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Delete user
@@ -1032,8 +1175,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1050,7 +1193,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._delete_user_serialize(
+        _param = self._delete_user_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1061,7 +1204,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1076,10 +1222,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1104,7 +1247,8 @@ class UserApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='DELETE',
@@ -1129,21 +1273,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> User:
         """Get user by user name
@@ -1156,8 +1308,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1174,7 +1326,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._get_user_by_name_serialize(
+        _param = self._get_user_by_name_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1188,7 +1340,10 @@ class UserApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1201,21 +1356,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[User]:
         """Get user by user name
@@ -1228,8 +1391,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1246,7 +1409,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._get_user_by_name_serialize(
+        _param = self._get_user_by_name_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1260,7 +1423,10 @@ class UserApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1273,21 +1439,29 @@ class UserApi:
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Get user by user name
@@ -1300,8 +1474,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1318,7 +1492,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._get_user_by_name_serialize(
+        _param = self._get_user_by_name_serialize(
             username=username,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1332,7 +1506,10 @@ class UserApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1347,10 +1524,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1374,11 +1548,16 @@ class UserApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
+            [
+                'application/xml', 
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1404,21 +1583,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> str:
         """Logs user into the system
@@ -1433,8 +1620,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1451,7 +1638,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._login_user_serialize(
+        _param = self._login_user_serialize(
             username=username,
             password=password,
             _request_auth=_request_auth,
@@ -1465,7 +1652,10 @@ class UserApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1479,21 +1669,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[str]:
         """Logs user into the system
@@ -1508,8 +1706,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1526,7 +1724,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._login_user_serialize(
+        _param = self._login_user_serialize(
             username=username,
             password=password,
             _request_auth=_request_auth,
@@ -1540,7 +1738,10 @@ class UserApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1554,21 +1755,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="The user name for login")],
         password: Annotated[StrictStr, Field(description="The password for login in clear text")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Logs user into the system
@@ -1583,8 +1792,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1601,7 +1810,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._login_user_serialize(
+        _param = self._login_user_serialize(
             username=username,
             password=password,
             _request_auth=_request_auth,
@@ -1615,7 +1824,10 @@ class UserApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1631,10 +1843,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1649,11 +1858,11 @@ class UserApi:
 
         # process the path parameters
         # process the query parameters
-        if username is not None:  # noqa: E501
+        if username is not None:
             
             _query_params.append(('username', username))
             
-        if password is not None:  # noqa: E501
+        if password is not None:
             
             _query_params.append(('password', password))
             
@@ -1664,11 +1873,16 @@ class UserApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
+            [
+                'application/xml', 
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1692,21 +1906,29 @@ class UserApi:
     async def logout_user(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Logs out current logged in user session
@@ -1717,8 +1939,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1735,7 +1957,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._logout_user_serialize(
+        _param = self._logout_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1745,7 +1967,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1757,21 +1982,29 @@ class UserApi:
     async def logout_user_with_http_info(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Logs out current logged in user session
@@ -1782,8 +2015,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1800,7 +2033,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._logout_user_serialize(
+        _param = self._logout_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1810,7 +2043,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1822,21 +2058,29 @@ class UserApi:
     async def logout_user_without_preload_content(
         self,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Logs out current logged in user session
@@ -1847,8 +2091,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1865,7 +2109,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._logout_user_serialize(
+        _param = self._logout_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1875,7 +2119,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1889,10 +2136,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1915,7 +2159,8 @@ class UserApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1941,21 +2186,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Updated user
@@ -1970,8 +2223,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1988,7 +2241,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._update_user_serialize(
+        _param = self._update_user_serialize(
             username=username,
             user=user,
             _request_auth=_request_auth,
@@ -2000,7 +2253,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2014,21 +2270,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Updated user
@@ -2043,8 +2307,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2061,7 +2325,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._update_user_serialize(
+        _param = self._update_user_serialize(
             username=username,
             user=user,
             _request_auth=_request_auth,
@@ -2073,7 +2337,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2087,21 +2354,29 @@ class UserApi:
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Updated user
@@ -2116,8 +2391,8 @@ class UserApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2134,7 +2409,7 @@ class UserApi:
                  returns the request thread.
         """
 
-        param = self._update_user_serialize(
+        _param = self._update_user_serialize(
             username=username,
             user=user,
             _request_auth=_request_auth,
@@ -2146,7 +2421,10 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2162,10 +2440,7 @@ class UserApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2194,12 +2469,19 @@ class UserApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = []  # noqa: E501
+        _auth_settings: List[str] = [
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',

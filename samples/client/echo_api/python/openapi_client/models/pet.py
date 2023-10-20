@@ -32,7 +32,7 @@ except ImportError:
 class Pet(BaseModel):
     """
     Pet
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: StrictStr
     category: Optional[Category] = None

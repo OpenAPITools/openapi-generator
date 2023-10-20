@@ -28,7 +28,7 @@ except ImportError:
 class HasOnlyReadOnly(BaseModel):
     """
     HasOnlyReadOnly
-    """
+    """ # noqa: E501
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}

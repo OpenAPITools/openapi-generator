@@ -30,7 +30,7 @@ except ImportError:
 class AllOfWithSingleRef(BaseModel):
     """
     AllOfWithSingleRef
-    """
+    """ # noqa: E501
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     __properties: ClassVar[List[str]] = ["username", "SingleRefType"]

@@ -29,7 +29,7 @@ except ImportError:
 class BasquePig(BaseModel):
     """
     BasquePig
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     color: StrictStr
     additional_properties: Dict[str, Any] = {}

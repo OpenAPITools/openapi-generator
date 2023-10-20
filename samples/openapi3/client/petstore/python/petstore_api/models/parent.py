@@ -30,7 +30,7 @@ except ImportError:
 class Parent(BaseModel):
     """
     Parent
-    """
+    """ # noqa: E501
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["optionalDict"]

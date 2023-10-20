@@ -28,7 +28,7 @@ except ImportError:
 class Client(BaseModel):
     """
     Client
-    """
+    """ # noqa: E501
     client: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["client"]
 

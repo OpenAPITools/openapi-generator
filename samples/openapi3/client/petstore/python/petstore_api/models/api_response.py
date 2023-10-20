@@ -28,7 +28,7 @@ except ImportError:
 class ApiResponse(BaseModel):
     """
     ApiResponse
-    """
+    """ # noqa: E501
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None

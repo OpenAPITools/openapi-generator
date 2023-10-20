@@ -29,7 +29,7 @@ except ImportError:
 class NumberOnly(BaseModel):
     """
     NumberOnly
-    """
+    """ # noqa: E501
     just_number: Optional[float] = Field(default=None, alias="JustNumber")
     __properties: ClassVar[List[str]] = ["JustNumber"]
 

@@ -31,7 +31,7 @@ except ImportError:
 class FormatTest(BaseModel):
     """
     FormatTest
-    """
+    """ # noqa: E501
     integer: Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None
     int32: Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None
     int64: Optional[StrictInt] = None

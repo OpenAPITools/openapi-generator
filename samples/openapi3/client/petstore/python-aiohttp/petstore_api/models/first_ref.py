@@ -28,7 +28,7 @@ except ImportError:
 class FirstRef(BaseModel):
     """
     FirstRef
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
     __properties: ClassVar[List[str]] = ["category", "self_ref"]

@@ -29,7 +29,7 @@ except ImportError:
 class Cat(Animal):
     """
     Cat
-    """
+    """ # noqa: E501
     declawed: Optional[StrictBool] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["className", "color", "declawed"]

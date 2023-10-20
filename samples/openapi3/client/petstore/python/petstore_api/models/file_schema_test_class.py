@@ -29,7 +29,7 @@ except ImportError:
 class FileSchemaTestClass(BaseModel):
     """
     FileSchemaTestClass
-    """
+    """ # noqa: E501
     file: Optional[File] = None
     files: Optional[List[File]] = None
     additional_properties: Dict[str, Any] = {}

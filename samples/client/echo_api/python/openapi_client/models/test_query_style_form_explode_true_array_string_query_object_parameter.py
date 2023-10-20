@@ -29,7 +29,7 @@ except ImportError:
 class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     """
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-    """
+    """ # noqa: E501
     values: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["values"]
 

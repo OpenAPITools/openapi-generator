@@ -30,7 +30,7 @@ except ImportError:
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     MixedPropertiesAndAdditionalPropertiesClass
-    """
+    """ # noqa: E501
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None

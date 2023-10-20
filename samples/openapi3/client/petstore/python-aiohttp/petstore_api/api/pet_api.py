@@ -56,21 +56,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Add a new pet to the store
@@ -83,8 +91,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -101,7 +109,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._add_pet_serialize(
+        _param = self._add_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -112,7 +120,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -125,21 +136,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Add a new pet to the store
@@ -152,8 +171,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -170,7 +189,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._add_pet_serialize(
+        _param = self._add_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +200,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -194,21 +216,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Add a new pet to the store
@@ -221,8 +251,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -239,7 +269,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._add_pet_serialize(
+        _param = self._add_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -250,7 +280,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -265,10 +298,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -295,12 +325,22 @@ class PetApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json', 'application/xml'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json', 
+                        'application/xml'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth', 
+            'http_signature_test'
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -326,21 +366,29 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Deletes a pet
@@ -355,8 +403,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -373,7 +421,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._delete_pet_serialize(
+        _param = self._delete_pet_serialize(
             pet_id=pet_id,
             api_key=api_key,
             _request_auth=_request_auth,
@@ -385,7 +433,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -399,21 +450,29 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Deletes a pet
@@ -428,8 +487,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -446,7 +505,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._delete_pet_serialize(
+        _param = self._delete_pet_serialize(
             pet_id=pet_id,
             api_key=api_key,
             _request_auth=_request_auth,
@@ -458,7 +517,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -472,21 +534,29 @@ class PetApi:
         pet_id: Annotated[StrictInt, Field(description="Pet id to delete")],
         api_key: Optional[StrictStr] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Deletes a pet
@@ -501,8 +571,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -519,7 +589,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._delete_pet_serialize(
+        _param = self._delete_pet_serialize(
             pet_id=pet_id,
             api_key=api_key,
             _request_auth=_request_auth,
@@ -531,7 +601,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -547,10 +620,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -577,7 +647,9 @@ class PetApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth'
+        ]
 
         return self.api_client.param_serialize(
             method='DELETE',
@@ -602,21 +674,29 @@ class PetApi:
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> List[Pet]:
         """Finds Pets by status
@@ -629,8 +709,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -647,7 +727,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._find_pets_by_status_serialize(
+        _param = self._find_pets_by_status_serialize(
             status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -660,7 +740,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -673,21 +756,29 @@ class PetApi:
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[List[Pet]]:
         """Finds Pets by status
@@ -700,8 +791,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -718,7 +809,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._find_pets_by_status_serialize(
+        _param = self._find_pets_by_status_serialize(
             status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -731,7 +822,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -744,21 +838,29 @@ class PetApi:
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Finds Pets by status
@@ -771,8 +873,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -789,7 +891,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._find_pets_by_status_serialize(
+        _param = self._find_pets_by_status_serialize(
             status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -802,7 +904,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -817,10 +922,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -836,7 +938,7 @@ class PetApi:
 
         # process the path parameters
         # process the query parameters
-        if status is not None:  # noqa: E501
+        if status is not None:
             
             _query_params.append(('status', status))
             
@@ -847,11 +949,18 @@ class PetApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
+            [
+                'application/xml', 
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth', 
+            'http_signature_test'
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -876,21 +985,29 @@ class PetApi:
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> List[Pet]:
         """(Deprecated) Finds Pets by tags
@@ -903,8 +1020,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -922,7 +1039,7 @@ class PetApi:
         """
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
-        param = self._find_pets_by_tags_serialize(
+        _param = self._find_pets_by_tags_serialize(
             tags=tags,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -935,7 +1052,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -948,21 +1068,29 @@ class PetApi:
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[List[Pet]]:
         """(Deprecated) Finds Pets by tags
@@ -975,8 +1103,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -994,7 +1122,7 @@ class PetApi:
         """
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
-        param = self._find_pets_by_tags_serialize(
+        _param = self._find_pets_by_tags_serialize(
             tags=tags,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1007,7 +1135,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1020,21 +1151,29 @@ class PetApi:
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """(Deprecated) Finds Pets by tags
@@ -1047,8 +1186,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1066,7 +1205,7 @@ class PetApi:
         """
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
-        param = self._find_pets_by_tags_serialize(
+        _param = self._find_pets_by_tags_serialize(
             tags=tags,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1079,7 +1218,10 @@ class PetApi:
             '400': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1094,10 +1236,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1113,7 +1252,7 @@ class PetApi:
 
         # process the path parameters
         # process the query parameters
-        if tags is not None:  # noqa: E501
+        if tags is not None:
             
             _query_params.append(('tags', tags))
             
@@ -1124,11 +1263,18 @@ class PetApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
+            [
+                'application/xml', 
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth', 
+            'http_signature_test'
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1153,21 +1299,29 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> Pet:
         """Find pet by ID
@@ -1180,8 +1334,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1198,7 +1352,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._get_pet_by_id_serialize(
+        _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1212,7 +1366,10 @@ class PetApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1225,21 +1382,29 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[Pet]:
         """Find pet by ID
@@ -1252,8 +1417,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1270,7 +1435,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._get_pet_by_id_serialize(
+        _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1284,7 +1449,10 @@ class PetApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1297,21 +1465,29 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to return")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Find pet by ID
@@ -1324,8 +1500,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1342,7 +1518,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._get_pet_by_id_serialize(
+        _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1356,7 +1532,10 @@ class PetApi:
             '404': None
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1371,10 +1550,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1398,11 +1574,17 @@ class PetApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
+            [
+                'application/xml', 
+                'application/json'
+            ]
+        )
 
 
         # authentication setting
-        _auth_settings: List[str] = ['api_key']  # noqa: E501
+        _auth_settings: List[str] = [
+            'api_key'
+        ]
 
         return self.api_client.param_serialize(
             method='GET',
@@ -1427,21 +1609,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Update an existing pet
@@ -1454,8 +1644,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1472,7 +1662,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_serialize(
+        _param = self._update_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1483,7 +1673,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1496,21 +1689,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Update an existing pet
@@ -1523,8 +1724,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1541,7 +1742,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_serialize(
+        _param = self._update_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1552,7 +1753,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1565,21 +1769,29 @@ class PetApi:
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Update an existing pet
@@ -1592,8 +1804,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1610,7 +1822,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_serialize(
+        _param = self._update_pet_serialize(
             pet=pet,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1621,7 +1833,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1636,10 +1851,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1666,12 +1878,22 @@ class PetApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/json', 'application/xml'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json', 
+                        'application/xml'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth', 'http_signature_test']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth', 
+            'http_signature_test'
+        ]
 
         return self.api_client.param_serialize(
             method='PUT',
@@ -1698,21 +1920,29 @@ class PetApi:
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> None:
         """Updates a pet in the store with form data
@@ -1729,8 +1959,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1747,7 +1977,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_with_form_serialize(
+        _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
             name=name,
             status=status,
@@ -1760,7 +1990,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1775,21 +2008,29 @@ class PetApi:
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[None]:
         """Updates a pet in the store with form data
@@ -1806,8 +2047,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1824,7 +2065,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_with_form_serialize(
+        _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
             name=name,
             status=status,
@@ -1837,7 +2078,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -1852,21 +2096,29 @@ class PetApi:
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """Updates a pet in the store with form data
@@ -1883,8 +2135,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -1901,7 +2153,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._update_pet_with_form_serialize(
+        _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
             name=name,
             status=status,
@@ -1914,7 +2166,10 @@ class PetApi:
         _response_types_map: Dict[str, Optional[str]] = {
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -1931,10 +2186,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -1965,12 +2217,20 @@ class PetApi:
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['application/x-www-form-urlencoded'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/x-www-form-urlencoded'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth'
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -1997,21 +2257,29 @@ class PetApi:
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse:
         """uploads an image
@@ -2028,8 +2296,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2046,7 +2314,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_serialize(
+        _param = self._upload_file_serialize(
             pet_id=pet_id,
             additional_metadata=additional_metadata,
             file=file,
@@ -2060,7 +2328,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2075,21 +2346,29 @@ class PetApi:
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[ApiResponse]:
         """uploads an image
@@ -2106,8 +2385,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2124,7 +2403,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_serialize(
+        _param = self._upload_file_serialize(
             pet_id=pet_id,
             additional_metadata=additional_metadata,
             file=file,
@@ -2138,7 +2417,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2153,21 +2435,29 @@ class PetApi:
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """uploads an image
@@ -2184,8 +2474,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2202,7 +2492,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_serialize(
+        _param = self._upload_file_serialize(
             pet_id=pet_id,
             additional_metadata=additional_metadata,
             file=file,
@@ -2216,7 +2506,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2233,10 +2526,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2264,18 +2554,29 @@ class PetApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['multipart/form-data'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'multipart/form-data'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth'
+        ]
 
         return self.api_client.param_serialize(
             method='POST',
@@ -2302,21 +2603,29 @@ class PetApi:
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse:
         """uploads an image (required)
@@ -2333,8 +2642,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2351,7 +2660,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_with_required_file_serialize(
+        _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
             required_file=required_file,
             additional_metadata=additional_metadata,
@@ -2365,7 +2674,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2380,21 +2692,29 @@ class PetApi:
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> ApiResponse[ApiResponse]:
         """uploads an image (required)
@@ -2411,8 +2731,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2429,7 +2749,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_with_required_file_serialize(
+        _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
             required_file=required_file,
             additional_metadata=additional_metadata,
@@ -2443,7 +2763,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
@@ -2458,21 +2781,29 @@ class PetApi:
         required_file: Annotated[Union[StrictBytes, StrictStr], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Annotated[Union[float, Tuple[float, float], None], Field(
-            description="timeout setting for this request. If one number provided, it will be total request timeout. It can also be a pair (tuple) of (connection, read) timeouts.",
+            description="""timeout setting for this request. If one number
+                           provided, it will be total request timeout. It can
+                           also be a pair (tuple) of (connection, read)
+                           timeouts.""",
         )] = None,
         _request_auth: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the auth_settings for an a single request; this effectively ignores the authentication in the spec for a single request.",
+            description="""set to override the auth_settings for an a single
+                           request; this effectively ignores the authentication
+                           in the specfor a single request.""",
         )] = None,
         _content_type: Annotated[Optional[str], Field(
-            description="force content-type for the request",
+            description="""force content-type for the request""",
         )] = None,
         _headers: Annotated[Optional[Dict[str, Any]], Field(
-            description="set to override the header params for an a single request; this effectively ignores the header params in the spec for a single request.",
+            description="""set to override the header params for an a single
+                           request; this effectively ignores the header params
+                           in the spec fora single request.""",
         )] = None,
         _host_index: Annotated[int, Field(
             ge=0,
             le=0,
-            description="index of the host to use, if the server has multiple hosts",
+            description="""index of the host to use, if the server has multiple
+                           hosts""",
         )] = 0,
     ) -> RESTResponseType:
         """uploads an image (required)
@@ -2489,8 +2820,8 @@ class PetApi:
                                  (connection, read) timeouts.
         :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
         :param _content_type: force content-type for the request.
         :type _content_type: str, Optional
@@ -2507,7 +2838,7 @@ class PetApi:
                  returns the request thread.
         """
 
-        param = self._upload_file_with_required_file_serialize(
+        _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
             required_file=required_file,
             additional_metadata=additional_metadata,
@@ -2521,7 +2852,10 @@ class PetApi:
             '200': "ApiResponse"
             
         }
-        response_data = await self.api_client.call_api(*param, _request_timeout=_request_timeout)
+        response_data = await self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
         return response_data.response
 
 
@@ -2538,10 +2872,7 @@ class PetApi:
         _host_index,
     ) -> Tuple:
 
-        _hosts = [
-            
-        ]
-        _host=None if len(_hosts) == 0 else _hosts[_host_index]
+        _host = None
 
         _collection_formats: Dict[str, str] = {
             
@@ -2569,18 +2900,29 @@ class PetApi:
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
         if _content_type:
             _header_params['Content-Type'] = _content_type
         else:
-            _type = self.api_client.select_header_content_type(['multipart/form-data'])
-            if _type is not None:
-                _header_params['Content-Type'] = _type
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'multipart/form-data'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = ['petstore_auth']  # noqa: E501
+        _auth_settings: List[str] = [
+            'petstore_auth'
+        ]
 
         return self.api_client.param_serialize(
             method='POST',

@@ -28,7 +28,7 @@ except ImportError:
 class AdditionalPropertiesClass(BaseModel):
     """
     AdditionalPropertiesClass
-    """
+    """ # noqa: E501
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
     __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property"]

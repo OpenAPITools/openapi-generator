@@ -29,7 +29,7 @@ except ImportError:
 class Capitalization(BaseModel):
     """
     Capitalization
-    """
+    """ # noqa: E501
     small_camel: Optional[StrictStr] = Field(default=None, alias="smallCamel")
     capital_camel: Optional[StrictStr] = Field(default=None, alias="CapitalCamel")
     small_snake: Optional[StrictStr] = Field(default=None, alias="small_Snake")

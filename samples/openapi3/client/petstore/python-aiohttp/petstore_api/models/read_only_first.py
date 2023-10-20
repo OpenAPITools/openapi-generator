@@ -28,7 +28,7 @@ except ImportError:
 class ReadOnlyFirst(BaseModel):
     """
     ReadOnlyFirst
-    """
+    """ # noqa: E501
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["bar", "baz"]

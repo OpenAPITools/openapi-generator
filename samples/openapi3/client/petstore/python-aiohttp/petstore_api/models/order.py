@@ -29,7 +29,7 @@ except ImportError:
 class Order(BaseModel):
     """
     Order
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None

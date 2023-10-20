@@ -29,7 +29,7 @@ except ImportError:
 class Category(BaseModel):
     """
     Category
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["id", "name"]

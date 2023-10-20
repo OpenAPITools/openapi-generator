@@ -28,7 +28,7 @@ except ImportError:
 class SelfReferenceModel(BaseModel):
     """
     SelfReferenceModel
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
     additional_properties: Dict[str, Any] = {}

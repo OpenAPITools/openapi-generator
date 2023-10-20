@@ -29,7 +29,7 @@ except ImportError:
 class Bird(BaseModel):
     """
     Bird
-    """
+    """ # noqa: E501
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["size", "color"]

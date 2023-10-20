@@ -29,7 +29,7 @@ except ImportError:
 class User(BaseModel):
     """
     User
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     username: Optional[StrictStr] = None
     first_name: Optional[StrictStr] = Field(default=None, alias="firstName")

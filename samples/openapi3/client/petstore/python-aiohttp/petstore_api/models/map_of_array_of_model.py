@@ -30,7 +30,7 @@ except ImportError:
 class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
-    """
+    """ # noqa: E501
     shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 

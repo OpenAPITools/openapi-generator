@@ -28,8 +28,8 @@ except ImportError:
 
 class ObjectToTestAdditionalProperties(BaseModel):
     """
-    Minimal object  # noqa: E501
-    """
+    Minimal object
+    """ # noqa: E501
     var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
     __properties: ClassVar[List[str]] = ["property"]
 

@@ -28,7 +28,7 @@ except ImportError:
 class CreatureInfo(BaseModel):
     """
     CreatureInfo
-    """
+    """ # noqa: E501
     name: StrictStr
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["name"]

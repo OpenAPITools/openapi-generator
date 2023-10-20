@@ -28,7 +28,7 @@ except ImportError:
 class NullableClass(BaseModel):
     """
     NullableClass
-    """
+    """ # noqa: E501
     required_integer_prop: Optional[StrictInt]
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[StrictFloat] = None

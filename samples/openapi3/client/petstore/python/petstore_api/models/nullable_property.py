@@ -30,7 +30,7 @@ except ImportError:
 class NullableProperty(BaseModel):
     """
     NullableProperty
-    """
+    """ # noqa: E501
     id: StrictInt
     name: Optional[Annotated[str, Field(strict=True)]]
     additional_properties: Dict[str, Any] = {}

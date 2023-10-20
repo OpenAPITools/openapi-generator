@@ -29,7 +29,7 @@ except ImportError:
 class NumberOnly(BaseModel):
     """
     NumberOnly
-    """
+    """ # noqa: E501
     just_number: Optional[StrictFloat] = Field(default=None, alias="JustNumber")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["JustNumber"]
