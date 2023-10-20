@@ -1309,7 +1309,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void reactiveArrayShouldBeWrappedInFluxWithoutMonoEvenIfUsingResponseEntity() throws IOException {
+    public void reactiveArrayShouldBeWrappedInMonoFluxWhenUsingResponseEntity() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.DELEGATE_PATTERN, "false");
         additionalProperties.put(SpringCodegen.REACTIVE, "true");
@@ -1325,7 +1325,7 @@ public class SpringCodegenTest {
             .assertThat(files.get("PetApi.java"))
                 .assertMethod("addPet").hasReturnType("Mono<ResponseEntity<Pet>>")
             .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("Flux<ResponseEntity<Pet>>")
+                .assertMethod("findPetsByStatus").hasReturnType("Mono<ResponseEntity<Flux<Pet>>>")
             .toFileAssert()
                 .assertMethod("deletePet").hasReturnType("Mono<ResponseEntity<Void>>");
     }
