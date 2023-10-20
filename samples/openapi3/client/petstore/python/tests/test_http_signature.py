@@ -259,7 +259,6 @@ class PetApiTests(unittest.TestCase):
             with open(cls.ec_p521_key_path, "wt") as f:
                 f.write(private_key)
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_valid_http_signature(self):
         privkey_path = self.rsa_key_path
         signing_cfg = signing.HttpSigningConfiguration(
@@ -301,7 +300,6 @@ class PetApiTests(unittest.TestCase):
 
         pet_api.add_pet(self.pet)
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_valid_http_signature_with_defaults(self):
         privkey_path = self.rsa4096_key_path
         signing_cfg = signing.HttpSigningConfiguration(
@@ -334,7 +332,6 @@ class PetApiTests(unittest.TestCase):
 
         pet_api.add_pet(self.pet)
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_valid_http_signature_rsassa_pkcs1v15(self):
         privkey_path = self.rsa4096_key_path
         signing_cfg = signing.HttpSigningConfiguration(
@@ -372,7 +369,6 @@ class PetApiTests(unittest.TestCase):
 
         pet_api.add_pet(self.pet)
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_valid_http_signature_rsassa_pss(self):
         privkey_path = self.rsa4096_key_path
         signing_cfg = signing.HttpSigningConfiguration(
@@ -410,7 +406,6 @@ class PetApiTests(unittest.TestCase):
 
         pet_api.add_pet(self.pet)
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_valid_http_signature_ec_p521(self):
         privkey_path = self.ec_p521_key_path
         signing_cfg = signing.HttpSigningConfiguration(

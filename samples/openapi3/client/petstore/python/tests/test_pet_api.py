@@ -87,7 +87,6 @@ class PetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "pix.gif")
 
-    @unittest.skip("Due to destructive changes to rest_client")
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
@@ -97,16 +96,16 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
-                                 preload_content=True, timeout=TimeoutWithEqual(total=5))
+                                 preload_content=False, timeout=TimeoutWithEqual(total=5.0))
         mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
-                                 preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
+                                 preload_content=False, timeout=TimeoutWithEqual(connect=1.0, read=2.0))
 
-        self.pet_api.add_pet(self.pet, _request_timeout=5)
-        self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
+        self.pet_api.add_pet(self.pet, _request_timeout=5.0)
+        self.pet_api.add_pet(self.pet, _request_timeout=(1.0, 2.0))
 
     def test_separate_default_config_instances(self):
         # ensure the default api client is used
@@ -171,20 +170,18 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.id)
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
-    
-    @unittest.skip("_preload_content is deprecated")
-    def test_add_pet_and_get_pet_by_id_with_preload_content_flag(self):
-        try:
-            self.pet_api.add_pet(self.pet, _preload_content=False)
-        except ValueError as e:
-            self.assertEqual("Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data", str(e))
+
+    def test_add_pet_and_get_pet_by_id_without_preload_content_flag(self):
 
         self.pet_api.add_pet(self.pet)
-        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
-                                                            _preload_content=False)
-        self.assertIsNone(fetched.data)
-        self.assertIsInstance(fetched.raw_data, bytes) # it's a str, not Pet
-        self.assertTrue(fetched.raw_data.decode("utf-8").startswith('{"id":'))
+        fetched = self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
+        read = fetched.read()
+        self.assertIsInstance(fetched, urllib3.HTTPResponse)
+        self.assertIsInstance(read, bytes)
+        self.assertEqual(fetched.data, b'')
+        self.assertEqual(fetched.read(), b'')
+        self.assertEqual(fetched.read(10), b'')
+        self.assertTrue(read.decode("utf-8").startswith('{"id":'))
 
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)
@@ -195,6 +192,13 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.data.id)
         self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
+
+    def test_get_pet_by_id_serialize(self):
+        self.pet_api.add_pet(self.pet)
+
+        fetched = self.pet_api._get_pet_by_id_serialize(self.pet.id, None, None, None, None)
+        self.assertIsNotNone(fetched)
+        self.assertIsInstance(fetched, tuple)
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
