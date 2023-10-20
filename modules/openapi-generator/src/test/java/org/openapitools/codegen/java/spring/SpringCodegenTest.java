@@ -541,14 +541,19 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
-        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
-        codegen.processOpts();
+    public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.ASYNC, "true");
+        additionalProperties.put(CodegenConstants.LIBRARY, "spring-cloud");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
 
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
-        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "CompletableFuture");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        assertFileContains(files.get("PetApi.java").toPath(), "CompletableFuture<ResponseEntity<Void>> deletePet");
+        assertFileNotContains(files.get("PetApi.java").toPath(), "default CompletableFuture<ResponseEntity<Void>> deletePet");
     }
 
     @Test
