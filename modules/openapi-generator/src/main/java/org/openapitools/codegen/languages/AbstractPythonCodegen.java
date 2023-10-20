@@ -929,7 +929,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     typingImports.add("Union");
                     Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getMappingName());
+                        postponedModelImports.add(mappedModel.getModelName());
                     }
                 }
             }
