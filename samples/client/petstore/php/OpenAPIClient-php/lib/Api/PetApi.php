@@ -174,7 +174,7 @@ class PetApi
      * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addPet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -209,7 +209,7 @@ class PetApi
      * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['addPet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -531,7 +531,7 @@ class PetApi
      * @param  string $api_key api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -549,7 +549,7 @@ class PetApi
      * @param  string $api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deletePet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -773,7 +773,7 @@ class PetApi
      * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['findPetsByStatus'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet[]
      */
@@ -791,7 +791,7 @@ class PetApi
      * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['findPetsByStatus'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
@@ -842,6 +842,17 @@ class PetApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -859,6 +870,17 @@ class PetApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -1061,7 +1083,7 @@ class PetApi
      * @param  string[] $tags Tags to filter by (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['findPetsByTags'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet[]
      * @deprecated
@@ -1080,7 +1102,7 @@ class PetApi
      * @param  string[] $tags Tags to filter by (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['findPetsByTags'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @deprecated
@@ -1132,6 +1154,17 @@ class PetApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -1149,6 +1182,17 @@ class PetApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -1354,7 +1398,7 @@ class PetApi
      * @param  int $pet_id ID of pet to return (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getPetById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet
      */
@@ -1372,7 +1416,7 @@ class PetApi
      * @param  int $pet_id ID of pet to return (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getPetById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1423,6 +1467,17 @@ class PetApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Pet' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -1440,6 +1495,17 @@ class PetApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -1660,7 +1726,7 @@ class PetApi
      * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -1695,7 +1761,7 @@ class PetApi
      * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePet'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2018,7 +2084,7 @@ class PetApi
      * @param  string $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -2037,7 +2103,7 @@ class PetApi
      * @param  string $status Updated status of the pet (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updatePetWithForm'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2271,7 +2337,7 @@ class PetApi
      * @param  \SplFileObject $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
@@ -2291,7 +2357,7 @@ class PetApi
      * @param  \SplFileObject $file file to upload (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFile'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2342,6 +2408,17 @@ class PetApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -2359,6 +2436,17 @@ class PetApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -2586,7 +2674,7 @@ class PetApi
      * @param  string $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
@@ -2606,7 +2694,7 @@ class PetApi
      * @param  string $additional_metadata Additional data to pass to server (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadFileWithRequiredFile'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2657,6 +2745,17 @@ class PetApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -2674,6 +2773,17 @@ class PetApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 

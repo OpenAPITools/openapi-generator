@@ -151,7 +151,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -168,7 +168,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -379,7 +379,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -396,7 +396,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithArrayInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -607,7 +607,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -624,7 +624,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createUsersWithListInput'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -835,7 +835,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -852,7 +852,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1064,7 +1064,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\User
      */
@@ -1082,7 +1082,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getUserByName'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1133,6 +1133,17 @@ class UserApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\User' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -1150,6 +1161,17 @@ class UserApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -1348,7 +1370,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return string
      */
@@ -1367,7 +1389,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['loginUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1418,6 +1440,17 @@ class UserApi
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -1435,6 +1468,17 @@ class UserApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -1651,7 +1695,7 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -1667,7 +1711,7 @@ class UserApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['logoutUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1862,7 +1906,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -1880,7 +1924,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateUser'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */

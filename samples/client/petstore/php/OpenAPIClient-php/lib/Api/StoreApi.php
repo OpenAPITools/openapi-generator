@@ -139,7 +139,7 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -156,7 +156,7 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -367,7 +367,7 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array<string,int>
      */
@@ -384,7 +384,7 @@ class StoreApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of array<string,int>, HTTP status code, HTTP response headers (array of strings)
      */
@@ -435,6 +435,17 @@ class StoreApi
                         $content = (string) $response->getBody();
                         if ('array<string,int>' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -452,6 +463,17 @@ class StoreApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -636,7 +658,7 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
@@ -654,7 +676,7 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
@@ -705,6 +727,17 @@ class StoreApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Order' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -722,6 +755,17 @@ class StoreApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
@@ -925,7 +969,7 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
@@ -943,7 +987,7 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
@@ -994,6 +1038,17 @@ class StoreApi
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Order' !== 'string') {
                             $content = json_decode($content);
+                            if ($content === null) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                 );
+                            }
                         }
                     }
 
@@ -1011,6 +1066,17 @@ class StoreApi
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
                     $content = json_decode($content);
+                    if ($content === null) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 
