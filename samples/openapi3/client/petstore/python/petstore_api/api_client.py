@@ -17,7 +17,6 @@ import datetime
 from dateutil.parser import parse
 import json
 import mimetypes
-from multiprocessing.pool import ThreadPool
 import os
 import re
 import tempfile
@@ -54,8 +53,6 @@ class ApiClient:
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
-    :param pool_threads: The number of threads to use for async requests
-        to the API. More threads means more concurrent API requests.
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, str, int)
@@ -76,14 +73,12 @@ class ApiClient:
         configuration=None,
         header_name=None,
         header_value=None,
-        cookie=None,
-        pool_threads=1
+        cookie=None
     ) -> None:
         # use default configuration if none is provided
         if configuration is None:
             configuration = Configuration.get_default()
         self.configuration = configuration
-        self.pool_threads = pool_threads
 
         self.rest_client = rest.RESTClientObject(configuration)
         self.default_headers = {}
@@ -94,29 +89,6 @@ class ApiClient:
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
         self.client_side_validation = configuration.client_side_validation
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.close()
-
-    def close(self):
-        if self._pool:
-            self._pool.close()
-            self._pool.join()
-            self._pool = None
-            if hasattr(atexit, 'unregister'):
-                atexit.unregister(self.close)
-
-    @property
-    def pool(self):
-        """Create thread pool on first request
-         avoids instantiating unused threadpool for blocking clients.
-        """
-        if self._pool is None:
-            atexit.register(self.close)
-            self._pool = ThreadPool(self.pool_threads)
-        return self._pool
 
     @property
     def user_agent(self):
