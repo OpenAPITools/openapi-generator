@@ -56,33 +56,18 @@ class BodyApi:
     @validate_call
     def test_binary_gif(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
         """Test binary (gif) response body
         Test binary (gif) response body
@@ -136,33 +121,18 @@ class BodyApi:
     @validate_call
     def test_binary_gif_with_http_info(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
         """Test binary (gif) response body
         Test binary (gif) response body
@@ -216,33 +186,18 @@ class BodyApi:
     @validate_call
     def test_binary_gif_without_preload_content(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test binary (gif) response body
         Test binary (gif) response body
@@ -292,33 +247,18 @@ class BodyApi:
     @validate_call
     def test_binary_gif_with_async(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test binary (gif) response body
         Test binary (gif) response body
@@ -374,33 +314,18 @@ class BodyApi:
     @validate_call
     def test_binary_gif_with_http_info_async(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test binary (gif) response body
         Test binary (gif) response body
@@ -515,33 +440,18 @@ class BodyApi:
     def test_body_application_octetstream_binary(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test body parameter(s)
         Test body parameter(s)
@@ -599,33 +509,18 @@ class BodyApi:
     def test_body_application_octetstream_binary_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test body parameter(s)
         Test body parameter(s)
@@ -683,33 +578,18 @@ class BodyApi:
     def test_body_application_octetstream_binary_without_preload_content(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test body parameter(s)
         Test body parameter(s)
@@ -763,33 +643,18 @@ class BodyApi:
     def test_body_application_octetstream_binary_with_async(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test body parameter(s)
         Test body parameter(s)
@@ -849,33 +714,18 @@ class BodyApi:
     def test_body_application_octetstream_binary_with_http_info_async(
         self,
         body: Optional[Union[StrictBytes, StrictStr]] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test body parameter(s)
         Test body parameter(s)
@@ -1014,33 +864,18 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test array of binary in multipart mime
         Test array of binary in multipart mime
@@ -1098,33 +933,18 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary_with_http_info(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test array of binary in multipart mime
         Test array of binary in multipart mime
@@ -1182,33 +1002,18 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary_without_preload_content(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test array of binary in multipart mime
         Test array of binary in multipart mime
@@ -1262,33 +1067,18 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary_with_async(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test array of binary in multipart mime
         Test array of binary in multipart mime
@@ -1348,33 +1138,18 @@ class BodyApi:
     def test_body_multipart_formdata_array_of_binary_with_http_info_async(
         self,
         files: List[Union[StrictBytes, StrictStr]],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test array of binary in multipart mime
         Test array of binary in multipart mime
@@ -1509,33 +1284,18 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test free form object
         Test free form object
@@ -1593,33 +1353,18 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string_with_http_info(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test free form object
         Test free form object
@@ -1677,33 +1422,18 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string_without_preload_content(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test free form object
         Test free form object
@@ -1757,33 +1487,18 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string_with_async(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test free form object
         Test free form object
@@ -1843,33 +1558,18 @@ class BodyApi:
     def test_echo_body_free_form_object_response_string_with_http_info_async(
         self,
         body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test free form object
         Test free form object
@@ -2003,33 +1703,18 @@ class BodyApi:
     def test_echo_body_pet(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Pet:
         """Test body parameter(s)
         Test body parameter(s)
@@ -2087,33 +1772,18 @@ class BodyApi:
     def test_echo_body_pet_with_http_info(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Pet]:
         """Test body parameter(s)
         Test body parameter(s)
@@ -2171,33 +1841,18 @@ class BodyApi:
     def test_echo_body_pet_without_preload_content(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test body parameter(s)
         Test body parameter(s)
@@ -2251,33 +1906,18 @@ class BodyApi:
     def test_echo_body_pet_with_async(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test body parameter(s)
         Test body parameter(s)
@@ -2337,33 +1977,18 @@ class BodyApi:
     def test_echo_body_pet_with_http_info_async(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test body parameter(s)
         Test body parameter(s)
@@ -2497,33 +2122,18 @@ class BodyApi:
     def test_echo_body_pet_response_string(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test empty response body
         Test empty response body
@@ -2581,33 +2191,18 @@ class BodyApi:
     def test_echo_body_pet_response_string_with_http_info(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test empty response body
         Test empty response body
@@ -2665,33 +2260,18 @@ class BodyApi:
     def test_echo_body_pet_response_string_without_preload_content(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test empty response body
         Test empty response body
@@ -2745,33 +2325,18 @@ class BodyApi:
     def test_echo_body_pet_response_string_with_async(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test empty response body
         Test empty response body
@@ -2831,33 +2396,18 @@ class BodyApi:
     def test_echo_body_pet_response_string_with_http_info_async(
         self,
         pet: Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test empty response body
         Test empty response body
@@ -2991,33 +2541,18 @@ class BodyApi:
     def test_echo_body_tag_response_string(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test empty json (request body)
         Test empty json (request body)
@@ -3075,33 +2610,18 @@ class BodyApi:
     def test_echo_body_tag_response_string_with_http_info(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test empty json (request body)
         Test empty json (request body)
@@ -3159,33 +2679,18 @@ class BodyApi:
     def test_echo_body_tag_response_string_without_preload_content(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test empty json (request body)
         Test empty json (request body)
@@ -3239,33 +2744,18 @@ class BodyApi:
     def test_echo_body_tag_response_string_with_async(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test empty json (request body)
         Test empty json (request body)
@@ -3325,33 +2815,18 @@ class BodyApi:
     def test_echo_body_tag_response_string_with_http_info_async(
         self,
         tag: Annotated[Optional[Tag], Field(description="Tag object")] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test empty json (request body)
         Test empty json (request body)

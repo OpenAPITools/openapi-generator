@@ -54,33 +54,18 @@ class StoreApi:
     async def delete_order(
         self,
         order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -136,33 +121,18 @@ class StoreApi:
     async def delete_order_with_http_info(
         self,
         order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -218,33 +188,18 @@ class StoreApi:
     async def delete_order_without_preload_content(
         self,
         order_id: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -352,33 +307,18 @@ class StoreApi:
     @validate_call
     async def get_inventory(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Dict[str, int]:
         """Returns pet inventories by status
         Returns a map of status codes to quantities
@@ -431,33 +371,18 @@ class StoreApi:
     @validate_call
     async def get_inventory_with_http_info(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Dict[str, int]]:
         """Returns pet inventories by status
         Returns a map of status codes to quantities
@@ -510,33 +435,18 @@ class StoreApi:
     @validate_call
     async def get_inventory_without_preload_content(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Returns pet inventories by status
         Returns a map of status codes to quantities
@@ -647,33 +557,18 @@ class StoreApi:
     async def get_order_by_id(
         self,
         order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -732,33 +627,18 @@ class StoreApi:
     async def get_order_by_id_with_http_info(
         self,
         order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -817,33 +697,18 @@ class StoreApi:
     async def get_order_by_id_without_preload_content(
         self,
         order_id: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -962,33 +827,18 @@ class StoreApi:
     async def place_order(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
         """Place an order for a pet
         
@@ -1046,33 +896,18 @@ class StoreApi:
     async def place_order_with_http_info(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
         """Place an order for a pet
         
@@ -1130,33 +965,18 @@ class StoreApi:
     async def place_order_without_preload_content(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Place an order for a pet
         

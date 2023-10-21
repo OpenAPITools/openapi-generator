@@ -47,33 +47,18 @@ class DefaultApi:
     @validate_call
     async def foo_get(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> FooGetDefaultResponse:
         """foo_get
         :param _request_timeout: timeout setting for this request. If one
@@ -125,33 +110,18 @@ class DefaultApi:
     @validate_call
     async def foo_get_with_http_info(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[FooGetDefaultResponse]:
         """foo_get
         :param _request_timeout: timeout setting for this request. If one
@@ -203,33 +173,18 @@ class DefaultApi:
     @validate_call
     async def foo_get_without_preload_content(
         self,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """foo_get
         :param _request_timeout: timeout setting for this request. If one

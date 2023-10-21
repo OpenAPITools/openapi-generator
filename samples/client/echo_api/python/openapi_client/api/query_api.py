@@ -59,33 +59,18 @@ class QueryApi:
         self,
         enum_nonref_string_query: Optional[StrictStr] = None,
         enum_ref_string_query: Optional[StringEnumRef] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -147,33 +132,18 @@ class QueryApi:
         self,
         enum_nonref_string_query: Optional[StrictStr] = None,
         enum_ref_string_query: Optional[StringEnumRef] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -235,33 +205,18 @@ class QueryApi:
         self,
         enum_nonref_string_query: Optional[StrictStr] = None,
         enum_ref_string_query: Optional[StringEnumRef] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -319,33 +274,18 @@ class QueryApi:
         self,
         enum_nonref_string_query: Optional[StrictStr] = None,
         enum_ref_string_query: Optional[StringEnumRef] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -409,33 +349,18 @@ class QueryApi:
         self,
         enum_nonref_string_query: Optional[StrictStr] = None,
         enum_ref_string_query: Optional[StringEnumRef] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -568,33 +493,18 @@ class QueryApi:
         datetime_query: Optional[datetime] = None,
         date_query: Optional[date] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -660,33 +570,18 @@ class QueryApi:
         datetime_query: Optional[datetime] = None,
         date_query: Optional[date] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -752,33 +647,18 @@ class QueryApi:
         datetime_query: Optional[datetime] = None,
         date_query: Optional[date] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -840,33 +720,18 @@ class QueryApi:
         datetime_query: Optional[datetime] = None,
         date_query: Optional[date] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -934,33 +799,18 @@ class QueryApi:
         datetime_query: Optional[datetime] = None,
         date_query: Optional[date] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1119,33 +969,18 @@ class QueryApi:
         integer_query: Optional[StrictInt] = None,
         boolean_query: Optional[StrictBool] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1211,33 +1046,18 @@ class QueryApi:
         integer_query: Optional[StrictInt] = None,
         boolean_query: Optional[StrictBool] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1303,33 +1123,18 @@ class QueryApi:
         integer_query: Optional[StrictInt] = None,
         boolean_query: Optional[StrictBool] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1391,33 +1196,18 @@ class QueryApi:
         integer_query: Optional[StrictInt] = None,
         boolean_query: Optional[StrictBool] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1485,33 +1275,18 @@ class QueryApi:
         integer_query: Optional[StrictInt] = None,
         boolean_query: Optional[StrictBool] = None,
         string_query: Optional[StrictStr] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1650,33 +1425,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1734,33 +1494,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_with_http_info(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1818,33 +1563,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_without_preload_content(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1898,33 +1628,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_with_async(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -1984,33 +1699,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_with_http_info_async(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2133,33 +1833,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_all_of(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2217,33 +1902,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2301,33 +1971,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_all_of_without_preload_content(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2381,33 +2036,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_all_of_with_async(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2467,33 +2107,18 @@ class QueryApi:
     def test_query_style_deep_object_explode_true_object_all_of_with_http_info_async(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2616,33 +2241,18 @@ class QueryApi:
     def test_query_style_form_explode_true_array_string(
         self,
         query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2700,33 +2310,18 @@ class QueryApi:
     def test_query_style_form_explode_true_array_string_with_http_info(
         self,
         query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2784,33 +2379,18 @@ class QueryApi:
     def test_query_style_form_explode_true_array_string_without_preload_content(
         self,
         query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2864,33 +2444,18 @@ class QueryApi:
     def test_query_style_form_explode_true_array_string_with_async(
         self,
         query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -2950,33 +2515,18 @@ class QueryApi:
     def test_query_style_form_explode_true_array_string_with_http_info_async(
         self,
         query_object: Optional[TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3099,33 +2649,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3183,33 +2718,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_with_http_info(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3267,33 +2787,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_without_preload_content(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3347,33 +2852,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_with_async(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3433,33 +2923,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_with_http_info_async(
         self,
         query_object: Optional[Pet] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3582,33 +3057,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_all_of(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3666,33 +3126,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_all_of_with_http_info(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3750,33 +3195,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_all_of_without_preload_content(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3830,33 +3260,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_all_of_with_async(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
@@ -3916,33 +3331,18 @@ class QueryApi:
     def test_query_style_form_explode_true_object_all_of_with_http_info_async(
         self,
         query_object: Optional[Any] = None,
-        _request_timeout: Annotated[
-            Union[StrictFloat, Tuple[StrictFloat, StrictFloat], None],
-            Field(
-                description="""timeout setting for this request. If one number
-                               provided, it will be total request timeout. It can
-                               also be a pair (tuple) of (connection, read)
-                               timeouts.""",
-        )] = None,
-        _request_auth: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the auth_settings for an a single
-                           request; this effectively ignores the authentication
-                           in the specfor a single request.""",
-        )] = None,
-        _content_type: Annotated[Optional[StrictStr], Field(
-            description="""force content-type for the request""",
-        )] = None,
-        _headers: Annotated[Optional[Dict[StrictStr, Any]], Field(
-            description="""set to override the header params for an a single
-                           request; this effectively ignores the header params
-                           in the spec fora single request.""",
-        )] = None,
-        _host_index: Annotated[StrictInt, Field(
-            ge=0,
-            le=0,
-            description="""index of the host to use, if the server has multiple
-                           hosts""",
-        )] = 0,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApplyResult:
         """Test query parameter(s)
         Test query parameter(s)
