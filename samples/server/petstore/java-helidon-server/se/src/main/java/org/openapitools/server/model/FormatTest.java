@@ -11,19 +11,19 @@ import java.util.UUID;
 
 public class FormatTest   {
 
-    private Integer integer;
+    private Integer _integer;
     private Integer int32;
     private Long int64;
     private BigDecimal number;
     private Float _float;
     private Double _double;
     private BigDecimal decimal;
-    private String string;
+    private String _string;
     private byte[] _byte;
     private File binary;
-    private LocalDate date;
-    private OffsetDateTime dateTime;
-    private UUID uuid;
+    private LocalDate _date;
+    private OffsetDateTime _dateTime;
+    private UUID _uuid;
     private String password;
     private String patternWithDigits;
     private String patternWithDigitsAndDelimiter;
@@ -38,54 +38,54 @@ public class FormatTest   {
     /**
      * Create FormatTest.
      *
-     * @param integer integer
+     * @param _integer _integer
      * @param int32 int32
      * @param int64 int64
      * @param number number
      * @param _float _float
      * @param _double _double
      * @param decimal decimal
-     * @param string string
+     * @param _string _string
      * @param _byte _byte
      * @param binary binary
-     * @param date date
-     * @param dateTime dateTime
-     * @param uuid uuid
+     * @param _date _date
+     * @param _dateTime _dateTime
+     * @param _uuid _uuid
      * @param password password
      * @param patternWithDigits A string that is a 10 digit number. Can have leading zeros.
      * @param patternWithDigitsAndDelimiter A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
      */
     public FormatTest(
-        Integer integer, 
+        Integer _integer, 
         Integer int32, 
         Long int64, 
         BigDecimal number, 
         Float _float, 
         Double _double, 
         BigDecimal decimal, 
-        String string, 
+        String _string, 
         byte[] _byte, 
         File binary, 
-        LocalDate date, 
-        OffsetDateTime dateTime, 
-        UUID uuid, 
+        LocalDate _date, 
+        OffsetDateTime _dateTime, 
+        UUID _uuid, 
         String password, 
         String patternWithDigits, 
         String patternWithDigitsAndDelimiter
     ) {
-        this.integer = integer;
+        this._integer = _integer;
         this.int32 = int32;
         this.int64 = int64;
         this.number = number;
         this._float = _float;
         this._double = _double;
         this.decimal = decimal;
-        this.string = string;
+        this._string = _string;
         this._byte = _byte;
         this.binary = binary;
-        this.date = date;
-        this.dateTime = dateTime;
-        this.uuid = uuid;
+        this._date = _date;
+        this._dateTime = _dateTime;
+        this._uuid = _uuid;
         this.password = password;
         this.patternWithDigits = patternWithDigits;
         this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
@@ -94,17 +94,17 @@ public class FormatTest   {
 
 
     /**
-     * Get integer
+     * Get _integer
      * minimum: 10
      * maximum: 100
-     * @return integer
+     * @return _integer
      */
     public Integer getInteger() {
-        return integer;
+        return _integer;
     }
 
-    public void setInteger(Integer integer) {
-        this.integer = integer;
+    public void setInteger(Integer _integer) {
+        this._integer = _integer;
     }
 
     /**
@@ -188,15 +188,15 @@ public class FormatTest   {
     }
 
     /**
-     * Get string
-     * @return string
+     * Get _string
+     * @return _string
      */
     public String getString() {
-        return string;
+        return _string;
     }
 
-    public void setString(String string) {
-        this.string = string;
+    public void setString(String _string) {
+        this._string = _string;
     }
 
     /**
@@ -224,39 +224,39 @@ public class FormatTest   {
     }
 
     /**
-     * Get date
-     * @return date
+     * Get _date
+     * @return _date
      */
     public LocalDate getDate() {
-        return date;
+        return _date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(LocalDate _date) {
+        this._date = _date;
     }
 
     /**
-     * Get dateTime
-     * @return dateTime
+     * Get _dateTime
+     * @return _dateTime
      */
     public OffsetDateTime getDateTime() {
-        return dateTime;
+        return _dateTime;
     }
 
-    public void setDateTime(OffsetDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(OffsetDateTime _dateTime) {
+        this._dateTime = _dateTime;
     }
 
     /**
-     * Get uuid
-     * @return uuid
+     * Get _uuid
+     * @return _uuid
      */
     public UUID getUuid() {
-        return uuid;
+        return _uuid;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setUuid(UUID _uuid) {
+        this._uuid = _uuid;
     }
 
     /**
@@ -303,19 +303,19 @@ public class FormatTest   {
         StringBuilder sb = new StringBuilder();
         sb.append("class FormatTest {\n");
         
-        sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+        sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
         sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
         sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
         sb.append("    number: ").append(toIndentedString(number)).append("\n");
         sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
         sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
         sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
-        sb.append("    string: ").append(toIndentedString(string)).append("\n");
+        sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
         sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
         sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-        sb.append("    date: ").append(toIndentedString(date)).append("\n");
-        sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-        sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+        sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+        sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+        sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
         sb.append("    password: ").append(toIndentedString(password)).append("\n");
         sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
         sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");

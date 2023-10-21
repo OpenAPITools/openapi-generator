@@ -1347,7 +1347,7 @@ No authorization required
 
 ## testEndpointParameters
 
-> void testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> void testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1379,18 +1379,18 @@ public class Example {
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
-        Integer integer = 56; // Integer | None
+        Integer _integer = 56; // Integer | None
         Integer int32 = 56; // Integer | None
         Long int64 = 56L; // Long | None
         Float _float = 3.4F; // Float | None
-        String string = "string_example"; // String | None
+        String _string = "_string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
+        LocalDate _date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime _dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
-            apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+            apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEndpointParameters");
             System.err.println("Status code: " + e.getCode());
@@ -1411,14 +1411,14 @@ public class Example {
 | **_double** | **Double**| None | |
 | **patternWithoutDelimiter** | **String**| None | |
 | **_byte** | **byte[]**| None | |
-| **integer** | **Integer**| None | [optional] |
+| **_integer** | **Integer**| None | [optional] |
 | **int32** | **Integer**| None | [optional] |
 | **int64** | **Long**| None | [optional] |
 | **_float** | **Float**| None | [optional] |
-| **string** | **String**| None | [optional] |
+| **_string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
-| **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
+| **_date** | **LocalDate**| None | [optional] |
+| **_dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 
@@ -1444,7 +1444,7 @@ null (empty response body)
 
 ## testEndpointParametersWithHttpInfo
 
-> ApiResponse<Void> testEndpointParameters testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> ApiResponse<Void> testEndpointParameters testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1477,18 +1477,18 @@ public class Example {
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
-        Integer integer = 56; // Integer | None
+        Integer _integer = 56; // Integer | None
         Integer int32 = 56; // Integer | None
         Long int64 = 56L; // Long | None
         Float _float = 3.4F; // Float | None
-        String string = "string_example"; // String | None
+        String _string = "_string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
+        LocalDate _date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime _dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
-            ApiResponse<Void> response = apiInstance.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+            ApiResponse<Void> response = apiInstance.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -1511,14 +1511,14 @@ public class Example {
 | **_double** | **Double**| None | |
 | **patternWithoutDelimiter** | **String**| None | |
 | **_byte** | **byte[]**| None | |
-| **integer** | **Integer**| None | [optional] |
+| **_integer** | **Integer**| None | [optional] |
 | **int32** | **Integer**| None | [optional] |
 | **int64** | **Long**| None | [optional] |
 | **_float** | **Float**| None | [optional] |
-| **string** | **String**| None | [optional] |
+| **_string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
-| **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
+| **_date** | **LocalDate**| None | [optional] |
+| **_dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 

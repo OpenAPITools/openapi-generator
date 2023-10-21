@@ -52,7 +52,7 @@ import javax.validation.Valid;
 public class FormatTest   {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @JsonProperty(JSON_PROPERTY_INTEGER)
-  private Integer integer;
+  private Integer _integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
   @JsonProperty(JSON_PROPERTY_INT32)
@@ -80,7 +80,7 @@ public class FormatTest   {
 
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
-  private String string;
+  private String _string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
   @JsonProperty(JSON_PROPERTY_BYTE)
@@ -92,15 +92,15 @@ public class FormatTest   {
 
   public static final String JSON_PROPERTY_DATE = "date";
   @JsonProperty(JSON_PROPERTY_DATE)
-  private Date date;
+  private Date _date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
-  private Date dateTime;
+  private Date _dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
-  private UUID uuid;
+  private UUID _uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -114,26 +114,26 @@ public class FormatTest   {
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   private String patternWithDigitsAndDelimiter;
 
-  public FormatTest integer(Integer integer) {
-    this.integer = integer;
+  public FormatTest _integer(Integer _integer) {
+    this._integer = _integer;
     return this;
   }
 
   /**
-   * Get integer
+   * Get _integer
    * minimum: 10
    * maximum: 100
-   * @return integer
+   * @return _integer
    **/
   @JsonProperty(value = "integer")
   @ApiModelProperty(value = "")
    @Min(10) @Max(100)
   public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
   public FormatTest int32(Integer int32) {
@@ -264,24 +264,24 @@ public class FormatTest   {
     this.decimal = decimal;
   }
 
-  public FormatTest string(String string) {
-    this.string = string;
+  public FormatTest _string(String _string) {
+    this._string = _string;
     return this;
   }
 
   /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
    **/
   @JsonProperty(value = "string")
   @ApiModelProperty(value = "")
    @Pattern(regexp="/[a-z]/i")
   public String getString() {
-    return string;
+    return _string;
   }
 
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
   public FormatTest _byte(byte[] _byte) {
@@ -324,64 +324,64 @@ public class FormatTest   {
     this.binary = binary;
   }
 
-  public FormatTest date(Date date) {
-    this.date = date;
+  public FormatTest _date(Date _date) {
+    this._date = _date;
     return this;
   }
 
   /**
-   * Get date
-   * @return date
+   * Get _date
+   * @return _date
    **/
   @JsonProperty(value = "date")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Date getDate() {
-    return date;
+    return _date;
   }
 
-  public void setDate(Date date) {
-    this.date = date;
+  public void setDate(Date _date) {
+    this._date = _date;
   }
 
-  public FormatTest dateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public FormatTest _dateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
   /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
    **/
   @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public Date getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+  public FormatTest _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
   /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
    **/
   @JsonProperty(value = "uuid")
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   public FormatTest password(String password) {
@@ -454,19 +454,19 @@ public class FormatTest   {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(integer, formatTest.integer) &&
+    return Objects.equals(_integer, formatTest._integer) &&
         Objects.equals(int32, formatTest.int32) &&
         Objects.equals(int64, formatTest.int64) &&
         Objects.equals(number, formatTest.number) &&
         Objects.equals(_float, formatTest._float) &&
         Objects.equals(_double, formatTest._double) &&
         Objects.equals(decimal, formatTest.decimal) &&
-        Objects.equals(string, formatTest.string) &&
+        Objects.equals(_string, formatTest._string) &&
         Objects.equals(_byte, formatTest._byte) &&
         Objects.equals(binary, formatTest.binary) &&
-        Objects.equals(date, formatTest.date) &&
-        Objects.equals(dateTime, formatTest.dateTime) &&
-        Objects.equals(uuid, formatTest.uuid) &&
+        Objects.equals(_date, formatTest._date) &&
+        Objects.equals(_dateTime, formatTest._dateTime) &&
+        Objects.equals(_uuid, formatTest._uuid) &&
         Objects.equals(password, formatTest.password) &&
         Objects.equals(patternWithDigits, formatTest.patternWithDigits) &&
         Objects.equals(patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
@@ -474,7 +474,7 @@ public class FormatTest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(_integer, int32, int64, number, _float, _double, decimal, _string, _byte, binary, _date, _dateTime, _uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -482,19 +482,19 @@ public class FormatTest   {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
     
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
     sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");

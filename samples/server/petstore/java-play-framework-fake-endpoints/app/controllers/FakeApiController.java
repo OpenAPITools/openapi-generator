@@ -174,12 +174,12 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result testEndpointParameters(Http.Request request) throws Exception {
-        String[] valueinteger = request.body().asMultipartFormData().asFormUrlEncoded().get("integer");
-        Integer integer;
-        if (valueinteger != null) {
-            integer = Integer.parseInt(valueinteger[0]);
+        String[] value_integer = request.body().asMultipartFormData().asFormUrlEncoded().get("integer");
+        Integer _integer;
+        if (value_integer != null) {
+            _integer = Integer.parseInt(value_integer[0]);
         } else {
-            integer = null;
+            _integer = null;
         }
         String[] valueint32 = request.body().asMultipartFormData().asFormUrlEncoded().get("int32");
         Integer int32;
@@ -216,12 +216,12 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'double' parameter is required");
         }
-        String[] valuestring = request.body().asMultipartFormData().asFormUrlEncoded().get("string");
-        String string;
-        if (valuestring != null) {
-            string = valuestring[0];
+        String[] value_string = request.body().asMultipartFormData().asFormUrlEncoded().get("string");
+        String _string;
+        if (value_string != null) {
+            _string = value_string[0];
         } else {
-            string = null;
+            _string = null;
         }
         String[] valuepatternWithoutDelimiter = request.body().asMultipartFormData().asFormUrlEncoded().get("pattern_without_delimiter");
         String patternWithoutDelimiter;
@@ -239,19 +239,19 @@ public class FakeApiController extends Controller {
         }
         Http.MultipartFormData<TemporaryFile> bodybinary = request.body().asMultipartFormData();
         Http.MultipartFormData.FilePart<TemporaryFile> binary = bodybinary.getFile("binary");
-        String[] valuedate = request.body().asMultipartFormData().asFormUrlEncoded().get("date");
-        LocalDate date;
-        if (valuedate != null) {
-            date = LocalDate.parse(valuedate[0]);
+        String[] value_date = request.body().asMultipartFormData().asFormUrlEncoded().get("date");
+        LocalDate _date;
+        if (value_date != null) {
+            _date = LocalDate.parse(value_date[0]);
         } else {
-            date = null;
+            _date = null;
         }
-        String[] valuedateTime = request.body().asMultipartFormData().asFormUrlEncoded().get("dateTime");
-        OffsetDateTime dateTime;
-        if (valuedateTime != null) {
-            dateTime = OffsetDateTime.parse(valuedateTime[0]);
+        String[] value_dateTime = request.body().asMultipartFormData().asFormUrlEncoded().get("dateTime");
+        OffsetDateTime _dateTime;
+        if (value_dateTime != null) {
+            _dateTime = OffsetDateTime.parse(value_dateTime[0]);
         } else {
-            dateTime = null;
+            _dateTime = null;
         }
         String[] valuepassword = request.body().asMultipartFormData().asFormUrlEncoded().get("password");
         String password;
@@ -267,7 +267,7 @@ public class FakeApiController extends Controller {
         } else {
             paramCallback = null;
         }
-        return imp.testEndpointParametersHttp(request, number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        return imp.testEndpointParametersHttp(request, number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
     }
 
     @ApiAction

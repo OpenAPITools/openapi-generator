@@ -101,6 +101,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         typeMapping.put("date", "LocalDate");
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
+        updateReservedWords();
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 

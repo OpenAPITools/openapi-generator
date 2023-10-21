@@ -7,20 +7,20 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**integer** | **Integer** |  |  [optional] |
+|**_integer** | **Integer** |  |  [optional] |
 |**int32** | **Integer** |  |  [optional] |
 |**int64** | **Long** |  |  [optional] |
 |**number** | **BigDecimal** |  |  |
 |**_float** | **Float** |  |  [optional] |
 |**_double** | **Double** |  |  [optional] |
-|**string** | **String** |  |  [optional] |
+|**_string** | **String** |  |  [optional] |
 |**_byte** | **byte[]** |  |  |
 |**binary** | **File** |  |  [optional] |
-|**date** | **LocalDate** |  |  |
-|**dateTime** | **OffsetDateTime** |  |  [optional] |
-|**uuid** | **UUID** |  |  [optional] |
+|**_date** | **LocalDate** |  |  |
+|**_dateTime** | **OffsetDateTime** |  |  [optional] |
+|**_uuid** | **UUID** |  |  [optional] |
 |**password** | **String** |  |  |
-|**bigDecimal** | **BigDecimal** |  |  [optional] |
+|**_bigDecimal** | **BigDecimal** |  |  [optional] |
 
 
 ## Implemented Interfaces

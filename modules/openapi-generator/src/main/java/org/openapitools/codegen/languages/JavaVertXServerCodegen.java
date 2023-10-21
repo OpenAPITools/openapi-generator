@@ -157,6 +157,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("MainApiException", rootPackage + ".MainApiException");
+        updateReservedWords();
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();

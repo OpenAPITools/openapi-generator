@@ -19,75 +19,75 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   @Valid
 
-  private UUID uuid;
+  private UUID _uuid;
 
   @JsonProperty("dateTime")
   @Valid
 
-  private OffsetDateTime dateTime;
+  private OffsetDateTime _dateTime;
 
   @JsonProperty("map")
   @Valid
 
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> _map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
    /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
    /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   public OffsetDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
+    this._map = _map;
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<>();
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    if (this._map == null) {
+      this._map = new HashMap<>();
     }
-    this.map.put(key, mapItem);
+    this._map.put(key, _mapItem);
     return this;
   }
 
    /**
-   * Get map
-   * @return map
+   * Get _map
+   * @return _map
   **/
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
 
@@ -100,14 +100,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(_uuid, mixedPropertiesAndAdditionalPropertiesClass._uuid) &&
+        Objects.equals(_dateTime, mixedPropertiesAndAdditionalPropertiesClass._dateTime) &&
+        Objects.equals(_map, mixedPropertiesAndAdditionalPropertiesClass._map);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
+    return Objects.hash(_uuid, _dateTime, _map);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -116,9 +116,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }

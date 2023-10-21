@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class FormatTest  {
   
-  private Integer integer;
+  private Integer _integer;
 
   private Integer int32;
 
@@ -43,17 +43,17 @@ public class FormatTest  {
 
   private BigDecimal decimal;
 
-  private String string;
+  private String _string;
 
   private byte[] _byte;
 
   private File binary;
 
-  private LocalDate date;
+  private LocalDate _date;
 
-  private OffsetDateTime dateTime;
+  private OffsetDateTime _dateTime;
 
-  private UUID uuid;
+  private UUID _uuid;
 
   private String password;
 
@@ -68,24 +68,24 @@ public class FormatTest  {
   private String patternWithDigitsAndDelimiter;
 
  /**
-   * Get integer
+   * Get _integer
    * minimum: 10
    * maximum: 100
-   * @return integer
+   * @return _integer
   **/
  @Min(10) @Max(100)  public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
   /**
-    * Set integer
+    * Set _integer
   **/
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
-  public FormatTest integer(Integer integer) {
-    this.integer = integer;
+  public FormatTest _integer(Integer _integer) {
+    this._integer = _integer;
     return this;
   }
 
@@ -219,22 +219,22 @@ public class FormatTest  {
   }
 
  /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
   **/
  @Pattern(regexp="/[a-z]/i")  public String getString() {
-    return string;
+    return _string;
   }
 
   /**
-    * Set string
+    * Set _string
   **/
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
-  public FormatTest string(String string) {
-    this.string = string;
+  public FormatTest _string(String _string) {
+    this._string = _string;
     return this;
   }
 
@@ -280,63 +280,63 @@ public class FormatTest  {
   }
 
  /**
-   * Get date
-   * @return date
+   * Get _date
+   * @return _date
   **/
   @NotNull
   public LocalDate getDate() {
-    return date;
+    return _date;
   }
 
   /**
-    * Set date
+    * Set _date
   **/
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setDate(LocalDate _date) {
+    this._date = _date;
   }
 
-  public FormatTest date(LocalDate date) {
-    this.date = date;
+  public FormatTest _date(LocalDate _date) {
+    this._date = _date;
     return this;
   }
 
  /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   public OffsetDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   /**
-    * Set dateTime
+    * Set _dateTime
   **/
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public FormatTest _dateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
  /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   /**
-    * Set uuid
+    * Set _uuid
   **/
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
-  public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+  public FormatTest _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -410,19 +410,19 @@ public class FormatTest  {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
     
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
     sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");

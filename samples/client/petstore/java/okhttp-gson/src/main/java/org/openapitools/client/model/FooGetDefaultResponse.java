@@ -54,29 +54,29 @@ import org.openapitools.client.JSON;
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  private Foo string;
+  private Foo _string;
 
   public FooGetDefaultResponse() {
   }
 
-  public FooGetDefaultResponse string(Foo string) {
+  public FooGetDefaultResponse _string(Foo _string) {
     
-    this.string = string;
+    this._string = _string;
     return this;
   }
 
    /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
   **/
   @javax.annotation.Nullable
   public Foo getString() {
-    return string;
+    return _string;
   }
 
 
-  public void setString(Foo string) {
-    this.string = string;
+  public void setString(Foo _string) {
+    this._string = _string;
   }
 
   /**
@@ -134,20 +134,20 @@ public class FooGetDefaultResponse {
       return false;
     }
     FooGetDefaultResponse fooGetDefaultResponse = (FooGetDefaultResponse) o;
-    return Objects.equals(this.string, fooGetDefaultResponse.string)&&
+    return Objects.equals(this._string, fooGetDefaultResponse._string)&&
         Objects.equals(this.additionalProperties, fooGetDefaultResponse.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(string, additionalProperties);
+    return Objects.hash(_string, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FooGetDefaultResponse {\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();

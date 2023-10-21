@@ -42,7 +42,7 @@ public class DataQuery extends Query {
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  private OffsetDateTime date;
+  private OffsetDateTime _date;
 
   public DataQuery() {
 
@@ -92,25 +92,25 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery _date(OffsetDateTime _date) {
     
-    this.date = date;
+    this._date = _date;
     return this;
   }
 
    /**
    * A date
-   * @return date
+   * @return _date
   **/
   @javax.annotation.Nullable
 
   public OffsetDateTime getDate() {
-    return date;
+    return _date;
   }
 
 
-  public void setDate(OffsetDateTime date) {
-    this.date = date;
+  public void setDate(OffsetDateTime _date) {
+    this._date = _date;
   }
 
 
@@ -125,13 +125,13 @@ public class DataQuery extends Query {
     DataQuery dataQuery = (DataQuery) o;
     return Objects.equals(this.suffix, dataQuery.suffix) &&
         Objects.equals(this.text, dataQuery.text) &&
-        Objects.equals(this.date, dataQuery.date) &&
+        Objects.equals(this._date, dataQuery._date) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, super.hashCode());
+    return Objects.hash(suffix, text, _date, super.hashCode());
   }
 
   @Override
@@ -141,7 +141,7 @@ public class DataQuery extends Query {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
     sb.append("}");
     return sb.toString();
   }

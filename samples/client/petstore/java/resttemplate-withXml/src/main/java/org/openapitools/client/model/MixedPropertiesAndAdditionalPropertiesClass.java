@@ -47,32 +47,32 @@ import io.github.threetenjaxb.core.*;
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @XmlElement(name = "uuid")
-  private UUID uuid;
+  private UUID _uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @XmlElement(name = "dateTime")
   @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
-  private OffsetDateTime dateTime;
+  private OffsetDateTime _dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
   @XmlElement(name = "inner")
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> _map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
     
-    this.uuid = uuid;
+    this._uuid = _uuid;
     return this;
   }
 
    /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -80,27 +80,27 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JacksonXmlProperty(localName = "uuid")
 
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(OffsetDateTime _dateTime) {
     
-    this.dateTime = dateTime;
+    this._dateTime = _dateTime;
     return this;
   }
 
    /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
@@ -108,35 +108,35 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JacksonXmlProperty(localName = "dateTime")
 
   public OffsetDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "dateTime")
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
     
-    this.map = map;
+    this._map = _map;
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<>();
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    if (this._map == null) {
+      this._map = new HashMap<>();
     }
-    this.map.put(key, mapItem);
+    this._map.put(key, _mapItem);
     return this;
   }
 
    /**
-   * Get map
-   * @return map
+   * Get _map
+   * @return _map
   **/
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP)
@@ -145,7 +145,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
 
@@ -153,8 +153,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "map")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
   @Override
@@ -166,23 +166,23 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this._uuid, mixedPropertiesAndAdditionalPropertiesClass._uuid) &&
+        Objects.equals(this._dateTime, mixedPropertiesAndAdditionalPropertiesClass._dateTime) &&
+        Objects.equals(this._map, mixedPropertiesAndAdditionalPropertiesClass._map);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
+    return Objects.hash(_uuid, _dateTime, _map);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }

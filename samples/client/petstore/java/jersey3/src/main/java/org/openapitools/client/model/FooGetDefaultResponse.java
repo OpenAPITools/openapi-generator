@@ -37,33 +37,33 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
-  private Foo string;
+  private Foo _string;
 
   public FooGetDefaultResponse() { 
   }
 
-  public FooGetDefaultResponse string(Foo string) {
-    this.string = string;
+  public FooGetDefaultResponse _string(Foo _string) {
+    this._string = _string;
     return this;
   }
 
    /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
   **/
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Foo getString() {
-    return string;
+    return _string;
   }
 
 
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setString(Foo string) {
-    this.string = string;
+  public void setString(Foo _string) {
+    this._string = _string;
   }
 
 
@@ -79,19 +79,19 @@ public class FooGetDefaultResponse {
       return false;
     }
     FooGetDefaultResponse fooGetDefaultResponse = (FooGetDefaultResponse) o;
-    return Objects.equals(this.string, fooGetDefaultResponse.string);
+    return Objects.equals(this._string, fooGetDefaultResponse._string);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(string);
+    return Objects.hash(_string);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FooGetDefaultResponse {\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("}");
     return sb.toString();
   }

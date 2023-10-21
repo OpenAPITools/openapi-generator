@@ -86,19 +86,19 @@ public interface FakeApi {
   * @param _double None (required)
   * @param patternWithoutDelimiter None (required)
   * @param _byte None (required)
-  * @param integer None (optional)
+  * @param _integer None (optional)
   * @param int32 None (optional)
   * @param int64 None (optional)
   * @param _float None (optional)
-  * @param string None (optional)
+  * @param _string None (optional)
   * @param binary None (optional)
-  * @param date None (optional)
-  * @param dateTime None (optional)
+  * @param _date None (optional)
+  * @param _dateTime None (optional)
   * @param password None (optional)
   * @param paramCallback None (optional)
   * @return {@code ApiResponse<Void>}
   */
-  ApiResponse<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback);
+  ApiResponse<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback);
 
  /**
   * To test enum parameters

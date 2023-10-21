@@ -973,7 +973,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.getter, "getArray");
         Assert.assertEquals(property2.setter, "setArray");
         Assert.assertEquals(property2.dataType, "List<String>");
-        Assert.assertEquals(property2.name, "array");
+        Assert.assertEquals(property2.name, "_array");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "List");
         Assert.assertTrue(property2.isContainer);
@@ -983,7 +983,7 @@ public class JavaModelTest {
         Assert.assertNotNull(property2.items);
         CodegenProperty items = property2.items;
         Assert.assertEquals(items.xmlName, "i");
-        Assert.assertEquals(items.baseName, "array");
+        Assert.assertEquals(items.baseName, "_array");
     }
 
     @Test(description = "convert a boolean parameter")

@@ -67,7 +67,7 @@ public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart<TemporaryFile> binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, Http.MultipartFormData.FilePart<TemporaryFile> binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws Exception {
         //Do your magic!!!
     }
 

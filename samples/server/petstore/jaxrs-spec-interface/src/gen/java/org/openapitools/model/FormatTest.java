@@ -25,27 +25,27 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FormatTest  implements Serializable {
-  private @Valid Integer integer;
+  private @Valid Integer _integer;
   private @Valid Integer int32;
   private @Valid Long int64;
   private @Valid BigDecimal number;
   private @Valid Float _float;
   private @Valid Double _double;
-  private @Valid String string;
+  private @Valid String _string;
   private @Valid byte[] _byte;
   private @Valid File binary;
-  private @Valid LocalDate date;
-  private @Valid Date dateTime;
-  private @Valid UUID uuid;
+  private @Valid LocalDate _date;
+  private @Valid Date _dateTime;
+  private @Valid UUID _uuid;
   private @Valid String password;
-  private @Valid BigDecimal bigDecimal;
+  private @Valid BigDecimal _bigDecimal;
 
   /**
    * minimum: 10
    * maximum: 100
    **/
-  public FormatTest integer(Integer integer) {
-    this.integer = integer;
+  public FormatTest _integer(Integer _integer) {
+    this._integer = _integer;
     return this;
   }
 
@@ -53,12 +53,12 @@ public class FormatTest  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
  @Min(10) @Max(100)  public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
   @JsonProperty("integer")
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
   /**
@@ -167,8 +167,8 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest string(String string) {
-    this.string = string;
+  public FormatTest _string(String _string) {
+    this._string = _string;
     return this;
   }
 
@@ -176,12 +176,12 @@ public class FormatTest  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("string")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
-    return string;
+    return _string;
   }
 
   @JsonProperty("string")
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
   /**
@@ -225,8 +225,8 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest date(LocalDate date) {
-    this.date = date;
+  public FormatTest _date(LocalDate _date) {
+    this._date = _date;
     return this;
   }
 
@@ -235,18 +235,18 @@ public class FormatTest  implements Serializable {
   @JsonProperty("date")
   @NotNull
   public LocalDate getDate() {
-    return date;
+    return _date;
   }
 
   @JsonProperty("date")
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setDate(LocalDate _date) {
+    this._date = _date;
   }
 
   /**
    **/
-  public FormatTest dateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public FormatTest _dateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
@@ -254,18 +254,18 @@ public class FormatTest  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   @JsonProperty("dateTime")
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
   }
 
   /**
    **/
-  public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+  public FormatTest _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -273,12 +273,12 @@ public class FormatTest  implements Serializable {
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   @JsonProperty("uuid")
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   /**
@@ -303,8 +303,8 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest _bigDecimal(BigDecimal _bigDecimal) {
+    this._bigDecimal = _bigDecimal;
     return this;
   }
 
@@ -312,12 +312,12 @@ public class FormatTest  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {
-    return bigDecimal;
+    return _bigDecimal;
   }
 
   @JsonProperty("BigDecimal")
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setBigDecimal(BigDecimal _bigDecimal) {
+    this._bigDecimal = _bigDecimal;
   }
 
 
@@ -330,25 +330,25 @@ public class FormatTest  implements Serializable {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
+    return Objects.equals(this._integer, formatTest._integer) &&
         Objects.equals(this.int32, formatTest.int32) &&
         Objects.equals(this.int64, formatTest.int64) &&
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._string, formatTest._string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this._date, formatTest._date) &&
+        Objects.equals(this._dateTime, formatTest._dateTime) &&
+        Objects.equals(this._uuid, formatTest._uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this._bigDecimal, formatTest._bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(_integer, int32, int64, number, _float, _double, _string, Arrays.hashCode(_byte), binary, _date, _dateTime, _uuid, password, _bigDecimal);
   }
 
   @Override
@@ -356,20 +356,20 @@ public class FormatTest  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
     
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    _bigDecimal: ").append(toIndentedString(_bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

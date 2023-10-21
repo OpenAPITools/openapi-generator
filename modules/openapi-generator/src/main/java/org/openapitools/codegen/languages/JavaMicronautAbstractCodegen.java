@@ -367,6 +367,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         importMapping.putIfAbsent("LocalDateTime", "java.time.LocalDateTime");
         importMapping.putIfAbsent("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.putIfAbsent("LocalDate", "java.time.LocalDate");
+        updateReservedWords();
 
         // Add documentation files
         modelDocTemplateFiles.clear();

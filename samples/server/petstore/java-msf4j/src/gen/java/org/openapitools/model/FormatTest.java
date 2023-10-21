@@ -17,7 +17,7 @@ import java.util.UUID;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class FormatTest   {
   @JsonProperty("integer")
-  private Integer integer;
+  private Integer _integer;
 
   @JsonProperty("int32")
   private Integer int32;
@@ -35,7 +35,7 @@ public class FormatTest   {
   private Double _double;
 
   @JsonProperty("string")
-  private String string;
+  private String _string;
 
   @JsonProperty("byte")
   private byte[] _byte;
@@ -44,38 +44,38 @@ public class FormatTest   {
   private File binary;
 
   @JsonProperty("date")
-  private Date date;
+  private Date _date;
 
   @JsonProperty("dateTime")
-  private Date dateTime;
+  private Date _dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private UUID _uuid;
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private BigDecimal bigDecimal;
+  private BigDecimal _bigDecimal;
 
-  public FormatTest integer(Integer integer) {
-    this.integer = integer;
+  public FormatTest _integer(Integer _integer) {
+    this._integer = _integer;
     return this;
   }
 
    /**
-   * Get integer
+   * Get _integer
    * minimum: 10
    * maximum: 100
-   * @return integer
+   * @return _integer
   **/
   @ApiModelProperty(value = "")
   public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
   public FormatTest int32(Integer int32) {
@@ -176,22 +176,22 @@ public class FormatTest   {
     this._double = _double;
   }
 
-  public FormatTest string(String string) {
-    this.string = string;
+  public FormatTest _string(String _string) {
+    this._string = _string;
     return this;
   }
 
    /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
   **/
   @ApiModelProperty(value = "")
   public String getString() {
-    return string;
+    return _string;
   }
 
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
   public FormatTest _byte(byte[] _byte) {
@@ -230,58 +230,58 @@ public class FormatTest   {
     this.binary = binary;
   }
 
-  public FormatTest date(Date date) {
-    this.date = date;
+  public FormatTest _date(Date _date) {
+    this._date = _date;
     return this;
   }
 
    /**
-   * Get date
-   * @return date
+   * Get _date
+   * @return _date
   **/
   @ApiModelProperty(required = true, value = "")
   public Date getDate() {
-    return date;
+    return _date;
   }
 
-  public void setDate(Date date) {
-    this.date = date;
+  public void setDate(Date _date) {
+    this._date = _date;
   }
 
-  public FormatTest dateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public FormatTest _dateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
    /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   @ApiModelProperty(value = "")
   public Date getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+  public FormatTest _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
    /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   public FormatTest password(String password) {
@@ -302,22 +302,22 @@ public class FormatTest   {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest _bigDecimal(BigDecimal _bigDecimal) {
+    this._bigDecimal = _bigDecimal;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * Get _bigDecimal
+   * @return _bigDecimal
   **/
   @ApiModelProperty(value = "")
   public BigDecimal getBigDecimal() {
-    return bigDecimal;
+    return _bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setBigDecimal(BigDecimal _bigDecimal) {
+    this._bigDecimal = _bigDecimal;
   }
 
 
@@ -330,25 +330,25 @@ public class FormatTest   {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
+    return Objects.equals(this._integer, formatTest._integer) &&
         Objects.equals(this.int32, formatTest.int32) &&
         Objects.equals(this.int64, formatTest.int64) &&
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._string, formatTest._string) &&
         Objects.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this._date, formatTest._date) &&
+        Objects.equals(this._dateTime, formatTest._dateTime) &&
+        Objects.equals(this._uuid, formatTest._uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this._bigDecimal, formatTest._bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(_integer, int32, int64, number, _float, _double, _string, _byte, binary, _date, _dateTime, _uuid, password, _bigDecimal);
   }
 
   @Override
@@ -356,20 +356,20 @@ public class FormatTest   {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
     
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    _bigDecimal: ").append(toIndentedString(_bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

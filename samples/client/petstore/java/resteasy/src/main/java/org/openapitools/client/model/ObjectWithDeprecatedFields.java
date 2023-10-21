@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
-  private String uuid;
+  private String _uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   private BigDecimal id;
@@ -54,29 +54,29 @@ public class ObjectWithDeprecatedFields {
   public ObjectWithDeprecatedFields() {
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  public ObjectWithDeprecatedFields _uuid(String _uuid) {
     
-    this.uuid = uuid;
+    this._uuid = _uuid;
     return this;
   }
 
    /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUuid() {
-    return uuid;
+    return _uuid;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
+  public void setUuid(String _uuid) {
+    this._uuid = _uuid;
   }
 
 
@@ -180,7 +180,7 @@ public class ObjectWithDeprecatedFields {
       return false;
     }
     ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
+    return Objects.equals(this._uuid, objectWithDeprecatedFields._uuid) &&
         Objects.equals(this.id, objectWithDeprecatedFields.id) &&
         Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
         Objects.equals(this.bars, objectWithDeprecatedFields.bars);
@@ -188,14 +188,14 @@ public class ObjectWithDeprecatedFields {
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, id, deprecatedRef, bars);
+    return Objects.hash(_uuid, id, deprecatedRef, bars);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ObjectWithDeprecatedFields {\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
     sb.append("    bars: ").append(toIndentedString(bars)).append("\n");

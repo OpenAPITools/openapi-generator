@@ -238,6 +238,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         importMapping.put("InputStream", "java.io.InputStream");
         typeMapping.put("file", "InputStream");
+
+        updateReservedWords();
     }
 
     @Override

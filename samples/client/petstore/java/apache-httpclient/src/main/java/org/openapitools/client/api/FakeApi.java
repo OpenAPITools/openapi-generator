@@ -929,20 +929,20 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-    this.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, Collections.emptyMap());
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
+    this.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, Collections.emptyMap());
   }
 
 
@@ -953,20 +953,20 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Map<String, String> additionalHeaders) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -1004,8 +1004,8 @@ public class FakeApi {
     localVarHeaderParams.putAll(additionalHeaders);
 
     
-    if (integer != null)
-      localVarFormParams.put("integer", integer);
+    if (_integer != null)
+      localVarFormParams.put("integer", _integer);
 if (int32 != null)
       localVarFormParams.put("int32", int32);
 if (int64 != null)
@@ -1016,18 +1016,18 @@ if (_float != null)
       localVarFormParams.put("float", _float);
 if (_double != null)
       localVarFormParams.put("double", _double);
-if (string != null)
-      localVarFormParams.put("string", string);
+if (_string != null)
+      localVarFormParams.put("string", _string);
 if (patternWithoutDelimiter != null)
       localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
 if (_byte != null)
       localVarFormParams.put("byte", _byte);
 if (binary != null)
       localVarFormParams.put("binary", binary);
-if (date != null)
-      localVarFormParams.put("date", date);
-if (dateTime != null)
-      localVarFormParams.put("dateTime", dateTime);
+if (_date != null)
+      localVarFormParams.put("date", _date);
+if (_dateTime != null)
+      localVarFormParams.put("dateTime", _dateTime);
 if (password != null)
       localVarFormParams.put("password", password);
 if (paramCallback != null)

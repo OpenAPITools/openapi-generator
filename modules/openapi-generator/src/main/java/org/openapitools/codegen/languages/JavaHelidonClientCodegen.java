@@ -204,6 +204,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             importMapping.put("StringJoiner", "java.util.StringJoiner");
             importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
             importMapping.put("Pair", invokerPackage + ".Pair");
+            updateReservedWords();
 
 
             List<SupportingFile> modifiable = new ArrayList<>();

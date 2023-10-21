@@ -319,14 +319,14 @@ public interface FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return Invalid username supplied (status code 400)
@@ -356,18 +356,18 @@ public interface FakeApi {
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Integer _integer,
         @ApiParam(value = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
         @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String _string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate _date,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime _dateTime,
         @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
         @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     ) {
-        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
     }
 
 

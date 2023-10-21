@@ -614,20 +614,20 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
-        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientException {
+        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
     }
 
     /**
@@ -639,20 +639,20 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'number' is set
@@ -681,8 +681,8 @@ public class FakeApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        if (integer != null)
-            localVarFormParams.add("integer", integer);
+        if (_integer != null)
+            localVarFormParams.add("integer", _integer);
         if (int32 != null)
             localVarFormParams.add("int32", int32);
         if (int64 != null)
@@ -693,18 +693,18 @@ public class FakeApi {
             localVarFormParams.add("float", _float);
         if (_double != null)
             localVarFormParams.add("double", _double);
-        if (string != null)
-            localVarFormParams.add("string", string);
+        if (_string != null)
+            localVarFormParams.add("string", _string);
         if (patternWithoutDelimiter != null)
             localVarFormParams.add("pattern_without_delimiter", patternWithoutDelimiter);
         if (_byte != null)
             localVarFormParams.add("byte", _byte);
         if (binary != null)
             localVarFormParams.add("binary", new FileSystemResource(binary));
-        if (date != null)
-            localVarFormParams.add("date", date);
-        if (dateTime != null)
-            localVarFormParams.add("dateTime", dateTime);
+        if (_date != null)
+            localVarFormParams.add("date", _date);
+        if (_dateTime != null)
+            localVarFormParams.add("dateTime", _dateTime);
         if (password != null)
             localVarFormParams.add("password", password);
         if (paramCallback != null)

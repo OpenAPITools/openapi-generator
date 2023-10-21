@@ -28,74 +28,74 @@ import org.openapitools.client.model.Animal;
 
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
-  private UUID uuid;
+  private UUID _uuid;
 
-  private OffsetDateTime dateTime;
+  private OffsetDateTime _dateTime;
 
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> _map = null;
 
  /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   /**
-    * Set uuid
+    * Set _uuid
   **/
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
  /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   public OffsetDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   /**
-    * Set dateTime
+    * Set _dateTime
   **/
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
  /**
-   * Get map
-   * @return map
+   * Get _map
+   * @return _map
   **/
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
   /**
-    * Set map
+    * Set _map
   **/
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
+    this._map = _map;
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    this.map.put(key, mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    this._map.put(key, _mapItem);
     return this;
   }
 
@@ -108,9 +108,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }

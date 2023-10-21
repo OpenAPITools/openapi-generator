@@ -34,7 +34,7 @@ import java.util.UUID;
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
-  private Integer integer;
+  private Integer _integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
@@ -58,7 +58,7 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
-  private String string;
+  private String _string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
@@ -70,15 +70,15 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
-  private LocalDate date;
+  private LocalDate _date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
-  private OffsetDateTime dateTime;
+  private OffsetDateTime _dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
-  private UUID uuid;
+  private UUID _uuid;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
@@ -86,32 +86,32 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
-  private BigDecimal bigDecimal;
+  private BigDecimal _bigDecimal;
 
   public FormatTest() {
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest _integer(Integer _integer) {
     
-    this.integer = integer;
+    this._integer = _integer;
     return this;
   }
 
    /**
-   * Get integer
+   * Get _integer
    * minimum: 10
    * maximum: 100
-   * @return integer
+   * @return _integer
   **/
   @javax.annotation.Nullable
 
   public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
 
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
 
@@ -233,25 +233,25 @@ public class FormatTest {
   }
 
 
-  public FormatTest string(String string) {
+  public FormatTest _string(String _string) {
     
-    this.string = string;
+    this._string = _string;
     return this;
   }
 
    /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
   **/
   @javax.annotation.Nullable
 
   public String getString() {
-    return string;
+    return _string;
   }
 
 
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
 
@@ -299,69 +299,69 @@ public class FormatTest {
   }
 
 
-  public FormatTest date(LocalDate date) {
+  public FormatTest _date(LocalDate _date) {
     
-    this.date = date;
+    this._date = _date;
     return this;
   }
 
    /**
-   * Get date
-   * @return date
+   * Get _date
+   * @return _date
   **/
   @javax.annotation.Nonnull
 
   public LocalDate getDate() {
-    return date;
+    return _date;
   }
 
 
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setDate(LocalDate _date) {
+    this._date = _date;
   }
 
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest _dateTime(OffsetDateTime _dateTime) {
     
-    this.dateTime = dateTime;
+    this._dateTime = _dateTime;
     return this;
   }
 
    /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
   **/
   @javax.annotation.Nullable
 
   public OffsetDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
 
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(OffsetDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest _uuid(UUID _uuid) {
     
-    this.uuid = uuid;
+    this._uuid = _uuid;
     return this;
   }
 
    /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   @javax.annotation.Nullable
 
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
 
@@ -387,25 +387,25 @@ public class FormatTest {
   }
 
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest _bigDecimal(BigDecimal _bigDecimal) {
     
-    this.bigDecimal = bigDecimal;
+    this._bigDecimal = _bigDecimal;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * Get _bigDecimal
+   * @return _bigDecimal
   **/
   @javax.annotation.Nullable
 
   public BigDecimal getBigDecimal() {
-    return bigDecimal;
+    return _bigDecimal;
   }
 
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setBigDecimal(BigDecimal _bigDecimal) {
+    this._bigDecimal = _bigDecimal;
   }
 
   @Override
@@ -417,45 +417,45 @@ public class FormatTest {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
+    return Objects.equals(this._integer, formatTest._integer) &&
         Objects.equals(this.int32, formatTest.int32) &&
         Objects.equals(this.int64, formatTest.int64) &&
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._string, formatTest._string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this._date, formatTest._date) &&
+        Objects.equals(this._dateTime, formatTest._dateTime) &&
+        Objects.equals(this._uuid, formatTest._uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this._bigDecimal, formatTest._bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(_integer, int32, int64, number, _float, _double, _string, Arrays.hashCode(_byte), binary, _date, _dateTime, _uuid, password, _bigDecimal);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    _bigDecimal: ").append(toIndentedString(_bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -49,7 +49,7 @@ public class DataQuery extends Query {
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  private Instant date;
+  private Instant _date;
 
   public DataQuery() { 
   }
@@ -104,28 +104,28 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery date(Instant date) {
-    this.date = date;
+  public DataQuery _date(Instant _date) {
+    this._date = _date;
     return this;
   }
 
    /**
    * A date
-   * @return date
+   * @return _date
   **/
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Instant getDate() {
-    return date;
+    return _date;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(Instant date) {
-    this.date = date;
+  public void setDate(Instant _date) {
+    this._date = _date;
   }
 
 
@@ -155,13 +155,13 @@ public class DataQuery extends Query {
     DataQuery dataQuery = (DataQuery) o;
     return Objects.equals(this.suffix, dataQuery.suffix) &&
         Objects.equals(this.text, dataQuery.text) &&
-        Objects.equals(this.date, dataQuery.date) &&
+        Objects.equals(this._date, dataQuery._date) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, super.hashCode());
+    return Objects.hash(suffix, text, _date, super.hashCode());
   }
 
   @Override
@@ -171,7 +171,7 @@ public class DataQuery extends Query {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
     sb.append("}");
     return sb.toString();
   }

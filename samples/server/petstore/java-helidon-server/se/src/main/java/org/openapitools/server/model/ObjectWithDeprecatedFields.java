@@ -10,7 +10,7 @@ import org.openapitools.server.model.DeprecatedObject;
 
 public class ObjectWithDeprecatedFields   {
 
-    private String uuid;
+    private String _uuid;
     private BigDecimal id;
     private DeprecatedObject deprecatedRef;
     private List<String> bars;
@@ -25,18 +25,18 @@ public class ObjectWithDeprecatedFields   {
     /**
      * Create ObjectWithDeprecatedFields.
      *
-     * @param uuid uuid
+     * @param _uuid _uuid
      * @param id id
      * @param deprecatedRef deprecatedRef
      * @param bars bars
      */
     public ObjectWithDeprecatedFields(
-        String uuid, 
+        String _uuid, 
         BigDecimal id, 
         DeprecatedObject deprecatedRef, 
         List<String> bars
     ) {
-        this.uuid = uuid;
+        this._uuid = _uuid;
         this.id = id;
         this.deprecatedRef = deprecatedRef;
         this.bars = bars;
@@ -45,15 +45,15 @@ public class ObjectWithDeprecatedFields   {
 
 
     /**
-     * Get uuid
-     * @return uuid
+     * Get _uuid
+     * @return _uuid
      */
     public String getUuid() {
-        return uuid;
+        return _uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setUuid(String _uuid) {
+        this._uuid = _uuid;
     }
 
     /**
@@ -100,7 +100,7 @@ public class ObjectWithDeprecatedFields   {
         StringBuilder sb = new StringBuilder();
         sb.append("class ObjectWithDeprecatedFields {\n");
         
-        sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+        sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
         sb.append("    bars: ").append(toIndentedString(bars)).append("\n");

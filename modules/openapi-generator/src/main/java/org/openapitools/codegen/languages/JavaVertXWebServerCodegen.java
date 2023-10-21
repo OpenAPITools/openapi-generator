@@ -101,6 +101,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("FileUpload", "io.vertx.ext.web.FileUpload");
         importMapping.put("JsonObject", "io.vertx.core.json.JsonObject");
+        updateReservedWords();
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();

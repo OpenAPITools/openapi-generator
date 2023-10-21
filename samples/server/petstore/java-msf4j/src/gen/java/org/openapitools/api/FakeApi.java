@@ -152,21 +152,21 @@ public class FakeApi  {
 ,@ApiParam(value = "None", required=true)  @FormParam("double")  Double _double
 ,@ApiParam(value = "None", required=true)  @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter
 ,@ApiParam(value = "None", required=true)  @FormParam("byte")  byte[] _byte
-,@ApiParam(value = "None")  @FormParam("integer")  Integer integer
+,@ApiParam(value = "None")  @FormParam("integer")  Integer _integer
 ,@ApiParam(value = "None")  @FormParam("int32")  Integer int32
 ,@ApiParam(value = "None")  @FormParam("int64")  Long int64
 ,@ApiParam(value = "None")  @FormParam("float")  Float _float
-,@ApiParam(value = "None")  @FormParam("string")  String string
+,@ApiParam(value = "None")  @FormParam("string")  String _string
 ,
             @FormDataParam("binary") InputStream binaryInputStream,
             @FormDataParam("binary") FileInfo binaryDetail
-,@ApiParam(value = "None")  @FormParam("date")  Date date
-,@ApiParam(value = "None")  @FormParam("dateTime")  Date dateTime
+,@ApiParam(value = "None")  @FormParam("date")  Date _date
+,@ApiParam(value = "None")  @FormParam("dateTime")  Date _dateTime
 ,@ApiParam(value = "None")  @FormParam("password")  String password
 ,@ApiParam(value = "None")  @FormParam("callback")  String paramCallback
 )
     throws NotFoundException {
-        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binaryInputStream, binaryDetail,date,dateTime,password,paramCallback);
+        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,_integer,int32,int64,_float,_string,binaryInputStream, binaryDetail,_date,_dateTime,password,paramCallback);
     }
     @GET
     

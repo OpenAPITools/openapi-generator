@@ -21,14 +21,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  private @Valid UUID uuid;
-  private @Valid LocalDateTime dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<>();
+  private @Valid UUID _uuid;
+  private @Valid LocalDateTime _dateTime;
+  private @Valid Map<String, Animal> _map = new HashMap<>();
 
   protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
-    this.uuid = b.uuid;
-    this.dateTime = b.dateTime;
-    this.map = b.map;
+    this._uuid = b._uuid;
+    this._dateTime = b._dateTime;
+    this._map = b._map;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
@@ -36,8 +36,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -45,18 +45,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   @JsonProperty("uuid")
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(LocalDateTime _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
@@ -64,18 +64,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
   public LocalDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   @JsonProperty("dateTime")
-  public void setDateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(LocalDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
+    this._map = _map;
     return this;
   }
 
@@ -83,26 +83,26 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
   @JsonProperty("map")
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<>();
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    if (this._map == null) {
+      this._map = new HashMap<>();
     }
 
-    this.map.put(key, mapItem);
+    this._map.put(key, _mapItem);
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal _mapItem) {
+    if (_mapItem != null && this._map != null) {
+      this._map.remove(_mapItem);
     }
 
     return this;
@@ -117,14 +117,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this._uuid, mixedPropertiesAndAdditionalPropertiesClass._uuid) &&
+        Objects.equals(this._dateTime, mixedPropertiesAndAdditionalPropertiesClass._dateTime) &&
+        Objects.equals(this._map, mixedPropertiesAndAdditionalPropertiesClass._map);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
+    return Objects.hash(_uuid, _dateTime, _map);
   }
 
   @Override
@@ -132,9 +132,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -169,23 +169,23 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   public static abstract class MixedPropertiesAndAdditionalPropertiesClassBuilder<C extends MixedPropertiesAndAdditionalPropertiesClass, B extends MixedPropertiesAndAdditionalPropertiesClassBuilder<C, B>>  {
-    private UUID uuid;
-    private LocalDateTime dateTime;
-    private Map<String, Animal> map = new HashMap<>();
+    private UUID _uuid;
+    private LocalDateTime _dateTime;
+    private Map<String, Animal> _map = new HashMap<>();
     protected abstract B self();
 
     public abstract C build();
 
-    public B uuid(UUID uuid) {
-      this.uuid = uuid;
+    public B _uuid(UUID _uuid) {
+      this._uuid = _uuid;
       return self();
     }
-    public B dateTime(LocalDateTime dateTime) {
-      this.dateTime = dateTime;
+    public B _dateTime(LocalDateTime _dateTime) {
+      this._dateTime = _dateTime;
       return self();
     }
-    public B map(Map<String, Animal> map) {
-      this.map = map;
+    public B _map(Map<String, Animal> _map) {
+      this._map = _map;
       return self();
     }
   }

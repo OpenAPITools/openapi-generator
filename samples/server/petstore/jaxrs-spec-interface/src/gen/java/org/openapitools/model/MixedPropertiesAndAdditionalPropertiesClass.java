@@ -23,14 +23,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  private @Valid UUID uuid;
-  private @Valid Date dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<>();
+  private @Valid UUID _uuid;
+  private @Valid Date _dateTime;
+  private @Valid Map<String, Animal> _map = new HashMap<>();
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -38,18 +38,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   @JsonProperty("uuid")
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
@@ -57,18 +57,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   @JsonProperty("dateTime")
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(Date _dateTime) {
+    this._dateTime = _dateTime;
   }
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
+    this._map = _map;
     return this;
   }
 
@@ -76,26 +76,26 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
   @JsonProperty("map")
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<>();
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    if (this._map == null) {
+      this._map = new HashMap<>();
     }
 
-    this.map.put(key, mapItem);
+    this._map.put(key, _mapItem);
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal _mapItem) {
+    if (_mapItem != null && this._map != null) {
+      this._map.remove(_mapItem);
     }
 
     return this;
@@ -110,14 +110,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this._uuid, mixedPropertiesAndAdditionalPropertiesClass._uuid) &&
+        Objects.equals(this._dateTime, mixedPropertiesAndAdditionalPropertiesClass._dateTime) &&
+        Objects.equals(this._map, mixedPropertiesAndAdditionalPropertiesClass._map);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
+    return Objects.hash(_uuid, _dateTime, _map);
   }
 
   @Override
@@ -125,9 +125,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }

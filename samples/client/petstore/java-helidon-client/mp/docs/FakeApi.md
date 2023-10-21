@@ -440,7 +440,7 @@ No authorization required
 
 ## testEndpointParameters
 
-> void testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> void testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -455,14 +455,14 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 | **_double** | **Double**| None | |
 | **patternWithoutDelimiter** | **String**| None | |
 | **_byte** | **byte[]**| None | |
-| **integer** | **Integer**| None | [optional] |
+| **_integer** | **Integer**| None | [optional] |
 | **int32** | **Integer**| None | [optional] |
 | **int64** | **Long**| None | [optional] |
 | **_float** | **Float**| None | [optional] |
-| **string** | **String**| None | [optional] |
+| **_string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
-| **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **_date** | **LocalDate**| None | [optional] |
+| **_dateTime** | **OffsetDateTime**| None | [optional] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 

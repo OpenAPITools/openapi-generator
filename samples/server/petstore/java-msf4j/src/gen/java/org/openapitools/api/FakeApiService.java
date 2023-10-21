@@ -49,14 +49,14 @@ public abstract class FakeApiService {
  ,Double _double
  ,String patternWithoutDelimiter
  ,byte[] _byte
- ,Integer integer
+ ,Integer _integer
  ,Integer int32
  ,Long int64
  ,Float _float
- ,String string
+ ,String _string
  ,InputStream binaryInputStream, FileInfo binaryDetail
- ,Date date
- ,Date dateTime
+ ,Date _date
+ ,Date _dateTime
  ,String password
  ,String paramCallback
  ) throws NotFoundException;

@@ -159,6 +159,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         importMapping.put("ObjectMapper", "com.fasterxml.jackson.databind.ObjectMapper");
         importMapping.put("Jsonb", rootJavaEEPackage() + ".json.bind.Jsonb");
         importMapping.put("JsonbBuilder", rootJavaEEPackage() + ".json.bind.JsonbBuilder");
+        updateReservedWords();
 
         if (additionalProperties.containsKey(USE_ABSTRACT_CLASS)) {
             useAbstractClass = Boolean.parseBoolean(additionalProperties.get(USE_ABSTRACT_CLASS).toString());
@@ -223,6 +224,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 importMapping.put("ByteArrayInputStream", "java.io.ByteArrayInputStream");
             }
             importMapping.put("Handler", "io.helidon.webserver.Handler");
+            updateReservedWords();
             processSupportingFiles(modifiable, unmodifiable);
         } else if (isLibrary(HELIDON_NIMA)) {
             throw new UnsupportedOperationException("Not implemented");

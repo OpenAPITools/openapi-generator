@@ -1049,14 +1049,14 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @param _callback Callback for upload/download progress
@@ -1069,7 +1069,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1094,8 +1094,8 @@ public class FakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (integer != null) {
-            localVarFormParams.put("integer", integer);
+        if (_integer != null) {
+            localVarFormParams.put("integer", _integer);
         }
 
         if (int32 != null) {
@@ -1118,8 +1118,8 @@ public class FakeApi {
             localVarFormParams.put("double", _double);
         }
 
-        if (string != null) {
-            localVarFormParams.put("string", string);
+        if (_string != null) {
+            localVarFormParams.put("string", _string);
         }
 
         if (patternWithoutDelimiter != null) {
@@ -1134,12 +1134,12 @@ public class FakeApi {
             localVarFormParams.put("binary", binary);
         }
 
-        if (date != null) {
-            localVarFormParams.put("date", date);
+        if (_date != null) {
+            localVarFormParams.put("date", _date);
         }
 
-        if (dateTime != null) {
-            localVarFormParams.put("dateTime", dateTime);
+        if (_dateTime != null) {
+            localVarFormParams.put("dateTime", _dateTime);
         }
 
         if (password != null) {
@@ -1170,7 +1170,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new ApiException("Missing the required parameter 'number' when calling testEndpointParameters(Async)");
@@ -1191,7 +1191,7 @@ public class FakeApi {
             throw new ApiException("Missing the required parameter '_byte' when calling testEndpointParameters(Async)");
         }
 
-        return testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
+        return testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, _callback);
 
     }
 
@@ -1202,14 +1202,14 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1220,8 +1220,8 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
+        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
     }
 
     /**
@@ -1231,14 +1231,14 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return ApiResponse&lt;Void&gt;
@@ -1250,8 +1250,8 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null);
+    public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
+        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, null);
         return localVarApiClient.execute(localVarCall);
     }
 
@@ -1262,14 +1262,14 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @param _callback The callback to be executed when the API call finishes
@@ -1282,9 +1282,9 @@ public class FakeApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
+        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

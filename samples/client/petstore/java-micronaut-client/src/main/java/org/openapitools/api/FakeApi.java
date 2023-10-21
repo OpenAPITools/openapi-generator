@@ -143,14 +143,14 @@ public interface FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      */
@@ -161,14 +161,14 @@ public interface FakeApi {
         @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double, 
         @NotNull @Pattern(regexp="^[A-Z].*") String patternWithoutDelimiter, 
         @NotNull byte[] _byte, 
-        @Nullable @Min(10) @Max(100) Integer integer, 
+        @Nullable @Min(10) @Max(100) Integer _integer, 
         @Nullable @Min(20) @Max(200) Integer int32, 
         @Nullable Long int64, 
         @Nullable @DecimalMax("987.6") Float _float, 
-        @Nullable @Pattern(regexp="/[a-z]/i") String string, 
+        @Nullable @Pattern(regexp="/[a-z]/i") String _string, 
         @Nullable File binary, 
-        @Nullable @Format("yyyy-MM-dd") LocalDate date, 
-        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") OffsetDateTime dateTime, 
+        @Nullable @Format("yyyy-MM-dd") LocalDate _date, 
+        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") OffsetDateTime _dateTime, 
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
     );

@@ -711,14 +711,14 @@ public class FakeApi {
      * @see #_doubleForm None (required)
      * @see #patternWithoutDelimiterForm None (required)
      * @see #_byteForm None (required)
-     * @see #integerForm None (optional)
+     * @see #_integerForm None (optional)
      * @see #int32Form None (optional)
      * @see #int64Form None (optional)
      * @see #_floatForm None (optional)
-     * @see #stringForm None (optional)
+     * @see #_stringForm None (optional)
      * @see #binaryMultiPart None (optional)
-     * @see #dateForm None (optional)
-     * @see #dateTimeForm None (optional)
+     * @see #_dateForm None (optional)
+     * @see #_dateTimeForm None (optional)
      * @see #passwordForm None (optional)
      * @see #paramCallbackForm None (optional)
      */
@@ -748,14 +748,14 @@ public class FakeApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
-         public static final String INTEGER_FORM = "integer";
+         public static final String _INTEGER_FORM = "integer";
 
          /**
-         * @param integer (Integer) None (optional)
+         * @param _integer (Integer) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper integerForm(Object... integer) {
-            reqSpec.addFormParam(INTEGER_FORM, integer);
+         public TestEndpointParametersOper _integerForm(Object... _integer) {
+            reqSpec.addFormParam(_INTEGER_FORM, _integer);
             return this;
          }
 
@@ -814,14 +814,14 @@ public class FakeApi {
             return this;
          }
 
-         public static final String STRING_FORM = "string";
+         public static final String _STRING_FORM = "string";
 
          /**
-         * @param string (String) None (optional)
+         * @param _string (String) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper stringForm(Object... string) {
-            reqSpec.addFormParam(STRING_FORM, string);
+         public TestEndpointParametersOper _stringForm(Object... _string) {
+            reqSpec.addFormParam(_STRING_FORM, _string);
             return this;
          }
 
@@ -847,25 +847,25 @@ public class FakeApi {
             return this;
          }
 
-         public static final String DATE_FORM = "date";
+         public static final String _DATE_FORM = "date";
 
          /**
-         * @param date (LocalDate) None (optional)
+         * @param _date (LocalDate) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper dateForm(Object... date) {
-            reqSpec.addFormParam(DATE_FORM, date);
+         public TestEndpointParametersOper _dateForm(Object... _date) {
+            reqSpec.addFormParam(_DATE_FORM, _date);
             return this;
          }
 
-         public static final String DATE_TIME_FORM = "dateTime";
+         public static final String _DATE_TIME_FORM = "dateTime";
 
          /**
-         * @param dateTime (OffsetDateTime) None (optional)
+         * @param _dateTime (OffsetDateTime) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper dateTimeForm(Object... dateTime) {
-            reqSpec.addFormParam(DATE_TIME_FORM, dateTime);
+         public TestEndpointParametersOper _dateTimeForm(Object... _dateTime) {
+            reqSpec.addFormParam(_DATE_TIME_FORM, _dateTime);
             return this;
          }
 

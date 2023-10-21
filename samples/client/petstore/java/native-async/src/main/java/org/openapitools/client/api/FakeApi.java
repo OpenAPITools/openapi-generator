@@ -1020,22 +1020,22 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
+   * @param _date None (optional)
+   * @param _dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public CompletableFuture<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+      HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -1057,22 +1057,22 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
+   * @param _date None (optional)
+   * @param _dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+      HttpRequest.Builder localVarRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -1093,7 +1093,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testEndpointParametersRequestBuilder(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  private HttpRequest.Builder testEndpointParametersRequestBuilder(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws ApiException {
     // verify the required parameter 'number' is set
     if (number == null) {
       throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
@@ -1120,8 +1120,8 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     List<NameValuePair> formValues = new ArrayList<>();
-    if (integer != null) {
-        formValues.add(new BasicNameValuePair("integer", integer.toString()));
+    if (_integer != null) {
+        formValues.add(new BasicNameValuePair("integer", _integer.toString()));
     }
     if (int32 != null) {
         formValues.add(new BasicNameValuePair("int32", int32.toString()));
@@ -1138,8 +1138,8 @@ public class FakeApi {
     if (_double != null) {
         formValues.add(new BasicNameValuePair("double", _double.toString()));
     }
-    if (string != null) {
-        formValues.add(new BasicNameValuePair("string", string.toString()));
+    if (_string != null) {
+        formValues.add(new BasicNameValuePair("string", _string.toString()));
     }
     if (patternWithoutDelimiter != null) {
         formValues.add(new BasicNameValuePair("pattern_without_delimiter", patternWithoutDelimiter.toString()));
@@ -1150,11 +1150,11 @@ public class FakeApi {
     if (binary != null) {
         formValues.add(new BasicNameValuePair("binary", binary.toString()));
     }
-    if (date != null) {
-        formValues.add(new BasicNameValuePair("date", date.toString()));
+    if (_date != null) {
+        formValues.add(new BasicNameValuePair("date", _date.toString()));
     }
-    if (dateTime != null) {
-        formValues.add(new BasicNameValuePair("dateTime", dateTime.toString()));
+    if (_dateTime != null) {
+        formValues.add(new BasicNameValuePair("dateTime", _dateTime.toString()));
     }
     if (password != null) {
         formValues.add(new BasicNameValuePair("password", password.toString()));

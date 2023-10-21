@@ -558,13 +558,13 @@ public class FakeApiImpl implements FakeApi {
   }
 
   @Override
-  public ApiResponse<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+  public ApiResponse<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) {
     Objects.requireNonNull(number, "Required parameter 'number' not specified");
     Objects.requireNonNull(_double, "Required parameter '_double' not specified");
     Objects.requireNonNull(patternWithoutDelimiter, "Required parameter 'patternWithoutDelimiter' not specified");
     Objects.requireNonNull(_byte, "Required parameter '_byte' not specified");
-    WebClientRequestBuilder webClientRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
-    return testEndpointParametersSubmit(webClientRequestBuilder, number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+    WebClientRequestBuilder webClientRequestBuilder = testEndpointParametersRequestBuilder(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
+    return testEndpointParametersSubmit(webClientRequestBuilder, number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
   }
 
   /**
@@ -575,19 +575,19 @@ public class FakeApiImpl implements FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return WebClientRequestBuilder for testEndpointParameters
    */
-  protected WebClientRequestBuilder testEndpointParametersRequestBuilder(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+  protected WebClientRequestBuilder testEndpointParametersRequestBuilder(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) {
     WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
             .method("POST");
 
@@ -607,32 +607,32 @@ public class FakeApiImpl implements FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
-  protected ApiResponse<Void> testEndpointParametersSubmit(WebClientRequestBuilder webClientRequestBuilder, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+  protected ApiResponse<Void> testEndpointParametersSubmit(WebClientRequestBuilder webClientRequestBuilder, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) {
     String formParams = new StringJoiner("&")
-            .add("integer=" + integer)
+            .add("integer=" + _integer)
             .add("int32=" + int32)
             .add("int64=" + int64)
             .add("number=" + number)
             .add("float=" + _float)
             .add("double=" + _double)
-            .add("string=" + string)
+            .add("string=" + _string)
             .add("pattern_without_delimiter=" + patternWithoutDelimiter)
             .add("byte=" + _byte)
             .add("binary=" + binary)
-            .add("date=" + date)
-            .add("dateTime=" + dateTime)
+            .add("date=" + _date)
+            .add("dateTime=" + _dateTime)
             .add("password=" + password)
             .add("callback=" + paramCallback)
             .toString();

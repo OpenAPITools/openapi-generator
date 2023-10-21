@@ -198,7 +198,7 @@ public class AnotherFakeApi {
     }
     /**
      * Build call for getParameterArrayNumber
-     * @param array array integer (required)
+     * @param _array array integer (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -208,7 +208,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterArrayNumberCall(List<Integer> array, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getParameterArrayNumberCall(List<Integer> _array, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -233,8 +233,8 @@ public class AnotherFakeApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (array != null) {
-            localVarHeaderParams.put("array", localVarApiClient.parameterToString(array));
+        if (_array != null) {
+            localVarHeaderParams.put("array", localVarApiClient.parameterToString(_array));
         }
 
         final String[] localVarAccepts = {
@@ -256,20 +256,20 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getParameterArrayNumberValidateBeforeCall(List<Integer> array, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'array' is set
-        if (array == null) {
-            throw new ApiException("Missing the required parameter 'array' when calling getParameterArrayNumber(Async)");
+    private okhttp3.Call getParameterArrayNumberValidateBeforeCall(List<Integer> _array, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter '_array' is set
+        if (_array == null) {
+            throw new ApiException("Missing the required parameter '_array' when calling getParameterArrayNumber(Async)");
         }
 
-        return getParameterArrayNumberCall(array, _callback);
+        return getParameterArrayNumberCall(_array, _callback);
 
     }
 
     /**
      * parameter array number default value
      * 
-     * @param array array integer (required)
+     * @param _array array integer (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
@@ -277,14 +277,14 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void getParameterArrayNumber(List<Integer> array) throws ApiException {
-        getParameterArrayNumberWithHttpInfo(array);
+    public void getParameterArrayNumber(List<Integer> _array) throws ApiException {
+        getParameterArrayNumberWithHttpInfo(_array);
     }
 
     /**
      * parameter array number default value
      * 
-     * @param array array integer (required)
+     * @param _array array integer (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -293,15 +293,15 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getParameterArrayNumberWithHttpInfo(List<Integer> array) throws ApiException {
-        okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(array, null);
+    public ApiResponse<Void> getParameterArrayNumberWithHttpInfo(List<Integer> _array) throws ApiException {
+        okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(_array, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * parameter array number default value (asynchronously)
      * 
-     * @param array array integer (required)
+     * @param _array array integer (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -311,9 +311,9 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterArrayNumberAsync(List<Integer> array, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getParameterArrayNumberAsync(List<Integer> _array, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(array, _callback);
+        okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(_array, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
