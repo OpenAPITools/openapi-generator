@@ -175,9 +175,11 @@ class PetApiTests(unittest.TestCase):
 
         self.pet_api.add_pet(self.pet)
         fetched = self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
-        read = fetched.read()
+
         self.assertIsInstance(fetched, urllib3.HTTPResponse)
         self.assertFalse(fetched.closed)
+        read = fetched.read()
+        self.assertTrue(fetched.closed)
         self.assertIsInstance(read, bytes)
         self.assertEqual(fetched.data, b'')
         self.assertEqual(fetched.read(), b'')
