@@ -21,10 +21,6 @@ from {{packageName}}.api_client import ApiClient
 from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.rest import RESTResponseType
 
-{{^asyncio}}
-from multiprocessing.pool import ApplyResult
-{{/asyncio}}
-
 
 {{#operations}}
 class {{classname}}:
@@ -77,40 +73,6 @@ class {{classname}}:
             _request_timeout=_request_timeout
         )
         return response_data.response
-
-
-    {{^asyncio}}
-    @validate_call
-    def {{operationId}}_with_async{{>partial_api_args}} -> ApplyResult:
-{{>partial_api}}
-        def callback(*args):
-            response_data = self.api_client.call_api(*args)
-            response_data.read()
-            return self.api_client.response_deserialize(
-                response_data=response_data,
-                response_types_map=_response_types_map,
-            ).data
-        return self.api_client.pool.apply_async(
-            callback,
-            _param + (_request_timeout,)
-        )
-
-
-    @validate_call
-    def {{operationId}}_with_http_info_async{{>partial_api_args}} -> ApplyResult:
-{{>partial_api}}
-        def callback(*args):
-            response_data = self.api_client.call_api(*args)
-            response_data.read()
-            return self.api_client.response_deserialize(
-                response_data=response_data,
-                response_types_map=_response_types_map,
-            )
-        return self.api_client.pool.apply_async(
-            callback,
-            _param + (_request_timeout,)
-        )
-    {{/asyncio}}
 
 
     def _{{operationId}}_serialize(

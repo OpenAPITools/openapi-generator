@@ -2,9 +2,6 @@
         {{#notes}}
         {{{.}}}
         {{/notes}}
-        {{^asyncio}}
-                This method makes a synchronous HTTP request by default.
-        {{/asyncio}}
         {{#allParams}}
         :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}

@@ -115,53 +115,6 @@ class PetApiTests(unittest.TestCase):
         # ensure the default configuration is used
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
-    def test_async_request(self):
-        thread = self.pet_api.add_pet_with_async(self.pet)
-        response = thread.get()
-        self.assertIsNone(response)
-
-        thread = self.pet_api.get_pet_by_id_with_async(self.pet.id)
-        result = thread.get()
-        self.assertIsInstance(result, petstore_api.Pet)
-
-    def test_async_with_result(self):
-        self.pet_api.add_pet(self.pet)
-
-        thread = self.pet_api.get_pet_by_id_with_async(self.pet.id)
-        thread2 = self.pet_api.get_pet_by_id_with_async(self.pet.id)
-
-        response = thread.get()
-        response2 = thread2.get()
-
-        self.assertEqual(response.id, self.pet.id)
-        self.assertIsNotNone(response2.id, self.pet.id)
-
-    def test_async_with_http_info(self):
-        self.pet_api.add_pet(self.pet)
-
-        thread = self.pet_api.get_pet_by_id_with_http_info_async(self.pet.id)
-        api_response_object = thread.get()
-
-        self.assertIsInstance(api_response_object.data, petstore_api.Pet)
-        self.assertEqual(api_response_object.status_code, 200)
-        self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
-        self.assertIsInstance(api_response_object.raw_data, bytes)
-        self.assertTrue(api_response_object.raw_data.decode("utf-8").startswith('{"id":'))
-
-    def test_async_exception(self):
-        self.pet_api.add_pet(self.pet)
-
-        thread = self.pet_api.get_pet_by_id_with_async(9999999999999)
-
-        exception = None
-        try:
-            thread.get()
-        except ApiException as e:
-            exception = e
-
-        self.assertIsInstance(exception, ApiException)
-        self.assertEqual(exception.status, 404)
-
     def test_add_pet_and_get_pet_by_id(self):
         self.pet_api.add_pet(self.pet)
 
