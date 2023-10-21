@@ -122,11 +122,12 @@ class TestPetApiTests(unittest.TestCase):
         await self.pet_api.add_pet(self.pet)
 
         fetched = await self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
-        read = await fetched.content.read()
         self.assertIsInstance(fetched, aiohttp.ClientResponse)
-        if sys.version_info[:2] >= (3, 9):
-            # For some reason, this assertion fails sometimes on Py37 and 38:
-            self.assertFalse(fetched.closed)
+        # self.assertFalse(fetched.closed)
+        # self.assertFalse(fetched.content._eof)
+        read = await fetched.content.read()
+        self.assertTrue(fetched.closed)
+        self.assertTrue(fetched.content._eof)
         self.assertIsInstance(read, bytes)
         self.assertEqual(await fetched.content.read(), b'')
         self.assertTrue(read.decode("utf-8").startswith('{"id":'))
