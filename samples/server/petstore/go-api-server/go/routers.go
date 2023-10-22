@@ -12,6 +12,7 @@ package petstoreserver
 import (
 	"encoding/json"
 	"errors"
+	"time"
 	"github.com/gorilla/mux"
 	"io"
 	"mime/multipart"
@@ -152,6 +153,27 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 	}
 	
 	return file, nil
+}
+
+func parseTimes(param string) ([]time.Time, error) {
+	splits := strings.Split(param, ",")
+	times := make([]time.Time, 0, len(splits))
+	for _, v := range splits {
+		t, err := parseTime(v)
+		if err != nil {
+			return nil, err
+		}
+		times = append(times, t)
+	}
+	return times, nil
+}
+
+// parseTime will parses a string parameter into a time.Time using the RFC3339 format
+func parseTime(param string) (time.Time, error) {
+	if param == "" {
+		return time.Time{}, nil
+	}
+	return time.Parse(time.RFC3339, param)
 }
 
 type Number interface {

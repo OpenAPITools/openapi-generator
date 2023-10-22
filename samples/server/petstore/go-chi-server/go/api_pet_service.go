@@ -13,6 +13,7 @@ import (
 	"context"
 	"net/http"
 	"errors"
+	"time"
 	"os"
 )
 
@@ -82,7 +83,7 @@ func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string) (
 
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
-func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string) (ImplResponse, error) {
+func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string, bornAfter time.Time, bornBefore time.Time) (ImplResponse, error) {
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

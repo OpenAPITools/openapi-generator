@@ -221,7 +221,21 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")
 	}
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
+	if !query.Has("bornAfter"){
+		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
+		return
+	}
+	bornAfterParam, err := parseTime(query.Get("bornAfter"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

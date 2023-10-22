@@ -168,6 +168,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}
+	{{#isDateTime}}
+	{{paramName}}Param, err := time.Parse(time.RFC3339, {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isDateTime}}
 	{{^isNumber}}
 	{{^isFloat}}
 	{{^isDouble}}
@@ -190,6 +197,26 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isNumber}}
 	{{/isPathParam}}
 	{{#isQueryParam}}
+	{{#isDateTime}}
+	{{#required}}
+	if !query.Has("{{baseName}}"){
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/required}}
+	{{^required}}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	{{/required}}
+	{{/isDateTime}}
 	{{#isNumber}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
@@ -333,6 +360,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/items.isInteger}}
+	{{#items.isDateTime}}
+	{{paramName}}Param, err := parseTimes(query.Get("{{baseName"}}))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isDateTime}}
 	{{^items.isNumber}}
 	{{^items.isFloat}}
 	{{^items.isDouble}}
@@ -372,6 +406,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{^isArray}}
+	{{^isDateTime}}
 	{{#defaultValue}}
 	{{paramName}}Param := "{{defaultValue}}"
 	if query.Has("{{baseName}}") {
@@ -412,6 +447,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isEnumOrRef}}
 	{{/required}}
 	{{/defaultValue}}
+	{{/isDateTime}}
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
