@@ -18,7 +18,6 @@ import re
 import ssl
 
 import aiohttp
-from urllib.parse import urlencode, quote_plus
 
 from petstore_api.exceptions import ApiException, ApiValueError
 

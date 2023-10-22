@@ -18,7 +18,6 @@ import json
 import re
 import ssl
 
-from urllib.parse import urlencode, quote_plus
 import urllib3
 
 from openapi_client.exceptions import ApiException, ApiValueError
