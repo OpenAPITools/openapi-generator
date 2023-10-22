@@ -67,7 +67,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
     ) -> None:
         """Create user
+
         This can only be done by the logged in user.
+
         :param user: Created user object (required)
         :type user: User
         :param _request_timeout: timeout setting for this request. If one
@@ -92,7 +94,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_user_serialize(
             user=user,
@@ -134,7 +136,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
     ) -> ApiResponse[None]:
         """Create user
+
         This can only be done by the logged in user.
+
         :param user: Created user object (required)
         :type user: User
         :param _request_timeout: timeout setting for this request. If one
@@ -159,7 +163,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_user_serialize(
             user=user,
@@ -201,7 +205,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
     ) -> RESTResponseType:
         """Create user
+
         This can only be done by the logged in user.
+
         :param user: Created user object (required)
         :type user: User
         :param _request_timeout: timeout setting for this request. If one
@@ -226,7 +232,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_user_serialize(
             user=user,
@@ -337,7 +343,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -362,7 +370,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
             user=user,
@@ -404,7 +412,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -429,7 +439,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
             user=user,
@@ -471,7 +481,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -496,7 +508,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
             user=user,
@@ -603,7 +615,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -628,7 +642,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
             user=user,
@@ -670,7 +684,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -695,7 +711,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
             user=user,
@@ -737,7 +753,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Creates list of users with given input array
+
         
+
         :param user: List of user object (required)
         :type user: List[User]
         :param _request_timeout: timeout setting for this request. If one
@@ -762,7 +780,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
             user=user,
@@ -869,7 +887,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Delete user
+
         This can only be done by the logged in user.
+
         :param username: The name that needs to be deleted (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -894,7 +914,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_user_serialize(
             username=username,
@@ -936,7 +956,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Delete user
+
         This can only be done by the logged in user.
+
         :param username: The name that needs to be deleted (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -961,7 +983,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_user_serialize(
             username=username,
@@ -1003,7 +1025,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Delete user
+
         This can only be done by the logged in user.
+
         :param username: The name that needs to be deleted (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1028,7 +1052,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_user_serialize(
             username=username,
@@ -1121,7 +1145,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> User:
         """Get user by user name
+
         
+
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1146,7 +1172,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
             username=username,
@@ -1191,7 +1217,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[User]:
         """Get user by user name
+
         
+
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1216,7 +1244,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
             username=username,
@@ -1261,7 +1289,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Get user by user name
+
         
+
         :param username: The name that needs to be fetched. Use user1 for testing. (required)
         :type username: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1286,7 +1316,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
             username=username,
@@ -1390,7 +1420,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Logs user into the system
+
         
+
         :param username: The user name for login (required)
         :type username: str
         :param password: The password for login in clear text (required)
@@ -1417,7 +1449,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._login_user_serialize(
             username=username,
@@ -1463,7 +1495,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Logs user into the system
+
         
+
         :param username: The user name for login (required)
         :type username: str
         :param password: The password for login in clear text (required)
@@ -1490,7 +1524,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._login_user_serialize(
             username=username,
@@ -1536,7 +1570,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Logs user into the system
+
         
+
         :param username: The user name for login (required)
         :type username: str
         :param password: The password for login in clear text (required)
@@ -1563,7 +1599,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._login_user_serialize(
             username=username,
@@ -1672,7 +1708,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Logs out current logged in user session
+
         
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1695,7 +1733,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._logout_user_serialize(
             _request_auth=_request_auth,
@@ -1735,7 +1773,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Logs out current logged in user session
+
         
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1758,7 +1798,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._logout_user_serialize(
             _request_auth=_request_auth,
@@ -1798,7 +1838,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Logs out current logged in user session
+
         
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1821,7 +1863,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._logout_user_serialize(
             _request_auth=_request_auth,
@@ -1911,7 +1953,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Updated user
+
         This can only be done by the logged in user.
+
         :param username: name that need to be deleted (required)
         :type username: str
         :param user: Updated user object (required)
@@ -1938,7 +1982,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_user_serialize(
             username=username,
@@ -1982,7 +2026,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Updated user
+
         This can only be done by the logged in user.
+
         :param username: name that need to be deleted (required)
         :type username: str
         :param user: Updated user object (required)
@@ -2009,7 +2055,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_user_serialize(
             username=username,
@@ -2053,7 +2099,9 @@ class UserApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Updated user
+
         This can only be done by the logged in user.
+
         :param username: name that need to be deleted (required)
         :type username: str
         :param user: Updated user object (required)
@@ -2080,7 +2128,7 @@ class UserApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_user_serialize(
             username=username,

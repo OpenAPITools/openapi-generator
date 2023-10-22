@@ -70,7 +70,9 @@ class HeaderApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test header parameter(s)
+
         Test header parameter(s)
+
         :param integer_header:
         :type integer_header: int
         :param boolean_header:
@@ -103,7 +105,7 @@ class HeaderApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_header_integer_boolean_string_enums_serialize(
             integer_header=integer_header,
@@ -154,7 +156,9 @@ class HeaderApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test header parameter(s)
+
         Test header parameter(s)
+
         :param integer_header:
         :type integer_header: int
         :param boolean_header:
@@ -187,7 +191,7 @@ class HeaderApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_header_integer_boolean_string_enums_serialize(
             integer_header=integer_header,
@@ -238,7 +242,9 @@ class HeaderApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test header parameter(s)
+
         Test header parameter(s)
+
         :param integer_header:
         :type integer_header: int
         :param boolean_header:
@@ -271,7 +277,7 @@ class HeaderApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_header_integer_boolean_string_enums_serialize(
             integer_header=integer_header,

@@ -67,7 +67,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Delete purchase order by ID
+
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -92,7 +94,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_order_serialize(
             order_id=order_id,
@@ -134,7 +136,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Delete purchase order by ID
+
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -159,7 +163,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_order_serialize(
             order_id=order_id,
@@ -201,7 +205,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Delete purchase order by ID
+
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
         :param order_id: ID of the order that needs to be deleted (required)
         :type order_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -226,7 +232,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_order_serialize(
             order_id=order_id,
@@ -318,7 +324,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Dict[str, int]:
         """Returns pet inventories by status
+
         Returns a map of status codes to quantities
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -341,7 +349,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_inventory_serialize(
             _request_auth=_request_auth,
@@ -382,7 +390,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Dict[str, int]]:
         """Returns pet inventories by status
+
         Returns a map of status codes to quantities
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -405,7 +415,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_inventory_serialize(
             _request_auth=_request_auth,
@@ -446,7 +456,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Returns pet inventories by status
+
         Returns a map of status codes to quantities
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -469,7 +481,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_inventory_serialize(
             _request_auth=_request_auth,
@@ -566,7 +578,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
         """Find purchase order by ID
+
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -591,7 +605,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_order_by_id_serialize(
             order_id=order_id,
@@ -636,7 +650,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
         """Find purchase order by ID
+
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -661,7 +677,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_order_by_id_serialize(
             order_id=order_id,
@@ -706,7 +722,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Find purchase order by ID
+
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
         :param order_id: ID of pet that needs to be fetched (required)
         :type order_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -731,7 +749,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_order_by_id_serialize(
             order_id=order_id,
@@ -834,7 +852,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
         """Place an order for a pet
+
         
+
         :param order: order placed for purchasing the pet (required)
         :type order: Order
         :param _request_timeout: timeout setting for this request. If one
@@ -859,7 +879,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._place_order_serialize(
             order=order,
@@ -903,7 +923,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
         """Place an order for a pet
+
         
+
         :param order: order placed for purchasing the pet (required)
         :type order: Order
         :param _request_timeout: timeout setting for this request. If one
@@ -928,7 +950,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._place_order_serialize(
             order=order,
@@ -972,7 +994,9 @@ class StoreApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Place an order for a pet
+
         
+
         :param order: order placed for purchasing the pet (required)
         :type order: Order
         :param _request_timeout: timeout setting for this request. If one
@@ -997,7 +1021,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._place_order_serialize(
             order=order,

@@ -71,7 +71,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param enum_nonref_string_query:
         :type enum_nonref_string_query: str
         :param enum_ref_string_query:
@@ -98,7 +100,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
             enum_nonref_string_query=enum_nonref_string_query,
@@ -143,7 +145,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param enum_nonref_string_query:
         :type enum_nonref_string_query: str
         :param enum_ref_string_query:
@@ -170,7 +174,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
             enum_nonref_string_query=enum_nonref_string_query,
@@ -215,7 +219,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param enum_nonref_string_query:
         :type enum_nonref_string_query: str
         :param enum_ref_string_query:
@@ -242,7 +248,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
             enum_nonref_string_query=enum_nonref_string_query,
@@ -352,7 +358,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param datetime_query:
         :type datetime_query: datetime
         :param date_query:
@@ -381,7 +389,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
             datetime_query=datetime_query,
@@ -428,7 +436,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param datetime_query:
         :type datetime_query: datetime
         :param date_query:
@@ -457,7 +467,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
             datetime_query=datetime_query,
@@ -504,7 +514,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param datetime_query:
         :type datetime_query: datetime
         :param date_query:
@@ -533,7 +545,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
             datetime_query=datetime_query,
@@ -667,7 +679,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param integer_query:
         :type integer_query: int
         :param boolean_query:
@@ -696,7 +710,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
             integer_query=integer_query,
@@ -743,7 +757,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param integer_query:
         :type integer_query: int
         :param boolean_query:
@@ -772,7 +788,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
             integer_query=integer_query,
@@ -819,7 +835,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param integer_query:
         :type integer_query: int
         :param boolean_query:
@@ -848,7 +866,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
             integer_query=integer_query,
@@ -962,7 +980,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -987,7 +1007,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
             query_object=query_object,
@@ -1030,7 +1050,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1055,7 +1077,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
             query_object=query_object,
@@ -1098,7 +1120,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1123,7 +1147,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
             query_object=query_object,
@@ -1225,7 +1249,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1250,7 +1276,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
             query_object=query_object,
@@ -1293,7 +1319,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1318,7 +1346,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
             query_object=query_object,
@@ -1361,7 +1389,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1386,7 +1416,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
             query_object=query_object,
@@ -1488,7 +1518,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1513,7 +1545,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
             query_object=query_object,
@@ -1556,7 +1588,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1581,7 +1615,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
             query_object=query_object,
@@ -1624,7 +1658,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param _request_timeout: timeout setting for this request. If one
@@ -1649,7 +1685,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
             query_object=query_object,
@@ -1751,7 +1787,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1776,7 +1814,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
             query_object=query_object,
@@ -1819,7 +1857,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1844,7 +1884,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
             query_object=query_object,
@@ -1887,7 +1927,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1912,7 +1954,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
             query_object=query_object,
@@ -2014,7 +2056,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: DataQuery
         :param _request_timeout: timeout setting for this request. If one
@@ -2039,7 +2083,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(
             query_object=query_object,
@@ -2082,7 +2126,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: DataQuery
         :param _request_timeout: timeout setting for this request. If one
@@ -2107,7 +2153,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(
             query_object=query_object,
@@ -2150,7 +2196,9 @@ class QueryApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
+
         Test query parameter(s)
+
         :param query_object:
         :type query_object: DataQuery
         :param _request_timeout: timeout setting for this request. If one
@@ -2175,7 +2223,7 @@ class QueryApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(
             query_object=query_object,

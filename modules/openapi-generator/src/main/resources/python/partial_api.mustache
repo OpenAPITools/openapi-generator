@@ -1,7 +1,9 @@
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}
+
         {{#notes}}
         {{{.}}}
         {{/notes}}
+
         {{#allParams}}
         :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
@@ -28,7 +30,7 @@
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
         {{#isDeprecated}}
         warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
         {{/isDeprecated}}

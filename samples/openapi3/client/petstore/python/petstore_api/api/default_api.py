@@ -60,6 +60,8 @@ class DefaultApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> FooGetDefaultResponse:
         """foo_get
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -82,7 +84,7 @@ class DefaultApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._foo_get_serialize(
             _request_auth=_request_auth,
@@ -123,6 +125,8 @@ class DefaultApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[FooGetDefaultResponse]:
         """foo_get
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -145,7 +149,7 @@ class DefaultApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._foo_get_serialize(
             _request_auth=_request_auth,
@@ -186,6 +190,8 @@ class DefaultApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """foo_get
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -208,7 +214,7 @@ class DefaultApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._foo_get_serialize(
             _request_auth=_request_auth,

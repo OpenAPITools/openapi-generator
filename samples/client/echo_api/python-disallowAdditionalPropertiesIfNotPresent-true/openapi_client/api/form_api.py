@@ -67,7 +67,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test form parameter(s)
+
         Test form parameter(s)
+
         :param integer_form:
         :type integer_form: int
         :param boolean_form:
@@ -96,7 +98,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_integer_boolean_string_serialize(
             integer_form=integer_form,
@@ -143,7 +145,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test form parameter(s)
+
         Test form parameter(s)
+
         :param integer_form:
         :type integer_form: int
         :param boolean_form:
@@ -172,7 +176,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_integer_boolean_string_serialize(
             integer_form=integer_form,
@@ -219,7 +223,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test form parameter(s)
+
         Test form parameter(s)
+
         :param integer_form:
         :type integer_form: int
         :param boolean_form:
@@ -248,7 +254,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_integer_boolean_string_serialize(
             integer_form=integer_form,
@@ -374,7 +380,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test form parameter(s) for oneOf schema
+
         Test form parameter(s) for oneOf schema
+
         :param form1:
         :type form1: str
         :param form2:
@@ -409,7 +417,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_oneof_serialize(
             form1=form1,
@@ -462,7 +470,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test form parameter(s) for oneOf schema
+
         Test form parameter(s) for oneOf schema
+
         :param form1:
         :type form1: str
         :param form2:
@@ -497,7 +507,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_oneof_serialize(
             form1=form1,
@@ -550,7 +560,9 @@ class FormApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test form parameter(s) for oneOf schema
+
         Test form parameter(s) for oneOf schema
+
         :param form1:
         :type form1: str
         :param form2:
@@ -585,7 +597,7 @@ class FormApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_form_oneof_serialize(
             form1=form1,

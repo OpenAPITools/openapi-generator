@@ -68,7 +68,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
         """Test binary (gif) response body
+
         Test binary (gif) response body
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -91,7 +93,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
             _request_auth=_request_auth,
@@ -132,7 +134,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
         """Test binary (gif) response body
+
         Test binary (gif) response body
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -155,7 +159,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
             _request_auth=_request_auth,
@@ -196,7 +200,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test binary (gif) response body
+
         Test binary (gif) response body
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -219,7 +225,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
             _request_auth=_request_auth,
@@ -315,7 +321,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -340,7 +348,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
             body=body,
@@ -383,7 +391,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -408,7 +418,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
             body=body,
@@ -451,7 +461,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -476,7 +488,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
             body=body,
@@ -594,7 +606,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test array of binary in multipart mime
+
         Test array of binary in multipart mime
+
         :param files: (required)
         :type files: List[bytearray]
         :param _request_timeout: timeout setting for this request. If one
@@ -619,7 +633,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
             files=files,
@@ -662,7 +676,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test array of binary in multipart mime
+
         Test array of binary in multipart mime
+
         :param files: (required)
         :type files: List[bytearray]
         :param _request_timeout: timeout setting for this request. If one
@@ -687,7 +703,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
             files=files,
@@ -730,7 +746,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test array of binary in multipart mime
+
         Test array of binary in multipart mime
+
         :param files: (required)
         :type files: List[bytearray]
         :param _request_timeout: timeout setting for this request. If one
@@ -755,7 +773,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
             files=files,
@@ -869,7 +887,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test free form object
+
         Test free form object
+
         :param body: Free form object
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -894,7 +914,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
             body=body,
@@ -937,7 +957,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test free form object
+
         Test free form object
+
         :param body: Free form object
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -962,7 +984,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
             body=body,
@@ -1005,7 +1027,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test free form object
+
         Test free form object
+
         :param body: Free form object
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -1030,7 +1054,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
             body=body,
@@ -1143,7 +1167,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Pet:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1168,7 +1194,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
             pet=pet,
@@ -1211,7 +1237,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Pet]:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1236,7 +1264,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
             pet=pet,
@@ -1279,7 +1307,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test body parameter(s)
+
         Test body parameter(s)
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1304,7 +1334,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
             pet=pet,
@@ -1417,7 +1447,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test empty response body
+
         Test empty response body
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1442,7 +1474,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
             pet=pet,
@@ -1485,7 +1517,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test empty response body
+
         Test empty response body
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1510,7 +1544,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
             pet=pet,
@@ -1553,7 +1587,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test empty response body
+
         Test empty response body
+
         :param pet: Pet object that needs to be added to the store
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1578,7 +1614,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
             pet=pet,
@@ -1691,7 +1727,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test empty json (request body)
+
         Test empty json (request body)
+
         :param tag: Tag object
         :type tag: Tag
         :param _request_timeout: timeout setting for this request. If one
@@ -1716,7 +1754,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(
             tag=tag,
@@ -1759,7 +1797,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test empty json (request body)
+
         Test empty json (request body)
+
         :param tag: Tag object
         :type tag: Tag
         :param _request_timeout: timeout setting for this request. If one
@@ -1784,7 +1824,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(
             tag=tag,
@@ -1827,7 +1867,9 @@ class BodyApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test empty json (request body)
+
         Test empty json (request body)
+
         :param tag: Tag object
         :type tag: Tag
         :param _request_timeout: timeout setting for this request. If one
@@ -1852,7 +1894,7 @@ class BodyApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(
             tag=tag,

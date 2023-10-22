@@ -78,6 +78,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test any type request body
+
+
         :param body:
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -102,7 +104,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
             body=body,
@@ -144,6 +146,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test any type request body
+
+
         :param body:
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -168,7 +172,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
             body=body,
@@ -210,6 +214,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test any type request body
+
+
         :param body:
         :type body: object
         :param _request_timeout: timeout setting for this request. If one
@@ -234,7 +240,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
             body=body,
@@ -340,6 +346,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test enum reference query parameter
+
+
         :param enum_ref: enum reference
         :type enum_ref: EnumClass
         :param _request_timeout: timeout setting for this request. If one
@@ -364,7 +372,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
@@ -406,6 +414,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test enum reference query parameter
+
+
         :param enum_ref: enum reference
         :type enum_ref: EnumClass
         :param _request_timeout: timeout setting for this request. If one
@@ -430,7 +440,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
@@ -472,6 +482,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test enum reference query parameter
+
+
         :param enum_ref: enum reference
         :type enum_ref: EnumClass
         :param _request_timeout: timeout setting for this request. If one
@@ -496,7 +508,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
             enum_ref=enum_ref,
@@ -590,6 +602,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> HealthCheckResult:
         """Health check endpoint
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -612,7 +626,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
@@ -653,6 +667,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[HealthCheckResult]:
         """Health check endpoint
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -675,7 +691,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
@@ -716,6 +732,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Health check endpoint
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -738,7 +756,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
             _request_auth=_request_auth,
@@ -836,6 +854,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test http signature authentication
+
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param query_1: query parameter
@@ -864,7 +884,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
             pet=pet,
@@ -910,6 +930,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test http signature authentication
+
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param query_1: query parameter
@@ -938,7 +960,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
             pet=pet,
@@ -984,6 +1006,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test http signature authentication
+
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param query_1: query parameter
@@ -1012,7 +1036,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
             pet=pet,
@@ -1130,7 +1154,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bool:
         """fake_outer_boolean_serialize
+
         Test serialization of outer boolean types
+
         :param body: Input boolean as post body
         :type body: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -1155,7 +1181,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
@@ -1198,7 +1224,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bool]:
         """fake_outer_boolean_serialize
+
         Test serialization of outer boolean types
+
         :param body: Input boolean as post body
         :type body: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -1223,7 +1251,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
@@ -1266,7 +1294,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_boolean_serialize
+
         Test serialization of outer boolean types
+
         :param body: Input boolean as post body
         :type body: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -1291,7 +1321,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
             body=body,
@@ -1404,7 +1434,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterComposite:
         """fake_outer_composite_serialize
+
         Test serialization of object with outer number type
+
         :param outer_composite: Input composite as post body
         :type outer_composite: OuterComposite
         :param _request_timeout: timeout setting for this request. If one
@@ -1429,7 +1461,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
@@ -1472,7 +1504,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterComposite]:
         """fake_outer_composite_serialize
+
         Test serialization of object with outer number type
+
         :param outer_composite: Input composite as post body
         :type outer_composite: OuterComposite
         :param _request_timeout: timeout setting for this request. If one
@@ -1497,7 +1531,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
@@ -1540,7 +1574,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_composite_serialize
+
         Test serialization of object with outer number type
+
         :param outer_composite: Input composite as post body
         :type outer_composite: OuterComposite
         :param _request_timeout: timeout setting for this request. If one
@@ -1565,7 +1601,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
             outer_composite=outer_composite,
@@ -1678,7 +1714,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> float:
         """fake_outer_number_serialize
+
         Test serialization of outer number types
+
         :param body: Input number as post body
         :type body: float
         :param _request_timeout: timeout setting for this request. If one
@@ -1703,7 +1741,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
             body=body,
@@ -1746,7 +1784,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[float]:
         """fake_outer_number_serialize
+
         Test serialization of outer number types
+
         :param body: Input number as post body
         :type body: float
         :param _request_timeout: timeout setting for this request. If one
@@ -1771,7 +1811,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
             body=body,
@@ -1814,7 +1854,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_number_serialize
+
         Test serialization of outer number types
+
         :param body: Input number as post body
         :type body: float
         :param _request_timeout: timeout setting for this request. If one
@@ -1839,7 +1881,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
             body=body,
@@ -1952,7 +1994,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """fake_outer_string_serialize
+
         Test serialization of outer string types
+
         :param body: Input string as post body
         :type body: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1977,7 +2021,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
             body=body,
@@ -2020,7 +2064,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """fake_outer_string_serialize
+
         Test serialization of outer string types
+
         :param body: Input string as post body
         :type body: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2045,7 +2091,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
             body=body,
@@ -2088,7 +2134,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_string_serialize
+
         Test serialization of outer string types
+
         :param body: Input string as post body
         :type body: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2113,7 +2161,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
             body=body,
@@ -2226,7 +2274,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterObjectWithEnumProperty:
         """fake_property_enum_integer_serialize
+
         Test serialization of enum (int) properties with examples
+
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param _request_timeout: timeout setting for this request. If one
@@ -2251,7 +2301,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
@@ -2294,7 +2344,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterObjectWithEnumProperty]:
         """fake_property_enum_integer_serialize
+
         Test serialization of enum (int) properties with examples
+
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param _request_timeout: timeout setting for this request. If one
@@ -2319,7 +2371,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
@@ -2362,7 +2414,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_property_enum_integer_serialize
+
         Test serialization of enum (int) properties with examples
+
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param _request_timeout: timeout setting for this request. If one
@@ -2387,7 +2441,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
@@ -2499,6 +2553,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[List[Tag]]:
         """test returning list of objects
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2521,7 +2577,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
@@ -2562,6 +2618,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[List[Tag]]]:
         """test returning list of objects
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2584,7 +2642,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
@@ -2625,6 +2683,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning list of objects
+
+
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2647,7 +2707,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
             _request_auth=_request_auth,
@@ -2743,6 +2803,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test uuid example
+
+
         :param uuid_example: uuid example (required)
         :type uuid_example: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2767,7 +2829,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
@@ -2809,6 +2871,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test uuid example
+
+
         :param uuid_example: uuid example (required)
         :type uuid_example: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2833,7 +2897,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
@@ -2875,6 +2939,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test uuid example
+
+
         :param uuid_example: uuid example (required)
         :type uuid_example: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2899,7 +2965,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
             uuid_example=uuid_example,
@@ -2994,7 +3060,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_binary
+
         For this test, the body has to be a binary file.
+
         :param body: image to upload (required)
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -3019,7 +3087,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
             body=body,
@@ -3061,7 +3129,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_binary
+
         For this test, the body has to be a binary file.
+
         :param body: image to upload (required)
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -3086,7 +3156,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
             body=body,
@@ -3128,7 +3198,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_binary
+
         For this test, the body has to be a binary file.
+
         :param body: image to upload (required)
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -3153,7 +3225,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
             body=body,
@@ -3264,7 +3336,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_file_schema
+
         For this test, the body for this request must reference a schema named `File`.
+
         :param file_schema_test_class: (required)
         :type file_schema_test_class: FileSchemaTestClass
         :param _request_timeout: timeout setting for this request. If one
@@ -3289,7 +3363,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
@@ -3331,7 +3405,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_file_schema
+
         For this test, the body for this request must reference a schema named `File`.
+
         :param file_schema_test_class: (required)
         :type file_schema_test_class: FileSchemaTestClass
         :param _request_timeout: timeout setting for this request. If one
@@ -3356,7 +3432,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
@@ -3398,7 +3474,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_file_schema
+
         For this test, the body for this request must reference a schema named `File`.
+
         :param file_schema_test_class: (required)
         :type file_schema_test_class: FileSchemaTestClass
         :param _request_timeout: timeout setting for this request. If one
@@ -3423,7 +3501,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
             file_schema_test_class=file_schema_test_class,
@@ -3530,6 +3608,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_query_params
+
+
         :param query: (required)
         :type query: str
         :param user: (required)
@@ -3556,7 +3636,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
             query=query,
@@ -3600,6 +3680,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_query_params
+
+
         :param query: (required)
         :type query: str
         :param user: (required)
@@ -3626,7 +3708,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
             query=query,
@@ -3670,6 +3752,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_query_params
+
+
         :param query: (required)
         :type query: str
         :param user: (required)
@@ -3696,7 +3780,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
             query=query,
@@ -3808,7 +3892,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
         """To test \"client\" model
+
         To test \"client\" model
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -3833,7 +3919,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_client_model_serialize(
             client=client,
@@ -3876,7 +3962,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
         """To test \"client\" model
+
         To test \"client\" model
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -3901,7 +3989,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_client_model_serialize(
             client=client,
@@ -3944,7 +4032,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """To test \"client\" model
+
         To test \"client\" model
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -3969,7 +4059,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_client_model_serialize(
             client=client,
@@ -4083,6 +4173,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_date_time_query_parameter
+
+
         :param date_time_query: (required)
         :type date_time_query: datetime
         :param str_query: (required)
@@ -4109,7 +4201,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
@@ -4153,6 +4245,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_date_time_query_parameter
+
+
         :param date_time_query: (required)
         :type date_time_query: datetime
         :param str_query: (required)
@@ -4179,7 +4273,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
@@ -4223,6 +4317,8 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_date_time_query_parameter
+
+
         :param date_time_query: (required)
         :type date_time_query: datetime
         :param str_query: (required)
@@ -4249,7 +4345,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
             date_time_query=date_time_query,
@@ -4373,7 +4469,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         :param number: None (required)
         :type number: float
         :param double: None (required)
@@ -4426,7 +4524,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
             number=number,
@@ -4496,7 +4594,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         :param number: None (required)
         :type number: float
         :param double: None (required)
@@ -4549,7 +4649,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
             number=number,
@@ -4619,7 +4719,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
         :param number: None (required)
         :type number: float
         :param double: None (required)
@@ -4672,7 +4774,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
             number=number,
@@ -4840,7 +4942,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Fake endpoint to test group parameters (optional)
+
         Fake endpoint to test group parameters (optional)
+
         :param required_string_group: Required String in group parameters (required)
         :type required_string_group: int
         :param required_boolean_group: Required Boolean in group parameters (required)
@@ -4875,7 +4979,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
@@ -4927,7 +5031,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint to test group parameters (optional)
+
         Fake endpoint to test group parameters (optional)
+
         :param required_string_group: Required String in group parameters (required)
         :type required_string_group: int
         :param required_boolean_group: Required Boolean in group parameters (required)
@@ -4962,7 +5068,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
@@ -5014,7 +5120,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Fake endpoint to test group parameters (optional)
+
         Fake endpoint to test group parameters (optional)
+
         :param required_string_group: Required String in group parameters (required)
         :type required_string_group: int
         :param required_boolean_group: Required Boolean in group parameters (required)
@@ -5049,7 +5157,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
             required_string_group=required_string_group,
@@ -5171,7 +5279,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test inline additionalProperties
+
         
+
         :param request_body: request body (required)
         :type request_body: Dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
@@ -5196,7 +5306,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
@@ -5238,7 +5348,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test inline additionalProperties
+
         
+
         :param request_body: request body (required)
         :type request_body: Dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
@@ -5263,7 +5375,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
@@ -5305,7 +5417,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test inline additionalProperties
+
         
+
         :param request_body: request body (required)
         :type request_body: Dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
@@ -5330,7 +5444,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
             request_body=request_body,
@@ -5436,7 +5550,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test inline free-form additionalProperties
+
         
+
         :param test_inline_freeform_additional_properties_request: request body (required)
         :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -5461,7 +5577,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
@@ -5503,7 +5619,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test inline free-form additionalProperties
+
         
+
         :param test_inline_freeform_additional_properties_request: request body (required)
         :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -5528,7 +5646,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
@@ -5570,7 +5688,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test inline free-form additionalProperties
+
         
+
         :param test_inline_freeform_additional_properties_request: request body (required)
         :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -5595,7 +5715,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
             test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
@@ -5702,7 +5822,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test json serialization of form data
+
         
+
         :param param: field1 (required)
         :type param: str
         :param param2: field2 (required)
@@ -5729,7 +5851,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
             param=param,
@@ -5773,7 +5895,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test json serialization of form data
+
         
+
         :param param: field1 (required)
         :type param: str
         :param param2: field2 (required)
@@ -5800,7 +5924,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
             param=param,
@@ -5844,7 +5968,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test json serialization of form data
+
         
+
         :param param: field1 (required)
         :type param: str
         :param param2: field2 (required)
@@ -5871,7 +5997,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
             param=param,
@@ -5987,7 +6113,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_query_parameter_collection_format
+
         To test the collection format in query parameters
+
         :param pipe: (required)
         :type pipe: List[str]
         :param ioutil: (required)
@@ -6024,7 +6152,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,
@@ -6078,7 +6206,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_query_parameter_collection_format
+
         To test the collection format in query parameters
+
         :param pipe: (required)
         :type pipe: List[str]
         :param ioutil: (required)
@@ -6115,7 +6245,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,
@@ -6169,7 +6299,9 @@ class FakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_query_parameter_collection_format
+
         To test the collection format in query parameters
+
         :param pipe: (required)
         :type pipe: List[str]
         :param ioutil: (required)
@@ -6206,7 +6338,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(
             pipe=pipe,

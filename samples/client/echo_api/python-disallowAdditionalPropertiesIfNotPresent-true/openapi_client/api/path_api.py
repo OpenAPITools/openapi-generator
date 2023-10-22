@@ -67,7 +67,9 @@ class PathApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test path parameter(s)
+
         Test path parameter(s)
+
         :param path_string: (required)
         :type path_string: str
         :param path_integer: (required)
@@ -98,7 +100,7 @@ class PathApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,
@@ -147,7 +149,9 @@ class PathApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test path parameter(s)
+
         Test path parameter(s)
+
         :param path_string: (required)
         :type path_string: str
         :param path_integer: (required)
@@ -178,7 +182,7 @@ class PathApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,
@@ -227,7 +231,9 @@ class PathApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test path parameter(s)
+
         Test path parameter(s)
+
         :param path_string: (required)
         :type path_string: str
         :param path_integer: (required)
@@ -258,7 +264,7 @@ class PathApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,

@@ -63,7 +63,9 @@ class AnotherFakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
         """To test special tags
+
         To test special tags and operation ID starting with number
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -88,7 +90,7 @@ class AnotherFakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._call_123_test_special_tags_serialize(
             client=client,
@@ -131,7 +133,9 @@ class AnotherFakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
         """To test special tags
+
         To test special tags and operation ID starting with number
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -156,7 +160,7 @@ class AnotherFakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._call_123_test_special_tags_serialize(
             client=client,
@@ -199,7 +203,9 @@ class AnotherFakeApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """To test special tags
+
         To test special tags and operation ID starting with number
+
         :param client: client model (required)
         :type client: Client
         :param _request_timeout: timeout setting for this request. If one
@@ -224,7 +230,7 @@ class AnotherFakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._call_123_test_special_tags_serialize(
             client=client,

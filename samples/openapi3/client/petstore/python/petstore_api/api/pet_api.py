@@ -68,7 +68,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Add a new pet to the store
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -93,7 +95,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._add_pet_serialize(
             pet=pet,
@@ -135,7 +137,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Add a new pet to the store
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -160,7 +164,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._add_pet_serialize(
             pet=pet,
@@ -202,7 +206,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Add a new pet to the store
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -227,7 +233,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._add_pet_serialize(
             pet=pet,
@@ -337,7 +343,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Deletes a pet
+
         
+
         :param pet_id: Pet id to delete (required)
         :type pet_id: int
         :param api_key:
@@ -364,7 +372,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_pet_serialize(
             pet_id=pet_id,
@@ -408,7 +416,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Deletes a pet
+
         
+
         :param pet_id: Pet id to delete (required)
         :type pet_id: int
         :param api_key:
@@ -435,7 +445,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_pet_serialize(
             pet_id=pet_id,
@@ -479,7 +489,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Deletes a pet
+
         
+
         :param pet_id: Pet id to delete (required)
         :type pet_id: int
         :param api_key:
@@ -506,7 +518,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._delete_pet_serialize(
             pet_id=pet_id,
@@ -604,7 +616,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[Pet]:
         """Finds Pets by status
+
         Multiple status values can be provided with comma separated strings
+
         :param status: Status values that need to be considered for filter (required)
         :type status: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -629,7 +643,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
             status=status,
@@ -673,7 +687,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[Pet]]:
         """Finds Pets by status
+
         Multiple status values can be provided with comma separated strings
+
         :param status: Status values that need to be considered for filter (required)
         :type status: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -698,7 +714,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
             status=status,
@@ -742,7 +758,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Finds Pets by status
+
         Multiple status values can be provided with comma separated strings
+
         :param status: Status values that need to be considered for filter (required)
         :type status: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -767,7 +785,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
             status=status,
@@ -874,7 +892,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[Pet]:
         """(Deprecated) Finds Pets by tags
+
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
         :param tags: Tags to filter by (required)
         :type tags: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -899,7 +919,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
         _param = self._find_pets_by_tags_serialize(
@@ -944,7 +964,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[Pet]]:
         """(Deprecated) Finds Pets by tags
+
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
         :param tags: Tags to filter by (required)
         :type tags: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -969,7 +991,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
         _param = self._find_pets_by_tags_serialize(
@@ -1014,7 +1036,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """(Deprecated) Finds Pets by tags
+
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
         :param tags: Tags to filter by (required)
         :type tags: List[str]
         :param _request_timeout: timeout setting for this request. If one
@@ -1039,7 +1063,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
         _param = self._find_pets_by_tags_serialize(
@@ -1147,7 +1171,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Pet:
         """Find pet by ID
+
         Returns a single pet
+
         :param pet_id: ID of pet to return (required)
         :type pet_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1172,7 +1198,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
@@ -1217,7 +1243,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Pet]:
         """Find pet by ID
+
         Returns a single pet
+
         :param pet_id: ID of pet to return (required)
         :type pet_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1242,7 +1270,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
@@ -1287,7 +1315,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Find pet by ID
+
         Returns a single pet
+
         :param pet_id: ID of pet to return (required)
         :type pet_id: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1312,7 +1342,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
             pet_id=pet_id,
@@ -1416,7 +1446,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Update an existing pet
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1441,7 +1473,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_serialize(
             pet=pet,
@@ -1483,7 +1515,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Update an existing pet
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1508,7 +1542,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_serialize(
             pet=pet,
@@ -1550,7 +1584,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Update an existing pet
+
         
+
         :param pet: Pet object that needs to be added to the store (required)
         :type pet: Pet
         :param _request_timeout: timeout setting for this request. If one
@@ -1575,7 +1611,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_serialize(
             pet=pet,
@@ -1686,7 +1722,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Updates a pet in the store with form data
+
         
+
         :param pet_id: ID of pet that needs to be updated (required)
         :type pet_id: int
         :param name: Updated name of the pet
@@ -1715,7 +1753,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
@@ -1761,7 +1799,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Updates a pet in the store with form data
+
         
+
         :param pet_id: ID of pet that needs to be updated (required)
         :type pet_id: int
         :param name: Updated name of the pet
@@ -1790,7 +1830,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
@@ -1836,7 +1876,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Updates a pet in the store with form data
+
         
+
         :param pet_id: ID of pet that needs to be updated (required)
         :type pet_id: int
         :param name: Updated name of the pet
@@ -1865,7 +1907,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
             pet_id=pet_id,
@@ -1982,7 +2024,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse:
         """uploads an image
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param additional_metadata: Additional data to pass to server
@@ -2011,7 +2055,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_serialize(
             pet_id=pet_id,
@@ -2058,7 +2102,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ApiResponse]:
         """uploads an image
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param additional_metadata: Additional data to pass to server
@@ -2087,7 +2133,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_serialize(
             pet_id=pet_id,
@@ -2134,7 +2180,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """uploads an image
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param additional_metadata: Additional data to pass to server
@@ -2163,7 +2211,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_serialize(
             pet_id=pet_id,
@@ -2287,7 +2335,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse:
         """uploads an image (required)
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
@@ -2316,7 +2366,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
@@ -2363,7 +2413,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ApiResponse]:
         """uploads an image (required)
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
@@ -2392,7 +2444,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
@@ -2439,7 +2491,9 @@ class PetApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """uploads an image (required)
+
         
+
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
@@ -2468,7 +2522,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        """
+        """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(
             pet_id=pet_id,
