@@ -83,8 +83,6 @@ class AuthApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_auth_http_basic_serialize(
@@ -149,8 +147,6 @@ class AuthApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_auth_http_basic_serialize(
@@ -215,8 +211,6 @@ class AuthApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_auth_http_basic_serialize(

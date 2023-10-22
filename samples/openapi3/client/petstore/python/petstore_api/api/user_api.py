@@ -92,8 +92,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_user_serialize(
@@ -161,8 +159,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_user_serialize(
@@ -230,8 +226,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_user_serialize(
@@ -368,8 +362,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
@@ -437,8 +429,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
@@ -506,8 +496,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_array_input_serialize(
@@ -640,8 +628,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
@@ -709,8 +695,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
@@ -778,8 +762,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._create_users_with_list_input_serialize(
@@ -912,8 +894,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_user_serialize(
@@ -981,8 +961,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_user_serialize(
@@ -1050,8 +1028,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_user_serialize(
@@ -1170,8 +1146,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
@@ -1242,8 +1216,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
@@ -1314,8 +1286,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_user_by_name_serialize(
@@ -1447,8 +1417,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._login_user_serialize(
@@ -1522,8 +1490,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._login_user_serialize(
@@ -1597,8 +1563,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._login_user_serialize(
@@ -1731,8 +1695,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._logout_user_serialize(
@@ -1796,8 +1758,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._logout_user_serialize(
@@ -1861,8 +1821,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._logout_user_serialize(
@@ -1980,8 +1938,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_user_serialize(
@@ -2053,8 +2009,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_user_serialize(
@@ -2126,8 +2080,6 @@ class UserApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_user_serialize(

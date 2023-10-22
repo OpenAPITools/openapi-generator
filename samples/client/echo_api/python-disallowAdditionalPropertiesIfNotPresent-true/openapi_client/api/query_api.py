@@ -98,8 +98,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
@@ -172,8 +170,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
@@ -246,8 +242,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_enum_ref_string_serialize(
@@ -387,8 +381,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
@@ -465,8 +457,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
@@ -543,8 +533,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_datetime_date_string_serialize(
@@ -708,8 +696,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
@@ -786,8 +772,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
@@ -864,8 +848,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_integer_boolean_string_serialize(
@@ -1005,8 +987,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
@@ -1075,8 +1055,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
@@ -1145,8 +1123,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_serialize(
@@ -1274,8 +1250,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
@@ -1344,8 +1318,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
@@ -1414,8 +1386,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_deep_object_explode_true_object_all_of_serialize(
@@ -1543,8 +1513,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
@@ -1613,8 +1581,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
@@ -1683,8 +1649,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_array_string_serialize(
@@ -1812,8 +1776,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
@@ -1882,8 +1844,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
@@ -1952,8 +1912,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_serialize(
@@ -2081,8 +2039,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(
@@ -2151,8 +2107,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(
@@ -2221,8 +2175,6 @@ class QueryApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_style_form_explode_true_object_all_of_serialize(

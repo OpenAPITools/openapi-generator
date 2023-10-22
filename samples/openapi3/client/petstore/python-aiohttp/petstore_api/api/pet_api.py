@@ -93,8 +93,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._add_pet_serialize(
@@ -162,8 +160,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._add_pet_serialize(
@@ -231,8 +227,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._add_pet_serialize(
@@ -370,8 +364,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_pet_serialize(
@@ -443,8 +435,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_pet_serialize(
@@ -516,8 +506,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._delete_pet_serialize(
@@ -641,8 +629,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
@@ -712,8 +698,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
@@ -783,8 +767,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._find_pets_by_status_serialize(
@@ -917,8 +899,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
@@ -989,8 +969,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
@@ -1061,8 +1039,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
@@ -1196,8 +1172,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
@@ -1268,8 +1242,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
@@ -1340,8 +1312,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._get_pet_by_id_serialize(
@@ -1471,8 +1441,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_serialize(
@@ -1540,8 +1508,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_serialize(
@@ -1609,8 +1575,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_serialize(
@@ -1751,8 +1715,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
@@ -1828,8 +1790,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
@@ -1905,8 +1865,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._update_pet_with_form_serialize(
@@ -2053,8 +2011,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_serialize(
@@ -2131,8 +2087,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_serialize(
@@ -2209,8 +2163,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_serialize(
@@ -2364,8 +2316,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(
@@ -2442,8 +2392,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(
@@ -2520,8 +2468,6 @@ class PetApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._upload_file_with_required_file_serialize(

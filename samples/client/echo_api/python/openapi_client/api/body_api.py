@@ -91,8 +91,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
@@ -157,8 +155,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
@@ -223,8 +219,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_binary_gif_serialize(
@@ -346,8 +340,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
@@ -416,8 +408,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
@@ -486,8 +476,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_application_octetstream_binary_serialize(
@@ -631,8 +619,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
@@ -701,8 +687,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
@@ -771,8 +755,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_multipart_formdata_array_of_binary_serialize(
@@ -912,8 +894,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
@@ -982,8 +962,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
@@ -1052,8 +1030,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_free_form_object_response_string_serialize(
@@ -1192,8 +1168,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
@@ -1262,8 +1236,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
@@ -1332,8 +1304,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_serialize(
@@ -1472,8 +1442,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
@@ -1542,8 +1510,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
@@ -1612,8 +1578,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_pet_response_string_serialize(
@@ -1752,8 +1716,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(
@@ -1822,8 +1784,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(
@@ -1892,8 +1852,6 @@ class BodyApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_echo_body_tag_response_string_serialize(

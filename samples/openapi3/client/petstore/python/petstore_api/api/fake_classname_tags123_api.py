@@ -88,8 +88,6 @@ class FakeClassnameTags123Api:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_classname_serialize(
@@ -158,8 +156,6 @@ class FakeClassnameTags123Api:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_classname_serialize(
@@ -228,8 +224,6 @@ class FakeClassnameTags123Api:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_classname_serialize(

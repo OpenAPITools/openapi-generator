@@ -102,8 +102,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
@@ -170,8 +168,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
@@ -238,8 +234,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_any_type_request_body_serialize(
@@ -370,8 +364,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
@@ -438,8 +430,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
@@ -506,8 +496,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_enum_ref_query_parameter_serialize(
@@ -624,8 +612,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
@@ -689,8 +675,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
@@ -754,8 +738,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_health_get_serialize(
@@ -882,8 +864,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
@@ -958,8 +938,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
@@ -1034,8 +1012,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_http_signature_test_serialize(
@@ -1179,8 +1155,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
@@ -1249,8 +1223,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
@@ -1319,8 +1291,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_boolean_serialize_serialize(
@@ -1459,8 +1429,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
@@ -1529,8 +1497,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
@@ -1599,8 +1565,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_composite_serialize_serialize(
@@ -1739,8 +1703,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
@@ -1809,8 +1771,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
@@ -1879,8 +1839,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_number_serialize_serialize(
@@ -2019,8 +1977,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
@@ -2089,8 +2045,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
@@ -2159,8 +2113,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
@@ -2299,8 +2251,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
@@ -2369,8 +2319,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
@@ -2439,8 +2387,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_property_enum_integer_serialize_serialize(
@@ -2575,8 +2521,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
@@ -2640,8 +2584,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
@@ -2705,8 +2647,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_return_list_of_objects_serialize(
@@ -2827,8 +2767,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
@@ -2895,8 +2833,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
@@ -2963,8 +2899,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._fake_uuid_example_serialize(
@@ -3085,8 +3019,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
@@ -3154,8 +3086,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
@@ -3223,8 +3153,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_binary_serialize(
@@ -3361,8 +3289,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
@@ -3430,8 +3356,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
@@ -3499,8 +3423,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_file_schema_serialize(
@@ -3634,8 +3556,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
@@ -3706,8 +3626,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
@@ -3778,8 +3696,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_body_with_query_params_serialize(
@@ -3917,8 +3833,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_client_model_serialize(
@@ -3987,8 +3901,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_client_model_serialize(
@@ -4057,8 +3969,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_client_model_serialize(
@@ -4199,8 +4109,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
@@ -4271,8 +4179,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
@@ -4343,8 +4249,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_date_time_query_parameter_serialize(
@@ -4522,8 +4426,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
@@ -4647,8 +4549,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
@@ -4772,8 +4672,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_endpoint_parameters_serialize(
@@ -4977,8 +4875,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
@@ -5066,8 +4962,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
@@ -5155,8 +5049,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_group_parameters_serialize(
@@ -5304,8 +5196,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
@@ -5373,8 +5263,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
@@ -5442,8 +5330,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_additional_properties_serialize(
@@ -5575,8 +5461,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
@@ -5644,8 +5528,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
@@ -5713,8 +5595,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_inline_freeform_additional_properties_serialize(
@@ -5849,8 +5729,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
@@ -5922,8 +5800,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
@@ -5995,8 +5871,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_json_form_data_serialize(
@@ -6150,8 +6024,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(
@@ -6243,8 +6115,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(
@@ -6336,8 +6206,6 @@ class FakeApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._test_query_parameter_collection_format_serialize(

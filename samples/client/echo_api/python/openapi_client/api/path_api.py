@@ -98,8 +98,6 @@ class PathApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
@@ -180,8 +178,6 @@ class PathApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
@@ -262,8 +258,6 @@ class PathApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
         """ # noqa: E501
 
         _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
