@@ -26,6 +26,7 @@ from petstore_api.exceptions import ApiException, UnauthorizedException, Forbidd
 
 logger = logging.getLogger(__name__)
 
+SOCKS5_PROXY_PREFIX = "sock5://"
 
 class RESTResponse(io.IOBase):
 
@@ -81,17 +82,30 @@ class RESTClientObject:
 
         # https pool manager
         if configuration.proxy:
-            self.pool_manager = urllib3.ProxyManager(
-                num_pools=pools_size,
-                maxsize=maxsize,
-                cert_reqs=cert_reqs,
-                ca_certs=configuration.ssl_ca_cert,
-                cert_file=configuration.cert_file,
-                key_file=configuration.key_file,
-                proxy_url=configuration.proxy,
-                proxy_headers=configuration.proxy_headers,
-                **addition_pool_args
-            )
+            if configuration.proxy.startswith(SOCKS5_PROXY_PREFIX):
+                from urllib3.contrib.socks import SOCKSProxyManager
+                self.pool_manager = SOCKSProxyManager(
+                        num_pools=pools_size,
+                        maxsize=maxsize,
+                        cert_reqs=cert_reqs,
+                        ca_certs=ca_certs,
+                        cert_file=configuration.cert_file,
+                        key_file=configuration.key_file,
+                        proxy_url=configuration.proxy,
+                        **addition_pool_args
+                    )
+            else:
+                self.pool_manager = urllib3.ProxyManager(
+                    num_pools=pools_size,
+                    maxsize=maxsize,
+                    cert_reqs=cert_reqs,
+                    ca_certs=configuration.ssl_ca_cert,
+                    cert_file=configuration.cert_file,
+                    key_file=configuration.key_file,
+                    proxy_url=configuration.proxy,
+                    proxy_headers=configuration.proxy_headers,
+                    **addition_pool_args
+                )
         else:
             self.pool_manager = urllib3.PoolManager(
                 num_pools=pools_size,
