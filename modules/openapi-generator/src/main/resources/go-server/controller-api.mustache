@@ -295,7 +295,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		WithParse[bool](parseBool),{{/required}}{{/defaultValue}}
 	)
 	if err != nil {
-		w.WriteHeader(500)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isBoolean}}
