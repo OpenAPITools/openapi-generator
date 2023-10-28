@@ -46,9 +46,10 @@ module Petstore
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
-    #   the data deserialized from response body (could be nil), response status code and response headers.
+    #   the data deserialized from response body (may be a Tempfile or nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
+      tempfile = download_file(request) if opts[:return_type] == 'File'
       response = request.run
 
       if @config.debugging
@@ -70,7 +71,9 @@ module Petstore
         end
       end
 
-      if opts[:return_type]
+      if opts[:return_type] == 'File'
+        data = tempfile
+      elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
         data = nil
@@ -125,9 +128,7 @@ module Petstore
         end
       end
 
-      request = Typhoeus::Request.new(url, req_opts)
-      download_file(request) if opts[:return_type] == 'File'
-      request
+      Typhoeus::Request.new(url, req_opts)
     end
 
     # Builds the HTTP request body
@@ -165,6 +166,8 @@ module Petstore
     # process can use.
     #
     # @see Configuration#temp_folder_path
+    #
+    # @return [Tempfile] the tempfile generated
     def download_file(request)
       tempfile = nil
       encoding = nil
@@ -179,7 +182,6 @@ module Petstore
         prefix = prefix + '-' unless prefix.end_with?('-')
         encoding = response.body.encoding
         tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
       end
       request.on_body do |chunk|
         chunk.force_encoding(encoding)
@@ -194,6 +196,8 @@ module Petstore
                               "explicitly with `tempfile.delete`"
         end
       end
+
+      tempfile
     end
 
     # Check if the given MIME is a JSON MIME.
@@ -214,11 +218,6 @@ module Petstore
     # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
     def deserialize(response, return_type)
       body = response.body
-
-      # handle file downloading - return the File instance processed in request callbacks
-      # note that response body is empty when the file is written in chunks in request on_body callback
-      return @tempfile if return_type == 'File'
-
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type
