@@ -112,7 +112,7 @@ public class IndentedLambda implements Mustache.Lambda {
         String prefixedIndention = StringUtils.repeat(new String(Character.toChars(spaceCode)), prefixSpaceCount);
         StringBuilder sb = new StringBuilder();
         // use \n instead of System.lineSeparator (e.g. \r\n in Windows) as templates use \n
-        String[] lines = text.split("\n");
+        String[] lines = text.split("\n", -1);
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             // Mustache will apply correct indentation to the first line of a template (to match declaration location).
