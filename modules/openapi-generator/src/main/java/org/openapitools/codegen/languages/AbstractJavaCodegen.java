@@ -1734,6 +1734,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("BigDecimal".equals(datatype)) {
             // use BigDecimal String constructor
             return "new BigDecimal(\"" + value + "\")";
+        } else if ("URI".equals(datatype)) {
+            return "URI.create(\"" + escapeText(value) + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
