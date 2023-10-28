@@ -725,6 +725,42 @@ paths:
       summary: uploads images (array of files)
       tags:
       - pet
+  /pets/boolean/parsing:
+    get:
+      operationId: GetPetsUsingBooleanQueryParameters
+      parameters:
+      - explode: true
+        in: query
+        name: expr
+        required: true
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: grouping
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: inactive
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Get the pets by only using boolean query parameters
+      tags:
+      - pet
 components:
   requestBodies:
     UserArray:

@@ -130,6 +130,17 @@ func (s *PetAPIService) GetPetImageById(ctx context.Context, petId int64) (ImplR
 	return Response(http.StatusNotImplemented, nil), errors.New("GetPetImageById method not implemented")
 }
 
+// GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
+func (s *PetAPIService) GetPetsUsingBooleanQueryParameters(ctx context.Context, expr bool, grouping bool, inactive bool) (ImplResponse, error) {
+	// TODO - update GetPetsUsingBooleanQueryParameters with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(200, ApiResponse{}) or use other options such as http.Ok ...
+	// return Response(200, ApiResponse{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("GetPetsUsingBooleanQueryParameters method not implemented")
+}
+
 // UpdatePet - Update an existing pet
 func (s *PetAPIService) UpdatePet(ctx context.Context, pet Pet) (ImplResponse, error) {
 	// TODO - update UpdatePet with the required logic for this service method.
