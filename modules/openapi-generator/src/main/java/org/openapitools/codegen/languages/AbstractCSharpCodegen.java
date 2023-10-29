@@ -437,6 +437,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda(true))
                 .put("copy", copyLambda)
                 .put("copy2", copyLambda2)
+                .put("paste", new PasteLambda(copyLambda, true, true, true))
                 .put("pasteLine", new PasteLambda(copyLambda, true, true, false))
                 .put("pasteLine2", new PasteLambda(copyLambda2, true, true, false));
     }
