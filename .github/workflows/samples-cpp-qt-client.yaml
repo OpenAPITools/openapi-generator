@@ -18,7 +18,7 @@ jobs:
       matrix:
         qt-version:
           - '5.15.2'
-          - '6.4.2'
+          - '6.5.3'
         os:
           - ubuntu-latest
           - macOS-latest
