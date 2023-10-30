@@ -18,7 +18,7 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc ",
+    "build": "tsc",
     "prepare": "npm run build"
   },
   "dependencies": {
