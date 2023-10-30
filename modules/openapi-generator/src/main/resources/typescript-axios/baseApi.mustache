@@ -59,3 +59,58 @@ export class RequiredError extends Error {
         this.name = "RequiredError"
     }
 }
+
+interface ServerMap {
+    [key: string]: {
+        url: string,
+        description: string,
+    }[];
+}
+
+/**
+ *
+ * @export
+ */
+export const operationServerMap: ServerMap = {
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}}
+    {{#servers}}
+    {{#-first}}
+    "{{{classname}}}.{{{nickname}}}": [
+    {{/-first}}
+        {
+            url: "{{{url}}}",
+            description: "{{{description}}}{{^description}}No description provided{{/description}}",
+            {{#variables}}
+            {{#-first}}
+            variables: {
+                {{/-first}}
+                {{{name}}}: {
+                    description: "{{{description}}}{{^description}}No description provided{{/description}}",
+                    default_value: "{{{defaultValue}}}",
+                    {{#enumValues}}
+                    {{#-first}}
+                    enum_values: [
+                    {{/-first}}
+                        "{{{.}}}"{{^-last}},{{/-last}}
+                    {{#-last}}
+                    ]
+                    {{/-last}}
+                    {{/enumValues}}
+                    }{{^-last}},{{/-last}}
+                {{#-last}}
+            }
+            {{/-last}}
+            {{/variables}}
+        }{{^-last}},{{/-last}}
+    {{#-last}}
+    ],
+    {{/-last}}
+    {{/servers}}
+    {{/operation}}
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+}
