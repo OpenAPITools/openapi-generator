@@ -105,7 +105,7 @@ class ApiException(OpenApiException):
         if http_resp:
             self.status = http_resp.status
             self.reason = http_resp.reason
-            self.body = http_resp.data
+            self.body = http_resp.data.decode('utf-8')
             self.headers = http_resp.getheaders()
         else:
             self.status = status
