@@ -205,8 +205,6 @@ void PetResource::handler_POST_internal(const std::shared_ptr<restbed::Session> 
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 // x-extension
@@ -272,8 +270,6 @@ void PetResource::handler_PUT_internal(const std::shared_ptr<restbed::Session> s
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 int PetResource::handler_POST(
@@ -404,8 +400,6 @@ void PetPetIdResource::handler_DELETE_internal(const std::shared_ptr<restbed::Se
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 // x-extension
@@ -464,8 +458,6 @@ void PetPetIdResource::handler_GET_internal(const std::shared_ptr<restbed::Sessi
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 // x-extension
 void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session) {
@@ -517,8 +509,6 @@ void PetPetIdResource::handler_POST_internal(const std::shared_ptr<restbed::Sess
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 int PetPetIdResource::handler_DELETE(
@@ -651,8 +641,6 @@ void PetFindByStatusResource::handler_GET_internal(const std::shared_ptr<restbed
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 
@@ -776,8 +764,6 @@ void PetFindByTagsResource::handler_GET_internal(const std::shared_ptr<restbed::
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 
@@ -894,8 +880,6 @@ void PetPetIdUploadImageResource::handler_POST_internal(const std::shared_ptr<re
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 
@@ -1012,8 +996,6 @@ void FakePetIdUploadImageWithRequiredFileResource::handler_POST_internal(const s
         return;
     }
     defaultSessionClose(session, status_code, result);
-    
-    
 }
 
 
