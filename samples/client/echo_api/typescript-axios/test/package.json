@@ -13,7 +13,7 @@
   "scripts": {
     "preinstall": "npm --prefix ../build install && npm run build",
     "test": "mocha test/*.ts --require ts-node/register --timeout 10000",
-    "build": "tsc"
+    "build": ""
   },
   "name": "typescript-axios-echo-api-test",
   "version": "1.0.0",
