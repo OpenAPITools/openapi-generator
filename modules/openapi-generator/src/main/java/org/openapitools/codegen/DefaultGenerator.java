@@ -99,6 +99,8 @@ public class DefaultGenerator implements Generator {
     protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
+    private String generatorCheck = "spring";
+    private String templateCheck = "apiController.mustache";
 
 
     public DefaultGenerator() {
@@ -694,14 +696,19 @@ public class DefaultGenerator implements Generator {
                 addAuthenticationSwitches(operation);
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
-                    File written;
+                    File written = null;
                     if (config.templateOutputDirs().containsKey(templateName)) {
                         String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
                         String filename = config.apiFilename(templateName, tag, outputDir);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        // do not overwrite apiController file for spring server
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        }
                     } else {
                         String filename = config.apiFilename(templateName, tag);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        if(apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        }
                     }
                     if (written != null) {
                         files.add(written);
@@ -750,6 +757,16 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allOperations);
         }
 
+    }
+
+    // checking if apiController file is already existed for spring generator
+    private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate){
+        File apiFile = new File(filename);
+        if(apiFile.exists() && config.getName().equals(new String(generator)) && templateName.equals(new String(apiControllerTemplate))){
+           return false;
+        }else{
+            return true;
+        }
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
