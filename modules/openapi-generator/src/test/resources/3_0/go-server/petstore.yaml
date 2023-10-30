@@ -710,6 +710,36 @@ paths:
                   items:
                     type: string
                     format: binary
+  /pets/boolean/parsing:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by only using boolean query parameters
+      operationId: GetPetsUsingBooleanQueryParameters
+      parameters:
+        - in: query
+          name: expr
+          required: true
+          schema:
+            type: boolean
+        - in: query
+          name: grouping
+          required: false
+          schema:
+            type: boolean
+        - in: query
+          name: inactive
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

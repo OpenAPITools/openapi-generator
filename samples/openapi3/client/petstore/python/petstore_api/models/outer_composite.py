@@ -20,7 +20,6 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class OuterComposite(BaseModel):
     """
     OuterComposite
-    """
+    """ # noqa: E501
     my_number: Optional[StrictFloat] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
@@ -82,7 +81,7 @@ class OuterComposite(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of OuterComposite from a dict"""
         if obj is None:
             return None

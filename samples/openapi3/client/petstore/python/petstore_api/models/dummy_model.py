@@ -20,7 +20,6 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class DummyModel(BaseModel):
     """
     DummyModel
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
     additional_properties: Dict[str, Any] = {}
@@ -84,7 +83,7 @@ class DummyModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of DummyModel from a dict"""
         if obj is None:
             return None

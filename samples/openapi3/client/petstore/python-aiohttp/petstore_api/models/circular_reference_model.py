@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class CircularReferenceModel(BaseModel):
     """
     CircularReferenceModel
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
     __properties: ClassVar[List[str]] = ["size", "nested"]
@@ -76,7 +75,7 @@ class CircularReferenceModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of CircularReferenceModel from a dict"""
         if obj is None:
             return None
