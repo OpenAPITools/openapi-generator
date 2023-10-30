@@ -229,11 +229,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        String modelFilename = super.toModelFilename(name);
-        if (typeMapping.containsKey(modelFilename) || defaultIncludes.contains(modelFilename)) {
-            return modelFilename;
+        if (typeMapping.containsKey(name) || defaultIncludes.contains(name)) {
+            return name;
         }
-        return modelFilename;
+        return super.toModelFilename(name);
     }
 
     public boolean checkRequiredBodyPropsNotNull() {
@@ -485,10 +484,11 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
+     String modelImportName = toModelFilename(name);
         if ("".equals(modelPackage())) {
-            return name;
+            return modelImportName;
         } else {
-            return modelPackage() + "/" + name;
+            return modelPackage() + "/" + modelImportName;
         }
     }
 
@@ -564,7 +564,11 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
-        return this.getTypeDeclaration(p);
+        String result = this.getTypeDeclaration(p);
+        if (result != null) {
+            result = toModelFilename(result);
+        }
+        return result;
     }
 
     @Override
@@ -578,7 +582,11 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        return super.getSingleSchemaType(unaliasSchema);
+        String result = super.getSingleSchemaType(unaliasSchema);
+        if (result != null) {
+            result = toModelFilename(result);
+        }
+        return result;
     }
 
     /**
