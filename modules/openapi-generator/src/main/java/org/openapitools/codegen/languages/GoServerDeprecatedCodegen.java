@@ -48,7 +48,7 @@ public class GoServerDeprecatedCodegen extends AbstractGoCodegen {
      */
     private static final String[] ROUTERS = {"mux", "chi"};
 
-    private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoServerDeprecatedCodegen.class);
 
     protected String packageVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -60,7 +60,7 @@ public class GoServerDeprecatedCodegen extends AbstractGoCodegen {
     protected Boolean onlyInterfaces = false;
 
 
-    public GoServerCodegen() {
+    public GoServerDeprecatedCodegen() {
         super();
 
         modifyFeatureSet(features -> features

@@ -22,7 +22,7 @@ import org.openapitools.codegen.CodegenConstants;
 
 import java.util.Map;
 
-public class GoServerOptionsProvider implements OptionsProvider {
+public class GoServerDeprecatedOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";

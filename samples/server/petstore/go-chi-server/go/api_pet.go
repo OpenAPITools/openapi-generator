@@ -110,22 +110,22 @@ func (c *PetAPIController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := &Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil {
+	if err := d.Decode(petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(petParam); err != nil {
+	if err := AssertPetRequired(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertPetConstraints(petParam); err != nil {
+	if err := AssertPetConstraints(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.AddPet(r.Context(), petParam)
+	result, err := c.service.AddPet(r.Context(), *petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -159,20 +159,22 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FilterPetsByCategory - Finds Pets
 func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	genderParam, err := NewGenderFromValue(chi.URLParam(r, "gender"))
+	genderParamPtr, err := NewGenderFromValue(chi.URLParam(r, "gender"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	genderParam := *genderParamPtr
 	if !query.Has("species"){
 		c.errorHandler(w, r, &RequiredError{"species"}, nil)
 		return
 	}
-	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
+	speciesParamPtr, err := NewSpeciesFromValue(query.Get("species"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	speciesParam = *speciesParamPtr
 	var notSpeciesParam []Species
 	if query.Has("notSpecies") {
 		paramSplits := strings.Split(query.Get("notSpecies"), ",")
@@ -183,7 +185,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 				return
 			}
-			notSpeciesParam = append(notSpeciesParam, paramEnum)
+			notSpeciesParam = append(notSpeciesParam, *paramEnum)
 		}
 	}
 	result, err := c.service.FilterPetsByCategory(r.Context(), genderParam, speciesParam, notSpeciesParam)
@@ -230,11 +232,13 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
 	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
 	if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
+	
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -287,22 +291,22 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := &Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil {
+	if err := d.Decode(petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(petParam); err != nil {
+	if err := AssertPetRequired(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertPetConstraints(petParam); err != nil {
+	if err := AssertPetConstraints(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.UpdatePet(r.Context(), petParam)
+	result, err := c.service.UpdatePet(r.Context(), *petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
