@@ -5987,19 +5987,29 @@ public class DefaultCodegen implements CodegenConfig {
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
             Schema schema = entry.getValue();
             if (isAliasOfSimpleTypes(schema)) {
-                String oasName = entry.getKey();
-                String schemaType = getPrimitiveType(schema);
-                aliases.put(oasName, schemaType);
+                if (schema.getAllOf() != null && schema.getAllOf().size() == 1) { // allOf with a single item
+                    Schema unaliasSchema = unaliasSchema(schema);
+                    unaliasSchema = ModelUtils.getReferencedSchema(this.openAPI, unaliasSchema);
+                    aliases.put(entry.getKey() /* schema name, e.g. Pet */, getPrimitiveType(unaliasSchema));
+                } else {
+                    aliases.put(entry.getKey() /* schema name, e.g. Pet */, getPrimitiveType(schema));
+                }
             }
-
         }
 
         return aliases;
     }
 
-    private static Boolean isAliasOfSimpleTypes(Schema schema) {
+    private Boolean isAliasOfSimpleTypes(Schema schema) {
         if (schema == null) {
             return false;
+        }
+
+        // allOf with a single item
+        if (schema.getAllOf() != null && schema.getAllOf().size() == 1
+                && schema.getAllOf().get(0) instanceof Schema) {
+            schema = unaliasSchema((Schema) schema.getAllOf().get(0));
+            schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         }
 
         return (!ModelUtils.isObjectSchema(schema)
