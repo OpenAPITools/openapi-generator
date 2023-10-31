@@ -244,7 +244,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected boolean enumPropertyNamingReplaceSpecialChar = false;
-    protected Boolean supportsES6 = false;
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
@@ -356,7 +355,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
-        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
         cliOptions.add(new CliOption(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_DESC).defaultValue(this.paramNaming.name()));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
@@ -402,8 +400,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (additionalProperties.containsKey(CodegenConstants.PARAM_NAMING)) {
             setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
         }
-
-        setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
@@ -1029,14 +1025,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
         }
         return result;
-    }
-
-    public void setSupportsES6(Boolean value) {
-        supportsES6 = value;
-    }
-
-    public Boolean getSupportsES6() {
-        return supportsES6;
     }
 
     public Boolean getNullSafeAdditionalProps() {

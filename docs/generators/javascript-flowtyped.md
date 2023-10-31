@@ -36,7 +36,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|supportsES6|Generate code that conforms to ES6.| |false|
 
 ## IMPORT MAPPING
 

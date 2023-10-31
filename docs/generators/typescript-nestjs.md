@@ -43,7 +43,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
-|supportsES6|Generate code that conforms to ES6.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 

@@ -13,12 +13,10 @@
 {{^packageAsSourceOnlyLibrary}}
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-{{#supportsES6}}
   "module": "./dist/esm/index.js",
   "sideEffects": false,
-{{/supportsES6}}
   "scripts": {
-    "build": "tsc{{#supportsES6}} && tsc -p tsconfig.esm.json{{/supportsES6}}"{{^sagasAndRecords}},
+    "build": "tsc && tsc -p tsconfig.esm.json"{{^sagasAndRecords}},
     "prepare": "npm run build"{{/sagasAndRecords}}
   },
 {{/packageAsSourceOnlyLibrary}}

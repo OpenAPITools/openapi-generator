@@ -274,9 +274,6 @@ public class CodegenConstants {
     public static final String HTTP_USER_AGENT = "httpUserAgent";
     public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'";
 
-    public static final String SUPPORTS_ES6 = "supportsES6";
-    public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
-
     public static final String SUPPORTS_ASYNC = "supportsAsync";
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
 
