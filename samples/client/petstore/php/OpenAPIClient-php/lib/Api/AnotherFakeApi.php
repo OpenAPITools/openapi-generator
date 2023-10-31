@@ -198,8 +198,9 @@ class AnotherFakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Client' !== 'string') {
-                            $content = json_decode($content);
-                            if ($content === null) {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
                                 throw new ApiException(
                                     sprintf(
                                         'Error JSON decoding server response (%s)',
@@ -226,8 +227,9 @@ class AnotherFakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                    if ($content === null) {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
                         throw new ApiException(
                             sprintf(
                                 'Error JSON decoding server response (%s)',
