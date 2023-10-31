@@ -148,7 +148,7 @@ class TestManual(unittest.TestCase):
     def testParametersToUrlQuery(self):
         client = openapi_client.ApiClient()
         params = client.parameters_to_url_query([("boolean", True),], {})
-        self.assertEqual(params, "&boolean=true")
+        self.assertEqual(params, "boolean=true")
 
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
