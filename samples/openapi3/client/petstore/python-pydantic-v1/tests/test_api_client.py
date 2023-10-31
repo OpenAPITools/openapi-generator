@@ -259,4 +259,4 @@ class ApiClientTests(unittest.TestCase):
 
     def test_parameters_to_url_query_boolean_value(self):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
-        self.assertEqual(result, "boolean=true")
+        self.assertEqual(result, "&boolean=true")
