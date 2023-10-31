@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictStr, field_validator
 try:
     from typing import Self
