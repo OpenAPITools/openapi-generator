@@ -2699,4 +2699,25 @@ public class JavaClientCodegenTest {
                         .bodyContainsLines(
                                         "localVarHeaderParams.put(\"X-CUSTOM_CONSTANT_HEADER\", \"CONSTANT_VALUE\")");
     }
+
+    @Test
+    public void testAllOfWithSinglePrimitiveTypeRef() throws IOException {
+        File output = Files.createTempDirectory("test_allOf_primitive_type").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allof_primitive.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
+        javaClientCodegen.setOutputDir(output.getAbsolutePath());
+        javaClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(javaClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("AllOfDatetime.java");
+        assertEquals(apiFile, null);
+    }
 }
