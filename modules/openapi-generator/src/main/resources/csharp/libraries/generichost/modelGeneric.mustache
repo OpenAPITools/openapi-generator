@@ -129,7 +129,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}Option } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}Option = value; } {{/isReadOnly}}}{{/required}} // b
+        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}Option; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}Option = new(value); } {{/isReadOnly}}}{{/required}} // b
 
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.anyOf}}
