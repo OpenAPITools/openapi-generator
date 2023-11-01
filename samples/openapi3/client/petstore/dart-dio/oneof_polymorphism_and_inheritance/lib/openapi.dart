@@ -30,3 +30,4 @@ export 'package:openapi/src/model/fruit_type.dart';
 export 'package:openapi/src/model/pasta.dart';
 export 'package:openapi/src/model/pizza.dart';
 export 'package:openapi/src/model/pizza_speziale.dart';
+

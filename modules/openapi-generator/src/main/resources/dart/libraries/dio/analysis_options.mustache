@@ -2,11 +2,17 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
+  {{^useFreezed}}
   strong-mode:
     implicit-dynamic: false
     implicit-casts: false
+  {{/useFreezed}}
   exclude:
     - test/*.dart{{#useJsonSerializable}}
     - lib/{{sourceFolder}}/model/*.g.dart{{/useJsonSerializable}}
+    {{#useFreezed}}
+    - lib/src/model/*.g.dart
+    - lib/src/model/*.freezed.dart
+    {{/useFreezed}}
   errors:
     deprecated_member_use_from_same_package: ignore
