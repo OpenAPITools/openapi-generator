@@ -20,7 +20,7 @@
             {{#composedSchemas.anyOf}}
             {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{/composedSchemas.anyOf}}
-            {{name}}{{^required}}Option{{/required}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
+            {{name}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{#allVars}}
             {{^isInherited}}
             {{name}}{{^required}}Option{{/required}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
