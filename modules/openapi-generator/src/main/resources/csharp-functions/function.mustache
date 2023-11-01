@@ -23,7 +23,7 @@ namespace {{apiPackage}}
         {
             var method = this.GetType().GetMethod("{{operationId}}");
             return method != null
-                ? (await ((Task<{{{returnType}}}>)method.Invoke(this, new object [] { req, context{{#allParams}}{{#isPathParam}}, {{>paramName}}{{/isPathParam}}{{/allParams}} })).ConfigureAwait(false))
+                ? (await ((Task<{{{returnType}}}>)method.Invoke(this, new object[] { req, context{{#allParams}}{{#isPathParam}}, {{>paramName}}{{/isPathParam}}{{/allParams}} })).ConfigureAwait(false))
                 : new StatusCodeResult((int)HttpStatusCode.NotImplemented);
         }
         {{/generateBody}}
