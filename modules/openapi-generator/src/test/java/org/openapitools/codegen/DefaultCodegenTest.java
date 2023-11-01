@@ -4792,7 +4792,8 @@ public class DefaultCodegenTest {
         assertNotNull(mt.getExample());
     }
 
-    @Test void testIsXML() {
+    @Test
+    void testIsXML() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
         Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
