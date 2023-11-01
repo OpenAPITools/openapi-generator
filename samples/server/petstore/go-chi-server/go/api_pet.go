@@ -60,6 +60,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}",
 			c.DeletePet,
 		},
+		"FilterPetsByCategory": Route{
+			strings.ToUpper("Get"),
+			"/v2/pet/filterPets/{gender}",
+			c.FilterPetsByCategory,
+		},
 		"FindPetsByStatus": Route{
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
@@ -74,6 +79,16 @@ func (c *PetAPIController) Routes() Routes {
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}",
 			c.GetPetById,
+		},
+		"GetPetImageById": Route{
+			strings.ToUpper("Get"),
+			"/v2/pet/{petId}/uploadImage",
+			c.GetPetImageById,
+		},
+		"GetPetsUsingBooleanQueryParameters": Route{
+			strings.ToUpper("Get"),
+			"/v2/pets/boolean/parsing",
+			c.GetPetsUsingBooleanQueryParameters,
 		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
@@ -146,10 +161,53 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
+// FilterPetsByCategory - Finds Pets
+func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	genderParam, err := NewGenderFromValue(chi.URLParam(r, "gender"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if !query.Has("species"){
+		c.errorHandler(w, r, &RequiredError{"species"}, nil)
+		return
+	}
+	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var notSpeciesParam []Species
+	if query.Has("notSpecies") {
+		paramSplits := strings.Split(query.Get("notSpecies"), ",")
+		notSpeciesParam = make([]Species, 0, len(paramSplits))
+		for _, param := range paramSplits {
+			paramEnum, err := NewSpeciesFromValue(param)
+			if err != nil {
+				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+				return
+			}
+			notSpeciesParam = append(notSpeciesParam, paramEnum)
+		}
+	}
+	result, err := c.service.FilterPetsByCategory(r.Context(), genderParam, speciesParam, notSpeciesParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	statusParam := strings.Split(query.Get("status"), ",")
+	var statusParam []string
+	if query.Has("status") {
+		statusParam = strings.Split(query.Get("status"), ",")
+	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -164,8 +222,25 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tagsParam := strings.Split(query.Get("tags"), ",")
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
+	var tagsParam []string
+	if query.Has("tags") {
+		tagsParam = strings.Split(query.Get("tags"), ",")
+	}
+	if !query.Has("bornAfter"){
+		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
+		return
+	}
+	bornAfterParam, err := parseTime(query.Get("bornAfter"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -186,6 +261,63 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.GetPetById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetImageById - Returns the image for the Pet that has been previously uploaded
+func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Request) {
+	petIdParam, err := parseNumericParameter[int64](
+		chi.URLParam(r, "petId"),
+		WithRequire[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
+func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	exprParam, err := parseBoolParameter(
+		query.Get("expr"),
+		WithRequire[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	groupingParam, err := parseBoolParameter(
+		query.Get("grouping"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	inactiveParam, err := parseBoolParameter(
+		query.Get("inactive"),
+		WithDefaultOrParse[bool](false, parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

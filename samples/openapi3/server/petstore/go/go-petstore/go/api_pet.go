@@ -144,7 +144,10 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	statusParam := strings.Split(query.Get("status"), ",")
+	var statusParam []string
+	if query.Has("status") {
+		statusParam = strings.Split(query.Get("status"), ",")
+	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -159,7 +162,10 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tagsParam := strings.Split(query.Get("tags"), ",")
+	var tagsParam []string
+	if query.Has("tags") {
+		tagsParam = strings.Split(query.Get("tags"), ",")
+	}
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

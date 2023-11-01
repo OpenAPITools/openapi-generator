@@ -71,7 +71,7 @@ class Order
     /**
      * @var \DateTime|null
      * @SerializedName("shipDate")
-     * @Assert\DateTime()
+     * @Assert\Type("\DateTime"))
      * @Type("DateTime")
      */
     protected ?\DateTime $shipDate = null;

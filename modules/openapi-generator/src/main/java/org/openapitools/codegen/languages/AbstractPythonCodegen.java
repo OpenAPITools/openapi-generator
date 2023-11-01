@@ -946,15 +946,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            // if model_generic.mustache is used and support additionalProperties
-            if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
-                    && !model.isEnum
-                    && !this.disallowAdditionalPropertiesIfNotPresent) {
-                typingImports.add("Dict");
-                typingImports.add("List");
-                typingImports.add("Any");
+            // if model_generic.mustache is used
+            if (model.oneOf.isEmpty() && model.anyOf.isEmpty() && !model.isEnum) {
                 typingImports.add("ClassVar");
+                typingImports.add("Dict");
+                typingImports.add("Any");
+                if(this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
+                    typingImports.add("List");
+                }
             }
+
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
@@ -1281,6 +1282,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
+            
+            // Remove constant params from allParams list and add to constantParams
+            handleConstantParams(operation);
         }
 
         List<Map<String, String>> newImports = new ArrayList<>();

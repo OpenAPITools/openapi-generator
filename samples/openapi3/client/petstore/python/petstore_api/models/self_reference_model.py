@@ -20,7 +20,6 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class SelfReferenceModel(BaseModel):
     """
     SelfReferenceModel
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
     additional_properties: Dict[str, Any] = {}
@@ -84,7 +83,7 @@ class SelfReferenceModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of SelfReferenceModel from a dict"""
         if obj is None:
             return None

@@ -48,6 +48,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String GEM_METADATA = "gemMetadata";
     public static final String FARADAY = "faraday";
     public static final String HTTPX = "httpx";
     public static final String TYPHOEUS = "typhoeus";
@@ -66,6 +67,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
+    protected String gemMetadata = "{}";
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -170,6 +172,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
+        cliOptions.add(new CliOption(GEM_METADATA, "gem metadata.").
+                defaultValue("{}"));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
@@ -244,6 +249,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (additionalProperties.containsKey(GEM_AUTHOR_EMAIL)) {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
+        }
+
+        if (additionalProperties.containsKey(GEM_METADATA)) {
+            setGemMetadata((String) additionalProperties.get(GEM_METADATA));
         }
 
         if (additionalProperties.containsKey(USE_AUTOLOAD)) {
@@ -611,6 +620,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    public void setGemMetadata(String gemMetadata) {
+        this.gemMetadata = gemMetadata;
     }
 
     public void setUseAutoload(boolean useAutoload) {
