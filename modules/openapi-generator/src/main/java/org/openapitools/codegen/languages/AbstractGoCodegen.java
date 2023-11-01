@@ -50,7 +50,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean structPrefix = false;
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
-    protected boolean generateMarshalJSON = false;
+    protected boolean generateMarshalJSON = true;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;

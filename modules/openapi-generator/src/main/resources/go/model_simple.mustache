@@ -260,7 +260,7 @@ func (o *{{classname}}) Unset{{name}}() {
 
 {{/required}}
 {{/vars}}
-{{^vendorExtensions.x-go-generate-marshal-json}}
+{{#vendorExtensions.x-go-generate-marshal-json}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
