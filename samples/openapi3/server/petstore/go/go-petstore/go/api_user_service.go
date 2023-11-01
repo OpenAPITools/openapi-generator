@@ -27,7 +27,7 @@ func NewUserAPIService() UserAPIServicer {
 }
 
 // CreateUser - Create user
-func (s *UserAPIService) CreateUser(ctx context.Context, User) (ImplResponse, error) {
+func (s *UserAPIService) CreateUser(ctx context.Context, user User) (ImplResponse, error) {
 	// TODO - update CreateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -38,7 +38,7 @@ func (s *UserAPIService) CreateUser(ctx context.Context, User) (ImplResponse, er
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (s *UserAPIService) CreateUsersWithArrayInput(ctx context.Context, []User) (ImplResponse, error) {
+func (s *UserAPIService) CreateUsersWithArrayInput(ctx context.Context, user []User) (ImplResponse, error) {
 	// TODO - update CreateUsersWithArrayInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -49,7 +49,7 @@ func (s *UserAPIService) CreateUsersWithArrayInput(ctx context.Context, []User) 
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (s *UserAPIService) CreateUsersWithListInput(ctx context.Context, []User) (ImplResponse, error) {
+func (s *UserAPIService) CreateUsersWithListInput(ctx context.Context, user []User) (ImplResponse, error) {
 	// TODO - update CreateUsersWithListInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -60,7 +60,7 @@ func (s *UserAPIService) CreateUsersWithListInput(ctx context.Context, []User) (
 }
 
 // DeleteUser - Delete user
-func (s *UserAPIService) DeleteUser(ctx context.Context, string, *bool) (ImplResponse, error) {
+func (s *UserAPIService) DeleteUser(ctx context.Context, username string, *booleanTest bool) (ImplResponse, error) {
 	// TODO - update DeleteUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -74,7 +74,7 @@ func (s *UserAPIService) DeleteUser(ctx context.Context, string, *bool) (ImplRes
 }
 
 // GetUserByName - Get user by user name
-func (s *UserAPIService) GetUserByName(ctx context.Context, string) (ImplResponse, error) {
+func (s *UserAPIService) GetUserByName(ctx context.Context, username string) (ImplResponse, error) {
 	// TODO - update GetUserByName with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -91,7 +91,7 @@ func (s *UserAPIService) GetUserByName(ctx context.Context, string) (ImplRespons
 }
 
 // LoginUser - Logs user into the system
-func (s *UserAPIService) LoginUser(ctx context.Context, string, string, *int32, *int64, *float32, *float64, *bool) (ImplResponse, error) {
+func (s *UserAPIService) LoginUser(ctx context.Context, username string, password string, *int32Test int32, *int64Test int64, *float32Test float32, *float64Test float64, *booleanTest bool) (ImplResponse, error) {
 	// TODO - update LoginUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -116,7 +116,7 @@ func (s *UserAPIService) LogoutUser(ctx context.Context) (ImplResponse, error) {
 }
 
 // UpdateUser - Updated user
-func (s *UserAPIService) UpdateUser(ctx context.Context, string, User) (ImplResponse, error) {
+func (s *UserAPIService) UpdateUser(ctx context.Context, username string, user User) (ImplResponse, error) {
 	// TODO - update UpdateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

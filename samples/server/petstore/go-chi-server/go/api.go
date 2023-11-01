@@ -73,7 +73,7 @@ type PetAPIServicer interface {
 	FindPetsByTags(context.Context, []string, time.Time, *time.Time) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	GetPetImageById(context.Context, int64) (ImplResponse, error)
-	GetPetsUsingBooleanQueryParameters(context.Context, bool, bool, bool) (ImplResponse, error)
+	GetPetsUsingBooleanQueryParameters(context.Context, bool, *bool, *bool) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, *string, *string) (ImplResponse, error)
 	UploadFile(context.Context, int64, *string, *os.File) (ImplResponse, error)
