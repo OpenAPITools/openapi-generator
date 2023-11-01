@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, Option<string> color = default)
+        public Fruit(Apple apple, string color)
         {
             Apple = apple;
             Color = color;
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, Option<string> color = default)
+        public Fruit(Banana banana, string color)
         {
             Banana = banana;
             Color = color;
@@ -72,7 +72,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public Option<string> Color { get; set; }
+        public string Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -120,7 +120,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> color = default;
+            string? color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -160,7 +160,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -168,16 +168,14 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
-
-            Option<string> colorParsedValue = new Option<string>(color.Value);
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
             if (apple != null)
-                return new Fruit(apple, colorParsedValue);
+                return new Fruit(apple, color);
 
             if (banana != null)
-                return new Fruit(banana, colorParsedValue);
+                return new Fruit(banana, color);
 
             throw new JsonException();
         }
@@ -206,11 +204,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fruit.Color.Value == null)
-                throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
-
-            if (fruit.Color.IsSet)
-                writer.WriteString("color", fruit.Color.Value);
+            writer.WriteString("color", fruit.Color);
         }
     }
 

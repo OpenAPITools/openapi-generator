@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
         [JsonConstructor]
-        public Apple(Option<string> colorCode = default, Option<string> cultivar = default, Option<string> origin = default)
+        public Apple(string colorCode, string cultivar, string origin)
         {
             ColorCode = colorCode;
             Cultivar = cultivar;
@@ -52,19 +51,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ColorCode
         /// </summary>
         [JsonPropertyName("color_code")]
-        public Option<string> ColorCode { get; set; }
+        public string ColorCode { get; set; }
 
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public Option<string> Cultivar { get; set; }
+        public string Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public Option<string> Origin { get; set; }
+        public string Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -95,28 +94,28 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            if (this.ColorCode.Value != null) {
+            if (this.ColorCode != null) {
                 // ColorCode (string) pattern
                 Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
-                if (!regexColorCode.Match(this.ColorCode.Value).Success)
+                if (!regexColorCode.Match(this.ColorCode).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
                 }
             }
 
-            if (this.Cultivar.Value != null) {
+            if (this.Cultivar != null) {
                 // Cultivar (string) pattern
                 Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
-                if (!regexCultivar.Match(this.Cultivar.Value).Success)
+                if (!regexCultivar.Match(this.Cultivar).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
                 }
             }
 
-            if (this.Origin.Value != null) {
+            if (this.Origin != null) {
                 // Origin (string) pattern
                 Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-                if (!regexOrigin.Match(this.Origin.Value).Success)
+                if (!regexOrigin.Match(this.Origin).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
                 }
@@ -148,9 +147,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> colorCode = default;
-            Option<string?> cultivar = default;
-            Option<string?> origin = default;
+            string? colorCode = default;
+            string? cultivar = default;
+            string? origin = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,13 +167,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color_code":
-                            colorCode = new Option<string?>(utf8JsonReader.GetString()!);
+                            colorCode = utf8JsonReader.GetString();
                             break;
                         case "cultivar":
-                            cultivar = new Option<string?>(utf8JsonReader.GetString()!);
+                            cultivar = utf8JsonReader.GetString();
                             break;
                         case "origin":
-                            origin = new Option<string?>(utf8JsonReader.GetString()!);
+                            origin = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -182,20 +181,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (colorCode.Value == null)
-                throw new ArgumentNullException(nameof(colorCode), "Property is not nullable for class Apple.");
+            if (colorCode == null)
+                throw new ArgumentNullException(nameof(colorCode), "Property is required for class Apple.");
 
-            if (cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class Apple.");
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class Apple.");
 
-            if (origin.Value == null)
-                throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
+            if (origin == null)
+                throw new ArgumentNullException(nameof(origin), "Property is required for class Apple.");
 
-            Option<string> colorCodeParsedValue = new Option<string>(colorCode.Value);
-            Option<string> cultivarParsedValue = new Option<string>(cultivar.Value);
-            Option<string> originParsedValue = new Option<string>(origin.Value);
-
-            return new Apple(colorCodeParsedValue, cultivarParsedValue, originParsedValue);
+            return new Apple(colorCode, cultivar, origin);
         }
 
         /// <summary>
@@ -222,19 +217,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apple.ColorCode.Value == null)
-                throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");
-
-            if (apple.Cultivar.Value == null)
-                throw new ArgumentNullException(nameof(apple.Cultivar), "Property is required for class Apple.");
-
-            if (apple.Origin.Value == null)
-                throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
-
-            if (apple.ColorCode.IsSet)
-                writer.WriteString("color_code", apple.ColorCode.Value);            if (apple.Cultivar.IsSet)
-                writer.WriteString("cultivar", apple.Cultivar.Value);            if (apple.Origin.IsSet)
-                writer.WriteString("origin", apple.Origin.Value);
+            writer.WriteString("color_code", apple.ColorCode);
+            writer.WriteString("cultivar", apple.Cultivar);
+            writer.WriteString("origin", apple.Origin);
         }
     }
 }

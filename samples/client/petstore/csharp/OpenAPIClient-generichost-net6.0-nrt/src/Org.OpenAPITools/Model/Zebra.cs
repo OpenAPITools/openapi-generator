@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, Option<TypeEnum> type = default) : base()
+        public Zebra(string className, TypeEnum type) : base()
         {
             ClassName = className;
             Type = type;
@@ -114,6 +113,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string TypeEnumToJsonValue(TypeEnum value)
         {
+
             if (value == TypeEnum.Plains)
                 return "plains";
 
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public Option<TypeEnum> Type { get; set; }
+        public TypeEnum Type { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -203,8 +203,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
-            Option<Zebra.TypeEnum?> type = default;
+            string? className = default;
+            Zebra.TypeEnum? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -222,12 +222,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
+                            className = utf8JsonReader.GetString();
                             break;
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
-                            if (typeRawValue != null)
-                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
+                            type = typeRawValue == null
+                                ? null
+                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
                             break;
                         default:
                             break;
@@ -235,19 +236,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Zebra.", nameof(className));
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
 
-            if (className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
 
-            if (type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
-
-            string classNameParsedValue = className.Value;
-            Option<Zebra.TypeEnum> typeParsedValue = new Option<Zebra.TypeEnum>(type.Value.Value);
-
-            return new Zebra(classNameParsedValue, typeParsedValue);
+            return new Zebra(className, type.Value);
         }
 
         /// <summary>
@@ -274,10 +269,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (zebra.ClassName == null)
-                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+            writer.WriteString("className", zebra.ClassName);
 
-            writer.WriteString("className", zebra.ClassName);            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type.Value);
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);
             else

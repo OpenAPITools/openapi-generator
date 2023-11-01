@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(Option<string> bar = default)
+        public Foo(string bar = @"bar")
         {
             Bar = bar;
             OnCreated();
@@ -48,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public Option<string> Bar { get; set; }
+        public string Bar { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> bar = default;
+            string? bar = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string?>(utf8JsonReader.GetString()!);
+                            bar = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -129,12 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class Foo.");
 
-            Option<string> barParsedValue = new Option<string>(bar.Value);
-
-            return new Foo(barParsedValue);
+            return new Foo(bar);
         }
 
         /// <summary>
@@ -161,11 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (foo.Bar.Value == null)
-                throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
-
-            if (foo.Bar.IsSet)
-                writer.WriteString("bar", foo.Bar.Value);
+            writer.WriteString("bar", foo.Bar);
         }
     }
 }

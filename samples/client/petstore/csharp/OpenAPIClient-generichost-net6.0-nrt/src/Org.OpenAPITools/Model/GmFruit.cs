@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string> color = default)
+        public GmFruit(Apple? apple, Banana? banana, string color)
         {
             Apple = apple;
             Banana = banana;
@@ -50,18 +49,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Option<Apple?> Apple { get; set; }
+        public Apple? Apple { get; set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Option<Banana?> Banana { get; set; }
+        public Banana? Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public Option<string> Color { get; set; }
+        public string Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -109,7 +108,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> color = default;
+            string? color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -149,7 +148,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -157,15 +156,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
 
-            Option<string> colorParsedValue = new Option<string>(color.Value);
-
-            Option<Apple?> appleParsedValue = new Option<Apple?>(apple);
-            Option<Banana?> bananaParsedValue = new Option<Banana?>(banana);
-
-            return new GmFruit(appleParsedValue, bananaParsedValue, colorParsedValue);
+            return new GmFruit(apple, banana, color);
         }
 
         /// <summary>
@@ -179,16 +173,16 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.Apple.IsSet && gmFruit.Apple.Value != null)
+            if (gmFruit.Apple != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.Value.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple.Value, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
             }
 
-            if (gmFruit.Banana.IsSet && gmFruit.Banana.Value != null)
+            if (gmFruit.Banana != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.Value.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana.Value, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
@@ -204,11 +198,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (gmFruit.Color.Value == null)
-                throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
-
-            if (gmFruit.Color.IsSet)
-                writer.WriteString("color", gmFruit.Color.Value);
+            writer.WriteString("color", gmFruit.Color);
         }
     }
 }

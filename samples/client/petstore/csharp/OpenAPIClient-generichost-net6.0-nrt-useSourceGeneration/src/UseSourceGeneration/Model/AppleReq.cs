@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
         [JsonConstructor]
-        public AppleReq(string cultivar, Option<bool> mealy = default)
+        public AppleReq(string cultivar, bool mealy)
         {
             Cultivar = cultivar;
             Mealy = mealy;
@@ -57,7 +57,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public Option<bool> Mealy { get; set; }
+        public bool Mealy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,8 +106,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> cultivar = default;
-            Option<bool?> mealy = default;
+            string? cultivar = default;
+            bool? mealy = default;
 
             while (utf8JsonReader.Read())
             {
@@ -125,11 +125,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "cultivar":
-                            cultivar = new Option<string?>(utf8JsonReader.GetString()!);
+                            cultivar = utf8JsonReader.GetString();
                             break;
                         case "mealy":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mealy = new Option<bool?>(utf8JsonReader.GetBoolean());
+                                mealy = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
@@ -137,19 +137,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!cultivar.IsSet)
-                throw new ArgumentException("Property is required for class AppleReq.", nameof(cultivar));
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
 
-            if (cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class AppleReq.");
+            if (mealy == null)
+                throw new ArgumentNullException(nameof(mealy), "Property is required for class AppleReq.");
 
-            if (mealy.Value == null)
-                throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
-
-            string cultivarParsedValue = cultivar.Value;
-            Option<bool> mealyParsedValue = new Option<bool>(mealy.Value.Value);
-
-            return new AppleReq(cultivarParsedValue, mealyParsedValue);
+            return new AppleReq(cultivar, mealy.Value);
         }
 
         /// <summary>
@@ -176,11 +170,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (appleReq.Cultivar == null)
-                throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
-
-            writer.WriteString("cultivar", appleReq.Cultivar);            if (appleReq.Mealy.IsSet)
-                writer.WriteBoolean("mealy", appleReq.Mealy.Value);
+            writer.WriteString("cultivar", appleReq.Cultivar);
+            writer.WriteBoolean("mealy", appleReq.Mealy);
         }
     }
 

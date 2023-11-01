@@ -116,7 +116,6 @@ namespace UseSourceGeneration.Client
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
-            _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -211,7 +210,6 @@ namespace UseSourceGeneration.Client
                 new QuadrilateralSerializationContext(),
                 new QuadrilateralInterfaceSerializationContext(),
                 new ReadOnlyFirstSerializationContext(),
-                new RequiredClassSerializationContext(),
                 new ReturnSerializationContext(),
                 new RolesReportsHashSerializationContext(),
                 new RolesReportsHashRoleSerializationContext(),

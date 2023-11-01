@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -136,7 +135,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
+            string? className = default;
 
             BasquePig? basquePig = null;
             DanishPig? danishPig = null;
@@ -187,7 +186,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
+                            className = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -195,19 +194,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
-
-            if (className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
-
-            string classNameParsedValue = className.Value;
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, classNameParsedValue);
+                return new Pig(basquePig, className);
 
             if (danishPig != null)
-                return new Pig(danishPig, classNameParsedValue);
+                return new Pig(danishPig, className);
 
             throw new JsonException();
         }
@@ -246,9 +240,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pig.ClassName == null)
-                throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
-
             writer.WriteString("className", pig.ClassName);
         }
     }

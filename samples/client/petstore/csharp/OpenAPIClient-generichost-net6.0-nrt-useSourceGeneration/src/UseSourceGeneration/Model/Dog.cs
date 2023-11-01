@@ -35,11 +35,11 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="breed">breed</param>
+        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Dog(string className, Option<string> breed = default, Option<string> color = default) : base(className, color)
+        public Dog(string breed, string className, string color = @"red") : base(className, color)
         {
             Breed = breed;
             OnCreated();
@@ -51,7 +51,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public Option<string> Breed { get; set; }
+        public string Breed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -90,9 +90,9 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
-            Option<string?> breed = default;
-            Option<string?> color = default;
+            string? breed = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -109,14 +109,14 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         case "breed":
-                            breed = new Option<string?>(utf8JsonReader.GetString()!);
+                            breed = utf8JsonReader.GetString();
+                            break;
+                        case "className":
+                            className = utf8JsonReader.GetString();
                             break;
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -124,23 +124,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Dog.", nameof(className));
+            if (breed == null)
+                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
 
-            if (className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Dog.");
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
 
-            if (breed.Value == null)
-                throw new ArgumentNullException(nameof(breed), "Property is not nullable for class Dog.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
 
-            if (color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
-
-            string classNameParsedValue = className.Value;
-            Option<string> breedParsedValue = new Option<string>(breed.Value);
-            Option<string> colorParsedValue = new Option<string>(color.Value);
-
-            return new Dog(classNameParsedValue, breedParsedValue, colorParsedValue);
+            return new Dog(breed, className, color);
         }
 
         /// <summary>
@@ -167,18 +160,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (dog.ClassName == null)
-                throw new ArgumentNullException(nameof(dog.ClassName), "Property is required for class Dog.");
-
-            if (dog.Breed.Value == null)
-                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
-
-            if (dog.Color.Value == null)
-                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
-
-            writer.WriteString("className", dog.ClassName);            if (dog.Breed.IsSet)
-                writer.WriteString("breed", dog.Breed.Value);            if (dog.Color.IsSet)
-                writer.WriteString("color", dog.Color.Value);
+            writer.WriteString("breed", dog.Breed);
+            writer.WriteString("className", dog.ClassName);
+            writer.WriteString("color", dog.Color);
         }
     }
 

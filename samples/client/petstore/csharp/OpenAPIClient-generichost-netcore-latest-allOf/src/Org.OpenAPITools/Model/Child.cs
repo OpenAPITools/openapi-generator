@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="type">type</param>
         /// <param name="boosterSeat">boosterSeat</param>
         [JsonConstructor]
-        public Child(Option<int> age = default, Option<string> firstName = default, Option<string> lastName = default, Option<string> type = default, Option<bool> boosterSeat = default) : base(firstName, lastName, type)
+        public Child(int age, string firstName, string lastName, string type, bool boosterSeat) : base(firstName, lastName, type)
         {
             Age = age;
             BoosterSeat = boosterSeat;
@@ -53,13 +52,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Age
         /// </summary>
         [JsonPropertyName("age")]
-        public Option<int> Age { get; set; }
+        public int Age { get; set; }
 
         /// <summary>
         /// Gets or Sets BoosterSeat
         /// </summary>
         [JsonPropertyName("boosterSeat")]
-        public Option<bool> BoosterSeat { get; set; }
+        public bool BoosterSeat { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -99,11 +98,11 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<int?> age = default;
-            Option<string?> firstName = default;
-            Option<string?> lastName = default;
-            Option<string?> type = default;
-            Option<bool?> boosterSeat = default;
+            int? age = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
+            bool? boosterSeat = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,20 +121,20 @@ namespace Org.OpenAPITools.Model
                     {
                         case "age":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                age = new Option<int?>(utf8JsonReader.GetInt32());
+                                age = utf8JsonReader.GetInt32();
                             break;
                         case "firstName":
-                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
+                            firstName = utf8JsonReader.GetString();
                             break;
                         case "lastName":
-                            lastName = new Option<string?>(utf8JsonReader.GetString()!);
+                            lastName = utf8JsonReader.GetString();
                             break;
                         case "$_type":
-                            type = new Option<string?>(utf8JsonReader.GetString()!);
+                            type = utf8JsonReader.GetString();
                             break;
                         case "boosterSeat":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                boosterSeat = new Option<bool?>(utf8JsonReader.GetBoolean());
+                                boosterSeat = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
@@ -143,28 +142,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (age.Value == null)
-                throw new ArgumentNullException(nameof(age), "Property is not nullable for class Child.");
+            if (age == null)
+                throw new ArgumentNullException(nameof(age), "Property is required for class Child.");
 
-            if (firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Child.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Child.");
 
-            if (lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Child.");
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Child.");
 
-            if (type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Child.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Child.");
 
-            if (boosterSeat.Value == null)
-                throw new ArgumentNullException(nameof(boosterSeat), "Property is not nullable for class Child.");
+            if (boosterSeat == null)
+                throw new ArgumentNullException(nameof(boosterSeat), "Property is required for class Child.");
 
-            Option<int> ageParsedValue = new Option<int>(age.Value.Value);
-            Option<string> firstNameParsedValue = new Option<string>(firstName.Value);
-            Option<string> lastNameParsedValue = new Option<string>(lastName.Value);
-            Option<string> typeParsedValue = new Option<string>(type.Value);
-            Option<bool> boosterSeatParsedValue = new Option<bool>(boosterSeat.Value.Value);
-
-            return new Child(ageParsedValue, firstNameParsedValue, lastNameParsedValue, typeParsedValue, boosterSeatParsedValue);
+            return new Child(age.Value, firstName, lastName, type, boosterSeat.Value);
         }
 
         /// <summary>
@@ -191,21 +184,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (child.FirstName.Value == null)
-                throw new ArgumentNullException(nameof(child.FirstName), "Property is required for class Child.");
-
-            if (child.LastName.Value == null)
-                throw new ArgumentNullException(nameof(child.LastName), "Property is required for class Child.");
-
-            if (child.Type.Value == null)
-                throw new ArgumentNullException(nameof(child.Type), "Property is required for class Child.");
-
-            if (child.Age.IsSet)
-                writer.WriteNumber("age", child.Age.Value);            if (child.FirstName.IsSet)
-                writer.WriteString("firstName", child.FirstName.Value);            if (child.LastName.IsSet)
-                writer.WriteString("lastName", child.LastName.Value);            if (child.Type.IsSet)
-                writer.WriteString("$_type", child.Type.Value);            if (child.BoosterSeat.IsSet)
-                writer.WriteBoolean("boosterSeat", child.BoosterSeat.Value);
+            writer.WriteNumber("age", child.Age);
+            writer.WriteString("firstName", child.FirstName);
+            writer.WriteString("lastName", child.LastName);
+            writer.WriteString("$_type", child.Type);
+            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
         }
     }
 }

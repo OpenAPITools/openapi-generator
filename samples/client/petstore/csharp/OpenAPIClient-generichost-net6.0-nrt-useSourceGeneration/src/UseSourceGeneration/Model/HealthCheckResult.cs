@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(Option<string?> nullableMessage = default)
+        public HealthCheckResult(string? nullableMessage = default)
         {
             NullableMessage = nullableMessage;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public Option<string?> NullableMessage { get; set; }
+        public string? NullableMessage { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> nullableMessage = default;
+            string? nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = new Option<string?>(utf8JsonReader.GetString());
+                            nullableMessage = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -157,11 +157,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (healthCheckResult.NullableMessage.IsSet)
-                if (healthCheckResult.NullableMessage.Value != null)
-                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage.Value);
-                else
-                    writer.WriteNull("NullableMessage");
+            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
         }
     }
 

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default, Option<JustSymbolEnum> justSymbol = default)
+        public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
@@ -103,6 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
         {
+
             if (value == ArrayEnumEnum.Fish)
                 return "fish";
 
@@ -169,6 +169,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
+
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
                 return ">=";
 
@@ -182,13 +183,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public Option<JustSymbolEnum> JustSymbol { get; set; }
+        public JustSymbolEnum JustSymbol { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnum { get; set; }
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -244,8 +245,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<EnumArrays.ArrayEnumEnum>?> arrayEnum = default;
-            Option<EnumArrays.JustSymbolEnum?> justSymbol = default;
+            List<EnumArrays.ArrayEnumEnum>? arrayEnum = default;
+            EnumArrays.JustSymbolEnum? justSymbol = default;
 
             while (utf8JsonReader.Read())
             {
@@ -264,12 +265,13 @@ namespace Org.OpenAPITools.Model
                     {
                         case "array_enum":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>?>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "just_symbol":
                             string? justSymbolRawValue = utf8JsonReader.GetString();
-                            if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue));
+                            justSymbol = justSymbolRawValue == null
+                                ? null
+                                : EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
                             break;
                         default:
                             break;
@@ -277,16 +279,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
+            if (arrayEnum == null)
+                throw new ArgumentNullException(nameof(arrayEnum), "Property is required for class EnumArrays.");
 
-            if (justSymbol.Value == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
+            if (justSymbol == null)
+                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
 
-            Option<List<EnumArrays.ArrayEnumEnum>> arrayEnumParsedValue = new Option<List<EnumArrays.ArrayEnumEnum>>(arrayEnum.Value);
-            Option<EnumArrays.JustSymbolEnum> justSymbolParsedValue = new Option<EnumArrays.JustSymbolEnum>(justSymbol.Value.Value);
-
-            return new EnumArrays(arrayEnumParsedValue, justSymbolParsedValue);
+            return new EnumArrays(arrayEnum, justSymbol.Value);
         }
 
         /// <summary>
@@ -313,13 +312,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (enumArrays.ArrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
+            writer.WritePropertyName("array_enum");
+            JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
 
-            if (enumArrays.ArrayEnum.IsSet)
-                writer.WritePropertyName("array_enum");
-                JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol.Value);
+            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);
             else

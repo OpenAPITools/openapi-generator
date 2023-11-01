@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(Option<string> bar = default, Option<string> baz = default)
+        public ReadOnlyFirst(string bar, string baz)
         {
             Bar = bar;
             Baz = baz;
@@ -50,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public Option<string> Bar { get; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public Option<string> Baz { get; set; }
+        public string Baz { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -148,8 +147,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> bar = default;
-            Option<string?> baz = default;
+            string? bar = default;
+            string? baz = default;
 
             while (utf8JsonReader.Read())
             {
@@ -167,10 +166,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string?>(utf8JsonReader.GetString()!);
+                            bar = utf8JsonReader.GetString();
                             break;
                         case "baz":
-                            baz = new Option<string?>(utf8JsonReader.GetString()!);
+                            baz = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -178,16 +177,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class ReadOnlyFirst.");
 
-            if (baz.Value == null)
-                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
+            if (baz == null)
+                throw new ArgumentNullException(nameof(baz), "Property is required for class ReadOnlyFirst.");
 
-            Option<string> barParsedValue = new Option<string>(bar.Value);
-            Option<string> bazParsedValue = new Option<string>(baz.Value);
-
-            return new ReadOnlyFirst(barParsedValue, bazParsedValue);
+            return new ReadOnlyFirst(bar, baz);
         }
 
         /// <summary>
@@ -214,15 +210,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (readOnlyFirst.Bar.Value == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
-
-            if (readOnlyFirst.Baz.Value == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
-
-            if (readOnlyFirst.Bar.IsSet)
-                writer.WriteString("bar", readOnlyFirst.Bar.Value);            if (readOnlyFirst.Baz.IsSet)
-                writer.WriteString("baz", readOnlyFirst.Baz.Value);
+            writer.WriteString("bar", readOnlyFirst.Bar);
+            writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
 }

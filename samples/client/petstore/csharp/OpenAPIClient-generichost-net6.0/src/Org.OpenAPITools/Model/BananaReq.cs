@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        public BananaReq(decimal lengthCm, Option<bool> sweet = default)
+        public BananaReq(decimal lengthCm, bool sweet)
         {
             LengthCm = lengthCm;
             Sweet = sweet;
@@ -54,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public Option<bool> Sweet { get; set; }
+        public bool Sweet { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,8 +102,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<decimal?> lengthCm = default;
-            Option<bool?> sweet = default;
+            decimal? lengthCm = default;
+            bool? sweet = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,11 +122,11 @@ namespace Org.OpenAPITools.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                lengthCm = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                                lengthCm = utf8JsonReader.GetDecimal();
                             break;
                         case "sweet":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                sweet = new Option<bool?>(utf8JsonReader.GetBoolean());
+                                sweet = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
@@ -135,19 +134,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!lengthCm.IsSet)
-                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class BananaReq.");
 
-            if (lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
+            if (sweet == null)
+                throw new ArgumentNullException(nameof(sweet), "Property is required for class BananaReq.");
 
-            if (sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
-
-            decimal lengthCmParsedValue = lengthCm.Value.Value;
-            Option<bool> sweetParsedValue = new Option<bool>(sweet.Value.Value);
-
-            return new BananaReq(lengthCmParsedValue, sweetParsedValue);
+            return new BananaReq(lengthCm.Value, sweet.Value);
         }
 
         /// <summary>
@@ -174,8 +167,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("lengthCm", bananaReq.LengthCm);            if (bananaReq.Sweet.IsSet)
-                writer.WriteBoolean("sweet", bananaReq.Sweet.Value);
+            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
+            writer.WriteBoolean("sweet", bananaReq.Sweet);
         }
     }
 }

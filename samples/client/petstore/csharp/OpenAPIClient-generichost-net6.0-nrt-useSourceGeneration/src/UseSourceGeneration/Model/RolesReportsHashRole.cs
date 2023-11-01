@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public RolesReportsHashRole(Option<string> name = default)
+        public RolesReportsHashRole(string name)
         {
             Name = name;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public Option<string> Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> name = default;
+            string? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            name = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -130,12 +130,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class RolesReportsHashRole.");
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class RolesReportsHashRole.");
 
-            Option<string> nameParsedValue = new Option<string>(name.Value);
-
-            return new RolesReportsHashRole(nameParsedValue);
+            return new RolesReportsHashRole(name);
         }
 
         /// <summary>
@@ -162,11 +160,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (rolesReportsHashRole.Name.Value == null)
-                throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
-
-            if (rolesReportsHashRole.Name.IsSet)
-                writer.WriteString("name", rolesReportsHashRole.Name.Value);
+            writer.WriteString("name", rolesReportsHashRole.Name);
         }
     }
 

@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> quadrilateralType = default;
+            string? quadrilateralType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
+                            quadrilateralType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -130,15 +130,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class QuadrilateralInterface.", nameof(quadrilateralType));
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class QuadrilateralInterface.");
 
-            if (quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
-
-            string quadrilateralTypeParsedValue = quadrilateralType.Value;
-
-            return new QuadrilateralInterface(quadrilateralTypeParsedValue);
+            return new QuadrilateralInterface(quadrilateralType);
         }
 
         /// <summary>
@@ -165,9 +160,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (quadrilateralInterface.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralInterface.QuadrilateralType), "Property is required for class QuadrilateralInterface.");
-
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
         }
     }

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Person(Option<string> firstName = default, Option<string> lastName = default, Option<string> type = default)
+        public Person(string firstName, string lastName, string type)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -52,19 +51,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public Option<string> FirstName { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public Option<string> LastName { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("$_type")]
-        public Option<string> Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -131,9 +130,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> firstName = default;
-            Option<string?> lastName = default;
-            Option<string?> type = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -151,13 +150,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "firstName":
-                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
+                            firstName = utf8JsonReader.GetString();
                             break;
                         case "lastName":
-                            lastName = new Option<string?>(utf8JsonReader.GetString()!);
+                            lastName = utf8JsonReader.GetString();
                             break;
                         case "$_type":
-                            type = new Option<string?>(utf8JsonReader.GetString()!);
+                            type = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -165,20 +164,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Person.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
 
-            if (lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Person.");
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Person.");
 
-            if (type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
 
-            Option<string> firstNameParsedValue = new Option<string>(firstName.Value);
-            Option<string> lastNameParsedValue = new Option<string>(lastName.Value);
-            Option<string> typeParsedValue = new Option<string>(type.Value);
-
-            return new Person(firstNameParsedValue, lastNameParsedValue, typeParsedValue);
+            return new Person(firstName, lastName, type);
         }
 
         /// <summary>
@@ -205,19 +200,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (person.FirstName.Value == null)
-                throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
-
-            if (person.LastName.Value == null)
-                throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
-
-            if (person.Type.Value == null)
-                throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
-
-            if (person.FirstName.IsSet)
-                writer.WriteString("firstName", person.FirstName.Value);            if (person.LastName.IsSet)
-                writer.WriteString("lastName", person.LastName.Value);            if (person.Type.IsSet)
-                writer.WriteString("$_type", person.Type.Value);
+            writer.WriteString("firstName", person.FirstName);
+            writer.WriteString("lastName", person.LastName);
+            writer.WriteString("$_type", person.Type);
         }
     }
 }

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(Option<int> code = default, Option<string> message = default, Option<string> type = default)
+        public ApiResponse(int code, string message, string type)
         {
             Code = code;
             Message = message;
@@ -52,19 +51,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public Option<int> Code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public Option<string> Message { get; set; }
+        public string Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public Option<string> Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -121,9 +120,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<int?> code = default;
-            Option<string?> message = default;
-            Option<string?> type = default;
+            int? code = default;
+            string? message = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -142,13 +141,13 @@ namespace Org.OpenAPITools.Model
                     {
                         case "code":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                code = new Option<int?>(utf8JsonReader.GetInt32());
+                                code = utf8JsonReader.GetInt32();
                             break;
                         case "message":
-                            message = new Option<string?>(utf8JsonReader.GetString()!);
+                            message = utf8JsonReader.GetString();
                             break;
                         case "type":
-                            type = new Option<string?>(utf8JsonReader.GetString()!);
+                            type = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -156,20 +155,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class ApiResponse.");
+            if (code == null)
+                throw new ArgumentNullException(nameof(code), "Property is required for class ApiResponse.");
 
-            if (message.Value == null)
-                throw new ArgumentNullException(nameof(message), "Property is not nullable for class ApiResponse.");
+            if (message == null)
+                throw new ArgumentNullException(nameof(message), "Property is required for class ApiResponse.");
 
-            if (type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class ApiResponse.");
 
-            Option<int> codeParsedValue = new Option<int>(code.Value.Value);
-            Option<string> messageParsedValue = new Option<string>(message.Value);
-            Option<string> typeParsedValue = new Option<string>(type.Value);
-
-            return new ApiResponse(codeParsedValue, messageParsedValue, typeParsedValue);
+            return new ApiResponse(code.Value, message, type);
         }
 
         /// <summary>
@@ -196,16 +191,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apiResponse.Message.Value == null)
-                throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");
-
-            if (apiResponse.Type.Value == null)
-                throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
-
-            if (apiResponse.Code.IsSet)
-                writer.WriteNumber("code", apiResponse.Code.Value);            if (apiResponse.Message.IsSet)
-                writer.WriteString("message", apiResponse.Message.Value);            if (apiResponse.Type.IsSet)
-                writer.WriteString("type", apiResponse.Type.Value);
+            writer.WriteNumber("code", apiResponse.Code);
+            writer.WriteString("message", apiResponse.Message);
+            writer.WriteString("type", apiResponse.Type);
         }
     }
 }

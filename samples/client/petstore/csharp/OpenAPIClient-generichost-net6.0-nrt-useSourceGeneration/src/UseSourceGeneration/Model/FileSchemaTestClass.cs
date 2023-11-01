@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="file">file</param>
         /// <param name="files">files</param>
         [JsonConstructor]
-        public FileSchemaTestClass(Option<File> file = default, Option<List<File>> files = default)
+        public FileSchemaTestClass(File file, List<File> files)
         {
             File = file;
             Files = files;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public Option<File> File { get; set; }
+        public File File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public Option<List<File>> Files { get; set; }
+        public List<File> Files { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<File?> file = default;
-            Option<List<File>?> files = default;
+            File? file = default;
+            List<File>? files = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,11 +133,11 @@ namespace UseSourceGeneration.Model
                     {
                         case "file":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                file = new Option<File?>(JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                file = JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "files":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                files = new Option<List<File>?>(JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                files = JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -145,16 +145,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (file.Value == null)
-                throw new ArgumentNullException(nameof(file), "Property is not nullable for class FileSchemaTestClass.");
+            if (file == null)
+                throw new ArgumentNullException(nameof(file), "Property is required for class FileSchemaTestClass.");
 
-            if (files.Value == null)
-                throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
+            if (files == null)
+                throw new ArgumentNullException(nameof(files), "Property is required for class FileSchemaTestClass.");
 
-            Option<File> fileParsedValue = new Option<File>(file.Value);
-            Option<List<File>> filesParsedValue = new Option<List<File>>(files.Value);
-
-            return new FileSchemaTestClass(fileParsedValue, filesParsedValue);
+            return new FileSchemaTestClass(file, files);
         }
 
         /// <summary>
@@ -181,18 +178,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fileSchemaTestClass.File.Value == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");
-
-            if (fileSchemaTestClass.Files.Value == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
-
-            if (fileSchemaTestClass.File.IsSet)
-                writer.WritePropertyName("file");
-                JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
-            if (fileSchemaTestClass.Files.IsSet)
-                writer.WritePropertyName("files");
-                JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
+            writer.WritePropertyName("file");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
+            writer.WritePropertyName("files");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }
     }
 

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="activityOutputs">activityOutputs</param>
         [JsonConstructor]
-        public Activity(Option<Dictionary<string, List<ActivityOutputElementRepresentation>>> activityOutputs = default)
+        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs)
         {
             ActivityOutputs = activityOutputs;
             OnCreated();
@@ -48,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Option<Dictionary<string, List<ActivityOutputElementRepresentation>>> ActivityOutputs { get; set; }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> activityOutputs = default;
+            Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "activity_outputs":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                activityOutputs = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?>(JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                activityOutputs = JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -130,12 +129,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+            if (activityOutputs == null)
+                throw new ArgumentNullException(nameof(activityOutputs), "Property is required for class Activity.");
 
-            Option<Dictionary<string, List<ActivityOutputElementRepresentation>>> activityOutputsParsedValue = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(activityOutputs.Value);
-
-            return new Activity(activityOutputsParsedValue);
+            return new Activity(activityOutputs);
         }
 
         /// <summary>
@@ -162,12 +159,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (activity.ActivityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
-
-            if (activity.ActivityOutputs.IsSet)
-                writer.WritePropertyName("activity_outputs");
-                JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
+            writer.WritePropertyName("activity_outputs");
+            JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
         }
     }
 }

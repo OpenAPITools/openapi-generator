@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
         [JsonConstructor]
-        internal HasOnlyReadOnly(Option<string> bar = default, Option<string> foo = default)
+        internal HasOnlyReadOnly(string bar, string foo)
         {
             Bar = bar;
             Foo = foo;
@@ -48,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public Option<string> Bar { get; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public Option<string> Foo { get; }
+        public string Foo { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -147,8 +146,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> bar = default;
-            Option<string> foo = default;
+            string bar = default;
+            string foo = default;
 
             while (utf8JsonReader.Read())
             {
@@ -166,10 +165,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string>(utf8JsonReader.GetString());
+                            bar = utf8JsonReader.GetString();
                             break;
                         case "foo":
-                            foo = new Option<string>(utf8JsonReader.GetString());
+                            foo = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -177,16 +176,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class HasOnlyReadOnly.");
 
-            if (foo.Value == null)
-                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
+            if (foo == null)
+                throw new ArgumentNullException(nameof(foo), "Property is required for class HasOnlyReadOnly.");
 
-            Option<string> barParsedValue = new Option<string>(bar.Value);
-            Option<string> fooParsedValue = new Option<string>(foo.Value);
-
-            return new HasOnlyReadOnly(barParsedValue, fooParsedValue);
+            return new HasOnlyReadOnly(bar, foo);
         }
 
         /// <summary>
@@ -213,15 +209,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (hasOnlyReadOnly.Bar.Value == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Bar), "Property is required for class HasOnlyReadOnly.");
-
-            if (hasOnlyReadOnly.Foo.Value == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
-
-            if (hasOnlyReadOnly.Bar.IsSet)
-                writer.WriteString("bar", hasOnlyReadOnly.Bar.Value);            if (hasOnlyReadOnly.Foo.IsSet)
-                writer.WriteString("foo", hasOnlyReadOnly.Foo.Value);
+            writer.WriteString("bar", hasOnlyReadOnly.Bar);
+            writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
     }
 }

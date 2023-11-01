@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
         [JsonConstructor]
-        public DateOnlyClass(Option<DateTime> dateOnlyProperty = default)
+        public DateOnlyClass(DateTime dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
             OnCreated();
@@ -50,7 +50,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
-        public Option<DateTime> DateOnlyProperty { get; set; }
+        public DateTime DateOnlyProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -110,7 +110,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<DateTime?> dateOnlyProperty = default;
+            DateTime? dateOnlyProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +129,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "dateOnlyProperty":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateOnlyProperty = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -137,12 +137,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (dateOnlyProperty.Value == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
+            if (dateOnlyProperty == null)
+                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
 
-            Option<DateTime> dateOnlyPropertyParsedValue = new Option<DateTime>(dateOnlyProperty.Value.Value);
-
-            return new DateOnlyClass(dateOnlyPropertyParsedValue);
+            return new DateOnlyClass(dateOnlyProperty.Value);
         }
 
         /// <summary>
@@ -169,8 +167,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (dateOnlyClass.DateOnlyProperty.IsSet)
-                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.Value.ToString(DateOnlyPropertyFormat));
+            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
         }
     }
 

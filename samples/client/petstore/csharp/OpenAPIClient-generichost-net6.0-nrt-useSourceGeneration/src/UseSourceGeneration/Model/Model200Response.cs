@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(Option<string> varClass = default, Option<int> name = default)
+        public Model200Response(string varClass, int name)
         {
             VarClass = varClass;
             Name = name;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public Option<string> VarClass { get; set; }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public Option<int> Name { get; set; }
+        public int Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> varClass = default;
-            Option<int?> name = default;
+            string? varClass = default;
+            int? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,11 +132,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "class":
-                            varClass = new Option<string?>(utf8JsonReader.GetString()!);
+                            varClass = utf8JsonReader.GetString();
                             break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                name = new Option<int?>(utf8JsonReader.GetInt32());
+                                name = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
@@ -144,16 +144,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
+            if (varClass == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
 
-            if (name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
 
-            Option<string> varClassParsedValue = new Option<string>(varClass.Value);
-            Option<int> nameParsedValue = new Option<int>(name.Value.Value);
-
-            return new Model200Response(varClassParsedValue, nameParsedValue);
+            return new Model200Response(varClass, name.Value);
         }
 
         /// <summary>
@@ -180,12 +177,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (model200Response.VarClass.Value == null)
-                throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
-
-            if (model200Response.VarClass.IsSet)
-                writer.WriteString("class", model200Response.VarClass.Value);            if (model200Response.Name.IsSet)
-                writer.WriteNumber("name", model200Response.Name.Value);
+            writer.WriteString("class", model200Response.VarClass);
+            writer.WriteNumber("name", model200Response.Name);
         }
     }
 

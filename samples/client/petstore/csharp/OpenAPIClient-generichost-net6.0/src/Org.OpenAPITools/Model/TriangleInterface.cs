@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -101,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> triangleType = default;
+            string triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +118,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = new Option<string>(utf8JsonReader.GetString());
+                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -127,15 +126,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class TriangleInterface.", nameof(triangleType));
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class TriangleInterface.");
 
-            if (triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
-
-            string triangleTypeParsedValue = triangleType.Value;
-
-            return new TriangleInterface(triangleTypeParsedValue);
+            return new TriangleInterface(triangleType);
         }
 
         /// <summary>
@@ -162,9 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangleInterface.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
-
             writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }

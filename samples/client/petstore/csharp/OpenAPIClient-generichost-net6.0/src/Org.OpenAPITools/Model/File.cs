@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        public File(Option<string> sourceURI = default)
+        public File(string sourceURI)
         {
             SourceURI = sourceURI;
             OnCreated();
@@ -47,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public Option<string> SourceURI { get; set; }
+        public string SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +101,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> sourceURI = default;
+            string sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,7 +119,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "sourceURI":
-                            sourceURI = new Option<string>(utf8JsonReader.GetString());
+                            sourceURI = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -128,12 +127,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (sourceURI.Value == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
+            if (sourceURI == null)
+                throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
 
-            Option<string> sourceURIParsedValue = new Option<string>(sourceURI.Value);
-
-            return new File(sourceURIParsedValue);
+            return new File(sourceURI);
         }
 
         /// <summary>
@@ -160,11 +157,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (file.SourceURI.Value == null)
-                throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
-
-            if (file.SourceURI.IsSet)
-                writer.WriteString("sourceURI", file.SourceURI.Value);
+            writer.WriteString("sourceURI", file.SourceURI);
         }
     }
 }

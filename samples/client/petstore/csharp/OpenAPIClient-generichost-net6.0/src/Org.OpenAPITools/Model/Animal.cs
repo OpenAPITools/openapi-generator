@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, Option<string> color = default)
+        public Animal(string className, string color = @"red")
         {
             ClassName = className;
             Color = color;
@@ -54,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public Option<string> Color { get; set; }
+        public string Color { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -120,8 +119,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> className = default;
-            Option<string> color = default;
+            string className = default;
+            string color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -139,10 +138,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string>(utf8JsonReader.GetString());
+                            className = utf8JsonReader.GetString();
                             break;
                         case "color":
-                            color = new Option<string>(utf8JsonReader.GetString());
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -150,19 +149,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Animal.", nameof(className));
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Animal.");
 
-            if (className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Animal.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Animal.");
 
-            if (color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
-
-            string classNameParsedValue = className.Value;
-            Option<string> colorParsedValue = new Option<string>(color.Value);
-
-            return new Animal(classNameParsedValue, colorParsedValue);
+            return new Animal(className, color);
         }
 
         /// <summary>
@@ -189,14 +182,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (animal.ClassName == null)
-                throw new ArgumentNullException(nameof(animal.ClassName), "Property is required for class Animal.");
-
-            if (animal.Color.Value == null)
-                throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
-
-            writer.WriteString("className", animal.ClassName);            if (animal.Color.IsSet)
-                writer.WriteString("color", animal.Color.Value);
+            writer.WriteString("className", animal.ClassName);
+            writer.WriteString("color", animal.Color);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public NullableGuidClass(Option<Guid?> uuid = default)
+        public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;
             OnCreated();
@@ -50,7 +50,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Option<Guid?> Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,7 +105,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Guid?> uuid = default;
+            Guid? uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -124,7 +124,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -159,11 +159,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (nullableGuidClass.Uuid.IsSet)
-                if (nullableGuidClass.Uuid.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.Uuid.Value.Value);
-                else
-                    writer.WriteNull("uuid");
+
+            if (nullableGuidClass.Uuid == null)
+                writer.WriteNull("uuid");
+            else
+                writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
         }
     }
 

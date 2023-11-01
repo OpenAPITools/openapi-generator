@@ -40,7 +40,7 @@ namespace UseSourceGeneration.Model
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         [JsonConstructor]
-        public MapTest(Option<Dictionary<string, bool>> directMap = default, Option<Dictionary<string, bool>> indirectMap = default, Option<Dictionary<string, Dictionary<string, string>>> mapMapOfString = default, Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumString = default)
+        public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
             DirectMap = directMap;
             IndirectMap = indirectMap;
@@ -108,6 +108,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public static string InnerEnumToJsonValue(InnerEnum value)
         {
+
             if (value == InnerEnum.UPPER)
                 return "UPPER";
 
@@ -121,25 +122,25 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Option<Dictionary<string, bool>> DirectMap { get; set; }
+        public Dictionary<string, bool> DirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Option<Dictionary<string, bool>> IndirectMap { get; set; }
+        public Dictionary<string, bool> IndirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Option<Dictionary<string, Dictionary<string, string>>> MapMapOfString { get; set; }
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Option<Dictionary<string, MapTest.InnerEnum>> MapOfEnumString { get; set; }
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -197,10 +198,10 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Dictionary<string, bool>?> directMap = default;
-            Option<Dictionary<string, bool>?> indirectMap = default;
-            Option<Dictionary<string, Dictionary<string, string>>?> mapMapOfString = default;
-            Option<Dictionary<string, MapTest.InnerEnum>?> mapOfEnumString = default;
+            Dictionary<string, bool>? directMap = default;
+            Dictionary<string, bool>? indirectMap = default;
+            Dictionary<string, Dictionary<string, string>>? mapMapOfString = default;
+            Dictionary<string, MapTest.InnerEnum>? mapOfEnumString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -219,19 +220,19 @@ namespace UseSourceGeneration.Model
                     {
                         case "direct_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                directMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                directMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "indirect_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                indirectMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                indirectMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_map_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapMapOfString = new Option<Dictionary<string, Dictionary<string, string>>?>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                mapMapOfString = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_of_enum_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapOfEnumString = new Option<Dictionary<string, MapTest.InnerEnum>?>(JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                mapOfEnumString = JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -239,24 +240,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (directMap.Value == null)
-                throw new ArgumentNullException(nameof(directMap), "Property is not nullable for class MapTest.");
+            if (directMap == null)
+                throw new ArgumentNullException(nameof(directMap), "Property is required for class MapTest.");
 
-            if (indirectMap.Value == null)
-                throw new ArgumentNullException(nameof(indirectMap), "Property is not nullable for class MapTest.");
+            if (indirectMap == null)
+                throw new ArgumentNullException(nameof(indirectMap), "Property is required for class MapTest.");
 
-            if (mapMapOfString.Value == null)
-                throw new ArgumentNullException(nameof(mapMapOfString), "Property is not nullable for class MapTest.");
+            if (mapMapOfString == null)
+                throw new ArgumentNullException(nameof(mapMapOfString), "Property is required for class MapTest.");
 
-            if (mapOfEnumString.Value == null)
-                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
+            if (mapOfEnumString == null)
+                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is required for class MapTest.");
 
-            Option<Dictionary<string, bool>> directMapParsedValue = new Option<Dictionary<string, bool>>(directMap.Value);
-            Option<Dictionary<string, bool>> indirectMapParsedValue = new Option<Dictionary<string, bool>>(indirectMap.Value);
-            Option<Dictionary<string, Dictionary<string, string>>> mapMapOfStringParsedValue = new Option<Dictionary<string, Dictionary<string, string>>>(mapMapOfString.Value);
-            Option<Dictionary<string, MapTest.InnerEnum>> mapOfEnumStringParsedValue = new Option<Dictionary<string, MapTest.InnerEnum>>(mapOfEnumString.Value);
-
-            return new MapTest(directMapParsedValue, indirectMapParsedValue, mapMapOfStringParsedValue, mapOfEnumStringParsedValue);
+            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
 
         /// <summary>
@@ -283,30 +279,14 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (mapTest.DirectMap.Value == null)
-                throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");
-
-            if (mapTest.IndirectMap.Value == null)
-                throw new ArgumentNullException(nameof(mapTest.IndirectMap), "Property is required for class MapTest.");
-
-            if (mapTest.MapMapOfString.Value == null)
-                throw new ArgumentNullException(nameof(mapTest.MapMapOfString), "Property is required for class MapTest.");
-
-            if (mapTest.MapOfEnumString.Value == null)
-                throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
-
-            if (mapTest.DirectMap.IsSet)
-                writer.WritePropertyName("direct_map");
-                JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
-            if (mapTest.IndirectMap.IsSet)
-                writer.WritePropertyName("indirect_map");
-                JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
-            if (mapTest.MapMapOfString.IsSet)
-                writer.WritePropertyName("map_map_of_string");
-                JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
-            if (mapTest.MapOfEnumString.IsSet)
-                writer.WritePropertyName("map_of_enum_string");
-                JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
+            writer.WritePropertyName("direct_map");
+            JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("indirect_map");
+            JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("map_map_of_string");
+            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
+            writer.WritePropertyName("map_of_enum_string");
+            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
     }
 

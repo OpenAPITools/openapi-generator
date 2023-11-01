@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(Option<string> var123List = default)
+        public List(string var123List)
         {
             Var123List = var123List;
             OnCreated();
@@ -46,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public Option<string> Var123List { get; set; }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -101,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> var123List = default;
+            string var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +118,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "123-list":
-                            var123List = new Option<string>(utf8JsonReader.GetString());
+                            var123List = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -127,12 +126,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (var123List.Value == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
 
-            Option<string> var123ListParsedValue = new Option<string>(var123List.Value);
-
-            return new List(var123ListParsedValue);
+            return new List(var123List);
         }
 
         /// <summary>
@@ -159,11 +156,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (list.Var123List.Value == null)
-                throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
-
-            if (list.Var123List.IsSet)
-                writer.WriteString("123-list", list.Var123List.Value);
+            writer.WriteString("123-list", list.Var123List);
         }
     }
 }

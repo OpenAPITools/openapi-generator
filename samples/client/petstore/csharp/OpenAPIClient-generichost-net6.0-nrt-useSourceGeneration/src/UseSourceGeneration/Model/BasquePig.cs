@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
+            string? className = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
+                            className = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -130,15 +130,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class BasquePig.", nameof(className));
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class BasquePig.");
 
-            if (className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
-
-            string classNameParsedValue = className.Value;
-
-            return new BasquePig(classNameParsedValue);
+            return new BasquePig(className);
         }
 
         /// <summary>
@@ -165,9 +160,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (basquePig.ClassName == null)
-                throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
-
             writer.WriteString("className", basquePig.ClassName);
         }
     }

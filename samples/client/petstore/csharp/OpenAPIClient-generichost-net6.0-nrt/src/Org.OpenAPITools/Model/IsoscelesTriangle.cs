@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -105,8 +104,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> shapeType = default;
-            Option<string?> triangleType = default;
+            string? shapeType = default;
+            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -124,10 +123,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         case "triangleType":
-                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
+                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -135,22 +134,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class IsoscelesTriangle.", nameof(shapeType));
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class IsoscelesTriangle.");
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class IsoscelesTriangle.", nameof(triangleType));
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class IsoscelesTriangle.");
 
-            if (shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class IsoscelesTriangle.");
-
-            if (triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class IsoscelesTriangle.");
-
-            string shapeTypeParsedValue = shapeType.Value;
-            string triangleTypeParsedValue = triangleType.Value;
-
-            return new IsoscelesTriangle(shapeTypeParsedValue, triangleTypeParsedValue);
+            return new IsoscelesTriangle(shapeType, triangleType);
         }
 
         /// <summary>
@@ -177,13 +167,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (isoscelesTriangle.ShapeType == null)
-                throw new ArgumentNullException(nameof(isoscelesTriangle.ShapeType), "Property is required for class IsoscelesTriangle.");
-
-            if (isoscelesTriangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(isoscelesTriangle.TriangleType), "Property is required for class IsoscelesTriangle.");
-
-            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
+            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
+            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
     }
 }

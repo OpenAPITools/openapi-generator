@@ -38,7 +38,7 @@ namespace UseSourceGeneration.Model
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
         [JsonConstructor]
-        public LiteralStringClass(Option<string> escapedLiteralString = default, Option<string> unescapedLiteralString = default)
+        public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
             EscapedLiteralString = escapedLiteralString;
             UnescapedLiteralString = unescapedLiteralString;
@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public Option<string> EscapedLiteralString { get; set; }
+        public string EscapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public Option<string> UnescapedLiteralString { get; set; }
+        public string UnescapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> escapedLiteralString = default;
-            Option<string?> unescapedLiteralString = default;
+            string? escapedLiteralString = default;
+            string? unescapedLiteralString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,10 +132,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "escapedLiteralString":
-                            escapedLiteralString = new Option<string?>(utf8JsonReader.GetString()!);
+                            escapedLiteralString = utf8JsonReader.GetString();
                             break;
                         case "unescapedLiteralString":
-                            unescapedLiteralString = new Option<string?>(utf8JsonReader.GetString()!);
+                            unescapedLiteralString = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -143,16 +143,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (escapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+            if (escapedLiteralString == null)
+                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is required for class LiteralStringClass.");
 
-            if (unescapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+            if (unescapedLiteralString == null)
+                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is required for class LiteralStringClass.");
 
-            Option<string> escapedLiteralStringParsedValue = new Option<string>(escapedLiteralString.Value);
-            Option<string> unescapedLiteralStringParsedValue = new Option<string>(unescapedLiteralString.Value);
-
-            return new LiteralStringClass(escapedLiteralStringParsedValue, unescapedLiteralStringParsedValue);
+            return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }
 
         /// <summary>
@@ -179,15 +176,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (literalStringClass.EscapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(literalStringClass.EscapedLiteralString), "Property is required for class LiteralStringClass.");
-
-            if (literalStringClass.UnescapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
-
-            if (literalStringClass.EscapedLiteralString.IsSet)
-                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString.Value);            if (literalStringClass.UnescapedLiteralString.IsSet)
-                writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString.Value);
+            writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
+            writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
         }
     }
 

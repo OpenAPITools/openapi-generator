@@ -220,16 +220,6 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test TestInlineFreeformAdditionalProperties
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task TestInlineFreeformAdditionalPropertiesAsyncTest()
-        {
-            TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = default!;
-            await _instance.TestInlineFreeformAdditionalPropertiesAsync(testInlineFreeformAdditionalPropertiesRequest);
-        }
-
-        /// <summary>
         /// Test TestJsonFormData
         /// </summary>
         [Fact (Skip = "not implemented")]

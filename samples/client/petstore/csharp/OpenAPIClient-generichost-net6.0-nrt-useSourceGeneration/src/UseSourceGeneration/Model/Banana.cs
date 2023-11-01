@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         [JsonConstructor]
-        public Banana(Option<decimal> lengthCm = default)
+        public Banana(decimal lengthCm)
         {
             LengthCm = lengthCm;
             OnCreated();
@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public Option<decimal> LengthCm { get; set; }
+        public decimal LengthCm { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<decimal?> lengthCm = default;
+            decimal? lengthCm = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +123,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                lengthCm = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                                lengthCm = utf8JsonReader.GetDecimal();
                             break;
                         default:
                             break;
@@ -131,12 +131,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class Banana.");
 
-            Option<decimal> lengthCmParsedValue = new Option<decimal>(lengthCm.Value.Value);
-
-            return new Banana(lengthCmParsedValue);
+            return new Banana(lengthCm.Value);
         }
 
         /// <summary>
@@ -163,8 +161,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (banana.LengthCm.IsSet)
-                writer.WriteNumber("lengthCm", banana.LengthCm.Value);
+            writer.WriteNumber("lengthCm", banana.LengthCm);
         }
     }
 
