@@ -500,28 +500,28 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            for (CodegenProperty property : model.allVars){
+            for (CodegenProperty property : model.allVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.vars){
+            for (CodegenProperty property : model.vars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.readWriteVars){
+            for (CodegenProperty property : model.readWriteVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.optionalVars){
+            for (CodegenProperty property : model.optionalVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.parentVars){
+            for (CodegenProperty property : model.parentVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.requiredVars){
+            for (CodegenProperty property : model.requiredVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.readOnlyVars){
+            for (CodegenProperty property : model.readOnlyVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
-            for (CodegenProperty property : model.nonNullableVars){
+            for (CodegenProperty property : model.nonNullableVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
             }
         }
@@ -582,8 +582,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
         return model.parentModel == null
-            ? false
-            : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
+                ? false
+                : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**
@@ -745,7 +745,7 @@ public class DefaultCodegen implements CodegenConfig {
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
 
-    private List<CodegenProperty> getModelDependencies( List<CodegenProperty> vars) {
+    private List<CodegenProperty> getModelDependencies(List<CodegenProperty> vars) {
         return vars.stream()
                 .map(prop -> {
                     if (prop.isContainer) {
@@ -2679,7 +2679,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             NamedSchema that = (NamedSchema) o;
-            return Objects.equals(required, that.required)  &&
+            return Objects.equals(required, that.required) &&
                     Objects.equals(name, that.name) &&
                     Objects.equals(schema, that.schema) &&
                     Objects.equals(schemaIsFromAdditionalProperties, that.schemaIsFromAdditionalProperties);
@@ -2968,7 +2968,7 @@ public class DefaultCodegen implements CodegenConfig {
     private HashMap<String, SchemaTestCase> extractSchemaTestCases(String refToTestCases) {
         // schemaName to a map of test case name to test case
         HashMap<String, Object> vendorExtensions = (HashMap<String, Object>) openAPI.getComponents().getExtensions();
-        if (vendorExtensions ==  null || !vendorExtensions.containsKey(xSchemaTestExamplesKey)) {
+        if (vendorExtensions == null || !vendorExtensions.containsKey(xSchemaTestExamplesKey)) {
             return null;
         }
         if (!refToTestCases.startsWith(xSchemaTestExamplesRefPrefix)) {
@@ -2982,7 +2982,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LinkedHashMap<String, LinkedHashMap<String, Object>> testNameToTesCase = (LinkedHashMap<String, LinkedHashMap<String, Object>>) schemaNameToTestCases.get(schemaName);
-        for (Entry<String, LinkedHashMap<String, Object>> entry: testNameToTesCase.entrySet()) {
+        for (Entry<String, LinkedHashMap<String, Object>> entry : testNameToTesCase.entrySet()) {
             LinkedHashMap<String, Object> testExample = (LinkedHashMap<String, Object>) entry.getValue();
             String nameInSnakeCase = toTestCaseName(entry.getKey());
             Object data = processTestExampleData(testExample.get("data"));
@@ -3559,10 +3559,10 @@ public class DefaultCodegen implements CodegenConfig {
             Schema cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
             String mappingName =
-                Optional.ofNullable(vendorExtensions)
-                    .map(ve -> ve.get("x-discriminator-value"))
-                    .map(discriminatorValue -> (String) discriminatorValue)
-                    .orElse(currentSchemaName);
+                    Optional.ofNullable(vendorExtensions)
+                        .map(ve -> ve.get("x-discriminator-value"))
+                        .map(discriminatorValue -> (String) discriminatorValue)
+                        .orElse(currentSchemaName);
             MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
@@ -3588,12 +3588,12 @@ public class DefaultCodegen implements CodegenConfig {
         //  for example). Handling those scenarios is too complicated for me, I'm leaving it for
         //  the future..
         String propertyType =
-            Optional.ofNullable(schema.getProperties())
-                .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
-                .map(Schema::get$ref)
-                .map(ModelUtils::getSimpleRef)
-                .map(this::toModelName)
-                .orElseGet(() -> typeMapping.get("string"));
+                Optional.ofNullable(schema.getProperties())
+                    .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
+                    .map(Schema::get$ref)
+                    .map(ModelUtils::getSimpleRef)
+                    .map(this::toModelName)
+                    .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
@@ -3631,7 +3631,7 @@ public class DefaultCodegen implements CodegenConfig {
                 boolean matched = false;
                 for (MappedModel uniqueDescendant : uniqueDescendants) {
                     if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())
-                        || (uniqueDescendant.getModelName().equals(otherDescendant.getModelName()))) {
+                            || (uniqueDescendant.getModelName().equals(otherDescendant.getModelName()))) {
                         matched = true;
                         break;
                     }
@@ -5771,7 +5771,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param model codegen model
      * @param modelName model name
      */
-    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName ) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         if (composed == null || childSchema == null) {
             return;
         }
@@ -5939,7 +5939,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cm.readWriteVars.add(cp);
                 }
 
-                if (Boolean.FALSE.equals(cp.isNullable)){
+                if (Boolean.FALSE.equals(cp.isNullable)) {
                     cm.nonNullableVars.add(cp);
                 }
             }
@@ -6647,14 +6647,14 @@ public class DefaultCodegen implements CodegenConfig {
             String enumName = enumUnknownDefaultCaseName;
 
             String enumValue = isDataTypeString(dataType)
-                ? enumUnknownDefaultCaseName
-                : // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                  // Int.max / 192
-                  // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                  // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                  // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                  // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                  String.valueOf(11184809);
+                    ? enumUnknownDefaultCaseName
+                    : // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                      // Int.max / 192
+                      // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                      // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                      // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                      // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                      String.valueOf(11184809);
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));
@@ -6682,8 +6682,8 @@ public class DefaultCodegen implements CodegenConfig {
     private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
         long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
         return count > 1
-            ? getUniqueEnumName(name + count, enumVars)
-            : name;
+                ? getUniqueEnumName(name + count, enumVars)
+                : name;
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
@@ -6976,10 +6976,10 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if(ModelUtils.isMapSchema(schema)) {
+        if (ModelUtils.isMapSchema(schema)) {
             LOGGER.error("Form parameters with additionalProperties are not supported by OpenAPI Generator. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
         }
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             LOGGER.error("Array form parameters are not supported by OpenAPI Generator. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
         }
 
@@ -7218,7 +7218,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
             imports.add(codegenParameter.baseType);
-       } else {
+        } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
@@ -7543,9 +7543,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             CodegenMediaType codegenMt;
-            if(mt.getExamples() != null) {
+            if (mt.getExamples() != null) {
                 codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
-            } else if(mt.getExample() != null) {
+            } else if (mt.getExample() != null) {
                 codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExample());
             } else {
                 codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
@@ -7668,13 +7668,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (requiredPropertyNames == null) {
             return;
         }
-        for (String requiredPropertyName: requiredPropertyNames) {
+        for (String requiredPropertyName : requiredPropertyNames) {
             // required property is defined in properties, value is that CodegenProperty
             String usedRequiredPropertyName = handleSpecialCharacters(requiredPropertyName);
             if (properties != null && properties.containsKey(requiredPropertyName)) {
                 // get cp from property
                 boolean found = false;
-                for (CodegenProperty cp: property.getVars()) {
+                for (CodegenProperty cp : property.getVars()) {
                     if (cp.baseName.equals(requiredPropertyName)) {
                         found = true;
                         requiredVarsMap.put(requiredPropertyName, cp);
@@ -8312,7 +8312,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation - operation to be processed
      */
     protected void handleConstantParams(CodegenOperation operation) {
-        if (!autosetConstants || operation.allParams.isEmpty()) {            
+        if (!autosetConstants || operation.allParams.isEmpty()) {
             return;
         }
         final ArrayList<CodegenParameter> copy = new ArrayList<>(operation.allParams);
@@ -8325,13 +8325,13 @@ public class DefaultCodegen implements CodegenConfig {
             if (p.isEnum && p.required && p._enum != null && p._enum.size() == 1) {
                 // Add to constantParams for use in the code generation templates. 
                 operation.constantParams.add(p);
-                if(p.isQueryParam) {
+                if (p.isQueryParam) {
                     operation.queryParams.removeIf(param -> param.baseName.equals(p.baseName));
                 }
-                if(p.isHeaderParam) {
+                if (p.isHeaderParam) {
                     operation.headerParams.removeIf(param -> param.baseName.equals(p.baseName));
                 }
-                if(p.isCookieParam) {
+                if (p.isCookieParam) {
                     operation.cookieParams.removeIf(param -> param.baseName.equals(p.baseName));
                 }
                 LOGGER.info("Update operation [{}]. Remove parameter [{}] because it can only have a fixed value of [{}]", operation.operationId, p.baseName, p._enum.get(0));
