@@ -212,7 +212,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(pet2.tags[0].name, "None")
         self.assertEqual(pet2.category.id, 1)
 
-    def testParametersToUrlQuery(self):
+    def test_parameters_to_url_query_boolean_value(self):
         client = openapi_client.ApiClient()
         params = client.parameters_to_url_query([("boolean", True),], {})
         self.assertEqual(params, "boolean=true")
