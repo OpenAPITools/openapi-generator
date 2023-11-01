@@ -16,6 +16,11 @@
 
 package org.openapitools.codegen.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Properties;
 
 /**
@@ -30,6 +35,8 @@ import java.util.Properties;
  * @since 2018
  */
 public class GlobalSettings {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalSettings.class);
 
     private static ThreadLocal<Properties> properties = new InheritableThreadLocal<Properties>() {
         @Override
@@ -59,5 +66,11 @@ public class GlobalSettings {
 
     public static void reset() {
         properties.remove();
+    }
+
+    public static void log() {
+        StringWriter stringWriter = new StringWriter();
+        properties.get().list(new PrintWriter(stringWriter));
+        LOGGER.debug("GlobalSettings: {}", stringWriter);
     }
 }
