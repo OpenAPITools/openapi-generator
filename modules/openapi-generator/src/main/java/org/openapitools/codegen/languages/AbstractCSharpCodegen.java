@@ -433,13 +433,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("indentLine1", new IndentedLambda(4, " ", true, true))
                 .put("indentLine3", new IndentedLambda(12, " ", true, true))
                 .put("indentLine4", new IndentedLambda(16, " ", true, true))
-                // .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true))
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true))
                 .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda(true))
                 .put("copy", copyLambda)
                 .put("copy2", copyLambda2)
-                .put("paste", new PasteLambda(copyLambda, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false))
-                .put("pasteLine2", new PasteLambda(copyLambda2, true, true, false));
+                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
+                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("pasteLine2", new PasteLambda(copyLambda2, true, true, false, false));
     }
 
     @Override

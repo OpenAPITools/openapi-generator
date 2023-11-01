@@ -40,12 +40,14 @@ public class PasteLambda implements Mustache.Lambda {
     private final Boolean stripLeading;
     private final Boolean stripTrailing;
     private final Boolean endWithLineBreak;
+    private final Boolean clear;
 
-    public PasteLambda(CopyLambda copyLambda, Boolean stripLeading, Boolean stripTrailing, Boolean endWithLineBreak) {
+    public PasteLambda(CopyLambda copyLambda, Boolean stripLeading, Boolean stripTrailing, Boolean endWithLineBreak, boolean clear) {
         this.copyLambda = copyLambda;
         this.stripLeading = stripLeading;
         this.stripTrailing = stripTrailing;
         this.endWithLineBreak = endWithLineBreak;
+        this.clear = clear;
     }
 
     @Override
@@ -62,5 +64,9 @@ public class PasteLambda implements Mustache.Lambda {
             content = content + "\n";
         }
         writer.write(content);
+
+        if (this.clear) {
+            this.copyLambda.savedContent = null;
+        }
     }
 }

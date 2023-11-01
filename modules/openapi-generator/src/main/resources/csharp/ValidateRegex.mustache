@@ -1,6 +1,13 @@
 // {{{name}}} ({{{dataType}}}) pattern
 Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
-if (!regex{{{name}}}.Match(this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}}{{#isUuid}}.ToString(){{/isUuid}}).Success)
+if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null && !regex{{{name}}}.Match(this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}}{{#isUuid}}.ToString(){{/isUuid}}).Success)
 {
     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
 }
+
+
+
+
+
+
+// TODO: revert changes here

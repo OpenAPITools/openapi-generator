@@ -306,16 +306,24 @@
                 int hashCode = 41;
                 {{/parent}}
                 {{#readOnlyVars}}
+                {{#required}}
                 {{^isNullable}}
                 hashCode = (hashCode * 59) + {{name}}.GetHashCode();
                 {{/isNullable}}
+                {{/required}}
                 {{/readOnlyVars}}
                 {{#readOnlyVars}}
-                {{#isNullable}}
+                {{#lambda.copy}}
 
                 if ({{name}} != null)
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                {{/lambda.copy}}
+                {{#isNullable}}
+                {{#lambda.pasteOnce}}{{/lambda.pasteOnce}}
                 {{/isNullable}}
+                {{^required}}
+                {{#lambda.pasteOnce}}{{/lambda.pasteOnce}}
+                {{/required}}
                 {{/readOnlyVars}}
                 {{#isAdditionalPropertiesTrue}}
                 {{^parentModel}}
