@@ -139,6 +139,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SKIP_GENERATING_MARSHAL_JSON, CodegenConstants.SKIP_GENERATING_MARSHAL_JSON_DESC, false));
         this.setWithGoMod(true);
     }
 
@@ -270,6 +271,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             additionalProperties.put(WITH_GO_MOD, withGoMod);
         } else {
             additionalProperties.put(WITH_GO_MOD, true);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SKIP_GENERATING_MARSHAL_JSON)) {
+            setSkipGeneratingMarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.SKIP_GENERATING_MARSHAL_JSON).toString()));
         }
 
         // add lambda for mustache templates to handle oneOf/anyOf naming
