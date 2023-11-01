@@ -255,13 +255,32 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/headerParams}}
 {{#formParams}}
 {{#isFile}}
+{{#isArray}}
 	var {{paramName}}LocalVarFormFileName string
 	var {{paramName}}LocalVarFileName     string
 	var {{paramName}}LocalVarFileBytes    []byte
 
-	{{paramName}}LocalVarFormFileName = "{{baseName}}"
+	{{paramName}}LocalVarFormFileName = "{{{baseName}}}"
+	{{paramName}}LocalVarFile := r.{{paramName}}
 
+	if {{paramName}}LocalVarFile != nil {
+		// loop through the array to prepare multiple files upload
+		for _, {{paramName}}LocalVarFileValue := range {{paramName}}LocalVarFile {
+			fbs, _ := io.ReadAll({{paramName}}LocalVarFileValue)
 
+			{{paramName}}LocalVarFileBytes = fbs
+			{{paramName}}LocalVarFileName = {{paramName}}LocalVarFileValue.Name()
+			{{paramName}}LocalVarFileValue.Close()
+			formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
+		}
+	}
+{{/isArray}}
+{{^isArray}}
+	var {{paramName}}LocalVarFormFileName string
+	var {{paramName}}LocalVarFileName     string
+	var {{paramName}}LocalVarFileBytes    []byte
+
+	{{paramName}}LocalVarFormFileName = "{{{baseName}}}"
 	{{paramName}}LocalVarFile := r.{{paramName}}
 
 	if {{paramName}}LocalVarFile != nil {
@@ -272,6 +291,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		{{paramName}}LocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 	}
+{{/isArray}}
 {{/isFile}}
 {{^isFile}}
 {{#required}}

@@ -306,17 +306,18 @@ func (a *BodyAPIService) TestBodyMultipartFormdataArrayOfBinaryExecute(r ApiTest
 	var filesLocalVarFileBytes    []byte
 
 	filesLocalVarFormFileName = "files"
-
-
 	filesLocalVarFile := r.files
 
 	if filesLocalVarFile != nil {
-		fbs, _ := io.ReadAll(filesLocalVarFile)
+		// loop through the array to prepare multiple files upload
+		for _, filesLocalVarFileValue := range filesLocalVarFile {
+			fbs, _ := io.ReadAll(filesLocalVarFileValue)
 
-		filesLocalVarFileBytes = fbs
-		filesLocalVarFileName = filesLocalVarFile.Name()
-		filesLocalVarFile.Close()
-		formFiles = append(formFiles, formFile{fileBytes: filesLocalVarFileBytes, fileName: filesLocalVarFileName, formFileName: filesLocalVarFormFileName})
+			filesLocalVarFileBytes = fbs
+			filesLocalVarFileName = filesLocalVarFileValue.Name()
+			filesLocalVarFileValue.Close()
+			formFiles = append(formFiles, formFile{fileBytes: filesLocalVarFileBytes, fileName: filesLocalVarFileName, formFileName: filesLocalVarFormFileName})
+		}
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
