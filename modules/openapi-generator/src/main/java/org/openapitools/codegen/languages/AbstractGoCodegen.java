@@ -50,7 +50,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean structPrefix = false;
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
-    protected boolean skipGeneratingMarshalJSON = false;
+    protected boolean generateMarshalJSON = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -669,8 +669,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 model.anyOf.remove("nil");
             }
 
-            if (skipGeneratingMarshalJSON) {
-                model.vendorExtensions.put("x-go-skip-generating-marshal-json", true);
+            if (generateMarshalJSON) {
+                model.vendorExtensions.put("x-go-generate-marshal-json", true);
             }
         }
 
@@ -815,8 +815,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         this.withGoMod = withGoMod;
     }
 
-    public void setSkipGeneratingMarshalJSON(boolean skipGeneratingMarshalJSON) {
-        this.skipGeneratingMarshalJSON = skipGeneratingMarshalJSON;
+    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
+        this.generateMarshalJSON = generateMarshalJSON;
     }
 
     @Override

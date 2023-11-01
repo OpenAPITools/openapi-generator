@@ -434,6 +434,6 @@ public class CodegenConstants {
 
     public static final String WITH_GO_MOD = "withGoMod";
 
-    public static final String SKIP_GENERATING_MARSHAL_JSON = "skipGeneratingMarshalJSON";
-    public static final String SKIP_GENERATING_MARSHAL_JSON_DESC = "Skip generating MarshalJSON method";
+    public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
+    public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
 }
