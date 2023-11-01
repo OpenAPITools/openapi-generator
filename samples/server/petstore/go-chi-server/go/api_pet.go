@@ -85,6 +85,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}/uploadImage",
 			c.GetPetImageById,
 		},
+		"GetPetsUsingBooleanQueryParameters": Route{
+			strings.ToUpper("Get"),
+			"/v2/pets/boolean/parsing",
+			c.GetPetsUsingBooleanQueryParameters,
+		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
 			"/v2/pet",
@@ -280,6 +285,43 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
+func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	exprParam, err := parseBoolParameter(
+		query.Get("expr"),
+		WithRequire[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	groupingParam, err := parseBoolParameter(
+		query.Get("grouping"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	inactiveParam, err := parseBoolParameter(
+		query.Get("inactive"),
+		WithDefaultOrParse[bool](false, parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

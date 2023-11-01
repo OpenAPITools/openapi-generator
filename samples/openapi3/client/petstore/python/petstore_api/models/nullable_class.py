@@ -20,7 +20,6 @@ import json
 from datetime import date, datetime
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class NullableClass(BaseModel):
     """
     NullableClass
-    """
+    """ # noqa: E501
     required_integer_prop: Optional[StrictInt]
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[StrictFloat] = None
@@ -147,7 +146,7 @@ class NullableClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of NullableClass from a dict"""
         if obj is None:
             return None

@@ -328,7 +328,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     {{/parent}}
     {{#vars}}
-    sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
     {{/vars}}
     {{#additionalPropertiesType}}
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
