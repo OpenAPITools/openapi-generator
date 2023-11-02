@@ -378,9 +378,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # {{classname}}.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+{{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

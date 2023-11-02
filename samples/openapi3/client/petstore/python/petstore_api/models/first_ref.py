@@ -103,9 +103,6 @@ class FirstRef(BaseModel):
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # FirstRef.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+FirstRef.model_rebuild(raise_errors=False)
 
