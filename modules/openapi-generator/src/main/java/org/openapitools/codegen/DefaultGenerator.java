@@ -606,7 +606,7 @@ public class DefaultGenerator implements Generator {
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
+        String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
         }
