@@ -381,6 +381,9 @@ func parseNumericArrayParameter[T Number](param, delim string, required bool, fn
 	return values, nil
 }
 
-func getPointer[T any](v T) *T {
+func getPointerOrNilIfEmpty(v string) *string {
+	if v == "" {
+		return nil
+	}
 	return &v
 }

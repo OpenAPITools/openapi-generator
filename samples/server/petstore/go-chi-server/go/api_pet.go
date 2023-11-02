@@ -150,8 +150,8 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	apiKeyParam := r.Header.Get("api_key")
-	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
+	apiKeyParam := getPointerOrNilIfEmpty(r.Header.Get("api_key"))
+	result, err := c.service.DeletePet(r.Context(), *petIdParam, apiKeyParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -164,22 +164,20 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FilterPetsByCategory - Finds Pets
 func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	genderParamPtr, err := NewGenderFromValue(chi.URLParam(r, "gender"))
+	genderParam, err := NewGenderFromValue(chi.URLParam(r, "gender"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	genderParam := *genderParamPtr
 	if !query.Has("species"){
 		c.errorHandler(w, r, &RequiredError{"species"}, nil)
 		return
 	}
-	speciesParamPtr, err := NewSpeciesFromValue(query.Get("species"))
+	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	speciesParam = *speciesParamPtr
 	var notSpeciesParam []Species
 	if query.Has("notSpecies") {
 		paramSplits := strings.Split(query.Get("notSpecies"), ",")
@@ -193,7 +191,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 			notSpeciesParam = append(notSpeciesParam, *paramEnum)
 		}
 	}
-	result, err := c.service.FilterPetsByCategory(r.Context(), genderParam, speciesParam, notSpeciesParam)
+	result, err := c.service.FilterPetsByCategory(r.Context(), *genderParam, *speciesParam, notSpeciesParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -244,7 +242,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		return
 	}
 	
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, *bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -264,7 +262,7 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetPetById(r.Context(), petIdParam)
+	result, err := c.service.GetPetById(r.Context(), *petIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -284,7 +282,7 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
+	result, err := c.service.GetPetImageById(r.Context(), *petIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -321,7 +319,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
+	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), *exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -374,11 +372,11 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	
-	nameParam := r.FormValue("name")
+	nameParam := getPointerOrNilIfEmpty(r.FormValue("name"))
 	
 	
-	statusParam := r.FormValue("status")
-	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
+	statusParam := getPointerOrNilIfEmpty(r.FormValue("status"))
+	result, err := c.service.UpdatePetWithForm(r.Context(), *petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -404,7 +402,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	additionalMetadataParam := r.FormValue("additionalMetadata")
+	additionalMetadataParam := getPointerOrNilIfEmpty(r.FormValue("additionalMetadata"))
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -412,7 +410,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	result, err := c.service.UploadFile(r.Context(), *petIdParam, additionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -438,7 +436,7 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 	}
 	
 	
-	additionalMetadataParam := r.FormValue("additionalMetadata")
+	additionalMetadataParam := getPointerOrNilIfEmpty(r.FormValue("additionalMetadata"))
 	filesParam, err := ReadFormFilesToTempFiles(r, "files")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -446,7 +444,7 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 	}
 	
 	
-	result, err := c.service.UploadFileArrayOfFiles(r.Context(), petIdParam, additionalMetadataParam, filesParam)
+	result, err := c.service.UploadFileArrayOfFiles(r.Context(), *petIdParam, additionalMetadataParam, filesParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -455,3 +453,4 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
+

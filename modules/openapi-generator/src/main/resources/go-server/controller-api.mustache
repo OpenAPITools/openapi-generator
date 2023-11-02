@@ -181,15 +181,20 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isEnumOrRef}}
-	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
+	{{paramName}}Param := getPointerOrNilIfEmpty({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{#required}}
+	if {{paramName}}Param == nil {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return	
+	}
+	{{/required}}
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
-	{{paramName}}ParamPtr, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{paramName}}Param := *{{paramName}}ParamPtr
 	{{/isEnumOrRef}}
 	{{/isInteger}}
 	{{/isLong}}
@@ -413,7 +418,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	var {{paramName}}Param *{{dataType}}
 	if query.Has("{{baseName}}") {
 		{{^isEnumOrRef}}
-		{{paramName}}Param = getPointer(query.Get("{{baseName}}"))
+		{{paramName}}Param = getPointerOrNilIfEmpty(query.Get("{{baseName}}"))
 		{{/isEnumOrRef}}
 		{{#isEnumOrRef}}
 		var err error
@@ -434,12 +439,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
-	{{paramName}}ParamPtr, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
+	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{paramName}}Param = *{{paramName}}ParamPtr
 	{{/isEnumOrRef}}
 	{{/required}}
 	{{/defaultValue}}
@@ -491,12 +495,24 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}{{/isInteger}}
 	{{^isFile}}
 	{{^isLong}}
-	{{paramName}}Param := r.FormValue("{{baseName}}")
+	{{paramName}}Param := getPointerOrNilIfEmpty(r.FormValue("{{baseName}}"))
+	{{#required}}
+	if {{paramName}}Param == nil {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{/required}}
 	{{/isLong}}
 	{{/isFile}}
 	{{/isFormParam}}
 	{{#isHeaderParam}}
-	{{paramName}}Param := r.Header.Get("{{baseName}}")
+	{{paramName}}Param := getPointerOrNilIfEmpty(r.Header.Get("{{baseName}}"))
+	{{#required}}
+	if {{paramName}}Param == nil {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{/required}}
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
 	{{paramName}}Param := &{{dataType}}{}
@@ -538,7 +554,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isModel}}{{#required}}*{{/required}}{{/isModel}}{{paramName}}Param{{/allParams}})
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{^isArray}}{{^isFile}}{{#required}}*{{/required}}{{/isFile}}{{/isArray}}{{paramName}}Param{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -547,3 +563,4 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 }{{/operation}}{{/operations}}
+

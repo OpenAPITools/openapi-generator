@@ -174,7 +174,11 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	query := r.URL.Query()
-	usernameParam := params["username"]
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return	
+	}
 	booleanTestParam, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
@@ -183,7 +187,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
+	result, err := c.service.DeleteUser(r.Context(), *usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -196,8 +200,12 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	usernameParam := params["username"]
-	result, err := c.service.GetUserByName(r.Context(), usernameParam)
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return	
+	}
+	result, err := c.service.GetUserByName(r.Context(), *usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -220,7 +228,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
+	result, err := c.service.LoginUser(r.Context(), *usernameParam, *passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -245,7 +253,11 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	usernameParam := params["username"]
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return	
+	}
 	userParam := &User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -261,7 +273,7 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.UpdateUser(r.Context(), usernameParam, *userParam)
+	result, err := c.service.UpdateUser(r.Context(), *usernameParam, *userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -270,3 +282,4 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
+

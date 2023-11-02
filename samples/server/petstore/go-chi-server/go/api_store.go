@@ -75,8 +75,12 @@ func (c *StoreAPIController) Routes() Routes {
 
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
-	orderIdParam := chi.URLParam(r, "orderId")
-	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
+	orderIdParam := getPointerOrNilIfEmpty(chi.URLParam(r, "orderId"))
+	if orderIdParam == nil {
+		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
+		return	
+	}
+	result, err := c.service.DeleteOrder(r.Context(), *orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -110,7 +114,7 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetOrderById(r.Context(), orderIdParam)
+	result, err := c.service.GetOrderById(r.Context(), *orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -146,3 +150,4 @@ func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
+
