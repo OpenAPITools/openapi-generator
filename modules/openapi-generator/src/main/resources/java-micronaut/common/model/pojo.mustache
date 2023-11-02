@@ -199,8 +199,7 @@ Declare the class with extends and implements
 {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}  @JsonIgnore
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
-            {{#jackson}}
-{{>common/model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}    public {{#useOptional}}{{^required}}Optional<{{/required}}{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}{{^required}}>{{/required}}{{/useOptional}} {{getter}}() {
+{{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}    public {{#useOptional}}{{^required}}Optional<{{/required}}{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}{{^required}}>{{/required}}{{/useOptional}} {{getter}}() {
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isReadOnly}}
 {{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}    if ({{name}} == null) {
@@ -237,10 +236,9 @@ Declare the class with extends and implements
 
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^isReadOnly}}
-            {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
 {{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-setter-extra-annotation}}       {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{/jackson}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
         this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}
