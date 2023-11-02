@@ -50,6 +50,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean structPrefix = false;
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
+    protected boolean generateMarshalJSON = true;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -667,7 +668,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 model.isNullable = true;
                 model.anyOf.remove("nil");
             }
+
+            if (generateMarshalJSON) {
+                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+            }
         }
+
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
         if (recursiveImports == null)
@@ -807,6 +813,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithGoMod(boolean withGoMod) {
         this.withGoMod = withGoMod;
+    }
+
+    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
+        this.generateMarshalJSON = generateMarshalJSON;
     }
 
     @Override

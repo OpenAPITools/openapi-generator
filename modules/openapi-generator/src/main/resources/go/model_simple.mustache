@@ -260,6 +260,7 @@ func (o *{{classname}}) Unset{{name}}() {
 
 {{/required}}
 {{/vars}}
+{{#vendorExtensions.x-go-generate-marshal-json}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -268,6 +269,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+{{/vendorExtensions.x-go-generate-marshal-json}}
 func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
 	{{#parent}}
