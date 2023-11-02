@@ -38,10 +38,10 @@ namespace UseSourceGeneration.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
         [JsonConstructor]
-        public AppleReq(string cultivar, bool mealy)
+        public AppleReq(string cultivar, Option<bool?> mealy = default)
         {
             Cultivar = cultivar;
-            Mealy = mealy;
+            MealyOption = mealy;
             OnCreated();
         }
 
@@ -51,13 +51,19 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string Cultivar { get; set; }
+        public string Cultivar { get; set; } // d
+
+        /// <summary>
+        /// Used to track the state of Mealy
+        /// </summary>
+        [JsonIgnore]
+        public Option<bool?> MealyOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool Mealy { get; set; }
+        public bool? Mealy { get { return this. MealyOption; } set { this.MealyOption = new(value); } } // d
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,8 +112,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? cultivar = default;
-            bool? mealy = default;
+            Option<string?> cultivar = default;
+            Option<bool?> mealy = default;
 
             while (utf8JsonReader.Read())
             {
@@ -125,11 +131,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "cultivar":
-                            cultivar = utf8JsonReader.GetString();
+                            cultivar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "mealy":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mealy = utf8JsonReader.GetBoolean();
+                                mealy = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -137,13 +143,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (cultivar == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
+            if (!cultivar.IsSet)
+                throw new ArgumentException("Property is required for class AppleReq.", nameof(cultivar));
 
-            if (mealy == null)
-                throw new ArgumentNullException(nameof(mealy), "Property is required for class AppleReq.");
+            if (cultivar.IsSet && cultivar.Value == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class AppleReq.");
 
-            return new AppleReq(cultivar, mealy.Value);
+            if (mealy.IsSet && mealy.Value == null)
+                throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
+
+            return new AppleReq(cultivar.Value!, mealy); // a
         }
 
         /// <summary>
@@ -170,8 +179,13 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("cultivar", appleReq.Cultivar);
-            writer.WriteBoolean("mealy", appleReq.Mealy);
+            if (appleReq.Cultivar == null)
+                throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
+
+            writer.WriteString("cultivar", appleReq.Cultivar); // 1
+
+            if (appleReq.MealyOption.IsSet)
+                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value); // 2
         }
     }
 

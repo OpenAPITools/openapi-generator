@@ -38,10 +38,10 @@ namespace UseSourceGeneration.Model
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
+        public EnumArrays(Option<List<EnumArrays.ArrayEnumEnum>?> arrayEnum = default, Option<JustSymbolEnum?> justSymbol = default)
         {
-            ArrayEnum = arrayEnum;
-            JustSymbol = justSymbol;
+            ArrayEnumOption = arrayEnum;
+            JustSymbolOption = justSymbol;
             OnCreated();
         }
 
@@ -102,9 +102,8 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
+        public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum? value)
         {
-
             if (value == ArrayEnumEnum.Fish)
                 return "fish";
 
@@ -169,9 +168,8 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
+        public static string JustSymbolEnumToJsonValue(JustSymbolEnum? value)
         {
-
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
                 return ">=";
 
@@ -182,16 +180,28 @@ namespace UseSourceGeneration.Model
         }
 
         /// <summary>
+        /// Used to track the state of JustSymbol
+        /// </summary>
+        [JsonIgnore]
+        public Option<JustSymbolEnum?> JustSymbolOption { get; private set; } // option a
+
+        /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public JustSymbolEnum JustSymbol { get; set; }
+        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new(value); } } // a
+
+        /// <summary>
+        /// Used to track the state of ArrayEnum
+        /// </summary>
+        [JsonIgnore]
+        public Option<List<EnumArrays.ArrayEnumEnum>?> ArrayEnumOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+        public List<EnumArrays.ArrayEnumEnum>? ArrayEnum { get { return this. ArrayEnumOption; } set { this.ArrayEnumOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -247,8 +257,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<EnumArrays.ArrayEnumEnum>? arrayEnum = default;
-            EnumArrays.JustSymbolEnum? justSymbol = default;
+            Option<List<EnumArrays.ArrayEnumEnum>?> arrayEnum = default;
+            Option<EnumArrays.JustSymbolEnum?> justSymbol = default;
 
             while (utf8JsonReader.Read())
             {
@@ -267,13 +277,12 @@ namespace UseSourceGeneration.Model
                     {
                         case "array_enum":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>?>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "just_symbol":
                             string? justSymbolRawValue = utf8JsonReader.GetString();
-                            justSymbol = justSymbolRawValue == null
-                                ? null
-                                : EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
+                            if (justSymbolRawValue != null)
+                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue));
                             break;
                         default:
                             break;
@@ -281,13 +290,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (arrayEnum == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is required for class EnumArrays.");
+            if (arrayEnum.IsSet && arrayEnum.Value == null)
+                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
 
-            if (justSymbol == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
+            if (justSymbol.IsSet && justSymbol.Value == null)
+                throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
 
-            return new EnumArrays(arrayEnum, justSymbol.Value);
+            return new EnumArrays(arrayEnum, justSymbol); // a
         }
 
         /// <summary>
@@ -314,10 +323,13 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("array_enum");
-            JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+            if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
+                throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
 
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol);
+            if (enumArrays.ArrayEnumOption.IsSet) // 14
+                writer.WritePropertyName("array_enum");
+                JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value); // 7
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);
             else

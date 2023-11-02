@@ -39,19 +39,25 @@ namespace UseSourceGeneration.Model
         /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Cat(string className, bool declawed, string color = @"red") : base(className, color)
+        public Cat(string className, Option<bool?> declawed = default, Option<string?> color = default) : base(className, color)
         {
-            Declawed = declawed;
+            DeclawedOption = declawed;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Declawed
+        /// </summary>
+        [JsonIgnore]
+        public Option<bool?> DeclawedOption { get; private set; } // option d
+
+        /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
         [JsonPropertyName("declawed")]
-        public bool Declawed { get; set; }
+        public bool? Declawed { get { return this. DeclawedOption; } set { this.DeclawedOption = new(value); } } // d
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -90,9 +96,9 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
-            bool? declawed = default;
-            string? color = default;
+            Option<string?> className = default;
+            Option<bool?> declawed = default;
+            Option<string?> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -110,14 +116,14 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "declawed":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                declawed = utf8JsonReader.GetBoolean();
+                                declawed = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -125,16 +131,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Cat.", nameof(className));
 
-            if (declawed == null)
-                throw new ArgumentNullException(nameof(declawed), "Property is required for class Cat.");
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Cat.");
 
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class Cat.");
+            if (declawed.IsSet && declawed.Value == null)
+                throw new ArgumentNullException(nameof(declawed), "Property is not nullable for class Cat.");
 
-            return new Cat(className, declawed.Value, color);
+            if (color.IsSet && color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
+
+            return new Cat(className.Value!, declawed, color); // a
         }
 
         /// <summary>
@@ -161,9 +170,19 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("className", cat.ClassName);
-            writer.WriteBoolean("declawed", cat.Declawed);
-            writer.WriteString("color", cat.Color);
+            if (cat.ClassName == null)
+                throw new ArgumentNullException(nameof(cat.ClassName), "Property is required for class Cat.");
+
+            if (cat.ColorOption.IsSet && cat.Color == null)
+                throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
+
+            writer.WriteString("className", cat.ClassName); // 1
+
+            if (cat.DeclawedOption.IsSet)
+                writer.WriteBoolean("declawed", cat.DeclawedOption.Value!.Value); // 2
+
+            if (cat.ColorOption.IsSet)
+                writer.WriteString("color", cat.Color); // 1
         }
     }
 

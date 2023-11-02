@@ -38,26 +38,38 @@ namespace UseSourceGeneration.Model
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string varClass, int name)
+        public Model200Response(Option<string?> varClass = default, Option<int?> name = default)
         {
-            VarClass = varClass;
-            Name = name;
+            VarClassOption = varClass;
+            NameOption = name;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of VarClass
+        /// </summary>
+        [JsonIgnore]
+        public Option<string?> VarClassOption { get; private set; } // option d
+
+        /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string VarClass { get; set; }
+        public string? VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } } // d
+
+        /// <summary>
+        /// Used to track the state of Name
+        /// </summary>
+        [JsonIgnore]
+        public Option<int?> NameOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int Name { get; set; }
+        public int? Name { get { return this. NameOption; } set { this.NameOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -113,8 +125,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? varClass = default;
-            int? name = default;
+            Option<string?> varClass = default;
+            Option<int?> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,11 +144,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "class":
-                            varClass = utf8JsonReader.GetString();
+                            varClass = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                name = utf8JsonReader.GetInt32();
+                                name = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -144,13 +156,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varClass == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
+            if (varClass.IsSet && varClass.Value == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
 
-            return new Model200Response(varClass, name.Value);
+            return new Model200Response(varClass, name); // a
         }
 
         /// <summary>
@@ -177,8 +189,14 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("class", model200Response.VarClass);
-            writer.WriteNumber("name", model200Response.Name);
+            if (model200Response.VarClassOption.IsSet && model200Response.VarClass == null)
+                throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
+
+            if (model200Response.VarClassOption.IsSet)
+                writer.WriteString("class", model200Response.VarClass); // 1
+
+            if (model200Response.NameOption.IsSet)
+                writer.WriteNumber("name", model200Response.NameOption.Value!.Value); // 3
         }
     }
 

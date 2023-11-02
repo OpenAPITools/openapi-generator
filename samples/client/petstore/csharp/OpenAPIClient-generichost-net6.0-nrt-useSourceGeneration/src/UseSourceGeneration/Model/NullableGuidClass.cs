@@ -37,20 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public NullableGuidClass(Guid? uuid = default)
+        public NullableGuidClass(Option<Guid?> uuid = default)
         {
-            Uuid = uuid;
+            UuidOption = uuid;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Uuid
+        /// </summary>
+        [JsonIgnore]
+        public Option<Guid?> UuidOption { get; private set; } // option d
+
+        /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get; set; }
+        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,7 +111,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Guid? uuid = default;
+            Option<Guid?> uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -124,7 +130,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = utf8JsonReader.GetGuid();
+                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
@@ -132,7 +138,7 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            return new NullableGuidClass(uuid);
+            return new NullableGuidClass(uuid); // a
         }
 
         /// <summary>
@@ -159,11 +165,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-            if (nullableGuidClass.Uuid == null)
-                writer.WriteNull("uuid");
-            else
-                writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
+            if (nullableGuidClass.UuidOption.IsSet)
+                if (nullableGuidClass.UuidOption.Value != null)
+                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value); // 11
+                else
+                    writer.WriteNull("uuid");
         }
     }
 

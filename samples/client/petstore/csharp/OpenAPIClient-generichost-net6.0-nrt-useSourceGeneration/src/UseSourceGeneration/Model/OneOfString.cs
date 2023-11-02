@@ -125,10 +125,10 @@ namespace UseSourceGeneration.Model
             }
 
             if (varString != null)
-                return new OneOfString(varString);
+                return new OneOfString(varString); // b
 
             if (varString != null)
-                return new OneOfString(varString);
+                return new OneOfString(varString); // b
 
             throw new JsonException();
         }

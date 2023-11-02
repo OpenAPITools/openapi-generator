@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public string TriangleType { get; set; } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? triangleType = default;
+            Option<string?> triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class TriangleInterface.");
+            if (!triangleType.IsSet)
+                throw new ArgumentException("Property is required for class TriangleInterface.", nameof(triangleType));
 
-            return new TriangleInterface(triangleType);
+            if (triangleType.IsSet && triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
+
+            return new TriangleInterface(triangleType.Value!); // a
         }
 
         /// <summary>
@@ -160,7 +163,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("triangleType", triangleInterface.TriangleType);
+            if (triangleInterface.TriangleType == null)
+                throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
+
+            writer.WriteString("triangleType", triangleInterface.TriangleType); // 1
         }
     }
 

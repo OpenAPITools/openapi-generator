@@ -38,10 +38,10 @@ namespace UseSourceGeneration.Model
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        public BananaReq(decimal lengthCm, bool sweet)
+        public BananaReq(decimal lengthCm, Option<bool?> sweet = default)
         {
             LengthCm = lengthCm;
-            Sweet = sweet;
+            SweetOption = sweet;
             OnCreated();
         }
 
@@ -51,13 +51,19 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal LengthCm { get; set; }
+        public decimal LengthCm { get; set; } // d
+
+        /// <summary>
+        /// Used to track the state of Sweet
+        /// </summary>
+        [JsonIgnore]
+        public Option<bool?> SweetOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool Sweet { get; set; }
+        public bool? Sweet { get { return this. SweetOption; } set { this.SweetOption = new(value); } } // d
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,8 +112,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? lengthCm = default;
-            bool? sweet = default;
+            Option<decimal?> lengthCm = default;
+            Option<bool?> sweet = default;
 
             while (utf8JsonReader.Read())
             {
@@ -126,11 +132,11 @@ namespace UseSourceGeneration.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                lengthCm = utf8JsonReader.GetDecimal();
+                                lengthCm = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "sweet":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                sweet = utf8JsonReader.GetBoolean();
+                                sweet = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -138,13 +144,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (lengthCm == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class BananaReq.");
+            if (!lengthCm.IsSet)
+                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
 
-            if (sweet == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is required for class BananaReq.");
+            if (lengthCm.IsSet && lengthCm.Value == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
 
-            return new BananaReq(lengthCm.Value, sweet.Value);
+            if (sweet.IsSet && sweet.Value == null)
+                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
+
+            return new BananaReq(lengthCm.Value!.Value!, sweet); // a
         }
 
         /// <summary>
@@ -171,8 +180,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
-            writer.WriteBoolean("sweet", bananaReq.Sweet);
+            writer.WriteNumber("lengthCm", bananaReq.LengthCm); // 3
+
+            if (bananaReq.SweetOption.IsSet)
+                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value); // 2
         }
     }
 

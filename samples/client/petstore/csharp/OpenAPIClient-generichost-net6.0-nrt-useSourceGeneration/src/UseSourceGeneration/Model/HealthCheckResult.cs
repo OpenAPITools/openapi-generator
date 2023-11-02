@@ -37,19 +37,25 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(string? nullableMessage = default)
+        public HealthCheckResult(Option<string?> nullableMessage = default)
         {
-            NullableMessage = nullableMessage;
+            NullableMessageOption = nullableMessage;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of NullableMessage
+        /// </summary>
+        [JsonIgnore]
+        public Option<string?> NullableMessageOption { get; private set; } // option d
+
+        /// <summary>
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string? NullableMessage { get; set; }
+        public string? NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +110,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? nullableMessage = default;
+            Option<string?> nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +128,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = utf8JsonReader.GetString();
+                            nullableMessage = new Option<string?>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -130,7 +136,7 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            return new HealthCheckResult(nullableMessage);
+            return new HealthCheckResult(nullableMessage); // a
         }
 
         /// <summary>
@@ -157,7 +163,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
+            if (healthCheckResult.NullableMessageOption.IsSet)
+                if (healthCheckResult.NullableMessageOption.Value != null)
+                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage); // 1
+                else
+                    writer.WriteNull("NullableMessage");
         }
     }
 

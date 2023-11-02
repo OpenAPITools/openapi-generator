@@ -37,20 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        public File(string sourceURI)
+        public File(Option<string?> sourceURI = default)
         {
-            SourceURI = sourceURI;
+            SourceURIOption = sourceURI;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of SourceURI
+        /// </summary>
+        [JsonIgnore]
+        public Option<string?> SourceURIOption { get; private set; } // option d
+
+        /// <summary>
         /// Test capitalization
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string SourceURI { get; set; }
+        public string? SourceURI { get { return this. SourceURIOption; } set { this.SourceURIOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,7 +111,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? sourceURI = default;
+            Option<string?> sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +129,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "sourceURI":
-                            sourceURI = utf8JsonReader.GetString();
+                            sourceURI = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -131,10 +137,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (sourceURI == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
+            if (sourceURI.IsSet && sourceURI.Value == null)
+                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
 
-            return new File(sourceURI);
+            return new File(sourceURI); // a
         }
 
         /// <summary>
@@ -161,7 +167,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("sourceURI", file.SourceURI);
+            if (file.SourceURIOption.IsSet && file.SourceURI == null)
+                throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
+
+            if (file.SourceURIOption.IsSet)
+                writer.WriteString("sourceURI", file.SourceURI); // 1
         }
     }
 

@@ -72,7 +72,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        public string QuadrilateralType { get; set; } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,7 +137,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? quadrilateralType = default;
+            Option<string?> quadrilateralType = default;
 
             ComplexQuadrilateral? complexQuadrilateral = null;
             SimpleQuadrilateral? simpleQuadrilateral = null;
@@ -188,7 +188,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -196,14 +196,17 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (quadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class Quadrilateral.");
+            if (!quadrilateralType.IsSet)
+                throw new ArgumentException("Property is required for class Quadrilateral.", nameof(quadrilateralType));
+
+            if (quadrilateralType.IsSet && quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
 
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType);
+                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value!); // c
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType);
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value!); // c
 
             throw new JsonException();
         }
@@ -242,7 +245,10 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
+            if (quadrilateral.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
+
+            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType); // 1
         }
     }
 

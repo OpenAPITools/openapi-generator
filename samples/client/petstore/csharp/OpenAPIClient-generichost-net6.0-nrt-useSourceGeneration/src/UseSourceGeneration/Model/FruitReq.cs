@@ -153,10 +153,10 @@ namespace UseSourceGeneration.Model
             }
 
             if (appleReq != null)
-                return new FruitReq(appleReq);
+                return new FruitReq(appleReq); // b
 
             if (bananaReq != null)
-                return new FruitReq(bananaReq);
+                return new FruitReq(bananaReq); // b
 
             throw new JsonException();
         }
