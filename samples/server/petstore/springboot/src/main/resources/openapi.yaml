@@ -770,7 +770,7 @@ paths:
         schema:
           enum:
           - 1
-          - -2
+          - null
           format: int32
           type: integer
         style: form
@@ -1601,7 +1601,7 @@ components:
         enum_integer:
           enum:
           - 1
-          - -1
+          - null
           format: int32
           type: integer
         enum_number:
@@ -1931,7 +1931,6 @@ components:
           default: 1.234
           type: number
         integer_item:
-          default: -2
           type: integer
         bool_item:
           default: true
@@ -1965,7 +1964,6 @@ components:
           format: float
           type: number
         integer_item:
-          example: -2
           type: integer
         bool_item:
           example: true
@@ -2000,7 +1998,6 @@ components:
           xml:
             attribute: true
         attribute_integer:
-          example: -2
           type: integer
           xml:
             attribute: true
@@ -2026,7 +2023,6 @@ components:
           xml:
             name: xml_name_number
         name_integer:
-          example: -2
           type: integer
           xml:
             name: xml_name_integer
@@ -2061,7 +2057,6 @@ components:
           xml:
             prefix: cd
         prefix_integer:
-          example: -2
           type: integer
           xml:
             prefix: ef
@@ -2096,7 +2091,6 @@ components:
           xml:
             namespace: http://b.com/schema
         namespace_integer:
-          example: -2
           type: integer
           xml:
             namespace: http://c.com/schema
@@ -2133,7 +2127,6 @@ components:
             namespace: http://b.com/schema
             prefix: b
         prefix_ns_integer:
-          example: -2
           type: integer
           xml:
             namespace: http://c.com/schema

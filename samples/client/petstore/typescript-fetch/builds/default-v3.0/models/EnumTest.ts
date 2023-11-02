@@ -120,7 +120,7 @@ export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEn
  */
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_null: null
 } as const;
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 

@@ -131,7 +131,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -242,7 +242,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
     return nameInteger;
@@ -388,7 +388,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -534,7 +534,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -680,7 +680,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
