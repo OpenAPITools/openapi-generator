@@ -122,7 +122,7 @@ func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
-	userParam := &[]User{}
+	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(userParam); err != nil {
@@ -147,7 +147,7 @@ func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
-	userParam := &[]User{}
+	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(userParam); err != nil {
@@ -220,12 +220,12 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	usernameParam := query.Get("username")
+	usernameParam := getPointer(query.Get("username"))
 	if !query.Has("password"){
 		c.errorHandler(w, r, &RequiredError{"password"}, nil)
 		return
 	}
-	passwordParam := query.Get("password")
+	passwordParam := getPointer(query.Get("password"))
 	booleanTestParam, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),

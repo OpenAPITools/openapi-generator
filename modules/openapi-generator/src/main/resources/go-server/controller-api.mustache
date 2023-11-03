@@ -436,7 +436,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{^isEnumOrRef}}
-	{{paramName}}Param := query.Get("{{baseName}}")
+	{{paramName}}Param := getPointer(query.Get("{{baseName}}"))
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
@@ -515,7 +515,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/required}}
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}}Param := &{{dataType}}{}
+	{{paramName}}Param := {{^isArray}}&{{/isArray}}{{dataType}}{}
 	d := json.NewDecoder(r.Body)
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
