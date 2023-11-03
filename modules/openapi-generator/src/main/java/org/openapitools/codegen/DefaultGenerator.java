@@ -768,9 +768,8 @@ public class DefaultGenerator implements Generator {
         File apiFile = new File(filename);
         if(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate)){
            return false;
-        }else{
-            return true;
         }
+        return true;
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
