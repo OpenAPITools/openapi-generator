@@ -766,10 +766,7 @@ public class DefaultGenerator implements Generator {
     // checking if apiController file is already existed for spring generator
     private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate){
         File apiFile = new File(filename);
-        if(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate)){
-           return false;
-        }
-        return true;
+        return !(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate))
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
