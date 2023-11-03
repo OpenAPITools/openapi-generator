@@ -703,11 +703,15 @@ public class DefaultGenerator implements Generator {
                         // do not overwrite apiController file for spring server
                         if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
                             written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten",filename);
                         }
                     } else {
                         String filename = config.apiFilename(templateName, tag);
                         if(apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
                             written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten",filename);
                         }
                     }
                     if (written != null) {
