@@ -418,7 +418,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	var {{paramName}}Param *{{dataType}}
 	if query.Has("{{baseName}}") {
 		{{^isEnumOrRef}}
-		{{paramName}}Param = getPointerOrNilIfEmpty(query.Get("{{baseName}}"))
+		{{paramName}}Param = getPointer(query.Get("{{baseName}}"))
 		{{/isEnumOrRef}}
 		{{#isEnumOrRef}}
 		var err error
@@ -431,14 +431,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/required}}
 	{{#required}}
-	{{^isEnumOrRef}}
-	{{paramName}}Param := query.Get("{{baseName}}")
-	{{/isEnumOrRef}}
-	{{#isEnumOrRef}}
 	if !query.Has("{{baseName}}"){
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
+	{{^isEnumOrRef}}
+	{{paramName}}Param := query.Get("{{baseName}}")
+	{{/isEnumOrRef}}
+	{{#isEnumOrRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)

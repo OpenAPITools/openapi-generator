@@ -387,3 +387,7 @@ func getPointerOrNilIfEmpty(v string) *string {
 	}
 	return &v
 }
+
+func getPointer[T any](v T) *T {
+	return &v
+}

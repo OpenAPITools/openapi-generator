@@ -216,7 +216,15 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	if !query.Has("username"){
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	usernameParam := query.Get("username")
+	if !query.Has("password"){
+		c.errorHandler(w, r, &RequiredError{"password"}, nil)
+		return
+	}
 	passwordParam := query.Get("password")
 	int32TestParam, err := parseNumericParameter[int32](
 		query.Get("int32_test"),
