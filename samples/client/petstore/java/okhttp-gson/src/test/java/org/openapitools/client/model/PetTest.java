@@ -19,34 +19,26 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.DeprecatedObject;
+import org.openapitools.client.model.Category;
+import org.openapitools.client.model.Tag;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
 /**
- * Model tests for ObjectWithDeprecatedFields
+ * Model tests for Pet
  */
-public class ObjectWithDeprecatedFieldsTest {
-    private final ObjectWithDeprecatedFields model = new ObjectWithDeprecatedFields();
+public class PetTest {
+    private final Pet model = new Pet();
 
     /**
-     * Model tests for ObjectWithDeprecatedFields
+     * Model tests for Pet
      */
     @Test
-    public void testObjectWithDeprecatedFields() {
-        // TODO: test ObjectWithDeprecatedFields
-    }
-
-    /**
-     * Test the property 'uuid'
-     */
-    @Test
-    public void uuidTest() {
-        // TODO: test uuid
+    public void testPet() {
+        // TODO: test Pet
     }
 
     /**
@@ -58,19 +50,43 @@ public class ObjectWithDeprecatedFieldsTest {
     }
 
     /**
-     * Test the property 'deprecatedRef'
+     * Test the property 'category'
      */
     @Test
-    public void deprecatedRefTest() {
-        // TODO: test deprecatedRef
+    public void categoryTest() {
+        // TODO: test category
     }
 
     /**
-     * Test the property 'bars'
+     * Test the property 'name'
      */
     @Test
-    public void barsTest() {
-        // TODO: test bars
+    public void nameTest() {
+        // TODO: test name
+    }
+
+    /**
+     * Test the property 'photoUrls'
+     */
+    @Test
+    public void photoUrlsTest() {
+        // TODO: test photoUrls
+    }
+
+    /**
+     * Test the property 'tags'
+     */
+    @Test
+    public void tagsTest() {
+        // TODO: test tags
+    }
+
+    /**
+     * Test the property 'status'
+     */
+    @Test
+    public void statusTest() {
+        // TODO: test status
     }
 
 }
