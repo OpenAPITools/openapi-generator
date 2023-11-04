@@ -12,6 +12,6 @@
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java"
   sha256: 3371236d615e7fb79ed87d00c9fc486c31c379195a658781ac9440f0e3228d62
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/api/PetApiTest.java"
-  sha256: e930b2a9b6ca7510d6afe0494e22422976b4d21a4928e3d3af29a5965024bd0a
+  sha256: 0d64cdc11809a7b5b952ccdad2bd91bd0045b3894d6fabf3e368fa0be12b8217
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
-  sha256: 738176162cf43c354438f3905f7e2310934489953bbaee200b6f966bf2e028b0
+  sha256: a1f8a70bf7b0c382a8def5bacf7b1fb189e687fabb40235aa799001e0597f545
