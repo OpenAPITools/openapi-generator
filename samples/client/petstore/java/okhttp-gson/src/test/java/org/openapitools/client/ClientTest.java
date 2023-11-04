@@ -66,5 +66,8 @@ public class ClientTest {
         model2.setName("Dog");
 
         Assert.assertTrue(model.equals(model2));
+
+        // test toJson, shouldn't throw exception
+        String test = model.toJson();
     }
 }
