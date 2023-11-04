@@ -9,3 +9,9 @@
 # java okhttp gson test files
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ClientTest.java"
   sha256: db505f7801fef62c13a08a8e9ca1fc4c5c947ab46b46f12943139d353feacf17
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java"
+  sha256: 3371236d615e7fb79ed87d00c9fc486c31c379195a658781ac9440f0e3228d62
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: e930b2a9b6ca7510d6afe0494e22422976b4d21a4928e3d3af29a5965024bd0a
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
+  sha256: 738176162cf43c354438f3905f7e2310934489953bbaee200b6f966bf2e028b0
