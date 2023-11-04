@@ -325,10 +325,16 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         codegenOperationsByTag.put(key, list);
 
+        // sort requests by path
+        Collections.sort(list, Comparator.comparing(obj -> obj.path));
     }
 
-    void addToList(CodegenOperation codegenOperation) {
+    public void addToList(CodegenOperation codegenOperation) {
+
         codegenOperationsList.add(codegenOperation);
+
+        // sort requests by path
+        Collections.sort(codegenOperationsList, Comparator.comparing(obj -> obj.path));
     }
 
     String getResponseBody(CodegenResponse codegenResponse) {
