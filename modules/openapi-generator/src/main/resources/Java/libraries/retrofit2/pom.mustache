@@ -245,11 +245,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        {{#gson}}
         <dependency>
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
+        {{/gson}}
         {{#joda}}
             <dependency>
                 <groupId>joda-time</groupId>
@@ -417,7 +419,9 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#gson}}
         <gson-fire-version>1.8.3</gson-fire-version>
+        {{/gson}}
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#jackson}}
         <jackson-version>2.15.2</jackson-version>
