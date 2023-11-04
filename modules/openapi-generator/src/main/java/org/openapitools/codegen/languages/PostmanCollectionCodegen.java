@@ -75,9 +75,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    protected Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
-    protected List<CodegenOperation> codegenOperationsList = new ArrayList<>();
+    public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
     /**
      * Configures the type of generator.
@@ -307,7 +307,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * The map groups the CodegenOperations by tag as defined in the OpenAPI spec
      * @param codegenOperation Codegen operation instance
      */
-    void addToMap(CodegenOperation codegenOperation){
+    public void addToMap(CodegenOperation codegenOperation){
 
         String key = null;
         if(codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
