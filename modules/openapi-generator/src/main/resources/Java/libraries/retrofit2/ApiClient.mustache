@@ -163,13 +163,13 @@ public class ApiClient {
       {{#useRxJava3}}
       .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
       {{/useRxJava3}}
+      .addConverterFactory(ScalarsConverterFactory.create())
       {{#jackson}}
-      .addConverterFactory(JacksonConverterFactory.create(json.getMapper()))
+      .addConverterFactory(JacksonConverterFactory.create(json.getMapper()));
       {{/jackson}}
       {{#gson}}
-      .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()))
+      .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
       {{/gson}}
-      .addConverterFactory(ScalarsConverterFactory.create());
   }
 
   public <S> S createService(Class<S> serviceClass) {
