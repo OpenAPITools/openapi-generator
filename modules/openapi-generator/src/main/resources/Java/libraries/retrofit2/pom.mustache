@@ -339,56 +339,10 @@
             </dependency>
         {{/jackson}}
         {{#usePlayWS}}
-            <!-- JSON processing: jackson -->
-            <dependency>
-                <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>converter-jackson</artifactId>
-                <version>${retrofit-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind-version}</version>
-            </dependency>
-            {{#openApiNullable}}
-            <dependency>
-                <groupId>org.openapitools</groupId>
-                <artifactId>jackson-databind-nullable</artifactId>
-                <version>${jackson-databind-nullable-version}</version>
-            </dependency>
-            {{/openApiNullable}}
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-            {{#withXml}}
-                <!-- XML processing: Jackson -->
-                <dependency>
-                    <groupId>com.fasterxml.jackson.dataformat</groupId>
-                    <artifactId>jackson-dataformat-xml</artifactId>
-                    <version>${jackson-version}</version>
-                </dependency>
-            {{/withXml}}
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.validation</groupId>
-                <artifactId>jakarta.validation-api</artifactId>
-                <version>${beanvalidation-version}</version>
             </dependency>
         {{/usePlayWS}}
         {{#parcelableModel}}
@@ -433,12 +387,7 @@
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         {{/jackson}}
         {{#usePlayWS}}
-        <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
         <play-version>2.6.7</play-version>
-        {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        {{/openApiNullable}}
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>
         {{#useRxJava2}}
