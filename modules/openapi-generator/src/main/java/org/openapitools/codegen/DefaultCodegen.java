@@ -7668,7 +7668,7 @@ public class DefaultCodegen implements CodegenConfig {
             // evaluate common attributes such as description if defined in the top level
             if (schema.getDescription() != null) {
                 codegenParameter.description = escapeText(schema.getDescription());
-                codegenParameter.description = schema.getDescription();
+                codegenParameter.unescapedDescription = schema.getDescription();
             }
 
             if (original.getExtensions() != null) {
