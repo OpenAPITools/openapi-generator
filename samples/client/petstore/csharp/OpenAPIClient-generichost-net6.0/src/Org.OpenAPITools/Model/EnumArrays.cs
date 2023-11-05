@@ -324,8 +324,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
 
             if (enumArrays.ArrayEnumOption.IsSet)
+            {
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+            }
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);
