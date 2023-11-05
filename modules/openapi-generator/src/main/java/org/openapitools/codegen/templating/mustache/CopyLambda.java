@@ -27,12 +27,12 @@ import com.samskivert.mustache.Template.Fragment;
  *
  * Register:
  * <pre>
- * additionalProperties.put("save", new SaveLambda());
+ * additionalProperties.put("copy", new CopyLambda());
  * </pre>
  *
  * Use:
  * <pre>
- * {{#save}}{{name}}{{/save}}
+ * {{#copy}}{{name}}{{/copy}}
  * </pre>
  */
 public class CopyLambda implements Mustache.Lambda {
