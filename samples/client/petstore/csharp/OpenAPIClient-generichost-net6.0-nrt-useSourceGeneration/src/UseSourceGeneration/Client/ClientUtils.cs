@@ -175,18 +175,18 @@ namespace UseSourceGeneration.Client
                 return RequiredClass.RequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNotnullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNotnullableEnumStringEnum requiredClassRequiredNotnullableEnumStringEnum)
                 return RequiredClass.RequiredNotnullableEnumStringEnumToJsonValue(requiredClassRequiredNotnullableEnumStringEnum);
-            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerEnum requiredClassNotrequiredNotnullableEnumIntegerEnum)
-                return RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerEnum).ToString();
-            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum)
-                return RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum).ToString();
-            if (obj is RequiredClass.NotrequiredNotnullableEnumStringEnum requiredClassNotrequiredNotnullableEnumStringEnum)
-                return RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClassNotrequiredNotnullableEnumStringEnum);
             if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
                 return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerEnum requiredClassNotrequiredNotnullableEnumIntegerEnum)
+                return RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum)
+                return RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNotnullableEnumStringEnum requiredClassNotrequiredNotnullableEnumStringEnum)
+                return RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClassNotrequiredNotnullableEnumStringEnum);
             if (obj is RequiredClass.NotrequiredNullableEnumIntegerEnum requiredClassNotrequiredNullableEnumIntegerEnum)
                 return RequiredClass.NotrequiredNullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNullableEnumIntegerEnum).ToString();
             if (obj is RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum requiredClassNotrequiredNullableEnumIntegerOnlyEnum)

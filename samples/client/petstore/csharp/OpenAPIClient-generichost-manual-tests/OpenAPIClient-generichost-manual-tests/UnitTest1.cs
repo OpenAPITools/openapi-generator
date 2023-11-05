@@ -138,7 +138,7 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Cat()
         {
-            Cat cat = new("cat", false, "black"); // TODO: where is the address property?
+            Cat cat = new("cat", "black", false); // TODO: where is the address property?
             string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
             Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
             Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property

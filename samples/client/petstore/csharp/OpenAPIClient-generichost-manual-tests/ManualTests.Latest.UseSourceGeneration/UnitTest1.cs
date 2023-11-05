@@ -51,7 +51,7 @@ public class UnitTest1
         [TestMethod]
         public void Category()
         {
-            Category category = new("test", 1);
+            Category category = new(1, "test");
             string categoryJson = JsonSerializer.Serialize(category, _jsonSerializerOptions);
             Category? category2 = JsonSerializer.Deserialize<Category>(categoryJson, _jsonSerializerOptions);
             Assert.AreEqual(category.Id, category2?.Id);
@@ -152,7 +152,7 @@ public class UnitTest1
         [TestMethod]
         public void Cat()
         {
-            Cat cat = new("cat", false, "black"); // TODO: where is the address property?
+            Cat cat = new("cat", "black", false); // TODO: where is the address property?
             string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
             Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
             Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property

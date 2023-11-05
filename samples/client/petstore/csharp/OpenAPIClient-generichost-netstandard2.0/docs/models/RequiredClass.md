@@ -15,17 +15,6 @@ Name | Type | Description | Notes
 **RequiredNotnullableStringProp** | **string** |  | 
 **RequiredNotnullableUuid** | **Guid** |  | 
 **RequiredNotnullableintegerProp** | **int** |  | 
-**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
-**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
-**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
-**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
-**NotrequiredNotnullableEnumInteger** | **int** |  | [optional] 
-**NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
-**NotrequiredNotnullableEnumString** | **string** |  | [optional] 
-**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
-**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
 **RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNullableBooleanProp** | **bool** |  | 
 **RequiredNullableDateProp** | **DateTime** |  | 
@@ -37,8 +26,19 @@ Name | Type | Description | Notes
 **RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
 **RequiredNullableStringProp** | **string** |  | 
 **RequiredNullableUuid** | **Guid** |  | 
+**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
+**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
 **NotRequiredNullableDateProp** | **DateTime** |  | [optional] 
 **NotRequiredNullableIntegerProp** | **int** |  | [optional] 
+**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
+**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
+**NotrequiredNotnullableEnumInteger** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumString** | **string** |  | [optional] 
+**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
+**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
 **NotrequiredNullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
 **NotrequiredNullableBooleanProp** | **bool** |  | [optional] 
 **NotrequiredNullableDatetimeProp** | **DateTime** |  | [optional] 

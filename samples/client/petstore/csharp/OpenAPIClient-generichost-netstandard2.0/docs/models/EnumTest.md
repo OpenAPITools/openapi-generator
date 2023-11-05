@@ -9,10 +9,10 @@ Name | Type | Description | Notes
 **EnumIntegerOnly** | **int** |  | [optional] 
 **EnumNumber** | **double** |  | [optional] 
 **EnumString** | **string** |  | [optional] 
+**OuterEnum** | **OuterEnum** |  | [optional] 
 **OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
 **OuterEnumInteger** | **OuterEnumInteger** |  | [optional] 
 **OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] 
-**OuterEnum** | **OuterEnum** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

@@ -40,22 +40,22 @@ namespace UseSourceGeneration.Model
         /// <param name="enumIntegerOnly">enumIntegerOnly</param>
         /// <param name="enumNumber">enumNumber</param>
         /// <param name="enumString">enumString</param>
+        /// <param name="outerEnum">outerEnum</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
-        /// <param name="outerEnum">outerEnum</param>
         [JsonConstructor]
-        public EnumTest(EnumStringRequiredEnum enumStringRequired, Option<EnumIntegerEnum?> enumInteger = default, Option<EnumIntegerOnlyEnum?> enumIntegerOnly = default, Option<EnumNumberEnum?> enumNumber = default, Option<EnumStringEnum?> enumString = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default, Option<OuterEnum?> outerEnum = default)
+        public EnumTest(EnumStringRequiredEnum enumStringRequired, Option<EnumIntegerEnum?> enumInteger = default, Option<EnumIntegerOnlyEnum?> enumIntegerOnly = default, Option<EnumNumberEnum?> enumNumber = default, Option<EnumStringEnum?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {
             EnumStringRequired = enumStringRequired;
             EnumIntegerOption = enumInteger;
             EnumIntegerOnlyOption = enumIntegerOnly;
             EnumNumberOption = enumNumber;
             EnumStringOption = enumString;
+            OuterEnumOption = outerEnum;
             OuterEnumDefaultValueOption = outerEnumDefaultValue;
             OuterEnumIntegerOption = outerEnumInteger;
             OuterEnumIntegerDefaultValueOption = outerEnumIntegerDefaultValue;
-            OuterEnumOption = outerEnum;
             OnCreated();
         }
 
@@ -604,6 +604,19 @@ namespace UseSourceGeneration.Model
         public EnumStringEnum? EnumString { get { return this.EnumStringOption; } set { this.EnumStringOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of OuterEnum
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<OuterEnum?> OuterEnumOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets OuterEnum
+        /// </summary>
+        [JsonPropertyName("outerEnum")]
+        public OuterEnum? OuterEnum { get { return this.OuterEnumOption; } set { this.OuterEnumOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of OuterEnumDefaultValue
         /// </summary>
         [JsonIgnore]
@@ -643,19 +656,6 @@ namespace UseSourceGeneration.Model
         public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get { return this.OuterEnumIntegerDefaultValueOption; } set { this.OuterEnumIntegerDefaultValueOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of OuterEnum
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<OuterEnum?> OuterEnumOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnum
-        /// </summary>
-        [JsonPropertyName("outerEnum")]
-        public OuterEnum? OuterEnum { get { return this.OuterEnumOption; } set { this.OuterEnumOption = new(value); } }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -674,10 +674,10 @@ namespace UseSourceGeneration.Model
             sb.Append("  EnumIntegerOnly: ").Append(EnumIntegerOnly).Append("\n");
             sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
+            sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
             sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
             sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
             sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
-            sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -721,10 +721,10 @@ namespace UseSourceGeneration.Model
             Option<EnumTest.EnumIntegerOnlyEnum?> enumIntegerOnly = default;
             Option<EnumTest.EnumNumberEnum?> enumNumber = default;
             Option<EnumTest.EnumStringEnum?> enumString = default;
+            Option<OuterEnum?> outerEnum = default;
             Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default;
             Option<OuterEnumInteger?> outerEnumInteger = default;
             Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default;
-            Option<OuterEnum?> outerEnum = default;
 
             while (utf8JsonReader.Read())
             {
@@ -763,6 +763,11 @@ namespace UseSourceGeneration.Model
                             if (enumStringRawValue != null)
                                 enumString = new Option<EnumTest.EnumStringEnum?>(EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue));
                             break;
+                        case "outerEnum":
+                            string? outerEnumRawValue = utf8JsonReader.GetString();
+                            if (outerEnumRawValue != null)
+                                outerEnum = new Option<OuterEnum?>(OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
+                            break;
                         case "outerEnumDefaultValue":
                             string? outerEnumDefaultValueRawValue = utf8JsonReader.GetString();
                             if (outerEnumDefaultValueRawValue != null)
@@ -777,11 +782,6 @@ namespace UseSourceGeneration.Model
                             string? outerEnumIntegerDefaultValueRawValue = utf8JsonReader.GetString();
                             if (outerEnumIntegerDefaultValueRawValue != null)
                                 outerEnumIntegerDefaultValue = new Option<OuterEnumIntegerDefaultValue?>(OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(outerEnumIntegerDefaultValueRawValue));
-                            break;
-                        case "outerEnum":
-                            string? outerEnumRawValue = utf8JsonReader.GetString();
-                            if (outerEnumRawValue != null)
-                                outerEnum = new Option<OuterEnum?>(OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
                             break;
                         default:
                             break;
@@ -816,7 +816,7 @@ namespace UseSourceGeneration.Model
             if (outerEnumIntegerDefaultValue.IsSet && outerEnumIntegerDefaultValue.Value == null)
                 throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is not nullable for class EnumTest.");
 
-            return new EnumTest(enumStringRequired.Value!.Value!, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum);
+            return new EnumTest(enumStringRequired.Value!.Value!, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnum, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue);
         }
 
         /// <summary>
@@ -864,6 +864,14 @@ namespace UseSourceGeneration.Model
             else
                 writer.WriteNull("enum_string");
 
+            if (enumTest.OuterEnumOption.IsSet)
+                if (enumTest.OuterEnumOption!.Value != null)
+                {
+                    var outerEnumRawValue = OuterEnumValueConverter.ToJsonValue(enumTest.OuterEnumOption.Value!.Value);
+                    writer.WriteString("outerEnum", outerEnumRawValue);
+                }
+                else
+                    writer.WriteNull("outerEnum");
             if (enumTest.OuterEnumDefaultValueOption.IsSet)
             {
                 var outerEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue!.Value);
@@ -879,14 +887,6 @@ namespace UseSourceGeneration.Model
                 var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue!.Value);
                 writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
             }
-            if (enumTest.OuterEnumOption.IsSet)
-                if (enumTest.OuterEnumOption!.Value != null)
-                {
-                    var outerEnumRawValue = OuterEnumValueConverter.ToJsonValue(enumTest.OuterEnumOption.Value!.Value);
-                    writer.WriteString("outerEnum", outerEnumRawValue);
-                }
-                else
-                    writer.WriteNull("outerEnum");
         }
     }
 
