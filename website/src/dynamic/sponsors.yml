@@ -83,3 +83,8 @@
   image: "img/companies/dmtech.jpeg"
   infoLink: "https://www.dm-jobs.com/"
   bronze: true
+-
+  caption: "Fornex"
+  image: "img/companies/fornex.png"
+  infoLink: "https://fornex.com/"
+  bronze: true
