@@ -142,28 +142,49 @@ namespace Org.OpenAPITools.Model
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern
                 Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
-                if (!regexCultivar.Match(this.Cultivar).Success)
+                if (this.Cultivar != null && !regexCultivar.Match(this.Cultivar).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
                 }
+
+
+
+
+
+
+                // TODO: revert changes here
             }
 
             if (this.Origin != null) {
                 // Origin (string) pattern
                 Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-                if (!regexOrigin.Match(this.Origin).Success)
+                if (this.Origin != null && !regexOrigin.Match(this.Origin).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
                 }
+
+
+
+
+
+
+                // TODO: revert changes here
             }
 
             if (this.ColorCode != null) {
                 // ColorCode (string) pattern
                 Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
-                if (!regexColorCode.Match(this.ColorCode).Success)
+                if (this.ColorCode != null && !regexColorCode.Match(this.ColorCode).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
                 }
+
+
+
+
+
+
+                // TODO: revert changes here
             }
 
             yield break;

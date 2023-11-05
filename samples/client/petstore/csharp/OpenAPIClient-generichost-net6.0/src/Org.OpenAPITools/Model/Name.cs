@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,12 +37,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
-        public Name(int varName, string property, int snakeCase, int var123Number)
+        public Name(int varName, Option<string> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
         {
             VarName = varName;
-            Property = property;
-            SnakeCase = snakeCase;
-            Var123Number = var123Number;
+            PropertyOption = property;
+            SnakeCaseOption = snakeCase;
+            Var123NumberOption = var123Number;
             OnCreated();
         }
 
@@ -51,25 +52,43 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarName
         /// </summary>
         [JsonPropertyName("name")]
-        public int VarName { get; set; }
+        public int VarName { get; set; } // d
+
+        /// <summary>
+        /// Used to track the state of Property
+        /// </summary>
+        [JsonIgnore]
+        public Option<string> PropertyOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string Property { get; set; }
+        public string Property { get { return this. PropertyOption; } set { this.PropertyOption = new(value); } } // d
+
+        /// <summary>
+        /// Used to track the state of SnakeCase
+        /// </summary>
+        [JsonIgnore]
+        public Option<int?> SnakeCaseOption { get; } // option d
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int SnakeCase { get; }
+        public int? SnakeCase { get { return this. SnakeCaseOption; } } // d
+
+        /// <summary>
+        /// Used to track the state of Var123Number
+        /// </summary>
+        [JsonIgnore]
+        public Option<int?> Var123NumberOption { get; } // option d
 
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int Var123Number { get; }
+        public int? Var123Number { get { return this. Var123NumberOption; } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -123,8 +142,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
-                hashCode = (hashCode * 59) + Var123Number.GetHashCode();
+                if (SnakeCase != null)
+                    hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
+
+                if (Var123Number != null)
+                    hashCode = (hashCode * 59) + Var123Number.GetHashCode();
+
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -164,10 +187,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? varName = default;
-            string property = default;
-            int? snakeCase = default;
-            int? var123Number = default;
+            Option<int?> varName = default;
+            Option<string> property = default;
+            Option<int?> snakeCase = default;
+            Option<int?> var123Number = default;
 
             while (utf8JsonReader.Read())
             {
@@ -186,18 +209,18 @@ namespace Org.OpenAPITools.Model
                     {
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varName = utf8JsonReader.GetInt32();
+                                varName = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "property":
-                            property = utf8JsonReader.GetString();
+                            property = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "snake_case":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                snakeCase = utf8JsonReader.GetInt32();
+                                snakeCase = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "123Number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                var123Number = utf8JsonReader.GetInt32();
+                                var123Number = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -205,19 +228,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varName == null)
-                throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
+            if (!varName.IsSet)
+                throw new ArgumentException("Property is required for class Name.", nameof(varName));
 
-            if (property == null)
-                throw new ArgumentNullException(nameof(property), "Property is required for class Name.");
+            if (varName.IsSet && varName.Value == null)
+                throw new ArgumentNullException(nameof(varName), "Property is not nullable for class Name.");
 
-            if (snakeCase == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
+            if (property.IsSet && property.Value == null)
+                throw new ArgumentNullException(nameof(property), "Property is not nullable for class Name.");
 
-            if (var123Number == null)
-                throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
+            if (snakeCase.IsSet && snakeCase.Value == null)
+                throw new ArgumentNullException(nameof(snakeCase), "Property is not nullable for class Name.");
 
-            return new Name(varName.Value, property, snakeCase.Value, var123Number.Value);
+            if (var123Number.IsSet && var123Number.Value == null)
+                throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
+
+            return new Name(varName.Value!.Value!, property, snakeCase, var123Number); // a
         }
 
         /// <summary>
@@ -244,10 +270,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("name", name.VarName);
-            writer.WriteString("property", name.Property);
-            writer.WriteNumber("snake_case", name.SnakeCase);
-            writer.WriteNumber("123Number", name.Var123Number);
+            if (name.PropertyOption.IsSet && name.Property == null)
+                throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
+
+            writer.WriteNumber("name", name.VarName); // 3
+
+            if (name.PropertyOption.IsSet)
+                writer.WriteString("property", name.Property); // 1
+
+            if (name.SnakeCaseOption.IsSet)
+                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value!.Value); // 3
+
+            if (name.Var123NumberOption.IsSet)
+                writer.WriteNumber("123Number", name.Var123NumberOption.Value!.Value); // 3
         }
     }
 }

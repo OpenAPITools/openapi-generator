@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,19 +34,25 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        public ModelClient(string varClient)
+        public ModelClient(Option<string> varClient = default)
         {
-            VarClient = varClient;
+            VarClientOption = varClient;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of VarClient
+        /// </summary>
+        [JsonIgnore]
+        public Option<string> VarClientOption { get; private set; } // option d
+
+        /// <summary>
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string VarClient { get; set; }
+        public string VarClient { get { return this. VarClientOption; } set { this.VarClientOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +107,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string varClient = default;
+            Option<string> varClient = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +125,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "client":
-                            varClient = utf8JsonReader.GetString();
+                            varClient = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -126,10 +133,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClient == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is required for class ModelClient.");
+            if (varClient.IsSet && varClient.Value == null)
+                throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
 
-            return new ModelClient(varClient);
+            return new ModelClient(varClient); // a
         }
 
         /// <summary>
@@ -156,7 +163,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("client", modelClient.VarClient);
+            if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
+                throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
+
+            if (modelClient.VarClientOption.IsSet)
+                writer.WriteString("client", modelClient.VarClient); // 1
         }
     }
 }

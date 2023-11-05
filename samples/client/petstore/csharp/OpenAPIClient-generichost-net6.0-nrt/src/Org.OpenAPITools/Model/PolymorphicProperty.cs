@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -196,16 +197,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varBool != null)
-                return new PolymorphicProperty(varBool);
+                return new PolymorphicProperty(varBool); // b
 
             if (varString != null)
-                return new PolymorphicProperty(varString);
+                return new PolymorphicProperty(varString); // b
 
             if (varObject != null)
-                return new PolymorphicProperty(varObject);
+                return new PolymorphicProperty(varObject); // b
 
             if (list != null)
-                return new PolymorphicProperty(list);
+                return new PolymorphicProperty(list); // b
 
             throw new JsonException();
         }

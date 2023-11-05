@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,31 +35,49 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Apple apple, Banana banana, string color)
+        public GmFruit(Option<Apple> apple, Option<Banana> banana, Option<string> color = default)
         {
-            Apple = apple;
-            Banana = banana;
-            Color = color;
+            AppleOption = apple;
+            BananaOption = banana;
+            ColorOption = color;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Apple
+        /// </summary>
+        [JsonIgnore]
+        public Option<Apple> AppleOption { get; private set; } // option b
+
+        /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple Apple { get; set; }
+        public Apple Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } } // b
+
+        /// <summary>
+        /// Used to track the state of Banana
+        /// </summary>
+        [JsonIgnore]
+        public Option<Banana> BananaOption { get; private set; } // option b
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana Banana { get; set; }
+        public Banana Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } } // b
+
+        /// <summary>
+        /// Used to track the state of Color
+        /// </summary>
+        [JsonIgnore]
+        public Option<string> ColorOption { get; private set; } // option d
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } } // d
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,7 +125,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string color = default;
+            Option<string> color = default;
 
             Apple apple = default;
             Banana banana = default;
@@ -146,7 +165,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -154,10 +173,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
+            if (color.IsSet && color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
 
-            return new GmFruit(apple, banana, color);
+            Option<Apple> appleParsedValue = apple == null
+                ? default
+                : new Option<Apple>(apple);
+            Option<Banana> bananaParsedValue = banana == null
+                ? default
+                : new Option<Banana>(banana);
+
+            return new GmFruit(appleParsedValue, bananaParsedValue, color); // a
         }
 
         /// <summary>
@@ -171,16 +197,16 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.Apple != null)
+            if (gmFruit.AppleOption.IsSet && gmFruit.AppleOption.Value != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.AppleOption.Value.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.AppleOption.Value, jsonSerializerOptions);
             }
 
-            if (gmFruit.Banana != null)
+            if (gmFruit.BananaOption.IsSet && gmFruit.BananaOption.Value != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.BananaOption.Value.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.BananaOption.Value, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
@@ -196,7 +222,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("color", gmFruit.Color);
+            if (gmFruit.ColorOption.IsSet && gmFruit.Color == null)
+                throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
+
+            if (gmFruit.ColorOption.IsSet)
+                writer.WriteString("color", gmFruit.Color); // 1
         }
     }
 }

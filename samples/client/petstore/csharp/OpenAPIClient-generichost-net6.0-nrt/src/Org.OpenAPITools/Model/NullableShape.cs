@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -70,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public string ShapeType { get; set; } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -135,7 +136,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
+            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -186,7 +187,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -194,14 +195,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
+            if (!shapeType.IsSet)
+                throw new ArgumentException("Property is required for class NullableShape.", nameof(shapeType));
+
+            if (shapeType.IsSet && shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
 
             if (quadrilateral != null)
-                return new NullableShape(quadrilateral, shapeType);
+                return new NullableShape(quadrilateral, shapeType.Value!); // c
 
             if (triangle != null)
-                return new NullableShape(triangle, shapeType);
+                return new NullableShape(triangle, shapeType.Value!); // c
 
             throw new JsonException();
         }
@@ -240,7 +244,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("shapeType", nullableShape.ShapeType);
+            if (nullableShape.ShapeType == null)
+                throw new ArgumentNullException(nameof(nullableShape.ShapeType), "Property is required for class NullableShape.");
+
+            writer.WriteString("shapeType", nullableShape.ShapeType); // 1
         }
     }
 }

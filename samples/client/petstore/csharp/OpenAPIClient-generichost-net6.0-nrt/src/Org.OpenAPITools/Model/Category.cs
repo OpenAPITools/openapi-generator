@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,29 +34,35 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
+        /// <param name="id">id</param>
         [JsonConstructor]
-        public Category(long id, string name = @"default-name")
+        public Category(string name = @"default-name", Option<long?> id = default)
         {
-            Id = id;
             Name = name;
+            IdOption = id;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public long Id { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } // d
+
+        /// <summary>
+        /// Used to track the state of Id
+        /// </summary>
+        [JsonIgnore]
+        public Option<long?> IdOption { get; private set; } // option d
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -71,8 +78,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -111,8 +118,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long? id = default;
-            string? name = default;
+            Option<string?> name = default;
+            Option<long?> id = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,12 +136,12 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "name":
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = utf8JsonReader.GetInt64();
-                            break;
-                        case "name":
-                            name = utf8JsonReader.GetString();
+                                id = new Option<long?>(utf8JsonReader.GetInt64());
                             break;
                         default:
                             break;
@@ -142,13 +149,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Category.");
+            if (!name.IsSet)
+                throw new ArgumentException("Property is required for class Category.", nameof(name));
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Category.");
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
 
-            return new Category(id.Value, name);
+            if (id.IsSet && id.Value == null)
+                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
+
+            return new Category(name.Value!, id); // a
         }
 
         /// <summary>
@@ -175,8 +185,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("id", category.Id);
-            writer.WriteString("name", category.Name);
+            if (category.Name == null)
+                throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
+
+            writer.WriteString("name", category.Name); // 1
+
+            if (category.IdOption.IsSet)
+                writer.WriteNumber("id", category.IdOption.Value!.Value); // 3
         }
     }
 }

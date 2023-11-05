@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -149,10 +150,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (appleReq != null)
-                return new FruitReq(appleReq);
+                return new FruitReq(appleReq); // b
 
             if (bananaReq != null)
-                return new FruitReq(bananaReq);
+                return new FruitReq(bananaReq); // b
 
             throw new JsonException();
         }
