@@ -671,6 +671,15 @@ public class DefaultCodegenTest {
         }
         Assert.assertTrue(typeSeen);
         Assert.assertTrue(typeContainsEnums);
+
+        Assert.assertEquals(
+                ((StringSchema) openAPI.getComponents().getSchemas().get("Dog").getProperties().get("type")).getEnum().size(),
+                1
+        );
+        Assert.assertEquals(
+                ((StringSchema) openAPI.getComponents().getSchemas().get("Cat").getProperties().get("type")).getEnum().size(),
+                1
+        );
     }
 
     @Test
