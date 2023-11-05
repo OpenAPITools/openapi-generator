@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 *BodyAPI* | [**TestBinaryGif**](docs/BodyAPI.md#testbinarygif) | **Post** /binary/gif | Test binary (gif) response body
 *BodyAPI* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyAPI.md#testbodyapplicationoctetstreambinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 *BodyAPI* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyAPI.md#testbodymultipartformdataarrayofbinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyAPI* | [**TestEchoBodyAllOfPet**](docs/BodyAPI.md#testechobodyallofpet) | **Post** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyAPI.md#testechobodyfreeformobjectresponsestring) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyAPI* | [**TestEchoBodyPet**](docs/BodyAPI.md#testechobodypet) | **Post** /echo/body/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyPetResponseString**](docs/BodyAPI.md#testechobodypetresponsestring) | **Post** /echo/body/Pet/response_string | Test empty response body
