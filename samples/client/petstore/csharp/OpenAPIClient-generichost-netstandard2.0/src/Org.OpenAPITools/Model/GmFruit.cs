@@ -49,35 +49,35 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Apple
         /// </summary>
         [JsonIgnore]
-        public Option<Apple> AppleOption { get; private set; } // option b
+        public Option<Apple> AppleOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple Apple { get { return this.AppleOption; } set { this.AppleOption = new Option<Apple>(value); } } // b
+        public Apple Apple { get { return this.AppleOption; } set { this.AppleOption = new Option<Apple>(value); } }
 
         /// <summary>
         /// Used to track the state of Banana
         /// </summary>
         [JsonIgnore]
-        public Option<Banana> BananaOption { get; private set; } // option b
+        public Option<Banana> BananaOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana Banana { get { return this.BananaOption; } set { this.BananaOption = new Option<Banana>(value); } } // b
+        public Banana Banana { get { return this.BananaOption; } set { this.BananaOption = new Option<Banana>(value); } }
 
         /// <summary>
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        public Option<string> ColorOption { get; private set; } // option d
+        public Option<string> ColorOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get { return this. ColorOption; } set { this.ColorOption = new Option<string>(value); } } // d
+        public string Color { get { return this. ColorOption; } set { this.ColorOption = new Option<string>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
                 ? default
                 : new Option<Banana>(banana);
 
-            return new GmFruit(appleParsedValue, bananaParsedValue, color); // a
+            return new GmFruit(appleParsedValue, bananaParsedValue, color);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
 
             if (gmFruit.ColorOption.IsSet)
-                writer.WriteString("color", gmFruit.Color); // 1
+                writer.WriteString("color", gmFruit.Color);
         }
     }
 }

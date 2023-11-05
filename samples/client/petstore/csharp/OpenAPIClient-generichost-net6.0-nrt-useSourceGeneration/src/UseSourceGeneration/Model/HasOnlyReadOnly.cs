@@ -51,25 +51,25 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Bar
         /// </summary>
         [JsonIgnore]
-        public Option<string?> BarOption { get; } // option d
+        public Option<string?> BarOption { get; }
 
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } } // d
+        public string? Bar { get { return this. BarOption; } }
 
         /// <summary>
         /// Used to track the state of Foo
         /// </summary>
         [JsonIgnore]
-        public Option<string?> FooOption { get; } // option d
+        public Option<string?> FooOption { get; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string? Foo { get { return this. FooOption; } } // d
+        public string? Foo { get { return this. FooOption; } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -202,7 +202,7 @@ namespace UseSourceGeneration.Model
             if (foo.IsSet && foo.Value == null)
                 throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
 
-            return new HasOnlyReadOnly(bar, foo); // a
+            return new HasOnlyReadOnly(bar, foo);
         }
 
         /// <summary>
@@ -236,10 +236,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
 
             if (hasOnlyReadOnly.BarOption.IsSet)
-                writer.WriteString("bar", hasOnlyReadOnly.Bar); // 1
+                writer.WriteString("bar", hasOnlyReadOnly.Bar);
 
             if (hasOnlyReadOnly.FooOption.IsSet)
-                writer.WriteString("foo", hasOnlyReadOnly.Foo); // 1
+                writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
     }
 

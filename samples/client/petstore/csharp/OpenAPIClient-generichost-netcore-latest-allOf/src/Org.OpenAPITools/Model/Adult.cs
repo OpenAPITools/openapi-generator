@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Children
         /// </summary>
         [JsonIgnore]
-        public Option<List<Child>?> ChildrenOption { get; private set; } // option d
+        public Option<List<Child>?> ChildrenOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Children
         /// </summary>
         [JsonPropertyName("children")]
-        public List<Child>? Children { get { return this. ChildrenOption; } set { this.ChildrenOption = new(value); } } // d
+        public List<Child>? Children { get { return this. ChildrenOption; } set { this.ChildrenOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
 
-            return new Adult(children, firstName, lastName, type); // a
+            return new Adult(children, firstName, lastName, type);
         }
 
         /// <summary>
@@ -186,17 +186,17 @@ namespace Org.OpenAPITools.Model
             if (adult.TypeOption.IsSet && adult.Type == null)
                 throw new ArgumentNullException(nameof(adult.Type), "Property is required for class Adult.");
 
-            if (adult.ChildrenOption.IsSet) // 14
+            if (adult.ChildrenOption.IsSet)
                 writer.WritePropertyName("children");
                 JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
             if (adult.FirstNameOption.IsSet)
-                writer.WriteString("firstName", adult.FirstName); // 1
+                writer.WriteString("firstName", adult.FirstName);
 
             if (adult.LastNameOption.IsSet)
-                writer.WriteString("lastName", adult.LastName); // 1
+                writer.WriteString("lastName", adult.LastName);
 
             if (adult.TypeOption.IsSet)
-                writer.WriteString("$_type", adult.Type); // 1
+                writer.WriteString("$_type", adult.Type);
         }
     }
 }

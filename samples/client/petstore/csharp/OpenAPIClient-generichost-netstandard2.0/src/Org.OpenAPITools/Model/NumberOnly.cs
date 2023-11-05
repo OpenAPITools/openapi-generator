@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustNumber
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> JustNumberOption { get; private set; } // option d
+        public Option<decimal?> JustNumberOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal? JustNumber { get { return this. JustNumberOption; } set { this.JustNumberOption = new Option<decimal?>(value); } } // d
+        public decimal? JustNumber { get { return this. JustNumberOption; } set { this.JustNumberOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
             if (justNumber.IsSet && justNumber.Value == null)
                 throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
 
-            return new NumberOnly(justNumber); // a
+            return new NumberOnly(justNumber);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value.Value); // 3
+                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value.Value);
         }
     }
 }

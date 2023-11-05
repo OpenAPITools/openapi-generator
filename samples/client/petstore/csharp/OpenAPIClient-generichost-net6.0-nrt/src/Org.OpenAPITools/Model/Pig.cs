@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -202,10 +202,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, className.Value!); // c
+                return new Pig(basquePig, className.Value!);
 
             if (danishPig != null)
-                return new Pig(danishPig, className.Value!); // c
+                return new Pig(danishPig, className.Value!);
 
             throw new JsonException();
         }
@@ -247,7 +247,7 @@ namespace Org.OpenAPITools.Model
             if (pig.ClassName == null)
                 throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
 
-            writer.WriteString("className", pig.ClassName); // 1
+            writer.WriteString("className", pig.ClassName);
         }
     }
 }

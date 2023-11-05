@@ -48,14 +48,14 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateOnlyProperty
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> DateOnlyPropertyOption { get; private set; } // option d
+        public Option<DateTime?> DateOnlyPropertyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
-        public DateTime? DateOnlyProperty { get { return this. DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } } // d
+        public DateTime? DateOnlyProperty { get { return this. DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
                 throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
 
-            return new DateOnlyClass(dateOnlyProperty); // a
+            return new DateOnlyClass(dateOnlyProperty);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat)); // 4
+                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat));
         }
     }
 }

@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Count
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> CountOption { get; private set; } // option d
+        public Option<decimal?> CountOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Count
         /// </summary>
         [JsonPropertyName("count")]
-        public decimal? Count { get { return this. CountOption; } set { this.CountOption = new(value); } } // d
+        public decimal? Count { get { return this. CountOption; } set { this.CountOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             if (count.IsSet && count.Value == null)
                 throw new ArgumentNullException(nameof(count), "Property is not nullable for class Banana.");
 
-            return new Banana(count); // a
+            return new Banana(count);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.CountOption.IsSet)
-                writer.WriteNumber("count", banana.CountOption.Value!.Value); // 3
+                writer.WriteNumber("count", banana.CountOption.Value!.Value);
         }
     }
 }

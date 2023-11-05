@@ -48,25 +48,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Prop1
         /// </summary>
         [JsonIgnore]
-        public Option<string> Prop1Option { get; private set; } // option d
+        public Option<string> Prop1Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string Prop1 { get { return this. Prop1Option; } set { this.Prop1Option = new Option<string>(value); } } // d
+        public string Prop1 { get { return this. Prop1Option; } set { this.Prop1Option = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Prop2
         /// </summary>
         [JsonIgnore]
-        public Option<Object> Prop2Option { get; private set; } // option d
+        public Option<Object> Prop2Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object Prop2 { get { return this. Prop2Option; } set { this.Prop2Option = new Option<Object>(value); } } // d
+        public Object Prop2 { get { return this. Prop2Option; } set { this.Prop2Option = new Option<Object>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
             if (prop2.IsSet && prop2.Value == null)
                 throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
 
-            return new ActivityOutputElementRepresentation(prop1, prop2); // a
+            return new ActivityOutputElementRepresentation(prop1, prop2);
         }
 
         /// <summary>
@@ -193,9 +193,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
 
             if (activityOutputElementRepresentation.Prop1Option.IsSet)
-                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1); // 1
+                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
 
-            if (activityOutputElementRepresentation.Prop2Option.IsSet) // 14
+            if (activityOutputElementRepresentation.Prop2Option.IsSet)
                 writer.WritePropertyName("prop2");
                 JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }

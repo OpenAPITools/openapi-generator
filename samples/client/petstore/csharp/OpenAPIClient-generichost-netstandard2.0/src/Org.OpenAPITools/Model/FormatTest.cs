@@ -82,211 +82,211 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarByte
         /// </summary>
         [JsonPropertyName("byte")]
-        public byte[] VarByte { get; set; } // d
+        public byte[] VarByte { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
-        public DateTime Date { get; set; } // d
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [JsonPropertyName("number")]
-        public decimal Number { get; set; } // d
+        public decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get; set; } // d
+        public string Password { get; set; }
 
         /// <summary>
         /// Used to track the state of Binary
         /// </summary>
         [JsonIgnore]
-        public Option<System.IO.Stream> BinaryOption { get; private set; } // option d
+        public Option<System.IO.Stream> BinaryOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get { return this. BinaryOption; } set { this.BinaryOption = new Option<System.IO.Stream>(value); } } // d
+        public System.IO.Stream Binary { get { return this. BinaryOption; } set { this.BinaryOption = new Option<System.IO.Stream>(value); } }
 
         /// <summary>
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> DateTimeOption { get; private set; } // option d
+        public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new Option<DateTime?>(value); } } // d
+        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of VarDecimal
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> VarDecimalOption { get; private set; } // option d
+        public Option<decimal?> VarDecimalOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarDecimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal? VarDecimal { get { return this. VarDecimalOption; } set { this.VarDecimalOption = new Option<decimal?>(value); } } // d
+        public decimal? VarDecimal { get { return this. VarDecimalOption; } set { this.VarDecimalOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Used to track the state of VarDouble
         /// </summary>
         [JsonIgnore]
-        public Option<double?> VarDoubleOption { get; private set; } // option d
+        public Option<double?> VarDoubleOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarDouble
         /// </summary>
         [JsonPropertyName("double")]
-        public double? VarDouble { get { return this. VarDoubleOption; } set { this.VarDoubleOption = new Option<double?>(value); } } // d
+        public double? VarDouble { get { return this. VarDoubleOption; } set { this.VarDoubleOption = new Option<double?>(value); } }
 
         /// <summary>
         /// Used to track the state of VarFloat
         /// </summary>
         [JsonIgnore]
-        public Option<float?> VarFloatOption { get; private set; } // option d
+        public Option<float?> VarFloatOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarFloat
         /// </summary>
         [JsonPropertyName("float")]
-        public float? VarFloat { get { return this. VarFloatOption; } set { this.VarFloatOption = new Option<float?>(value); } } // d
+        public float? VarFloat { get { return this. VarFloatOption; } set { this.VarFloatOption = new Option<float?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int32
         /// </summary>
         [JsonIgnore]
-        public Option<int?> Int32Option { get; private set; } // option d
+        public Option<int?> Int32Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int? Int32 { get { return this. Int32Option; } set { this.Int32Option = new Option<int?>(value); } } // d
+        public int? Int32 { get { return this. Int32Option; } set { this.Int32Option = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64
         /// </summary>
         [JsonIgnore]
-        public Option<long?> Int64Option { get; private set; } // option d
+        public Option<long?> Int64Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long? Int64 { get { return this. Int64Option; } set { this.Int64Option = new Option<long?>(value); } } // d
+        public long? Int64 { get { return this. Int64Option; } set { this.Int64Option = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Integer
         /// </summary>
         [JsonIgnore]
-        public Option<int?> IntegerOption { get; private set; } // option d
+        public Option<int?> IntegerOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int? Integer { get { return this. IntegerOption; } set { this.IntegerOption = new Option<int?>(value); } } // d
+        public int? Integer { get { return this. IntegerOption; } set { this.IntegerOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithBackslash
         /// </summary>
         [JsonIgnore]
-        public Option<string> PatternWithBackslashOption { get; private set; } // option d
+        public Option<string> PatternWithBackslashOption { get; private set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string PatternWithBackslash { get { return this. PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new Option<string>(value); } } // d
+        public string PatternWithBackslash { get { return this. PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigits
         /// </summary>
         [JsonIgnore]
-        public Option<string> PatternWithDigitsOption { get; private set; } // option d
+        public Option<string> PatternWithDigitsOption { get; private set; }
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string PatternWithDigits { get { return this. PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new Option<string>(value); } } // d
+        public string PatternWithDigits { get { return this. PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigitsAndDelimiter
         /// </summary>
         [JsonIgnore]
-        public Option<string> PatternWithDigitsAndDelimiterOption { get; private set; } // option d
+        public Option<string> PatternWithDigitsAndDelimiterOption { get; private set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string PatternWithDigitsAndDelimiter { get { return this. PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new Option<string>(value); } } // d
+        public string PatternWithDigitsAndDelimiter { get { return this. PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of VarString
         /// </summary>
         [JsonIgnore]
-        public Option<string> VarStringOption { get; private set; } // option d
+        public Option<string> VarStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public string VarString { get { return this. VarStringOption; } set { this.VarStringOption = new Option<string>(value); } } // d
+        public string VarString { get { return this. VarStringOption; } set { this.VarStringOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedInteger
         /// </summary>
         [JsonIgnore]
-        public Option<uint?> UnsignedIntegerOption { get; private set; } // option d
+        public Option<uint?> UnsignedIntegerOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [JsonPropertyName("unsigned_integer")]
-        public uint? UnsignedInteger { get { return this. UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new Option<uint?>(value); } } // d
+        public uint? UnsignedInteger { get { return this. UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new Option<uint?>(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedLong
         /// </summary>
         [JsonIgnore]
-        public Option<ulong?> UnsignedLongOption { get; private set; } // option d
+        public Option<ulong?> UnsignedLongOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [JsonPropertyName("unsigned_long")]
-        public ulong? UnsignedLong { get { return this. UnsignedLongOption; } set { this.UnsignedLongOption = new Option<ulong?>(value); } } // d
+        public ulong? UnsignedLong { get { return this. UnsignedLongOption; } set { this.UnsignedLongOption = new Option<ulong?>(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        public Option<Guid?> UuidOption { get; private set; } // option d
+        public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new Option<Guid?>(value); } } // d
+        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -674,7 +674,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid); // a
+            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -723,57 +723,57 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(formatTest.VarString), "Property is required for class FormatTest.");
 
             writer.WritePropertyName("byte");
-            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions); // 13
-            writer.WriteString("date", formatTest.Date.ToString(DateFormat)); // 4
+            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
+            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
 
-            writer.WriteNumber("number", formatTest.Number); // 3
+            writer.WriteNumber("number", formatTest.Number);
 
-            writer.WriteString("password", formatTest.Password); // 1
+            writer.WriteString("password", formatTest.Password);
 
-            if (formatTest.BinaryOption.IsSet) // 14
+            if (formatTest.BinaryOption.IsSet)
                 writer.WritePropertyName("binary");
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             if (formatTest.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTimeOption.Value.Value.ToString(DateTimeFormat)); // 5
+                writer.WriteString("dateTime", formatTest.DateTimeOption.Value.Value.ToString(DateTimeFormat));
 
-            if (formatTest.VarDecimalOption.IsSet) // 14
+            if (formatTest.VarDecimalOption.IsSet)
                 writer.WritePropertyName("decimal");
                 JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
             if (formatTest.VarDoubleOption.IsSet)
-                writer.WriteNumber("double", formatTest.VarDoubleOption.Value.Value); // 3
+                writer.WriteNumber("double", formatTest.VarDoubleOption.Value.Value);
 
             if (formatTest.VarFloatOption.IsSet)
-                writer.WriteNumber("float", formatTest.VarFloatOption.Value.Value); // 3
+                writer.WriteNumber("float", formatTest.VarFloatOption.Value.Value);
 
             if (formatTest.Int32Option.IsSet)
-                writer.WriteNumber("int32", formatTest.Int32Option.Value.Value); // 3
+                writer.WriteNumber("int32", formatTest.Int32Option.Value.Value);
 
             if (formatTest.Int64Option.IsSet)
-                writer.WriteNumber("int64", formatTest.Int64Option.Value.Value); // 3
+                writer.WriteNumber("int64", formatTest.Int64Option.Value.Value);
 
             if (formatTest.IntegerOption.IsSet)
-                writer.WriteNumber("integer", formatTest.IntegerOption.Value.Value); // 3
+                writer.WriteNumber("integer", formatTest.IntegerOption.Value.Value);
 
             if (formatTest.PatternWithBackslashOption.IsSet)
-                writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash); // 1
+                writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);
 
             if (formatTest.PatternWithDigitsOption.IsSet)
-                writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits); // 1
+                writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
 
             if (formatTest.PatternWithDigitsAndDelimiterOption.IsSet)
-                writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter); // 1
+                writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);
 
             if (formatTest.VarStringOption.IsSet)
-                writer.WriteString("string", formatTest.VarString); // 1
+                writer.WriteString("string", formatTest.VarString);
 
             if (formatTest.UnsignedIntegerOption.IsSet)
-                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value.Value); // 3
+                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value.Value);
 
             if (formatTest.UnsignedLongOption.IsSet)
-                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value.Value); // 3
+                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value.Value);
 
             if (formatTest.UuidOption.IsSet)
-                writer.WriteString("uuid", formatTest.UuidOption.Value.Value); // 11
+                writer.WriteString("uuid", formatTest.UuidOption.Value.Value);
         }
     }
 }

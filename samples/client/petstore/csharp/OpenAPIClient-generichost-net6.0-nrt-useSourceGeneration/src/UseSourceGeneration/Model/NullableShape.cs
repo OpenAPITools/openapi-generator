@@ -72,7 +72,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; } // d
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -203,10 +203,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
 
             if (quadrilateral != null)
-                return new NullableShape(quadrilateral, shapeType.Value!); // c
+                return new NullableShape(quadrilateral, shapeType.Value!);
 
             if (triangle != null)
-                return new NullableShape(triangle, shapeType.Value!); // c
+                return new NullableShape(triangle, shapeType.Value!);
 
             throw new JsonException();
         }
@@ -248,7 +248,7 @@ namespace UseSourceGeneration.Model
             if (nullableShape.ShapeType == null)
                 throw new ArgumentNullException(nameof(nullableShape.ShapeType), "Property is required for class NullableShape.");
 
-            writer.WriteString("shapeType", nullableShape.ShapeType); // 1
+            writer.WriteString("shapeType", nullableShape.ShapeType);
         }
     }
 

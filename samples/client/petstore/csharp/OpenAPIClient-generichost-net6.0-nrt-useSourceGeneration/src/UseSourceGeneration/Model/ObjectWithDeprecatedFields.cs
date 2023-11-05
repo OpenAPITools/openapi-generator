@@ -55,52 +55,52 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Bars
         /// </summary>
         [JsonIgnore]
-        public Option<List<string>?> BarsOption { get; private set; } // option d
+        public Option<List<string>?> BarsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Bars
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string>? Bars { get { return this. BarsOption; } set { this.BarsOption = new(value); } } // d
+        public List<string>? Bars { get { return this. BarsOption; } set { this.BarsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DeprecatedRef
         /// </summary>
         [JsonIgnore]
-        public Option<DeprecatedObject?> DeprecatedRefOption { get; private set; } // option d
+        public Option<DeprecatedObject?> DeprecatedRefOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject? DeprecatedRef { get { return this. DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } } // d
+        public DeprecatedObject? DeprecatedRef { get { return this. DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> IdOption { get; private set; } // option d
+        public Option<decimal?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
+        public decimal? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        public Option<string?> UuidOption { get; private set; } // option d
+        public Option<string?> UuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } } // d
+        public string? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -211,7 +211,7 @@ namespace UseSourceGeneration.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid); // a
+            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
         }
 
         /// <summary>
@@ -247,17 +247,17 @@ namespace UseSourceGeneration.Model
             if (objectWithDeprecatedFields.UuidOption.IsSet && objectWithDeprecatedFields.Uuid == null)
                 throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (objectWithDeprecatedFields.BarsOption.IsSet) // 14
+            if (objectWithDeprecatedFields.BarsOption.IsSet)
                 writer.WritePropertyName("bars");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
-            if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet) // 14
+            if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet)
                 writer.WritePropertyName("deprecatedRef");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
             if (objectWithDeprecatedFields.IdOption.IsSet)
-                writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value);
 
             if (objectWithDeprecatedFields.UuidOption.IsSet)
-                writer.WriteString("uuid", objectWithDeprecatedFields.Uuid); // 1
+                writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }
 

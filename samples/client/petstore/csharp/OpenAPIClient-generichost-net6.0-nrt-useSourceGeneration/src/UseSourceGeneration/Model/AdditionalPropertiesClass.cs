@@ -63,98 +63,98 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of EmptyMap
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> EmptyMapOption { get; private set; } // option d
+        public Option<Object?> EmptyMapOption { get; private set; }
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [JsonPropertyName("empty_map")]
-        public Object? EmptyMap { get { return this. EmptyMapOption; } set { this.EmptyMapOption = new(value); } } // d
+        public Object? EmptyMap { get { return this. EmptyMapOption; } set { this.EmptyMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfMapProperty
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Dictionary<string, string>>?> MapOfMapPropertyOption { get; private set; } // option d
+        public Option<Dictionary<string, Dictionary<string, string>>?> MapOfMapPropertyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [JsonPropertyName("map_of_map_property")]
-        public Dictionary<string, Dictionary<string, string>>? MapOfMapProperty { get { return this. MapOfMapPropertyOption; } set { this.MapOfMapPropertyOption = new(value); } } // d
+        public Dictionary<string, Dictionary<string, string>>? MapOfMapProperty { get { return this. MapOfMapPropertyOption; } set { this.MapOfMapPropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapProperty
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, string>?> MapPropertyOption { get; private set; } // option d
+        public Option<Dictionary<string, string>?> MapPropertyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
         [JsonPropertyName("map_property")]
-        public Dictionary<string, string>? MapProperty { get { return this. MapPropertyOption; } set { this.MapPropertyOption = new(value); } } // d
+        public Dictionary<string, string>? MapProperty { get { return this. MapPropertyOption; } set { this.MapPropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> MapWithUndeclaredPropertiesAnytype1Option { get; private set; } // option d
+        public Option<Object?> MapWithUndeclaredPropertiesAnytype1Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_1")]
-        public Object? MapWithUndeclaredPropertiesAnytype1 { get { return this. MapWithUndeclaredPropertiesAnytype1Option; } set { this.MapWithUndeclaredPropertiesAnytype1Option = new(value); } } // d
+        public Object? MapWithUndeclaredPropertiesAnytype1 { get { return this. MapWithUndeclaredPropertiesAnytype1Option; } set { this.MapWithUndeclaredPropertiesAnytype1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> MapWithUndeclaredPropertiesAnytype2Option { get; private set; } // option d
+        public Option<Object?> MapWithUndeclaredPropertiesAnytype2Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_2")]
-        public Object? MapWithUndeclaredPropertiesAnytype2 { get { return this. MapWithUndeclaredPropertiesAnytype2Option; } set { this.MapWithUndeclaredPropertiesAnytype2Option = new(value); } } // d
+        public Object? MapWithUndeclaredPropertiesAnytype2 { get { return this. MapWithUndeclaredPropertiesAnytype2Option; } set { this.MapWithUndeclaredPropertiesAnytype2Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Object>?> MapWithUndeclaredPropertiesAnytype3Option { get; private set; } // option d
+        public Option<Dictionary<string, Object>?> MapWithUndeclaredPropertiesAnytype3Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_3")]
-        public Dictionary<string, Object>? MapWithUndeclaredPropertiesAnytype3 { get { return this. MapWithUndeclaredPropertiesAnytype3Option; } set { this.MapWithUndeclaredPropertiesAnytype3Option = new(value); } } // d
+        public Dictionary<string, Object>? MapWithUndeclaredPropertiesAnytype3 { get { return this. MapWithUndeclaredPropertiesAnytype3Option; } set { this.MapWithUndeclaredPropertiesAnytype3Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, string>?> MapWithUndeclaredPropertiesStringOption { get; private set; } // option d
+        public Option<Dictionary<string, string>?> MapWithUndeclaredPropertiesStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_string")]
-        public Dictionary<string, string>? MapWithUndeclaredPropertiesString { get { return this. MapWithUndeclaredPropertiesStringOption; } set { this.MapWithUndeclaredPropertiesStringOption = new(value); } } // d
+        public Dictionary<string, string>? MapWithUndeclaredPropertiesString { get { return this. MapWithUndeclaredPropertiesStringOption; } set { this.MapWithUndeclaredPropertiesStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Anytype1
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> Anytype1Option { get; private set; } // option d
+        public Option<Object?> Anytype1Option { get; private set; }
 
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
         [JsonPropertyName("anytype_1")]
-        public Object? Anytype1 { get { return this. Anytype1Option; } set { this.Anytype1Option = new(value); } } // d
+        public Object? Anytype1 { get { return this. Anytype1Option; } set { this.Anytype1Option = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -299,7 +299,7 @@ namespace UseSourceGeneration.Model
             if (mapWithUndeclaredPropertiesString.IsSet && mapWithUndeclaredPropertiesString.Value == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1); // a
+            return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
         }
 
         /// <summary>
@@ -347,28 +347,28 @@ namespace UseSourceGeneration.Model
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesString == null)
                 throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
 
-            if (additionalPropertiesClass.EmptyMapOption.IsSet) // 14
+            if (additionalPropertiesClass.EmptyMapOption.IsSet)
                 writer.WritePropertyName("empty_map");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapOfMapPropertyOption.IsSet) // 14
+            if (additionalPropertiesClass.MapOfMapPropertyOption.IsSet)
                 writer.WritePropertyName("map_of_map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapPropertyOption.IsSet) // 14
+            if (additionalPropertiesClass.MapPropertyOption.IsSet)
                 writer.WritePropertyName("map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1Option.IsSet) // 14
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1Option.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2Option.IsSet) // 14
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2Option.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3Option.IsSet) // 14
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3Option.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet) // 14
+            if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet)
                 writer.WritePropertyName("map_with_undeclared_properties_string");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
-            if (additionalPropertiesClass.Anytype1Option.IsSet) // 14
+            if (additionalPropertiesClass.Anytype1Option.IsSet)
                 if (additionalPropertiesClass.Anytype1Option.Value != null)
                 {
                     writer.WritePropertyName("anytype_1");

@@ -122,10 +122,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString != null)
-                return new OneOfString(varString); // b
+                return new OneOfString(varString);
 
             if (varString != null)
-                return new OneOfString(varString); // b
+                return new OneOfString(varString);
 
             throw new JsonException();
         }

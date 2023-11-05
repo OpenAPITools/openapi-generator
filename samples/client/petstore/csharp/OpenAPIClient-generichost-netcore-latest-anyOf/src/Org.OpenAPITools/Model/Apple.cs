@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Kind
         /// </summary>
         [JsonIgnore]
-        public Option<string?> KindOption { get; private set; } // option d
+        public Option<string?> KindOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string? Kind { get { return this. KindOption; } set { this.KindOption = new(value); } } // d
+        public string? Kind { get { return this. KindOption; } set { this.KindOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
             if (kind.IsSet && kind.Value == null)
                 throw new ArgumentNullException(nameof(kind), "Property is not nullable for class Apple.");
 
-            return new Apple(kind); // a
+            return new Apple(kind);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
 
             if (apple.KindOption.IsSet)
-                writer.WriteString("kind", apple.Kind); // 1
+                writer.WriteString("kind", apple.Kind);
         }
     }
 }

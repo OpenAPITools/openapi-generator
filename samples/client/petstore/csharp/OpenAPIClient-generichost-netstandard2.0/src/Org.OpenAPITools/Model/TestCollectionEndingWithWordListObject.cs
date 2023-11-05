@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of TestCollectionEndingWithWordList
         /// </summary>
         [JsonIgnore]
-        public Option<List<TestCollectionEndingWithWordList>> TestCollectionEndingWithWordListOption { get; private set; } // option d
+        public Option<List<TestCollectionEndingWithWordList>> TestCollectionEndingWithWordListOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get { return this. TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new Option<List<TestCollectionEndingWithWordList>>(value); } } // d
+        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get { return this. TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new Option<List<TestCollectionEndingWithWordList>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
             if (testCollectionEndingWithWordList.IsSet && testCollectionEndingWithWordList.Value == null)
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is not nullable for class TestCollectionEndingWithWordListObject.");
 
-            return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList); // a
+            return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet && testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList == null)
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
 
-            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet) // 14
+            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet)
                 writer.WritePropertyName("TestCollectionEndingWithWordList");
                 JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
         }

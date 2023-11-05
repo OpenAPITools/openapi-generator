@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Value
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ValueOption { get; private set; } // option d
+        public Option<string?> ValueOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string? Value { get { return this. ValueOption; } set { this.ValueOption = new(value); } } // d
+        public string? Value { get { return this. ValueOption; } set { this.ValueOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
             if (value.IsSet && value.Value == null)
                 throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
 
-            return new TestCollectionEndingWithWordList(value); // a
+            return new TestCollectionEndingWithWordList(value);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
 
             if (testCollectionEndingWithWordList.ValueOption.IsSet)
-                writer.WriteString("value", testCollectionEndingWithWordList.Value); // 1
+                writer.WriteString("value", testCollectionEndingWithWordList.Value);
         }
     }
 }

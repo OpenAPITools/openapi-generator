@@ -89,7 +89,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; } // d
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -226,13 +226,13 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
 
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType.Value!); // c
+                return new Triangle(equilateralTriangle, triangleType.Value!);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType.Value!); // c
+                return new Triangle(isoscelesTriangle, triangleType.Value!);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType.Value!); // c
+                return new Triangle(scaleneTriangle, triangleType.Value!);
 
             throw new JsonException();
         }
@@ -279,7 +279,7 @@ namespace UseSourceGeneration.Model
             if (triangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
 
-            writer.WriteString("triangleType", triangle.TriangleType); // 1
+            writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
 

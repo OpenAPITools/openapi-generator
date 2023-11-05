@@ -51,35 +51,35 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Apple
         /// </summary>
         [JsonIgnore]
-        public Option<Apple?> AppleOption { get; private set; } // option b
+        public Option<Apple?> AppleOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } } // b
+        public Apple? Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Banana
         /// </summary>
         [JsonIgnore]
-        public Option<Banana?> BananaOption { get; private set; } // option b
+        public Option<Banana?> BananaOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } } // b
+        public Banana? Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ColorOption { get; private set; } // option d
+        public Option<string?> ColorOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } } // d
+        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Model
                 ? default
                 : new Option<Banana?>(banana);
 
-            return new Fruit(appleParsedValue, bananaParsedValue, color); // a
+            return new Fruit(appleParsedValue, bananaParsedValue, color);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
 
             if (fruit.ColorOption.IsSet)
-                writer.WriteString("color", fruit.Color); // 1
+                writer.WriteString("color", fruit.Color);
         }
     }
 }

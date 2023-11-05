@@ -53,25 +53,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Age
         /// </summary>
         [JsonIgnore]
-        public Option<int?> AgeOption { get; private set; } // option d
+        public Option<int?> AgeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Age
         /// </summary>
         [JsonPropertyName("age")]
-        public int? Age { get { return this. AgeOption; } set { this.AgeOption = new(value); } } // d
+        public int? Age { get { return this. AgeOption; } set { this.AgeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of BoosterSeat
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> BoosterSeatOption { get; private set; } // option d
+        public Option<bool?> BoosterSeatOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets BoosterSeat
         /// </summary>
         [JsonPropertyName("boosterSeat")]
-        public bool? BoosterSeat { get { return this. BoosterSeatOption; } set { this.BoosterSeatOption = new(value); } } // d
+        public bool? BoosterSeat { get { return this. BoosterSeatOption; } set { this.BoosterSeatOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
             if (boosterSeat.IsSet && boosterSeat.Value == null)
                 throw new ArgumentNullException(nameof(boosterSeat), "Property is not nullable for class Child.");
 
-            return new Child(age, firstName, lastName, type, boosterSeat); // a
+            return new Child(age, firstName, lastName, type, boosterSeat);
         }
 
         /// <summary>
@@ -207,19 +207,19 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(child.Type), "Property is required for class Child.");
 
             if (child.AgeOption.IsSet)
-                writer.WriteNumber("age", child.AgeOption.Value!.Value); // 3
+                writer.WriteNumber("age", child.AgeOption.Value!.Value);
 
             if (child.FirstNameOption.IsSet)
-                writer.WriteString("firstName", child.FirstName); // 1
+                writer.WriteString("firstName", child.FirstName);
 
             if (child.LastNameOption.IsSet)
-                writer.WriteString("lastName", child.LastName); // 1
+                writer.WriteString("lastName", child.LastName);
 
             if (child.TypeOption.IsSet)
-                writer.WriteString("$_type", child.Type); // 1
+                writer.WriteString("$_type", child.Type);
 
             if (child.BoosterSeatOption.IsSet)
-                writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value); // 2
+                writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; } // d
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeOrNull.");
 
             if (quadrilateral != null)
-                return new ShapeOrNull(quadrilateral, shapeType.Value); // c
+                return new ShapeOrNull(quadrilateral, shapeType.Value);
 
             if (triangle != null)
-                return new ShapeOrNull(triangle, shapeType.Value); // c
+                return new ShapeOrNull(triangle, shapeType.Value);
 
             throw new JsonException();
         }
@@ -245,7 +245,7 @@ namespace Org.OpenAPITools.Model
             if (shapeOrNull.ShapeType == null)
                 throw new ArgumentNullException(nameof(shapeOrNull.ShapeType), "Property is required for class ShapeOrNull.");
 
-            writer.WriteString("shapeType", shapeOrNull.ShapeType); // 1
+            writer.WriteString("shapeType", shapeOrNull.ShapeType);
         }
     }
 }

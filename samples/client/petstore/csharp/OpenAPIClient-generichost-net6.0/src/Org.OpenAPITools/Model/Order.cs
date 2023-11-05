@@ -137,75 +137,75 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        public Option<StatusEnum?> StatusOption { get; private set; } // option a
+        public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } } // a
+        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<long?> IdOption { get; private set; } // option d
+        public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PetId
         /// </summary>
         [JsonIgnore]
-        public Option<long?> PetIdOption { get; private set; } // option d
+        public Option<long?> PetIdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long? PetId { get { return this. PetIdOption; } set { this.PetIdOption = new(value); } } // d
+        public long? PetId { get { return this. PetIdOption; } set { this.PetIdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Quantity
         /// </summary>
         [JsonIgnore]
-        public Option<int?> QuantityOption { get; private set; } // option d
+        public Option<int?> QuantityOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int? Quantity { get { return this. QuantityOption; } set { this.QuantityOption = new(value); } } // d
+        public int? Quantity { get { return this. QuantityOption; } set { this.QuantityOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ShipDate
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> ShipDateOption { get; private set; } // option d
+        public Option<DateTime?> ShipDateOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
-        public DateTime? ShipDate { get { return this. ShipDateOption; } set { this.ShipDateOption = new(value); } } // d
+        public DateTime? ShipDate { get { return this. ShipDateOption; } set { this.ShipDateOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Complete
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> CompleteOption { get; private set; } // option d
+        public Option<bool?> CompleteOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool? Complete { get { return this. CompleteOption; } set { this.CompleteOption = new(value); } } // d
+        public bool? Complete { get { return this. CompleteOption; } set { this.CompleteOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -341,7 +341,7 @@ namespace Org.OpenAPITools.Model
             if (complete.IsSet && complete.Value == null)
                 throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
 
-            return new Order(id, petId, quantity, shipDate, status, complete); // a
+            return new Order(id, petId, quantity, shipDate, status, complete);
         }
 
         /// <summary>
@@ -369,25 +369,25 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.IdOption.IsSet)
-                writer.WriteNumber("id", order.IdOption.Value.Value); // 3
+                writer.WriteNumber("id", order.IdOption.Value.Value);
 
             if (order.PetIdOption.IsSet)
-                writer.WriteNumber("petId", order.PetIdOption.Value.Value); // 3
+                writer.WriteNumber("petId", order.PetIdOption.Value.Value);
 
             if (order.QuantityOption.IsSet)
-                writer.WriteNumber("quantity", order.QuantityOption.Value.Value); // 3
+                writer.WriteNumber("quantity", order.QuantityOption.Value.Value);
 
             if (order.ShipDateOption.IsSet)
-                writer.WriteString("shipDate", order.ShipDateOption.Value.Value.ToString(ShipDateFormat)); // 5
+                writer.WriteString("shipDate", order.ShipDateOption.Value.Value.ToString(ShipDateFormat));
 
-            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value.Value); // 7
+            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 
             if (order.CompleteOption.IsSet)
-                writer.WriteBoolean("complete", order.CompleteOption.Value.Value); // 2
+                writer.WriteBoolean("complete", order.CompleteOption.Value.Value);
         }
     }
 }

@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of LengthCm
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> LengthCmOption { get; private set; } // option d
+        public Option<decimal?> LengthCmOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal? LengthCm { get { return this. LengthCmOption; } set { this.LengthCmOption = new(value); } } // d
+        public decimal? LengthCm { get { return this. LengthCmOption; } set { this.LengthCmOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             if (lengthCm.IsSet && lengthCm.Value == null)
                 throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
 
-            return new Banana(lengthCm); // a
+            return new Banana(lengthCm);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.LengthCmOption.IsSet)
-                writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value); // 3
+                writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
         }
     }
 }

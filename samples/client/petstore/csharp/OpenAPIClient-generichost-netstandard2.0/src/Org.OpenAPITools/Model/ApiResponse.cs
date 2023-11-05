@@ -50,37 +50,37 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Code
         /// </summary>
         [JsonIgnore]
-        public Option<int?> CodeOption { get; private set; } // option d
+        public Option<int?> CodeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public int? Code { get { return this. CodeOption; } set { this.CodeOption = new Option<int?>(value); } } // d
+        public int? Code { get { return this. CodeOption; } set { this.CodeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
         /// </summary>
         [JsonIgnore]
-        public Option<string> MessageOption { get; private set; } // option d
+        public Option<string> MessageOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get { return this. MessageOption; } set { this.MessageOption = new Option<string>(value); } } // d
+        public string Message { get { return this. MessageOption; } set { this.MessageOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        public Option<string> TypeOption { get; private set; } // option d
+        public Option<string> TypeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get { return this. TypeOption; } set { this.TypeOption = new Option<string>(value); } } // d
+        public string Type { get { return this. TypeOption; } set { this.TypeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
 
-            return new ApiResponse(code, message, type); // a
+            return new ApiResponse(code, message, type);
         }
 
         /// <summary>
@@ -215,13 +215,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
 
             if (apiResponse.CodeOption.IsSet)
-                writer.WriteNumber("code", apiResponse.CodeOption.Value.Value); // 3
+                writer.WriteNumber("code", apiResponse.CodeOption.Value.Value);
 
             if (apiResponse.MessageOption.IsSet)
-                writer.WriteString("message", apiResponse.Message); // 1
+                writer.WriteString("message", apiResponse.Message);
 
             if (apiResponse.TypeOption.IsSet)
-                writer.WriteString("type", apiResponse.Type); // 1
+                writer.WriteString("type", apiResponse.Type);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; } // d
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
             if (shapeType.IsSet && shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
 
-            return new ShapeInterface(shapeType.Value!); // a
+            return new ShapeInterface(shapeType.Value!);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
             if (shapeInterface.ShapeType == null)
                 throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");
 
-            writer.WriteString("shapeType", shapeInterface.ShapeType); // 1
+            writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }
 }

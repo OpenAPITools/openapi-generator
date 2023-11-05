@@ -140,63 +140,63 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        public Option<StatusEnum?> StatusOption { get; private set; } // option a
+        public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } } // a
+        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>doggie</example>
         [JsonPropertyName("name")]
-        public string Name { get; set; } // d
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [JsonPropertyName("photoUrls")]
-        public List<string> PhotoUrls { get; set; } // d
+        public List<string> PhotoUrls { get; set; }
 
         /// <summary>
         /// Used to track the state of Category
         /// </summary>
         [JsonIgnore]
-        public Option<Category?> CategoryOption { get; private set; } // option d
+        public Option<Category?> CategoryOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get { return this. CategoryOption; } set { this.CategoryOption = new(value); } } // d
+        public Category? Category { get { return this. CategoryOption; } set { this.CategoryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<long?> IdOption { get; private set; } // option d
+        public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Tags
         /// </summary>
         [JsonIgnore]
-        public Option<List<Tag>?> TagsOption { get; private set; } // option d
+        public Option<List<Tag>?> TagsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get { return this. TagsOption; } set { this.TagsOption = new(value); } } // d
+        public List<Tag>? Tags { get { return this. TagsOption; } set { this.TagsOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -332,7 +332,7 @@ namespace UseSourceGeneration.Model
             if (tags.IsSet && tags.Value == null)
                 throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
 
-            return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags); // a
+            return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags);
         }
 
         /// <summary>
@@ -371,23 +371,23 @@ namespace UseSourceGeneration.Model
             if (pet.TagsOption.IsSet && pet.Tags == null)
                 throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
 
-            writer.WriteString("name", pet.Name); // 1
+            writer.WriteString("name", pet.Name);
 
             writer.WritePropertyName("photoUrls");
-            JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions); // 13
-            if (pet.CategoryOption.IsSet) // 14
+            JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+            if (pet.CategoryOption.IsSet)
                 writer.WritePropertyName("category");
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             if (pet.IdOption.IsSet)
-                writer.WriteNumber("id", pet.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", pet.IdOption.Value!.Value);
 
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value); // 7
+            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 
-            if (pet.TagsOption.IsSet) // 14
+            if (pet.TagsOption.IsSet)
                 writer.WritePropertyName("tags");
                 JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
         }

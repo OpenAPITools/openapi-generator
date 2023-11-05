@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NullableMessage
         /// </summary>
         [JsonIgnore]
-        public Option<string> NullableMessageOption { get; private set; } // option d
+        public Option<string> NullableMessageOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } } // d
+        public string NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new HealthCheckResult(nullableMessage); // a
+            return new HealthCheckResult(nullableMessage);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
         {
             if (healthCheckResult.NullableMessageOption.IsSet)
                 if (healthCheckResult.NullableMessageOption.Value != null)
-                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage); // 1
+                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
                 else
                     writer.WriteNull("NullableMessage");
         }

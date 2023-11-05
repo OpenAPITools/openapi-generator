@@ -50,19 +50,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string Cultivar { get; set; } // d
+        public string Cultivar { get; set; }
 
         /// <summary>
         /// Used to track the state of Mealy
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> MealyOption { get; private set; } // option d
+        public Option<bool?> MealyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool? Mealy { get { return this. MealyOption; } set { this.MealyOption = new(value); } } // d
+        public bool? Mealy { get { return this. MealyOption; } set { this.MealyOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
             if (mealy.IsSet && mealy.Value == null)
                 throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
 
-            return new AppleReq(cultivar.Value!, mealy); // a
+            return new AppleReq(cultivar.Value!, mealy);
         }
 
         /// <summary>
@@ -181,10 +181,10 @@ namespace Org.OpenAPITools.Model
             if (appleReq.Cultivar == null)
                 throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
 
-            writer.WriteString("cultivar", appleReq.Cultivar); // 1
+            writer.WriteString("cultivar", appleReq.Cultivar);
 
             if (appleReq.MealyOption.IsSet)
-                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value); // 2
+                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value);
         }
     }
 }

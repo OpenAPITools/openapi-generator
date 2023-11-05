@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public string PetType { get; set; } // d
+        public string PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
 
-            return new GrandparentAnimal(petType.Value!); // a
+            return new GrandparentAnimal(petType.Value!);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
             if (grandparentAnimal.PetType == null)
                 throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
 
-            writer.WriteString("pet_type", grandparentAnimal.PetType); // 1
+            writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }
 }

@@ -52,43 +52,43 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarName
         /// </summary>
         [JsonPropertyName("name")]
-        public int VarName { get; set; } // d
+        public int VarName { get; set; }
 
         /// <summary>
         /// Used to track the state of Property
         /// </summary>
         [JsonIgnore]
-        public Option<string> PropertyOption { get; private set; } // option d
+        public Option<string> PropertyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string Property { get { return this. PropertyOption; } set { this.PropertyOption = new Option<string>(value); } } // d
+        public string Property { get { return this. PropertyOption; } set { this.PropertyOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of SnakeCase
         /// </summary>
         [JsonIgnore]
-        public Option<int?> SnakeCaseOption { get; } // option d
+        public Option<int?> SnakeCaseOption { get; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int? SnakeCase { get { return this. SnakeCaseOption; } } // d
+        public int? SnakeCase { get { return this. SnakeCaseOption; } }
 
         /// <summary>
         /// Used to track the state of Var123Number
         /// </summary>
         [JsonIgnore]
-        public Option<int?> Var123NumberOption { get; } // option d
+        public Option<int?> Var123NumberOption { get; }
 
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int? Var123Number { get { return this. Var123NumberOption; } } // d
+        public int? Var123Number { get { return this. Var123NumberOption; } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Model
             if (var123Number.IsSet && var123Number.Value == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
 
-            return new Name(varName.Value.Value, property, snakeCase, var123Number); // a
+            return new Name(varName.Value.Value, property, snakeCase, var123Number);
         }
 
         /// <summary>
@@ -273,16 +273,16 @@ namespace Org.OpenAPITools.Model
             if (name.PropertyOption.IsSet && name.Property == null)
                 throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
 
-            writer.WriteNumber("name", name.VarName); // 3
+            writer.WriteNumber("name", name.VarName);
 
             if (name.PropertyOption.IsSet)
-                writer.WriteString("property", name.Property); // 1
+                writer.WriteString("property", name.Property);
 
             if (name.SnakeCaseOption.IsSet)
-                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value.Value); // 3
+                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value.Value);
 
             if (name.Var123NumberOption.IsSet)
-                writer.WriteNumber("123Number", name.Var123NumberOption.Value.Value); // 3
+                writer.WriteNumber("123Number", name.Var123NumberOption.Value.Value);
         }
     }
 }

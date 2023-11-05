@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Var123List
         /// </summary>
         [JsonIgnore]
-        public Option<string?> Var123ListOption { get; private set; } // option d
+        public Option<string?> Var123ListOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string? Var123List { get { return this. Var123ListOption; } set { this.Var123ListOption = new(value); } } // d
+        public string? Var123List { get { return this. Var123ListOption; } set { this.Var123ListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
             if (var123List.IsSet && var123List.Value == null)
                 throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
 
-            return new List(var123List); // a
+            return new List(var123List);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
 
             if (list.Var123ListOption.IsSet)
-                writer.WriteString("123-list", list.Var123List); // 1
+                writer.WriteString("123-list", list.Var123List);
         }
     }
 }

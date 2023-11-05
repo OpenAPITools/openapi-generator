@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Declawed
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> DeclawedOption { get; private set; } // option d
+        public Option<bool?> DeclawedOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
         [JsonPropertyName("declawed")]
-        public bool? Declawed { get { return this. DeclawedOption; } set { this.DeclawedOption = new(value); } } // d
+        public bool? Declawed { get { return this. DeclawedOption; } set { this.DeclawedOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
 
-            return new Cat(className.Value, declawed, color); // a
+            return new Cat(className.Value, declawed, color);
         }
 
         /// <summary>
@@ -173,13 +173,13 @@ namespace Org.OpenAPITools.Model
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
 
-            writer.WriteString("className", cat.ClassName); // 1
+            writer.WriteString("className", cat.ClassName);
 
             if (cat.DeclawedOption.IsSet)
-                writer.WriteBoolean("declawed", cat.DeclawedOption.Value.Value); // 2
+                writer.WriteBoolean("declawed", cat.DeclawedOption.Value.Value);
 
             if (cat.ColorOption.IsSet)
-                writer.WriteString("color", cat.Color); // 1
+                writer.WriteString("color", cat.Color);
         }
     }
 }

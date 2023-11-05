@@ -52,49 +52,49 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MainShape
         /// </summary>
         [JsonIgnore]
-        public Option<Shape> MainShapeOption { get; private set; } // option d
+        public Option<Shape> MainShapeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape MainShape { get { return this. MainShapeOption; } set { this.MainShapeOption = new(value); } } // d
+        public Shape MainShape { get { return this. MainShapeOption; } set { this.MainShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Shapes
         /// </summary>
         [JsonIgnore]
-        public Option<List<Shape>> ShapesOption { get; private set; } // option d
+        public Option<List<Shape>> ShapesOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
-        public List<Shape> Shapes { get { return this. ShapesOption; } set { this.ShapesOption = new(value); } } // d
+        public List<Shape> Shapes { get { return this. ShapesOption; } set { this.ShapesOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NullableShape
         /// </summary>
         [JsonIgnore]
-        public Option<NullableShape> NullableShapeOption { get; private set; } // option d
+        public Option<NullableShape> NullableShapeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape NullableShape { get { return this. NullableShapeOption; } set { this.NullableShapeOption = new(value); } } // d
+        public NullableShape NullableShape { get { return this. NullableShapeOption; } set { this.NullableShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ShapeOrNull
         /// </summary>
         [JsonIgnore]
-        public Option<ShapeOrNull> ShapeOrNullOption { get; private set; } // option d
+        public Option<ShapeOrNull> ShapeOrNullOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull ShapeOrNull { get { return this. ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } } // d
+        public ShapeOrNull ShapeOrNull { get { return this. ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
             if (shapes.IsSet && shapes.Value == null)
                 throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
 
-            return new Drawing(mainShape, shapes, nullableShape, shapeOrNull); // a
+            return new Drawing(mainShape, shapes, nullableShape, shapeOrNull);
         }
 
         /// <summary>
@@ -244,13 +244,13 @@ namespace Org.OpenAPITools.Model
             if (drawing.ShapesOption.IsSet && drawing.Shapes == null)
                 throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
 
-            if (drawing.MainShapeOption.IsSet) // 14
+            if (drawing.MainShapeOption.IsSet)
                 writer.WritePropertyName("mainShape");
                 JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
-            if (drawing.ShapesOption.IsSet) // 14
+            if (drawing.ShapesOption.IsSet)
                 writer.WritePropertyName("shapes");
                 JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
-            if (drawing.NullableShapeOption.IsSet) // 14
+            if (drawing.NullableShapeOption.IsSet)
                 if (drawing.NullableShapeOption.Value != null)
                 {
                     writer.WritePropertyName("nullableShape");
@@ -258,7 +258,7 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("nullableShape");
-            if (drawing.ShapeOrNullOption.IsSet) // 14
+            if (drawing.ShapeOrNullOption.IsSet)
                 if (drawing.ShapeOrNullOption.Value != null)
                 {
                     writer.WritePropertyName("shapeOrNull");

@@ -180,25 +180,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustSymbol
         /// </summary>
         [JsonIgnore]
-        public Option<JustSymbolEnum?> JustSymbolOption { get; private set; } // option a
+        public Option<JustSymbolEnum?> JustSymbolOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } } // a
+        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum
         /// </summary>
         [JsonIgnore]
-        public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnumOption { get; private set; } // option d
+        public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnumOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get { return this. ArrayEnumOption; } set { this.ArrayEnumOption = new Option<List<EnumArrays.ArrayEnumEnum>>(value); } } // d
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get { return this. ArrayEnumOption; } set { this.ArrayEnumOption = new Option<List<EnumArrays.ArrayEnumEnum>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -293,7 +293,7 @@ namespace Org.OpenAPITools.Model
             if (justSymbol.IsSet && justSymbol.Value == null)
                 throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
 
-            return new EnumArrays(arrayEnum, justSymbol); // a
+            return new EnumArrays(arrayEnum, justSymbol);
         }
 
         /// <summary>
@@ -323,10 +323,10 @@ namespace Org.OpenAPITools.Model
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
                 throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
 
-            if (enumArrays.ArrayEnumOption.IsSet) // 14
+            if (enumArrays.ArrayEnumOption.IsSet)
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value); // 7
+            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);
             else

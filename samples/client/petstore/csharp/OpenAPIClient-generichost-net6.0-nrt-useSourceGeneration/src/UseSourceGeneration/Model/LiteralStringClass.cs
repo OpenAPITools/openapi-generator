@@ -51,25 +51,25 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of EscapedLiteralString
         /// </summary>
         [JsonIgnore]
-        public Option<string?> EscapedLiteralStringOption { get; private set; } // option d
+        public Option<string?> EscapedLiteralStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public string? EscapedLiteralString { get { return this. EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } } // d
+        public string? EscapedLiteralString { get { return this. EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnescapedLiteralString
         /// </summary>
         [JsonIgnore]
-        public Option<string?> UnescapedLiteralStringOption { get; private set; } // option d
+        public Option<string?> UnescapedLiteralStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public string? UnescapedLiteralString { get { return this. UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } } // d
+        public string? UnescapedLiteralString { get { return this. UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -161,7 +161,7 @@ namespace UseSourceGeneration.Model
             if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
                 throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
 
-            return new LiteralStringClass(escapedLiteralString, unescapedLiteralString); // a
+            return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }
 
         /// <summary>
@@ -195,10 +195,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
 
             if (literalStringClass.EscapedLiteralStringOption.IsSet)
-                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString); // 1
+                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
 
             if (literalStringClass.UnescapedLiteralStringOption.IsSet)
-                writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString); // 1
+                writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
         }
     }
 

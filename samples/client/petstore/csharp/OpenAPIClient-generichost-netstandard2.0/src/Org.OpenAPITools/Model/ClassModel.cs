@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarClass
         /// </summary>
         [JsonIgnore]
-        public Option<string> VarClassOption { get; private set; } // option d
+        public Option<string> VarClassOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("_class")]
-        public string VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new Option<string>(value); } } // d
+        public string VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
             if (varClass.IsSet && varClass.Value == null)
                 throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
 
-            return new ClassModel(varClass); // a
+            return new ClassModel(varClass);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(classModel.VarClass), "Property is required for class ClassModel.");
 
             if (classModel.VarClassOption.IsSet)
-                writer.WriteString("_class", classModel.VarClass); // 1
+                writer.WriteString("_class", classModel.VarClass);
         }
     }
 }

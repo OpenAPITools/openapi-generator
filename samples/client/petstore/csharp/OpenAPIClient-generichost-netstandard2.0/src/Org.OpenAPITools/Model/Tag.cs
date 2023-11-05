@@ -48,25 +48,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<long?> IdOption { get; private set; } // option d
+        public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new Option<long?>(value); } } // d
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        public Option<string> NameOption { get; private set; } // option d
+        public Option<string> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this. NameOption; } set { this.NameOption = new Option<string>(value); } } // d
+        public string Name { get { return this. NameOption; } set { this.NameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Tag.");
 
-            return new Tag(id, name); // a
+            return new Tag(id, name);
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
 
             if (tag.IdOption.IsSet)
-                writer.WriteNumber("id", tag.IdOption.Value.Value); // 3
+                writer.WriteNumber("id", tag.IdOption.Value.Value);
 
             if (tag.NameOption.IsSet)
-                writer.WriteString("name", tag.Name); // 1
+                writer.WriteString("name", tag.Name);
         }
     }
 }

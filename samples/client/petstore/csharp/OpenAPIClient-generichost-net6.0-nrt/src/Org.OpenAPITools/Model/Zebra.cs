@@ -130,19 +130,19 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        public Option<TypeEnum?> TypeOption { get; private set; } // option a
+        public Option<TypeEnum?> TypeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } } // a
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -250,7 +250,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
 
-            return new Zebra(className.Value!, type); // a
+            return new Zebra(className.Value!, type);
         }
 
         /// <summary>
@@ -280,9 +280,9 @@ namespace Org.OpenAPITools.Model
             if (zebra.ClassName == null)
                 throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
 
-            writer.WriteString("className", zebra.ClassName); // 1
+            writer.WriteString("className", zebra.ClassName);
 
-            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value); // 7
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value);
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);
             else

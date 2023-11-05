@@ -152,10 +152,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (appleReq != null)
-                return new FruitReq(appleReq); // b
+                return new FruitReq(appleReq);
 
             if (bananaReq != null)
-                return new FruitReq(bananaReq); // b
+                return new FruitReq(bananaReq);
 
             throw new JsonException();
         }

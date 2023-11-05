@@ -48,25 +48,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarClass
         /// </summary>
         [JsonIgnore]
-        public Option<string> VarClassOption { get; private set; } // option d
+        public Option<string> VarClassOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } } // d
+        public string VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        public Option<int?> NameOption { get; private set; } // option d
+        public Option<int?> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int? Name { get { return this. NameOption; } set { this.NameOption = new(value); } } // d
+        public int? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
 
-            return new Model200Response(varClass, name); // a
+            return new Model200Response(varClass, name);
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
 
             if (model200Response.VarClassOption.IsSet)
-                writer.WriteString("class", model200Response.VarClass); // 1
+                writer.WriteString("class", model200Response.VarClass);
 
             if (model200Response.NameOption.IsSet)
-                writer.WriteNumber("name", model200Response.NameOption.Value.Value); // 3
+                writer.WriteNumber("name", model200Response.NameOption.Value.Value);
         }
     }
 }

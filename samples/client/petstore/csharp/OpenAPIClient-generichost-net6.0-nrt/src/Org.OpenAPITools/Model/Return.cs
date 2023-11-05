@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarReturn
         /// </summary>
         [JsonIgnore]
-        public Option<int?> VarReturnOption { get; private set; } // option d
+        public Option<int?> VarReturnOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int? VarReturn { get { return this. VarReturnOption; } set { this.VarReturnOption = new(value); } } // d
+        public int? VarReturn { get { return this. VarReturnOption; } set { this.VarReturnOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             if (varReturn.IsSet && varReturn.Value == null)
                 throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
 
-            return new Return(varReturn); // a
+            return new Return(varReturn);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             if (varReturn.VarReturnOption.IsSet)
-                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value); // 3
+                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value);
         }
     }
 }

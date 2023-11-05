@@ -71,150 +71,150 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Email
         /// </summary>
         [JsonIgnore]
-        public Option<string?> EmailOption { get; private set; } // option d
+        public Option<string?> EmailOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [JsonPropertyName("email")]
-        public string? Email { get { return this. EmailOption; } set { this.EmailOption = new(value); } } // d
+        public string? Email { get { return this. EmailOption; } set { this.EmailOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
         /// </summary>
         [JsonIgnore]
-        public Option<string?> FirstNameOption { get; private set; } // option d
+        public Option<string?> FirstNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string? FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } } // d
+        public string? FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<long?> IdOption { get; private set; } // option d
+        public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
         /// </summary>
         [JsonIgnore]
-        public Option<string?> LastNameOption { get; private set; } // option d
+        public Option<string?> LastNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string? LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } } // d
+        public string? LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredProps
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> ObjectWithNoDeclaredPropsOption { get; private set; } // option d
+        public Option<Object?> ObjectWithNoDeclaredPropsOption { get; private set; }
 
         /// <summary>
         /// test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredProps")]
-        public Object? ObjectWithNoDeclaredProps { get { return this. ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new(value); } } // d
+        public Object? ObjectWithNoDeclaredProps { get { return this. ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Password
         /// </summary>
         [JsonIgnore]
-        public Option<string?> PasswordOption { get; private set; } // option d
+        public Option<string?> PasswordOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string? Password { get { return this. PasswordOption; } set { this.PasswordOption = new(value); } } // d
+        public string? Password { get { return this. PasswordOption; } set { this.PasswordOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
         /// </summary>
         [JsonIgnore]
-        public Option<string?> PhoneOption { get; private set; } // option d
+        public Option<string?> PhoneOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [JsonPropertyName("phone")]
-        public string? Phone { get { return this. PhoneOption; } set { this.PhoneOption = new(value); } } // d
+        public string? Phone { get { return this. PhoneOption; } set { this.PhoneOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UserStatus
         /// </summary>
         [JsonIgnore]
-        public Option<int?> UserStatusOption { get; private set; } // option d
+        public Option<int?> UserStatusOption { get; private set; }
 
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [JsonPropertyName("userStatus")]
-        public int? UserStatus { get { return this. UserStatusOption; } set { this.UserStatusOption = new(value); } } // d
+        public int? UserStatus { get { return this. UserStatusOption; } set { this.UserStatusOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Username
         /// </summary>
         [JsonIgnore]
-        public Option<string?> UsernameOption { get; private set; } // option d
+        public Option<string?> UsernameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [JsonPropertyName("username")]
-        public string? Username { get { return this. UsernameOption; } set { this.UsernameOption = new(value); } } // d
+        public string? Username { get { return this. UsernameOption; } set { this.UsernameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of AnyTypeProp
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> AnyTypePropOption { get; private set; } // option d
+        public Option<Object?> AnyTypePropOption { get; private set; }
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [JsonPropertyName("anyTypeProp")]
-        public Object? AnyTypeProp { get { return this. AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } } // d
+        public Object? AnyTypeProp { get { return this. AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of AnyTypePropNullable
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> AnyTypePropNullableOption { get; private set; } // option d
+        public Option<Object?> AnyTypePropNullableOption { get; private set; }
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [JsonPropertyName("anyTypePropNullable")]
-        public Object? AnyTypePropNullable { get { return this. AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } } // d
+        public Object? AnyTypePropNullable { get { return this. AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredPropsNullable
         /// </summary>
         [JsonIgnore]
-        public Option<Object?> ObjectWithNoDeclaredPropsNullableOption { get; private set; } // option d
+        public Option<Object?> ObjectWithNoDeclaredPropsNullableOption { get; private set; }
 
         /// <summary>
         /// test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
-        public Object? ObjectWithNoDeclaredPropsNullable { get { return this. ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } } // d
+        public Object? ObjectWithNoDeclaredPropsNullable { get { return this. ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -383,7 +383,7 @@ namespace UseSourceGeneration.Model
             if (username.IsSet && username.Value == null)
                 throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
 
-            return new User(email, firstName, id, lastName, objectWithNoDeclaredProps, password, phone, userStatus, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable); // a
+            return new User(email, firstName, id, lastName, objectWithNoDeclaredProps, password, phone, userStatus, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }
 
         /// <summary>
@@ -432,33 +432,33 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(user.Username), "Property is required for class User.");
 
             if (user.EmailOption.IsSet)
-                writer.WriteString("email", user.Email); // 1
+                writer.WriteString("email", user.Email);
 
             if (user.FirstNameOption.IsSet)
-                writer.WriteString("firstName", user.FirstName); // 1
+                writer.WriteString("firstName", user.FirstName);
 
             if (user.IdOption.IsSet)
-                writer.WriteNumber("id", user.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", user.IdOption.Value!.Value);
 
             if (user.LastNameOption.IsSet)
-                writer.WriteString("lastName", user.LastName); // 1
+                writer.WriteString("lastName", user.LastName);
 
-            if (user.ObjectWithNoDeclaredPropsOption.IsSet) // 14
+            if (user.ObjectWithNoDeclaredPropsOption.IsSet)
                 writer.WritePropertyName("objectWithNoDeclaredProps");
                 JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
             if (user.PasswordOption.IsSet)
-                writer.WriteString("password", user.Password); // 1
+                writer.WriteString("password", user.Password);
 
             if (user.PhoneOption.IsSet)
-                writer.WriteString("phone", user.Phone); // 1
+                writer.WriteString("phone", user.Phone);
 
             if (user.UserStatusOption.IsSet)
-                writer.WriteNumber("userStatus", user.UserStatusOption.Value!.Value); // 3
+                writer.WriteNumber("userStatus", user.UserStatusOption.Value!.Value);
 
             if (user.UsernameOption.IsSet)
-                writer.WriteString("username", user.Username); // 1
+                writer.WriteString("username", user.Username);
 
-            if (user.AnyTypePropOption.IsSet) // 14
+            if (user.AnyTypePropOption.IsSet)
                 if (user.AnyTypePropOption.Value != null)
                 {
                     writer.WritePropertyName("anyTypeProp");
@@ -466,7 +466,7 @@ namespace UseSourceGeneration.Model
                 }
                 else
                     writer.WriteNull("anyTypeProp");
-            if (user.AnyTypePropNullableOption.IsSet) // 14
+            if (user.AnyTypePropNullableOption.IsSet)
                 if (user.AnyTypePropNullableOption.Value != null)
                 {
                     writer.WritePropertyName("anyTypePropNullable");
@@ -474,7 +474,7 @@ namespace UseSourceGeneration.Model
                 }
                 else
                     writer.WriteNull("anyTypePropNullable");
-            if (user.ObjectWithNoDeclaredPropsNullableOption.IsSet) // 14
+            if (user.ObjectWithNoDeclaredPropsNullableOption.IsSet)
                 if (user.ObjectWithNoDeclaredPropsNullableOption.Value != null)
                 {
                     writer.WritePropertyName("objectWithNoDeclaredPropsNullable");

@@ -50,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; } // d
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; } // d
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class ScaleneTriangle.");
 
-            return new ScaleneTriangle(shapeType.Value!, triangleType.Value!); // a
+            return new ScaleneTriangle(shapeType.Value!, triangleType.Value!);
         }
 
         /// <summary>
@@ -187,9 +187,9 @@ namespace Org.OpenAPITools.Model
             if (scaleneTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(scaleneTriangle.TriangleType), "Property is required for class ScaleneTriangle.");
 
-            writer.WriteString("shapeType", scaleneTriangle.ShapeType); // 1
+            writer.WriteString("shapeType", scaleneTriangle.ShapeType);
 
-            writer.WriteString("triangleType", scaleneTriangle.TriangleType); // 1
+            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }
 }

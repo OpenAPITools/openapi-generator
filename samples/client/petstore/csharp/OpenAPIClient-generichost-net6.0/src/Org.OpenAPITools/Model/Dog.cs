@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Breed
         /// </summary>
         [JsonIgnore]
-        public Option<string> BreedOption { get; private set; } // option d
+        public Option<string> BreedOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string Breed { get { return this. BreedOption; } set { this.BreedOption = new(value); } } // d
+        public string Breed { get { return this. BreedOption; } set { this.BreedOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
 
-            return new Dog(className.Value, breed, color); // a
+            return new Dog(className.Value, breed, color);
         }
 
         /// <summary>
@@ -175,13 +175,13 @@ namespace Org.OpenAPITools.Model
             if (dog.ColorOption.IsSet && dog.Color == null)
                 throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
 
-            writer.WriteString("className", dog.ClassName); // 1
+            writer.WriteString("className", dog.ClassName);
 
             if (dog.BreedOption.IsSet)
-                writer.WriteString("breed", dog.Breed); // 1
+                writer.WriteString("breed", dog.Breed);
 
             if (dog.ColorOption.IsSet)
-                writer.WriteString("color", dog.Color); // 1
+                writer.WriteString("color", dog.Color);
         }
     }
 }

@@ -53,37 +53,37 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ColorCode
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ColorCodeOption { get; private set; } // option d
+        public Option<string?> ColorCodeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ColorCode
         /// </summary>
         [JsonPropertyName("color_code")]
-        public string? ColorCode { get { return this. ColorCodeOption; } set { this.ColorCodeOption = new(value); } } // d
+        public string? ColorCode { get { return this. ColorCodeOption; } set { this.ColorCodeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Cultivar
         /// </summary>
         [JsonIgnore]
-        public Option<string?> CultivarOption { get; private set; } // option d
+        public Option<string?> CultivarOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string? Cultivar { get { return this. CultivarOption; } set { this.CultivarOption = new(value); } } // d
+        public string? Cultivar { get { return this. CultivarOption; } set { this.CultivarOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Origin
         /// </summary>
         [JsonIgnore]
-        public Option<string?> OriginOption { get; private set; } // option d
+        public Option<string?> OriginOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public string? Origin { get { return this. OriginOption; } set { this.OriginOption = new(value); } } // d
+        public string? Origin { get { return this. OriginOption; } set { this.OriginOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -213,7 +213,7 @@ namespace UseSourceGeneration.Model
             if (origin.IsSet && origin.Value == null)
                 throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
 
-            return new Apple(colorCode, cultivar, origin); // a
+            return new Apple(colorCode, cultivar, origin);
         }
 
         /// <summary>
@@ -250,13 +250,13 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
 
             if (apple.ColorCodeOption.IsSet)
-                writer.WriteString("color_code", apple.ColorCode); // 1
+                writer.WriteString("color_code", apple.ColorCode);
 
             if (apple.CultivarOption.IsSet)
-                writer.WriteString("cultivar", apple.Cultivar); // 1
+                writer.WriteString("cultivar", apple.Cultivar);
 
             if (apple.OriginOption.IsSet)
-                writer.WriteString("origin", apple.Origin); // 1
+                writer.WriteString("origin", apple.Origin);
         }
     }
 

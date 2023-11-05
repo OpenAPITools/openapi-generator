@@ -121,49 +121,49 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of DirectMap
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, bool>?> DirectMapOption { get; private set; } // option d
+        public Option<Dictionary<string, bool>?> DirectMapOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool>? DirectMap { get { return this. DirectMapOption; } set { this.DirectMapOption = new(value); } } // d
+        public Dictionary<string, bool>? DirectMap { get { return this. DirectMapOption; } set { this.DirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IndirectMap
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, bool>?> IndirectMapOption { get; private set; } // option d
+        public Option<Dictionary<string, bool>?> IndirectMapOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool>? IndirectMap { get { return this. IndirectMapOption; } set { this.IndirectMapOption = new(value); } } // d
+        public Dictionary<string, bool>? IndirectMap { get { return this. IndirectMapOption; } set { this.IndirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapMapOfString
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Dictionary<string, string>>?> MapMapOfStringOption { get; private set; } // option d
+        public Option<Dictionary<string, Dictionary<string, string>>?> MapMapOfStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get { return this. MapMapOfStringOption; } set { this.MapMapOfStringOption = new(value); } } // d
+        public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get { return this. MapMapOfStringOption; } set { this.MapMapOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfEnumString
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, MapTest.InnerEnum>?> MapOfEnumStringOption { get; private set; } // option d
+        public Option<Dictionary<string, MapTest.InnerEnum>?> MapOfEnumStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum>? MapOfEnumString { get { return this. MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new(value); } } // d
+        public Dictionary<string, MapTest.InnerEnum>? MapOfEnumString { get { return this. MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -275,7 +275,7 @@ namespace UseSourceGeneration.Model
             if (mapOfEnumString.IsSet && mapOfEnumString.Value == null)
                 throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
 
-            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString); // a
+            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
 
         /// <summary>
@@ -314,16 +314,16 @@ namespace UseSourceGeneration.Model
             if (mapTest.MapOfEnumStringOption.IsSet && mapTest.MapOfEnumString == null)
                 throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
 
-            if (mapTest.DirectMapOption.IsSet) // 14
+            if (mapTest.DirectMapOption.IsSet)
                 writer.WritePropertyName("direct_map");
                 JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
-            if (mapTest.IndirectMapOption.IsSet) // 14
+            if (mapTest.IndirectMapOption.IsSet)
                 writer.WritePropertyName("indirect_map");
                 JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
-            if (mapTest.MapMapOfStringOption.IsSet) // 14
+            if (mapTest.MapMapOfStringOption.IsSet)
                 writer.WritePropertyName("map_map_of_string");
                 JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
-            if (mapTest.MapOfEnumStringOption.IsSet) // 14
+            if (mapTest.MapOfEnumStringOption.IsSet)
                 writer.WritePropertyName("map_of_enum_string");
                 JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }

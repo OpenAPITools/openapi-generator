@@ -48,19 +48,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; } // d
+        public string Name { get; set; }
 
         /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        public Option<long?> IdOption { get; private set; } // option d
+        public Option<long?> IdOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } } // d
+        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
 
-            return new Category(name.Value, id); // a
+            return new Category(name.Value, id);
         }
 
         /// <summary>
@@ -186,10 +186,10 @@ namespace Org.OpenAPITools.Model
             if (category.Name == null)
                 throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
 
-            writer.WriteString("name", category.Name); // 1
+            writer.WriteString("name", category.Name);
 
             if (category.IdOption.IsSet)
-                writer.WriteNumber("id", category.IdOption.Value.Value); // 3
+                writer.WriteNumber("id", category.IdOption.Value.Value);
         }
     }
 }

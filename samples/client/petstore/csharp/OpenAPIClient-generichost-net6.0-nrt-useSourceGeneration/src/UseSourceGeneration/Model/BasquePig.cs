@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -136,7 +136,7 @@ namespace UseSourceGeneration.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
 
-            return new BasquePig(className.Value!); // a
+            return new BasquePig(className.Value!);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace UseSourceGeneration.Model
             if (basquePig.ClassName == null)
                 throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
 
-            writer.WriteString("className", basquePig.ClassName); // 1
+            writer.WriteString("className", basquePig.ClassName);
         }
     }
 

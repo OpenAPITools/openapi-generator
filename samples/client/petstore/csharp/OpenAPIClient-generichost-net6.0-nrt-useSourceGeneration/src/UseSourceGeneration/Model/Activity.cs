@@ -49,13 +49,13 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ActivityOutputs
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> ActivityOutputsOption { get; private set; } // option d
+        public Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> ActivityOutputsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>>? ActivityOutputs { get { return this. ActivityOutputsOption; } set { this.ActivityOutputsOption = new(value); } } // d
+        public Dictionary<string, List<ActivityOutputElementRepresentation>>? ActivityOutputs { get { return this. ActivityOutputsOption; } set { this.ActivityOutputsOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -140,7 +140,7 @@ namespace UseSourceGeneration.Model
             if (activityOutputs.IsSet && activityOutputs.Value == null)
                 throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
 
-            return new Activity(activityOutputs); // a
+            return new Activity(activityOutputs);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace UseSourceGeneration.Model
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
                 throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
 
-            if (activity.ActivityOutputsOption.IsSet) // 14
+            if (activity.ActivityOutputsOption.IsSet)
                 writer.WritePropertyName("activity_outputs");
                 JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
         }

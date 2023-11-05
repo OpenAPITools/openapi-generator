@@ -50,25 +50,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of File
         /// </summary>
         [JsonIgnore]
-        public Option<File?> FileOption { get; private set; } // option d
+        public Option<File?> FileOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public File? File { get { return this. FileOption; } set { this.FileOption = new(value); } } // d
+        public File? File { get { return this. FileOption; } set { this.FileOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Files
         /// </summary>
         [JsonIgnore]
-        public Option<List<File>?> FilesOption { get; private set; } // option d
+        public Option<List<File>?> FilesOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public List<File>? Files { get { return this. FilesOption; } set { this.FilesOption = new(value); } } // d
+        public List<File>? Files { get { return this. FilesOption; } set { this.FilesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
             if (files.IsSet && files.Value == null)
                 throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
 
-            return new FileSchemaTestClass(file, files); // a
+            return new FileSchemaTestClass(file, files);
         }
 
         /// <summary>
@@ -195,10 +195,10 @@ namespace Org.OpenAPITools.Model
             if (fileSchemaTestClass.FilesOption.IsSet && fileSchemaTestClass.Files == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
 
-            if (fileSchemaTestClass.FileOption.IsSet) // 14
+            if (fileSchemaTestClass.FileOption.IsSet)
                 writer.WritePropertyName("file");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
-            if (fileSchemaTestClass.FilesOption.IsSet) // 14
+            if (fileSchemaTestClass.FilesOption.IsSet)
                 writer.WritePropertyName("files");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }

@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarString
         /// </summary>
         [JsonIgnore]
-        public Option<Foo> VarStringOption { get; private set; } // option d
+        public Option<Foo> VarStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo VarString { get { return this. VarStringOption; } set { this.VarStringOption = new Option<Foo>(value); } } // d
+        public Foo VarString { get { return this. VarStringOption; } set { this.VarStringOption = new Option<Foo>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
             if (varString.IsSet && varString.Value == null)
                 throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
 
-            return new FooGetDefaultResponse(varString); // a
+            return new FooGetDefaultResponse(varString);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
             if (fooGetDefaultResponse.VarStringOption.IsSet && fooGetDefaultResponse.VarString == null)
                 throw new ArgumentNullException(nameof(fooGetDefaultResponse.VarString), "Property is required for class FooGetDefaultResponse.");
 
-            if (fooGetDefaultResponse.VarStringOption.IsSet) // 14
+            if (fooGetDefaultResponse.VarStringOption.IsSet)
                 writer.WritePropertyName("string");
                 JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
         }

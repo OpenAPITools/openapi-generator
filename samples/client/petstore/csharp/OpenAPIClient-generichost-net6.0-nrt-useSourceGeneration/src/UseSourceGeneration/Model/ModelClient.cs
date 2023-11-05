@@ -49,13 +49,13 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of VarClient
         /// </summary>
         [JsonIgnore]
-        public Option<string?> VarClientOption { get; private set; } // option d
+        public Option<string?> VarClientOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string? VarClient { get { return this. VarClientOption; } set { this.VarClientOption = new(value); } } // d
+        public string? VarClient { get { return this. VarClientOption; } set { this.VarClientOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,7 +139,7 @@ namespace UseSourceGeneration.Model
             if (varClient.IsSet && varClient.Value == null)
                 throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
 
-            return new ModelClient(varClient); // a
+            return new ModelClient(varClient);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
 
             if (modelClient.VarClientOption.IsSet)
-                writer.WriteString("client", modelClient.VarClient); // 1
+                writer.WriteString("client", modelClient.VarClient);
         }
     }
 

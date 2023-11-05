@@ -50,25 +50,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Role
         /// </summary>
         [JsonIgnore]
-        public Option<RolesReportsHashRole?> RoleOption { get; private set; } // option d
+        public Option<RolesReportsHashRole?> RoleOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole? Role { get { return this. RoleOption; } set { this.RoleOption = new(value); } } // d
+        public RolesReportsHashRole? Role { get { return this. RoleOption; } set { this.RoleOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of RoleUuid
         /// </summary>
         [JsonIgnore]
-        public Option<Guid?> RoleUuidOption { get; private set; } // option d
+        public Option<Guid?> RoleUuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid? RoleUuid { get { return this. RoleUuidOption; } set { this.RoleUuidOption = new(value); } } // d
+        public Guid? RoleUuid { get { return this. RoleUuidOption; } set { this.RoleUuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
             if (roleUuid.IsSet && roleUuid.Value == null)
                 throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
 
-            return new RolesReportsHash(role, roleUuid); // a
+            return new RolesReportsHash(role, roleUuid);
         }
 
         /// <summary>
@@ -192,11 +192,11 @@ namespace Org.OpenAPITools.Model
             if (rolesReportsHash.RoleOption.IsSet && rolesReportsHash.Role == null)
                 throw new ArgumentNullException(nameof(rolesReportsHash.Role), "Property is required for class RolesReportsHash.");
 
-            if (rolesReportsHash.RoleOption.IsSet) // 14
+            if (rolesReportsHash.RoleOption.IsSet)
                 writer.WritePropertyName("role");
                 JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
             if (rolesReportsHash.RoleUuidOption.IsSet)
-                writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value); // 11
+                writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value);
         }
     }
 }

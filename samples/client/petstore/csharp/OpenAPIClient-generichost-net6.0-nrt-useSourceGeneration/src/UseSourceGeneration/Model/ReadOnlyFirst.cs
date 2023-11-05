@@ -51,25 +51,25 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Bar
         /// </summary>
         [JsonIgnore]
-        public Option<string?> BarOption { get; } // option d
+        public Option<string?> BarOption { get; }
 
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } } // d
+        public string? Bar { get { return this. BarOption; } }
 
         /// <summary>
         /// Used to track the state of Baz
         /// </summary>
         [JsonIgnore]
-        public Option<string?> BazOption { get; private set; } // option d
+        public Option<string?> BazOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string? Baz { get { return this. BazOption; } set { this.BazOption = new(value); } } // d
+        public string? Baz { get { return this. BazOption; } set { this.BazOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -199,7 +199,7 @@ namespace UseSourceGeneration.Model
             if (baz.IsSet && baz.Value == null)
                 throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
 
-            return new ReadOnlyFirst(bar, baz); // a
+            return new ReadOnlyFirst(bar, baz);
         }
 
         /// <summary>
@@ -233,10 +233,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
 
             if (readOnlyFirst.BarOption.IsSet)
-                writer.WriteString("bar", readOnlyFirst.Bar); // 1
+                writer.WriteString("bar", readOnlyFirst.Bar);
 
             if (readOnlyFirst.BazOption.IsSet)
-                writer.WriteString("baz", readOnlyFirst.Baz); // 1
+                writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
 

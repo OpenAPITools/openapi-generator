@@ -71,13 +71,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ColorOption { get; private set; } // option d
+        public Option<string?> ColorOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } } // d
+        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -184,10 +184,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
 
             if (apple != null)
-                return new Fruit(apple, color); // b
+                return new Fruit(apple, color);
 
             if (banana != null)
-                return new Fruit(banana, color); // b
+                return new Fruit(banana, color);
 
             throw new JsonException();
         }
@@ -220,7 +220,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
 
             if (fruit.ColorOption.IsSet)
-                writer.WriteString("color", fruit.Color); // 1
+                writer.WriteString("color", fruit.Color);
         }
     }
 }

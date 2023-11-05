@@ -51,19 +51,19 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ColorOption { get; private set; } // option d
+        public Option<string?> ColorOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } } // d
+        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -168,7 +168,7 @@ namespace UseSourceGeneration.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
 
-            return new Animal(className.Value!, color); // a
+            return new Animal(className.Value!, color);
         }
 
         /// <summary>
@@ -201,10 +201,10 @@ namespace UseSourceGeneration.Model
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
 
-            writer.WriteString("className", animal.ClassName); // 1
+            writer.WriteString("className", animal.ClassName);
 
             if (animal.ColorOption.IsSet)
-                writer.WriteString("color", animal.Color); // 1
+                writer.WriteString("color", animal.Color);
         }
     }
 

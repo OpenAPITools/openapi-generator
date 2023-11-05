@@ -51,25 +51,25 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of VarSpecialModelName
         /// </summary>
         [JsonIgnore]
-        public Option<string?> VarSpecialModelNameOption { get; private set; } // option d
+        public Option<string?> VarSpecialModelNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string? VarSpecialModelName { get { return this. VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } } // d
+        public string? VarSpecialModelName { get { return this. VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SpecialPropertyName
         /// </summary>
         [JsonIgnore]
-        public Option<long?> SpecialPropertyNameOption { get; private set; } // option d
+        public Option<long?> SpecialPropertyNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long? SpecialPropertyName { get { return this. SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } } // d
+        public long? SpecialPropertyName { get { return this. SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -162,7 +162,7 @@ namespace UseSourceGeneration.Model
             if (specialPropertyName.IsSet && specialPropertyName.Value == null)
                 throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
 
-            return new SpecialModelName(varSpecialModelName, specialPropertyName); // a
+            return new SpecialModelName(varSpecialModelName, specialPropertyName);
         }
 
         /// <summary>
@@ -193,10 +193,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
 
             if (specialModelName.VarSpecialModelNameOption.IsSet)
-                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName); // 1
+                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
 
             if (specialModelName.SpecialPropertyNameOption.IsSet)
-                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value); // 3
+                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value);
         }
     }
 

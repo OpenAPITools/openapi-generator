@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Bar
         /// </summary>
         [JsonIgnore]
-        public Option<string> BarOption { get; private set; } // option d
+        public Option<string> BarOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get { return this. BarOption; } set { this.BarOption = new(value); } } // d
+        public string Bar { get { return this. BarOption; } set { this.BarOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
             if (bar.IsSet && bar.Value == null)
                 throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
 
-            return new Foo(bar); // a
+            return new Foo(bar);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
 
             if (foo.BarOption.IsSet)
-                writer.WriteString("bar", foo.Bar); // 1
+                writer.WriteString("bar", foo.Bar);
         }
     }
 }

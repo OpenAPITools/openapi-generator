@@ -52,31 +52,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of HasBaleen
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> HasBaleenOption { get; private set; } // option d
+        public Option<bool?> HasBaleenOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
         [JsonPropertyName("hasBaleen")]
-        public bool? HasBaleen { get { return this. HasBaleenOption; } set { this.HasBaleenOption = new(value); } } // d
+        public bool? HasBaleen { get { return this. HasBaleenOption; } set { this.HasBaleenOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of HasTeeth
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> HasTeethOption { get; private set; } // option d
+        public Option<bool?> HasTeethOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
         [JsonPropertyName("hasTeeth")]
-        public bool? HasTeeth { get { return this. HasTeethOption; } set { this.HasTeethOption = new(value); } } // d
+        public bool? HasTeeth { get { return this. HasTeethOption; } set { this.HasTeethOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Model
             if (hasTeeth.IsSet && hasTeeth.Value == null)
                 throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
 
-            return new Whale(className.Value!, hasBaleen, hasTeeth); // a
+            return new Whale(className.Value!, hasBaleen, hasTeeth);
         }
 
         /// <summary>
@@ -211,13 +211,13 @@ namespace Org.OpenAPITools.Model
             if (whale.ClassName == null)
                 throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
 
-            writer.WriteString("className", whale.ClassName); // 1
+            writer.WriteString("className", whale.ClassName);
 
             if (whale.HasBaleenOption.IsSet)
-                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value); // 2
+                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);
 
             if (whale.HasTeethOption.IsSet)
-                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value); // 2
+                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value);
         }
     }
 }

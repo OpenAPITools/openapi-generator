@@ -49,14 +49,14 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of SourceURI
         /// </summary>
         [JsonIgnore]
-        public Option<string?> SourceURIOption { get; private set; } // option d
+        public Option<string?> SourceURIOption { get; private set; }
 
         /// <summary>
         /// Test capitalization
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string? SourceURI { get { return this. SourceURIOption; } set { this.SourceURIOption = new(value); } } // d
+        public string? SourceURI { get { return this. SourceURIOption; } set { this.SourceURIOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -140,7 +140,7 @@ namespace UseSourceGeneration.Model
             if (sourceURI.IsSet && sourceURI.Value == null)
                 throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
 
-            return new File(sourceURI); // a
+            return new File(sourceURI);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
 
             if (file.SourceURIOption.IsSet)
-                writer.WriteString("sourceURI", file.SourceURI); // 1
+                writer.WriteString("sourceURI", file.SourceURI);
         }
     }
 

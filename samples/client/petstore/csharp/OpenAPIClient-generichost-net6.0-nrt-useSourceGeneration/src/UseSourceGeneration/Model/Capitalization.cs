@@ -59,74 +59,74 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ATT_NAME
         /// </summary>
         [JsonIgnore]
-        public Option<string?> ATT_NAMEOption { get; private set; } // option d
+        public Option<string?> ATT_NAMEOption { get; private set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string? ATT_NAME { get { return this. ATT_NAMEOption; } set { this.ATT_NAMEOption = new(value); } } // d
+        public string? ATT_NAME { get { return this. ATT_NAMEOption; } set { this.ATT_NAMEOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of CapitalCamel
         /// </summary>
         [JsonIgnore]
-        public Option<string?> CapitalCamelOption { get; private set; } // option d
+        public Option<string?> CapitalCamelOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string? CapitalCamel { get { return this. CapitalCamelOption; } set { this.CapitalCamelOption = new(value); } } // d
+        public string? CapitalCamel { get { return this. CapitalCamelOption; } set { this.CapitalCamelOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of CapitalSnake
         /// </summary>
         [JsonIgnore]
-        public Option<string?> CapitalSnakeOption { get; private set; } // option d
+        public Option<string?> CapitalSnakeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string? CapitalSnake { get { return this. CapitalSnakeOption; } set { this.CapitalSnakeOption = new(value); } } // d
+        public string? CapitalSnake { get { return this. CapitalSnakeOption; } set { this.CapitalSnakeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SCAETHFlowPoints
         /// </summary>
         [JsonIgnore]
-        public Option<string?> SCAETHFlowPointsOption { get; private set; } // option d
+        public Option<string?> SCAETHFlowPointsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string? SCAETHFlowPoints { get { return this. SCAETHFlowPointsOption; } set { this.SCAETHFlowPointsOption = new(value); } } // d
+        public string? SCAETHFlowPoints { get { return this. SCAETHFlowPointsOption; } set { this.SCAETHFlowPointsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SmallCamel
         /// </summary>
         [JsonIgnore]
-        public Option<string?> SmallCamelOption { get; private set; } // option d
+        public Option<string?> SmallCamelOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string? SmallCamel { get { return this. SmallCamelOption; } set { this.SmallCamelOption = new(value); } } // d
+        public string? SmallCamel { get { return this. SmallCamelOption; } set { this.SmallCamelOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SmallSnake
         /// </summary>
         [JsonIgnore]
-        public Option<string?> SmallSnakeOption { get; private set; } // option d
+        public Option<string?> SmallSnakeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string? SmallSnake { get { return this. SmallSnakeOption; } set { this.SmallSnakeOption = new(value); } } // d
+        public string? SmallSnake { get { return this. SmallSnakeOption; } set { this.SmallSnakeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -250,7 +250,7 @@ namespace UseSourceGeneration.Model
             if (smallSnake.IsSet && smallSnake.Value == null)
                 throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
 
-            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake); // a
+            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
 
         /// <summary>
@@ -296,22 +296,22 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
 
             if (capitalization.ATT_NAMEOption.IsSet)
-                writer.WriteString("ATT_NAME", capitalization.ATT_NAME); // 1
+                writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
 
             if (capitalization.CapitalCamelOption.IsSet)
-                writer.WriteString("CapitalCamel", capitalization.CapitalCamel); // 1
+                writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
 
             if (capitalization.CapitalSnakeOption.IsSet)
-                writer.WriteString("Capital_Snake", capitalization.CapitalSnake); // 1
+                writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
 
             if (capitalization.SCAETHFlowPointsOption.IsSet)
-                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints); // 1
+                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
 
             if (capitalization.SmallCamelOption.IsSet)
-                writer.WriteString("smallCamel", capitalization.SmallCamel); // 1
+                writer.WriteString("smallCamel", capitalization.SmallCamel);
 
             if (capitalization.SmallSnakeOption.IsSet)
-                writer.WriteString("small_Snake", capitalization.SmallSnake); // 1
+                writer.WriteString("small_Snake", capitalization.SmallSnake);
         }
     }
 

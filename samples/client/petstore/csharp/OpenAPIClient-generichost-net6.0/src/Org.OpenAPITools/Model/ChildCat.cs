@@ -100,25 +100,25 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PetType
         /// </summary>
         [JsonIgnore]
-        public new Option<PetTypeEnum?> PetTypeOption { get; private set; } // option a
+        public new Option<PetTypeEnum?> PetTypeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public new PetTypeEnum? PetType { get { return this.PetTypeOption; } set { this.PetTypeOption = new(value); } } // a
+        public new PetTypeEnum? PetType { get { return this.PetTypeOption; } set { this.PetTypeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        public Option<string> NameOption { get; private set; } // option d
+        public Option<string> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this. NameOption; } set { this.NameOption = new(value); } } // d
+        public string Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
-            return new ChildCat(name, petType); // a
+            return new ChildCat(name, petType);
         }
 
         /// <summary>
@@ -227,9 +227,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
 
             if (childCat.NameOption.IsSet)
-                writer.WriteString("name", childCat.Name); // 1
+                writer.WriteString("name", childCat.Name);
 
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetTypeOption.Value.Value); // 7
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetTypeOption.Value.Value);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
             else

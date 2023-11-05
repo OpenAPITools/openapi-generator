@@ -53,37 +53,37 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of MyBoolean
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> MyBooleanOption { get; private set; } // option d
+        public Option<bool?> MyBooleanOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [JsonPropertyName("my_boolean")]
-        public bool? MyBoolean { get { return this. MyBooleanOption; } set { this.MyBooleanOption = new(value); } } // d
+        public bool? MyBoolean { get { return this. MyBooleanOption; } set { this.MyBooleanOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MyNumber
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> MyNumberOption { get; private set; } // option d
+        public Option<decimal?> MyNumberOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MyNumber
         /// </summary>
         [JsonPropertyName("my_number")]
-        public decimal? MyNumber { get { return this. MyNumberOption; } set { this.MyNumberOption = new(value); } } // d
+        public decimal? MyNumber { get { return this. MyNumberOption; } set { this.MyNumberOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MyString
         /// </summary>
         [JsonIgnore]
-        public Option<string?> MyStringOption { get; private set; } // option d
+        public Option<string?> MyStringOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [JsonPropertyName("my_string")]
-        public string? MyString { get { return this. MyStringOption; } set { this.MyStringOption = new(value); } } // d
+        public string? MyString { get { return this. MyStringOption; } set { this.MyStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -185,7 +185,7 @@ namespace UseSourceGeneration.Model
             if (myString.IsSet && myString.Value == null)
                 throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
 
-            return new OuterComposite(myBoolean, myNumber, myString); // a
+            return new OuterComposite(myBoolean, myNumber, myString);
         }
 
         /// <summary>
@@ -216,13 +216,13 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
 
             if (outerComposite.MyBooleanOption.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value); // 2
+                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
 
             if (outerComposite.MyNumberOption.IsSet)
-                writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value); // 3
+                writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
 
             if (outerComposite.MyStringOption.IsSet)
-                writer.WriteString("my_string", outerComposite.MyString); // 1
+                writer.WriteString("my_string", outerComposite.MyString);
         }
     }
 

@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -136,7 +136,7 @@ namespace UseSourceGeneration.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class DanishPig.");
 
-            return new DanishPig(className.Value!); // a
+            return new DanishPig(className.Value!);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace UseSourceGeneration.Model
             if (danishPig.ClassName == null)
                 throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
 
-            writer.WriteString("className", danishPig.ClassName); // 1
+            writer.WriteString("className", danishPig.ClassName);
         }
     }
 

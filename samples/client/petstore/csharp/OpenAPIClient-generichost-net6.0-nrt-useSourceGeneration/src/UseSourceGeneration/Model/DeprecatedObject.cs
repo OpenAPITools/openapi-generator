@@ -49,13 +49,13 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        public Option<string?> NameOption { get; private set; } // option d
+        public Option<string?> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } } // d
+        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -139,7 +139,7 @@ namespace UseSourceGeneration.Model
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class DeprecatedObject.");
 
-            return new DeprecatedObject(name); // a
+            return new DeprecatedObject(name);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
 
             if (deprecatedObject.NameOption.IsSet)
-                writer.WriteString("name", deprecatedObject.Name); // 1
+                writer.WriteString("name", deprecatedObject.Name);
         }
     }
 

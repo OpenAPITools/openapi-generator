@@ -51,13 +51,13 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets AObjVariableobject
         /// </summary>
         [JsonPropertyName("a_objVariableobject")]
-        public List<Dictionary<string, Object>> AObjVariableobject { get; set; } // d
+        public List<Dictionary<string, Object>> AObjVariableobject { get; set; }
 
         /// <summary>
         /// Gets or Sets PkiNotificationtestID
         /// </summary>
         [JsonPropertyName("pkiNotificationtestID")]
-        public int PkiNotificationtestID { get; set; } // d
+        public int PkiNotificationtestID { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -157,7 +157,7 @@ namespace UseSourceGeneration.Model
             if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
                 throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
 
-            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!); // a
+            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!);
         }
 
         /// <summary>
@@ -188,8 +188,8 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
 
             writer.WritePropertyName("a_objVariableobject");
-            JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions); // 13
-            writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID); // 3
+            JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
+            writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);
         }
     }
 

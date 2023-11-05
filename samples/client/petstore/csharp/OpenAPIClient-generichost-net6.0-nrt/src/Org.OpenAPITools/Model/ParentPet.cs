@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
 
-            return new ParentPet(petType.Value!); // a
+            return new ParentPet(petType.Value!);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Org.OpenAPITools.Model
             if (parentPet.PetType == null)
                 throw new ArgumentNullException(nameof(parentPet.PetType), "Property is required for class ParentPet.");
 
-            writer.WriteString("pet_type", parentPet.PetType); // 1
+            writer.WriteString("pet_type", parentPet.PetType);
         }
     }
 }

@@ -198,16 +198,16 @@ namespace UseSourceGeneration.Model
             }
 
             if (varBool != null)
-                return new PolymorphicProperty(varBool); // b
+                return new PolymorphicProperty(varBool);
 
             if (varString != null)
-                return new PolymorphicProperty(varString); // b
+                return new PolymorphicProperty(varString);
 
             if (varObject != null)
-                return new PolymorphicProperty(varObject); // b
+                return new PolymorphicProperty(varObject);
 
             if (list != null)
-                return new PolymorphicProperty(list); // b
+                return new PolymorphicProperty(list);
 
             throw new JsonException();
         }

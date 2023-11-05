@@ -68,145 +68,145 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayItemsNullable
         /// </summary>
         [JsonIgnore]
-        public Option<List<Object>> ArrayItemsNullableOption { get; private set; } // option d
+        public Option<List<Object>> ArrayItemsNullableOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
-        public List<Object> ArrayItemsNullable { get { return this. ArrayItemsNullableOption; } set { this.ArrayItemsNullableOption = new Option<List<Object>>(value); } } // d
+        public List<Object> ArrayItemsNullable { get { return this. ArrayItemsNullableOption; } set { this.ArrayItemsNullableOption = new Option<List<Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectItemsNullable
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Object>> ObjectItemsNullableOption { get; private set; } // option d
+        public Option<Dictionary<string, Object>> ObjectItemsNullableOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object> ObjectItemsNullable { get { return this. ObjectItemsNullableOption; } set { this.ObjectItemsNullableOption = new Option<Dictionary<string, Object>>(value); } } // d
+        public Dictionary<string, Object> ObjectItemsNullable { get { return this. ObjectItemsNullableOption; } set { this.ObjectItemsNullableOption = new Option<Dictionary<string, Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
-        public Option<List<Object>> ArrayAndItemsNullablePropOption { get; private set; } // option d
+        public Option<List<Object>> ArrayAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("array_and_items_nullable_prop")]
-        public List<Object> ArrayAndItemsNullableProp { get { return this. ArrayAndItemsNullablePropOption; } set { this.ArrayAndItemsNullablePropOption = new Option<List<Object>>(value); } } // d
+        public List<Object> ArrayAndItemsNullableProp { get { return this. ArrayAndItemsNullablePropOption; } set { this.ArrayAndItemsNullablePropOption = new Option<List<Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayNullableProp
         /// </summary>
         [JsonIgnore]
-        public Option<List<Object>> ArrayNullablePropOption { get; private set; } // option d
+        public Option<List<Object>> ArrayNullablePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [JsonPropertyName("array_nullable_prop")]
-        public List<Object> ArrayNullableProp { get { return this. ArrayNullablePropOption; } set { this.ArrayNullablePropOption = new Option<List<Object>>(value); } } // d
+        public List<Object> ArrayNullableProp { get { return this. ArrayNullablePropOption; } set { this.ArrayNullablePropOption = new Option<List<Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of BooleanProp
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> BooleanPropOption { get; private set; } // option d
+        public Option<bool?> BooleanPropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [JsonPropertyName("boolean_prop")]
-        public bool? BooleanProp { get { return this. BooleanPropOption; } set { this.BooleanPropOption = new Option<bool?>(value); } } // d
+        public bool? BooleanProp { get { return this. BooleanPropOption; } set { this.BooleanPropOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of DateProp
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> DatePropOption { get; private set; } // option d
+        public Option<DateTime?> DatePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
-        public DateTime? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new Option<DateTime?>(value); } } // d
+        public DateTime? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of DatetimeProp
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> DatetimePropOption { get; private set; } // option d
+        public Option<DateTime?> DatetimePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [JsonPropertyName("datetime_prop")]
-        public DateTime? DatetimeProp { get { return this. DatetimePropOption; } set { this.DatetimePropOption = new Option<DateTime?>(value); } } // d
+        public DateTime? DatetimeProp { get { return this. DatetimePropOption; } set { this.DatetimePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of IntegerProp
         /// </summary>
         [JsonIgnore]
-        public Option<int?> IntegerPropOption { get; private set; } // option d
+        public Option<int?> IntegerPropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets IntegerProp
         /// </summary>
         [JsonPropertyName("integer_prop")]
-        public int? IntegerProp { get { return this. IntegerPropOption; } set { this.IntegerPropOption = new Option<int?>(value); } } // d
+        public int? IntegerProp { get { return this. IntegerPropOption; } set { this.IntegerPropOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of NumberProp
         /// </summary>
         [JsonIgnore]
-        public Option<decimal?> NumberPropOption { get; private set; } // option d
+        public Option<decimal?> NumberPropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [JsonPropertyName("number_prop")]
-        public decimal? NumberProp { get { return this. NumberPropOption; } set { this.NumberPropOption = new Option<decimal?>(value); } } // d
+        public decimal? NumberProp { get { return this. NumberPropOption; } set { this.NumberPropOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Object>> ObjectAndItemsNullablePropOption { get; private set; } // option d
+        public Option<Dictionary<string, Object>> ObjectAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("object_and_items_nullable_prop")]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get { return this. ObjectAndItemsNullablePropOption; } set { this.ObjectAndItemsNullablePropOption = new Option<Dictionary<string, Object>>(value); } } // d
+        public Dictionary<string, Object> ObjectAndItemsNullableProp { get { return this. ObjectAndItemsNullablePropOption; } set { this.ObjectAndItemsNullablePropOption = new Option<Dictionary<string, Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectNullableProp
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Object>> ObjectNullablePropOption { get; private set; } // option d
+        public Option<Dictionary<string, Object>> ObjectNullablePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [JsonPropertyName("object_nullable_prop")]
-        public Dictionary<string, Object> ObjectNullableProp { get { return this. ObjectNullablePropOption; } set { this.ObjectNullablePropOption = new Option<Dictionary<string, Object>>(value); } } // d
+        public Dictionary<string, Object> ObjectNullableProp { get { return this. ObjectNullablePropOption; } set { this.ObjectNullablePropOption = new Option<Dictionary<string, Object>>(value); } }
 
         /// <summary>
         /// Used to track the state of StringProp
         /// </summary>
         [JsonIgnore]
-        public Option<string> StringPropOption { get; private set; } // option d
+        public Option<string> StringPropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [JsonPropertyName("string_prop")]
-        public string StringProp { get { return this. StringPropOption; } set { this.StringPropOption = new Option<string>(value); } } // d
+        public string StringProp { get { return this. StringPropOption; } set { this.StringPropOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -380,7 +380,7 @@ namespace Org.OpenAPITools.Model
             if (objectItemsNullable.IsSet && objectItemsNullable.Value == null)
                 throw new ArgumentNullException(nameof(objectItemsNullable), "Property is not nullable for class NullableClass.");
 
-            return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp); // a
+            return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
         }
 
         /// <summary>
@@ -413,13 +413,13 @@ namespace Org.OpenAPITools.Model
             if (nullableClass.ObjectItemsNullableOption.IsSet && nullableClass.ObjectItemsNullable == null)
                 throw new ArgumentNullException(nameof(nullableClass.ObjectItemsNullable), "Property is required for class NullableClass.");
 
-            if (nullableClass.ArrayItemsNullableOption.IsSet) // 14
+            if (nullableClass.ArrayItemsNullableOption.IsSet)
                 writer.WritePropertyName("array_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
-            if (nullableClass.ObjectItemsNullableOption.IsSet) // 14
+            if (nullableClass.ObjectItemsNullableOption.IsSet)
                 writer.WritePropertyName("object_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
-            if (nullableClass.ArrayAndItemsNullablePropOption.IsSet) // 14
+            if (nullableClass.ArrayAndItemsNullablePropOption.IsSet)
                 if (nullableClass.ArrayAndItemsNullablePropOption.Value != null)
                 {
                     writer.WritePropertyName("array_and_items_nullable_prop");
@@ -427,7 +427,7 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("array_and_items_nullable_prop");
-            if (nullableClass.ArrayNullablePropOption.IsSet) // 14
+            if (nullableClass.ArrayNullablePropOption.IsSet)
                 if (nullableClass.ArrayNullablePropOption.Value != null)
                 {
                     writer.WritePropertyName("array_nullable_prop");
@@ -437,35 +437,35 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("array_nullable_prop");
             if (nullableClass.BooleanPropOption.IsSet)
                 if (nullableClass.BooleanPropOption.Value != null)
-                    writer.WriteBoolean("boolean_prop", nullableClass.BooleanPropOption.Value.Value); // 2
+                    writer.WriteBoolean("boolean_prop", nullableClass.BooleanPropOption.Value.Value);
                 else
                     writer.WriteNull("boolean_prop");
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value.Value.ToString(DatePropFormat)); // 4
+                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value.Value.ToString(DatePropFormat));
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value.Value.ToString(DatetimePropFormat)); // 5
+                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value.Value.ToString(DatetimePropFormat));
                 else
                     writer.WriteNull("datetime_prop");
 
             if (nullableClass.IntegerPropOption.IsSet)
                 if (nullableClass.IntegerPropOption.Value != null)
-                    writer.WriteNumber("integer_prop", nullableClass.IntegerPropOption.Value.Value); // 3
+                    writer.WriteNumber("integer_prop", nullableClass.IntegerPropOption.Value.Value);
                 else
                     writer.WriteNull("integer_prop");
 
             if (nullableClass.NumberPropOption.IsSet)
                 if (nullableClass.NumberPropOption.Value != null)
-                    writer.WriteNumber("number_prop", nullableClass.NumberPropOption.Value.Value); // 3
+                    writer.WriteNumber("number_prop", nullableClass.NumberPropOption.Value.Value);
                 else
                     writer.WriteNull("number_prop");
 
-            if (nullableClass.ObjectAndItemsNullablePropOption.IsSet) // 14
+            if (nullableClass.ObjectAndItemsNullablePropOption.IsSet)
                 if (nullableClass.ObjectAndItemsNullablePropOption.Value != null)
                 {
                     writer.WritePropertyName("object_and_items_nullable_prop");
@@ -473,7 +473,7 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("object_and_items_nullable_prop");
-            if (nullableClass.ObjectNullablePropOption.IsSet) // 14
+            if (nullableClass.ObjectNullablePropOption.IsSet)
                 if (nullableClass.ObjectNullablePropOption.Value != null)
                 {
                     writer.WritePropertyName("object_nullable_prop");
@@ -483,7 +483,7 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("object_nullable_prop");
             if (nullableClass.StringPropOption.IsSet)
                 if (nullableClass.StringPropOption.Value != null)
-                    writer.WriteString("string_prop", nullableClass.StringProp); // 1
+                    writer.WriteString("string_prop", nullableClass.StringProp);
                 else
                     writer.WriteNull("string_prop");
         }

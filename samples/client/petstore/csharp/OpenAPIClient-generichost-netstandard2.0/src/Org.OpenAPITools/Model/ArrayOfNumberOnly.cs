@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayNumber
         /// </summary>
         [JsonIgnore]
-        public Option<List<decimal>> ArrayNumberOption { get; private set; } // option d
+        public Option<List<decimal>> ArrayNumberOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayNumber")]
-        public List<decimal> ArrayNumber { get { return this. ArrayNumberOption; } set { this.ArrayNumberOption = new Option<List<decimal>>(value); } } // d
+        public List<decimal> ArrayNumber { get { return this. ArrayNumberOption; } set { this.ArrayNumberOption = new Option<List<decimal>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
             if (arrayNumber.IsSet && arrayNumber.Value == null)
                 throw new ArgumentNullException(nameof(arrayNumber), "Property is not nullable for class ArrayOfNumberOnly.");
 
-            return new ArrayOfNumberOnly(arrayNumber); // a
+            return new ArrayOfNumberOnly(arrayNumber);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet && arrayOfNumberOnly.ArrayNumber == null)
                 throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
 
-            if (arrayOfNumberOnly.ArrayNumberOption.IsSet) // 14
+            if (arrayOfNumberOnly.ArrayNumberOption.IsSet)
                 writer.WritePropertyName("ArrayNumber");
                 JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);
         }

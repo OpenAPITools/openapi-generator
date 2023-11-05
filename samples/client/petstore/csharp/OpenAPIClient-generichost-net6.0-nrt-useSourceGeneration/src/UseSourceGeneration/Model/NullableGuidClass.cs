@@ -49,14 +49,14 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        public Option<Guid?> UuidOption { get; private set; } // option d
+        public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } } // d
+        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -138,7 +138,7 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            return new NullableGuidClass(uuid); // a
+            return new NullableGuidClass(uuid);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace UseSourceGeneration.Model
         {
             if (nullableGuidClass.UuidOption.IsSet)
                 if (nullableGuidClass.UuidOption.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value); // 11
+                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value);
                 else
                     writer.WriteNull("uuid");
         }

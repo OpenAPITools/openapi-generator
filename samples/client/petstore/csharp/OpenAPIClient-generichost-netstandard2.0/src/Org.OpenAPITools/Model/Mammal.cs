@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; } // d
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -223,13 +223,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
 
             if (pig != null)
-                return new Mammal(pig, className.Value); // c
+                return new Mammal(pig, className.Value);
 
             if (whale != null)
-                return new Mammal(whale, className.Value); // c
+                return new Mammal(whale, className.Value);
 
             if (zebra != null)
-                return new Mammal(zebra, className.Value); // c
+                return new Mammal(zebra, className.Value);
 
             throw new JsonException();
         }
@@ -276,7 +276,7 @@ namespace Org.OpenAPITools.Model
             if (mammal.ClassName == null)
                 throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
 
-            writer.WriteString("className", mammal.ClassName); // 1
+            writer.WriteString("className", mammal.ClassName);
         }
     }
 }

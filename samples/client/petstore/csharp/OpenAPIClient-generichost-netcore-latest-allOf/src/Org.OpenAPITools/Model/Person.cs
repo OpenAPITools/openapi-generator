@@ -52,37 +52,37 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of FirstName
         /// </summary>
         [JsonIgnore]
-        public Option<string?> FirstNameOption { get; private set; } // option d
+        public Option<string?> FirstNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string? FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } } // d
+        public string? FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
         /// </summary>
         [JsonIgnore]
-        public Option<string?> LastNameOption { get; private set; } // option d
+        public Option<string?> LastNameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string? LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } } // d
+        public string? LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        public Option<string?> TypeOption { get; private set; } // option d
+        public Option<string?> TypeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("$_type")]
-        public string? Type { get { return this. TypeOption; } set { this.TypeOption = new(value); } } // d
+        public string? Type { get { return this. TypeOption; } set { this.TypeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
 
-            return new Person(firstName, lastName, type); // a
+            return new Person(firstName, lastName, type);
         }
 
         /// <summary>
@@ -229,13 +229,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
 
             if (person.FirstNameOption.IsSet)
-                writer.WriteString("firstName", person.FirstName); // 1
+                writer.WriteString("firstName", person.FirstName);
 
             if (person.LastNameOption.IsSet)
-                writer.WriteString("lastName", person.LastName); // 1
+                writer.WriteString("lastName", person.LastName);
 
             if (person.TypeOption.IsSet)
-                writer.WriteString("$_type", person.Type); // 1
+                writer.WriteString("$_type", person.Type);
         }
     }
 }

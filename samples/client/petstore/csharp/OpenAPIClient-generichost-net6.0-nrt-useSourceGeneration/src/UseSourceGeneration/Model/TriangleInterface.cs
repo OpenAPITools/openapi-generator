@@ -49,7 +49,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; } // d
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -136,7 +136,7 @@ namespace UseSourceGeneration.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
 
-            return new TriangleInterface(triangleType.Value!); // a
+            return new TriangleInterface(triangleType.Value!);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace UseSourceGeneration.Model
             if (triangleInterface.TriangleType == null)
                 throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
 
-            writer.WriteString("triangleType", triangleInterface.TriangleType); // 1
+            writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }
 

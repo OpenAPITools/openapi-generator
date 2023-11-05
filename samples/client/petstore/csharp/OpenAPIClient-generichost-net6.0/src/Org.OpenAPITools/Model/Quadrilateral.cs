@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; } // d
+        public string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
 
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value); // c
+                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value);
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value); // c
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value);
 
             throw new JsonException();
         }
@@ -245,7 +245,7 @@ namespace Org.OpenAPITools.Model
             if (quadrilateral.QuadrilateralType == null)
                 throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
 
-            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType); // 1
+            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
 }

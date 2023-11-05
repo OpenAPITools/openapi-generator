@@ -48,19 +48,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal LengthCm { get; set; } // d
+        public decimal LengthCm { get; set; }
 
         /// <summary>
         /// Used to track the state of Sweet
         /// </summary>
         [JsonIgnore]
-        public Option<bool?> SweetOption { get; private set; } // option d
+        public Option<bool?> SweetOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get { return this. SweetOption; } set { this.SweetOption = new Option<bool?>(value); } } // d
+        public bool? Sweet { get { return this. SweetOption; } set { this.SweetOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
             if (sweet.IsSet && sweet.Value == null)
                 throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
 
-            return new BananaReq(lengthCm.Value.Value, sweet); // a
+            return new BananaReq(lengthCm.Value.Value, sweet);
         }
 
         /// <summary>
@@ -177,10 +177,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("lengthCm", bananaReq.LengthCm); // 3
+            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
 
             if (bananaReq.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value.Value); // 2
+                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value.Value);
         }
     }
 }

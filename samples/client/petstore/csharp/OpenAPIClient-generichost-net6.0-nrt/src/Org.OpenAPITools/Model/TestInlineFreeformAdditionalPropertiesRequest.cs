@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SomeProperty
         /// </summary>
         [JsonIgnore]
-        public Option<string?> SomePropertyOption { get; private set; } // option d
+        public Option<string?> SomePropertyOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string? SomeProperty { get { return this. SomePropertyOption; } set { this.SomePropertyOption = new(value); } } // d
+        public string? SomeProperty { get { return this. SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
             if (someProperty.IsSet && someProperty.Value == null)
                 throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
 
-            return new TestInlineFreeformAdditionalPropertiesRequest(someProperty); // a
+            return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
 
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
-                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty); // 1
+                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
         }
     }
 }

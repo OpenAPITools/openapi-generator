@@ -54,49 +54,49 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
-        public Option<DateTime?> DateTimeOption { get; private set; } // option d
+        public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new(value); } } // d
+        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Map
         /// </summary>
         [JsonIgnore]
-        public Option<Dictionary<string, Animal>?> MapOption { get; private set; } // option d
+        public Option<Dictionary<string, Animal>?> MapOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
         [JsonPropertyName("map")]
-        public Dictionary<string, Animal>? Map { get { return this. MapOption; } set { this.MapOption = new(value); } } // d
+        public Dictionary<string, Animal>? Map { get { return this. MapOption; } set { this.MapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        public Option<Guid?> UuidOption { get; private set; } // option d
+        public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } } // d
+        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UuidWithPattern
         /// </summary>
         [JsonIgnore]
-        public Option<Guid?> UuidWithPatternOption { get; private set; } // option d
+        public Option<Guid?> UuidWithPatternOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [JsonPropertyName("uuid_with_pattern")]
-        public Guid? UuidWithPattern { get { return this. UuidWithPatternOption; } set { this.UuidWithPatternOption = new(value); } } // d
+        public Guid? UuidWithPattern { get { return this. UuidWithPatternOption; } set { this.UuidWithPatternOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -220,7 +220,7 @@ namespace Org.OpenAPITools.Model
             if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
                 throw new ArgumentNullException(nameof(uuidWithPattern), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
 
-            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern); // a
+            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
 
         /// <summary>
@@ -251,16 +251,16 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat)); // 5
+                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
 
-            if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet) // 14
+            if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
                 writer.WritePropertyName("map");
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value); // 11
+                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
 
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet)
-                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value); // 11
+                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
         }
     }
 }
