@@ -92,6 +92,13 @@ class ApiClient:
     async def close(self):
         await self.rest_client.close()
 {{/asyncio}}
+{{^asyncio}}
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        pass
+{{/asyncio}}
 
     @property
     def user_agent(self):
@@ -481,10 +488,10 @@ class ApiClient:
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
-            if isinstance(v, (int, float)):
-                v = str(v)
             if isinstance(v, bool):
                 v = str(v).lower()
+            if isinstance(v, (int, float)):
+                v = str(v)
             if isinstance(v, dict):
                 v = json.dumps(v)
 

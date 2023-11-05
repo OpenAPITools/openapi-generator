@@ -89,6 +89,11 @@ class ApiClient:
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
         self.client_side_validation = configuration.client_side_validation
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        pass
 
     @property
     def user_agent(self):
@@ -475,10 +480,10 @@ class ApiClient:
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
-            if isinstance(v, (int, float)):
-                v = str(v)
             if isinstance(v, bool):
                 v = str(v).lower()
+            if isinstance(v, (int, float)):
+                v = str(v)
             if isinstance(v, dict):
                 v = json.dumps(v)
 

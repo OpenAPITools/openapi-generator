@@ -903,6 +903,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
+            GlobalSettings.log();
             new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {

@@ -52,5 +52,6 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setWithAWSV4Signature(GoClientOptionsProvider.WITH_AWSV4_SIGNATURE);
         verify(clientCodegen).setUseOneOfDiscriminatorLookup(GoClientOptionsProvider.USE_ONE_OF_DISCRIMINATOR_LOOKUP_VALUE);
         verify(clientCodegen).setWithGoMod(GoClientOptionsProvider.WITH_GO_MOD_VALUE);
+        verify(clientCodegen).setGenerateMarshalJSON(GoClientOptionsProvider.GENERATE_MARSHAL_JSON_VALUE);
     }
 }

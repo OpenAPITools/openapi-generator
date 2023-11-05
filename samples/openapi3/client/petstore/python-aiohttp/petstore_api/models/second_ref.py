@@ -90,9 +90,6 @@ class SecondRef(BaseModel):
         return _obj
 
 from petstore_api.models.circular_reference_model import CircularReferenceModel
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # SecondRef.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+SecondRef.model_rebuild(raise_errors=False)
 
