@@ -555,6 +555,40 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Test body parameter(s)
+         * @summary Test body parameter(s)
+         * @param {Pet} [pet] Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testEchoBodyAllOfPet: async (pet?: Pet, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/echo/body/allOf/Pet`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(pet, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Test free form object
          * @summary Test free form object
          * @param {object} [body] Free form object
@@ -739,6 +773,19 @@ export const BodyApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
+         * Test body parameter(s)
+         * @summary Test body parameter(s)
+         * @param {Pet} [pet] Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testEchoBodyAllOfPet(pet?: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testEchoBodyAllOfPet(pet, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['BodyApi.testEchoBodyAllOfPet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
          * Test free form object
          * @summary Test free form object
          * @param {object} [body] Free form object
@@ -830,6 +877,16 @@ export const BodyApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.testBodyMultipartFormdataArrayOfBinary(files, options).then((request) => request(axios, basePath));
         },
         /**
+         * Test body parameter(s)
+         * @summary Test body parameter(s)
+         * @param {Pet} [pet] Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testEchoBodyAllOfPet(pet?: Pet, options?: any): AxiosPromise<Pet> {
+            return localVarFp.testEchoBodyAllOfPet(pet, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Test free form object
          * @summary Test free form object
          * @param {object} [body] Free form object
@@ -912,6 +969,18 @@ export class BodyApi extends BaseAPI {
      */
     public testBodyMultipartFormdataArrayOfBinary(files: Array<File>, options?: AxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBodyMultipartFormdataArrayOfBinary(files, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Test body parameter(s)
+     * @summary Test body parameter(s)
+     * @param {Pet} [pet] Pet object that needs to be added to the store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BodyApi
+     */
+    public testEchoBodyAllOfPet(pet?: Pet, options?: AxiosRequestConfig) {
+        return BodyApiFp(this.configuration).testEchoBodyAllOfPet(pet, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
