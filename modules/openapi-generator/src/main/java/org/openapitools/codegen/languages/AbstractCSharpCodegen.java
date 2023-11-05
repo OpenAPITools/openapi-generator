@@ -1666,6 +1666,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+    /**
+     * Adjust the naming style of a given name based on the enumPropertyNaming option.
+     *
+     * @param name The original name
+     * @return The adjusted name
+     */
     private String adjustNamingStyle(String name)
     {
         switch (getEnumPropertyNaming()) {
