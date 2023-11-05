@@ -2088,8 +2088,6 @@ components:
             - 1
             - -1
 
-
-
         required_nullable_enum_integer_only:
           type: integer
           nullable: true
