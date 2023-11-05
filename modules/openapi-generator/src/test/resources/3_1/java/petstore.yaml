@@ -569,6 +569,36 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /no_ref:
+    get:
+      operationId: response_no_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          description: required to pass validation
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /ref/no_ref:
+    get:
+      operationId: response_ref_to_no_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/no_ref'
+
+  /ref/ref:
+    get:
+      operationId: response_ref_to_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/ref'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -593,6 +623,20 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    no_ref:
+      description: required to pass validation
+      content:
+        text/plain:
+          schema:
+            type: string
+
+    ref:
+      description: required to pass validation
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/simple_text'
   securitySchemes:
     petstore_auth:
       type: oauth2
@@ -773,3 +817,5 @@ components:
         color:
           type: string
           default: red
+    simple_text:
+      type: string

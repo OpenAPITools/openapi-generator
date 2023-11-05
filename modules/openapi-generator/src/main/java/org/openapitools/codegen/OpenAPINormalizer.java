@@ -188,7 +188,8 @@ public class OpenAPINormalizer {
         }
 
         normalizePaths();
-        normalizeComponents();
+        normalizeComponentsSchemas();
+        normalizeComponentsResponses();
     }
 
     /**
@@ -346,7 +347,7 @@ public class OpenAPINormalizer {
     /**
      * Normalizes schemas in components
      */
-    private void normalizeComponents() {
+    private void normalizeComponentsSchemas() {
         Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         if (schemas == null) {
             return;
@@ -360,6 +361,33 @@ public class OpenAPINormalizer {
             } else {
                 Schema result = normalizeSchema(schema, new HashSet<>());
                 schemas.put(schemaName, result);
+            }
+        }
+    }
+
+    /**
+     * Normalizes responses in components
+     */
+    private void normalizeComponentsResponses() {
+        Map<String, ApiResponse> schemas = openAPI.getComponents().getResponses();
+        if (schemas == null) {
+            return;
+        }
+
+        List<String> schemaNames = new ArrayList<String>(schemas.keySet());
+        for (String schemaName : schemaNames) {
+            ApiResponse schema = schemas.get(schemaName);
+            if (schema == null) {
+                LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
+            } else {
+                Content content = ModelUtils.getReferencedApiResponse(openAPI, schema).getContent();
+                if (content == null || content.isEmpty()) {
+                    continue;
+                }
+                for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+                    Schema entryResult = normalizeSchema(entry.getValue().getSchema(), new HashSet<>());
+                    entry.getValue().setSchema(entryResult);
+                }
             }
         }
     }

@@ -1009,11 +1009,12 @@ public class ModelUtils {
     /**
      * Return the first defined Schema for a ApiResponse
      *
+     * @param openAPI OpenAPI spec.
      * @param response api response of the operation
      * @return firstSchema
      */
-    public static Schema getSchemaFromResponse(ApiResponse response) {
-        return getSchemaFromContent(response.getContent());
+    public static Schema getSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
+        return getSchemaFromContent(getReferencedApiResponse(openAPI, response).getContent());
     }
 
     /**
