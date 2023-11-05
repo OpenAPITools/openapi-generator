@@ -48,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Bar
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BarOption { get; }
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Baz
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BazOption { get; private set; }
 
         /// <summary>

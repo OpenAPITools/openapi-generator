@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Code
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> CodeOption { get; private set; }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Message
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> MessageOption { get; private set; }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> TypeOption { get; private set; }
 
         /// <summary>

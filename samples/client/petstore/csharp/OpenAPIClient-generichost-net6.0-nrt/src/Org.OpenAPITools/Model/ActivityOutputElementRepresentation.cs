@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Prop1
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> Prop1Option { get; private set; }
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Prop2
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> Prop2Option { get; private set; }
 
         /// <summary>
@@ -198,8 +200,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
 
             if (activityOutputElementRepresentation.Prop2Option.IsSet)
+            {
                 writer.WritePropertyName("prop2");
                 JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
+            }
         }
     }
 }

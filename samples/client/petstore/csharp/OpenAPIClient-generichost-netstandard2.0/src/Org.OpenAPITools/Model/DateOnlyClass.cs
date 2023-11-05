@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateOnlyProperty
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DateOnlyPropertyOption { get; private set; }
 
         /// <summary>

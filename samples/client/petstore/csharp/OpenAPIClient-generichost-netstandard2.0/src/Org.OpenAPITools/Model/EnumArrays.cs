@@ -180,6 +180,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustSymbol
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<JustSymbolEnum?> JustSymbolOption { get; private set; }
 
         /// <summary>
@@ -192,6 +193,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayEnum
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnumOption { get; private set; }
 
         /// <summary>
@@ -324,8 +326,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
 
             if (enumArrays.ArrayEnumOption.IsSet)
+            {
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+            }
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);

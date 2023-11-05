@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MyBoolean
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> MyBooleanOption { get; private set; }
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MyNumber
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> MyNumberOption { get; private set; }
 
         /// <summary>
@@ -74,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MyString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> MyStringOption { get; private set; }
 
         /// <summary>

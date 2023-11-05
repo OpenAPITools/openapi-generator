@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>

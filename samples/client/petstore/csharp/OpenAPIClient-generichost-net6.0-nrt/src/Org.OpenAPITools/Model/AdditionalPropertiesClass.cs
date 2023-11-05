@@ -62,6 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EmptyMap
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> EmptyMapOption { get; private set; }
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapOfMapProperty
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Dictionary<string, string>>?> MapOfMapPropertyOption { get; private set; }
 
         /// <summary>
@@ -87,6 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapProperty
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, string>?> MapPropertyOption { get; private set; }
 
         /// <summary>
@@ -99,6 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> MapWithUndeclaredPropertiesAnytype1Option { get; private set; }
 
         /// <summary>
@@ -111,6 +115,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> MapWithUndeclaredPropertiesAnytype2Option { get; private set; }
 
         /// <summary>
@@ -123,6 +128,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>?> MapWithUndeclaredPropertiesAnytype3Option { get; private set; }
 
         /// <summary>
@@ -135,6 +141,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, string>?> MapWithUndeclaredPropertiesStringOption { get; private set; }
 
         /// <summary>
@@ -147,6 +154,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Anytype1
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> Anytype1Option { get; private set; }
 
         /// <summary>
@@ -347,26 +355,40 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
 
             if (additionalPropertiesClass.EmptyMapOption.IsSet)
+            {
                 writer.WritePropertyName("empty_map");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapOfMapPropertyOption.IsSet)
+            {
                 writer.WritePropertyName("map_of_map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapPropertyOption.IsSet)
+            {
                 writer.WritePropertyName("map_property");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1Option.IsSet)
+            {
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2Option.IsSet)
+            {
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3Option.IsSet)
+            {
                 writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet)
+            {
                 writer.WritePropertyName("map_with_undeclared_properties_string");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
+            }
             if (additionalPropertiesClass.Anytype1Option.IsSet)
                 if (additionalPropertiesClass.Anytype1Option.Value != null)
                 {

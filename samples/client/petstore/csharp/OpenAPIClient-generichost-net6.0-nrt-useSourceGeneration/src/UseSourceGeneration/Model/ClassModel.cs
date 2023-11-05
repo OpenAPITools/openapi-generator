@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of VarClass
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> VarClassOption { get; private set; }
 
         /// <summary>

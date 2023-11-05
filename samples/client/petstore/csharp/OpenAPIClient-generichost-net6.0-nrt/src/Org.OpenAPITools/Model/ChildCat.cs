@@ -102,6 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PetType
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public new Option<PetTypeEnum?> PetTypeOption { get; private set; }
 
         /// <summary>
@@ -114,6 +115,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> NameOption { get; private set; }
 
         /// <summary>

@@ -51,6 +51,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Declawed
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> DeclawedOption { get; private set; }
 
         /// <summary>

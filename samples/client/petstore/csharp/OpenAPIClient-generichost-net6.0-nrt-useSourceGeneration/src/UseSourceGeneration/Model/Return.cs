@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of VarReturn
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> VarReturnOption { get; private set; }
 
         /// <summary>

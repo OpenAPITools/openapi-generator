@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EscapedLiteralString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> EscapedLiteralStringOption { get; private set; }
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnescapedLiteralString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> UnescapedLiteralStringOption { get; private set; }
 
         /// <summary>

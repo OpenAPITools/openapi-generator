@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of FirstName
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FirstNameOption { get; private set; }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of LastName
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> LastNameOption { get; private set; }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> TypeOption { get; private set; }
 
         /// <summary>

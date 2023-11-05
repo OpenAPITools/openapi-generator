@@ -51,6 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Children
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Child>?> ChildrenOption { get; private set; }
 
         /// <summary>
@@ -187,8 +188,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(adult.Type), "Property is required for class Adult.");
 
             if (adult.ChildrenOption.IsSet)
+            {
                 writer.WritePropertyName("children");
                 JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
+            }
             if (adult.FirstNameOption.IsSet)
                 writer.WriteString("firstName", adult.FirstName);
 

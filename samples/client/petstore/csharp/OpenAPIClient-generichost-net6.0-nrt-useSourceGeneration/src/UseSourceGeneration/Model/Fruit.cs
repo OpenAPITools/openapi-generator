@@ -72,6 +72,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> ColorOption { get; private set; }
 
         /// <summary>

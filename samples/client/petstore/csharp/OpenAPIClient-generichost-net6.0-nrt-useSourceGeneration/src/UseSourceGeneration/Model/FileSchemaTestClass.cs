@@ -51,6 +51,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of File
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<File?> FileOption { get; private set; }
 
         /// <summary>
@@ -63,6 +64,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Files
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<File>?> FilesOption { get; private set; }
 
         /// <summary>
@@ -197,11 +199,15 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
 
             if (fileSchemaTestClass.FileOption.IsSet)
+            {
                 writer.WritePropertyName("file");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
+            }
             if (fileSchemaTestClass.FilesOption.IsSet)
+            {
                 writer.WritePropertyName("files");
                 JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
+            }
         }
     }
 

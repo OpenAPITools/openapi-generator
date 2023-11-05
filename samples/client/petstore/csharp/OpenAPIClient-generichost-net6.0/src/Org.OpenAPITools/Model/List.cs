@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Var123List
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> Var123ListOption { get; private set; }
 
         /// <summary>

@@ -57,6 +57,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Mealy
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> MealyOption { get; private set; }
 
         /// <summary>

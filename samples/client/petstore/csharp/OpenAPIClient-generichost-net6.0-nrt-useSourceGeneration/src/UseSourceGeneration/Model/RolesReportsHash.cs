@@ -51,6 +51,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Role
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<RolesReportsHashRole?> RoleOption { get; private set; }
 
         /// <summary>
@@ -63,6 +64,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of RoleUuid
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> RoleUuidOption { get; private set; }
 
         /// <summary>
@@ -194,8 +196,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(rolesReportsHash.Role), "Property is required for class RolesReportsHash.");
 
             if (rolesReportsHash.RoleOption.IsSet)
+            {
                 writer.WritePropertyName("role");
                 JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
+            }
             if (rolesReportsHash.RoleUuidOption.IsSet)
                 writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value);
         }

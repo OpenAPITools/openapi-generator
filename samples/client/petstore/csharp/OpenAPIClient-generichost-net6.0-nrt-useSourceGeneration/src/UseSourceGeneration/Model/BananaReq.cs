@@ -57,6 +57,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Sweet
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> SweetOption { get; private set; }
 
         /// <summary>

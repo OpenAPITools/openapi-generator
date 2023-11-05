@@ -121,6 +121,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of DirectMap
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> DirectMapOption { get; private set; }
 
         /// <summary>
@@ -133,6 +134,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of IndirectMap
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> IndirectMapOption { get; private set; }
 
         /// <summary>
@@ -145,6 +147,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of MapMapOfString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Dictionary<string, string>>?> MapMapOfStringOption { get; private set; }
 
         /// <summary>
@@ -157,6 +160,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of MapOfEnumString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, MapTest.InnerEnum>?> MapOfEnumStringOption { get; private set; }
 
         /// <summary>
@@ -315,17 +319,25 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
 
             if (mapTest.DirectMapOption.IsSet)
+            {
                 writer.WritePropertyName("direct_map");
                 JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
+            }
             if (mapTest.IndirectMapOption.IsSet)
+            {
                 writer.WritePropertyName("indirect_map");
                 JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
+            }
             if (mapTest.MapMapOfStringOption.IsSet)
+            {
                 writer.WritePropertyName("map_map_of_string");
                 JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
+            }
             if (mapTest.MapOfEnumStringOption.IsSet)
+            {
                 writer.WritePropertyName("map_of_enum_string");
                 JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
+            }
         }
     }
 

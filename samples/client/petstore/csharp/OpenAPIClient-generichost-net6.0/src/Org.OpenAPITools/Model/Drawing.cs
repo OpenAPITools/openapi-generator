@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MainShape
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Shape> MainShapeOption { get; private set; }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Shapes
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Shape>> ShapesOption { get; private set; }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NullableShape
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NullableShape> NullableShapeOption { get; private set; }
 
         /// <summary>
@@ -88,6 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ShapeOrNull
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ShapeOrNull> ShapeOrNullOption { get; private set; }
 
         /// <summary>
@@ -245,11 +249,15 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
 
             if (drawing.MainShapeOption.IsSet)
+            {
                 writer.WritePropertyName("mainShape");
                 JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
+            }
             if (drawing.ShapesOption.IsSet)
+            {
                 writer.WritePropertyName("shapes");
                 JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
+            }
             if (drawing.NullableShapeOption.IsSet)
                 if (drawing.NullableShapeOption.Value != null)
                 {

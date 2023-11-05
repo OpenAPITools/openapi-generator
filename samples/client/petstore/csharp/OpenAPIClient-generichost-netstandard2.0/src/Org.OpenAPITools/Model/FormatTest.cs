@@ -107,6 +107,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Binary
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<System.IO.Stream> BinaryOption { get; private set; }
 
         /// <summary>
@@ -119,6 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
@@ -132,6 +134,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarDecimal
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> VarDecimalOption { get; private set; }
 
         /// <summary>
@@ -144,6 +147,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarDouble
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<double?> VarDoubleOption { get; private set; }
 
         /// <summary>
@@ -156,6 +160,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarFloat
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<float?> VarFloatOption { get; private set; }
 
         /// <summary>
@@ -168,6 +173,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int32
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Int32Option { get; private set; }
 
         /// <summary>
@@ -180,6 +186,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64Option { get; private set; }
 
         /// <summary>
@@ -192,6 +199,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Integer
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> IntegerOption { get; private set; }
 
         /// <summary>
@@ -204,6 +212,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithBackslash
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithBackslashOption { get; private set; }
 
         /// <summary>
@@ -217,6 +226,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigits
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithDigitsOption { get; private set; }
 
         /// <summary>
@@ -230,6 +240,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigitsAndDelimiter
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithDigitsAndDelimiterOption { get; private set; }
 
         /// <summary>
@@ -243,6 +254,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> VarStringOption { get; private set; }
 
         /// <summary>
@@ -255,6 +267,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnsignedInteger
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<uint?> UnsignedIntegerOption { get; private set; }
 
         /// <summary>
@@ -267,6 +280,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnsignedLong
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ulong?> UnsignedLongOption { get; private set; }
 
         /// <summary>
@@ -279,6 +293,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
@@ -731,14 +746,18 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("password", formatTest.Password);
 
             if (formatTest.BinaryOption.IsSet)
+            {
                 writer.WritePropertyName("binary");
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
+            }
             if (formatTest.DateTimeOption.IsSet)
                 writer.WriteString("dateTime", formatTest.DateTimeOption.Value.Value.ToString(DateTimeFormat));
 
             if (formatTest.VarDecimalOption.IsSet)
+            {
                 writer.WritePropertyName("decimal");
                 JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
+            }
             if (formatTest.VarDoubleOption.IsSet)
                 writer.WriteNumber("double", formatTest.VarDoubleOption.Value.Value);
 

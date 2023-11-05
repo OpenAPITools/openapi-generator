@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of VarString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Foo?> VarStringOption { get; private set; }
 
         /// <summary>
@@ -171,8 +172,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(fooGetDefaultResponse.VarString), "Property is required for class FooGetDefaultResponse.");
 
             if (fooGetDefaultResponse.VarStringOption.IsSet)
+            {
                 writer.WritePropertyName("string");
                 JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+            }
         }
     }
 

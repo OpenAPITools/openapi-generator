@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
@@ -66,6 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Map
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Animal>?> MapOption { get; private set; }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
@@ -90,6 +93,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UuidWithPattern
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidWithPatternOption { get; private set; }
 
         /// <summary>
@@ -254,8 +258,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
+            {
                 writer.WritePropertyName("map");
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
+            }
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
                 writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
 

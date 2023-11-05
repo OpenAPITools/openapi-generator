@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Bars
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>> BarsOption { get; private set; }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DeprecatedRef
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DeprecatedObject> DeprecatedRefOption { get; private set; }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> IdOption { get; private set; }
 
         /// <summary>
@@ -91,6 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> UuidOption { get; private set; }
 
         /// <summary>
@@ -245,11 +249,15 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
             if (objectWithDeprecatedFields.BarsOption.IsSet)
+            {
                 writer.WritePropertyName("bars");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
+            }
             if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet)
+            {
                 writer.WritePropertyName("deprecatedRef");
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
+            }
             if (objectWithDeprecatedFields.IdOption.IsSet)
                 writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value.Value);
 

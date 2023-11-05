@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustNumber
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> JustNumberOption { get; private set; }
 
         /// <summary>

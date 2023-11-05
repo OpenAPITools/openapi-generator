@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ArrayArrayNumber
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<List<decimal>>?> ArrayArrayNumberOption { get; private set; }
 
         /// <summary>
@@ -171,8 +172,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(arrayOfArrayOfNumberOnly.ArrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
 
             if (arrayOfArrayOfNumberOnly.ArrayArrayNumberOption.IsSet)
+            {
                 writer.WritePropertyName("ArrayArrayNumber");
                 JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
+            }
         }
     }
 

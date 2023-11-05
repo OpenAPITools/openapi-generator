@@ -49,6 +49,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Value
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> ValueOption { get; private set; }
 
         /// <summary>

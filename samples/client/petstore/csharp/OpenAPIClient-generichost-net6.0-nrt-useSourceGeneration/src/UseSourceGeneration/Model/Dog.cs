@@ -51,6 +51,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of Breed
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> BreedOption { get; private set; }
 
         /// <summary>

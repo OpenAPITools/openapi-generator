@@ -139,6 +139,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
@@ -165,6 +166,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Category
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Category?> CategoryOption { get; private set; }
 
         /// <summary>
@@ -177,6 +179,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
@@ -189,6 +192,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Tags
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Tag>?> TagsOption { get; private set; }
 
         /// <summary>
@@ -375,8 +379,10 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
             if (pet.CategoryOption.IsSet)
+            {
                 writer.WritePropertyName("category");
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
+            }
             if (pet.IdOption.IsSet)
                 writer.WriteNumber("id", pet.IdOption.Value!.Value);
 
@@ -387,8 +393,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("status");
 
             if (pet.TagsOption.IsSet)
+            {
                 writer.WritePropertyName("tags");
                 JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
+            }
         }
     }
 }

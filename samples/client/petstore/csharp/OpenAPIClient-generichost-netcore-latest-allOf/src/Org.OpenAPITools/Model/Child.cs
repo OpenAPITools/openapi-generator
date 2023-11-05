@@ -53,6 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Age
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> AgeOption { get; private set; }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BoosterSeat
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> BoosterSeatOption { get; private set; }
 
         /// <summary>

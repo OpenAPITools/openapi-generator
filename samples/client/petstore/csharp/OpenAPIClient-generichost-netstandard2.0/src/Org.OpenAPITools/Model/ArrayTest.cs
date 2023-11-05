@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayArrayOfInteger
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<List<long>>> ArrayArrayOfIntegerOption { get; private set; }
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayArrayOfModel
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<List<ReadOnlyFirst>>> ArrayArrayOfModelOption { get; private set; }
 
         /// <summary>
@@ -74,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayOfString
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>> ArrayOfStringOption { get; private set; }
 
         /// <summary>
@@ -220,14 +223,20 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
 
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet)
+            {
                 writer.WritePropertyName("array_array_of_integer");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
+            }
             if (arrayTest.ArrayArrayOfModelOption.IsSet)
+            {
                 writer.WritePropertyName("array_array_of_model");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
+            }
             if (arrayTest.ArrayOfStringOption.IsSet)
+            {
                 writer.WritePropertyName("array_of_string");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
+            }
         }
     }
 }

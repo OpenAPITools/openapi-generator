@@ -48,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ActivityOutputs
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> ActivityOutputsOption { get; private set; }
 
         /// <summary>
@@ -170,8 +171,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
 
             if (activity.ActivityOutputsOption.IsSet)
+            {
                 writer.WritePropertyName("activity_outputs");
                 JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
+            }
         }
     }
 }

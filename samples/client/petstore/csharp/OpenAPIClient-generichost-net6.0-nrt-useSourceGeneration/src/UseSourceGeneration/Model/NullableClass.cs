@@ -71,6 +71,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ArrayItemsNullable
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>?> ArrayItemsNullableOption { get; private set; }
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ObjectItemsNullable
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>?> ObjectItemsNullableOption { get; private set; }
 
         /// <summary>
@@ -95,6 +97,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ArrayAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>?> ArrayAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
@@ -107,6 +110,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ArrayNullableProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Object>?> ArrayNullablePropOption { get; private set; }
 
         /// <summary>
@@ -119,6 +123,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of BooleanProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> BooleanPropOption { get; private set; }
 
         /// <summary>
@@ -131,6 +136,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of DateProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DatePropOption { get; private set; }
 
         /// <summary>
@@ -143,6 +149,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of DatetimeProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DatetimePropOption { get; private set; }
 
         /// <summary>
@@ -155,6 +162,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of IntegerProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> IntegerPropOption { get; private set; }
 
         /// <summary>
@@ -167,6 +175,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of NumberProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> NumberPropOption { get; private set; }
 
         /// <summary>
@@ -179,6 +188,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ObjectAndItemsNullableProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>?> ObjectAndItemsNullablePropOption { get; private set; }
 
         /// <summary>
@@ -191,6 +201,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of ObjectNullableProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>?> ObjectNullablePropOption { get; private set; }
 
         /// <summary>
@@ -203,6 +214,7 @@ namespace UseSourceGeneration.Model
         /// Used to track the state of StringProp
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> StringPropOption { get; private set; }
 
         /// <summary>
@@ -417,11 +429,15 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(nullableClass.ObjectItemsNullable), "Property is required for class NullableClass.");
 
             if (nullableClass.ArrayItemsNullableOption.IsSet)
+            {
                 writer.WritePropertyName("array_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
+            }
             if (nullableClass.ObjectItemsNullableOption.IsSet)
+            {
                 writer.WritePropertyName("object_items_nullable");
                 JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
+            }
             if (nullableClass.ArrayAndItemsNullablePropOption.IsSet)
                 if (nullableClass.ArrayAndItemsNullablePropOption.Value != null)
                 {

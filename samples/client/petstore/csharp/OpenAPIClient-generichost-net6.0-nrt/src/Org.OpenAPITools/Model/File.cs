@@ -48,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SourceURI
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> SourceURIOption { get; private set; }
 
         /// <summary>

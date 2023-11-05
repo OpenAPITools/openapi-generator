@@ -60,6 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Property
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PropertyOption { get; private set; }
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SnakeCase
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> SnakeCaseOption { get; }
 
         /// <summary>
@@ -84,6 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Var123Number
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Var123NumberOption { get; }
 
         /// <summary>

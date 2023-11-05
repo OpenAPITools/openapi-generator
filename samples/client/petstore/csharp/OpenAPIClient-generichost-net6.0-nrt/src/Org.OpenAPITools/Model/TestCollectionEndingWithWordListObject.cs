@@ -48,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of TestCollectionEndingWithWordList
         /// </summary>
         [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<TestCollectionEndingWithWordList>?> TestCollectionEndingWithWordListOption { get; private set; }
 
         /// <summary>
@@ -170,8 +171,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
 
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet)
+            {
                 writer.WritePropertyName("TestCollectionEndingWithWordList");
                 JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
+            }
         }
     }
 }
