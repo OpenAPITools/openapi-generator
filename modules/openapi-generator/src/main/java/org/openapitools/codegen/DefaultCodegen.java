@@ -7583,7 +7583,8 @@ public class DefaultCodegen implements CodegenConfig {
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
-        if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1) {
+        if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
+                schema.getType() == null && schema.getTypes() == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
